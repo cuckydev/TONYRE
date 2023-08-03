@@ -67,7 +67,7 @@
 #include <sk/parkeditor2/parked.h>
 
 #include <sys/config/config.h>
-#include <Gfx/NGPS/NX/chars.h>
+// #include <Gfx/NGPS/NX/chars.h>
 
 #include <sys/SIO/keyboard.h>
 

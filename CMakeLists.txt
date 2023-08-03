@@ -327,6 +327,8 @@ add_executable(TonyRE WIN32
 	"Code/Gel/RefCounted.h"
 
 	# Gfx
+	"Code/Gfx/Image/ImageBasic.h"
+
 	"Code/Gfx/2D/BlurEffect.cpp"
 	"Code/Gfx/2D/BlurEffect.h"
 	"Code/Gfx/2D/Element3d.cpp"

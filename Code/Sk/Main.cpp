@@ -56,7 +56,7 @@ extern void test_render();
 #include <gfx/gfxman.h>
 #include <gfx/nx.h>
 #include <gfx/nxloadscreen.h>
-#include <gfx/ngps/nx/nx_init.h>
+// #include <gfx/ngps/nx/nx_init.h>
 
 
 #include <gel/modman.h>
@@ -86,7 +86,7 @@ extern void test_render();
 #include <sk/ParkEditor2/ParkEd.h>
 #include <gel/scripting/Debugger.h>
 
-#include <gfx/ngps/nx/pcrtc.h>
+// #include <gfx/ngps/nx/pcrtc.h>
 
 #ifdef __PLAT_NGPS__
 #include <libgraph.h>

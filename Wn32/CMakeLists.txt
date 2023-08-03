@@ -10,6 +10,9 @@ add_library(TonyRE.Wn32 STATIC
 	"Code/Plat/Gel/SoundFX/p_sfx.cpp"
 	"Code/Plat/Gel/SoundFX/p_sfx.h"
 
+	# Gfx
+	"Code/Plat/Gfx/p_nx.cpp"
+
 	# Sk
 	"Code/Plat/Sk/GameNet/p_auth.cpp"
 	"Code/Plat/Sk/GameNet/p_auth.h"
