@@ -70,9 +70,7 @@ public :
 	void						Pause();
 	void						UnPause();
 	
-#	if defined( __PLAT_XBOX__ )
 	void						ProcessDevices();
-#	endif
 
 private : 
 	virtual						~Manager();
