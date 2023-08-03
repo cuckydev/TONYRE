@@ -405,13 +405,6 @@ static inline void operator delete[]   ( void* block ) ;
 //
 //#else
 
-#ifdef __PLAT_WN32__
-inline void* 	operator new( size_t size, bool assert_on_fail )
-{
-	return new char[size];
-}
-
-#else
 #ifndef __PLAT_NGC__
 /******************************************************************/
 /* Global new/delete operators                                    */
@@ -476,20 +469,20 @@ inline void*	operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on
 /*                                                                */
 /******************************************************************/
 
-inline void* 	operator new( size_t size, void* pLocation )
-{
-	return pLocation;
-}
+// inline void* 	operator new( size_t size, void* pLocation )
+// {
+// 	return pLocation;
+// }
 
 /******************************************************************/
 /*                                                                */
 /*                                                                */
 /******************************************************************/
 
-inline void* 	operator new[]( size_t size, void* pLocation )
-{
-	return pLocation;
-}
+// inline void* 	operator new[]( size_t size, void* pLocation )
+// {
+// 	return pLocation;
+// }
 
 #ifndef __PLAT_NGC__
 /******************************************************************/
@@ -552,7 +545,6 @@ inline void 	operator delete( void*, void* pLocation )
 /******************************************************************/
 
 //#endif		// __PLAT_NGC__
-#endif	// __PLAT_WN32__
 #endif	//	__CORE_DEFINES_H
 
 

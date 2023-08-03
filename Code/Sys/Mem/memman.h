@@ -213,7 +213,6 @@ private :
 	static char 				s_top_heap_buffer[];
 	static char 				s_bot_heap_buffer[];
 	static bool					s_initialized;
-	static Manager*				sp_instance;
 		
 	class MemManContext
 	{
@@ -337,14 +336,6 @@ bool	IsThreadSafe( void );
 **								Inline Functions							**
 *****************************************************************************/
 
-inline Manager&	Manager::sHandle( void )
-{
-	
-
-	Dbg_AssertType( sp_instance, Manager );
-
-	return *sp_instance;
-}
 
 
 } // namespace Mem

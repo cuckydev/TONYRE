@@ -128,19 +128,11 @@ public:
 	virtual					~SingletonPtr( void );
 
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
-							SingletonPtr( const SingletonPtr< _T > & rhs );
-	SingletonPtr< _T >&		operator= ( const SingletonPtr< _T >& rhs );
-
-#else
-
 template < class _NewT >						                    			// template copy contructor
 							SingletonPtr( const SingletonPtr< _NewT >& rhs ); 	// needed to support inheritance correctly
 
 template < class _NewT > 	
 	SingletonPtr< _T >&		operator= ( const SingletonPtr< _NewT >& rhs );		// template assignment operator
-
-#endif
 
 	_T*						operator-> () const;
 	_T&						operator* () const;
@@ -179,47 +171,15 @@ SingletonPtr< _T >::~SingletonPtr()
 	mp_instance->sSgltnDelete();
 }
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
-   
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-	
-template < class _T > inline
-SingletonPtr< _T >::SingletonPtr ( const SingletonPtr< _T >& rhs )
-: mp_instance ( _T::sSgltnInstance() )
-{
-	
-}
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-	
-template < class _T > inline
-SingletonPtr< _T >& SingletonPtr< _T >::operator= ( const SingletonPtr< _T >& rhs )
-{
-	
-	
-	return	*this;
-}
-
-#else
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
 /******************************************************************/
 	
 template < class _T > template < class _NewT > inline
-SingletonPtr< _T >::SingletonPtr< _T >( const SingletonPtr< _NewT >& rhs )
+SingletonPtr< _T >::SingletonPtr( const SingletonPtr< _NewT >& rhs )
 : mp_instance ( _NewT::sSgltnInstance() )
 {
-	
-
-	Dbg_MsgAssert( false,( "Microsoft VC++ sucks - don't do this (yet)" ));
 }
 
 /******************************************************************/
@@ -230,14 +190,8 @@ SingletonPtr< _T >::SingletonPtr< _T >( const SingletonPtr< _NewT >& rhs )
 template < class _T > template < class _NewT > inline
 SingletonPtr< _T >&	SingletonPtr< _T >::operator= ( const SingletonPtr< _NewT >& rhs ) 
 {
-	
-
-	Dbg_MsgAssert( false,( "Microsoft VC++ sucks - don't do this (yet)" ));
-
 	return *this;	
 }
-
-#endif
 
 /******************************************************************/
 /*                                                                */

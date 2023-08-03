@@ -121,7 +121,7 @@ char 			Manager::s_script_region_buffer[sizeof(Region)];
 char 			Manager::s_top_heap_buffer[sizeof(Heap)];
 char 			Manager::s_bot_heap_buffer[sizeof(Heap)];
 char 			Manager::s_debug_heap_buffer[sizeof(Heap)];
-Manager*		Manager::sp_instance = NULL;
+// Manager *Manager::sp_instance = new Manager();
 #ifdef __PLAT_NGPS__
 static	int		s_context_semaphore;
 #endif
@@ -880,24 +880,24 @@ void Manager::InitNetMiscHeap()
 		//#ifndef	__NOPT_ASSERT__
 		#if	1		// always allocate internet heap normally
 		// normally the internet heap just goes on the top down heap
-		sp_instance->PushContext( sp_instance->mp_bot_heap );
+		sHandle().PushContext(sHandle().mp_bot_heap);
 		#else
 		// but with assertions there is not enough room, so put it on the debug heap
 		if (Config::GotExtraMemory())
 		{
-			sp_instance->PushContext( sp_instance->mp_debug_heap );			
+			sHandle().PushContext(sHandle().mp_debug_heap );
 		}
 		else
 		{
 			// running on a regular PS2, allow them to try, but will probably fail later with out of memory
-			sp_instance->PushContext( sp_instance->mp_bot_heap );
+			sHandle().PushContext(sHandle().mp_bot_heap );
 		}
 		#endif		
 		
 		mp_net_misc_region = new Mem::AllocRegion( (NETMISC_HEAP_SIZE) );	
 		mp_net_misc_heap = CreateHeap( mp_net_misc_region, Mem::Allocator::vBOTTOM_UP, "NetMisc" );
 
-		sp_instance->PopContext();
+		sHandle().PopContext();
 	}
 }
 
@@ -919,17 +919,17 @@ void Manager::InitInternetHeap()
 		//#ifndef	__NOPT_ASSERT__
 		#if	1		// always allocate internet heap normally
 		// normally the internet heap just goes on the top down heap
-		sp_instance->PushContext( sp_instance->mp_bot_heap );
+		sHandle().PushContext( sHandle().mp_bot_heap );
 		#else
 		// but with assertions there is not enough room, so put it on the debug heap
 		if (Config::GotExtraMemory())
 		{
-			sp_instance->PushContext( sp_instance->mp_debug_heap );			
+			sHandle().PushContext( sHandle().mp_debug_heap );			
 		}
 		else
 		{
 			// running on a regular PS2, allow them to try, but will probably fail later with out of memory
-			sp_instance->PushContext( sp_instance->mp_bot_heap );
+			sHandle().PushContext( sHandle().mp_bot_heap );
 		}
 		#endif		
 		
@@ -937,7 +937,7 @@ void Manager::InitInternetHeap()
 		mp_internet_top_heap = CreateHeap( mp_internet_region, Mem::Allocator::vTOP_DOWN, "InternetTopDown" );
 		mp_internet_bottom_heap = CreateHeap( mp_internet_region, Mem::Allocator::vBOTTOM_UP, "InternetBottomUp" );
 
-		sp_instance->PopContext();
+		sHandle().PopContext();
 	}
 }
 
@@ -959,7 +959,7 @@ void Manager::InitCutsceneHeap( int heap_size )
 	if ( mp_cutscene_region == NULL )
 	{
 		// put it on the top-down heap, because it's used only temporarily
-//		sp_instance->PushContext( sp_instance->mp_top_heap );
+//		sHandle().PushContext( sHandle().mp_top_heap );
 		
 		mp_cutscene_region = new Mem::AllocRegion( heap_size );
 
@@ -969,7 +969,7 @@ void Manager::InitCutsceneHeap( int heap_size )
 		Dbg_MsgAssert( mp_cutscene_top_heap == NULL, ( "CutsceneTopDownHeap already exists" ) );
 		mp_cutscene_top_heap = CreateHeap( mp_cutscene_region, Mem::Allocator::vTOP_DOWN, "CutsceneTopDown" );
 
-//		sp_instance->PopContext();
+//		sHandle().PopContext();
 	}
 }
 
@@ -1092,15 +1092,15 @@ void Manager::DeleteOtherHeaps()
 
 void Manager::sSetUp( void )
 {
-	
+	/*
 
 	if ( !sp_instance )
 	{
 		sp_instance = new ((void*)s_manager_buffer) Manager;
 
-		sp_instance->PushContext( sp_instance->mp_bot_heap );		// make bottom-up heap default
+		sHandle().PushContext( sHandle().mp_bot_heap );		// make bottom-up heap default
     
-//		sp_instance->InitOtherHeaps();							
+//		sHandle().InitOtherHeaps();							
 							
 
 	}
@@ -1108,6 +1108,8 @@ void Manager::sSetUp( void )
 	{
 		Dbg_Warning( "Already Initialized!" );
 	}
+	*/
+	sHandle();
 }
 
 // K: Separated this out from sSetUp because this needs to be called from main(), after
@@ -1117,14 +1119,7 @@ void Manager::sSetUp( void )
 // because it needs the command line args.
 void Manager::sSetUpDebugHeap( void )
 {
-	if ( sp_instance )
-	{
-		sp_instance->InitDebugHeap();
-	}
-	else
-	{
-		Dbg_MsgAssert(0,("Called sSetUpDebugHeap when mem manager not initialized!"));
-	}
+	sHandle().InitDebugHeap();
 }
 
 /******************************************************************/
@@ -1134,23 +1129,24 @@ void Manager::sSetUpDebugHeap( void )
 
 void Manager::sCloseDown( void )
 {
-	
+	/*
 
 	if ( sp_instance )
 	{
 		
 #ifndef __PLAT_WN32__
-		sp_instance->DeleteOtherHeaps();							
+		sHandle().DeleteOtherHeaps();							
 #endif		
-		sp_instance->PopContext();
+		sHandle().PopContext();
 
-		sp_instance->~Manager();
+		sHandle().~Manager();
 		sp_instance = NULL;
 	}
 	else
 	{
 		Dbg_Warning( "Not Initialized!" );
 	}
+	*/
 }
 
 
@@ -1717,6 +1713,18 @@ void	FreeMemProfile(Allocator::BlockHeader* p_block)
 
 #endif __NOPT_ASSERT__
 
+inline Manager &Manager::sHandle(void)
+{
+	static Manager *sp_instance;
+	static bool sp_instance_inited = false;
+	if (!sp_instance_inited)
+	{
+		sp_instance = new ((void*)s_manager_buffer) Manager;
+		sp_instance->PushContext(sp_instance->mp_bot_heap);		// make bottom-up heap default
+		sp_instance_inited = true;
+	}
+	return *sp_instance;
+}
 
 } // namespace Mem
 
