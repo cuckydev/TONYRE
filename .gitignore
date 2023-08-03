@@ -1,0 +1,10 @@
+# Ignore IDE directories
+.vs
+.vscode
+
+# Ignore build directories
+build
+out
+
+# Ignore Game directory
+Game
