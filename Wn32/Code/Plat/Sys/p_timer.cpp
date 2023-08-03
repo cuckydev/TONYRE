@@ -75,6 +75,8 @@ static STimerInfo gTimerInfo;
 static STimerInfo gStoredTimerInfo;
 static float xrate = 60.0f;
 
+static float s_slomo = 1.0f;
+
 static void InitTimerInfo(void)
 {
 	static bool xrate_set = false;
@@ -170,6 +172,27 @@ MicroSeconds GetTimeInUSeconds( void )
 	return GetTickCount64() * 1000;
 }
 
+float GetSlomo(void)
+{
+	return s_slomo;
+}
+
+void SetSlomo(float slomo)
+{
+	s_slomo = slomo;
+}
+
+// when pausing the game, call this to store the current state of OncePerRender( ) (only essential in replay mode)
+void StoreTimerInfo(void)
+{
+}
+
+
+
+void RecallTimerInfo(void)
+{
+}
+
 void OncePerRender(void)
 {
 	#	ifdef STOPWATCH_STUFF
@@ -217,7 +240,18 @@ uint64 GetVblanks(void)
 
 float FrameLength()
 {
+	return 1000.0f / 60.0f * GetSlomo();
+}
+
+double UncappedFrameLength()
+{
 	return 1000.0f / 60.0f;
+}
+
+void VSync(void)
+{
+	// uint64 now = GetVblanks();
+	// while (now == GetVblanks());
 }
 
 /******************************************************************/

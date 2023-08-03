@@ -110,9 +110,7 @@ public:
 	int				Seek( int offset, FilePointerBase base );
 	bool			Flush( void );
 
-#	ifdef __PLAT_XBOX__
 	char			m_DisplayFilename[vMAX_DISPLAY_FILENAME_LEN+1];
-#	endif
 
 #	ifdef __PLAT_NGC__
 	CARDFileInfo	m_file_info;
@@ -199,22 +197,18 @@ public:
 	bool			IsBadDevice( void );
 #	endif
 
-#	ifdef __PLAT_XBOX__
 	void			SetAsHardDrive();
-#	endif // #ifdef __PLAT_XBOX__
 
 private:
 	int				m_port;
 	int				m_slot;
 	int				m_last_error;
 
-#	ifdef __PLAT_XBOX__
 	char			m_mounted_drive_letter;	// Used also as a flag: == 0 means not yet mounted.
 	enum
 	{
 		vDIRECTORY_NAME_BUF_SIZE=64
 	};	
-#	endif // #ifdef __PLAT_XBOX__
 };
 
 class  Manager  : public Spt::Class
@@ -255,9 +249,7 @@ private :
 	bool			m_wrongDevice;
 #	endif // #ifdef __PLAT_NGC__
 
-#	ifdef __PLAT_XBOX__
 	Card m_hard_drive;
-#	endif // #ifdef __PLAT_XBOX__
 	
 	DeclareSingletonClass( Manager );
 };
