@@ -76,6 +76,7 @@ DefineSingletonClass( Manager, "Serial IO Manager" );
 
 void Manager::process_devices( const Tsk::Task< Manager::DeviceList >& task )
 {
+    /*
 	Device*					device;
 	Lst::Search< Device >	    sh;
 	Manager::DeviceList&	device_list = task.GetData();
@@ -89,6 +90,7 @@ void Manager::process_devices( const Tsk::Task< Manager::DeviceList >& task )
 		device->process();
 		device = sh.NextItem();
 	}
+    */
 }
 
 /******************************************************************/
@@ -98,11 +100,14 @@ void Manager::process_devices( const Tsk::Task< Manager::DeviceList >& task )
 
 Device* Manager::create_device( int index, int port, int slot )
 {
+    /*
     Device *device;
         
     device = new Device( index, port, slot );
 
     return device;
+    */
+    return nullptr;
 }
 
 /******************************************************************/
@@ -120,6 +125,7 @@ Device* Manager::create_device( int index, int port, int slot )
 /******************************************************************/
 Manager::Manager ( void )
 {
+    m_process_devices_task = new Tsk::Task< DeviceList >(Manager::process_devices, m_devices);
     /*
     int i, index;
 
