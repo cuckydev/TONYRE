@@ -51,7 +51,7 @@ struct SIntermediateCustomAnimKeyHeader
 	uint32	size;
 };
 
-typedef enum
+enum
 {
 	vUNUSED1 = 0,
 	vCHANGE_FOCAL_LENGTH,

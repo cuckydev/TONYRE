@@ -28,15 +28,7 @@
 #include <core/math.h>
 #include <sys/timer.h>
 
-#ifdef __PLAT_NGPS__
-#include <gel/soundfx/ngps/p_sfx.h>
-#elif defined( __PLAT_XBOX__ )
-#include <gel/soundfx/xbox/p_sfx.h>
-#elif defined( __PLAT_NGC__ )
-#include <gel/soundfx/ngc/p_sfx.h>
-#elif defined( __PLAT_WN32__ )
-#include <gel/soundfx/wn32/p_sfx.h>
-#endif
+#include <Plat/p_sfx.h>
 
 /*****************************************************************************
 **								   Defines									**

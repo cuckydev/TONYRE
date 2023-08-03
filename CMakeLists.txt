@@ -3,6 +3,14 @@ cmake_minimum_required(VERSION 3.20)
 # TonyRE project
 project(TonyRE LANGUAGES CXX)
 
+# TonyRE common
+add_library(TonyRE.Common INTERFACE)
+
+target_include_directories(TonyRE.Common INTERFACE "Code")
+target_include_directories(TonyRE.Common INTERFACE "Code/Sk")
+
+target_compile_definitions(TonyRE.Common INTERFACE __PRETTY_FUNCTION__=__FILE__)
+
 # Compile TonyRE executable
 add_executable(TonyRE WIN32
 	# Core
@@ -707,8 +715,8 @@ add_executable(TonyRE WIN32
 	# "Code/Sys/SIO/siodev.cpp"
 	# "Code/Sys/SIO/sioman.cpp"
 )
-target_include_directories(TonyRE PRIVATE "Code")
-target_include_directories(TonyRE PRIVATE "Code/Sk")
+
+target_link_libraries(TonyRE PRIVATE TonyRE.Common)
 
 # Send compiled executable to Game folder
 set(BUILD_DIRECTORY ${CMAKE_SOURCE_DIR}/Game)
@@ -722,29 +730,7 @@ set_target_properties(TonyRE PROPERTIES
 
 # Platform select
 if(TRUE) # If WIN32
-	# Set platform defines
-	target_compile_definitions(TonyRE PRIVATE __PLAT_WN32__ __PRETTY_FUNCTION__=__FILE__)
-
-	# Compile platform code
-	target_sources(TonyRE PRIVATE
-		# Core
-		"Code/Core/Debug/Wn32/P_debug.cpp"
-
-		"Code/Core/Thread/wn32/t_thread.cpp"
-		"Code/Core/Thread/wn32/t_thread.h"
-
-		"Code/Gel/Movies/Wn32/p_movies.cpp"
-		"Code/Gel/Movies/Wn32/p_movies.h"
-
-		"Code/Gel/SoundFX/Wn32/p_sfx.cpp"
-		"Code/Gel/SoundFX/Wn32/p_sfx.h"
-
-		# Sys
-		"Code/Sys/Config/Win32/p_config.cpp"
-
-		"Code/Sys/Win32/p_timer.cpp"
-	)
-
-	# Link winsock
-	target_link_libraries(TonyRE Ws2_32)
+	# Compile Win32 platform
+	add_subdirectory("Wn32")
+	target_link_libraries(TonyRE PRIVATE TonyRE.Wn32)
 endif()

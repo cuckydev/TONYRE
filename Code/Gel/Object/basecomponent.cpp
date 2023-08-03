@@ -51,7 +51,7 @@ void CBaseComponent::RefreshFromStructure( Script::CStruct* pParams )
 	// Components that are created from EmptyComponent.cpp/h should
 	// have the funtion automatically overridden
 
-	printf ("WARNING:  Refreshing component %s using InitFromStructure\n");  
+	// printf ("WARNING:  Refreshing component %s using InitFromStructure\n");  
 	InitFromStructure(pParams);
 }
 
