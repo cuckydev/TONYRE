@@ -1575,6 +1575,7 @@ void sMesh::Initialize( int				num_vertices,
 /******************************************************************/
 void sMesh::DrawBoundingSphere( void )
 {
+	/*
 #	ifdef __NOPT_ASSERT__
 	const uint32 NUM_SPHERE_POINTS	= 64;
 
@@ -1628,6 +1629,7 @@ void sMesh::DrawBoundingSphere( void )
 	}
 	D3DDevice_DrawVerticesUP( D3DPT_LINELOOP, NUM_SPHERE_POINTS, sphere_buffer, sizeof( uint32 ) * 4 );
 #	endif
+*/
 }
 
 

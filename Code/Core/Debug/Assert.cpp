@@ -122,25 +122,15 @@ void	screen_assert( bool on )
 /*                                                                */
 /******************************************************************/
 
-#ifdef	__NOPT_DEBUG__
-void		Assert( char* file, uint line, Signature& sig, char* reason )
-#else
 void		Assert( char* file, uint line, char* reason )
-#endif
 {
 	static	char		assert_buffer1[vASSERT_BUFFER_SIZE];
-#ifdef	__NOPT_DEBUG
-	static	char		assert_buffer2[vASSERT_BUFFER_SIZE];
-#endif	
 	static	char		assert_buffer3[vASSERT_BUFFER_SIZE];
 	static	char*		tmp1 = assert_buffer1; 
-#ifdef	__NOPT_DEBUG
-	static	char*		tmp2 = assert_buffer2; 
-#endif	
 	static	char*		tmp3 = assert_buffer3; 
 
 
-#if !( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
+#if 1 // !( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
 	
 	static int again = 0;
 	if (again) 
@@ -201,81 +191,10 @@ void		Assert( char* file, uint line, char* reason )
 	
 #endif
 
-	sprintf( tmp1, "FILE:      %s(%d) ", file, line ); 
-	sprintf( tmp3, "ASSERTION: %s", reason ); 
-
-#ifndef __PLAT_NGC__
-#ifndef __PLAT_WN32__
-// Mick: Attempt to save a screenshot
-//	Dbg_Printf("Attempting to save screenshot 'screens\\Assert???.bmp'\n");
-	if (!Config::CD())
-	{
-		Gfx::Manager * gfx_manager = Gfx::Manager::Instance();
-		gfx_manager->ScreenShot( "Assert" );
-	}
-#endif
-
-	if ( screen_assert_active )
-	{
-		screen_assert_active = false;
-
-#ifndef __PLAT_WN32__
-		Gfx::Manager* gfx_man = Gfx::Manager::Instance();
-
-		gfx_man->AssertText ( 0, tmp1 );
-
-#ifdef	__NOPT_DEBUG
-		sprintf( tmp2, "%s", &sig.GetName() ); 
-		gfx_man->AssertText ( 1, tmp2 );
-#endif
-		gfx_man->AssertText ( 2, tmp3 );
-
-		gfx_man->AssertFlush();
-#endif	// __PLAT_WN32__
-	}
-#endif		// __PLAT_NGC__
-
-#ifdef	__NOPT_DEBUG
-	sprintf( tmp1, "ASSERTION: %s(%d) %s\n%s\n\n", 
-		file, line, &sig.GetName(), reason ); 
-#else
-	sprintf( tmp1, "FILE:      %s(%d)\nASSERTION: %s\n\n", 
-		file, line, reason ); 
-#endif
-
-
-#ifdef	__PLAT_NGPS__
-#if 0 	// does not seem to output anything...
-	sceDevConsInit(); // Initialise screen console output
-	int console = sceDevConsOpen(
-	(2048 - 640/2 + 20) << 4, // top left GS X primitive coord
-	(2048 - 448/2 + 20) << 4, // top left GS Y primitive coord
-	80, // Number of chars (X)
-	5); // Number of chars (Y)
-	sceDevConsAttribute(console, 7); // Output in white (default colours can be
-									// redefined by sceDevConsSetColor)
-	sceDevConsClear(console);
-	sceDevConsPrintf(console,	tmp1);
-	sceDevConsPrintf(console,	"blah \n");
-	sceDevConsPrintf(console,	"blah2 \n");
-	sceDevConsPrintf(console,	"blah3 \n");
-	sceDevConsDraw(console);	
-#endif
-#endif
-
-
-	if ( assert_trap_handler != NULL )
-	{
-		_output ("MEM CONTEXT: %s\n",Mem::Manager::sHandle().GetContextName());
-
-		Dbg_Printf( "%s\n", tmp1 );
-		assert_trap_handler( tmp1 );
-	}
-	else
-	{						   
-		Dbg_Printf( "%s\n", tmp1 );
-		Dbg_Printf( "!!NO TRAP HANDLER SET!!\n" );
-	}
+	// Trigger Visual Studio breakpoint
+	#ifdef __PLAT_WN32__
+		__asm int 3;
+	#endif
 }
 
 /******************************************************************/

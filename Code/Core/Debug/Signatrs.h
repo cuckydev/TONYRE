@@ -102,6 +102,7 @@ inline	const char&	Signature::GetName( void ) const
 **							 Private Declarations							**
 *****************************************************************************/
 
+/*
 #ifdef __PLAT_NGC__
 extern		Dbg::Module&	Dbg_module;
 extern		Dbg::Signature	Dbg_signature;
@@ -113,6 +114,7 @@ extern		Dbg::Module&	Dbg_module;
 extern		Dbg::Signature	Dbg_signature;
 
 #endif
+*/
 
 #endif	// __NOPT_DEBUG__
 

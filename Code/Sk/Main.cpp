@@ -457,10 +457,8 @@ int main ( sint argc, char** argv )
 	//printf("Language=%s\n",Config::GetLanguageName());
 	//printf("CD=%d\n",Config::CD());
 	
-	if (Config::GotExtraMemory())
-	{
-		Mem::Manager::sSetUpDebugHeap();
-	}	
+	// if (Config::GotExtraMemory())
+	// 	Mem::Manager::sSetUpDebugHeap();
 
 	Mem::PushMemProfile("Everything");
 	Mem::PushMemProfile("Initialization");

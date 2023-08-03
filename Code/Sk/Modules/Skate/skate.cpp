@@ -127,6 +127,8 @@
 #include <sys/config/config.h>
 #include <sys/replay/replay.h>
 
+#include <Plat/Gfx/p_memview.h>
+
 extern bool	skip_startup;
 
 

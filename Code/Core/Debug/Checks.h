@@ -62,11 +62,11 @@ extern 	AssertTrap	default_trap;
 **							  Private Prototypes							**
 *****************************************************************************/
 
-#ifdef __NOPT_DEBUG__
-void	Assert ( char* file, uint line, Signature& sig, char* reason = msg_unknown_reason );
-#else
+// #ifdef __NOPT_DEBUG__
+// void	Assert ( char* file, uint line, Signature& sig, char* reason = msg_unknown_reason );
+// #else
 void	Assert ( char* file, uint line, char* reason = msg_unknown_reason );
-#endif
+// #endif
 
 void	pad_printf ( const char* text, ... );
 void	set_trap( AssertTrap* trap = default_trap );
@@ -108,7 +108,7 @@ void	screen_assert( bool on = false );
 																\
 if ( !(_c))														\
 {																\
-	Dbg::Assert( __FILE__, __LINE__, Dbg_signature );			\
+	Dbg::Assert( __FILE__, __LINE__ );							\
 }
 
 /******************************************************************/
@@ -121,8 +121,7 @@ if ( !(_c))														\
 if( !( _c ))													\
 {																\
 	Dbg::pad_printf _params;									\
-	Dbg::Assert( __FILE__, __LINE__,	Dbg_signature,			\
-										Dbg::sprintf_pad );		\
+	Dbg::Assert( __FILE__, __LINE__,	Dbg::sprintf_pad );		\
 }
 
 #else   // __NOPT_DEBUG__
@@ -227,7 +226,7 @@ if( !( _c ))													\
 	if ((_p) == NULL )												\
 	{																\
 		Dbg::Assert ( __FILE__,	__LINE__,							\
-					 Dbg_signature, Dbg::msg_null_pointer );		\
+					Dbg::msg_null_pointer );						\
 	}																\
 }
 

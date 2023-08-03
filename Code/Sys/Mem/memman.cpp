@@ -94,7 +94,7 @@ char* 	_data_end;
 char* 	_mem_start;
 char* 	_mem_end;
 char*	_std_mem_end;
-char *	_debug_heap_start;
+char _debug_heap_start[DEBUG_HEAP_SIZE];
 #endif
 
 /*****************************************************************************
@@ -164,7 +164,7 @@ Manager::Manager( void )
 	_std_mem_end	= _mem_end;
 #	elif defined ( __PLAT_WN32__ )
 	// Nasty hack for WN32 for now - just grab 38mb of main memory via a malloc.
-	_mem_start	= (char *)malloc( 38 * 1024 * 1024 );
+	_mem_start	= (char*)malloc( 38 * 1024 * 1024 );
 	_mem_end	= _mem_start + ( 38 * 1024 * 1024 );
 	_std_mem_end = _mem_end;
 
@@ -191,14 +191,12 @@ Manager::Manager( void )
 	
 	m_num_heaps = 2;
 
-#	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
 	uint codesize = ((uint)(_code_end) - (uint)(_code_start))/1024;
 	uint datasize = ((uint)(_data_end) - (uint)(_code_end))/1024;
 	printf ( "code [%p - %p] (%dK) + data [%p - %p] (%dK) = %dK \n",
 			 _code_start, _code_end, codesize, 
 			 _code_end, _data_end, datasize,
 			 codesize + datasize );
-#endif
 			 
 	m_pushed_context_count = 0;
 	mp_internet_region = NULL;
@@ -991,12 +989,11 @@ void Manager::DeleteCutsceneHeap()
 
 void Manager::InitDebugHeap()
 {
-	#ifdef	__PLAT_NGPS__
-	// The Debug heap is allocated directly from debug memory (>32MB on PS2)
-	// as such, it should only ever be used on the TOOL (T10K) debug stations, or equivalents on other platforms 
-	mp_debug_region 	= new ((void*)s_debug_region_buffer) Region( nAlignUp( _debug_heap_start ), nAlignDown( _debug_heap_start+DEBUG_HEAP_SIZE ) );
-	mp_debug_heap = CreateHeap( mp_debug_region, Mem::Allocator::vBOTTOM_UP, "debug" );
-	#endif
+	if (mp_debug_region == NULL)
+	{
+		mp_debug_region = new ((void *)s_debug_region_buffer) Region(nAlignUp(_debug_heap_start), nAlignDown(_debug_heap_start + DEBUG_HEAP_SIZE));
+		mp_debug_heap = CreateHeap(mp_debug_region, Mem::Allocator::vBOTTOM_UP, "debug");
+	}
 }
 
 void Manager::InitSkaterHeaps(int players)

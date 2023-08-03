@@ -20,11 +20,7 @@ class CVector;
 class CPair;
 class CStruct;
 
-#ifdef __PLAT_WN32__
-class CArray
-#else
 class CArray : public Mem::CPoolable<CArray>
-#endif
 {
 	// Pointer to the array data.
 	union

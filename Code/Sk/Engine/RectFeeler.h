@@ -97,8 +97,8 @@ inline const Nx::S2DCollSurface&	CRectFeeler::GetCollisionSurface ( int n ) cons
 inline const Nx::S2DCollSurface&	CRectFeeler::GetMergedCollisionSurface ( int n ) const
 {
 	Dbg_Assert(n < m_merged_coll_data.num_surfaces);
-	Dbg_Assert(!isnanf(m_merged_coll_data.p_surfaces[n].ends[0].point[W]));
-	Dbg_Assert(!isnanf(m_merged_coll_data.p_surfaces[n].ends[1].point[W]));
+	Dbg_Assert(!isnan(m_merged_coll_data.p_surfaces[n].ends[0].point[W]));
+	Dbg_Assert(!isnan(m_merged_coll_data.p_surfaces[n].ends[1].point[W]));
 	return m_merged_coll_data.p_surfaces[n];
 }
 

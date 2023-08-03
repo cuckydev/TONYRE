@@ -54,6 +54,8 @@
 #include <gfx/ngc/nx/nx_init.h>
 #endif
 
+#include <Plat/Gfx/p_memview.h>
+
 #include <gfx/gfxman.h>
 #include <gfx/bonedanim.h>
 #include <gfx/camera.h>

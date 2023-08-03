@@ -31,14 +31,6 @@
 // Mick - added assertions always on, regardless of debug mode.
 #define	__NOPT_ASSERT__
 
-// Gary - ...  unless you're working on the tools, 
-// in which case the asserts prevent the code from compiling...
-#ifdef __PLAT_WN32__
-#ifndef _CONSOLE // Ken: Asserts now compile for console apps. (see levelassetlister project)
-	#undef __NOPT_ASSERT__
-#endif	
-#endif
-
 #endif	// __NOPT_DEBUG__
 
 #ifdef __NOPT_CDROM__OLD

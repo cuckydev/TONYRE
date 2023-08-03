@@ -6,23 +6,6 @@
 #define	EXTRA 1000000
 
 
-#ifdef __PLAT_WN32__
-
-#define	_SCRIPT_HEAP_SIZE				(1024)
-#define	SCRIPT_CACHE_HEAP_SIZE			(1024)
-#define	FRONTEND_HEAP_SIZE				(1024)
-#define	NETWORK_HEAP_qSIZE				(1024)
-#define PROFILER_HEAP_SIZE					(1024)
-#define	SKATERINFO_HEAP_SIZE			(1024)
-#define	SKATER_HEAP_SIZE				(1024)		// default size of skater heap
-#define SKATER_GEOM_HEAP_SIZE			(1024)
-#define BOOTSTRAP_FRONTEND_HEAP_SIZE	(1024)
-#define INTERNET_HEAP_SIZE				(1024)
-#define NETMISC_HEAP_SIZE				(1024)
-#define	THEME_HEAP_SIZE     			 (1024)		// theme textures heap size
-
-#else
-
 #ifdef	__NOPT_ASSERT__
 // K: On debug builds line number info is included in the qb's so add in another 500K for it.
 // On release builds the line number info is excluded by passing the nolinenumbers switch to
@@ -90,8 +73,6 @@
 #define	DEBUG_ADJUSTMENT					(1126400 + 200000 + 300000 + 100000 + 350000 ) // (1126400)		// difference in free memory for "final=" vs debug build
 #endif // __NOPT_ASSERT__
 #endif // __PLAT_NGPS__
-
-#endif // __PLAT_WN32__
 
 #ifdef __PLAT_XBOX__
 // Just need to override some of these values - want to keep as much the same as possible tho.

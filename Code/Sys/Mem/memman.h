@@ -135,7 +135,7 @@ public:
 	Heap*						NetworkHeap( void ) 		{ return mp_network_heap; }
 	Heap*						NetMiscHeap( void ) 		{ return mp_net_misc_heap; }
 	Heap*						ProfilerHeap( void ) 		{ return mp_profiler_heap; }
-	Heap*						DebugHeap( void ) 			{ return mp_debug_heap; }
+	Heap*						DebugHeap(void)				{ InitDebugHeap();  return mp_debug_heap; }
 	Heap*						SkaterHeap( int n ) 		{ return mp_skater_heap[n]; }
 	Heap*						SkaterInfoHeap( ) 			{ return mp_skater_info_heap; }
 	Heap*						SkaterGeomHeap( int n ) 	{ return mp_skater_geom_heap[n]; }

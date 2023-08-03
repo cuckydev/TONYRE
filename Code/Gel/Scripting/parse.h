@@ -65,11 +65,7 @@ uint8 *Write2Bytes(uint8 *p_buffer, uint16 val);
 #define MAX_STORED_RANDOMS 100
 
 #define MAKE_NEW_FIRST_DIFFER_FROM_OLD_LAST true
-#ifdef __PLAT_WN32__
-class CStoredRandom
-#else
 class CStoredRandom : public Mem::CPoolable<CStoredRandom>
-#endif
 {
 public:	
 	CStoredRandom();

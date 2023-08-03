@@ -102,13 +102,22 @@ static void* prefopen( const char *filename, const char *mode )
 	{
 		GetModuleFileNameA(nullptr, modulePath, MAX_PATH);
 
-		const char *p = strrchr(nameConversionBuffer, '\\');
+		const char *p = strrchr(modulePath, '\\');
 		if (p == nullptr)
 			sModuleIndex = 0;
 		else
-			sModuleIndex = (p - nameConversionBuffer) + 1;
+			sModuleIndex = (p - modulePath) + 1;
+
+		modulePath[sModuleIndex + 0] = 'd';
+		modulePath[sModuleIndex + 1] = 'a';
+		modulePath[sModuleIndex + 2] = 't';
+		modulePath[sModuleIndex + 3] = 'a';
+		modulePath[sModuleIndex + 4] = '\\';
+		sModuleIndex += 5;
 
 		sGotModuleDir = true;
+
+		memcpy(nameConversionBuffer, modulePath, sModuleIndex);
 	}
 	else
 	{
@@ -170,54 +179,38 @@ static void* prefopen( const char *filename, const char *mode )
 			}
 			default:
 			{
-				nameConversionBuffer[index - 1] = 'x';
+				// nameConversionBuffer[index - 1] = 'x';
 				break;
 			}
 		}
 #		else
-		nameConversionBuffer[index - 1] = 'x';
+		// nameConversionBuffer[index - 1] = 'x';
 #		endif // __PLAT_BUILD__
 	}
 
-	// First we try reading the file from the utility partition (z:\) on the HD, rather than the DVD.
-	HANDLE h_file = INVALID_HANDLE_VALUE;
-	if( OkayToUseUtilityDrive )
-	{
-		nameConversionBuffer[0] = 'Z';
-		h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
-	}
+	// Open the file
+	HANDLE h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
 
+	// Deal with various error returns.
 	if( h_file == INVALID_HANDLE_VALUE )
 	{
-		// Not on the utility partition, so load it from the DVD.
-		nameConversionBuffer[0] = 'D';
-		h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+		DWORD error = GetLastError();
 
-		// Deal with various error returns.
-		if( h_file == INVALID_HANDLE_VALUE )
+		// Need to exclude this error from the test, since screenshot and other code sometimes check to see if a file exists, and it
+		// is valid to just return the error code if it doesn't.
+		if( error != ERROR_FILE_NOT_FOUND )
 		{
-			DWORD error = GetLastError();
-
-			// Need to exclude this error from the test, since screenshot and other code sometimes check to see if a file exists, and it
-			// is valid to just return the error code if it doesn't.
-			if( error != ERROR_FILE_NOT_FOUND )
-			{
-				// Catch-all error indicating a fatal problem. Can't continue at this point.
-				// The ideal solution would be a catch/throw exception mechanism, but we don't include exception handling at the moment.
-				// For now just call this NxXbox function, which is slightly messy since it means we have to include a gfx\ file.
-				printf( "FatalFileError: %x %s\n", error, nameConversionBuffer );
-				// NxXbox::FatalFileError((uint32)INVALID_HANDLE_VALUE );
-			}
-			return NULL;
+			// Catch-all error indicating a fatal problem. Can't continue at this point.
+			// The ideal solution would be a catch/throw exception mechanism, but we don't include exception handling at the moment.
+			// For now just call this NxXbox function, which is slightly messy since it means we have to include a gfx\ file.
+			printf( "FatalFileError: %x %s\n", error, nameConversionBuffer );
+			// NxXbox::FatalFileError((uint32)INVALID_HANDLE_VALUE );
 		}
-		else
-		{
-			// All is well.
-			return h_file;
-		}
+		return NULL;
 	}
 	else
 	{
+		// All is well.
 		return h_file;
 	}
 }

@@ -35,11 +35,7 @@ class CArray;
 class CStruct;
 class CScript;
 
-#ifdef __PLAT_WN32__
-class CSymbolTableEntry
-#else
 class CSymbolTableEntry : public Mem::CPoolable<CSymbolTableEntry>
-#endif
 {
 public:
 	// Note: The placement of these bitfielded members is important. The CPoolable class

@@ -308,14 +308,14 @@ void MemView_DumpBlockInfo(int cursor)
 		else
 */
 		{
-			OutputDebugString( "Block Not Found\n" );
+			puts("Block Not Found");
 		}
 	}
 	else
 	{
 		void * p_start = (void*)((uint)pBlock + Mem::Allocator::BlockHeader::sSize);
 		sprintf( os, "Block found, addr = %p, size = %d (Header = %d)\n",p_start,pBlock->mSize,Mem::Allocator::BlockHeader::sSize);
-		OutputDebugString( os );
+		printf("%s", os);
 
 		CCallStack *c = (CCallStack*)pBlock->mp_debug_data;
 		if (!c)
@@ -331,7 +331,7 @@ void MemView_DumpBlockInfo(int cursor)
 			if( classname )
 			{
 				sprintf( os, "CLASS: %s\n", classname );
-				OutputDebugString( os );
+				printf( "%s", os );
 			}
 
 			// then list out the call stack (skipping the MemView_Alloc, as that's a given, and irrelevant);			
@@ -341,7 +341,7 @@ void MemView_DumpBlockInfo(int cursor)
 			{
 				int size;
 				sprintf( os, "%p: %s\n", (void*)*p,MemView_GetFunctionName(*p,&size));
-				OutputDebugString( os );
+				printf( "%s", os);
 				p++;
 			}
 		}
@@ -653,14 +653,14 @@ void MemView_DumpFragments(Mem::Heap *pHeap)
 
 	if (!pHeap->mFreeBlocks.m_count)
 	{
-		OutputDebugString( "NO Fragmentation\n" );
+		puts( "NO Fragmentation" );
 		return;
 	}
 	
 	if( !pHeap->mp_context->mp_free_list )
 	{
 		sprintf( os, "!!!!!! No free list, but there are %d free blocks???\n",pHeap->mFreeBlocks.m_count);
-		OutputDebugString( os );
+		printf( "%s", os);
 		return;
 	}
 
@@ -668,14 +668,14 @@ void MemView_DumpFragments(Mem::Heap *pHeap)
 	Mem::Allocator::BlockHeader *p_full = pHeap->mp_context->mp_used_list;
 	
 	sprintf( os, "!!!!!! Free list starts at %p\n",p_free );
-	OutputDebugString( os );
+	printf( "%s", os);
 
 	// The first p_free will be the start of fragmentations
 	while (p_full)
 	{
 		if (p_full > p_free)
 		{
-			OutputDebugString( "Framgented Block: " );
+			printf( "Framgented Block: " );
 			void * p_start = (void*)((uint)p_full + Mem::Allocator::BlockHeader::sSize);
 			MemView_DumpBlockInfo((int)p_start);
 		}

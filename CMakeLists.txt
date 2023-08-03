@@ -11,6 +11,11 @@ target_include_directories(TonyRE.Common INTERFACE "Code/Sk")
 
 target_compile_definitions(TonyRE.Common INTERFACE __PRETTY_FUNCTION__=__FILE__)
 
+# Define __NOPT_DEBUG__ if in debug build
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	target_compile_definitions(TonyRE.Common INTERFACE __NOPT_DEBUG__)
+endif()
+
 # Compile TonyRE executable
 add_executable(TonyRE WIN32
 	# Core

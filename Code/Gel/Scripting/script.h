@@ -142,11 +142,7 @@ struct SReturnAddress
 // of CScript's ever gets big enough to be using up a substantial amount of memory.
 // There would be a slight speed hit if pools were used, but probably not much, 
 // allocating/deallocating off a pool is pretty quick.
-#ifdef __PLAT_WN32__
-class CScript
-#else
 class CScript : public Mem::CPoolable<CScript>
-#endif
 {
 	// CScripts are linked into a list.
 	CScript *mp_next;

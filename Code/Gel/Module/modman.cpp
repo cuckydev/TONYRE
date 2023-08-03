@@ -142,11 +142,13 @@ void			Manager::process_modules( const Tsk::Task< Manager >& task )
 				if (( current->command == Module::vSTART ) ||
 					( current->command == Module::vRESTART ))
 				{
+#if 0
 #ifndef __PLAT_XBOX__
 #ifndef __PLAT_NGC__
 #ifdef __NOPT_DEBUG__
 				Dbg_Notify ( "Starting module %s @ %d", current->GetName(), 
 					Tmr::GetTime() ); // should use Game Clock not system clock
+#endif
 #endif
 #endif
 #endif
@@ -162,11 +164,13 @@ void			Manager::process_modules( const Tsk::Task< Manager >& task )
 			{
 				if ( current->command == Module::vSTOP )
 				{
+#if 0
 #ifndef __PLAT_XBOX__
 #ifndef __PLAT_NGC__
 #ifdef __NOPT_DEBUG__
 					Dbg_Notify ( "Stopping module %s @ %d", current->GetName(), 
 						 Tmr::GetTime() ); // should use Game Clock not system clock
+#endif
 #endif
 #endif
 #endif
@@ -176,11 +180,13 @@ void			Manager::process_modules( const Tsk::Task< Manager >& task )
 				}
 				else if ( current->command == Module::vRESTART ) 
 				{
+#if 0
 #ifndef __PLAT_XBOX__
 #ifndef __PLAT_NGC__
 #ifdef __NOPT_DEBUG__
 					Dbg_Notify ( "Restarting module %s @ %d", current->GetName(), 
 						Tmr::GetTime() ); // should use Game Clock not system clock
+#endif
 #endif
 #endif
 #endif

@@ -48,11 +48,7 @@ struct SStructScript
 	SStructScript() {mNameChecksum=NO_NAME; mpScriptTokens=NULL;}
 };
 
-#ifdef __PLAT_WN32__
-class CStruct
-#else
 class CStruct : public Mem::CPoolable<CStruct>
-#endif
 {
 	// Head pointer of the list of components.
 	CComponent *mp_components;

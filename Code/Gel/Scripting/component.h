@@ -23,11 +23,7 @@ class CArray;
 
 // Note: This is not derived from CClass to avoid the extra memory overhead due to the virtual destructor.
 // There will be loads of CComponents, in THPS3 there were 58000.
-#ifdef __PLAT_WN32__
-class CComponent
-#else
 class CComponent : public Mem::CPoolable<CComponent>
-#endif
 {
 public:	
 	CComponent();

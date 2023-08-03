@@ -38,8 +38,6 @@ void AllocatePools()
 	
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 
-	#ifndef __PLAT_WN32__
-	
 	#ifdef NO_SCRIPT_CACHING
 	#else
 	Mem::PushMemProfile("CScriptCacheEntry");
@@ -92,7 +90,6 @@ void AllocatePools()
 	// 80 bytes each (100)
 	CStoredRandom::SCreatePool(MAX_STORED_RANDOMS,"CStoredRandom");
 	Mem::PopMemProfile();
-	#endif
 
 
 	// This will create a further 4096 CSymbolTableEntry's, but as a contiguous array.

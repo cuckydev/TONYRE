@@ -17,6 +17,8 @@ extern bool g_mc_hack;
 #include "sys/ngc/p_buffer.h"
 #endif		// __PLAT_NGC__
 
+#include <Plat/Gfx/p_memview.h>
+
 namespace Mem
 {
 
