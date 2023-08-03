@@ -19,9 +19,9 @@ namespace NxXbox
 /******************************************************************/
 sTexture::sTexture()
 {
-	pD3DTexture = NULL;
-	pD3DPalette	= NULL;
-	pD3DSurface	= NULL;		// If used as a render target.
+	// pD3DTexture = NULL;
+	// pD3DPalette	= NULL;
+	// pD3DSurface	= NULL;		// If used as a render target.
 }
 
 
@@ -32,6 +32,7 @@ sTexture::sTexture()
 /******************************************************************/
 sTexture::~sTexture()
 {
+	/*
 	ULONG rr;
 
 	if( pD3DTexture )
@@ -58,6 +59,7 @@ sTexture::~sTexture()
 		rr = pD3DSurface->Release();
 		Dbg_Assert( rr == 0 );
 	}
+	*/
 }
 
 
@@ -69,7 +71,7 @@ sTexture::~sTexture()
 void sTexture::Set( int pass )
 {
 	// Set this texture as the active texture for a specific pass.
-	set_texture( pass, pD3DTexture, pD3DPalette );
+	// set_texture( pass, pD3DTexture, pD3DPalette );
 }
 
 
@@ -80,6 +82,7 @@ void sTexture::Set( int pass )
 /******************************************************************/
 bool sTexture::SetRenderTarget( int width, int height, int depth, int z_depth )
 {
+	/*
 	HRESULT		hr;
 	
 	if( pD3DTexture )
@@ -106,6 +109,7 @@ bool sTexture::SetRenderTarget( int width, int height, int depth, int z_depth )
 		DXT				= 0;
 		return true;
 	}
+	*/
 	return false;
 }
 
@@ -151,6 +155,7 @@ static bool is_power_of_two( uint32 a )
 /******************************************************************/
 sTexture *LoadTexture( const char *p_filename )
 {
+	/*
 	struct sIMGHeader
 	{
 		uint32	version;
@@ -297,6 +302,7 @@ sTexture *LoadTexture( const char *p_filename )
 			return p_texture;
 		}
 	}
+	*/
 	return NULL;
 }
 

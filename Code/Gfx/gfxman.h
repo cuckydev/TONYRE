@@ -81,10 +81,8 @@ public :
 	void						AssertFlush( void );
 #endif
 
-#	ifdef __PLAT_XBOX__
 	void						SetGammaNormalized( float fr, float fg, float fb );
 	void						GetGammaNormalized( float *fr, float *fg, float *fb );
-#	endif
 
 	void						ScreenShot( const char *fileroot );
 	void						DumpMemcardScreeenshots();
