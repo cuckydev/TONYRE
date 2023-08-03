@@ -1,0 +1,3 @@
+[submodule "GameSpy/SDK"]
+	path = GameSpy/SDK
+	url = https://github.com/nitrocaster/GameSpy
