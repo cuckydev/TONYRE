@@ -22,6 +22,10 @@ add_library(TonyRE.Wn32 STATIC
 
 	# Sys
 	"Code/Plat/Sys/Config/p_config.cpp"
+	
+	"Code/Plat/Sys/File/p_AsyncFilesys.cpp"
+	"Code/Plat/Sys/File/p_AsyncFilesys.cpp"
+	"Code/Plat/Sys/File/p_filesys.cpp"
 
 	"Code/Plat/Sys/SIO/p_keyboard.cpp"
 	"Code/Plat/Sys/SIO/p_siodev.cpp"
