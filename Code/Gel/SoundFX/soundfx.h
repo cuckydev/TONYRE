@@ -28,7 +28,7 @@
 #include <core/math.h>
 #include <sys/timer.h>
 
-#include <Plat/p_sfx.h>
+#include <Plat/Gel/SoundFX/p_sfx.h>
 
 /*****************************************************************************
 **								   Defines									**

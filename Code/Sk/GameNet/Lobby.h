@@ -25,8 +25,8 @@
 
 #include <core/defines.h>
 
-// #include <peer/peer.h>
-// #include <natneg/natneg.h>
+#include <peer/peer.h>
+#include <natneg/natneg.h>
 
 namespace GameNet
 {

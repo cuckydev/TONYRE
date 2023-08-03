@@ -93,6 +93,10 @@
 #include <Sk/GameNet/Xbox/p_voice.h>
 #endif
 
+#include <Plat/Sk/GameNet/p_auth.h>
+#include <Plat/Sk/GameNet/p_buddy.h>
+#include <Plat/Sk/GameNet/p_voice.h>
+
 #include <sk/objects/skater.h>		   // we do various things with the skater, network play related
 
 

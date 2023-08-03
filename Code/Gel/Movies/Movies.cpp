@@ -27,7 +27,7 @@
 #include <core/macros.h>
 #include <core/singleton.h>
 
-#include <Plat/p_movies.h>
+#include <Plat/Gel/Movies/p_movies.h>
 
 #include <sys/profiler.h>
 

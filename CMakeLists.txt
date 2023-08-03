@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 # TonyRE project
-project(TonyRE LANGUAGES CXX)
+project(TonyRE LANGUAGES C CXX)
 
 # TonyRE common
 add_library(TonyRE.Common INTERFACE)
@@ -510,16 +510,16 @@ add_executable(TonyRE WIN32
 	"Code/Sk/Engine/SuperSector.cpp"
 	"Code/Sk/Engine/SuperSector.h"
 
-	# "Code/Sk/GameNet/ExportMsg.h"
-	# "Code/Sk/GameNet/GameHandler.cpp"
-	# "Code/Sk/GameNet/GameMsg.h"
-	# "Code/Sk/GameNet/GameNet.cpp"
-	# "Code/Sk/GameNet/GameNet.h"
+	"Code/Sk/GameNet/ExportMsg.h"
+	"Code/Sk/GameNet/GameHandler.cpp"
+	"Code/Sk/GameNet/GameMsg.h"
+	"Code/Sk/GameNet/GameNet.cpp"
+	"Code/Sk/GameNet/GameNet.h"
 	# "Code/Sk/GameNet/Lobby.cpp"
 	# "Code/Sk/GameNet/Lobby.h"
-	# "Code/Sk/GameNet/Player.cpp"
-	# "Code/Sk/GameNet/scriptdebugger.h"
-	# "Code/Sk/GameNet/ServerList.cpp"
+	"Code/Sk/GameNet/Player.cpp"
+	"Code/Sk/GameNet/scriptdebugger.h"
+	"Code/Sk/GameNet/ServerList.cpp"
 
 	"Code/Sk/Modules/FrontEnd/FrontEnd.cpp"
 	"Code/Sk/Modules/FrontEnd/FrontEnd.h"
@@ -727,6 +727,10 @@ set_target_properties(TonyRE PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${BUILD_DIRECTORY}
 	RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIRECTORY}
 )
+
+# Compile GameSpy SDK
+add_subdirectory("GameSpy")
+target_link_libraries(TonyRE PRIVATE GameSpy)
 
 # Platform select
 if(TRUE) # If WIN32

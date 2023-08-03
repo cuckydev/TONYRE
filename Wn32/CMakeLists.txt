@@ -1,12 +1,29 @@
 # Wn32 platform library
 add_library(TonyRE.Wn32 STATIC
-	"Code/Plat/p_config.cpp"
-	"Code/Plat/P_debug.cpp"
-	"Code/Plat/p_movies.cpp"
-	"Code/Plat/p_movies.h"
-	"Code/Plat/p_sfx.cpp"
-	"Code/Plat/p_sfx.h"
-	"Code/Plat/p_timer.cpp"
+	# Core
+	"Code/Plat/Core/Debug/P_debug.cpp"
+
+	# Gel
+	"Code/Plat/Gel/Movies/p_movies.cpp"
+	"Code/Plat/Gel/Movies/p_movies.h"
+
+	"Code/Plat/Gel/SoundFX/p_sfx.cpp"
+	"Code/Plat/Gel/SoundFX/p_sfx.h"
+
+	# Sk
+	"Code/Plat/Sk/GameNet/p_auth.cpp"
+	"Code/Plat/Sk/GameNet/p_auth.h"
+	"Code/Plat/Sk/GameNet/p_buddy.cpp"
+	"Code/Plat/Sk/GameNet/p_buddy.h"
+	"Code/Plat/Sk/GameNet/p_match.cpp"
+	"Code/Plat/Sk/GameNet/p_match.h"
+	"Code/Plat/Sk/GameNet/p_voice.cpp"
+	"Code/Plat/Sk/GameNet/p_voice.h"
+
+	# Sys
+	"Code/Plat/Sys/Config/p_config.cpp"
+
+	"Code/Plat/Sys/p_timer.cpp"
 )
 
 target_link_libraries(TonyRE.Wn32 PUBLIC TonyRE.Common)
