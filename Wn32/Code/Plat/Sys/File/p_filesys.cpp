@@ -150,6 +150,7 @@ static void* prefopen( const char *filename, const char *mode )
 	}
 	nameConversionBuffer[index] = 0;
 
+	/*
 	// If this is a .tex file, switch to a .txx file.
 	if((( nameConversionBuffer[index - 1] ) == 'x' ) &&
 	   (( nameConversionBuffer[index - 2] ) == 'e' ) &&
@@ -186,6 +187,17 @@ static void* prefopen( const char *filename, const char *mode )
 #		else
 		// nameConversionBuffer[index - 1] = 'x';
 #		endif // __PLAT_BUILD__
+	}
+	*/
+
+	// If file ends in .xbx, remove
+	// The PC version does not have the .Xbx extension in the filesystem, but does have it in the .pre files
+	if((( nameConversionBuffer[index - 1] ) == 'x' ) &&
+		(( nameConversionBuffer[index - 2] ) == 'b' ) &&
+		(( nameConversionBuffer[index - 3] ) == 'X' ) &&
+		(( nameConversionBuffer[index - 4] ) == '.' ))
+	{
+		nameConversionBuffer[index - 4] = 0;
 	}
 
 	// Open the file

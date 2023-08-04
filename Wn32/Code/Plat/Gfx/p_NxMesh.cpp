@@ -157,6 +157,7 @@ bool CXboxMesh::build_casdata_table_from_memory( void **pp_mem )
 /******************************************************************/
 CXboxMesh::CXboxMesh( void )
 {
+
 }
 
 

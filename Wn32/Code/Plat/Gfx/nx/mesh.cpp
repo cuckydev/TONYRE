@@ -1128,20 +1128,15 @@ void sMesh::Initialize( int				num_vertices,
 						uint32			*p_weights,
 						char			*p_vc_wibble_anims )
 {
-	/*
 	// First thing to do is grab the material pointer for this mesh.
 	mp_material	= ((sScene*)p_scene )->GetMaterial( material_checksum );
-	if( mp_material == NULL )
-	{
-		Dbg_Assert( 0 );
-		return;
-	}
+	Dbg_AssertPtr(mp_material);
 	
 	if(( num_index_sets == 0 ) || ( p_num_indices[0] == 0 ))
 	{
 		return;
 	}
-
+	/*
 	uint16 min_index	= ( pp_indices[0] )[0];
 	uint16 max_index	= ( pp_indices[0] )[0];
 	for( int i = 0; i < p_num_indices[0]; ++i )

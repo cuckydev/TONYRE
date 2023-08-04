@@ -47,11 +47,11 @@ protected:
 	bool				build_casdata_table(const char* pFileName);
 	bool				build_casdata_table_from_memory( void **pp_mem );
 
-	NxWn32::sCASData	*mp_CASData;
-	uint32				m_numCASData;
+	NxWn32::sCASData	*mp_CASData = nullptr;
+	uint32				m_numCASData = 0;
 
 private:
-	CXboxScene			*mp_scene;
+	CXboxScene			*mp_scene = nullptr;
 };
 
 /******************************************************************/

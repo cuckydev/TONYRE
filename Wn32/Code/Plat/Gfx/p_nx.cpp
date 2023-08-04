@@ -321,7 +321,7 @@ namespace Nx
 		pMesh->SetScene(p_xbox_scene);
 		pMesh->SetTexDict(pTexDict);
 
-		return nullptr;
+		return pMesh;
 	}
 
 
