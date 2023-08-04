@@ -1,6 +1,8 @@
 #ifndef __TEXTURE_H
 #define __TEXTURE_H
 
+#include "nx_init.h"
+
 #include <core/HashTable.h>
 
 namespace NxWn32
@@ -23,9 +25,7 @@ struct sTexture
 	uint8				PaletteDepth;
 	uint8				DXT;
 
-	// IDirect3DTexture8*	pD3DTexture;
-	// IDirect3DPalette8*	pD3DPalette;
-	// IDirect3DSurface8*	pD3DSurface;
+	GLuint GLTexture;
 };
 
 sTexture	*LoadTexture( const char *p_filename );

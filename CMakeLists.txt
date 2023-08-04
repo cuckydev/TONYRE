@@ -18,6 +18,10 @@ endif()
 
 # Compile TonyRE executable
 add_executable(TonyRE WIN32
+	# Com
+	"Code/Com/texturedecode.cpp"
+	"Code/Com/texturedecode.h"
+
 	# Core
 	"Code/Core/Debug/Assert.cpp"
 	"Code/Core/Debug/Checks.h"

@@ -1,15 +1,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 // p_NxTexture.cpp
 
-#include 	"Gfx/Nx.h"
-#include <Plat/Gfx/p_nxtexture.h>
-#include	"sys/file/filesys.h"
+#include "Gfx/Nx.h"
+#include "p_nxtexture.h"
+#include "sys/file/filesys.h"
+
+#include "Com/texturedecode.h"
 
 namespace Nx
 {
-
-////////////////////////////////////////////////////////////////////////////////////
-// Here's a machine specific implementation of CTexture
 
 /******************************************************************/
 /*                                                                */
@@ -448,91 +447,91 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		p_texture->PaletteDepth	= (uint8)palette_depth;
 		p_texture->DXT			= (uint8)dxt;
 		
-		// D3DFORMAT	texture_format;
-		if( p_texture->DXT > 0 )
+		// Load palette
+		uint8 pal[256 * 4] = {};
+		if (palette_size > 0)
+			MemoryRead(pal, palette_size, 1, p_data);
+
+		// Create texture
+		glGenTextures(1, &p_texture->GLTexture);
+		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_BASE_LEVEL, 0);
+		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_MAX_LEVEL, levels);
+		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+
+		// Determine texture format
+		void (*TextureDecodeLambda)(const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height);
+
+		if (p_texture->DXT > 0)
 		{
-			if(( p_texture->DXT == 1 ) || ( p_texture->DXT == 2 ))
+			if ((p_texture->DXT == 1) || (p_texture->DXT == 2))
 			{
-				Dbg_MsgAssert(0, ("Unsupported texture format DXT1"));
-				// texture_format = D3DFMT_DXT1;
+				TextureDecodeLambda = [](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+				{
+					(void)pal;
+					TextureDecode::DXT1_Decode(in_buffer, out_buffer, width, height);
+				};
 			}
-			else if( p_texture->DXT == 5 )
+			else if (p_texture->DXT == 5)
 			{
-				Dbg_MsgAssert(0, ("Unsupported texture format DXT5"));
-				// texture_format = D3DFMT_DXT5;
+				TextureDecodeLambda = [](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+				{
+					(void)pal;
+					TextureDecode::DXT5_Decode(in_buffer, out_buffer, width, height);
+				};
 			}
 			else
 			{
-				Dbg_Assert( 0 );
+				Dbg_Assert(0);
 			}
 		}
-		else if( p_texture->TexelDepth == 8 )
+		else if (p_texture->TexelDepth == 8)
 		{
-			// texture_format = D3DFMT_P8;
+			TextureDecodeLambda = TextureDecode::Pal_Decode;
 		}
-		else if( p_texture->TexelDepth == 16 )
+		else if (p_texture->TexelDepth == 16)
 		{
-			// texture_format = D3DFMT_A1R5G5B5;	// Could also be X1R5G5B5;
+			TextureDecodeLambda = [](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+			{
+				(void)pal;
+				TextureDecode::Short_Decode(in_buffer, out_buffer, width, height);
+			};
 		}
-		else if( p_texture->TexelDepth == 32 )
+		else if (p_texture->TexelDepth == 32)
 		{
-			// texture_format = D3DFMT_A8R8G8B8;
+			TextureDecodeLambda = [](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+			{
+				(void)pal;
+				TextureDecode::Long_Decode(in_buffer, out_buffer, width, height);
+			};
 		}
 		else
 		{
-			Dbg_Assert( 0 );
+			Dbg_Assert(0);
 		}
 		
-		/*
-		if( D3D_OK != D3DDevice_CreateTexture(	p_texture->BaseWidth, p_texture->BaseHeight, p_texture->Levels,	0, texture_format, 0, &p_texture->pD3DTexture ))
+		// Decode texture
+		for (uint8 mip_level = 0; mip_level < p_texture->Levels; ++mip_level)
 		{
-			Dbg_Assert( 0 );
-		}
-
-		if( palette_size > 0 )
-		{
-			// Create and lock the palette.
-			if( D3D_OK != D3DDevice_CreatePalette(	palette_size == ( 256 * sizeof( D3DCOLOR )) ? D3DPALETTE_256 : D3DPALETTE_32, &p_texture->pD3DPalette ))
-			{
-				Dbg_Assert( 0 );
-			}
-			else
-			{
-				D3DCOLOR* p_colors;
-				if( D3D_OK != p_texture->pD3DPalette->Lock( &p_colors, 0 ))
-				{
-					Dbg_Assert( 0 );
-				}
-				else
-				{
-					// Read in palette data.
-					MemoryRead( p_colors, palette_size, 1, p_data );
-				}
-			}
-		}
-		else
-		{
-			p_texture->pD3DPalette = NULL;
-		}
-		*/
-
-		/*
-		for( uint32 mip_level = 0; mip_level < p_texture->Levels; ++mip_level )
-		{
+			// Read input data
 			uint32 texture_level_data_size;
-			MemoryRead( &texture_level_data_size, sizeof( uint32 ), 1, p_data );
+			MemoryRead(&texture_level_data_size, sizeof( uint32 ), 1, p_data);
 
-			D3DLOCKED_RECT locked_rect;
-			if( D3D_OK != p_texture->pD3DTexture->LockRect( mip_level, &locked_rect, NULL, 0 ))
-			{
-				Dbg_Assert( 0 );
-			}
-			else
-			{
-				MemoryRead( locked_rect.pBits, texture_level_data_size, 1, p_data );
-			}
+			uint8 *in_buffer = new uint8[texture_level_data_size];
+			MemoryRead(in_buffer, texture_level_data_size, 1, p_data);
+
+			// Decode texture
+			uint8 *out_buffer = new uint8[base_width * base_height * 4];
+			TextureDecodeLambda(in_buffer, pal, out_buffer, base_width, base_height);
+			delete[] in_buffer;
+
+			// Store to texture
+			glTexImage2D(GL_TEXTURE_2D, mip_level, GL_RGBA, base_width, base_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, out_buffer);
+			delete[] out_buffer;
+
+			// Shift down to next mip level
+			base_width >>= 1;
+			base_height >>= 1;
 		}
-		*/
 
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();
@@ -609,18 +608,37 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		p_texture->PaletteDepth	= (uint8)palette_depth;
 		p_texture->DXT			= (uint8)dxt;
 		
-		// D3DFORMAT	texture_format;
+		// Load palette
+		uint8 pal[256 * 4] = {};
+		if (palette_size > 0)
+			File::Read(pal, 4, palette_size, p_FH);
+
+		// Create texture
+		glGenTextures(1, &p_texture->GLTexture);
+		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_BASE_LEVEL, 0);
+		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_MAX_LEVEL, levels);
+		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+
+		// Determine texture format
+		void (*TextureDecodeLambda)(const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height);
+
 		if( p_texture->DXT > 0 )
 		{
 			if(( p_texture->DXT == 1 ) || ( p_texture->DXT == 2 ))
 			{
-				Dbg_MsgAssert(0, ("Unsupported texture format DXT1"));
-				// texture_format = D3DFMT_DXT1;
+				TextureDecodeLambda = +[](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+				{
+					(void)pal;
+					TextureDecode::DXT1_Decode(in_buffer, out_buffer, width, height);
+				};
 			}
 			else if( p_texture->DXT == 5 )
 			{
-				Dbg_MsgAssert(0, ("Unsupported texture format DXT5"));
-				// texture_format = D3DFMT_DXT5;
+				TextureDecodeLambda = +[](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+				{
+					(void)pal;
+					TextureDecode::DXT5_Decode(in_buffer, out_buffer, width, height);
+				};
 			}
 			else
 			{
@@ -629,70 +647,53 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		}
 		else if( p_texture->TexelDepth == 8 )
 		{
-			// texture_format = D3DFMT_P8;
+			TextureDecodeLambda = TextureDecode::Pal_Decode;
 		}
 		else if( p_texture->TexelDepth == 16 )
 		{
-			// texture_format = D3DFMT_A1R5G5B5;	// Could also be X1R5G5B5;
+			TextureDecodeLambda = +[](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+			{
+				(void)pal;
+				TextureDecode::Short_Decode(in_buffer, out_buffer, width, height);
+			};
 		}
 		else if( p_texture->TexelDepth == 32 )
 		{
-			// texture_format = D3DFMT_A8R8G8B8;
+			TextureDecodeLambda = +[](const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height)
+			{
+				(void)pal;
+				TextureDecode::Long_Decode(in_buffer, out_buffer, width, height);
+			};
 		}
 		else
 		{
 			Dbg_Assert( 0 );
+		}
+
+		// Decode texture
+		for (uint8 mip_level = 0; mip_level < p_texture->Levels; mip_level++)
+		{
+			// Read input data
+			uint32 texture_level_data_size;
+			File::Read(&texture_level_data_size, sizeof(uint32), 1, p_FH);
+
+			uint8 *in_buffer = new uint8[texture_level_data_size];
+			File::Read(in_buffer, texture_level_data_size, 1, p_FH);
+
+			// Decode texture
+			uint8 *out_buffer = new uint8[base_width * base_height * 4];
+			TextureDecodeLambda(in_buffer, pal, out_buffer, base_width, base_height);
+			delete[] in_buffer;
+
+			// Store to texture
+			glTexImage2D(GL_TEXTURE_2D, mip_level, GL_RGBA, base_width, base_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, out_buffer);
+			delete[] out_buffer;
+
+			// Shift down to next mip level
+			base_width >>= 1;
+			base_height >>= 1;
 		}
 		
-		/*
-		if( D3D_OK != D3DDevice_CreateTexture(	p_texture->BaseWidth, p_texture->BaseHeight, p_texture->Levels,	0, texture_format, 0, &p_texture->pD3DTexture ))
-		{
-			Dbg_Assert( 0 );
-		}
-
-		if( palette_size > 0 )
-		{
-			// Create and lock the palette.
-			if( D3D_OK != D3DDevice_CreatePalette(	palette_size == ( 256 * sizeof( D3DCOLOR )) ? D3DPALETTE_256 : D3DPALETTE_32, &p_texture->pD3DPalette ))
-			{
-				Dbg_Assert( 0 );
-			}
-			else
-			{
-				D3DCOLOR* p_colors;
-				if( D3D_OK != p_texture->pD3DPalette->Lock( &p_colors, 0 ))
-				{
-					Dbg_Assert( 0 );
-				}
-				else
-				{
-					// Read in palette data.
-					File::Read( p_colors, palette_size, 1, p_FH );
-				}
-			}
-		}
-		else
-		{
-			p_texture->pD3DPalette = NULL;
-		}
-
-		for( uint32 mip_level = 0; mip_level < p_texture->Levels; ++mip_level )
-		{
-			uint32 texture_level_data_size;
-			File::Read( &texture_level_data_size, sizeof( uint32 ), 1, p_FH );
-
-			D3DLOCKED_RECT locked_rect;
-			if( D3D_OK != p_texture->pD3DTexture->LockRect( mip_level, &locked_rect, NULL, 0 ))
-			{
-				Dbg_Assert( 0 );
-			}
-			else
-			{
-				File::Read( locked_rect.pBits, texture_level_data_size, 1, p_FH );
-			}
-		}
-		*/
-
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();
 		p_xbox_texture->SetEngineTexture( p_texture );

@@ -19,9 +19,7 @@ namespace NxWn32
 /******************************************************************/
 sTexture::sTexture()
 {
-	// pD3DTexture = NULL;
-	// pD3DPalette	= NULL;
-	// pD3DSurface	= NULL;		// If used as a render target.
+	GLTexture = 0;
 }
 
 
@@ -32,6 +30,8 @@ sTexture::sTexture()
 /******************************************************************/
 sTexture::~sTexture()
 {
+	// Delete texture
+	glDeleteTextures(1, &GLTexture);
 	/*
 	ULONG rr;
 
