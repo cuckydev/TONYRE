@@ -1635,9 +1635,7 @@ bool CScript::execute_command()
 	{
 		Obj::CObject *p_substitute_object = nullptr;
 		// Find the object
-#ifndef __PLAT_WN32__
 		p_substitute_object=Obj::ResolveToObject(name);
-#endif
 		Dbg_MsgAssert(p_substitute_object,("\n%s\nCould not resolve '%s' to a CObject instance",GetScriptInfo(),FindChecksumName(name)));
 		if( p_substitute_object == nullptr )
 		{

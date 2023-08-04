@@ -94,18 +94,18 @@ public:
 	Obj::CCompositeObject*		GetObj();
 
 protected:
-	EAnimStatus					m_status;
+	EAnimStatus					m_status = ANIM_STATUS_INACTIVE;
                        
 protected:
-	CBaseAnimController*		mp_controllers[vMAX_CONTROLLERS];
-	int							m_numControllers;
+	CBaseAnimController *mp_controllers[vMAX_CONTROLLERS] = {};
+	int							m_numControllers = 0;
     
-	float						m_blendSpeed;
-	float						m_degenerationTime;
-    float						m_degenerationTimeToBlendMultiplier;
+	float						m_blendSpeed = 0.0f;
+	float						m_degenerationTime = 0.0f;
+    float						m_degenerationTimeToBlendMultiplier = 0.0f;
 
-	uint32						m_animScriptName;
-	Obj::CCompositeObject*		mp_object;
+	uint32						m_animScriptName = 0;
+	Obj::CCompositeObject*		mp_object = nullptr;
 
 public:
 	// for doing anim events...

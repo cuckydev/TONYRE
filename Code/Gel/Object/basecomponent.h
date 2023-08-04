@@ -77,15 +77,15 @@ protected:
 	void							SetType(uint32 type) {m_type = type;}
 
 private:
-	uint32							m_type;	   			// Unique ID of the component, stuck here during constuction
-	Flags<EBaseComponentFlags>		m_flags;
-	CCompositeObject	* 			mp_object; 			// Parent object that contains this component
-	CBaseComponent * 				mp_next;			// next component in the list
-	CBaseComponent * 				mp_next_same_type;	// next component in the list that is of the same type
+	uint32							m_type = 0;	   			// Unique ID of the component, stuck here during constuction
+	Flags<EBaseComponentFlags>		m_flags = 0;
+	CCompositeObject	* 			mp_object = nullptr; 			// Parent object that contains this component
+	CBaseComponent * 				mp_next = nullptr;			// next component in the list
+	CBaseComponent * 				mp_next_same_type = nullptr;	// next component in the list that is of the same type
 
 	#ifdef __NOPT_ASSERT__
 	// The time spent (in microseconds) executing ::Update(), for displaying in the script debugger.
-	int								m_update_time;
+	int								m_update_time = 0;
 	#endif	
 };
 

@@ -136,26 +136,26 @@ protected:
 	Lst::Head<Gfx::CAnimChannel>	m_blendChannelList;
 
     // Get set by the BlendPeriodOut command.
-	bool                        	mGotBlendPeriodOut;
-	float                       	mBlendPeriodOut;
+	bool                        	mGotBlendPeriodOut = false;
+	float                       	mBlendPeriodOut = 0.0f;
 
-	bool							m_shouldBlend;
+	bool							m_shouldBlend = false;
 	
 	// If set, then PlayAnim will do nothing until the current anim has finished.
-	bool							m_dont_interrupt;
+	bool							m_dont_interrupt = false;
 	
-    uint32                      	m_animScriptName;
-	uint32							m_flags;
+    uint32                      	m_animScriptName = 0;
+	uint32							m_flags = 0;
 	
 	// GJ:  This might get split into its own component later on
 	// (among other things, it can then have its own suspend logic)
-	uint32							m_animEventTableName;
+	uint32							m_animEventTableName = 0;
 	
-	float							m_last_animation_time;
-	bool							m_animation_script_block_active;
-	float							m_animation_script_unblock_point;
+	float							m_last_animation_time = 0.0f;
+	bool							m_animation_script_block_active = false;
+	float							m_animation_script_unblock_point = 0.0f;
 
-	float							m_parent_object_dist_to_camera;
+	float							m_parent_object_dist_to_camera = 0.0f;
 
 	// GJ:  The following used to be in the CProceduralAnimController;
 	// however, this data needs to be shared among different blend
@@ -166,16 +166,16 @@ protected:
 	// separated off into a separate CProceduralAnimComponent that 
 	// the CProceduralAnimController acts upon?)
 protected:
-	int								m_numProceduralBones;
-	Gfx::CProceduralBone*			mp_proceduralBones;
+	int								m_numProceduralBones = 0;
+	Gfx::CProceduralBone*			mp_proceduralBones = nullptr;
 	bool							InitializeProceduralBone( uint32 boneName );
 	void							initialize_procedural_bones( Script::CStruct* pParams );
 	void							update_procedural_bones();
 	
 protected:
-	CSuspendComponent*				mp_suspend_component;
-	CSkeletonComponent*				mp_skeleton_component;
-	CModelComponent*				mp_model_component;
+	CSuspendComponent*				mp_suspend_component = nullptr;
+	CSkeletonComponent*				mp_skeleton_component = nullptr;
+	CModelComponent*				mp_model_component = nullptr;
 
 public:
 	Gfx::CProceduralBone*			GetProceduralBoneByName( uint32 id );

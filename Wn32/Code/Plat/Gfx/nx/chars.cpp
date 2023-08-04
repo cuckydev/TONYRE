@@ -113,162 +113,162 @@ static void generateSwizzleTable( void )
 /******************************************************************/
 void SwizzleTexture( void *dstBuffer, void *srcBuffer, int width, int height, int32 depth, int32 stride )
 {
-    int32 tilesX, tilesY;
-    int32 tilesSizeX, tilesSizeY;
-    int32 tileSize;
+	int32 tilesX, tilesY;
+	int32 tilesSizeX, tilesSizeY;
+	int32 tileSize;
 
 	generateSwizzleTable();
 
 	if( width > height )
-    {
-        tilesX = width / height;
-        tilesY = 1;
+	{
+		tilesX = width / height;
+		tilesY = 1;
 
-        tilesSizeX = width / tilesX;
-        tilesSizeY = height;
-    }
-    else
-    {
-        tilesX = 1;
-        tilesY = height / width;
+		tilesSizeX = width / tilesX;
+		tilesSizeY = height;
+	}
+	else
+	{
+		tilesX = 1;
+		tilesY = height / width;
 
-        tilesSizeX = width;
-        tilesSizeY = height / tilesY;
-    }
+		tilesSizeX = width;
+		tilesSizeY = height / tilesY;
+	}
 
-    tileSize = tilesSizeX * tilesSizeY;
+	tileSize = tilesSizeX * tilesSizeY;
 
 	switch (depth)
 	{
 		case 4:
-	    case 8:
-        {
-            int32 j;
+		case 8:
+		{
+			int32 j;
 
-            for (j = 0; j < tilesY; j++)
-            {
-                int32 i;
+			for (j = 0; j < tilesY; j++)
+			{
+				int32 i;
 
-                for (i = 0; i < tilesX; i++)
-                {
-            int32 y;
-                    uint8 *base;
+				for (i = 0; i < tilesX; i++)
+				{
+					int32 y;
+					uint8 *base;
 
-                    base = (uint8 *)(((uint8 *)dstBuffer) +
-                                       ((tileSize * tilesX) * j) +
-                                       (tileSize * i));
+					base = (uint8 *)(((uint8 *)dstBuffer) +
+										((tileSize * tilesX) * j) +
+										(tileSize * i));
 
-                    for (y = 0; y < tilesSizeY; y++)
-            {
-                uint8    *srcPixel;
-                int32     x;
+					for (y = 0; y < tilesSizeY; y++)
+					{
+						uint8    *srcPixel;
+						int32     x;
 
-                        srcPixel = (uint8 *)(((uint8 *)srcBuffer) +
-                                               (stride * (tilesSizeY * j)) +
-                                               (tilesSizeX * i) +
-                                               (stride * y));
+						srcPixel = (uint8 *)(((uint8 *)srcBuffer) +
+												(stride * (tilesSizeY * j)) +
+												(tilesSizeX * i) +
+												(stride * y));
 
-                        for (x = 0; x < tilesSizeX; x++)
-                {
-                    uint8    *dstPixel;
-                        dstPixel = (uint8 *)(base + TWIDDLE(x, y));
-		                *dstPixel = *srcPixel;
+						for (x = 0; x < tilesSizeX; x++)
+						{
+							uint8    *dstPixel;
+								dstPixel = (uint8 *)(base + TWIDDLE(x, y));
+								*dstPixel = *srcPixel;
 
-                    srcPixel++;
-                }
-            }
-        }
-            }
-        }
-        break;
+							srcPixel++;
+						}
+					}
+				}
+			}
+		}
+		break;
 
-    case 16:
-        {
-            int32 j;
+	case 16:
+		{
+			int32 j;
 
-            for (j = 0; j < tilesY; j++)
-            {
-                int32 i;
+			for (j = 0; j < tilesY; j++)
+			{
+				int32 i;
 
-                for (i = 0; i < tilesX; i++)
-                {
-            int32 y;
-                    uint8 *base;
+				for (i = 0; i < tilesX; i++)
+				{
+					int32 y;
+					uint8 *base;
 
-                    base = (uint8 *)(((uint16 *)dstBuffer) +
-                                       ((tileSize * tilesX) * j) +
-                                       (tileSize * i));
+					base = (uint8 *)(((uint16 *)dstBuffer) +
+										((tileSize * tilesX) * j) +
+										(tileSize * i));
 
-                    for (y = 0; y < tilesSizeY; y++)
-            {
-                uint16    *srcPixel;
-                int32     x;
+					for (y = 0; y < tilesSizeY; y++)
+					{
+						uint16    *srcPixel;
+						int32     x;
 
-                        srcPixel = (uint16 *)(((uint8 *)srcBuffer) +
-                                                (stride * (tilesSizeY * j)) +
-                                                (2 * tilesSizeX * i) +
-                                                (stride * y));
+						srcPixel = (uint16 *)(((uint8 *)srcBuffer) +
+												(stride * (tilesSizeY * j)) +
+												(2 * tilesSizeX * i) +
+												(stride * y));
 
-                        for (x = 0; x < tilesSizeX; x++)
-                {
-                    uint16    *dstPixel;
-                    dstPixel = (uint16 *)(base + (TWIDDLE(x, y) << 1));
-                    *dstPixel = *srcPixel;
+						for (x = 0; x < tilesSizeX; x++)
+						{
+							uint16    *dstPixel;
+							dstPixel = (uint16 *)(base + (TWIDDLE(x, y) << 1));
+							*dstPixel = *srcPixel;
 
-                    srcPixel++;
-                }
-            }
-        }
-            }
-        }
-        break;
+							srcPixel++;
+						}
+					}
+				}
+			}
+		}
+		break;
 
-    case 24:
-    case 32:
-        {
-            int32 j;
+	case 24:
+	case 32:
+		{
+			int32 j;
 
-            for (j = 0; j < tilesY; j++)
-            {
-                int32 i;
+			for (j = 0; j < tilesY; j++)
+			{
+				int32 i;
 
-                for (i = 0; i < tilesX; i++)
-                {
-            int32 y;
-                    uint8 *base;
+				for (i = 0; i < tilesX; i++)
+				{
+					int32 y;
+					uint8 *base;
 
-                    base = (uint8 *)(((uint32 *)dstBuffer) +
-                                       ((tileSize * tilesX) * j) +
-                                       (tileSize * i));
+					base = (uint8 *)(((uint32 *)dstBuffer) +
+										((tileSize * tilesX) * j) +
+										(tileSize * i));
 
-                    for (y = 0; y < tilesSizeY; y++)
-            {
-                uint32    *srcPixel;
-                int32     x;
+					for (y = 0; y < tilesSizeY; y++)
+					{
+						uint32    *srcPixel;
+						int32     x;
 
-                        srcPixel = (uint32 *)(((uint8 *)srcBuffer) +
-                                                (stride * (tilesSizeY * j)) +
-                                                (4 * tilesSizeX * i) +
-                                                (stride * y));
+						srcPixel = (uint32 *)(((uint8 *)srcBuffer) +
+												(stride * (tilesSizeY * j)) +
+												(4 * tilesSizeX * i) +
+												(stride * y));
 
-                        for (x = 0; x < tilesSizeX; x++)
-                {
-                    uint32    *dstPixel;
-                    dstPixel = (uint32 *)(base + (TWIDDLE(x, y) << 2));
-                    *dstPixel = *srcPixel;
+						for (x = 0; x < tilesSizeX; x++)
+						{
+							uint32    *dstPixel;
+							dstPixel = (uint32 *)(base + (TWIDDLE(x, y) << 2));
+							*dstPixel = *srcPixel;
 
-                    srcPixel++;
-                }
-            }
-        }
-            }
-        }
-        break;
+							srcPixel++;
+						}
+					}
+				}
+			}
+		}
+		break;
 
-    default:
+	default:
 		exit( 0 );
-        break;
-    }
+		break;
+	}
 }
 
 
@@ -290,10 +290,6 @@ SFont* InitialiseMemoryResidentFont( void )
 /******************************************************************/
 SFont* LoadFont( const char *Filename, bool memory_resident )
 {
-	// New font
-	SFont *pFont = new SFont;
-	return pFont;
-	/*
 	SFont*	pFont;
 	SChar*	pChar;
 	uint8*	pData;
@@ -398,13 +394,9 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	Height	= ((uint16 *)FontBuf)[3];
 	Depth	= ((uint16 *)FontBuf)[4];
 
-	// Create texture.
-	Dbg_Assert( Depth == 8 );
-	if( D3D_OK != D3DDevice_CreateTexture(	Width, Height, 1, 0, D3DFMT_P8, 0, &pFont->pD3DTexture ))
-	{
-		Dbg_Assert( 0 );
-		return nullptr;
-	}
+	// Create texture
+	glGenTextures(1, &pFont->GLTexture);
+	glBindTexture(GL_TEXTURE_2D, pFont->GLTexture);
 	
 	// Read texture bitmap data (into temp buffer so we can then swizzle it).
 	NumBytes = ( Width * Height + 3 ) & 0xFFFFFFFC;
@@ -420,46 +412,34 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 		CopyMemory( p_temp_texel_data, Filename, NumBytes );
 		Filename += NumBytes;
 	}
-
-	// Lock the texture so we can swizzle into it directly.
-	D3DLOCKED_RECT locked_rect;
-	if( D3D_OK != pFont->pD3DTexture->LockRect( 0, &locked_rect, nullptr, 0 ))
-	{
-		Dbg_Assert( 0 );
-		return nullptr;
-	}
 	
-	// Swizzle the texture data.
-	SwizzleTexture( locked_rect.pBits, p_temp_texel_data, Width, Height, 8, Width );
-
-	// No longer need this data.
-	delete[] p_temp_texel_data;	
-	
-	// Create palette.
-	if( D3D_OK != D3DDevice_CreatePalette(	D3DPALETTE_256,	&pFont->pD3DPalette ))
-	{
-		Dbg_Assert( 0 );
-		return nullptr;
-	}
+	// Swizzle the texture data
+	uint8 *p_texel_data = new uint8[NumBytes];
+	SwizzleTexture(p_texel_data, p_temp_texel_data, Width, Height, 8, Width );
+	delete[] p_temp_texel_data;
 	
 	// Read clut bitmap data.
-	D3DCOLOR *p_clut;
-	pFont->pD3DPalette->Lock( &p_clut, 0 );
+	uint8 p_clut[256][4] = {};
 
 	if( !memory_resident )
 	{
-		Len	= File::Read( p_clut, 1024, 1, p_FH );
-		Dbg_MsgAssert( Len == 1024, ( "couldn't read clut bitmap from font file %s", Filename ));
+		Len	= File::Read(p_clut, sizeof(p_clut), 1, p_FH);
+		Dbg_MsgAssert(Len == sizeof(p_clut), ("couldn't read clut bitmap from font file %s", Filename));
 	}
 	else
 	{
-		CopyMemory( p_clut, Filename, 1024 );
-		Filename += 1024;
+		CopyMemory(p_clut, Filename, sizeof(p_clut));
+		Filename += sizeof(p_clut);
 	}
 
 	// Switch from RGBA to BGRA format palette.
+	uint8 *p_texture = new uint8[NumBytes * 4];
+
+	uint8 *p_texture_p = p_texture;
+	uint8 *p_texel_data_p = p_texel_data;
 	for( i = 0; i < 256; ++i )
 	{
+		/*
 		uint32	red = p_clut[i] & 0xFF;
 		uint32	blu = ( p_clut[i] >> 16 ) & 0xFF;
 
@@ -467,7 +447,16 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 		uint32 alpha = p_clut[i] >> 24;
 		alpha = ( alpha >= 0x80 ) ? 0xFF : ( alpha * 2 );
 		p_clut[i] = ( alpha << 24 ) | ( p_clut[i] & 0x0000FF00 ) | ( red << 16 ) | ( blu );
+		*/
+		uint8 *p = p_clut[*p_texel_data++];
+		*p_texture_p++ = p[0];
+		*p_texture_p++ = p[1];
+		*p_texture_p++ = p[2];
+		*p_texture_p++ = (p[3] >= 0x80) ? 0xFF : (p[3] * 2);
 	}
+
+	// Read into texture
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, p_texture);
 
 	// Skip numsubtextures, and load subtextures.
 	if( !memory_resident )
@@ -508,7 +497,6 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	pFont->mSpaceSpacing = pFont->pChars[pFont->Map['I']].w;
 	
 	return pFont;
-	*/
 }
 
 

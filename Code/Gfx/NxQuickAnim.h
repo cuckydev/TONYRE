@@ -79,8 +79,8 @@ private:
 	virtual	void				plat_get_interpolated_frames( Mth::Quat* pRotations, Mth::Vector* pTranslations, uint32* pSkipList, uint32 skipIndex, float time );
 
 protected:
-	Gfx::CBonedAnimFrameData*	mp_frameData;
-	uint32						m_animAssetName;
+	Gfx::CBonedAnimFrameData*	mp_frameData = nullptr;
+	uint32						m_animAssetName = 0;
 
 public:
 	Gfx::SQuickAnimPointers		m_quickAnimPointers;

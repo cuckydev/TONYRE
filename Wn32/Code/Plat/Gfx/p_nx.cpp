@@ -15,6 +15,8 @@
 
 #include <Plat/Gfx/p_NxMesh.h>
 #include <Plat/Gfx/p_NxGeom.h>
+#include <Plat/Gfx/p_NxSprite.h>
+#include <Plat/Gfx/p_NxModel.h>
 
 #include <Plat/Gfx/nx/nx_init.h>
 #include <Plat/Gfx/nx/scene.h>
@@ -201,6 +203,17 @@ namespace Nx
 	/******************************************************************/
 	bool CEngine::s_plat_unload_scene(CScene *p_scene)
 	{
+		Dbg_MsgAssert(p_scene, ("Trying to delete a NULL scene"));
+
+		CXboxScene *p_xbox_scene = (CXboxScene *)p_scene;
+
+		// Ask the engine to remove the associated meshes for each sector in the scene.
+		p_xbox_scene->DestroySectorMeshes();
+
+		// Get the engine specific scene data and pass it to the engine to delete.
+		NxWn32::DeleteScene(p_xbox_scene->GetEngineScene());
+		p_xbox_scene->SetEngineScene(NULL);
+
 		return true;
 	}
 
@@ -239,7 +252,7 @@ namespace Nx
 	/******************************************************************/
 	CModel *CEngine::s_plat_init_model(void)
 	{
-		return nullptr;
+		return new CXboxModel;
 	}
 
 
@@ -250,6 +263,7 @@ namespace Nx
 	/******************************************************************/
 	bool CEngine::s_plat_uninit_model(CModel *pModel)
 	{
+		delete pModel;
 		return true;
 	}
 
@@ -283,7 +297,7 @@ namespace Nx
 	/******************************************************************/
 	CQuickAnim *CEngine::s_plat_init_quick_anim()
 	{
-		return nullptr;
+		return new CQuickAnim;
 	}
 
 
@@ -294,6 +308,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_uninit_quick_anim(CQuickAnim *pQuickAnim)
 	{
+		delete pQuickAnim;
 		return;
 	}
 
@@ -365,7 +380,7 @@ namespace Nx
 	/******************************************************************/
 	CSprite *CEngine::s_plat_create_sprite(CWindow2D *p_window)
 	{
-		return nullptr;
+		return new CXboxSprite;
 	}
 
 

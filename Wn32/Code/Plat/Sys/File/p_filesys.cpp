@@ -194,7 +194,7 @@ static void* prefopen( const char *filename, const char *mode )
 	// The PC version does not have the .Xbx extension in the filesystem, but does have it in the .pre files
 	if((( nameConversionBuffer[index - 1] ) == 'x' ) &&
 		(( nameConversionBuffer[index - 2] ) == 'b' ) &&
-		(( nameConversionBuffer[index - 3] ) == 'X' ) &&
+		(( nameConversionBuffer[index - 3] ) == 'X' || (nameConversionBuffer[index - 3]) == 'x') &&
 		(( nameConversionBuffer[index - 4] ) == '.' ))
 	{
 		nameConversionBuffer[index - 4] = 0;

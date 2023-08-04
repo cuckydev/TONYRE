@@ -75,8 +75,8 @@ public:
 	virtual bool				GetPose( Gfx::CPose* pResultPose );
 	
 protected:
-	Nx::CQuickAnim*				mp_quickAnim;
-	uint32						m_animScriptName;
+	Nx::CQuickAnim*				mp_quickAnim = nullptr;
+	uint32						m_animScriptName = 0;
 };
 
 /******************************************************************/
@@ -104,9 +104,9 @@ public:
 
 protected:
     SWobbleDetails  			m_wobbleDetails;
-    float						m_wobbleTargetTime;
-	Nx::CQuickAnim*				mp_quickAnim;
-	uint32						m_animScriptName;
+    float						m_wobbleTargetTime = 0.0f;
+	Nx::CQuickAnim*				mp_quickAnim = nullptr;
+	uint32						m_animScriptName = 0;
 
 protected:
 	float						get_new_wobble_time();
@@ -138,8 +138,8 @@ public:
 	virtual bool				GetPose( Gfx::CPose* pResultPose );
 	
 protected:
-	bool						m_flipped;
-	bool						m_rotated;
+	bool						m_flipped = false;
+	bool						m_rotated = false;
 };
 
 /******************************************************************/
@@ -292,9 +292,9 @@ public:
 	EAnimFunctionResult			CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript );
 
 public:
-	Gfx::CAnimChannel*			mp_animChannel;
-	Nx::CQuickAnim*				mp_quickAnim;
-	uint32						m_animScriptName;
+	Gfx::CAnimChannel*			mp_animChannel = nullptr;
+	Nx::CQuickAnim*				mp_quickAnim = nullptr;
+	uint32						m_animScriptName = 0;
 };
 																			   
 /******************************************************************/

@@ -118,7 +118,7 @@ protected:
 	virtual void					DoGameLogic() {}
 
 private:	
-	CBaseComponent*					mp_component_list;
+	CBaseComponent*					mp_component_list = nullptr;
 	
 	Flags<ECompositeObjectFlags>	m_composite_object_flags;
 	

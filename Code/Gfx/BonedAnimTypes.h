@@ -44,23 +44,23 @@ protected:
 class CStandardAnimQKey	: public CAnimQKey
 {
 public:
-    short           qx;
-    short           qy;
-    short           qz;
+    short           qx = 0;
+    short           qy = 0;
+    short           qz = 0;
 };
 
 class CHiResAnimQKey : public CAnimQKey
 {
 public:
-    float           qx;
-    float           qy;
-    float           qz;
+    float           qx = 0.0f;
+    float           qy = 0.0f;
+    float           qz = 0.0f;
 };
 
 class CAnimTKey
 {
 public:
-	short			timestamp;
+	short			timestamp = 0;
 
 protected:
 	CAnimTKey() {}
@@ -69,32 +69,32 @@ protected:
 class CStandardAnimTKey	: public CAnimTKey
 {
 public:
-    short           tx;
-    short           ty;
-    short           tz;
+    short           tx = 0;
+    short           ty = 0;
+    short           tz = 0;
 };
 
 class CHiResAnimTKey : public CAnimTKey
 {
 public:
-    float           tx;
-    float           ty;
-    float           tz;
+    float           tx = 0.0f;
+    float           ty = 0.0f;
+    float           tz = 0.0f;
 };
 
 struct SQuickAnimPointers
 {
-	char* 				pQuickQKey[64];
-	char*				pQuickTKey[64];
-	CStandardAnimQKey	theStartQKey[64];
-	CStandardAnimQKey	theEndQKey[64];
-	CStandardAnimTKey	theStartTKey[64];
-	CStandardAnimTKey	theEndTKey[64];
-//	char				qSkip[64];
-//	char				tSkip[64];
-	bool				valid;
-	uint32*				pSkipList;
-	uint32				skipIndex;
+	char*				pQuickQKey[64] = {};
+	char*				pQuickTKey[64] = {};
+	CStandardAnimQKey	theStartQKey[64] = {};
+	CStandardAnimQKey	theEndQKey[64] = {};
+	CStandardAnimTKey	theStartTKey[64] = {};
+	CStandardAnimTKey	theEndTKey[64] = {};
+//	char				qSkip[64] = {};
+//	char				tSkip[64] = {};
+	bool				valid = false;
+	uint32*				pSkipList = {};
+	uint32				skipIndex = {};
 };
 
 // NOTE: if you change this enum, update the CAnimChannel::GetDebugInfo switch statement!	
