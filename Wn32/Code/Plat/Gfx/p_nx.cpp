@@ -329,6 +329,9 @@ namespace Nx
 		p_scene->SetTexDict(pTexDict);
 		p_scene->PostLoad(pMeshFileName);
 
+		// Disable cutscene scaling
+		NxWn32::DisableMeshScaling();
+
 		// Create mesh
 		CXboxMesh *pMesh = new CXboxMesh(pMeshFileName);
 

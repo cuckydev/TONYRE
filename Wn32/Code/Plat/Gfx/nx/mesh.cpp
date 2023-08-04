@@ -1131,12 +1131,14 @@ void sMesh::Initialize( int				num_vertices,
 	// First thing to do is grab the material pointer for this mesh.
 	mp_material	= ((sScene*)p_scene )->GetMaterial( material_checksum );
 	Dbg_AssertPtr(mp_material);
+
+	if (true) return;
 	
 	if(( num_index_sets == 0 ) || ( p_num_indices[0] == 0 ))
 	{
 		return;
 	}
-	/*
+
 	uint16 min_index	= ( pp_indices[0] )[0];
 	uint16 max_index	= ( pp_indices[0] )[0];
 	for( int i = 0; i < p_num_indices[0]; ++i )
@@ -1289,11 +1291,12 @@ void sMesh::Initialize( int				num_vertices,
 	if( p_colors )
 	{
 		// The raw vertex data does contain vertex colors.
-		vertex_size	+= sizeof( D3DCOLOR );
+		// vertex_size	+= sizeof( D3DCOLOR );
 		use_colors	= true;
 	}
 
 
+	/*
 	// Create the vertex buffer.
 	m_vertex_stride	= vertex_size;
 

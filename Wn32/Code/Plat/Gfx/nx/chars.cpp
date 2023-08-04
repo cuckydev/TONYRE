@@ -81,198 +81,6 @@ static int		font_vertex_offset			= 0;
 static BYTE*	p_locked_font_vertex_buffer	= nullptr;
 static BYTE		font_vertex_buffer[CHARS_PER_BUFFER * 4 * sizeof( sFontVert )];
 
-static uint32	swizzle_table[4096];
-static bool		swizzle_table_generated		= false;
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-static void generateSwizzleTable( void )
-{
-	if( !swizzle_table_generated )
-	{
-		for( uint32 i = 0, value = 0; i < 4096; i++ )
-		{
-			swizzle_table[i] = value;
-			value += 0x2AAAAAAB;
-			value &= 0x55555555;
-		}
-		swizzle_table_generated = true;
-	}
-}
-
-
-
-#define TWIDDLE(_u, _v) ((swizzle_table[(_v)] << 1) | (swizzle_table[(_u)]))
-
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-void SwizzleTexture( void *dstBuffer, void *srcBuffer, int width, int height, int32 depth, int32 stride )
-{
-	int32 tilesX, tilesY;
-	int32 tilesSizeX, tilesSizeY;
-	int32 tileSize;
-
-	generateSwizzleTable();
-
-	if( width > height )
-	{
-		tilesX = width / height;
-		tilesY = 1;
-
-		tilesSizeX = width / tilesX;
-		tilesSizeY = height;
-	}
-	else
-	{
-		tilesX = 1;
-		tilesY = height / width;
-
-		tilesSizeX = width;
-		tilesSizeY = height / tilesY;
-	}
-
-	tileSize = tilesSizeX * tilesSizeY;
-
-	switch (depth)
-	{
-		case 4:
-		case 8:
-		{
-			int32 j;
-
-			for (j = 0; j < tilesY; j++)
-			{
-				int32 i;
-
-				for (i = 0; i < tilesX; i++)
-				{
-					int32 y;
-					uint8 *base;
-
-					base = (uint8 *)(((uint8 *)dstBuffer) +
-										((tileSize * tilesX) * j) +
-										(tileSize * i));
-
-					for (y = 0; y < tilesSizeY; y++)
-					{
-						uint8    *srcPixel;
-						int32     x;
-
-						srcPixel = (uint8 *)(((uint8 *)srcBuffer) +
-												(stride * (tilesSizeY * j)) +
-												(tilesSizeX * i) +
-												(stride * y));
-
-						for (x = 0; x < tilesSizeX; x++)
-						{
-							uint8    *dstPixel;
-								dstPixel = (uint8 *)(base + TWIDDLE(x, y));
-								*dstPixel = *srcPixel;
-
-							srcPixel++;
-						}
-					}
-				}
-			}
-		}
-		break;
-
-	case 16:
-		{
-			int32 j;
-
-			for (j = 0; j < tilesY; j++)
-			{
-				int32 i;
-
-				for (i = 0; i < tilesX; i++)
-				{
-					int32 y;
-					uint8 *base;
-
-					base = (uint8 *)(((uint16 *)dstBuffer) +
-										((tileSize * tilesX) * j) +
-										(tileSize * i));
-
-					for (y = 0; y < tilesSizeY; y++)
-					{
-						uint16    *srcPixel;
-						int32     x;
-
-						srcPixel = (uint16 *)(((uint8 *)srcBuffer) +
-												(stride * (tilesSizeY * j)) +
-												(2 * tilesSizeX * i) +
-												(stride * y));
-
-						for (x = 0; x < tilesSizeX; x++)
-						{
-							uint16    *dstPixel;
-							dstPixel = (uint16 *)(base + (TWIDDLE(x, y) << 1));
-							*dstPixel = *srcPixel;
-
-							srcPixel++;
-						}
-					}
-				}
-			}
-		}
-		break;
-
-	case 24:
-	case 32:
-		{
-			int32 j;
-
-			for (j = 0; j < tilesY; j++)
-			{
-				int32 i;
-
-				for (i = 0; i < tilesX; i++)
-				{
-					int32 y;
-					uint8 *base;
-
-					base = (uint8 *)(((uint32 *)dstBuffer) +
-										((tileSize * tilesX) * j) +
-										(tileSize * i));
-
-					for (y = 0; y < tilesSizeY; y++)
-					{
-						uint32    *srcPixel;
-						int32     x;
-
-						srcPixel = (uint32 *)(((uint8 *)srcBuffer) +
-												(stride * (tilesSizeY * j)) +
-												(4 * tilesSizeX * i) +
-												(stride * y));
-
-						for (x = 0; x < tilesSizeX; x++)
-						{
-							uint32    *dstPixel;
-							dstPixel = (uint32 *)(base + (TWIDDLE(x, y) << 2));
-							*dstPixel = *srcPixel;
-
-							srcPixel++;
-						}
-					}
-				}
-			}
-		}
-		break;
-
-	default:
-		exit( 0 );
-		break;
-	}
-}
-
-
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -401,22 +209,17 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	// Read texture bitmap data (into temp buffer so we can then swizzle it).
 	NumBytes = ( Width * Height + 3 ) & 0xFFFFFFFC;
 
-	uint8* p_temp_texel_data = new uint8[NumBytes];
+	uint8* p_texel_data = new uint8[NumBytes];
 	if( !memory_resident )
 	{
-		Len = File::Read( p_temp_texel_data, NumBytes, 1, p_FH );
+		Len = File::Read(p_texel_data, NumBytes, 1, p_FH );
 		Dbg_MsgAssert( Len == NumBytes, ( "Couldn't read texture bitmap from font file %s", Filename ));
 	}
 	else
 	{
-		CopyMemory( p_temp_texel_data, Filename, NumBytes );
+		CopyMemory(p_texel_data, Filename, NumBytes );
 		Filename += NumBytes;
 	}
-	
-	// Swizzle the texture data
-	uint8 *p_texel_data = new uint8[NumBytes];
-	SwizzleTexture(p_texel_data, p_temp_texel_data, Width, Height, 8, Width );
-	delete[] p_temp_texel_data;
 	
 	// Read clut bitmap data.
 	uint8 p_clut[256][4] = {};
@@ -432,31 +235,24 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 		Filename += sizeof(p_clut);
 	}
 
-	// Switch from RGBA to BGRA format palette.
+	// Decode palettized texture
 	uint8 *p_texture = new uint8[NumBytes * 4];
 
 	uint8 *p_texture_p = p_texture;
 	uint8 *p_texel_data_p = p_texel_data;
-	for( i = 0; i < 256; ++i )
+	for( i = 0; i < NumBytes; ++i )
 	{
-		/*
-		uint32	red = p_clut[i] & 0xFF;
-		uint32	blu = ( p_clut[i] >> 16 ) & 0xFF;
-
-		// Double the alpha in the clut (currently limited to 0x80).
-		uint32 alpha = p_clut[i] >> 24;
-		alpha = ( alpha >= 0x80 ) ? 0xFF : ( alpha * 2 );
-		p_clut[i] = ( alpha << 24 ) | ( p_clut[i] & 0x0000FF00 ) | ( red << 16 ) | ( blu );
-		*/
-		uint8 *p = p_clut[*p_texel_data++];
+		uint8 *p = p_clut[*p_texel_data_p++];
 		*p_texture_p++ = p[0];
 		*p_texture_p++ = p[1];
 		*p_texture_p++ = p[2];
-		*p_texture_p++ = (p[3] >= 0x80) ? 0xFF : (p[3] * 2);
+		*p_texture_p++ = (p[3] >= 0x80) ? 0xFF : (p[3] * 2); // Alpha is halved, PS2 remnant?
 	}
+	delete[] p_texel_data;
 
 	// Read into texture
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, p_texture);
+	delete[] p_texture;
 
 	// Skip numsubtextures, and load subtextures.
 	if( !memory_resident )
