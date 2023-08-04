@@ -66,23 +66,23 @@ protected:
 	
 	void					update();
 
-	char *					mp_text;
+	char *					mp_text = nullptr;
 
-	uint32					m_font_checksum;
-	Nx::CFont *				mp_font;
-	Nx::CText **			mpp_text_req_tab;
-	Nx::CText **			mpp_shadow_req_tab;
-	int						m_num_tab_entries;
+	uint32					m_font_checksum = 0;
+	Nx::CFont *				mp_font = nullptr;
+	Nx::CText **			mpp_text_req_tab = nullptr;
+	Nx::CText **			mpp_shadow_req_tab = nullptr;
+	int						m_num_tab_entries = 0;
 
-	CBlurEffect	*			mp_blur_effect;
+	CBlurEffect	*			mp_blur_effect = nullptr;
 
-	bool					m_use_shadow;
-	float					m_shadow_off_x;
-	float					m_shadow_off_y;
-	Image::RGBA				m_shadow_rgba;
+	bool					m_use_shadow = false;
+	float					m_shadow_off_x = 0.0f;
+	float					m_shadow_off_y = 0.0f;
+	Image::RGBA				m_shadow_rgba = Image::RGBA();
 
-	bool					m_override_encoded_rgba;
-	bool					m_previous_override_rgba_state;
+	bool					m_override_encoded_rgba = false;
+	bool					m_previous_override_rgba_state = false;
 };
 
 
@@ -128,32 +128,32 @@ protected:
 	void					update();
 	void 					forward_properties_to_children();
 
-	uint32					m_font;
+	uint32					m_font = 0;
 
-	char **					mpp_parsed_lines;
+	char **					mpp_parsed_lines = nullptr;
 	// Line of text "outputted" so far. With a lot of text lines, only most recent ones are used.
-	int						m_virtual_out_line;	
-	int 					m_out_line;	// line of mpp_parsed_lines currently being written to
-	int 					m_out_char; // on m_out_line
-	float 					m_current_line_width;
+	int						m_virtual_out_line = 0;
+	int 					m_out_line = 0;	// line of mpp_parsed_lines currently being written to
+	int 					m_out_char = 0; // on m_out_line
+	float 					m_current_line_width = 0.0f;
 
-	int						m_num_visible_lines;
+	int						m_num_visible_lines = 0;
 
-	float					m_internal_just_x, m_internal_just_y;
-	float					m_internal_scale;
-    float					m_line_spacing_scale;
-	float					m_total_height; // of contained TextElements
-	int						m_total_out_lines; // number of contained TextElements
+	float					m_internal_just_x = 0.0f, m_internal_just_y = 0.0f;
+	float					m_internal_scale = 0.0f;
+    float					m_line_spacing_scale = 0.0f;
+	float					m_total_height = 0.0f; // of contained TextElements
+	int						m_total_out_lines = 0; // number of contained TextElements
 	
-	CBlurEffect	*			mp_blur_effect;
-	bool					m_use_shadow;
-	bool					m_allow_expansion;
-	float					m_shadow_off_x;
-	float					m_shadow_off_y;
-	Image::RGBA				m_shadow_rgba;
+	CBlurEffect	*			mp_blur_effect = nullptr;
+	bool					m_use_shadow = false;
+	bool					m_allow_expansion = false;
+	float					m_shadow_off_x = 0.0f;
+	float					m_shadow_off_y = 0.0f;
+	Image::RGBA				m_shadow_rgba = Image::RGBA();
 	
-	bool					m_override_encoded_rgba;
-	bool					m_previous_override_rgba_state;
+	bool					m_override_encoded_rgba = false;
+	bool					m_previous_override_rgba_state = false;
 };
 
 

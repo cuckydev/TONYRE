@@ -47,6 +47,7 @@ void CFontManager::sLoadFont(const char *pName, int charSpacing, int spaceSpacin
 
 	if (!s_meta_button_map_initialized)
 	{
+		/*
 		#ifdef __PLAT_XBOX__
 		Script::CArray *p_array = Script::GetArray("meta_button_map_xbox", Script::ASSERT);
 		#else
@@ -56,6 +57,8 @@ void CFontManager::sLoadFont(const char *pName, int charSpacing, int spaceSpacin
 		Script::CArray *p_array = Script::GetArray("meta_button_map_ps2", Script::ASSERT);
 		#endif
 		#endif
+		*/
+		Script::CArray *p_array = Script::GetArray("meta_button_map_xbox", Script::ASSERT);
 		
 		if ( p_array )
 		{

@@ -290,6 +290,9 @@ SFont* InitialiseMemoryResidentFont( void )
 /******************************************************************/
 SFont* LoadFont( const char *Filename, bool memory_resident )
 {
+	// New font
+	SFont *pFont = new SFont;
+	return pFont;
 	/*
 	SFont*	pFont;
 	SChar*	pChar;
@@ -506,7 +509,6 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	
 	return pFont;
 	*/
-	return nullptr;
 }
 
 

@@ -28,18 +28,18 @@ public:
 	void		QueryString(char *String, float &width, float &height);
 
 	//char Name[16];
-	uint32		DefaultHeight, DefaultBase;
-	SChar		*pChars;
-	uint8		Map[256];
-	uint8		SpecialMap[32];
+	uint32		DefaultHeight = 0, DefaultBase = 0;
+	SChar		*pChars = nullptr;
+	uint8		Map[256] = {};
+	uint8		SpecialMap[32] = {};
 //	uint8		*pVifData;
 //	uint32		VifSize;
 //	uint64		RegTEX0, RegTEX1;
-	SFont		*pNext;
+	SFont		*pNext = nullptr;
 
-	sint16		mCharSpacing;
-	sint16		mSpaceSpacing;
-	uint32		mRGBATab[16];
+	sint16		mCharSpacing = 0;
+	sint16		mSpaceSpacing = 0;
+	uint32		mRGBATab[16] = {};
 	
 	// IDirect3DTexture8*	pD3DTexture;		// To do - these should probably be replaced with an sTexture.
 	// IDirect3DPalette8*	pD3DPalette;
@@ -59,15 +59,15 @@ struct SText : public SDraw2D
 					SText( float pri = 0.0f );
 	virtual			~SText();
 
-	SFont			*mp_font;
+	SFont			*mp_font = nullptr;
 
-	char			*mp_string;
-	float			m_xpos;
-	float			m_ypos;
-	float			m_xscale;
-	float			m_yscale;
-	uint32			m_rgba;
-	bool			m_color_override;
+	char			*mp_string = nullptr;
+	float			m_xpos = 0.0f;
+	float			m_ypos = 0.0f;
+	float			m_xscale = 0.0f;
+	float			m_yscale = 0.0f;
+	uint32			m_rgba = 0;
+	bool			m_color_override = false;
 	
 	// used in conjunction with BeginDraw()
 	// if set, use specified font instead of mp_font

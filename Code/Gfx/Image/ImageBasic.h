@@ -64,10 +64,10 @@ struct RGBA
 	void	Blend128(const RGBA & rgba);
 	void	Blend255(const RGBA & rgba);
 
-	uint8 r;
-	uint8 g;
-	uint8 b;
-	uint8 a;
+	uint8 r = 0;
+	uint8 g = 0;
+	uint8 b = 0;
+	uint8 a = 0;
 };
 
 ////////////////////////
