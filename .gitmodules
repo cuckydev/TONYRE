@@ -1,3 +1,6 @@
 [submodule "GameSpy/SDK"]
 	path = GameSpy/SDK
 	url = https://github.com/nitrocaster/GameSpy
+[submodule "External/SDL"]
+	path = External/SDL
+	url = https://github.com/libsdl-org/SDL
