@@ -39,7 +39,7 @@
 *****************************************************************************/
 
 extern int KeyboardInit(void);
-       
+	   
 namespace SIO
 {
 
@@ -74,9 +74,8 @@ DefineSingletonClass( Manager, "Serial IO Manager" );
 **							   Private Functions							**
 *****************************************************************************/
 
-void Manager::process_devices( const Tsk::Task< Manager::DeviceList >& task )
+void Manager::process_devices(const Tsk::Task< Manager::DeviceList > &task)
 {
-    /*
 	Device*					device;
 	Lst::Search< Device >	    sh;
 	Manager::DeviceList&	device_list = task.GetData();
@@ -90,7 +89,6 @@ void Manager::process_devices( const Tsk::Task< Manager::DeviceList >& task )
 		device->process();
 		device = sh.NextItem();
 	}
-    */
 }
 
 /******************************************************************/
@@ -100,14 +98,11 @@ void Manager::process_devices( const Tsk::Task< Manager::DeviceList >& task )
 
 Device* Manager::create_device( int index, int port, int slot )
 {
-    /*
-    Device *device;
-        
-    device = new Device( index, port, slot );
+	Device *device;
+	
+	device = new Device( index, port, slot );
 
-    return device;
-    */
-    return nullptr;
+	return device;
 }
 
 /******************************************************************/
@@ -125,9 +120,22 @@ Device* Manager::create_device( int index, int port, int slot )
 /******************************************************************/
 Manager::Manager ( void )
 {
-    m_process_devices_task = new Tsk::Task< DeviceList >(Manager::process_devices, m_devices);
-    /*
-    int i, index;
+	m_process_devices_task = new Tsk::Task< DeviceList >(Manager::process_devices, m_devices);
+
+	// Create devices
+	for (int i = 0; i < SIO::vMAX_PORT; i++)
+	{
+		Device *p_device;
+
+		if ((p_device = create_device(i, i, 0)))
+		{
+			m_devices.AddToTail(p_device->m_node);
+			p_device->Acquire();
+		}
+	}
+
+	/*
+	int i, index;
 
 	XDEVICE_PREALLOC_TYPE xdpt[] = {{ XDEVICE_TYPE_GAMEPAD,			4 },
 									{ XDEVICE_TYPE_MEMORY_UNIT,		1 }};
@@ -138,15 +146,15 @@ Manager::Manager ( void )
 	// Create the keyboard queue.
 //	XInputDebugInitKeyboardQueue( &xdkp );
 
-    m_process_devices_task = new Tsk::Task< DeviceList > ( Manager::process_devices, m_devices );
-    
+	m_process_devices_task = new Tsk::Task< DeviceList > ( Manager::process_devices, m_devices );
+	
 	// Pause briefly here to give the system time to enumerate the attached devices.
 	Sleep( 1000 );
 
-    index = 0;
-    for( i = 0; i < SIO::vMAX_PORT; i++ )
-    {
-	    Device* p_device;
+	index = 0;
+	for( i = 0; i < SIO::vMAX_PORT; i++ )
+	{
+		Device* p_device;
 
 		if(( p_device = create_device( index, i, 0 )))
 		{
@@ -154,15 +162,15 @@ Manager::Manager ( void )
 			p_device->Acquire();
 			index++;
 		}
-    }
-    
+	}
+	
 	if( !Pcm::NoMusicPlease())
 	{
 		Pcm::Init();
 	}
 
 	Dbg_Message( "Initialized Controller lib\n" );
-    */
+	*/
 }
 
 
@@ -173,24 +181,23 @@ Manager::Manager ( void )
 /******************************************************************/
 Manager::~Manager( void )
 {
-    /*
-    Device*					device;
-    Device*					next;
-    Lst::Search< Device >	sh;
-    
-    device = sh.FirstItem ( m_devices );
-    
-    while ( device )
-    {
-        Dbg_AssertType ( device, Device );
-    
-        next = sh.NextItem();
-    
-        delete device;
-        device = next;
-    }
+	Device*					device;
+	Device*					next;
+	Lst::Search< Device >	sh;
+	
+	device = sh.FirstItem ( m_devices );
+	
+	while ( device )
+	{
+		Dbg_AssertType ( device, Device );
+	
+		next = sh.NextItem();
+	
+		delete device;
+		device = next;
+	}
 
-    delete m_process_devices_task;
+	delete m_process_devices_task;
 
 #	if KEYBOARD_ON
 	// Initialize the keyboard.
@@ -198,7 +205,6 @@ Manager::~Manager( void )
 #	endif
 
 	Dbg_Message( "Shut down IOP Controller Lib\n" );
-    */
 }
 
 
@@ -209,7 +215,6 @@ Manager::~Manager( void )
 /******************************************************************/
 void Manager::ProcessDevices( void )
 {
-    /*
 	Device*					device;
 	Lst::Search< Device >	sh;
 	Manager::DeviceList&	device_list = m_devices;
@@ -223,7 +228,6 @@ void Manager::ProcessDevices( void )
 		device->process();
 		device = sh.NextItem();
 	}
-    */
 }
 
 
@@ -234,23 +238,14 @@ void Manager::ProcessDevices( void )
 /******************************************************************/
 Device* Manager::GetDevice( int port, int slot )
 {
-    /*
-    Device*					device;
-    Lst::Search< Device >	sh;
-    
-    device = sh.FirstItem ( m_devices );
-    
-    for( device = sh.FirstItem ( m_devices ); device;
-            device = sh.NextItem ())
-    {
-        if( ( device->GetPort() == port ) &&
-            ( device->GetSlot() == slot ))
-        {
-            return device;
-        }
-    }
-    */
-    return nullptr;
+	Lst::Search<Device> sh;
+	
+	for (Device *device = sh.FirstItem(m_devices); device; device = sh.NextItem())
+	{
+		if ((device->GetPort() == port) && (device->GetSlot() == slot))
+			return device;
+	}
+	return nullptr;
 }
 
 
@@ -261,22 +256,14 @@ Device* Manager::GetDevice( int port, int slot )
 /******************************************************************/
 Device* Manager::GetDeviceByIndex( int index )
 {
-    /*
-    Device*					device;
-    Lst::Search< Device >	sh;
-    
-    device = sh.FirstItem ( m_devices );
-    
-    for( device = sh.FirstItem ( m_devices ); device;
-            device = sh.NextItem ())
-    {
-        if( device->GetIndex() == index )
-        {
-            return device;
-        }
-    }
-    */
-    return nullptr;
+	Lst::Search<Device> sh;
+	
+	for (Device *device = sh.FirstItem(m_devices); device; device = sh.NextItem())
+	{
+		if (device->GetIndex() == index)
+			return device;
+	}
+	return nullptr;
 }
 
 
@@ -287,15 +274,10 @@ Device* Manager::GetDeviceByIndex( int index )
 /******************************************************************/
 void Manager::Pause()
 {
-    /*
-    Device*					device;
-    Lst::Search< Device >	sh;
-    
-    for( device = sh.FirstItem( m_devices ); device; device = sh.NextItem())
-    {
+	Lst::Search<Device> sh;
+	
+	for(Device *device = sh.FirstItem(m_devices); device; device = sh.NextItem())
 		device->Pause();
-    }
-    */
 }
 
 
@@ -306,15 +288,10 @@ void Manager::Pause()
 /******************************************************************/
 void Manager::UnPause( void )
 {
-    /*
-    Device*					device;
-    Lst::Search< Device >	sh;
-    
-    for( device = sh.FirstItem( m_devices ); device; device = sh.NextItem())
-    {
+	Lst::Search<Device> sh;
+
+	for (Device *device = sh.FirstItem(m_devices); device; device = sh.NextItem())
 		device->UnPause();
-    }
-    */
 }
 
 

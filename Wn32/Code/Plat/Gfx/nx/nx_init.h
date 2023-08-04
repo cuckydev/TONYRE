@@ -13,6 +13,14 @@ namespace NxWn32
 void InitialiseEngine( void );
 void FatalFileError( uint32 error );
 
+struct GlVec3
+{
+	float x, y, z, w;
+};
+struct GlCol3
+{
+	float r, g, b, a;
+};
 struct GlVec4
 {
 	float x, y, z, w;

@@ -49,13 +49,13 @@ namespace Obj
 
 struct SDisplayRotation
 {
-	bool mDispRotating;
-	bool mHoldOnLastAngle;
-	float mDispDuration;
-	Tmr::Time mDispStartTime;
-	float mDispStartAngle;
-	float mDispChangeInAngle;
-	int	mDispSinePower;
+	bool mDispRotating = false;
+	bool mHoldOnLastAngle = false;
+	float mDispDuration = 0.0f;
+	Tmr::Time mDispStartTime = 0;
+	float mDispStartAngle = 0.0f;
+	float mDispChangeInAngle = 0.0f;
+	int	mDispSinePower = 0;
 	
 	void SetUp(float duration, Tmr::Time start_time, float start_angle, float change_in_angle, int sine_power, bool holdOnLastAngle);
 	float CalculateNewAngle();
@@ -127,7 +127,7 @@ protected:
 	// of an object (like when an animation takes a model far
 	// from its original bouding sphere)...  the following
 	// is used to correctly restore the original bounding sphere
-	Mth::Vector				m_original_bounding_sphere;
+	Mth::Vector				m_original_bounding_sphere = Mth::Vector();
 
 
 // the following are used for tweaking the display matrix
@@ -136,20 +136,20 @@ protected:
 public:
 	
 	// The offset relative to the skater's origin about which the display rotation rotates.
-	Mth::Vector 			m_display_rotation_offset;
+	Mth::Vector 			m_display_rotation_offset = Mth::Vector();
 	
 	
 	// Stuff for rotating just the display matrix, so that
 	// the physics and camera don't notice it.
-	SDisplayRotationInfo 	mpDisplayRotationInfo[3];
+	SDisplayRotationInfo 	mpDisplayRotationInfo[3] = {};
 
 	// Controlled by the script commands EnableDisplayFlip and DisableDisplayFlip.
 	// Added to allow the lip script to finish its out-anim whilst on the ground without a glitch.
 	// When set, this will cause the display matrix to be the regular matrix flipped, each frame.
-	bool					mFlipDisplayMatrix;
+	bool					mFlipDisplayMatrix = false;
 	
 	// Offset from object's position at which the model is drawn.  Defaults to zero.
-	Mth::Vector				mDisplayOffset;
+	Mth::Vector				mDisplayOffset = Mth::Vector();
 
 public:
 	enum
@@ -158,14 +158,14 @@ public:
 	};
 
 protected:
-    Nx::CModel*    		 	mp_model;
-	CSkeletonComponent*		mp_skeleton_component;
-	CAnimationComponent*	mp_animation_component;
-	CSuspendComponent*		mp_suspend_component;
+	Nx::CModel*    		 	mp_model = nullptr;
+	CSkeletonComponent*		mp_skeleton_component = nullptr;
+	CAnimationComponent*	mp_animation_component = nullptr;
+	CSuspendComponent*		mp_suspend_component = nullptr;
 
 protected:
-	float				m_LODdist[vNUM_LODS];
-	int					m_numLODs;
+	float				m_LODdist[vNUM_LODS] = {};
+	int					m_numLODs = 0;
 
 	// GJ:  ref objects are used by the cutscene code
 	// for stealing another object's model
@@ -179,11 +179,11 @@ public:
 	}
 
 protected:
-	uint32				m_refObjectName;
-	bool				m_hasRefObject;
+	uint32				m_refObjectName = 0;
+	bool				m_hasRefObject = false;
 	
 private:
-	bool				m_isLevelObject;	// True if it's a level object	
+	bool				m_isLevelObject = false;	// True if it's a level object	
 	
 };
 

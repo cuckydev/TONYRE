@@ -25,7 +25,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-         
+		 
 #include <core/defines.h>
 #include <sys/sioman.h>
 #include <sys/mem/memman.h>
@@ -112,33 +112,33 @@ static void set_xbox_actuators( HANDLE handle, unsigned short left_motor, unsign
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-    
+	
 void Device::process( void )
 {
 	/*
 	m_plugged_in = false;
 
-    switch( m_state )
-    {
-    case vIDLE:
-        break;
+	switch( m_state )
+	{
+	case vIDLE:
+		break;
 
-    case vBUSY:
-        wait();
-        break;
+	case vBUSY:
+		wait();
+		break;
 
-    case vACQUIRING:
-        acquisition_pending();
-        break;
+	case vACQUIRING:
+		acquisition_pending();
+		break;
 
-    case vACQUIRED:
-        read_data();
-        break;
+	case vACQUIRED:
+		read_data();
+		break;
 
-    default:
-        break;
+	default:
+		break;
 
-    }
+	}
 	*/
 }
 
@@ -150,7 +150,7 @@ void Device::process( void )
 void Device::wait( void )
 {
 	/*
-    Dbg_MsgAssert(( m_next_state >= 0 ) && ( m_next_state <= vNUM_STATES ),( "No next state set for wait state" ));
+	Dbg_MsgAssert(( m_next_state >= 0 ) && ( m_next_state <= vNUM_STATES ),( "No next state set for wait state" ));
 
 	if ( get_status() != vNOTREADY )
 	{
@@ -349,7 +349,7 @@ bool Device::IsPluggedIn( void )
 void Device::acquisition_pending( void )
 {
 	/*
-    int status;
+	int status;
 
 	if( m_data.m_handle == nullptr )
 	{
@@ -367,15 +367,15 @@ void Device::acquisition_pending( void )
 		}
 	}
 
-    status = get_status();
-                        
-    if(( status == vCONNECTED ) || ( status == vREADY ))
-    {
-        // Sucessful.  Now query the controller for capabilities.
+	status = get_status();
+						
+	if(( status == vCONNECTED ) || ( status == vREADY ))
+	{
+		// Sucessful.  Now query the controller for capabilities.
 		m_unplugged_counter = 0;
-        query_capabilities();
-    }
-        
+		query_capabilities();
+	}
+		
 	// failed to acquire controller
 	// stay in this state and continue to try to acquire it or prompt the user if it is mandatory
 	// that they have a controller in 
@@ -391,9 +391,9 @@ void Device::query_capabilities( void )
 {   
 	/*
 	// Currently assumes standard XBox controller.
-    int id = vANALOG_CTRL;
-    
-    m_data.m_type = id;
+	int id = vANALOG_CTRL;
+	
+	m_data.m_type = id;
 
 	switch( id )
 	{   
@@ -417,7 +417,7 @@ void Device::query_capabilities( void )
 			break;
 		}
 	}
-    m_state = vACQUIRED;
+	m_state = vACQUIRED;
 	*/
 }
 
@@ -445,7 +445,7 @@ int Device::get_status( void )
 		}
 	}
 	*/
-	return vDISCONNECTED;
+	return vREADY;
 }
 
 
@@ -454,40 +454,25 @@ int Device::get_status( void )
 **							   Public Functions								**
 *****************************************************************************/
 
-Device::Device ( int index, int port, int slot )
+Device::Device(int index, int port, int slot)
 {
-	/*
 	m_node = new Lst::Node< Device > ( this );
 	Dbg_AssertType ( m_node, Lst::Node< Device > );
 
-    Dbg_Assert( port < vMAX_PORT );
-    Dbg_Assert( slot < vMAX_SLOT );
+	Dbg_Assert( port < vMAX_PORT );
+	Dbg_Assert( slot < vMAX_SLOT );
 
-    m_state = vIDLE;
-    m_next_state = vIDLE;
-    m_index = index;
+	m_state = vIDLE;
+	m_next_state = vIDLE;
+	m_index = index;
+	m_plugged_in = true;
 
-    // Initialize device
-    m_data.m_port = port;
-    m_data.m_slot = slot;
-    m_data.m_caps.ClearAll();
-    m_data.m_num_actuators = 0;
-    m_data.m_valid = false;
-
-    memset( m_data.m_actuator_direct, 0, ACTUATOR_BUFFER_LENGTH );
-    memset( m_data.m_actuator_align, 0xFF, ACTUATOR_BUFFER_LENGTH );
-    m_data.m_actuator_align[0] = 0;
-    m_data.m_actuator_align[1] = 1;
-
-    memset( m_data.m_control_data, 0, CTRL_BUFFER_LENGTH );
-//	m_data.m_prealbuffer = Mem::Malloc( scePadDmaBufferMax * sizeof( uint128) + 63 );
-	m_data.m_dma_buff =  (unsigned char*)((((uint32)m_data.m_prealbuffer)+63)&~63);
-	
-	// Random retry for unplugged controllers.
-	m_unplugged_retry = rand() & 0x3F;
-
-//	memset( m_data.m_dma_buff, 0, sizeof( uint128 ) * scePadDmaBufferMax );
-	*/
+	// Initialize device
+	m_data.m_port = port;
+	m_data.m_slot = slot;
+	m_data.m_caps.ClearAll();
+	m_data.m_num_actuators = 0;
+	m_data.m_valid = false;
 }
 
 /******************************************************************/
@@ -495,16 +480,11 @@ Device::Device ( int index, int port, int slot )
 /*                                                                */
 /******************************************************************/
 	
-Device::~Device ( void )
+Device::~Device(void)
 {
-	/*
-	Dbg_AssertType ( m_node, Lst::Node< Device > );
-//	Mem::Free( m_data.m_prealbuffer );
-
-	XInputClose( m_data.m_handle );
+	Dbg_AssertType(m_node, Lst::Node<Device>);
 
 	delete m_node;
-	*/
 }
 
 /******************************************************************/
@@ -512,13 +492,13 @@ Device::~Device ( void )
 /*                                                                */
 /******************************************************************/
 
-void Device::Acquire( void )
+void Device::Acquire(void)
 {
 	/*
-    Dbg_Message( "Acquiring controller port %d slot %d\n", m_data.m_port, m_data.m_slot );
+	Dbg_Message( "Acquiring controller port %d slot %d\n", m_data.m_port, m_data.m_slot );
 
-    if( m_state == vIDLE )
-    {
+	if( m_state == vIDLE )
+	{
 		// Acquire device handle.
 		m_data.m_handle = XInputOpen( XDEVICE_TYPE_GAMEPAD, m_data.m_port, XDEVICE_NO_SLOT, nullptr );
 
@@ -546,14 +526,14 @@ void Device::Acquire( void )
 void Device::Unacquire ( void )
 {
 	/*
-    Dbg_Message( "Unacquiring controller port %d slot %d\n", m_data.m_port, m_data.m_slot );
+	Dbg_Message( "Unacquiring controller port %d slot %d\n", m_data.m_port, m_data.m_slot );
 
-    if( m_state == vACQUIRED )
-    {
+	if( m_state == vACQUIRED )
+	{
 		m_data.m_handle = nullptr;
-    }
+	}
 
-    m_state = vIDLE;
+	m_state = vIDLE;
 	*/
 }
 
@@ -569,13 +549,13 @@ void Device::ActivateActuator( int act_num, int percent )
 	{
 		return;
 	}	
-    
-    // First, make sure we're in a ready state and our controller has actuators
+	
+	// First, make sure we're in a ready state and our controller has actuators
 	read_data();
-    if(( m_state == vACQUIRED ) && ( m_data.m_caps.TestMask( mACTUATORS )))
-    {
-        if(( act_num >= 0 ) && ( act_num < m_data.m_num_actuators ))
-        {
+	if(( m_state == vACQUIRED ) && ( m_data.m_caps.TestMask( mACTUATORS )))
+	{
+		if(( act_num >= 0 ) && ( act_num < m_data.m_num_actuators ))
+		{
 			unsigned short left_motor, right_motor;           
 			float act_strength						= ((float)percent * m_data.m_actuator_max[act_num] ) * 0.01f;
 			m_data.m_actuator_direct[act_num]		= (unsigned char)act_strength;
@@ -593,8 +573,8 @@ void Device::ActivateActuator( int act_num, int percent )
 			}
 
 			set_xbox_actuators( m_data.m_handle, left_motor, right_motor );
-        }
-    }
+		}
+	}
 	*/
 }
 
@@ -612,7 +592,7 @@ void Device::DisableActuators()
 		
 	// Run through all the actuators and make sure they're off.
 	if(( m_state == vACQUIRED ) && ( m_data.m_caps.TestMask( mACTUATORS )))
-    {
+	{
 		for( int i = 0; i < m_data.m_num_actuators; ++i )
 		{
 			// Switch it off.
@@ -679,8 +659,8 @@ void Device::Pause( void )
 	// If paused already do nothing.
 	if( !m_data.m_paused_ref.InUse())
 	{		
-	    // First, make sure we're in a ready state and our controller has actuators
-	    if(( m_state == vACQUIRED ) && ( m_data.m_caps.TestMask( mACTUATORS )))
+		// First, make sure we're in a ready state and our controller has actuators
+		if(( m_state == vACQUIRED ) && ( m_data.m_caps.TestMask( mACTUATORS )))
 		{
 			for( int i = 0; i<m_data.m_num_actuators; ++i )
 			{
@@ -714,9 +694,9 @@ void Device::UnPause( void )
 		m_data.m_paused_ref.Release();
 		if( !m_data.m_paused_ref.InUse())
 		{
-		    // First, make sure we're in a ready state and our controller has actuators
-		    if(( m_state == vACQUIRED ) && ( m_data.m_caps.TestMask( mACTUATORS )))
-		    {
+			// First, make sure we're in a ready state and our controller has actuators
+			if(( m_state == vACQUIRED ) && ( m_data.m_caps.TestMask( mACTUATORS )))
+			{
 				for( int i = 0; i < m_data.m_num_actuators; ++i )
 				{
 					// Restore the saved vibration strength.
@@ -763,14 +743,14 @@ void Device::StopAllVibrationIncludingSaved()
 void Device::ActivatePressureSensitiveMode( void )
 {
 	/*
-    if( m_data.m_caps.TestMask( mANALOG_BUTTONS ))
-    {
+	if( m_data.m_caps.TestMask( mANALOG_BUTTONS ))
+	{
 //		if( scePadEnterPressMode( m_data.m_port, m_data.m_slot ) == 1 )
 		{
 			m_state = vBUSY;
 			m_next_state = vACQUIRED;
 		}
-    }
+	}
 	*/
 }
 
@@ -782,8 +762,8 @@ void Device::ActivatePressureSensitiveMode( void )
 void Device::DeactivatePressureSensitiveMode( void )
 {
 	/*
-    if( m_data.m_caps.TestMask( mANALOG_BUTTONS ))
-    {
+	if( m_data.m_caps.TestMask( mANALOG_BUTTONS ))
+	{
 //		if( scePadExitPressMode( m_data.m_port, m_data.m_slot ) == 1 )
 		{
 			m_state = vBUSY;

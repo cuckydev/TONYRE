@@ -176,15 +176,16 @@ void		Assert( char* file, uint line, char* reason )
 	// Show an assertion failure dialog box
 	#ifdef __PLAT_WN32__
 		// Check if debugger is present
+		char buffer[1024];
+		sprintf(buffer, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
 		if (IsDebuggerPresent())
 		{
 			// There will be a breakpoint triggered later on..
+			OutputDebugStringA(buffer);
 		}
 		else
 		{
 			// Show dialog box
-			char buffer[1024];
-			sprintf(buffer, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
 			MessageBox(nullptr, buffer, "Assertion Failure", MB_OK | MB_ICONERROR);
 		}
 	#endif

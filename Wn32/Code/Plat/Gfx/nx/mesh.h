@@ -1,7 +1,7 @@
 #ifndef __MESH_H
 #define __MESH_H
 
-#include <Windows.h>
+#include "nx_init.h"
 #include <core\math.h>
 #include <core\math\geometry.h>
 #include <gfx\nx.h>
@@ -111,41 +111,44 @@ public:
 	void			DrawBoundingSphere( void );
 
 	// Members. Order is important here since details required for fast mesh rejection need to be in top 32 bytes of structure.
-	uint32					m_flags;
-	// D3DXVECTOR3				m_sphere_center;
-	float					m_sphere_radius;
-	sMaterial				*mp_material;
+	uint32					m_flags = 0;
+	GlVec3					m_sphere_center = {};
+	float					m_sphere_radius = 0.0f;
+	sMaterial				*mp_material = nullptr;
 
-	uint8					m_vertex_stride;
-	uint8					m_current_write_vertex_buffer;
-	uint8					m_num_vertex_buffers;
-	uint8					m_visibility_mask;
-	uint8					m_diffuse_offset;		// Offset into vertex format for diffuse color component.
-	uint8					m_normal_offset;		// Offset into vertex format for normal component.
-	uint8					m_uv0_offset;			// Offset into vertex format for uv0 component.
-	int8					m_bone_index;
+	uint8					m_vertex_stride = 0;
+	uint8					m_current_write_vertex_buffer = 0;
+	uint8					m_num_vertex_buffers = 1;
+	uint8					m_visibility_mask = 0;
+	uint8					m_diffuse_offset = 0; // Offset into vertex format for diffuse color component.
+	uint8					m_normal_offset = 0;  // Offset into vertex format for normal component.
+	uint8					m_uv0_offset = 0;     // Offset into vertex format for uv0 component.
+	int8					m_bone_index = -1;
 
-	uint16					m_load_order;
-	uint16					m_num_vertices;
-	uint16					m_num_indices[MAX_INDEX_BUFFERS];
+	uint16					m_load_order = 0;
+	uint16					m_num_vertices = 0;
+	uint16					m_num_indices[MAX_INDEX_BUFFERS] = {};
 
-	uint32					Checksum;
-	uint32					m_vertex_shader[VERTEX_SHADER_STACK_SIZE];
-	uint32					m_pixel_shader;
+	uint32					Checksum = 0;
+	uint32					m_vertex_shader[VERTEX_SHADER_STACK_SIZE] = {};
+	uint32					m_pixel_shader = 0;
 
-	float					*mp_index_lod_data;				// List of distances (squared) for which a particular index list should be used.
-															// nullptr for meshes that only have one set of index data.
+	// List of distances (squared) for which a particular index list should be used.
+	// nullptr for meshes that only have one set of index data.
+	float					*mp_index_lod_data = nullptr;
 
-	sBillboardData			*mp_billboard_data;				// Data defining billboard properties. nullptr for non-billboard meshes.
+	sBillboardData *mp_billboard_data = nullptr; // Data defining billboard properties. nullptr for non-billboard meshes.
 
-	// D3DPRIMITIVETYPE		m_primitive_type;
-	uint16					*mp_index_buffer[MAX_INDEX_BUFFERS];
-	// IDirect3DVertexBuffer8*	mp_vertex_buffer[MAX_VERTEX_BUFFERS];
+	GLenum m_primitive_type = GL_TRIANGLE_STRIP;
+	uint16 *mp_index_buffer[MAX_INDEX_BUFFERS] = {};
 
-	float					m_bounding_sphere_nearest_z;	// Used for dynamic sorting during front-back block sorting.
-	float					m_material_color_override[3];
-	char					*mp_vc_wibble_data;
-	Mth::Matrix				*mp_transform;
+	GLuint mp_vao[MAX_VERTEX_BUFFERS] = {};
+	GLuint mp_vertex_buffer[MAX_VERTEX_BUFFERS] = {};
+
+	float					m_bounding_sphere_nearest_z = 0.0f; // Used for dynamic sorting during front-back block sorting.
+	float					m_material_color_override[3] = {};
+	char					*mp_vc_wibble_data = nullptr;
+	Mth::Matrix				*mp_transform = nullptr;
 };
 
 

@@ -179,7 +179,6 @@ void ApplyMeshScaling( float* p_vertices, int num_verts )
 /******************************************************************/
 sMesh::sMesh( void )
 {
-	/*
 	m_flags							= 0;
 	m_num_vertex_buffers			= 1;
 	m_current_write_vertex_buffer	= 0;
@@ -207,9 +206,8 @@ sMesh::sMesh( void )
 	SetActive( true );
 	SetVisibility( 0xFF );
 
-	// Set default primitive type.
-	m_primitive_type				= D3DPT_TRIANGLESTRIP;
-	*/
+	// Set default primitive type
+	m_primitive_type = GL_TRIANGLE_STRIP;
 }
 
 
@@ -1132,8 +1130,6 @@ void sMesh::Initialize( int				num_vertices,
 	mp_material	= ((sScene*)p_scene )->GetMaterial( material_checksum );
 	Dbg_AssertPtr(mp_material);
 
-	if (true) return;
-	
 	if(( num_index_sets == 0 ) || ( p_num_indices[0] == 0 ))
 	{
 		return;
@@ -1291,15 +1287,14 @@ void sMesh::Initialize( int				num_vertices,
 	if( p_colors )
 	{
 		// The raw vertex data does contain vertex colors.
-		// vertex_size	+= sizeof( D3DCOLOR );
+		vertex_size	+= 4;
 		use_colors	= true;
 	}
 
-
-	/*
 	// Create the vertex buffer.
 	m_vertex_stride	= vertex_size;
 
+	/*
 	// One allocation for the header and the data buffer.	
 	mp_vertex_buffer[0] = AllocateVertexBuffer( vertex_size * vertices_for_this_mesh );
 
@@ -1313,7 +1308,13 @@ void sMesh::Initialize( int				num_vertices,
 		Dbg_Assert( 0 );
 		return;
 	}
-	
+	*/
+
+	// Create vertex buffer
+	glGenVertexArrays(1, &mp_vao[0]);
+	glGenBuffers(1, &mp_vertex_buffer[0]);
+	char *p_byte = new char[vertex_size * vertices_for_this_mesh];
+
 	// Copy in vertex position data (for vertices that are used).
 	uint32		byte_write_offset	= 0;
 	float*		p_read				= p_positions + ( min_index * 3 );
@@ -1333,7 +1334,7 @@ void sMesh::Initialize( int				num_vertices,
 	}
 
 	byte_write_offset	+= sizeof( float ) * 3;
-	m_vertex_shader[0]	|= D3DFVF_XYZ;
+	// m_vertex_shader[0]	|= D3DFVF_XYZ;
 
 	// Copy in vertex weight data.
 	if( p_weights )
@@ -1396,9 +1397,9 @@ void sMesh::Initialize( int				num_vertices,
 					// 31                                             0
 					// |----- 10 -----|----- 11 ------|----- 11 ------|
 					// |       z      |       y       |       x       |
-					uint32 snx	= Ftoi_ASM( p_read[0] * 1023.0f );
-					uint32 sny	= Ftoi_ASM( p_read[1] * 1023.0f );
-					uint32 snz	= Ftoi_ASM( p_read[2] * 511.0f );
+					uint32 snx	= (int32)( p_read[0] * 1023.0f );
+					uint32 sny	= (int32)( p_read[1] * 1023.0f );
+					uint32 snz	= (int32)( p_read[2] * 511.0f );
 					p_write[0]	= ( snx & 0x7FF ) | (( sny & 0x7FF ) << 11 ) | (( snz & 0x3FF ) << 22 );
 					p_write		= (uint32*)((char*)p_write + vertex_size );
 				}
@@ -1423,7 +1424,7 @@ void sMesh::Initialize( int				num_vertices,
 			}
 			byte_write_offset += sizeof( float ) * 3;
 		}
-		m_vertex_shader[0]	|= D3DFVF_NORMAL;
+		// m_vertex_shader[0]	|= D3DFVF_NORMAL;
 	}
 
 	// Copy in vertex color data.
@@ -1442,7 +1443,7 @@ void sMesh::Initialize( int				num_vertices,
 			p_col_read++;
 		}
 		byte_write_offset += sizeof( DWORD );
-		m_vertex_shader[0] |= D3DFVF_DIFFUSE;
+		// m_vertex_shader[0] |= D3DFVF_DIFFUSE;
 	}
 
 	// Copy in vertex texture coordinate data.
@@ -1470,22 +1471,22 @@ void sMesh::Initialize( int				num_vertices,
 		{
 			case 1:
 			{
-				m_vertex_shader[0]	|= D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 );
+				// m_vertex_shader[0]	|= D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 );
 				break;
 			}
 			case 2:
 			{
-				m_vertex_shader[0]	|= D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 );
+				// m_vertex_shader[0]	|= D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 );
 				break;
 			}
 			case 3:
 			{
-				m_vertex_shader[0]	|= D3DFVF_TEX3 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 ) | D3DFVF_TEXCOORDSIZE2( 2 );
+				// m_vertex_shader[0]	|= D3DFVF_TEX3 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 ) | D3DFVF_TEXCOORDSIZE2( 2 );
 				break;
 			}
 			case 4:
 			{
-				m_vertex_shader[0]	|= D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 ) | D3DFVF_TEXCOORDSIZE2( 2 ) | D3DFVF_TEXCOORDSIZE2( 3 );
+				// m_vertex_shader[0]	|= D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 ) | D3DFVF_TEXCOORDSIZE2( 2 ) | D3DFVF_TEXCOORDSIZE2( 3 );
 				break;
 			}
 			default:
@@ -1562,7 +1563,6 @@ void sMesh::Initialize( int				num_vertices,
 			mp_index_lod_data[d]	= dist;
 		}
 	}
-	*/
 }
 
 
