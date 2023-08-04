@@ -46,6 +46,10 @@ int DumpUnwindStack( int iMaxDepth, int *pDest );
 #define _output printf
 #endif
 
+#ifdef __PLAT_WN32__
+#include <Windows.h>
+#endif
+
 #ifdef __NOPT_ASSERT__
 
 /*****************************************************************************
@@ -129,9 +133,6 @@ void		Assert( char* file, uint line, char* reason )
 	static	char*		tmp1 = assert_buffer1; 
 	static	char*		tmp3 = assert_buffer3; 
 
-
-#if 1 // !( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
-	
 	static int again = 0;
 	if (again) 
 	{
@@ -171,29 +172,21 @@ void		Assert( char* file, uint line, char* reason )
 					heap->mUsedBlocks.m_count
 					);										
 	}
-	
-	_output( "FILE:      %s(%d)\nASSERTION: %s\n\n", 
-		file, line, reason ); 
-	_output( tmp1, "FILE:      %s(%d) ", file, line ); 
-	_output( tmp3, "ASSERTION: %s", reason ); 
-	// attempt to dump the call stack
-	// requires that you have the correct .map file, along with the executable
-	#ifndef __PLAT_WN32__
-	MemView_FindLeaks();
-	#endif
-		
-	_output( "\nCALL STACK ..........................\n\n");
-	
-	#ifdef __PLAT_NGPS__
-	DumpUnwindStack( 40, NULL );
-	#endif
-		
-	
-#endif
 
-	// Trigger Visual Studio breakpoint
+	// Show an assertion failure dialog box
 	#ifdef __PLAT_WN32__
-		__asm int 3;
+		// Check if debugger is present
+		if (IsDebuggerPresent())
+		{
+			// There will be a breakpoint triggered later on..
+		}
+		else
+		{
+			// Show dialog box
+			char buffer[1024];
+			sprintf(buffer, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
+			MessageBox(NULL, buffer, "Assertion Failure", MB_OK | MB_ICONERROR);
+		}
 	#endif
 }
 

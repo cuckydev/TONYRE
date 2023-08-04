@@ -104,13 +104,11 @@ add_library(TonyRE.Wn32 STATIC
 
 	"Code/Plat/Sys/p_timer.cpp"
 )
-
 target_link_libraries(TonyRE.Wn32 PUBLIC TonyRE.Common)
-
 target_include_directories(TonyRE.Wn32 PUBLIC "Code")
 
 # Set platform defines
 target_compile_definitions(TonyRE.Wn32 PUBLIC __PLAT_WN32__)
 
-# Link winsock
-target_link_libraries(TonyRE.Wn32 PUBLIC Ws2_32)
+# Link libraries
+target_link_libraries(TonyRE.Wn32 PUBLIC Ws2_32 SDL2-static glad)

@@ -1,8 +1,4 @@
-#include <Windows.h>
-
-// Include the following two files for detailed timing data collection.
-//#include <xbdm.h>
-//#include <d3d8perf.h>
+#include <SDL.h>
 
 #include "sys/config/config.h"
 #include "nx_init.h"
@@ -14,7 +10,7 @@
 #include "gamma.h"
 #include "grass.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 sEngineGlobals	EngineGlobals;
@@ -195,6 +191,31 @@ void InitialiseRenderstates( void )
 /******************************************************************/
 void InitialiseEngine( void )
 {
+	// Request an OpenGL 3.3 context
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	// Create window
+	EngineGlobals.window = SDL_CreateWindow("Tony Hawk's Underground", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	Dbg_AssertPtr(EngineGlobals.window);
+
+	// Create OpenGL context
+	EngineGlobals.context = SDL_GL_CreateContext(EngineGlobals.window);
+	Dbg_AssertPtr(EngineGlobals.context);
+
+	// Load glad
+	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
+		Dbg_MsgAssert(0, ("Failed to initialize GLAD"));
+
+	// Check if OpenGL 3.3 is supported
+	if (!GLAD_GL_VERSION_3_3)
+		Dbg_MsgAssert(0, ("OpenGL 3.3 not supported"));
+
+	// Disable vsync
+	SDL_GL_SetSwapInterval(0);
+
 	/*
 	D3DPRESENT_PARAMETERS   params;
 	DWORD					video_flags = XGetVideoFlags();
@@ -375,6 +396,7 @@ void InitialiseEngine( void )
 /******************************************************************/
 void FatalFileError( uint32 error )
 {
+
 	/*
 	static char*	p_error_message_english[2]	= {	"There's a problem with the disc you're using.",
 													"It may be dirty or damaged." };
@@ -474,5 +496,5 @@ void FatalFileError( uint32 error )
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 

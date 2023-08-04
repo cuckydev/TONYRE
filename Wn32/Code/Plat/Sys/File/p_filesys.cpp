@@ -202,9 +202,9 @@ static void* prefopen( const char *filename, const char *mode )
 		{
 			// Catch-all error indicating a fatal problem. Can't continue at this point.
 			// The ideal solution would be a catch/throw exception mechanism, but we don't include exception handling at the moment.
-			// For now just call this NxXbox function, which is slightly messy since it means we have to include a gfx\ file.
+			// For now just call this NxWn32 function, which is slightly messy since it means we have to include a gfx\ file.
 			printf( "FatalFileError: %x %s\n", error, nameConversionBuffer );
-			// NxXbox::FatalFileError((uint32)INVALID_HANDLE_VALUE );
+			// NxWn32::FatalFileError((uint32)INVALID_HANDLE_VALUE );
 		}
 		return NULL;
 	}
@@ -472,7 +472,7 @@ size_t Read( void *addr, size_t size, size_t count, void *pFP )
 			return bytes_read;
 		}
 
-		// NxXbox::FatalFileError( last_error );
+		// NxWn32::FatalFileError( last_error );
 		return bytes_read;
 	}
 }

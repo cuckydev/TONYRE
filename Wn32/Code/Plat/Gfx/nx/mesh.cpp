@@ -14,7 +14,7 @@
 #include "render.h"
 #include "billboard.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 bool			s_meshScalingEnabled = false;
@@ -1581,7 +1581,7 @@ void sMesh::DrawBoundingSphere( void )
 
 	static uint32 sphere_buffer[NUM_SPHERE_POINTS * 4];
 
-	D3DXMATRIX *p_matrix = (D3DXMATRIX*)&NxXbox::EngineGlobals.view_matrix;
+	D3DXMATRIX *p_matrix = (D3DXMATRIX*)&NxWn32::EngineGlobals.view_matrix;
 	Mth::Vector up( 0.0f, 1.0f, 0.0f );
 
 	// Get the 'right' vector as the cross product of camera 'at and world 'up'.
@@ -1636,6 +1636,6 @@ void sMesh::DrawBoundingSphere( void )
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 

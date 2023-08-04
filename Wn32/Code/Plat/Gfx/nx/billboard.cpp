@@ -1,7 +1,7 @@
 #include "billboard.h"
 #include "nx_init.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 sBillboardManager BillboardManager;
@@ -166,7 +166,7 @@ void sBillboardManager::SetCameraMatrix( void )
 	/*
 	Mth::Vector up( 0.0f, 1.0f, 0.0f );
 
-	m_at.Set( NxXbox::EngineGlobals.view_matrix.m[0][2], NxXbox::EngineGlobals.view_matrix.m[1][2], NxXbox::EngineGlobals.view_matrix.m[2][2] );
+	m_at.Set( NxWn32::EngineGlobals.view_matrix.m[0][2], NxWn32::EngineGlobals.view_matrix.m[1][2], NxWn32::EngineGlobals.view_matrix.m[2][2] );
 	m_screen_right		= Mth::CrossProduct( m_at, up ).Normalize();
 	m_screen_up			= Mth::CrossProduct( m_screen_right, m_at ).Normalize();
 	m_at_xz				= Mth::Vector( m_at[X], 0.0f, m_at[Z] ).Normalize();
@@ -352,7 +352,7 @@ void sBillboardMaterialBatch::Render( void )
 		mp_material->Submit();
 
 		// Set up correct vertex shader.
-		NxXbox::set_vertex_shader( BillboardScreenAlignedVS );
+		NxWn32::set_vertex_shader( BillboardScreenAlignedVS );
 
 		// Lock out vertex shader changes.
 		EngineGlobals.vertex_shader_override = BillboardScreenAlignedVS;
@@ -689,5 +689,5 @@ sBillboardEntry::~sBillboardEntry( void )
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 

@@ -75,7 +75,7 @@ CXboxGeom::~CXboxGeom( void )
 void CXboxGeom::InitMeshList( void )
 {
 	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
-	mp_init_mesh_list = new Lst::Head< NxXbox::sMesh >;
+	mp_init_mesh_list = new Lst::Head< NxWn32::sMesh >;
 	Mem::Manager::sHandle().PopContext();
 }
 
@@ -83,12 +83,12 @@ void CXboxGeom::InitMeshList( void )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void CXboxGeom::AddMesh( NxXbox::sMesh *mesh )
+void CXboxGeom::AddMesh( NxWn32::sMesh *mesh )
 {
 	Dbg_Assert( mp_init_mesh_list );
 
 	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
-	Lst::Node< NxXbox::sMesh > *node = new Lst::Node< NxXbox::sMesh > (mesh);
+	Lst::Node< NxWn32::sMesh > *node = new Lst::Node< NxWn32::sMesh > (mesh);
 	mp_init_mesh_list->AddToTail( node );
 	Mem::Manager::sHandle().PopContext();
 }
@@ -106,9 +106,9 @@ void CXboxGeom::CreateMeshArray( void )
 		m_num_mesh = mp_init_mesh_list->CountItems();
 		if (m_num_mesh)
 		{
-			Lst::Node< NxXbox::sMesh > *mesh, *next;
+			Lst::Node< NxWn32::sMesh > *mesh, *next;
 
-			m_mesh_array = new NxXbox::sMesh*[m_num_mesh];
+			m_mesh_array = new NxWn32::sMesh*[m_num_mesh];
 			int k = 0;
 			for( mesh = mp_init_mesh_list->GetNext(); mesh; mesh = next )
 			{
@@ -164,7 +164,7 @@ void CXboxGeom::DestroyMeshArray( void )
 		// Now actually go through and delete each mesh.
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 			delete p_mesh;
 		}
 
@@ -181,9 +181,9 @@ void CXboxGeom::DestroyMeshArray( void )
 /* Used when instance-cloning CGeoms.                             */
 /*                                                                */
 /******************************************************************/
-NxXbox::sScene* CXboxGeom::GenerateScene( void )
+NxWn32::sScene* CXboxGeom::GenerateScene( void )
 {
-	NxXbox::sScene *p_scene = new NxXbox::sScene();
+	NxWn32::sScene *p_scene = new NxWn32::sScene();
 
 	p_scene->CountMeshes( m_num_mesh, m_mesh_array );
 	p_scene->CreateMeshArrays();
@@ -218,7 +218,7 @@ bool CXboxGeom::plat_load_geom_data( CMesh *pMesh, CModel *pModel, bool color_pe
 
 	CXboxModel *p_xbox_model = static_cast<CXboxModel*>( pModel );
 
-	NxXbox::CInstance *p_instance = new NxXbox::CInstance( p_xbox_mesh->GetScene()->GetEngineScene(), temp, numBones, pModel->GetBoneTransforms());
+	NxWn32::CInstance *p_instance = new NxWn32::CInstance( p_xbox_mesh->GetScene()->GetEngineScene(), temp, numBones, pModel->GetBoneTransforms());
 	
 	SetInstance( p_instance );
 	p_instance->SetModel( pModel );
@@ -237,12 +237,12 @@ void CXboxGeom::plat_finalize( void )
 	// Scan through and remove degenerate indices...
 	if( mp_instance )
 	{
-		NxXbox::sScene *p_scene = mp_instance->GetScene();
+		NxWn32::sScene *p_scene = mp_instance->GetScene();
 		if( p_scene )
 		{
 			for( int m = 0; m < p_scene->m_num_mesh_entries; ++m )
 			{
-				NxXbox::sMesh *p_mesh = p_scene->m_meshes[m];
+				NxWn32::sMesh *p_mesh = p_scene->m_meshes[m];
 				p_mesh->Crunch();
 			}
 		}
@@ -268,7 +268,7 @@ void CXboxGeom::plat_set_active( bool active )
 		{
 			for( uint m = 0; m < m_num_mesh; ++m )
 			{
-				NxXbox::sMesh *p_mesh = m_mesh_array[m];
+				NxWn32::sMesh *p_mesh = m_mesh_array[m];
 				p_mesh->SetActive( active );
 			}
 		}
@@ -308,7 +308,7 @@ const Mth::Vector &CXboxGeom::plat_get_world_position( void ) const
 	{
 		pos.Set( 0.0f, 0.0f, 0.0f, 1.0f );
 
-		NxXbox::sMesh *p_mesh = m_mesh_array[0];
+		NxWn32::sMesh *p_mesh = m_mesh_array[0];
 		if( p_mesh )
 		{
 			p_mesh->GetPosition( &pos );
@@ -338,7 +338,7 @@ void CXboxGeom::plat_set_world_position( const Mth::Vector& pos )
 		// Go through and adjust the individual meshes.
 		for( uint32 i = 0; i < m_num_mesh; ++i )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[i];
+			NxWn32::sMesh *p_mesh = m_mesh_array[i];
 			p_mesh->SetPosition( proper_pos );
 		}
 	}
@@ -366,7 +366,7 @@ void CXboxGeom::plat_set_bounding_sphere( const Mth::Vector& boundingSphere )
 	/*
 	if( mp_instance )
 	{
-		NxXbox::sScene *p_scene = mp_instance->GetScene();
+		NxWn32::sScene *p_scene = mp_instance->GetScene();
 		if( p_scene )
 		{
 			p_scene->m_sphere_center.x	= boundingSphere[X];
@@ -389,7 +389,7 @@ const Mth::Vector CXboxGeom::plat_get_bounding_sphere( void ) const
 	/*
 	if( mp_instance )
 	{
-		NxXbox::sScene *p_scene = mp_instance->GetScene();
+		NxWn32::sScene *p_scene = mp_instance->GetScene();
 		if( p_scene )
 		{
 			return Mth::Vector( p_scene->m_sphere_center.x, p_scene->m_sphere_center.y,  p_scene->m_sphere_center.z, p_scene->m_sphere_radius );
@@ -477,7 +477,7 @@ void CXboxGeom::plat_rotate_y( Mth::ERot90 rot )
 			// Go through and adjust the individual meshes.
 			for( uint32 i = 0; i < m_num_mesh; ++i )
 			{
-				NxXbox::sMesh *p_mesh = m_mesh_array[i];
+				NxWn32::sMesh *p_mesh = m_mesh_array[i];
 				p_mesh->SetYRotation( rot );
 			}
 		}
@@ -526,7 +526,7 @@ bool CXboxGeom::plat_hide_polys( uint32 mask )
 	if( mp_mesh )
 	{
 		// Obtain a pointer to the Xbox scene.
-		NxXbox::sScene *p_engine_scene = GetInstance()->GetScene();
+		NxWn32::sScene *p_engine_scene = GetInstance()->GetScene();
 
 		// Request the scene to hide the relevant polys.
 		p_engine_scene->HidePolys( mask, mp_mesh->GetCASData(), mp_mesh->GetNumCASData());
@@ -550,7 +550,7 @@ void CXboxGeom::plat_set_visibility( uint32 mask )
 	{
 		for( uint m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 			p_mesh->SetVisibility((uint8)mask );
 		}
 	}
@@ -590,11 +590,11 @@ void CXboxGeom::plat_set_color( Image::RGBA rgba )
 	if( mp_instance )
 	{
 		// Grab the engine scene from the geom, and set all meshes to the color.
-		NxXbox::sScene *p_scene = mp_instance->GetScene();
+		NxWn32::sScene *p_scene = mp_instance->GetScene();
 		for( int i = 0; i < p_scene->m_num_mesh_entries; ++i )
 		{
-			NxXbox::sMesh *p_mesh = p_scene->m_meshes[i];
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+			NxWn32::sMesh *p_mesh = p_scene->m_meshes[i];
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
 			p_mesh->m_material_color_override[0] = (float)rgba.r / 255.0f;
 			p_mesh->m_material_color_override[1] = (float)rgba.g / 255.0f;
 			p_mesh->m_material_color_override[2] = (float)rgba.b / 255.0f;
@@ -604,8 +604,8 @@ void CXboxGeom::plat_set_color( Image::RGBA rgba )
 	{
 		for( uint32 i = 0; i < m_num_mesh; ++i )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[i];
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+			NxWn32::sMesh *p_mesh = m_mesh_array[i];
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
 			p_mesh->m_material_color_override[0] = (float)rgba.r / 255.0f;
 			p_mesh->m_material_color_override[1] = (float)rgba.g / 255.0f;
 			p_mesh->m_material_color_override[2] = (float)rgba.b / 255.0f;
@@ -625,19 +625,19 @@ void CXboxGeom::plat_clear_color( void )
 	if( mp_instance )
 	{
 		// Grab the engine scene from the geom, and clear all meshes of the flag.
-		NxXbox::sScene *p_scene = mp_instance->GetScene();
+		NxWn32::sScene *p_scene = mp_instance->GetScene();
 		for( int i = 0; i < p_scene->m_num_mesh_entries; ++i )
 		{
-			NxXbox::sMesh *p_mesh = p_scene->m_meshes[i];
-			p_mesh->m_flags &= ~NxXbox::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+			NxWn32::sMesh *p_mesh = p_scene->m_meshes[i];
+			p_mesh->m_flags &= ~NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
 		}
 	}
 	else if( m_mesh_array != NULL )
 	{
 		for( uint32 i = 0; i < m_num_mesh; ++i )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[i];
-			p_mesh->m_flags &= ~NxXbox::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+			NxWn32::sMesh *p_mesh = m_mesh_array[i];
+			p_mesh->m_flags &= ~NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
 		}
 	}
 }
@@ -656,8 +656,8 @@ bool CXboxGeom::plat_set_material_color( uint32 mat_name_checksum, int pass, Ima
 	{
 		for( int m = 0; m < mp_instance->GetScene()->m_num_mesh_entries; ++m )
 		{
-			NxXbox::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
-			NxXbox::sMaterial	*p_mat	= p_mesh->mp_material;
+			NxWn32::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
+			NxWn32::sMaterial	*p_mat	= p_mesh->mp_material;
 			if( p_mat )
 			{
 				bool	want_this_material	= false;
@@ -737,12 +737,12 @@ Image::RGBA	CXboxGeom::plat_get_color( void ) const
 {
 	Image::RGBA rgba( 0, 0, 0, 0 );
 
-	NxXbox::sMesh *p_mesh = NULL;
+	NxWn32::sMesh *p_mesh = NULL;
 
 	if( mp_instance )
 	{
 		// Grab the engine scene from the geom, and get a mesh color.
-		NxXbox::sScene *p_scene = mp_instance->GetScene();
+		NxWn32::sScene *p_scene = mp_instance->GetScene();
 
 		if( p_scene->m_num_mesh_entries > 0 )
 			p_mesh = p_scene->m_meshes[0];
@@ -752,7 +752,7 @@ Image::RGBA	CXboxGeom::plat_get_color( void ) const
 		p_mesh = m_mesh_array[0];
 	}
 
-	if( p_mesh && ( p_mesh->m_flags & NxXbox::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE ))
+	if( p_mesh && ( p_mesh->m_flags & NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE ))
 	{
 		rgba.r = (uint8)( p_mesh->m_material_color_override[0] * 255.0f );
 		rgba.g = (uint8)( p_mesh->m_material_color_override[1] * 255.0f );
@@ -778,7 +778,7 @@ int CXboxGeom::plat_get_num_render_verts( void )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 			total_verts += p_mesh->m_num_vertices;
 		}
 	}
@@ -800,7 +800,7 @@ void CXboxGeom::plat_get_render_verts( Mth::Vector *p_verts )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 
 			// Obtain a read-only lock on the mesh data.
 			D3DVECTOR *p_pos;
@@ -834,7 +834,7 @@ void CXboxGeom::plat_get_render_colors( Image::RGBA *p_colors )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 
 			// Obtain a read-only lock on the mesh data.
 			Image::RGBA *p_col;
@@ -872,7 +872,7 @@ void CXboxGeom::plat_set_render_verts( Mth::Vector *p_verts )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 
 			// Obtain a writeable lock on the mesh data.
 			D3DVECTOR *p_pos;
@@ -921,7 +921,7 @@ void CXboxGeom::plat_set_render_colors( Image::RGBA *p_colors )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh*	p_mesh			= m_mesh_array[m];
+			NxWn32::sMesh*	p_mesh			= m_mesh_array[m];
 			Image::RGBA*	p_colors_save	= p_colors;
 
 			// The mesh may contain more than one vertex set, usually in the case of vertex wibbling.
@@ -968,7 +968,7 @@ void CXboxGeom::plat_set_scale( const Mth::Vector & scale )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 
 			Mth::Vector current_pos( 0.0f, 0.0f, 0.0f, 1.0f );
 			p_mesh->GetPosition( &current_pos );
@@ -1015,8 +1015,8 @@ void CXboxGeom::plat_set_uv_wibble_params( float u_vel, float u_amp, float u_fre
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh		*p_mesh	= m_mesh_array[m];
-			NxXbox::sMaterial	*p_mat	= p_mesh->mp_material;
+			NxWn32::sMesh		*p_mesh	= m_mesh_array[m];
+			NxWn32::sMaterial	*p_mat	= p_mesh->mp_material;
 			if( p_mat )
 			{
 				// Find the first pass that wibbles.
@@ -1052,8 +1052,8 @@ void CXboxGeom::plat_use_explicit_uv_wibble( bool yes )
 	{
 		for( int m = 0; m < mp_instance->GetScene()->m_num_mesh_entries; ++m )
 		{
-			NxXbox::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
-			NxXbox::sMaterial	*p_mat	= p_mesh->mp_material;
+			NxWn32::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
+			NxWn32::sMaterial	*p_mat	= p_mesh->mp_material;
 			if( p_mat )
 			{
 				for( uint32 p = 0; p < p_mat->m_passes; ++p )
@@ -1080,8 +1080,8 @@ void CXboxGeom::plat_set_uv_wibble_offsets( float u_offset, float v_offset )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh		*p_mesh	= m_mesh_array[m];
-			NxXbox::sMaterial	*p_mat	= p_mesh->mp_material;
+			NxWn32::sMesh		*p_mesh	= m_mesh_array[m];
+			NxWn32::sMaterial	*p_mat	= p_mesh->mp_material;
 			if( p_mat )
 			{
 				// Find the first pass that wibbles.
@@ -1112,8 +1112,8 @@ bool CXboxGeom::plat_set_uv_wibble_offsets( uint32 mat_name_checksum, int pass, 
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh		*p_mesh	= m_mesh_array[m];
-			NxXbox::sMaterial	*p_mat	= p_mesh->mp_material;
+			NxWn32::sMesh		*p_mesh	= m_mesh_array[m];
+			NxWn32::sMaterial	*p_mat	= p_mesh->mp_material;
 			if( p_mat && ( p_mat->m_name_checksum == mat_name_checksum ))
 			{
 				// Find the first pass that wibbles.
@@ -1145,8 +1145,8 @@ bool CXboxGeom::plat_set_uv_matrix( uint32 mat_name_checksum, int pass, const Mt
 	{
 		for( int m = 0; m < mp_instance->GetScene()->m_num_mesh_entries; ++m )
 		{
-			NxXbox::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
-			NxXbox::sMaterial	*p_mat	= p_mesh->mp_material;
+			NxWn32::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
+			NxWn32::sMaterial	*p_mat	= p_mesh->mp_material;
 			if( p_mat )
 			{
 				bool	want_this_material	= false;
@@ -1205,7 +1205,7 @@ bool CXboxGeom::plat_set_uv_matrix( uint32 mat_name_checksum, int pass, const Mt
 						// Create the wibble params if they don't exist already.
 						if( p_mat->mp_UVWibbleParams[adjusted_pass] == NULL )
 						{
-							p_mat->mp_UVWibbleParams[adjusted_pass]	= new NxXbox::sUVWibbleParams;
+							p_mat->mp_UVWibbleParams[adjusted_pass]	= new NxWn32::sUVWibbleParams;
 
 							// Need to set flags to indicate that uv wibble is now in effect.
 							p_mat->m_uv_wibble				= true;
@@ -1213,6 +1213,7 @@ bool CXboxGeom::plat_set_uv_matrix( uint32 mat_name_checksum, int pass, const Mt
 						}
 
 						// Also need to switch vertex shaders if the current vertex shader does not support UV Transforms.
+						/*
 						if( p_mesh->m_vertex_shader[0] == WeightedMeshVS_VXC_1Weight )
 						{
 							p_mesh->m_vertex_shader[0] = WeightedMeshVS_VXC_1Weight_UVTransform;
@@ -1225,6 +1226,7 @@ bool CXboxGeom::plat_set_uv_matrix( uint32 mat_name_checksum, int pass, const Mt
 						{
 							p_mesh->m_vertex_shader[0] = WeightedMeshVS_VXC_3Weight_UVTransform;
 						}
+						*/
 
 						// Set the matrix values.
 						p_mat->mp_UVWibbleParams[adjusted_pass]->m_UVMatrix[0]	= mat[0][0];
@@ -1253,8 +1255,8 @@ bool CXboxGeom::plat_allocate_uv_matrix_params( uint32 mat_name_checksum, int pa
 
 		for( int m = 0; m < mp_instance->GetScene()->m_num_mesh_entries; ++m )
 		{
-			NxXbox::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
-			NxXbox::sMaterial	*p_mat	= p_mesh->mp_material;
+			NxWn32::sMesh		*p_mesh	= mp_instance->GetScene()->m_meshes[m];
+			NxWn32::sMaterial	*p_mat	= p_mesh->mp_material;
 			if( p_mat )
 			{
 				bool	want_this_material	= false;
@@ -1313,7 +1315,7 @@ bool CXboxGeom::plat_allocate_uv_matrix_params( uint32 mat_name_checksum, int pa
 						// Create the wibble params if they don't exist already.
 						if( p_mat->mp_UVWibbleParams[adjusted_pass] == NULL )
 						{
-							p_mat->mp_UVWibbleParams[adjusted_pass]	= new NxXbox::sUVWibbleParams;
+							p_mat->mp_UVWibbleParams[adjusted_pass]	= new NxWn32::sUVWibbleParams;
 
 							// Need to set flags to indicate that uv wibble is now in effect.
 							p_mat->m_uv_wibble						= true;
@@ -1354,7 +1356,7 @@ CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 	p_clone = new CXboxGeom();
 	
 	// Create new meshes for the clone.
-	p_clone->m_mesh_array	= new NxXbox::sMesh*[m_num_mesh];
+	p_clone->m_mesh_array	= new NxWn32::sMesh*[m_num_mesh];
 	p_clone->m_num_mesh		= m_num_mesh;
 	for( uint32 m = 0; m < p_clone->m_num_mesh; ++m )
 	{
@@ -1368,8 +1370,8 @@ CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 		// In this situation, we need to add the individual meshes to the scene.
 		// Grab a temporary workspace buffer.
 		Nx::CXboxScene *p_xbox_scene						= static_cast<CXboxScene*>( p_dest_scene );
-		NxXbox::sScene *p_scene								= p_xbox_scene->GetEngineScene();
-		NxXbox::sMesh **p_temp_mesh_buffer					= ( p_scene->m_num_mesh_entries > 0 ) ? new NxXbox::sMesh*[p_scene->m_num_mesh_entries] : NULL;
+		NxWn32::sScene *p_scene								= p_xbox_scene->GetEngineScene();
+		NxWn32::sMesh **p_temp_mesh_buffer					= ( p_scene->m_num_mesh_entries > 0 ) ? new NxWn32::sMesh*[p_scene->m_num_mesh_entries] : NULL;
 
 		// Set the scene pointer for the clone.
 		p_clone->SetScene( p_xbox_scene );
@@ -1414,18 +1416,18 @@ CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 	{
 		// Create a new scene which will be attached via the instance.
 		p_clone->m_bbox			= m_bbox;
-		NxXbox::sScene *p_scene = p_clone->GenerateScene();
+		NxWn32::sScene *p_scene = p_clone->GenerateScene();
 
 		p_clone->SetActive( true );
 	
 		// Create the instance.
 		Mth::Matrix temp;
 		temp.Identity();
-		NxXbox::CInstance *p_instance = new NxXbox::CInstance( p_scene, temp, 1, NULL );
+		NxWn32::CInstance *p_instance = new NxWn32::CInstance( p_scene, temp, 1, NULL );
 		
 		// This instance will be the only object maintaining a reference to the attached scene, so we want to delete
 		// the scene when the instance gets removed.
-		p_instance->SetFlag( NxXbox::CInstance::INSTANCE_FLAG_DELETE_ATTACHED_SCENE );
+		p_instance->SetFlag( NxWn32::CInstance::INSTANCE_FLAG_DELETE_ATTACHED_SCENE );
 
 		// Hook the clone up to the instance.		
 		p_clone->SetInstance( p_instance );
@@ -1452,7 +1454,7 @@ CXboxGeom* CXboxGeom::plat_clone( bool instance, CModel* p_dest_model )
 	int num_mesh		= mp_instance->GetScene()->m_num_mesh_entries;
 
 	// Create new meshes for the clone.
-	p_clone->m_mesh_array	= num_mesh ? new NxXbox::sMesh*[num_mesh] : NULL;
+	p_clone->m_mesh_array	= num_mesh ? new NxWn32::sMesh*[num_mesh] : NULL;
 	p_clone->m_num_mesh		= num_mesh;
 	for( uint32 m = 0; m < p_clone->m_num_mesh; ++m )
 	{
@@ -1461,7 +1463,7 @@ CXboxGeom* CXboxGeom::plat_clone( bool instance, CModel* p_dest_model )
 
 	// Create a new scene which will be attached via the instance.
 	p_clone->m_bbox			= m_bbox;
-	NxXbox::sScene* p_scene = p_clone->GenerateScene();
+	NxWn32::sScene* p_scene = p_clone->GenerateScene();
 
 	// Kill the temp scene.
 	p_xbox_scene->SetEngineScene( NULL );
@@ -1481,14 +1483,14 @@ CXboxGeom* CXboxGeom::plat_clone( bool instance, CModel* p_dest_model )
 	// Create the instance.
 	Mth::Matrix temp;
 	temp.Identity();
-	NxXbox::CInstance* p_instance	= new NxXbox::CInstance( p_scene, temp, num_bones, p_bones );
+	NxWn32::CInstance* p_instance	= new NxWn32::CInstance( p_scene, temp, num_bones, p_bones );
 	
 	Nx::CXboxModel* p_xbox_model	= static_cast<CXboxModel*>( p_dest_model );
 	((CXboxModel*)p_dest_model )->SetInstance( p_instance );
 
 	// This instance will be the only object maintaining a reference to the attached scene, so we want to delete
 	// the scene when the instance gets removed.
-	p_instance->SetFlag( NxXbox::CInstance::INSTANCE_FLAG_DELETE_ATTACHED_SCENE );
+	p_instance->SetFlag( NxWn32::CInstance::INSTANCE_FLAG_DELETE_ATTACHED_SCENE );
 
 	// Hook the clone up to the instance.		
 	p_clone->SetInstance( p_instance );

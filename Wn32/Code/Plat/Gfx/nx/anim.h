@@ -1,6 +1,7 @@
 #ifndef __ANIM_H
 #define __ANIM_H
 
+/*
 extern DWORD WeightedMeshVS_VXC_1Weight;
 extern DWORD WeightedMeshVS_VXC_2Weight;
 extern DWORD WeightedMeshVS_VXC_3Weight;
@@ -19,8 +20,9 @@ extern DWORD ParticleFlatVS;
 extern DWORD ParticleNewFlatVS;
 extern DWORD ParticleNewFlatPointSpriteVS;
 extern DWORD ShadowBufferStaticGeomVS;
+*/
 
-namespace NxXbox
+namespace NxWn32
 {
 
 DWORD	GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_used );
@@ -30,7 +32,7 @@ void	setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matric
 void	shutdown_weighted_mesh_vertex_shader( void );
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 #endif // __ANIM_H
 

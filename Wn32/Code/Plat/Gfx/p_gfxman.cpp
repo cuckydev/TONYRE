@@ -76,7 +76,7 @@ namespace Gfx
 /******************************************************************/
 void Manager::SetGammaNormalized( float fr, float fg, float fb )
 {
-	NxXbox::SetGammaNormalized( fr, fg, fb );
+	NxWn32::SetGammaNormalized( fr, fg, fb );
 }
 
 
@@ -87,7 +87,7 @@ void Manager::SetGammaNormalized( float fr, float fg, float fb )
 /******************************************************************/
 void Manager::GetGammaNormalized( float *fr, float *fg, float *fb )
 {
-	NxXbox::GetGammaNormalized( fr, fg, fb );
+	NxWn32::GetGammaNormalized( fr, fg, fb );
 }
 
 
@@ -112,9 +112,9 @@ void Manager::ScreenShot( const char *fileroot )
 {
 	/*
 	// Called twice per frame - once to request the screenshot, and once (post Swap()), to actually perform it.
-	if( NxXbox::EngineGlobals.screenshot_name[0] == 0 )
+	if( NxWn32::EngineGlobals.screenshot_name[0] == 0 )
 	{
-		strcpy( NxXbox::EngineGlobals.screenshot_name, fileroot );
+		strcpy( NxWn32::EngineGlobals.screenshot_name, fileroot );
 		return;
 	}
 	
@@ -135,7 +135,7 @@ void Manager::ScreenShot( const char *fileroot )
 	}
 	
 	// Obtain the render surface.
-	IDirect3DSurface8 *p_render_target = NxXbox::EngineGlobals.p_RenderSurface;
+	IDirect3DSurface8 *p_render_target = NxWn32::EngineGlobals.p_RenderSurface;
 
 	// Get the surface description, just for s and g.
 	D3DSURFACE_DESC surface_desc;

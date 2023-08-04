@@ -62,7 +62,7 @@ bool CXboxModel::plat_init_skeleton( int num_bones )
 	// TODO:  Make this more generalized
 
 	// Load in the texture dictionary for the model.
-	Lst::HashTable< NxXbox::sTexture > *p_texture_table = NxXbox::LoadTextureFile( "models/testskin/testskin.tex.xbx" );
+	Lst::HashTable< NxWn32::sTexture > *p_texture_table = NxWn32::LoadTextureFile( "models/testskin/testskin.tex.xbx" );
 
     return true;
 }
@@ -78,7 +78,7 @@ bool CXboxModel::plat_load_mesh( CMesh* pMesh )
 	
 	Mth::Matrix temp;
 	CXboxMesh *p_xbox_mesh = static_cast<CXboxMesh*>( pMesh );
-	mp_instance = new NxXbox::CInstance( p_xbox_mesh->GetScene()->GetEngineScene(), temp, numBones, mp_boneTransforms );
+	mp_instance = new NxWn32::CInstance( p_xbox_mesh->GetScene()->GetEngineScene(), temp, numBones, mp_boneTransforms );
 
     return true;
 }

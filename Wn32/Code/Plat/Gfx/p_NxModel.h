@@ -28,8 +28,8 @@ class CXboxModel : public CModel
 public:
 						CXboxModel();
 	virtual 			~CXboxModel();
-	NxXbox::CInstance	*GetInstance( void )								{ return mp_instance; }
-	void				SetInstance( NxXbox::CInstance *p_instance )		{ mp_instance = p_instance; }
+	NxWn32::CInstance	*GetInstance( void )								{ return mp_instance; }
+	void				SetInstance( NxWn32::CInstance *p_instance )		{ mp_instance = p_instance; }
 
 private:				// It's all private, as it is machine specific
 	virtual Mth::Vector	plat_get_bounding_sphere( void );
@@ -37,7 +37,7 @@ private:				// It's all private, as it is machine specific
 
 	bool				plat_init_skeleton( int num_bones );
 
-	NxXbox::CInstance	*mp_instance;
+	NxWn32::CInstance	*mp_instance;
 };
 
 /******************************************************************/

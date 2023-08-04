@@ -47,19 +47,19 @@ bool CXboxFont::plat_load(const char *filename)
 	{
 		if( strstr( filename, "small" ))
 		{
-			mp_plat_font = NxXbox::LoadFont( "small_fr" );
+			mp_plat_font = NxWn32::LoadFont( "small_fr" );
 		}
 		else
 		{
-			mp_plat_font = NxXbox::LoadFont( filename );
+			mp_plat_font = NxWn32::LoadFont( filename );
 		}
 	}
 	else
 	{
-		mp_plat_font = NxXbox::LoadFont(filename);
+		mp_plat_font = NxWn32::LoadFont(filename);
 	}
 #	else
-	mp_plat_font = NxXbox::LoadFont(filename);
+	mp_plat_font = NxWn32::LoadFont(filename);
 #	endif
 
 	return (mp_plat_font != NULL);
@@ -95,7 +95,7 @@ void CXboxFont::plat_set_rgba_table(Image::RGBA *pTab)
 
 void CXboxFont::plat_mark_as_button_font(bool isButton)
 {
-	NxXbox::pButtonsFont = (isButton) ? mp_plat_font : NULL;
+	NxWn32::pButtonsFont = (isButton) ? mp_plat_font : NULL;
 }
 
 /******************************************************************/
@@ -105,7 +105,7 @@ void CXboxFont::plat_mark_as_button_font(bool isButton)
 
 void CXboxFont::plat_unload()
 {
-	NxXbox::UnloadFont(mp_plat_font);
+	NxWn32::UnloadFont(mp_plat_font);
 	mp_plat_font = NULL;
 }
 
@@ -187,7 +187,7 @@ void CXboxFont::plat_query_string(char *String, float &width, float &height) con
 /******************************************************************/
 CXboxText::CXboxText()
 {
-	mp_plat_text	= new NxXbox::SText();
+	mp_plat_text	= new NxWn32::SText();
 	m_zvalue		= 0;
 
 	plat_initialize();

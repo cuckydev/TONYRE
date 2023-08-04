@@ -112,8 +112,8 @@ LPDIRECT3DTEXTURE8 openPlaybackImage( uint32 width, uint32 height )
 	
 	D3DDevice_SetRenderState( D3DRS_LIGHTING,				FALSE );
 
-	NxXbox::set_render_state( RS_ZWRITEENABLE,	0 );
-	NxXbox::set_render_state( RS_ZTESTENABLE,	0 );
+	NxWn32::set_render_state( RS_ZWRITEENABLE,	0 );
+	NxWn32::set_render_state( RS_ZTESTENABLE,	0 );
 	
 	D3DDevice_GetTextureStageState( 0, D3DTSS_MINFILTER,	&minFilter );
 	D3DDevice_SetTextureStageState( 0, D3DTSS_MINFILTER,	D3DTEXF_LINEAR );
@@ -122,8 +122,8 @@ LPDIRECT3DTEXTURE8 openPlaybackImage( uint32 width, uint32 height )
 	textureHeight	= (float)height;
 	
 	// Adjust for our current screen buffer.
-	playbackWidth	= (float)NxXbox::EngineGlobals.backbuffer_width;
-	playbackHeight	= (float)NxXbox::EngineGlobals.backbuffer_height;
+	playbackWidth	= (float)NxWn32::EngineGlobals.backbuffer_width;
+	playbackHeight	= (float)NxWn32::EngineGlobals.backbuffer_height;
 	
 	// Create a surface for our texture with the DirectDraw handle.
 	LPDIRECT3DTEXTURE8 p_texture_surface;
@@ -144,8 +144,8 @@ void closePlaybackImage( LPDIRECT3DTEXTURE8 p_image )
 	D3DDevice_SetRenderState( D3DRS_MULTISAMPLEANTIALIAS,	multisampleAntialias );
 	D3DDevice_SetTextureStageState( 0, D3DTSS_MINFILTER,	minFilter );
 	
-	NxXbox::set_render_state( RS_ZWRITEENABLE,	1 );
-	NxXbox::set_render_state( RS_ZTESTENABLE,	1 );
+	NxWn32::set_render_state( RS_ZWRITEENABLE,	1 );
+	NxWn32::set_render_state( RS_ZTESTENABLE,	1 );
 
 	if( p_image )
 	{
@@ -153,7 +153,7 @@ void closePlaybackImage( LPDIRECT3DTEXTURE8 p_image )
 		Dbg_Assert( refcount == 0 );
 	}
 
-	NxXbox::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, NULL );
 }
 
 
@@ -195,18 +195,18 @@ void blitImage( LPDIRECT3DTEXTURE8 p_image, float x_offset, float y_offset, floa
 		return;
 	}
 
-	NxXbox::set_blend_mode( NxXbox::vBLEND_MODE_DIFFUSE );
+	NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_DIFFUSE );
 	
 	// Turn on clamping so that the linear textures work
-	NxXbox::set_render_state( RS_UVADDRESSMODE0, 0x00010001UL );
+	NxWn32::set_render_state( RS_UVADDRESSMODE0, 0x00010001UL );
 	
 	// Use a default vertex and pixel shader
-	NxXbox::set_vertex_shader( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 );
-	NxXbox::set_pixel_shader( PixelShader4 );
+	NxWn32::set_vertex_shader( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 );
+	NxWn32::set_pixel_shader( PixelShader4 );
 
 	// Select the texture.
-	NxXbox::set_texture( 0, NULL );
-	NxXbox::set_texture( 0, p_image );
+	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, p_image );
 
 	// Setup up the vertices.
 	MOVIE_VERT vertices[4];

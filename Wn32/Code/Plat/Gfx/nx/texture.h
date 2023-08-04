@@ -3,7 +3,7 @@
 
 #include <core/HashTable.h>
 
-namespace NxXbox
+namespace NxWn32
 {
 
 struct sTexture
@@ -30,7 +30,7 @@ struct sTexture
 
 sTexture	*LoadTexture( const char *p_filename );
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 #endif // __TEXTURE_H
 

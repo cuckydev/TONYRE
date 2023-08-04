@@ -3,7 +3,7 @@
 
 #include <Plat/Gfx/nx/sprite.h>
 
-namespace NxXbox
+namespace NxWn32
 {
 
 
@@ -87,7 +87,7 @@ extern SFont *pFontList;
 extern SFont *pButtonsFont;
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 
 #endif // __CHARS_H

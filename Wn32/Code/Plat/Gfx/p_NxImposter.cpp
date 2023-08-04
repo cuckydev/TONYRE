@@ -111,17 +111,17 @@ void CImposterManager::plat_pre_render_imposters( void )
 {
 	/*
 	// Set up the common material attributes for the imposters.
-//	NxXbox::set_blend_mode( NxXbox::vBLEND_MODE_BLEND );
-	NxXbox::set_blend_mode( NxXbox::vBLEND_MODE_ONE_INV_SRC_ALPHA );
+//	NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_BLEND );
+	NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_ONE_INV_SRC_ALPHA );
 
-	NxXbox::set_vertex_shader( D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 ));
-	NxXbox::set_pixel_shader( PixelShader2 );
+	NxWn32::set_vertex_shader( D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 ));
+	NxWn32::set_pixel_shader( PixelShader2 );
 
-	NxXbox::set_render_state( RS_UVADDRESSMODE0,	0x00010001UL );
-	NxXbox::set_render_state( RS_ALPHACUTOFF,		1 );
-	NxXbox::set_render_state( RS_ZWRITEENABLE,		1 );
-	NxXbox::set_render_state( RS_ZTESTENABLE,		1 );
-	NxXbox::set_render_state( RS_CULLMODE,			D3DCULL_NONE );
+	NxWn32::set_render_state( RS_UVADDRESSMODE0,	0x00010001UL );
+	NxWn32::set_render_state( RS_ALPHACUTOFF,		1 );
+	NxWn32::set_render_state( RS_ZWRITEENABLE,		1 );
+	NxWn32::set_render_state( RS_ZTESTENABLE,		1 );
+	NxWn32::set_render_state( RS_CULLMODE,			D3DCULL_NONE );
 
 	D3DDevice_SetTextureStageState( 0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE );
 	D3DDevice_SetTextureStageState( 0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_PASSTHRU | 0 );
@@ -138,8 +138,8 @@ void CImposterManager::plat_post_render_imposters( void )
 {
 	/*
 	// Clean up the common material attributes for the imposters.
-	NxXbox::set_texture( 0, NULL );
-	NxXbox::set_render_state( RS_CULLMODE, D3DCULL_CW );
+	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_render_state( RS_CULLMODE, D3DCULL_CW );
 	*/
 }
 
@@ -213,7 +213,7 @@ void CXboxImposterGroup::process_removed_textures( void )
 
 		sRemovedTextureDetails	*p_details	= p_node->GetData();
 		int						time		= p_details->m_time_removed;
-		if((( NxXbox::EngineGlobals.render_start_time - time ) > 250 ) || ( time > NxXbox::EngineGlobals.render_start_time ))
+		if((( NxWn32::EngineGlobals.render_start_time - time ) > 250 ) || ( time > NxWn32::EngineGlobals.render_start_time ))
 		{
 			IDirect3DTexture8*	p_texture	= p_details->mp_texture;
 			p_texture->Release();
@@ -250,7 +250,7 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 	// Generate a camera matrix that will point the camera directly at the midpoint of the bounding box.
 	XGMATRIX	cam_mat;
 	XGVECTOR3	look_at( m_composite_bbox_mid[X], m_composite_bbox_mid[Y], m_composite_bbox_mid[Z] );
-	XGMatrixLookAtRH( &cam_mat, &NxXbox::EngineGlobals.cam_position, &look_at, &NxXbox::EngineGlobals.cam_up );
+	XGMatrixLookAtRH( &cam_mat, &NxWn32::EngineGlobals.cam_position, &look_at, &NxWn32::EngineGlobals.cam_up );
 
 	// Using this camera matrix, project all eight corners of the bounding box, in order to determine the best size for the texture.
 	Mth::Vector proj_max_x, proj_max_y, proj_mid;
@@ -261,11 +261,11 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 	float max_projected_y	= proj_max_y[Y] * ( proj_mid[Z] / proj_max_y[Z] );
 
 	// Calculate the maximum width and height at the near plane.
-	float wnp				= 2.0f * proj_max_x[X] * ( NxXbox::EngineGlobals.near_plane / fabsf( proj_max_x[Z] ));
-	float hnp				= 2.0f * proj_max_y[Y] * ( NxXbox::EngineGlobals.near_plane / fabsf( proj_max_y[Z] ));
+	float wnp				= 2.0f * proj_max_x[X] * ( NxWn32::EngineGlobals.near_plane / fabsf( proj_max_x[Z] ));
+	float hnp				= 2.0f * proj_max_y[Y] * ( NxWn32::EngineGlobals.near_plane / fabsf( proj_max_y[Z] ));
 
-	m_tex_width				= 16 + Ftoi_ASM(( 640.0f * wnp ) / NxXbox::EngineGlobals.near_plane_width );
-	m_tex_height			= 16 + Ftoi_ASM(( 480.0f * hnp ) / NxXbox::EngineGlobals.near_plane_height );
+	m_tex_width				= 16 + Ftoi_ASM(( 640.0f * wnp ) / NxWn32::EngineGlobals.near_plane_width );
+	m_tex_height			= 16 + Ftoi_ASM(( 480.0f * hnp ) / NxWn32::EngineGlobals.near_plane_height );
 
 	// Round texture to the nearest 16 pixel limit.
 	m_tex_width				= (( m_tex_width + 0x0F ) & ~0x0F );
@@ -277,7 +277,7 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 
 	// Calculate the corresponding projection matrix.
 	XGMATRIX proj_mat;
-	XGMatrixPerspectiveRH( &proj_mat, wnp, hnp, NxXbox::EngineGlobals.near_plane, NxXbox::EngineGlobals.far_plane );
+	XGMatrixPerspectiveRH( &proj_mat, wnp, hnp, NxWn32::EngineGlobals.near_plane, NxWn32::EngineGlobals.far_plane );
 
 	// Set the calculated view and projection matrices.
 	D3DDevice_SetTransform( D3DTS_VIEW, &cam_mat );
@@ -312,10 +312,10 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 	m_imposter_polygon_exists = true;
 
 	// Set the camera position at the time of creation.
-	m_cam_pos.Set( NxXbox::EngineGlobals.cam_position.x, NxXbox::EngineGlobals.cam_position.y, NxXbox::EngineGlobals.cam_position.z );
+	m_cam_pos.Set( NxWn32::EngineGlobals.cam_position.x, NxWn32::EngineGlobals.cam_position.y, NxWn32::EngineGlobals.cam_position.z );
 
 	// Build a list of meshes, so we can sort them dynamically into draw order.
-	NxXbox::sMesh*	mesh_list[256];
+	NxWn32::sMesh*	mesh_list[256];
 	uint32			num_meshes = 0;
 
 	Lst::Node<Nx::CGeom> *node, *next;
@@ -327,7 +327,7 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 		for( uint32 m = 0; m < p_xbox_geom->m_num_mesh; ++m )
 		{
 			Dbg_Assert( num_meshes < 256 );
-			NxXbox::sMesh* p_mesh	= p_xbox_geom->m_mesh_array[m];
+			NxWn32::sMesh* p_mesh	= p_xbox_geom->m_mesh_array[m];
 			mesh_list[num_meshes++]	= p_mesh;
 		}
 	}
@@ -335,15 +335,15 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 	if( num_meshes > 0 )
 	{
 		// Sort the array of pointers into draw order.
-		qsort( mesh_list, num_meshes, sizeof( NxXbox::sMesh* ), NxXbox::sort_by_material_draw_order );
+		qsort( mesh_list, num_meshes, sizeof( NxWn32::sMesh* ), NxWn32::sort_by_material_draw_order );
 	}
 
 	// Render each mesh into the render target.
-	NxXbox::EngineGlobals.blend_mode_override = NxXbox::vBLEND_MODE_ONE_INV_SRC_ALPHA;
-	NxXbox::sMaterial*	p_material = NULL;
+	NxWn32::EngineGlobals.blend_mode_override = NxWn32::vBLEND_MODE_ONE_INV_SRC_ALPHA;
+	NxWn32::sMaterial*	p_material = NULL;
 	for( uint32 m = 0; m < num_meshes; ++m )
 	{
-		NxXbox::sMesh* p_mesh = mesh_list[m];
+		NxWn32::sMesh* p_mesh = mesh_list[m];
 		if( p_mesh->mp_material != p_material )
 		{
 			p_material	= p_mesh->mp_material;
@@ -351,7 +351,7 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 		}
 		p_mesh->Submit();
 	}
-	NxXbox::EngineGlobals.blend_mode_override = 0;
+	NxWn32::EngineGlobals.blend_mode_override = 0;
 
 	// Can now set the meshes in the geom inactive.
 	for( node = mp_geom_list->GetNext(); node; node = next )
@@ -367,16 +367,16 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 	p_depth_buffer->Release();
 
 	// Restore the default render target.
-	D3DDevice_SetRenderTarget( NxXbox::EngineGlobals.p_RenderSurface, NxXbox::EngineGlobals.p_ZStencilSurface );
+	D3DDevice_SetRenderTarget( NxWn32::EngineGlobals.p_RenderSurface, NxWn32::EngineGlobals.p_ZStencilSurface );
 
 	// Restore the view and projection transforms.
-	D3DDevice_SetTransform( D3DTS_VIEW, &NxXbox::EngineGlobals.view_matrix );
-	D3DDevice_SetTransform( D3DTS_PROJECTION, &NxXbox::EngineGlobals.projection_matrix );
+	D3DDevice_SetTransform( D3DTS_VIEW, &NxWn32::EngineGlobals.view_matrix );
+	D3DDevice_SetTransform( D3DTS_PROJECTION, &NxWn32::EngineGlobals.projection_matrix );
 
 	// Now figure the vertex positions for the polygon.
 	Mth::Vector at = m_composite_bbox_mid - m_cam_pos;
 	at.Normalize();
-	Mth::Vector right	= Mth::CrossProduct( Mth::Vector( NxXbox::EngineGlobals.cam_up.x, NxXbox::EngineGlobals.cam_up.y, NxXbox::EngineGlobals.cam_up.z ), at );
+	Mth::Vector right	= Mth::CrossProduct( Mth::Vector( NxWn32::EngineGlobals.cam_up.x, NxWn32::EngineGlobals.cam_up.y, NxWn32::EngineGlobals.cam_up.z ), at );
 	right.Normalize();
 	Mth::Vector up		= Mth::CrossProduct( at, right );
 
@@ -424,7 +424,7 @@ void CXboxImposterGroup::plat_remove_imposter_polygon( void )
 			// for sufficient time to ensure that the GPU will no longer try to access it during push buffer processing.
 			sRemovedTextureDetails	*p_new_details			= new sRemovedTextureDetails;
 			p_new_details->mp_texture						= mp_texture;
-			p_new_details->m_time_removed					= NxXbox::EngineGlobals.render_start_time;
+			p_new_details->m_time_removed					= NxWn32::EngineGlobals.render_start_time;
 
 			Lst::Node<sRemovedTextureDetails> *p_new_node	= new Lst::Node<sRemovedTextureDetails>( p_new_details );
 			mp_removed_textures_list->AddToTail( p_new_node );
@@ -455,9 +455,9 @@ bool CXboxImposterGroup::plat_update_imposter_polygon( void )
 {
 	/*
 	// Calculate the new vector from bounding box midpoint to camera.
-	Mth::Vector new_vec( NxXbox::EngineGlobals.cam_position.x - m_composite_bbox_mid[X], 
-						 NxXbox::EngineGlobals.cam_position.y - m_composite_bbox_mid[Y],
-						 NxXbox::EngineGlobals.cam_position.z - m_composite_bbox_mid[Z] );
+	Mth::Vector new_vec( NxWn32::EngineGlobals.cam_position.x - m_composite_bbox_mid[X], 
+						 NxWn32::EngineGlobals.cam_position.y - m_composite_bbox_mid[Y],
+						 NxWn32::EngineGlobals.cam_position.z - m_composite_bbox_mid[Z] );
 	new_vec.Normalize();
 
 	// Calculate the old vector from bounding box midpoint to camera when the imposter was created.
@@ -483,19 +483,19 @@ bool CXboxImposterGroup::plat_update_imposter_polygon( void )
 		// Generate a camera matrix that will point the camera directly at the midpoint of the bounding box.
 		XGMATRIX	cam_mat;
 		XGVECTOR3	look_at( m_composite_bbox_mid[X], m_composite_bbox_mid[Y], m_composite_bbox_mid[Z] );
-		XGMatrixLookAtRH( &cam_mat, &NxXbox::EngineGlobals.cam_position, &look_at, &NxXbox::EngineGlobals.cam_up );
+		XGMatrixLookAtRH( &cam_mat, &NxWn32::EngineGlobals.cam_position, &look_at, &NxWn32::EngineGlobals.cam_up );
 
 		// Using this camera matrix, project all eight corners of the bounding box, in order to determine the best size for the texture.
 		Mth::Vector proj_max_x, proj_max_y, proj_mid;
 		frustum_project_box( m_composite_bbox, &cam_mat, &proj_max_x, &proj_max_y, &proj_mid );
 
 		// Calculate the maximum width and height at the near plane.
-		float wnp		= 2.0f * proj_max_x[X] * ( NxXbox::EngineGlobals.near_plane / fabsf( proj_max_x[Z] ));
-		float hnp		= 2.0f * proj_max_y[Y] * ( NxXbox::EngineGlobals.near_plane / fabsf( proj_max_y[Z] ));
+		float wnp		= 2.0f * proj_max_x[X] * ( NxWn32::EngineGlobals.near_plane / fabsf( proj_max_x[Z] ));
+		float hnp		= 2.0f * proj_max_y[Y] * ( NxWn32::EngineGlobals.near_plane / fabsf( proj_max_y[Z] ));
 
 		// Round texture to the nearest 16 pixel limit.
-		int tex_width	= 16 + Ftoi_ASM(( 640.0f * wnp ) / NxXbox::EngineGlobals.near_plane_width );
-		int tex_height	= 16 + Ftoi_ASM(( 480.0f * hnp ) / NxXbox::EngineGlobals.near_plane_height );
+		int tex_width	= 16 + Ftoi_ASM(( 640.0f * wnp ) / NxWn32::EngineGlobals.near_plane_width );
+		int tex_height	= 16 + Ftoi_ASM(( 480.0f * hnp ) / NxWn32::EngineGlobals.near_plane_height );
 		tex_width		= ( tex_width + 0x0F ) & ~0x0F;
 		tex_height		= ( tex_height + 0x0F ) & ~0x0F;
 
@@ -524,10 +524,10 @@ void CXboxImposterGroup::plat_draw_imposter_polygon( void )
 {
 	/*
 	// Have to clear texture 0 before switching to the imposter texture, because it is a linear format.
-	NxXbox::set_texture( 0, NULL );
-	NxXbox::set_texture( 0, mp_texture );
+	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, mp_texture );
 
-	NxXbox::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_QUADLIST, 1, m_vertex_buffer, sizeof( sImposterPolyVert ));
+	NxWn32::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_QUADLIST, 1, m_vertex_buffer, sizeof( sImposterPolyVert ));
 	*/
 }
 
@@ -541,7 +541,7 @@ float CXboxImposterGroup::plat_check_distance( void )
 {
 	/*
 	// First check the visibility, using the bounding sphere.
-	bool visible = NxXbox::frustum_check_sphere((D3DXVECTOR3*)&( m_composite_bbox_mid[X] ), m_composite_bsphere_radius );
+	bool visible = NxWn32::frustum_check_sphere((D3DXVECTOR3*)&( m_composite_bbox_mid[X] ), m_composite_bsphere_radius );
 
 	if( !visible )
 		return 0.0f;
@@ -554,14 +554,14 @@ float CXboxImposterGroup::plat_check_distance( void )
 	float	max_z = m_composite_bbox.GetMax().GetZ();
 
 	// The camera-space distance to the nearest point on the composite bounding box of the imposter.
-	float	nearest = NxXbox::EngineGlobals.far_plane;
+	float	nearest = NxWn32::EngineGlobals.far_plane;
 
 	for( uint32 v = 0; v < 8; ++v )
 	{
 		XGVECTOR3 test_in( ( v & 0x04 ) ? max_x : min_x, ( v & 0x02 ) ? max_y : min_y, ( v & 0x01 ) ? max_z : min_z );
 		XGVECTOR4 test_mid;
 		
-		XGVec3Transform( &test_mid, &test_in, &NxXbox::EngineGlobals.view_matrix );
+		XGVec3Transform( &test_mid, &test_in, &NxWn32::EngineGlobals.view_matrix );
 
 		// Do z-checking here.
 		if( -test_mid.z < m_switch_distance )

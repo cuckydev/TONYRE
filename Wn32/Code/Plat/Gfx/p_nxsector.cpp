@@ -150,14 +150,14 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	Mem::Manager::sHandle().PopContext();
 
 	// Preprocess verts that require cutscene scaling.
-	NxXbox::ApplyMeshScaling( p_vertex_positions, num_vertices );
+	NxWn32::ApplyMeshScaling( p_vertex_positions, num_vertices );
 
 	for( uint m = 0; m < p_geom->m_num_mesh; ++m )
 	{
 		unsigned long	material_checksum;
 		unsigned int	flags, num_lod_index_levels;
 
-		NxXbox::sMesh*	p_mesh = new NxXbox::sMesh;
+		NxWn32::sMesh*	p_mesh = new NxWn32::sMesh;
 
 		// Read bounding sphere and box data.
 		float		rad;
@@ -171,11 +171,11 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		MemoryRead( &flags, sizeof( uint32 ), 1, p_data );
 		if( flags & 0x400 )
 		{
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
 		}
-		if( flags & NxXbox::sMesh::MESH_FLAG_UNLIT )
+		if( flags & NxWn32::sMesh::MESH_FLAG_UNLIT )
 		{
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_UNLIT;
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_UNLIT;
 		}
 
 		// The material checksum for this mesh.
@@ -230,13 +230,13 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		if( m_flags & 0x00800000UL )
 		{
 			p_mesh->SetBillboardData( billboard_type, billboard_pivot_pos, billboard_pivot_axis );
-			NxXbox::BillboardManager.AddEntry( p_mesh );
+			NxWn32::BillboardManager.AddEntry( p_mesh );
 		}
 
 		// Flag the mesh as being a shadow volume if applicable.
 		if( m_flags & 0x200000 )
 		{
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_SHADOW_VOLUME;
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_SHADOW_VOLUME;
 		}
 
 		// Add the mesh to the attached CXboxGeom.
@@ -404,7 +404,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		unsigned long	material_checksum;
 		unsigned int	flags, num_lod_index_levels;
 
-		NxXbox::sMesh*	p_mesh = new NxXbox::sMesh;
+		NxWn32::sMesh*	p_mesh = new NxWn32::sMesh;
 
 		// Read bounding sphere and box data.
 		float		rad;
@@ -418,11 +418,11 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		File::Read( &flags, sizeof( uint32 ), 1, p_file );
 		if( flags & 0x400 )
 		{
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
 		}
-		if( flags & NxXbox::sMesh::MESH_FLAG_UNLIT )
+		if( flags & NxWn32::sMesh::MESH_FLAG_UNLIT )
 		{
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_UNLIT;
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_UNLIT;
 		}
 
 		// The material checksum for this mesh.
@@ -477,13 +477,13 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		if( m_flags & 0x00800000UL )
 		{
 			p_mesh->SetBillboardData( billboard_type, billboard_pivot_pos, billboard_pivot_axis );
-			NxXbox::BillboardManager.AddEntry( p_mesh );
+			NxWn32::BillboardManager.AddEntry( p_mesh );
 		}
 
 		// Flag the mesh as being a shadow volume if applicable.
 		if( m_flags & 0x200000 )
 		{
-			p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_SHADOW_VOLUME;
+			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_SHADOW_VOLUME;
 		}
 
 		// Add the mesh to the attached CXboxGeom.
@@ -603,7 +603,7 @@ void CXboxSector::plat_set_visibility(uint32 mask)
 	{
 		for( uint m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 			p_mesh->SetVisibility( mask );
 		}
 	}
@@ -626,7 +626,7 @@ void CXboxSector::plat_set_active( bool on )
 	{
 		for( uint m = 0; m < m_num_mesh; ++m )
 		{
-			NxXbox::sMesh *p_mesh = m_mesh_array[m];
+			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 			p_mesh->SetActive( on );
 		}
 	}
@@ -649,8 +649,8 @@ void CXboxSector::plat_set_color( Image::RGBA rgba )
 
 	for( uint32 i = 0; i < m_num_mesh; ++i )
 	{
-		NxXbox::sMesh *p_mesh = m_mesh_array[i];
-		p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+		NxWn32::sMesh *p_mesh = m_mesh_array[i];
+		p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
 		p_mesh->m_material_color_override[0] = (float)rgba.r / 255.0f;
 		p_mesh->m_material_color_override[1] = (float)rgba.g / 255.0f;
 		p_mesh->m_material_color_override[2] = (float)rgba.b / 255.0f;
@@ -674,8 +674,8 @@ void CXboxSector::plat_clear_color( void )
 
 	for( uint32 i = 0; i < m_num_mesh; ++i )
 	{
-		NxXbox::sMesh *p_mesh = m_mesh_array[i];
-		p_mesh->m_flags &= ~NxXbox::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+		NxWn32::sMesh *p_mesh = m_mesh_array[i];
+		p_mesh->m_flags &= ~NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
 	}
 */
 }
@@ -694,7 +694,7 @@ void CXboxSector::plat_set_world_position( const Mth::Vector& pos )
 	// Go through and adjust the individual meshes.
 	for( uint32 i = 0; i < m_num_mesh; ++i )
 	{
-		NxXbox::sMesh *p_mesh = m_mesh_array[i];
+		NxWn32::sMesh *p_mesh = m_mesh_array[i];
 		p_mesh->Move( new_offset );
 	}
 */
@@ -762,7 +762,7 @@ CSector *CXboxSector::plat_clone( bool instance, CScene *p_dest_scene )
 	else
 	{
 		// Need to create a new set of meshes. First create the mesh pointer array...
-		p_xbox_sector->m_mesh_array = new NxXbox::sMesh*[m_num_mesh];
+		p_xbox_sector->m_mesh_array = new NxWn32::sMesh*[m_num_mesh];
 
 		// ...then clone the meshes themselves.
 		for( uint32 i = 0; i < m_num_mesh; ++i )
@@ -771,9 +771,9 @@ CSector *CXboxSector::plat_clone( bool instance, CScene *p_dest_scene )
 		}
 
 		// Grab a temporary workspace buffer.
-		NxXbox::sScene *p_scene								= ( static_cast<CXboxScene*>( p_dest_scene ))->GetEngineScene();
-		NxXbox::sMesh **p_temp_opaque_mesh_buffer			= new NxXbox::sMesh*[p_scene->m_num_opaque_entries];
-		NxXbox::sMesh **p_temp_semitransparent_mesh_buffer	= new NxXbox::sMesh*[p_scene->m_num_semitransparent_entries];
+		NxWn32::sScene *p_scene								= ( static_cast<CXboxScene*>( p_dest_scene ))->GetEngineScene();
+		NxWn32::sMesh **p_temp_opaque_mesh_buffer			= new NxWn32::sMesh*[p_scene->m_num_opaque_entries];
+		NxWn32::sMesh **p_temp_semitransparent_mesh_buffer	= new NxWn32::sMesh*[p_scene->m_num_semitransparent_entries];
 
 		// Copy meshes over into the temporary workspace buffer.
 		for( int i = 0; i < p_scene->m_num_opaque_entries; ++i )

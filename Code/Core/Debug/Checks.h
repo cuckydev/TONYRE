@@ -23,6 +23,12 @@
 #include <core/log.h>
 #endif
 
+#ifdef __PLAT_WN32__
+#define Dbg_Break { __debugbreak(); }
+#else
+#define Dbg_Break {}
+#endif
+
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
@@ -109,6 +115,7 @@ void	screen_assert( bool on = false );
 if ( !(_c))														\
 {																\
 	Dbg::Assert( __FILE__, __LINE__ );							\
+	Dbg_Break;													\
 }
 
 /******************************************************************/
@@ -122,6 +129,7 @@ if( !( _c ))													\
 {																\
 	Dbg::pad_printf _params;									\
 	Dbg::Assert( __FILE__, __LINE__,	Dbg::sprintf_pad );		\
+	Dbg_Break;													\
 }
 
 #else   // __NOPT_DEBUG__
@@ -135,31 +143,13 @@ if( !( _c ))													\
 if ( !(_c))														\
 {																\
 	Dbg::Assert ( __FILE__, __LINE__, NULL );					\
+	Dbg_Break;													\
 }
 
 /******************************************************************/
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-
-#ifdef __PLAT_WN32__
-
-#ifdef _CONSOLE
-#define Dbg_MsgAssert( _c, _params )							\
-																\
-if( !( _c ))													\
-{																\
-	printf("\nGame code assert!\n");							\
-	printf("File %s, line %d\n",__FILE__,__LINE__);				\
-	printf _params;												\
-	printf("\nPress CTRL-C to quit ... ");						\
-	while(1);													\
-}
-#else
-#define Dbg_MsgAssert( _c, _params )
-#endif
-
-#else
 
 #define Dbg_MsgAssert( _c, _params )							\
 																\
@@ -167,8 +157,8 @@ if( !( _c ))													\
 {																\
 	Dbg::pad_printf _params;									\
 	Dbg::Assert( __FILE__, __LINE__, Dbg::sprintf_pad );		\
+	Dbg_Break;													\
 }
-#endif
 
 #endif	// __NOPT_DEBUG__
 
@@ -208,11 +198,13 @@ if( !( _c ))													\
 	{																\
 		Dbg::Assert ( __FILE__,	__LINE__,							\
 					 Dbg_signature, Dbg::msg_null_pointer );		\
+		Dbg_Break;													\
 	}																\
 	else if ( *((uint64*)(nAlignDown(_p))) == Mem::vFREE_BLOCK )	\
 	{																\
 		Dbg::Assert ( __FILE__,	__LINE__,							\
 					 Dbg_signature, Dbg::msg_pointer_to_free_mem );	\
+		Dbg_Break;													\
 	}																\
 }
 
@@ -227,6 +219,7 @@ if( !( _c ))													\
 	{																\
 		Dbg::Assert ( __FILE__,	__LINE__,							\
 					Dbg::msg_null_pointer );						\
+		Dbg_Break;													\
 	}																\
 }
 
@@ -237,8 +230,8 @@ if( !( _c ))													\
 {																	\
 	if ((_p) == NULL )												\
 	{																\
-		Dbg::Assert ( __FILE__,	__LINE__,							\
-					 Dbg::msg_null_pointer );		\
+		Dbg::Assert ( __FILE__,	__LINE__, Dbg::msg_null_pointer );	\
+		Dbg_Break;													\
 	}																\
 }
 

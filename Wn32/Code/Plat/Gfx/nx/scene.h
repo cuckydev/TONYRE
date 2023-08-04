@@ -11,7 +11,7 @@
 #include "material.h"
 #include "anim.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 
@@ -80,7 +80,7 @@ void	DeleteScene( sScene *pScene );
 int		sort_by_material_draw_order( const void *p1, const void *p2 );
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 
 #endif // __SCENE_H

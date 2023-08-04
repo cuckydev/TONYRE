@@ -46,8 +46,8 @@
 // Unfortunately, this has to be a platform-specific macro, since it references Xbox specific global structures to determine
 // the width and height of the back buffer.
 #include <gfx/xbox/nx/nx_init.h>
-#define		SCREEN_CONV_X( x )				((( x ) * NxXbox::EngineGlobals.screen_conv_x_multiplier ) + NxXbox::EngineGlobals.screen_conv_x_offset )
-#define		SCREEN_CONV_Y( y )				((( y ) * NxXbox::EngineGlobals.screen_conv_y_multiplier ) + NxXbox::EngineGlobals.screen_conv_y_offset )
+#define		SCREEN_CONV_X( x )				((( x ) * NxWn32::EngineGlobals.screen_conv_x_multiplier ) + NxWn32::EngineGlobals.screen_conv_x_offset )
+#define		SCREEN_CONV_Y( y )				((( y ) * NxWn32::EngineGlobals.screen_conv_y_multiplier ) + NxWn32::EngineGlobals.screen_conv_y_offset )
 #else
 #define		SCREEN_CONV_X( x )				(Config::GetHardware()==Config::HARDWARE_XBOX ? (int)((( x ) * ( 640.0f / 704.0f )) + 32 )	: Config::PAL() ? (( x ) * 512 ) / 640 : (x) )
 #define		SCREEN_CONV_Y( y )				(Config::GetHardware()==Config::HARDWARE_XBOX ? (( y ) + 16 )								: Config::PAL() ? (( y ) * 512 ) / 448 : (y) )

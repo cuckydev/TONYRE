@@ -28,7 +28,7 @@ private:		// It's all private, as it is machine specific
 	virtual void				plat_update_engine();		// Update engine primitives
 	virtual void				plat_update_priority();
 
-	NxXbox::sSprite *			mp_plat_sprite;
+	NxWn32::sSprite *			mp_plat_sprite;
 };
 
 } // Namespace Nx  			

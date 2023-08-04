@@ -63,20 +63,21 @@ void CXboxModelLights::plat_update_brightness()
 /******************************************************************/
 void CXboxModelLights::plat_update_engine( Mth::Vector & pos, bool add_scene_light )
 {
+	/*
 	if( m_flags & mUSE_MODEL_AMBIENT )
 	{
 		// Use the local ambient color, modulate it with the local ambient brightness.
-		NxXbox::EngineGlobals.ambient_light_color[0] = m_ambient_color.r * ( 1.0f / 128.0f ) * m_ambient_brightness;
-		NxXbox::EngineGlobals.ambient_light_color[1] = m_ambient_color.g * ( 1.0f / 128.0f ) * m_ambient_brightness;
-		NxXbox::EngineGlobals.ambient_light_color[2] = m_ambient_color.b * ( 1.0f / 128.0f ) * m_ambient_brightness;
+		NxWn32::EngineGlobals.ambient_light_color[0] = m_ambient_color.r * ( 1.0f / 128.0f ) * m_ambient_brightness;
+		NxWn32::EngineGlobals.ambient_light_color[1] = m_ambient_color.g * ( 1.0f / 128.0f ) * m_ambient_brightness;
+		NxWn32::EngineGlobals.ambient_light_color[2] = m_ambient_color.b * ( 1.0f / 128.0f ) * m_ambient_brightness;
 	}
 	else
 	{
 		// Use the default ambient color, but modulate it with the local ambient brightness.
 		Image::RGBA	amb = CLightManager::sGetLightAmbientColor();
-		NxXbox::EngineGlobals.ambient_light_color[0] = amb.r * ( 1.0f / 128.0f ) * m_ambient_brightness;
-		NxXbox::EngineGlobals.ambient_light_color[1] = amb.g * ( 1.0f / 128.0f ) * m_ambient_brightness;
-		NxXbox::EngineGlobals.ambient_light_color[2] = amb.b * ( 1.0f / 128.0f ) * m_ambient_brightness;
+		NxWn32::EngineGlobals.ambient_light_color[0] = amb.r * ( 1.0f / 128.0f ) * m_ambient_brightness;
+		NxWn32::EngineGlobals.ambient_light_color[1] = amb.g * ( 1.0f / 128.0f ) * m_ambient_brightness;
+		NxWn32::EngineGlobals.ambient_light_color[2] = amb.b * ( 1.0f / 128.0f ) * m_ambient_brightness;
 	}
 
 	for( int i = 0; i < 2; ++i )
@@ -84,28 +85,28 @@ void CXboxModelLights::plat_update_engine( Mth::Vector & pos, bool add_scene_lig
 		if( m_flags & (( i == 0 ) ? mUSE_MODEL_DIFFUSE_0 : mUSE_MODEL_DIFFUSE_1 ))
 		{
 			// Use the local directional color, modulate it with the local directional brightness.
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 4] = m_diffuse_color[i].r * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 5] = m_diffuse_color[i].g * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 6] = m_diffuse_color[i].b * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 4] = m_diffuse_color[i].r * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 5] = m_diffuse_color[i].g * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 6] = m_diffuse_color[i].b * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
 
 			// Use the local direction.
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 0] = -m_diffuse_direction[i][X];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 1] = -m_diffuse_direction[i][Y];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 2] = -m_diffuse_direction[i][Z];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 0] = -m_diffuse_direction[i][X];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 1] = -m_diffuse_direction[i][Y];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 2] = -m_diffuse_direction[i][Z];
 		}
 		else
 		{
 			// Use the default directional color, but modulate it with the local directional brightness.
 			Image::RGBA	dif = CLightManager::sGetLightDiffuseColor( i );
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 4] = dif.r * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 5] = dif.g * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 6] = dif.b * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 4] = dif.r * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 5] = dif.g * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 6] = dif.b * ( 1.0f / 128.0f ) * m_diffuse_brightness[i];
 
 			// Use the default direction.
 			Mth::Vector dir = CLightManager::sGetLightDirection( i );
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 0] = -dir[X];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 1] = -dir[Y];
-			NxXbox::EngineGlobals.directional_light_color[( i * 8 ) + 2] = -dir[Z];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 0] = -dir[X];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 1] = -dir[Y];
+			NxWn32::EngineGlobals.directional_light_color[( i * 8 ) + 2] = -dir[Z];
 		}
 	}
 
@@ -123,24 +124,25 @@ void CXboxModelLights::plat_update_engine( Mth::Vector & pos, bool add_scene_lig
 			light_pos = ( pos - light_pos ).Normalize();
 
 			// Figure the direction...
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 0] = light_pos[X];
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 1] = light_pos[Y];
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 2] = light_pos[Z];
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 0] = light_pos[X];
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 1] = light_pos[Y];
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 2] = light_pos[Z];
 
 			// ...and the color.
 			ratio															= sqrtf( 1.0f - ratio ) * ( 1.0f / 255.0f ) * p_scene_light->GetLightIntensity();
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 4]	= ratio * p_scene_light->GetLightColor().r;
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 5]	= ratio * p_scene_light->GetLightColor().g;
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 6]	= ratio * p_scene_light->GetLightColor().b;
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 4]	= ratio * p_scene_light->GetLightColor().r;
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 5]	= ratio * p_scene_light->GetLightColor().g;
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 6]	= ratio * p_scene_light->GetLightColor().b;
 		}
 		else
 		{
 			// Disbale this light by setting zero color.
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 4] = 0.0f;
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 5] = 0.0f;
-			NxXbox::EngineGlobals.directional_light_color[( 2 * 8 ) + 6] = 0.0f;
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 4] = 0.0f;
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 5] = 0.0f;
+			NxWn32::EngineGlobals.directional_light_color[( 2 * 8 ) + 6] = 0.0f;
 		}
 	}
+	*/
 }
 
 
@@ -151,7 +153,7 @@ void CXboxModelLights::plat_update_engine( Mth::Vector & pos, bool add_scene_lig
 /******************************************************************/
 bool CXboxModelLights::plat_set_light_ambient_color( const Image::RGBA &rgba )
 {
-	m_ambient_color = rgba;
+	// m_ambient_color = rgba;
 	return true;
 }
 
@@ -163,7 +165,7 @@ bool CXboxModelLights::plat_set_light_ambient_color( const Image::RGBA &rgba )
 /******************************************************************/
 Image::RGBA	CXboxModelLights::plat_get_light_ambient_color() const
 {
-	return m_ambient_color;
+	return Image::RGBA(); // m_ambient_color;
 }
 
 
@@ -174,7 +176,7 @@ Image::RGBA	CXboxModelLights::plat_get_light_ambient_color() const
 /******************************************************************/
 bool CXboxModelLights::plat_set_light_direction( int light_index, const Mth::Vector &direction )
 {
-	m_diffuse_direction[light_index] = direction;
+	// m_diffuse_direction[light_index] = direction;
 	return true;
 }
 
@@ -186,10 +188,14 @@ bool CXboxModelLights::plat_set_light_direction( int light_index, const Mth::Vec
 /******************************************************************/
 const Mth::Vector &	CXboxModelLights::plat_get_light_direction( int light_index ) const
 {
+	/*
 	if( plat_is_diffuse_light_enabled( light_index ))
 		return m_diffuse_direction[light_index];
 	else
 		return Nx::CLightManager::sGetLightDirection( light_index );
+	*/
+	static Mth::Vector why_is_this_a_ref;
+	return why_is_this_a_ref;
 }
 
 
@@ -200,7 +206,7 @@ const Mth::Vector &	CXboxModelLights::plat_get_light_direction( int light_index 
 /******************************************************************/
 bool CXboxModelLights::plat_set_light_diffuse_color( int light_index, const Image::RGBA &rgba )
 {
-	m_diffuse_color[light_index] = rgba;
+	// m_diffuse_color[light_index] = rgba;
 	return true;
 }
 
@@ -212,7 +218,8 @@ bool CXboxModelLights::plat_set_light_diffuse_color( int light_index, const Imag
 /******************************************************************/
 Image::RGBA	CXboxModelLights::plat_get_light_diffuse_color( int light_index ) const
 {
-	return m_diffuse_color[light_index];
+	// return m_diffuse_color[light_index];
+	return Image::RGBA();
 }
 
 
@@ -223,10 +230,12 @@ Image::RGBA	CXboxModelLights::plat_get_light_diffuse_color( int light_index ) co
 /******************************************************************/
 void CXboxModelLights::plat_enable_ambient_light( bool enable )
 {
+	/*
 	if( enable )
 		m_flags |= mUSE_MODEL_AMBIENT;
 	else
 		m_flags &= ~mUSE_MODEL_AMBIENT;
+	*/
 }
 
 
@@ -237,10 +246,12 @@ void CXboxModelLights::plat_enable_ambient_light( bool enable )
 /******************************************************************/
 void CXboxModelLights::plat_enable_diffuse_light( int light_index, bool enable )
 {
+	/*
 	if( enable )
 		m_flags |= ( light_index == 0 ) ? mUSE_MODEL_DIFFUSE_0 : mUSE_MODEL_DIFFUSE_1;
 	else
 		m_flags &= ~(( light_index == 0 ) ? mUSE_MODEL_DIFFUSE_0 : mUSE_MODEL_DIFFUSE_1 );
+	*/
 }
 
 
@@ -251,7 +262,8 @@ void CXboxModelLights::plat_enable_diffuse_light( int light_index, bool enable )
 /******************************************************************/
 bool CXboxModelLights::plat_is_ambient_light_enabled() const
 {
-	return ( m_flags & mUSE_MODEL_AMBIENT ) > 0;
+	// return ( m_flags & mUSE_MODEL_AMBIENT ) > 0;
+	return true;
 }
 
 
@@ -262,7 +274,8 @@ bool CXboxModelLights::plat_is_ambient_light_enabled() const
 /******************************************************************/
 bool CXboxModelLights::plat_is_diffuse_light_enabled( int light_index ) const
 {
-	return (( light_index == 0 ) ? (( m_flags & mUSE_MODEL_DIFFUSE_0 ) > 0 ) : (( m_flags & mUSE_MODEL_DIFFUSE_1 ) > 0 ));
+	return true;
+	// return (( light_index == 0 ) ? (( m_flags & mUSE_MODEL_DIFFUSE_0 ) > 0 ) : (( m_flags & mUSE_MODEL_DIFFUSE_1 ) > 0 ));
 }
 
 } 

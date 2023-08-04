@@ -4,14 +4,34 @@
 #include <core/defines.h>
 #include <Windows.h>
 
-namespace NxXbox
+#include <SDL.h>
+#include <glad/glad.h>
+
+namespace NxWn32
 {
 
 void InitialiseEngine( void );
 void FatalFileError( uint32 error );
 
+struct GlVec4
+{
+	float x, y, z, w;
+};
+struct GlCol4
+{
+	float r, g, b, a;
+};
+
 typedef struct
 {
+	// SDL window and GL context
+	SDL_Window *window;
+	SDL_GLContext context;
+
+	// Render state
+	GlCol4 clear_color;
+
+	/*
 	// XGMATRIX			world_matrix;
 	// XGMATRIX			view_matrix;
 	// XGMATRIX			projection_matrix;
@@ -110,6 +130,7 @@ typedef struct
 	// D3DCOLOR			fog_color;
 	float				fog_start;
 	float				fog_end;
+	*/
 }
 sEngineGlobals;
 
@@ -117,6 +138,6 @@ extern sEngineGlobals EngineGlobals;
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 #endif // __NX_INIT_H

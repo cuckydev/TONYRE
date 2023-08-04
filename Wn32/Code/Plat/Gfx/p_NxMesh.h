@@ -11,7 +11,7 @@
 #include "gfx/nxmesh.h"
 #include "p_nxscene.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 	struct sScene;
 }
@@ -40,14 +40,14 @@ public:
 	void				SetCASData( uint8 *p_cas_data );
 	CXboxScene			*GetScene( void )						{ return mp_scene; }
 
-	NxXbox::sCASData	*GetCASData( void )						{ return mp_CASData; }
+	NxWn32::sCASData	*GetCASData( void )						{ return mp_CASData; }
 	uint32				GetNumCASData( void )					{ return m_numCASData; }
 
 protected:
 	bool				build_casdata_table(const char* pFileName);
 	bool				build_casdata_table_from_memory( void **pp_mem );
 
-	NxXbox::sCASData	*mp_CASData;
+	NxWn32::sCASData	*mp_CASData;
 	uint32				m_numCASData;
 
 private:

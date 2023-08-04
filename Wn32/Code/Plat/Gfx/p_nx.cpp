@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include	<sys/file/filesys.h>
 
 #include	"gfx\camera.h"
@@ -10,20 +9,15 @@
 #include	"gfx\NxParticleMgr.h"
 #include	"gfx\NxMiscFX.h"
 #include	"gfx\debuggfx.h"
-// #include	"gfx\xbox\p_NxSector.h"
-// #include	"gfx\xbox\p_NxScene.h"
-// #include	"gfx\xbox\p_NxModel.h"
-// #include	"gfx\xbox\p_NxGeom.h"
-// #include	"gfx\xbox\p_NxMesh.h"
-// #include	"gfx\xbox\p_NxSprite.h"
-// #include	"gfx\xbox\p_NxTexture.h"
-// #include	"gfx\xbox\p_NxParticle.h"
-// #include	"gfx\xbox\p_NxTextured3dPoly.h"
-// #include	"gfx\xbox\p_NxNewParticleMgr.h"
-// #include	"gfx\xbox\p_NxWeather.h"
 #include	"core\math.h"
-#include 	"sk\engine\SuperSector.h"					
+#include 	"sk\engine\SuperSector.h"
 #include 	"gel\scripting\script.h"
+
+#include <Plat/Gfx/p_NxMesh.h>
+#include <Plat/Gfx/p_NxGeom.h>
+
+#include <Plat/Gfx/nx/nx_init.h>
+#include <Plat/Gfx/nx/scene.h>
 
 namespace Nx
 {
@@ -34,7 +28,8 @@ namespace Nx
 /******************************************************************/
 	void CEngine::s_plat_start_engine(void)
 	{
-		
+		// Initialize engine
+		NxWn32::InitialiseEngine();
 	}
 
 
@@ -56,7 +51,13 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_post_render(void)
 	{
-		
+		// Swap window
+		SDL_GL_SwapWindow(NxWn32::EngineGlobals.window);
+
+		// Clear the screen for next frame
+		NxWn32::GlCol4 &clear_color = NxWn32::EngineGlobals.clear_color;
+		glClearColor(clear_color.r, clear_color.g, clear_color.b, clear_color.a);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 
@@ -98,7 +99,98 @@ namespace Nx
 	/******************************************************************/
 	CScene *CEngine::s_plat_load_scene(const char *p_name, CTexDict *p_tex_dict, bool add_super_sectors, bool is_sky, bool is_dictionary)
 	{
-		return nullptr;
+		CSector *pSector;
+		CXboxSector *pXboxSector;
+
+		Dbg_Message("loading scene from file %s\n", p_name);
+
+		// Create a new NxWn32::sScene so the engine can track assets for this scene.
+		NxWn32::sScene *p_engine_scene = new NxWn32::sScene();
+
+		// Set the dictionary flag.
+		p_engine_scene->m_is_dictionary = is_dictionary;
+
+		// Open the scene file.
+		void *p_file = File::Open(p_name, "rb");
+		if (!p_file)
+		{
+			Dbg_MsgAssert(p_file, ("Couldn't open scene file %s\n", p_name));
+			return NULL;
+		}
+
+		// Version numbers.
+		uint32 mat_version, mesh_version, vert_version;
+		File::Read(&mat_version, sizeof(uint32), 1, p_file);
+		File::Read(&mesh_version, sizeof(uint32), 1, p_file);
+		File::Read(&vert_version, sizeof(uint32), 1, p_file);
+
+		// Import materials (they will now be associated at the engine-level with this scene).
+		p_engine_scene->pMaterialTable = NxWn32::LoadMaterials(p_file, p_tex_dict->GetTexLookup());
+
+		// Read number of sectors.
+		int num_sectors;
+		File::Read(&num_sectors, sizeof(int), 1, p_file);
+
+		// Figure optimum hash table lookup size.
+		uint32 optimal_table_size = num_sectors * 2;
+		uint32 test = 2;
+		uint32 size = 1;
+		for (;; test <<= 1, ++size)
+		{
+			// Check if this iteration of table size is sufficient, or if we have hit the maximum size.
+			if ((optimal_table_size <= test) || (size >= 12))
+			{
+				break;
+			}
+		}
+
+		// Create scene class instance, using optimum size sector table.
+		CScene *new_scene = new CXboxScene(size);
+		new_scene->SetInSuperSectors(add_super_sectors);
+		new_scene->SetIsSky(is_sky);
+
+		// Get a scene id from the engine.
+		CXboxScene *p_new_xbox_scene = static_cast<CXboxScene *>(new_scene);
+		p_new_xbox_scene->SetEngineScene(p_engine_scene);
+
+		for (int s = 0; s < num_sectors; ++s)
+		{
+			// Create a new sector to hold the incoming details.
+			pSector = p_new_xbox_scene->CreateSector();
+			pXboxSector = static_cast<CXboxSector *>(pSector);
+
+			// Generate a hanging geom for the sector, used for creating level objects etc.
+			CXboxGeom *p_xbox_geom = new CXboxGeom();
+			p_xbox_geom->SetScene(p_new_xbox_scene);
+			pXboxSector->SetGeom(p_xbox_geom);
+
+			// Prepare CXboxGeom for receiving data.
+			p_xbox_geom->InitMeshList();
+
+			// Load sector data.
+			if (pXboxSector->LoadFromFile(p_file))
+			{
+				new_scene->AddSector(pSector);
+			}
+		}
+
+		// At this point get the engine scene to figure it's bounding volumes.
+		p_engine_scene->FigureBoundingVolumes();
+
+		// Read hierarchy information.
+		int num_hierarchy_objects;
+		File::Read(&num_hierarchy_objects, sizeof(int), 1, p_file);
+
+		if (num_hierarchy_objects > 0)
+		{
+			p_engine_scene->mp_hierarchyObjects = new CHierarchyObject[num_hierarchy_objects];
+			File::Read(p_engine_scene->mp_hierarchyObjects, sizeof(CHierarchyObject), num_hierarchy_objects, p_file);
+			p_engine_scene->m_numHierarchyObjects = num_hierarchy_objects;
+		}
+
+		File::Close(p_file);
+
+		return new_scene;
 	}
 
 
@@ -131,11 +223,13 @@ namespace Nx
 	/*                                                                */
 	/*                                                                */
 	/******************************************************************/
-	//CTexDict* CEngine::s_plat_load_textures( const char* p_name )
-	//{
-	//	NxXbox::LoadTextureFile( p_name );
-	//	return NULL;
-	//}
+	/*
+	CTexDict* CEngine::s_plat_load_textures( const char* p_name )
+	{
+		// NxWn32::LoadTextureFile( p_name );
+		return NULL;
+	}
+	*/
 
 
 
@@ -211,6 +305,22 @@ namespace Nx
 	/******************************************************************/
 	CMesh *CEngine::s_plat_load_mesh(const char *pMeshFileName, Nx::CTexDict *pTexDict, uint32 texDictOffset, bool isSkin, bool doShadowVolume)
 	{
+		// Load the scene.
+		Nx::CScene *p_scene = Nx::CEngine::s_plat_load_scene(pMeshFileName, pTexDict, false, false, false);
+
+		// Store the checksum of the scene name.
+		p_scene->SetID(Script::GenerateCRC(pMeshFileName)); // store the checksum of the scene name
+
+		p_scene->SetTexDict(pTexDict);
+		p_scene->PostLoad(pMeshFileName);
+
+		// Create mesh
+		CXboxMesh *pMesh = new CXboxMesh(pMeshFileName);
+
+		Nx::CXboxScene *p_xbox_scene = static_cast<Nx::CXboxScene*>(p_scene);
+		pMesh->SetScene(p_xbox_scene);
+		pMesh->SetTexDict(pTexDict);
+
 		return nullptr;
 	}
 

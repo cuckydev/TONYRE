@@ -4,9 +4,11 @@
 #include <core/HashTable.h>
 #include <gfx/image/imagebasic.h>
 #include <gfx/nxtexture.h>
-#include "texture.h"
 
-namespace NxXbox
+#include "texture.h"
+#include "nx_init.h"
+
+namespace NxWn32
 {
 
 // Material Flags
@@ -118,7 +120,7 @@ struct sMaterial
 	float					m_k[MAX_PASSES];
 	uint32					m_num_wibble_vc_anims;
 	sVCWibbleParams			*mp_wibble_vc_params;
-	// D3DCOLOR				*mp_wibble_vc_colors;				// Max of eight banks of vertex color wibble information.
+	GlCol4					*mp_wibble_vc_colors;				// Max of eight banks of vertex color wibble information.
 	sTextureWibbleParams	*mp_wibble_texture_params;
 	float					m_specular_color[4];				// Specular color (0-2) plus power term (3).
 };
@@ -130,7 +132,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 //extern Lst::HashTable< sMaterial > *pMaterialTable;
 extern uint32 NumMaterials;
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 #endif // __MATERIAL_H
 

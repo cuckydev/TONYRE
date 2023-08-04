@@ -62,7 +62,7 @@ static void sGetWorldMatrixFromScreenPosition(int camera_num, Mth::Matrix *p_wor
 	screenX *= (Nx::CViewportManager::sGetScreenAspect() / 1.3333333f);
 
 	// Also, adjust for 720p (horrible hack).
-	if( NxXbox::EngineGlobals.backbuffer_width > 640 )
+	if( NxWn32::EngineGlobals.backbuffer_width > 640 )
 	{
 		screenX *= 0.9f;
 		screenY *= 0.9f;

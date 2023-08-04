@@ -45,7 +45,7 @@ static uint32		loadingBarBorderColor;
 void CALLBACK loadingBarTimerCallback( UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2 )
 {
 	/*
-	if( NxXbox::EngineGlobals.loadingbar_timer_event != 0 )
+	if( NxWn32::EngineGlobals.loadingbar_timer_event != 0 )
 	{
 		loadingBarCurrentSeconds += loadingBarDeltaSeconds;
 		float mult			= loadingBarCurrentSeconds / loadingBarTotalSeconds;
@@ -55,7 +55,7 @@ void CALLBACK loadingBarTimerCallback( UINT uTimerID, UINT uMsg, DWORD_PTR dwUse
 		// Get pointer to front buffer memory.
 		IDirect3DSurface8	*p_buffer;
 		D3DLOCKED_RECT		locked_rect;
-		NxXbox::EngineGlobals.p_Device->GetBackBuffer( -1, D3DBACKBUFFER_TYPE_MONO, &p_buffer );
+		NxWn32::EngineGlobals.p_Device->GetBackBuffer( -1, D3DBACKBUFFER_TYPE_MONO, &p_buffer );
 		p_buffer->LockRect( &locked_rect, NULL, D3DLOCK_TILED );
 		uint32 *p_screen = (uint32*)locked_rect.pBits;
 
@@ -81,7 +81,7 @@ void CALLBACK loadingBarTimerCallback( UINT uTimerID, UINT uMsg, DWORD_PTR dwUse
 		bar_end					= (int)SCREEN_CONV_X( bar_end );
 		surround_end			= (int)SCREEN_CONV_X( surround_end );
 		
-		if( NxXbox::EngineGlobals.backbuffer_width > 640 )
+		if( NxWn32::EngineGlobals.backbuffer_width > 640 )
 		{
 			bar_start			+= HDTV_OFFSET;
 			surround_start		+= HDTV_OFFSET;
@@ -93,7 +93,7 @@ void CALLBACK loadingBarTimerCallback( UINT uTimerID, UINT uMsg, DWORD_PTR dwUse
 		
 		for( int i = 0; i < 20; ++i )
 		{
-			uint32 *p_loop = p_screen + (( base_y + i ) * NxXbox::EngineGlobals.backbuffer_width );
+			uint32 *p_loop = p_screen + (( base_y + i ) * NxWn32::EngineGlobals.backbuffer_width );
 
 			if(( i < 5 ) || ( i >= 15 ))
 			{
@@ -145,7 +145,7 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 {
 	/*
 	// Wait for asyncronous rendering to finish.
-	NxXbox::EngineGlobals.p_Device->BlockUntilIdle();
+	NxWn32::EngineGlobals.p_Device->BlockUntilIdle();
 
 	if( !just_freeze )
 	{
@@ -226,18 +226,18 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 			D3DDevice_SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
 
 			// Turn on clamping so that the linear textures work
-			NxXbox::set_render_state( RS_UVADDRESSMODE0, 0x00010001UL );
+			NxWn32::set_render_state( RS_UVADDRESSMODE0, 0x00010001UL );
 
 			D3DDevice_SetRenderState( D3DRS_LIGHTING,				FALSE );
 	
 			// Use a default vertex shader
-			NxXbox::set_pixel_shader( 0 );
-			NxXbox::set_vertex_shader( D3DFVF_XYZRHW | D3DFVF_TEX1 );
-			NxXbox::set_blend_mode( NxXbox::vBLEND_MODE_DIFFUSE );
+			NxWn32::set_pixel_shader( 0 );
+			NxWn32::set_vertex_shader( D3DFVF_XYZRHW | D3DFVF_TEX1 );
+			NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_DIFFUSE );
 
 			// Select the texture (flush first, since the screen texture is linear).
-			NxXbox::set_texture( 0, NULL );
-			NxXbox::set_texture( 0, sp_load_screen_texture->GetEngineTexture()->pD3DTexture, sp_load_screen_texture->GetEngineTexture()->pD3DPalette );
+			NxWn32::set_texture( 0, NULL );
+			NxWn32::set_texture( 0, sp_load_screen_texture->GetEngineTexture()->pD3DTexture, sp_load_screen_texture->GetEngineTexture()->pD3DPalette );
 
 			// Setup up the vertices.
 			typedef struct
@@ -252,8 +252,8 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 			// for this screen dimension.
 			float tex_w = (float)sp_load_screen_texture->GetEngineTexture()->ActualWidth;
 			float tex_h = (float)sp_load_screen_texture->GetEngineTexture()->ActualHeight;
-			float scr_w = (float)NxXbox::EngineGlobals.backbuffer_width;
-			float scr_h = (float)NxXbox::EngineGlobals.backbuffer_height;
+			float scr_w = (float)NxWn32::EngineGlobals.backbuffer_width;
+			float scr_h = (float)NxWn32::EngineGlobals.backbuffer_height;
 
 			LOADSCREEN_VERT	vertices[4];
 
@@ -307,7 +307,7 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 			sp_load_screen_texture = NULL;
 
 			// Reflush linear texture out.
-			NxXbox::set_texture( 0, NULL );
+			NxWn32::set_texture( 0, NULL );
 
 			// Restore the stage zero minfilter.
 			D3DDevice_SetTextureStageState( 0, D3DTSS_MINFILTER, stage_zero_minfilter );
@@ -315,7 +315,7 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 	}
 
 	// Indicate that the loading screen is visible, to stop any more rendering until it is hidden.
-	NxXbox::EngineGlobals.loadingscreen_visible = true;
+	NxWn32::EngineGlobals.loadingscreen_visible = true;
 	*/
 }
 
@@ -328,14 +328,14 @@ void CLoadScreen::s_plat_hide()
 {
 	/*
 	// Remove the loading bar.
-	if( NxXbox::EngineGlobals.loadingbar_timer_event != 0 )
+	if( NxWn32::EngineGlobals.loadingbar_timer_event != 0 )
 	{
-		timeKillEvent( NxXbox::EngineGlobals.loadingbar_timer_event );
-		NxXbox::EngineGlobals.loadingbar_timer_event = 0;
+		timeKillEvent( NxWn32::EngineGlobals.loadingbar_timer_event );
+		NxWn32::EngineGlobals.loadingbar_timer_event = 0;
 	}
 
 	// Indicate that the loading screen is no longer visible.
-	NxXbox::EngineGlobals.loadingscreen_visible = false;
+	NxWn32::EngineGlobals.loadingscreen_visible = false;
 	*/
 }
 
@@ -375,14 +375,14 @@ void CLoadScreen::s_plat_start_loading_bar( float seconds )
 	s_plat_update_bar_properties();
 
 	// Set up the timer event.
-	if( NxXbox::EngineGlobals.loadingbar_timer_event == 0 )
+	if( NxWn32::EngineGlobals.loadingbar_timer_event == 0 )
 	{
-		NxXbox::EngineGlobals.loadingbar_timer_event = timeSetEvent( (uint32)( loadingBarDeltaSeconds * 1000.0f ),	// Delay (ms).
+		NxWn32::EngineGlobals.loadingbar_timer_event = timeSetEvent( (uint32)( loadingBarDeltaSeconds * 1000.0f ),	// Delay (ms).
 																	 0,												// Ignored resolution (ms).
 																	 loadingBarTimerCallback,						// Callback function.
 																	 0,												// Callback data.
 																	 TIME_PERIODIC | TIME_CALLBACK_FUNCTION );
-		Dbg_Assert( NxXbox::EngineGlobals.loadingbar_timer_event != 0 );
+		Dbg_Assert( NxWn32::EngineGlobals.loadingbar_timer_event != 0 );
 	}
 	*/
 }
@@ -408,7 +408,7 @@ void CLoadScreen::s_plat_update_bar_properties( void )
 	loadingBarBorderColor	= 0x80000000 | ((uint32)s_bar_border_color.r << 16 ) | ((uint32)s_bar_border_color.g << 8 )  | (uint32)s_bar_border_color.b;
 
 	// Build the interpolated color array.
-	int last_color = (int)( loadingBarWidth * NxXbox::EngineGlobals.screen_conv_x_multiplier );
+	int last_color = (int)( loadingBarWidth * NxWn32::EngineGlobals.screen_conv_x_multiplier );
 	for( int i = 0; i < last_color; ++i )
 	{
 		for( int c = 0; c < 3; ++c )

@@ -13,7 +13,7 @@
 #include "scene.h"
 #include "render.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 
@@ -178,7 +178,7 @@ void sMaterial::figure_wibble_vc( void )
 			int						start_time		= p_sequence->mp_keyframes[0].m_time;
 			int						end_time		= p_sequence->mp_keyframes[num_keys - 1].m_time;
 			int						period			= end_time - start_time;
-			int						time			= start_time + ( NxXbox::EngineGlobals.render_start_time + phase_shift ) % period;
+			int						time			= start_time + ( NxWn32::EngineGlobals.render_start_time + phase_shift ) % period;
 
 			// Locate the keyframe.
 			int key;
@@ -339,7 +339,7 @@ void sMaterial::Submit( void )
 			D3DDevice_SetMaterial( &test_mat );
 
 			// If using a custom vertex shader, also need to load the specular color and power to vert shader registers here.
-			if( NxXbox::EngineGlobals.custom_pipeline_enabled )
+			if( NxWn32::EngineGlobals.custom_pipeline_enabled )
 			{
 				D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_SPECULAR_COLOR_OFFSET, (void*)&m_specular_color[0], 1 );
 			}
@@ -433,7 +433,7 @@ void sMaterial::Submit( void )
 					D3DDevice_SetTextureStageState( p, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2 );
 					D3DDevice_SetTextureStageState( p, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_PASSTHRU | p );
 
-					if( NxXbox::EngineGlobals.custom_pipeline_enabled )
+					if( NxWn32::EngineGlobals.custom_pipeline_enabled )
 					{
 						// If using a custom vertex shader, need to load the uv matrix here.
 						// If using a custom vertex shader, need to load the custom uv matrix here.
@@ -458,7 +458,7 @@ void sMaterial::Submit( void )
 				}
 				else
 				{
-					if( NxXbox::EngineGlobals.custom_pipeline_enabled )
+					if( NxWn32::EngineGlobals.custom_pipeline_enabled )
 					{
 						// If using a custom vertex shader, need to load the custom uv matrix here.
 						custom_uv_mat[0] = 1.0f; custom_uv_mat[1] = 0.0f; custom_uv_mat[3] = 0.0f;
@@ -746,8 +746,8 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 				// Create the texture wibble structure if not created yet.
 				if( pMat->mp_wibble_texture_params == NULL )
 				{
-					pMat->mp_wibble_texture_params = new NxXbox::sTextureWibbleParams;
-					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxXbox::sTextureWibbleParams ));
+					pMat->mp_wibble_texture_params = new NxWn32::sTextureWibbleParams;
+					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxWn32::sTextureWibbleParams ));
 
 					// Flag the material as having texture wibble.
 					pMat->m_texture_wibble = true;
@@ -764,7 +764,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 				pMat->mp_wibble_texture_params->m_num_keyframes[pass]	= num_keyframes;
 				pMat->mp_wibble_texture_params->m_phase[pass]			= phase;
 				pMat->mp_wibble_texture_params->m_num_iterations[pass]	= iterations;
-				pMat->mp_wibble_texture_params->mp_keyframes[pass]		= new NxXbox::sTextureWibbleKeyframe[num_keyframes];
+				pMat->mp_wibble_texture_params->mp_keyframes[pass]		= new NxWn32::sTextureWibbleKeyframe[num_keyframes];
 
 				for( int ati = 0; ati < num_keyframes; ++ati )
 				{
@@ -856,7 +856,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 		{
 			if( pMaterialTable->GetItem( pMat->m_checksum ))
 			{
-				Dbg_MsgAssert( 0, ( "NXXBOX ERROR: duplicate material: %x\n", pMat->m_checksum ));
+				Dbg_MsgAssert( 0, ( "NxWn32 ERROR: duplicate material: %x\n", pMat->m_checksum ));
 			}
 			else
 			{
@@ -881,7 +881,6 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 /******************************************************************/
 Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTexture > *p_texture_table )
 {
-	/*
 	uint32 MMAG, MMIN, K, L, NumSeqs, seq, NumKeys;
 	
 	// Get number of materials.
@@ -1037,7 +1036,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 				pMat->mp_wibble_vc_params = new sVCWibbleParams[NumSeqs];
 				
 				// Create resultant color array.
-				pMat->mp_wibble_vc_colors = new D3DCOLOR[NumSeqs];
+				pMat->mp_wibble_vc_colors = new GlCol4[NumSeqs];
 
 				for( seq = 0; seq < NumSeqs; ++seq )
 				{ 
@@ -1062,8 +1061,8 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 				// Create the texture wibble structure if not created yet.
 				if( pMat->mp_wibble_texture_params == NULL )
 				{
-					pMat->mp_wibble_texture_params = new NxXbox::sTextureWibbleParams;
-					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxXbox::sTextureWibbleParams ));
+					pMat->mp_wibble_texture_params = new NxWn32::sTextureWibbleParams;
+					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxWn32::sTextureWibbleParams ));
 
 					// Flag the material as having texture wibble.
 					pMat->m_texture_wibble = true;
@@ -1080,7 +1079,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 				pMat->mp_wibble_texture_params->m_num_keyframes[pass]	= num_keyframes;
 				pMat->mp_wibble_texture_params->m_phase[pass]			= phase;
 				pMat->mp_wibble_texture_params->m_num_iterations[pass]	= iterations;
-				pMat->mp_wibble_texture_params->mp_keyframes[pass]		= new NxXbox::sTextureWibbleKeyframe[num_keyframes];
+				pMat->mp_wibble_texture_params->mp_keyframes[pass]		= new NxWn32::sTextureWibbleKeyframe[num_keyframes];
 
 				for( int ati = 0; ati < num_keyframes; ++ati )
 				{
@@ -1172,7 +1171,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 		{
 			if( pMaterialTable->GetItem( pMat->m_checksum ))
 			{
-				Dbg_MsgAssert( 0, ( "NXXBOX ERROR: duplicate material: %x\n", pMat->m_checksum ));
+				Dbg_MsgAssert( 0, ( "NxWn32 ERROR: duplicate material: %x\n", pMat->m_checksum ));
 			}
 			else
 			{
@@ -1181,8 +1180,6 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 		}
 	}
 	return pMaterialTable;
-	*/
-return nullptr;
 }
 
 
@@ -1192,5 +1189,5 @@ return nullptr;
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 

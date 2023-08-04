@@ -7,7 +7,7 @@
 #include "mesh.h"
 #include "scene.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 /******************************************************************/
@@ -488,5 +488,5 @@ void DeleteScene( sScene *pScene )
 sScene *sScene::pHead;
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 

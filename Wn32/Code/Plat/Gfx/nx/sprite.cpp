@@ -12,7 +12,7 @@
 extern DWORD PixelShader4;
 extern DWORD PixelShader5;
 
-namespace NxXbox
+namespace NxWn32
 {
 
 
@@ -415,7 +415,7 @@ void sSprite::Draw( void )
 		if(( x0 <= 0.0f ) && ( x1 >= 640.0f ))
 		{
 			x0 = 0.0f;
-			x1 = (float)NxXbox::EngineGlobals.backbuffer_width;
+			x1 = (float)NxWn32::EngineGlobals.backbuffer_width;
 		}
 		else
 		{
@@ -426,7 +426,7 @@ void sSprite::Draw( void )
 		if(( y0 <= 0.0f ) && ( y1 >= 480.0f ))
 		{
 			y0 = 0.0f;
-			y1 = (float)NxXbox::EngineGlobals.backbuffer_height;
+			y1 = (float)NxWn32::EngineGlobals.backbuffer_height;
 		}
 		else
 		{
@@ -499,5 +499,5 @@ void sSprite::EndDraw( void )
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 

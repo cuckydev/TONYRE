@@ -3,7 +3,7 @@
 
 #include "texture.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 struct SDraw2D
@@ -70,7 +70,7 @@ private:
 };
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 
 #endif // __SPRITE_H

@@ -19,7 +19,7 @@ class CXboxFont : public CFont
 public:
 								CXboxFont();
 	virtual						~CXboxFont();
-	NxXbox::SFont				*GetEngineFont() const;
+	NxWn32::SFont				*GetEngineFont() const;
 
 private:		// It's all private, as it is machine specific
 	virtual	bool				plat_load(const char *filename);
@@ -36,7 +36,7 @@ private:		// It's all private, as it is machine specific
 	virtual void				plat_query_string(char *String, float &width, float &height) const;
 
 	// Machine specific members
-	NxXbox::SFont *				mp_plat_font;		// Pointer to engine font
+	NxWn32::SFont *				mp_plat_font;		// Pointer to engine font
 };
 
 
@@ -57,7 +57,7 @@ private:
 	virtual void				plat_update_priority();
 
 	// Machine specific members
-	NxXbox::SText				*mp_plat_text;		// Pointer to engine text
+	NxWn32::SText				*mp_plat_text;		// Pointer to engine text
 };
 
 
@@ -65,7 +65,7 @@ private:
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-inline NxXbox::SFont *CXboxFont::GetEngineFont() const
+inline NxWn32::SFont *CXboxFont::GetEngineFont() const
 {
 	return mp_plat_font;
 }

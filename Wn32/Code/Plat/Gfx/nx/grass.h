@@ -150,7 +150,7 @@ public:
 };
 
 HRESULT	FillHairLightingTexture(D3DMATERIAL8 *pMaterial, LPDIRECT3DTEXTURE8 pTexture);
-bool	AddGrass( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh );
+bool	AddGrass( Nx::CXboxGeom *p_geom, NxWn32::sMesh *p_mesh );
 HRESULT	LoadBumpTextures( void );
 
 */

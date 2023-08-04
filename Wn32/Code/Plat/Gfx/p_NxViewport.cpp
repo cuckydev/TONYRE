@@ -49,12 +49,12 @@ float CXboxViewport::plat_transform_to_screen_coord( const Mth::Vector & world_p
 	D3DXVECTOR3	in( world_pos[X], world_pos[Y], world_pos[Z] );
 	D3DXVECTOR4	mid;
 	D3DXVECTOR3	out;
-	D3DXVec3Transform( &mid, &in, (D3DXMATRIX*)&NxXbox::EngineGlobals.view_matrix );
+	D3DXVec3Transform( &mid, &in, (D3DXMATRIX*)&NxWn32::EngineGlobals.view_matrix );
 
 	in.x = mid.x;
 	in.y = mid.y;
 	in.z = mid.z;
-	D3DXVec3TransformCoord( &out, &in, (D3DXMATRIX*)&NxXbox::EngineGlobals.projection_matrix );
+	D3DXVec3TransformCoord( &out, &in, (D3DXMATRIX*)&NxWn32::EngineGlobals.projection_matrix );
 
 	// Convert from homogenous cube (-1.0, 1.0) to pixel coordinates. Have to be careful here, the initial
 	// feeling is to use the backbuffer width and height as multipliers, but since this value is being used

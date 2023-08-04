@@ -6,7 +6,7 @@
 #include <gfx/NxModel.h>
 #include "scene.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 	class CInstance;
@@ -57,7 +57,7 @@ private:
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 
 #endif // __INSTANCE_H

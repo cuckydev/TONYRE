@@ -9,7 +9,7 @@
 #include "texture.h"
 #include "render.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 
@@ -307,5 +307,5 @@ sTexture *LoadTexture( const char *p_filename )
 }
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 

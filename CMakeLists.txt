@@ -741,6 +741,10 @@ target_link_libraries(TonyRE PRIVATE GameSpy)
 
 # Platform select
 if(TRUE) # If WIN32
+	# Compile SDL and glad
+	add_subdirectory("External/SDL")
+	add_subdirectory("External/glad")
+
 	# Compile Win32 platform
 	add_subdirectory("Wn32")
 	target_link_libraries(TonyRE PRIVATE TonyRE.Wn32)

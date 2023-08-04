@@ -30,8 +30,8 @@ namespace Nx
 /******************************************************************/
 static int cmp( const void *p1, const void *p2 )
 {
-	NxXbox::sCASData *p_casdata1 = (NxXbox::sCASData*)p1;
-	NxXbox::sCASData *p_casdata2 = (NxXbox::sCASData*)p2;
+	NxWn32::sCASData *p_casdata1 = (NxWn32::sCASData*)p1;
+	NxWn32::sCASData *p_casdata2 = (NxWn32::sCASData*)p2;
 	
 	uint32 mesh1 = p_casdata1->data0 >> 16;
 	uint32 mesh2 = p_casdata2->data0 >> 16;
@@ -84,7 +84,7 @@ bool CXboxMesh::build_casdata_table( const char* pFileName )
 	if( m_numCASData > 0 )
 	{
 		// CAS flags.
-		mp_CASData = new NxXbox::sCASData[m_numCASData];
+		mp_CASData = new NxWn32::sCASData[m_numCASData];
 
 		for( uint32 i = 0; i < m_numCASData; ++i )
 		{
@@ -93,7 +93,7 @@ bool CXboxMesh::build_casdata_table( const char* pFileName )
 
 		// Sort the CAS data based first on mesh, then on the first tri index, lowest to highest. This allows some efficient early-out checking
 		// during the poly removal.
-		qsort( mp_CASData, m_numCASData, sizeof( NxXbox::sCASData ), cmp );
+		qsort( mp_CASData, m_numCASData, sizeof( NxWn32::sCASData ), cmp );
 	}
 
 	File::Close( pFile );
@@ -127,7 +127,7 @@ bool CXboxMesh::build_casdata_table_from_memory( void **pp_mem )
 	if( m_numCASData > 0 )
 	{
 		// CAS flags.
-		mp_CASData = new NxXbox::sCASData[m_numCASData];
+		mp_CASData = new NxWn32::sCASData[m_numCASData];
 
 		for( uint32 i = 0; i < m_numCASData; ++i )
 		{
@@ -136,7 +136,7 @@ bool CXboxMesh::build_casdata_table_from_memory( void **pp_mem )
 
 		// Sort the CAS data based first on mesh, then on the first tri index, lowest to highest. This allows some efficient early-out checking
 		// during the poly removal.
-		qsort( mp_CASData, m_numCASData, sizeof( NxXbox::sCASData ), cmp );
+		qsort( mp_CASData, m_numCASData, sizeof( NxWn32::sCASData ), cmp );
 	}
 	
 	// Set the data pointer to the new position on return.
@@ -173,6 +173,7 @@ CXboxMesh::CXboxMesh( const char *pMeshFileName )
 		char CASFileName[256];
 		strcpy( CASFileName, pMeshFileName );
 		Str::LowerCase( CASFileName );
+
 		char *pExt = strstr( CASFileName, "skin.xbx" );
 		if( pExt )
 		{
@@ -232,12 +233,12 @@ void CXboxMesh::SetScene( CXboxScene *p_scene )
 	// Now that we have a scene attached, resolve any cas flag data into specific indexes in the mesh data.
 	if( mp_CASData )
 	{
-		NxXbox::sCASData *p_cas_entry = mp_CASData;
+		NxWn32::sCASData *p_cas_entry = mp_CASData;
 		for( uint32 entry = 0; entry < m_numCASData; ++entry, ++p_cas_entry )
 		{
 			// Get the mesh this entry references.
 			uint32			load_order	= p_cas_entry->data0 >> 16;
-			NxXbox::sMesh	*p_mesh		= p_scene->GetEngineScene()->GetMeshByLoadOrder( load_order );
+			NxWn32::sMesh	*p_mesh		= p_scene->GetEngineScene()->GetMeshByLoadOrder( load_order );
 			if( p_mesh )
 			{
 				// Get the indices of the poly referenced.

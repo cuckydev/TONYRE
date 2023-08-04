@@ -9,7 +9,7 @@
 #include "occlude.h"
 #include "anim_vertdefs.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 static Mth::Matrix	*pLastBoneTransforms	= NULL;
@@ -40,8 +40,8 @@ static int sort_by_bone_transform( const void *p1, const void *p2 )
 				// Try sorting on the material draw order of the first semitransparent mesh.
 				if( num_st1 > 0 )
 				{
-					NxXbox::sMaterial	*p_material1 = p_mesh1->GetScene()->m_meshes[p_mesh1->GetScene()->m_first_semitransparent_entry]->mp_material;
-					NxXbox::sMaterial	*p_material2 = p_mesh2->GetScene()->m_meshes[p_mesh2->GetScene()->m_first_semitransparent_entry]->mp_material;
+					NxWn32::sMaterial	*p_material1 = p_mesh1->GetScene()->m_meshes[p_mesh1->GetScene()->m_first_semitransparent_entry]->mp_material;
+					NxWn32::sMaterial	*p_material2 = p_mesh2->GetScene()->m_meshes[p_mesh2->GetScene()->m_first_semitransparent_entry]->mp_material;
 
 					if( p_material1 && p_material2 )
 					{
@@ -266,7 +266,7 @@ CInstance::CInstance( sScene *pScene, Mth::Matrix &transform, int numBones, Mth:
 	{
 		for( int m = 0; m < pScene->m_num_mesh_entries; ++m )
 		{
-			NxXbox::sMesh *p_mesh = pScene->m_meshes[m];
+			NxWn32::sMesh *p_mesh = pScene->m_meshes[m];
 			if(( p_mesh->m_vertex_shader[0] & D3DFVF_NORMAL ) == 0 )
 				return;
 			if( p_mesh->m_flags & sMesh::MESH_FLAG_UNLIT )
@@ -410,7 +410,7 @@ void CInstance::Render( uint32 flags )
 				// Scan through the meshes, setting only those with the current bone active.
 				for( int m = 0; m < GetScene()->m_num_mesh_entries; ++m )
 				{
-					NxXbox::sMesh *p_mesh = GetScene()->m_meshes[m];
+					NxWn32::sMesh *p_mesh = GetScene()->m_meshes[m];
 					if( p_mesh->GetBoneIndex() == lp )
 						p_mesh->SetActive( true );
 					else
@@ -513,7 +513,7 @@ void CInstance::Render( uint32 flags )
 				const float SHADOW_FADE_FAR_COMPLETE		= 600.0f;
 				const float DEFAULT_SCREEN_ANGLE			= 0.72654f;	// tan( 72 / 2 )
 
-				Mth::Vector pos_to_cam	= GetTransform()->GetPos() - Mth::Vector( NxXbox::EngineGlobals.cam_position.x, NxXbox::EngineGlobals.cam_position.y, NxXbox::EngineGlobals.cam_position.z );
+				Mth::Vector pos_to_cam	= GetTransform()->GetPos() - Mth::Vector( NxWn32::EngineGlobals.cam_position.x, NxWn32::EngineGlobals.cam_position.y, NxWn32::EngineGlobals.cam_position.z );
 				float		dist		= pos_to_cam.Length() * ( tanf( Mth::DegToRad( EngineGlobals.screen_angle * 0.5f )) / DEFAULT_SCREEN_ANGLE );
 
 				if(( dist > SHADOW_FADE_CLOSE_COMPLETE ) && ( dist < SHADOW_FADE_FAR_COMPLETE ))
@@ -608,15 +608,15 @@ void CInstance::Render( uint32 flags )
 						}
 
 						// Set ambient color multipliers in pixel shader C0 and C1.
-						NxXbox::EngineGlobals.pixel_shader_constants[0]		= 1.0f - max;		// Always present
-						NxXbox::EngineGlobals.pixel_shader_constants[1]		= 1.0f - max;
-						NxXbox::EngineGlobals.pixel_shader_constants[2]		= 1.0f - max;
-						NxXbox::EngineGlobals.pixel_shader_constants[3]		= 1.0f;
-						NxXbox::EngineGlobals.pixel_shader_constants[4]		= max;		// The part the shadow affects.
-						NxXbox::EngineGlobals.pixel_shader_constants[5]		= max;
-						NxXbox::EngineGlobals.pixel_shader_constants[6]		= max;
-						NxXbox::EngineGlobals.pixel_shader_constants[7]		= 1.0f;
-						NxXbox::EngineGlobals.upload_pixel_shader_constants	= true;
+						NxWn32::EngineGlobals.pixel_shader_constants[0]		= 1.0f - max;		// Always present
+						NxWn32::EngineGlobals.pixel_shader_constants[1]		= 1.0f - max;
+						NxWn32::EngineGlobals.pixel_shader_constants[2]		= 1.0f - max;
+						NxWn32::EngineGlobals.pixel_shader_constants[3]		= 1.0f;
+						NxWn32::EngineGlobals.pixel_shader_constants[4]		= max;		// The part the shadow affects.
+						NxWn32::EngineGlobals.pixel_shader_constants[5]		= max;
+						NxWn32::EngineGlobals.pixel_shader_constants[6]		= max;
+						NxWn32::EngineGlobals.pixel_shader_constants[7]		= 1.0f;
+						NxWn32::EngineGlobals.upload_pixel_shader_constants	= true;
 
 						// Set the pixel shader that will do the shadow attenuation.			
 						extern DWORD PixelShader_ShadowBuffer;
@@ -760,5 +760,5 @@ void CInstance::RenderShadowVolume( void )
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 

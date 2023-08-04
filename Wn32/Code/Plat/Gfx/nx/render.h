@@ -45,7 +45,7 @@ extern		DWORD PixelShaderNULL;
 extern		DWORD PixelShaderPointSprite;
 extern		DWORD PixelShaderBumpWater;
 
-namespace NxXbox
+namespace NxWn32
 {
 	struct sTextureProjectionDetails
 	{
@@ -124,6 +124,6 @@ namespace NxXbox
 	void	render_light_glows( bool test );
 	void	render_scene( sScene *p_scene, uint32 flags = ( vRENDER_OPAQUE | vRENDER_SEMITRANSPARENT ), uint32 viewport = 0 );
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 #endif // __RENDER_H

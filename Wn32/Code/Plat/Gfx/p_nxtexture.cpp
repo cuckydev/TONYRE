@@ -38,7 +38,7 @@ CXboxTexture::~CXboxTexture()
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void CXboxTexture::SetEngineTexture( NxXbox::sTexture *p_texture )
+void CXboxTexture::SetEngineTexture( NxWn32::sTexture *p_texture )
 {
 	mp_texture	= p_texture;
 	m_checksum	= p_texture->Checksum;
@@ -64,7 +64,7 @@ bool CXboxTexture::plat_load_texture( const char *p_texture_name, bool sprite, b
 	// Append '.img.xbx' to the end.
 	strcat( filename, ".img.xbx" );
 
-	mp_texture = NxXbox::LoadTexture( filename );
+	mp_texture = NxWn32::LoadTexture( filename );
 	
 	return mp_texture;
 }
@@ -81,8 +81,8 @@ bool CXboxTexture::plat_replace_texture( CTexture *p_texture )
 	CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>( p_texture );
 
 	// Go through and copy the texture.
-	NxXbox::sTexture *p_src	= p_xbox_texture->GetEngineTexture();
-	NxXbox::sTexture *p_dst	= GetEngineTexture();
+	NxWn32::sTexture *p_src	= p_xbox_texture->GetEngineTexture();
+	NxWn32::sTexture *p_dst	= GetEngineTexture();
 
 	if( p_dst->pD3DTexture )
 	{
@@ -390,9 +390,11 @@ bool CXboxTexDict::plat_remove_texture( CTexture *p_texture )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
+#define MemoryRead( dst, size, num, src )	CopyMemory(( dst ), ( src ), (( num ) * ( size )));	\
+											( src ) += (( num ) * ( size ))
+
 Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::HashTable<Nx::CTexture> *p_texture_table, bool okay_to_rebuild_texture_table )
 {
-	/*
 	uint8 *p_data = (uint8*)( *pp_mem );
 
 	// Read the texture file version and number of textures.
@@ -427,7 +429,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 	for( int t = 0; t < num_textures; ++t )
 	{
 		// Create the engine level texture.
-		NxXbox::sTexture *p_texture = new NxXbox::sTexture;
+		NxWn32::sTexture *p_texture = new NxWn32::sTexture;
 
 		uint32 base_width, base_height, levels, texel_depth, palette_depth, dxt, palette_size;
 		MemoryRead( &p_texture->Checksum,	sizeof( uint32 ), 1, p_data );
@@ -446,16 +448,18 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		p_texture->PaletteDepth	= (uint8)palette_depth;
 		p_texture->DXT			= (uint8)dxt;
 		
-		D3DFORMAT	texture_format;
+		// D3DFORMAT	texture_format;
 		if( p_texture->DXT > 0 )
 		{
 			if(( p_texture->DXT == 1 ) || ( p_texture->DXT == 2 ))
 			{
-				texture_format = D3DFMT_DXT1;
+				Dbg_MsgAssert(0, ("Unsupported texture format DXT1"));
+				// texture_format = D3DFMT_DXT1;
 			}
 			else if( p_texture->DXT == 5 )
 			{
-				texture_format = D3DFMT_DXT5;
+				Dbg_MsgAssert(0, ("Unsupported texture format DXT5"));
+				// texture_format = D3DFMT_DXT5;
 			}
 			else
 			{
@@ -464,21 +468,22 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		}
 		else if( p_texture->TexelDepth == 8 )
 		{
-			texture_format = D3DFMT_P8;
+			// texture_format = D3DFMT_P8;
 		}
 		else if( p_texture->TexelDepth == 16 )
 		{
-			texture_format = D3DFMT_A1R5G5B5;	// Could also be X1R5G5B5;
+			// texture_format = D3DFMT_A1R5G5B5;	// Could also be X1R5G5B5;
 		}
 		else if( p_texture->TexelDepth == 32 )
 		{
-			texture_format = D3DFMT_A8R8G8B8;
+			// texture_format = D3DFMT_A8R8G8B8;
 		}
 		else
 		{
 			Dbg_Assert( 0 );
 		}
 		
+		/*
 		if( D3D_OK != D3DDevice_CreateTexture(	p_texture->BaseWidth, p_texture->BaseHeight, p_texture->Levels,	0, texture_format, 0, &p_texture->pD3DTexture ))
 		{
 			Dbg_Assert( 0 );
@@ -509,7 +514,9 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		{
 			p_texture->pD3DPalette = NULL;
 		}
+		*/
 
+		/*
 		for( uint32 mip_level = 0; mip_level < p_texture->Levels; ++mip_level )
 		{
 			uint32 texture_level_data_size;
@@ -525,6 +532,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 				MemoryRead( locked_rect.pBits, texture_level_data_size, 1, p_data );
 			}
 		}
+		*/
 
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();
@@ -532,8 +540,6 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		p_texture_table->PutItem( p_texture->Checksum, p_xbox_texture );
 	}
 	return p_texture_table;
-	*/
-return nullptr;
 }
 
 
@@ -544,7 +550,6 @@ return nullptr;
 /******************************************************************/
 Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTable<Nx::CTexture> *p_texture_table, bool okay_to_rebuild_texture_table )
 {
-	/*
 	// Open the texture file.
 	void *p_FH = File::Open( Filename, "rb" );
 	if( !p_FH )
@@ -585,7 +590,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 	for( int t = 0; t < num_textures; ++t )
 	{
 		// Create the engine level texture.
-		NxXbox::sTexture *p_texture = new NxXbox::sTexture;
+		NxWn32::sTexture *p_texture = new NxWn32::sTexture;
 
 		uint32 base_width, base_height, levels, texel_depth, palette_depth, dxt, palette_size;
 		File::Read( &p_texture->Checksum,	sizeof( uint32 ), 1, p_FH );
@@ -604,16 +609,18 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		p_texture->PaletteDepth	= (uint8)palette_depth;
 		p_texture->DXT			= (uint8)dxt;
 		
-		D3DFORMAT	texture_format;
+		// D3DFORMAT	texture_format;
 		if( p_texture->DXT > 0 )
 		{
 			if(( p_texture->DXT == 1 ) || ( p_texture->DXT == 2 ))
 			{
-				texture_format = D3DFMT_DXT1;
+				Dbg_MsgAssert(0, ("Unsupported texture format DXT1"));
+				// texture_format = D3DFMT_DXT1;
 			}
 			else if( p_texture->DXT == 5 )
 			{
-				texture_format = D3DFMT_DXT5;
+				Dbg_MsgAssert(0, ("Unsupported texture format DXT5"));
+				// texture_format = D3DFMT_DXT5;
 			}
 			else
 			{
@@ -622,21 +629,22 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		}
 		else if( p_texture->TexelDepth == 8 )
 		{
-			texture_format = D3DFMT_P8;
+			// texture_format = D3DFMT_P8;
 		}
 		else if( p_texture->TexelDepth == 16 )
 		{
-			texture_format = D3DFMT_A1R5G5B5;	// Could also be X1R5G5B5;
+			// texture_format = D3DFMT_A1R5G5B5;	// Could also be X1R5G5B5;
 		}
 		else if( p_texture->TexelDepth == 32 )
 		{
-			texture_format = D3DFMT_A8R8G8B8;
+			// texture_format = D3DFMT_A8R8G8B8;
 		}
 		else
 		{
 			Dbg_Assert( 0 );
 		}
 		
+		/*
 		if( D3D_OK != D3DDevice_CreateTexture(	p_texture->BaseWidth, p_texture->BaseHeight, p_texture->Levels,	0, texture_format, 0, &p_texture->pD3DTexture ))
 		{
 			Dbg_Assert( 0 );
@@ -683,6 +691,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 				File::Read( locked_rect.pBits, texture_level_data_size, 1, p_FH );
 			}
 		}
+		*/
 
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();
@@ -692,8 +701,6 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 	File::Close( p_FH );
 
 	return p_texture_table;
-	*/
-return nullptr;
 }
 
 

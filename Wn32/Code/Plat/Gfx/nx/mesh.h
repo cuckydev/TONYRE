@@ -7,7 +7,7 @@
 #include <gfx\nx.h>
 #include "material.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 struct sCASData
@@ -154,7 +154,7 @@ void DisableMeshScaling( void );
 void ApplyMeshScaling( float* p_vertices, int num_verts );
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 #endif // __MESH_H
 

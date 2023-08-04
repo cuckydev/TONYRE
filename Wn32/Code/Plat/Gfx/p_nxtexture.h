@@ -21,8 +21,8 @@ public:
 								CXboxTexture();
 	virtual						~CXboxTexture();
 
-	NxXbox::sTexture			*GetEngineTexture() const;
-	void						SetEngineTexture( NxXbox::sTexture *p_texture );
+	NxWn32::sTexture			*GetEngineTexture() const;
+	void						SetEngineTexture( NxWn32::sTexture *p_texture );
 
 
 private:		// It's all private, as it is machine specific
@@ -41,7 +41,7 @@ private:		// It's all private, as it is machine specific
 	bool						m_transparent;
 
 	// The actual data in the engine
-	NxXbox::sTexture *			mp_texture;
+	NxWn32::sTexture *			mp_texture;
 
 };
 
@@ -49,7 +49,7 @@ private:		// It's all private, as it is machine specific
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-inline NxXbox::sTexture	*CXboxTexture::GetEngineTexture() const
+inline NxWn32::sTexture	*CXboxTexture::GetEngineTexture() const
 {
 	return mp_texture;
 }
@@ -72,7 +72,7 @@ private:
 	Image::RGBA					m_rgba;
 
 	// The actual data in the engine
-	NxXbox::sMaterial *			mp_material;
+	NxWn32::sMaterial *			mp_material;
 };
 
 //////////////////////////////////////////////////////////////////////////////////

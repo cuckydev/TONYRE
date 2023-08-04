@@ -40,7 +40,7 @@
 //extern D3DXMATRIX *p_bbox_transform;
 // extern XGMATRIX *p_bbox_transform;
 
-namespace NxXbox
+namespace NxWn32
 {
 
 
@@ -502,4 +502,4 @@ bool TestSphereAgainstOccluders( D3DXVECTOR3 *p_center, float radius, uint32 mes
 /******************************************************************/
 
 
-} // namespace NxXbox
+} // namespace NxWn32

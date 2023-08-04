@@ -297,11 +297,11 @@ void DebuggeryLines_Draw( void )
 	
 	if( index > 0 )
 	{
-		NxXbox::set_texture( 0, NULL );
-		NxXbox::set_blend_mode( NxXbox::vBLEND_MODE_DIFFUSE );
-		NxXbox::set_vertex_shader( D3DFVF_XYZ | D3DFVF_DIFFUSE );
-		NxXbox::set_pixel_shader( 0 );
-		HRESULT hr = NxXbox::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_LINELIST, index / 2, line_verts, sizeof( sLineVert ));
+		NxWn32::set_texture( 0, NULL );
+		NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_DIFFUSE );
+		NxWn32::set_vertex_shader( D3DFVF_XYZ | D3DFVF_DIFFUSE );
+		NxWn32::set_pixel_shader( 0 );
+		HRESULT hr = NxWn32::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_LINELIST, index / 2, line_verts, sizeof( sLineVert ));
 	}
 #	endif
 #endif

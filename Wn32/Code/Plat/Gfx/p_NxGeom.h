@@ -17,7 +17,7 @@ namespace Mth
 	class Matrix;
 }
 
-namespace NxXbox
+namespace NxWn32
 {
 	class CInstance;
 }
@@ -39,12 +39,12 @@ class CXboxGeom : public CGeom
 public:
 								CXboxGeom();
 	virtual 					~CXboxGeom();
-	void						SetInstance( NxXbox::CInstance *p_instance )		{ mp_instance = p_instance; }
-	NxXbox::CInstance			*GetInstance( void )								{ return mp_instance; }
+	void						SetInstance( NxWn32::CInstance *p_instance )		{ mp_instance = p_instance; }
+	NxWn32::CInstance			*GetInstance( void )								{ return mp_instance; }
 	void						InitMeshList();
 	void						ClearMeshList();
-	void						AddMesh( NxXbox::sMesh * );
-	Lst::Head< NxXbox::sMesh >	*GetMeshList();
+	void						AddMesh( NxWn32::sMesh * );
+	Lst::Head< NxWn32::sMesh >	*GetMeshList();
 
 	void						CreateMeshArray();
 	bool						RegisterMeshArray( bool just_count );
@@ -52,7 +52,7 @@ public:
 
 	const Mth::CBBox &			GetBoundingBox( void )			{ return m_bbox; }
 	void						SetScene( CXboxScene *p_scene )	{ mp_scene = p_scene; }
-	NxXbox::sScene				*GenerateScene( void );
+	NxWn32::sScene				*GenerateScene( void );
 
 
 private:						// It's all private, as it is machine specific
@@ -100,14 +100,14 @@ public:
 	Mth::CBBox						m_bbox;	
 	
 	CXboxScene *					mp_scene;
-	Lst::Head< NxXbox::sMesh >		*mp_init_mesh_list;   
-	NxXbox::sMesh **				m_mesh_array;
+	Lst::Head< NxWn32::sMesh >		*mp_init_mesh_list;   
+	NxWn32::sMesh **				m_mesh_array;
 	uint							m_num_mesh;
 	uint32							m_visible;
 	bool							m_active;
 
 private:
-	NxXbox::CInstance				*mp_instance;
+	NxWn32::CInstance				*mp_instance;
 	CXboxMesh						*mp_mesh;		// Used for obtaining CAS poly removal data.
 	Mth::Vector						m_scale;
 };

@@ -17,7 +17,7 @@ namespace Nx
 
 CXboxSprite::CXboxSprite()
 {
-	mp_plat_sprite = new NxXbox::sSprite();
+	mp_plat_sprite = new NxWn32::sSprite();
 }
 
 /******************************************************************/

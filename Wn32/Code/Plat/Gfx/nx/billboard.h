@@ -5,7 +5,7 @@
 #include <core/defines.h>
 #include "render.h"
 
-namespace NxXbox
+namespace NxWn32
 {
 
 /******************************************************************/
@@ -91,7 +91,7 @@ extern sBillboardManager BillboardManager;
 
 	
 
-} // namespace NxXbox
+} // namespace NxWn32
 
 
 #endif // __BILLBOARD_H

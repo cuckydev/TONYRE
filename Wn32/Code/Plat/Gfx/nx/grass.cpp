@@ -8,14 +8,14 @@
 #include "grass.h"
 
 static bool				bumpsLoaded = false;
-NxXbox::sMaterial		waterMaterial;
-NxXbox::sTexture		waterTextures[2];
+NxWn32::sMaterial		waterMaterial;
+NxWn32::sTexture		waterTextures[2];
 
 // IDirect3DTexture8		*pBumpTextures[17];
-NxXbox::sTexture		bumpTextures[17];
+NxWn32::sTexture		bumpTextures[17];
 
 
-namespace NxXbox
+namespace NxWn32
 {
 
 }
@@ -167,7 +167,7 @@ HRESULT LoadBumpTextures( void )
 	}
 
 	// Set up the texture container for the bump textures.
-	ZeroMemory( &waterTextures[0],	sizeof( NxXbox::sTexture ));
+	ZeroMemory( &waterTextures[0],	sizeof( NxWn32::sTexture ));
 	waterTextures[0].pD3DTexture = pBumpTextures[0];
 
 	return hr;
@@ -181,13 +181,13 @@ HRESULT LoadBumpTextures( void )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void CreateWaterMaterial( NxXbox::sMaterial *p_material )
+void CreateWaterMaterial( NxWn32::sMaterial *p_material )
 {
 	/*
 	// Set texture 0 to be the first bump texture.
 	p_material->mp_tex[0]			= &waterTextures[0];
 	p_material->mp_tex[1]			= &waterTextures[1];
-	p_material->m_reg_alpha[0]		= NxXbox::vBLEND_MODE_BLEND_FIXED | ( 0x40UL << 24 );
+	p_material->m_reg_alpha[0]		= NxWn32::vBLEND_MODE_BLEND_FIXED | ( 0x40UL << 24 );
 	p_material->m_color[0][3]		= 0.5f;
 	p_material->m_passes			= 2;
 
@@ -220,11 +220,11 @@ void CreateWaterMaterial( NxXbox::sMaterial *p_material )
 	p_material->m_texture_wibble	= true;
 	p_material->m_flags[0]			|= MATFLAG_PASS_TEXTURE_ANIMATES;
 
-	p_material->mp_wibble_texture_params						= new NxXbox::sTextureWibbleParams;
+	p_material->mp_wibble_texture_params						= new NxWn32::sTextureWibbleParams;
 	p_material->mp_wibble_texture_params->m_num_keyframes[0]	= 18;
 	p_material->mp_wibble_texture_params->m_phase[0]			= 0;
 	p_material->mp_wibble_texture_params->m_num_iterations[0]	= 0;
-	p_material->mp_wibble_texture_params->mp_keyframes[0]		= new NxXbox::sTextureWibbleKeyframe[18];
+	p_material->mp_wibble_texture_params->mp_keyframes[0]		= new NxWn32::sTextureWibbleKeyframe[18];
 	p_material->mp_wibble_texture_params->mp_keyframes[1]		= NULL;
 	p_material->mp_wibble_texture_params->mp_keyframes[2]		= NULL;
 	p_material->mp_wibble_texture_params->mp_keyframes[3]		= NULL;
@@ -244,7 +244,7 @@ void CreateWaterMaterial( NxXbox::sMaterial *p_material )
 /*                                                                */
 /******************************************************************/
 /*
-bool AddWater( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
+bool AddWater( Nx::CXboxGeom *p_geom, NxWn32::sMesh *p_mesh )
 {
 	// Ensure there is at least two sets of uv's available.
 	Dbg_Assert( p_mesh->m_uv0_offset > 0 );
@@ -258,8 +258,8 @@ bool AddWater( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
 		return false;
 
 	Nx::CXboxTexture	*p_xbox_texture = static_cast<Nx::CXboxTexture*>( p_texture );
-	NxXbox::sTexture	*p_engine_texture	= p_xbox_texture->GetEngineTexture();
-	CopyMemory( &waterTextures[1], p_engine_texture, sizeof( NxXbox::sTexture ));
+	NxWn32::sTexture	*p_engine_texture	= p_xbox_texture->GetEngineTexture();
+	CopyMemory( &waterTextures[1], p_engine_texture, sizeof( NxWn32::sTexture ));
 
 	int num_tc_sets = ( p_mesh->m_vertex_stride - p_mesh->m_uv0_offset ) / 8;
 	if( num_tc_sets == 1 )
@@ -289,13 +289,13 @@ bool AddWater( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
 		p_mesh->m_vertex_shader[0]	|= D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 );
 	}
 
-	NxXbox::sMaterial *p_water_mat = p_mesh->mp_material;
+	NxWn32::sMaterial *p_water_mat = p_mesh->mp_material;
 
 	CreateWaterMaterial( p_water_mat );
 
 	// Disable skater shadow on the mesh.
-	p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
-	p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_BUMPED_WATER;
+	p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
+	p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_BUMPED_WATER;
 
 	// Set the water pixel shader.
 	p_mesh->m_pixel_shader	= PixelShaderBumpWater;
@@ -330,7 +330,7 @@ bool AddWater( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
 /*                                                                */
 /******************************************************************/
 /*
-bool AddGrass( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
+bool AddGrass( Nx::CXboxGeom *p_geom, NxWn32::sMesh *p_mesh )
 {
 	// Need a material to proceed.
 	if( p_mesh->mp_material == NULL )
@@ -355,14 +355,14 @@ bool AddGrass( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
 	for( int layer = 0; layer < grass_layers; ++layer )
 	{
 		Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().BottomUpHeap());
-		NxXbox::sMesh *p_grass_mesh = p_mesh->Clone( false );
+		NxWn32::sMesh *p_grass_mesh = p_mesh->Clone( false );
 		Mem::Manager::sHandle().PopContext();
 		
 		// Disable skater shadow on the mesh.
-		p_grass_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
+		p_grass_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_NO_SKATER_SHADOW;
 		
 		// Turn off anisotropic filtering and z-write on the mesh.
-		p_grass_mesh->m_flags |= ( NxXbox::sMesh::MESH_FLAG_NO_ANISOTROPIC | NxXbox::sMesh::MESH_FLAG_NO_ZWRITE );
+		p_grass_mesh->m_flags |= ( NxWn32::sMesh::MESH_FLAG_NO_ANISOTROPIC | NxWn32::sMesh::MESH_FLAG_NO_ZWRITE );
 		
 		// Now point the mesh to a different material, first build the material checksum from the name of the parent
 		// material (Grass) and the name of the sub material (Grass_LayerX)...
@@ -375,7 +375,7 @@ bool AddGrass( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
 		Dbg_MsgAssert( p_grass_mesh->mp_material, ( "Grass maaterial for layer %d appears to be named badly", layer ));
 		
 		// We need also to override the mesh pixel shader, which may have been setup for a multipass material.
-		NxXbox::GetPixelShader( p_grass_mesh->mp_material, &p_grass_mesh->m_pixel_shader );
+		NxWn32::GetPixelShader( p_grass_mesh->mp_material, &p_grass_mesh->m_pixel_shader );
 		
 		// Add transparent flag to the material.
 		p_grass_mesh->mp_material->m_flags[0]		|= 0x40;
@@ -408,7 +408,7 @@ bool AddGrass( Nx::CXboxGeom *p_geom, NxXbox::sMesh *p_mesh )
 	}
 
 	// Turn off anisotropic filtering on the base mesh also.
-	p_mesh->m_flags |= NxXbox::sMesh::MESH_FLAG_NO_ANISOTROPIC;
+	p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_NO_ANISOTROPIC;
 	
 	return true;
 }

@@ -40,6 +40,7 @@
 // #include "ParticleNewFlatVS.h"
 // #include "ParticleNewFlatPointSpriteVS.h"
 
+/*
 DWORD WeightedMeshVS_VXC_1Weight;
 DWORD WeightedMeshVS_VXC_2Weight;
 DWORD WeightedMeshVS_VXC_3Weight;
@@ -59,8 +60,9 @@ DWORD ParticleFlatVS;
 DWORD ParticleNewFlatVS;
 DWORD ParticleNewFlatPointSpriteVS;
 DWORD ShadowBufferStaticGeomVS;
+*/
 
-namespace NxXbox
+namespace NxWn32
 {
 	/*
 	// Vertex color attenuation, 4 sets of tex coords.
@@ -123,6 +125,7 @@ namespace NxXbox
 /******************************************************************/
 DWORD GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_used )
 {
+	/*
 	Dbg_Assert( max_weights_used > 0 );
 	
 	if( vertex_colors )
@@ -142,6 +145,8 @@ DWORD GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_use
 	}
 
 	Dbg_Assert( 0 );
+	return 0;
+	*/
 	return 0;
 }
 
@@ -462,8 +467,8 @@ void setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matric
 
 		homogenous_to_screen_reg[2] = ( EngineGlobals.zstencil_depth == 16 ) ? 65535.0f : 1.6777215e7f;
 
-		homogenous_to_screen_reg[4] = (float)NxXbox::EngineGlobals.viewport.X + ((float)NxXbox::EngineGlobals.viewport.Width * 0.5f ) + 0.53125f;
-		homogenous_to_screen_reg[5] = (float)NxXbox::EngineGlobals.viewport.Y + ((float)NxXbox::EngineGlobals.viewport.Height * 0.5f ) + 0.53125f;
+		homogenous_to_screen_reg[4] = (float)NxWn32::EngineGlobals.viewport.X + ((float)NxWn32::EngineGlobals.viewport.Width * 0.5f ) + 0.53125f;
+		homogenous_to_screen_reg[5] = (float)NxWn32::EngineGlobals.viewport.Y + ((float)NxWn32::EngineGlobals.viewport.Height * 0.5f ) + 0.53125f;
 	}
 
 	D3DDevice_SetVertexShaderConstantFast( 94, (void*)homogenous_to_screen_reg, 2 );
@@ -482,7 +487,7 @@ void startup_weighted_mesh_vertex_shader( void )
 	// D3DDevice_SetShaderConstantMode( D3DSCM_192CONSTANTS | D3DSCM_NORESERVEDCONSTANTS );
 
 	// Flag the custom pipeline is in operation.
-	EngineGlobals.custom_pipeline_enabled = true;
+	// EngineGlobals.custom_pipeline_enabled = true;
 }
 
 
@@ -497,8 +502,8 @@ void shutdown_weighted_mesh_vertex_shader( void )
 	// D3DDevice_SetShaderConstantMode( D3DSCM_96CONSTANTS );
 
 	// Flag the custom pipeline is no longer in operation.
-	EngineGlobals.custom_pipeline_enabled = false;
+	// EngineGlobals.custom_pipeline_enabled = false;
 }
 
 
-} // namespace NxXbox
+} // namespace NxWn32

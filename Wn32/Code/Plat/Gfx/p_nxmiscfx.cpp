@@ -56,8 +56,8 @@ struct sXboxSplatVert
 struct sXboxSplatInstanceDetails : public sSplatInstanceDetails
 {
 	// Platform specific part.
-	NxXbox::CInstance	*mp_instance;
-	NxXbox::sMaterial	*mp_material;
+	NxWn32::CInstance	*mp_instance;
+	NxWn32::sMaterial	*mp_material;
 	sXboxSplatVert		m_verts[SPLAT_POLYS_PER_MESH * 3];
 };
 
@@ -70,10 +70,10 @@ struct sXboxShatterInstanceDetails : public sShatterInstanceDetails
 {
 	// Platform specific part.
 
-						sXboxShatterInstanceDetails( int num_tris, NxXbox::sMesh *p_mesh );
+						sXboxShatterInstanceDetails( int num_tris, NxWn32::sMesh *p_mesh );
 						~sXboxShatterInstanceDetails( void );
 	
-	NxXbox::sMesh		*mp_mesh;
+	NxWn32::sMesh		*mp_mesh;
 	uint8				*mp_vertex_buffer;
 };
 
@@ -86,7 +86,7 @@ struct sXboxShatterInstanceDetails : public sShatterInstanceDetails
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-sXboxShatterInstanceDetails::sXboxShatterInstanceDetails( int num_tris, NxXbox::sMesh *p_mesh ) : sShatterInstanceDetails( num_tris )
+sXboxShatterInstanceDetails::sXboxShatterInstanceDetails( int num_tris, NxWn32::sMesh *p_mesh ) : sShatterInstanceDetails( num_tris )
 {
 	mp_mesh				= p_mesh;
 	mp_vertex_buffer	= new uint8[num_tris * 3 * p_mesh->m_vertex_stride];
@@ -110,7 +110,7 @@ sXboxShatterInstanceDetails::~sXboxShatterInstanceDetails( void )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-sXboxSplatInstanceDetails * getDetailsForTextureSplat( NxXbox::sTexture *p_texture )
+sXboxSplatInstanceDetails * getDetailsForTextureSplat( NxWn32::sTexture *p_texture )
 {
 	/*
 	sXboxSplatInstanceDetails *p_xbox_details;
@@ -123,7 +123,7 @@ sXboxSplatInstanceDetails * getDetailsForTextureSplat( NxXbox::sTexture *p_textu
 	while( p_details )
 	{
 		p_xbox_details					= static_cast<sXboxSplatInstanceDetails*>( p_details );
-		NxXbox::sMaterial *p_material	= p_xbox_details->mp_material;
+		NxWn32::sMaterial *p_material	= p_xbox_details->mp_material;
 		if( p_material->mp_tex[0] == p_texture )
 		{
 			// This scene contains a material with the required texture, so use this scene.
@@ -133,7 +133,7 @@ sXboxSplatInstanceDetails * getDetailsForTextureSplat( NxXbox::sTexture *p_textu
 	}
 	
 	// Create an (opaque) material used to render the mesh.
-	NxXbox::sMaterial *p_material	= new NxXbox::sMaterial();
+	NxWn32::sMaterial *p_material	= new NxWn32::sMaterial();
 	p_material->m_flags[0]			= (( p_texture ) ? MATFLAG_TEXTURED : 0 );
 	p_material->m_checksum			= (uint32)rand() * (uint32)rand();
 	p_material->m_passes			= 1;
@@ -172,7 +172,7 @@ sXboxSplatInstanceDetails * getDetailsForTextureSplat( NxXbox::sTexture *p_textu
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-bool subdivide_tri_stack( uint8 **p_write, NxXbox::sMesh *p_mesh )
+bool subdivide_tri_stack( uint8 **p_write, NxWn32::sMesh *p_mesh )
 {
 	/*
 	// Three temporary buffers.
@@ -316,20 +316,20 @@ void plat_screen_flash_render( sScreenFlashDetails *p_details )
 
 	sXboxScreenFlashVert verts[4];
 
-	verts[0].x	= p_vp->GetOriginX() * NxXbox::EngineGlobals.backbuffer_width;
-	verts[0].y	= p_vp->GetOriginY() * NxXbox::EngineGlobals.backbuffer_height;
+	verts[0].x	= p_vp->GetOriginX() * NxWn32::EngineGlobals.backbuffer_width;
+	verts[0].y	= p_vp->GetOriginY() * NxWn32::EngineGlobals.backbuffer_height;
 	verts[0].z	= p_details->m_z;
 	
-	verts[1].x	= verts[0].x + ( p_vp->GetWidth() * NxXbox::EngineGlobals.backbuffer_width );
+	verts[1].x	= verts[0].x + ( p_vp->GetWidth() * NxWn32::EngineGlobals.backbuffer_width );
 	verts[1].y	= verts[0].y;
 	verts[1].z	= verts[0].z;
 
-	verts[2].x	= verts[0].x + ( p_vp->GetWidth() * NxXbox::EngineGlobals.backbuffer_width );
-	verts[2].y	= verts[0].y + ( p_vp->GetHeight() * NxXbox::EngineGlobals.backbuffer_height );
+	verts[2].x	= verts[0].x + ( p_vp->GetWidth() * NxWn32::EngineGlobals.backbuffer_width );
+	verts[2].y	= verts[0].y + ( p_vp->GetHeight() * NxWn32::EngineGlobals.backbuffer_height );
 	verts[2].z	= verts[0].z;
 
 	verts[3].x	= verts[0].x;
-	verts[3].y	= verts[0].y + ( p_vp->GetHeight() * NxXbox::EngineGlobals.backbuffer_height );
+	verts[3].y	= verts[0].y + ( p_vp->GetHeight() * NxWn32::EngineGlobals.backbuffer_height );
 	verts[3].z	= verts[0].z;
 
 	for( int v = 0; v < 4; ++v )
@@ -351,23 +351,23 @@ void plat_screen_flash_render( sScreenFlashDetails *p_details )
 
 		Nx::CXboxTexture *p_xbox_texture = static_cast<CXboxTexture*>( p_details->mp_texture );
 
-		NxXbox::set_texture( 0, p_xbox_texture->GetEngineTexture()->pD3DTexture, p_xbox_texture->GetEngineTexture()->pD3DPalette );
-		NxXbox::set_render_state( RS_UVADDRESSMODE0, 0x00010001UL );
+		NxWn32::set_texture( 0, p_xbox_texture->GetEngineTexture()->pD3DTexture, p_xbox_texture->GetEngineTexture()->pD3DPalette );
+		NxWn32::set_render_state( RS_UVADDRESSMODE0, 0x00010001UL );
 	}
 	else	
 	{
-		NxXbox::set_texture( 0, NULL );
+		NxWn32::set_texture( 0, NULL );
 	}
 	
-	NxXbox::set_blend_mode( NxXbox::vBLEND_MODE_BLEND );
+	NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_BLEND );
 
-	NxXbox::set_render_state( RS_ZWRITEENABLE,	0 );
-	NxXbox::set_render_state( RS_ZTESTENABLE,	0 );
+	NxWn32::set_render_state( RS_ZWRITEENABLE,	0 );
+	NxWn32::set_render_state( RS_ZTESTENABLE,	0 );
 
-	NxXbox::set_pixel_shader( 0 );
-	NxXbox::set_vertex_shader( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 ));
+	NxWn32::set_pixel_shader( 0 );
+	NxWn32::set_vertex_shader( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 ));
 	
-	NxXbox::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_QUADLIST, 1, verts, sizeof( sXboxScreenFlashVert ));
+	NxWn32::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_QUADLIST, 1, verts, sizeof( sXboxScreenFlashVert ));
 	*/
 }
 
@@ -684,10 +684,10 @@ bool plat_texture_splat( Nx::CSector **pp_sectors, Nx::CCollStatic **pp_collisio
 			// For each mesh in the geom...
 			for( uint32 m = 0; m < p_xbox_geom->m_num_mesh; ++m )
 			{
-				NxXbox::sMesh *p_mesh = p_xbox_geom->m_mesh_array[m];
+				NxWn32::sMesh *p_mesh = p_xbox_geom->m_mesh_array[m];
 
 				// Not allowed on meshes which are flagged not to shadow.
-				if( p_mesh->m_flags & NxXbox::sMesh::MESH_FLAG_NO_SKATER_SHADOW )
+				if( p_mesh->m_flags & NxWn32::sMesh::MESH_FLAG_NO_SKATER_SHADOW )
 					continue;
 
 				// Check the bounding box of this mesh falls within the scope of the line.
@@ -789,7 +789,7 @@ bool plat_texture_splat( Nx::CSector **pp_sectors, Nx::CCollStatic **pp_collisio
 						uint8			*p_array_loop	= p_array;
 						memset( p_array, 0, 8 * 1024 );
 
-						NxXbox::sMesh	*p_dummy_mesh	= new NxXbox::sMesh();
+						NxWn32::sMesh	*p_dummy_mesh	= new NxWn32::sMesh();
 						p_dummy_mesh->m_diffuse_offset	= 12;
 						p_dummy_mesh->m_uv0_offset		= 16;
 
@@ -883,8 +883,8 @@ void plat_texture_splat_render( void )
 
 	Dbg_Assert( p_splat_details_table );
 
-	NxXbox::set_pixel_shader( 0 );	
-	NxXbox::set_vertex_shader( D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 ));
+	NxWn32::set_pixel_shader( 0 );	
+	NxWn32::set_vertex_shader( D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 ));
 	
 	D3DDevice_SetTextureStageState( 0, D3DTSS_BORDERCOLOR, 0x00000000UL );
 
@@ -903,7 +903,7 @@ void plat_texture_splat_render( void )
 		if( p_xbox_details->m_highest_active_splat >= 0 )
 		{
 			p_xbox_details->mp_material->Submit();
-			NxXbox::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_TRIANGLELIST, p_xbox_details->m_highest_active_splat + 1, p_xbox_details->m_verts, sizeof( sXboxSplatVert ));
+			NxWn32::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_TRIANGLELIST, p_xbox_details->m_highest_active_splat + 1, p_xbox_details->m_verts, sizeof( sXboxSplatVert ));
 		}
 		
 		p_details = p_splat_details_table->IterateNext();
@@ -965,7 +965,7 @@ void plat_shatter( CGeom *p_geom )
 	// For each mesh in the geom...
 	for( uint32 m = 0; m < p_xbox_geom->m_num_mesh; ++m )
 	{
-		NxXbox::sMesh *p_mesh = p_xbox_geom->m_mesh_array[m];
+		NxWn32::sMesh *p_mesh = p_xbox_geom->m_mesh_array[m];
 
 		if( p_mesh->m_num_indices[0] >= 3 )
 		{
@@ -1179,10 +1179,10 @@ void plat_shatter_render( sShatterInstanceDetails *p_details )
 
 	p_xbox_details->mp_mesh->mp_material->Submit();
 
-	NxXbox::set_pixel_shader( p_xbox_details->mp_mesh->m_pixel_shader );
-	NxXbox::set_vertex_shader( p_xbox_details->mp_mesh->m_vertex_shader[0] );
+	NxWn32::set_pixel_shader( p_xbox_details->mp_mesh->m_pixel_shader );
+	NxWn32::set_vertex_shader( p_xbox_details->mp_mesh->m_vertex_shader[0] );
 
-	NxXbox::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_TRIANGLELIST, p_xbox_details->m_num_triangles, p_xbox_details->mp_vertex_buffer, p_xbox_details->mp_mesh->m_vertex_stride );
+	NxWn32::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_TRIANGLELIST, p_xbox_details->m_num_triangles, p_xbox_details->mp_vertex_buffer, p_xbox_details->mp_mesh->m_vertex_stride );
 	*/
 }
 
@@ -1200,10 +1200,10 @@ void plat_shatter_render( sShatterInstanceDetails *p_details )
 void CFog::s_plat_enable_fog( bool enable )
 {
 	/*
-	if( enable != (bool)NxXbox::EngineGlobals.fog_enabled )
+	if( enable != (bool)NxWn32::EngineGlobals.fog_enabled )
 	{
-		NxXbox::EngineGlobals.fog_enabled = enable;
-		D3DDevice_SetRenderState( D3DRS_FOGENABLE, NxXbox::EngineGlobals.fog_enabled );
+		NxWn32::EngineGlobals.fog_enabled = enable;
+		D3DDevice_SetRenderState( D3DRS_FOGENABLE, NxWn32::EngineGlobals.fog_enabled );
 	}
 	*/
 }
@@ -1217,13 +1217,13 @@ void CFog::s_plat_enable_fog( bool enable )
 void CFog::s_plat_set_fog_near_distance( float distance )
 {
 	/*
-	NxXbox::EngineGlobals.fog_start	= -distance;
+	NxWn32::EngineGlobals.fog_start	= -distance;
 
 	// Test code for now.
-	NxXbox::EngineGlobals.fog_end	= NxXbox::EngineGlobals.fog_start - FEET_TO_INCHES( 600.0f );
+	NxWn32::EngineGlobals.fog_end	= NxWn32::EngineGlobals.fog_start - FEET_TO_INCHES( 600.0f );
 
-	D3DDevice_SetRenderState( D3DRS_FOGSTART,	*((DWORD*)( &NxXbox::EngineGlobals.fog_start )));
-	D3DDevice_SetRenderState( D3DRS_FOGEND,		*((DWORD*)( &NxXbox::EngineGlobals.fog_end )));
+	D3DDevice_SetRenderState( D3DRS_FOGSTART,	*((DWORD*)( &NxWn32::EngineGlobals.fog_start )));
+	D3DDevice_SetRenderState( D3DRS_FOGEND,		*((DWORD*)( &NxWn32::EngineGlobals.fog_end )));
 	*/
 }
 
@@ -1240,10 +1240,10 @@ void CFog::s_plat_set_fog_exponent( float exponent )
 //	{
 //		s_plat_enable_fog( true );
 //
-//		NxXbox::EngineGlobals.fog_start				= FEET_TO_INCHES( -20.0f );
-//		NxXbox::EngineGlobals.fog_end				= FEET_TO_INCHES( -60.0f );
-//		D3DDevice_SetRenderState( D3DRS_FOGSTART,	*((DWORD*)( &NxXbox::EngineGlobals.fog_start )));
-//		D3DDevice_SetRenderState( D3DRS_FOGEND,		*((DWORD*)( &NxXbox::EngineGlobals.fog_end )));
+//		NxWn32::EngineGlobals.fog_start				= FEET_TO_INCHES( -20.0f );
+//		NxWn32::EngineGlobals.fog_end				= FEET_TO_INCHES( -60.0f );
+//		D3DDevice_SetRenderState( D3DRS_FOGSTART,	*((DWORD*)( &NxWn32::EngineGlobals.fog_start )));
+//		D3DDevice_SetRenderState( D3DRS_FOGEND,		*((DWORD*)( &NxWn32::EngineGlobals.fog_end )));
 //	}
 //	else
 //	{
@@ -1296,12 +1296,12 @@ void CFog::s_plat_set_fog_rgba( Image::RGBA rgba )
 	f_alpha = Mth::Max( f_alpha, 0.0f );
 
 	// Set the density register in the pixel shader constants (uses c4.r/g/b).
-	NxXbox::EngineGlobals.pixel_shader_constants[16] = f_alpha;
-	NxXbox::EngineGlobals.pixel_shader_constants[17] = f_alpha;
-	NxXbox::EngineGlobals.pixel_shader_constants[18] = f_alpha;
+	NxWn32::EngineGlobals.pixel_shader_constants[16] = f_alpha;
+	NxWn32::EngineGlobals.pixel_shader_constants[17] = f_alpha;
+	NxWn32::EngineGlobals.pixel_shader_constants[18] = f_alpha;
 
-	NxXbox::EngineGlobals.fog_color	= ((uint32)rgba.r << 16 ) | ((uint32)rgba.g << 8 ) | ((uint32)rgba.b );
-	D3DDevice_SetRenderState( D3DRS_FOGCOLOR, NxXbox::EngineGlobals.fog_color );
+	NxWn32::EngineGlobals.fog_color	= ((uint32)rgba.r << 16 ) | ((uint32)rgba.g << 8 ) | ((uint32)rgba.b );
+	D3DDevice_SetRenderState( D3DRS_FOGCOLOR, NxWn32::EngineGlobals.fog_color );
 	*/
 }
 

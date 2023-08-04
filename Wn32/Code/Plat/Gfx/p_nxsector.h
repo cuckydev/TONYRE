@@ -24,7 +24,7 @@ class CXboxSector : public CSector
 	bool							LoadFromFile( void* p_file );
 	bool							LoadFromMemory( void **p_mem );
 
-	NxXbox::sScene					*GenerateScene( void );
+	NxWn32::sScene					*GenerateScene( void );
 	
 	private:						// It's all private, as it is machine specific
 	virtual void					plat_set_color( Image::RGBA rgba );

@@ -38,7 +38,7 @@ DWORD ShadowBufferStaticGeomPS;
 
 extern DWORD ShadowBufferStaticGeomVS;
 
-namespace NxXbox
+namespace NxWn32
 {
 
 const float FRONT_TO_BACK_SORT_CUTOFF	= ( 50.0f * 12.0f );
@@ -99,45 +99,45 @@ static Lst::HashTable<sLightGlowDetails> sLightGlowDetailsTable( 8 );
 /******************************************************************/
 BlendModes GetBlendMode( uint32 blend_checksum )
 {
-	BlendModes rv = NxXbox::vBLEND_MODE_DIFFUSE;
+	BlendModes rv = NxWn32::vBLEND_MODE_DIFFUSE;
 
 	switch ( blend_checksum )
 	{
 		case 0x54628ed7:		// Blend
-			rv = NxXbox::vBLEND_MODE_BLEND;
+			rv = NxWn32::vBLEND_MODE_BLEND;
 			break;
 		case 0x02e58c18:		// Add
-			rv = NxXbox::vBLEND_MODE_ADD;
+			rv = NxWn32::vBLEND_MODE_ADD;
 			break;
 		case 0xa7fd7d23:		// Sub
 		case 0xdea7e576:		// Subtract
-			rv = NxXbox::vBLEND_MODE_SUBTRACT;
+			rv = NxWn32::vBLEND_MODE_SUBTRACT;
 			break;
 		case 0x40f44b8a:		// Modulate
-			rv = NxXbox::vBLEND_MODE_MODULATE;
+			rv = NxWn32::vBLEND_MODE_MODULATE;
 			break;
 		case 0x68e77f40:		// Brighten
-			rv = NxXbox::vBLEND_MODE_BRIGHTEN;
+			rv = NxWn32::vBLEND_MODE_BRIGHTEN;
 			break;
 		case 0x18b98905:		// FixBlend
-			rv = NxXbox::vBLEND_MODE_BLEND_FIXED;
+			rv = NxWn32::vBLEND_MODE_BLEND_FIXED;
 			break;
 		case 0xa86285a1:		// FixAdd
-			rv = NxXbox::vBLEND_MODE_ADD_FIXED;
+			rv = NxWn32::vBLEND_MODE_ADD_FIXED;
 			break;
 		case 0x0d7a749a:		// FixSub
 		case 0x0eea99ff:		// FixSubtract
-			rv = NxXbox::vBLEND_MODE_SUB_FIXED;
+			rv = NxWn32::vBLEND_MODE_SUB_FIXED;
 			break;
 		case 0x90b93703:		// FixModulate
-			rv = NxXbox::vBLEND_MODE_MODULATE_FIXED;
+			rv = NxWn32::vBLEND_MODE_MODULATE_FIXED;
 			break;
 		case 0xb8aa03c9:		// FixBrighten
-			rv = NxXbox::vBLEND_MODE_BRIGHTEN_FIXED;
+			rv = NxWn32::vBLEND_MODE_BRIGHTEN_FIXED;
 			break;
 		case 0x515e298e:		// Diffuse
 		case 0x806fff30:		// None
-			rv = NxXbox::vBLEND_MODE_DIFFUSE;
+			rv = NxWn32::vBLEND_MODE_DIFFUSE;
 			break;
 		default:
 			Dbg_MsgAssert(0,("Illegal blend mode specified. Please use (fix)blend/add/sub/modulate/brighten or diffuse/none."));
@@ -1150,9 +1150,9 @@ void set_texture( uint32 pass, IDirect3DTexture8 *p_texture, IDirect3DPalette8 *
 void set_blend_mode( uint32 mode )
 {
 	/*
-	if( NxXbox::EngineGlobals.blend_mode_override )
+	if( NxWn32::EngineGlobals.blend_mode_override )
 	{
-		mode = NxXbox::EngineGlobals.blend_mode_override;
+		mode = NxWn32::EngineGlobals.blend_mode_override;
 	}
 
 	// Only do something if the blend mode is changing.
@@ -1170,7 +1170,7 @@ void set_blend_mode( uint32 mode )
 				}
 				else
 				{
-					D3DDevice_SetRenderState( D3DRS_FOGCOLOR, NxXbox::EngineGlobals.fog_color );
+					D3DDevice_SetRenderState( D3DRS_FOGCOLOR, NxWn32::EngineGlobals.fog_color );
 				}
 			}
 
@@ -1807,8 +1807,8 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 	float height	= width / aspect_ratio;
 	XGMatrixPerspectiveRH( &EngineGlobals.projection_matrix, width, height, EngineGlobals.near_plane, EngineGlobals.far_plane );
 	
-	NxXbox::EngineGlobals.near_plane_width	= width;
-	NxXbox::EngineGlobals.near_plane_height	= height;
+	NxWn32::EngineGlobals.near_plane_width	= width;
+	NxWn32::EngineGlobals.near_plane_height	= height;
 
 	if( render_at_infinity )
 	{
@@ -2428,12 +2428,12 @@ void render_shadow_volumes( sScene *p_scene, uint32 viewport )
 	// Switch viewport from value to bitfield value.
 	viewport = ( 1 << viewport );
 	
-	NxXbox::set_pixel_shader( PixelShader5 );
+	NxWn32::set_pixel_shader( PixelShader5 );
 	EngineGlobals.pixel_shader_override	= PixelShader5;
-	NxXbox::set_texture( 0, NULL );
-	NxXbox::set_render_state( RS_ZWRITEENABLE,	0 );
-	NxXbox::set_render_state( RS_ZTESTENABLE,	1 );
-	NxXbox::set_render_state( RS_ALPHACUTOFF,	0 );
+	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_render_state( RS_ZWRITEENABLE,	0 );
+	NxWn32::set_render_state( RS_ZTESTENABLE,	1 );
+	NxWn32::set_render_state( RS_ALPHACUTOFF,	0 );
 
 	if( debug_shadow_volumes == false )
 		D3DDevice_SetRenderState( D3DRS_ZFUNC,		D3DCMP_GREATEREQUAL );
@@ -2449,18 +2449,18 @@ void render_shadow_volumes( sScene *p_scene, uint32 viewport )
 			{
 				if( debug_shadow_volumes == false )
 				{
-					NxXbox::set_render_state( RS_CULLMODE, D3DCULL_CW );
-					NxXbox::set_blend_mode( 0x10000000UL | NxXbox::vBLEND_MODE_ADD_FIXED );
+					NxWn32::set_render_state( RS_CULLMODE, D3DCULL_CW );
+					NxWn32::set_blend_mode( 0x10000000UL | NxWn32::vBLEND_MODE_ADD_FIXED );
 					p_mesh->Submit();
 
-					NxXbox::set_render_state( RS_CULLMODE, D3DCULL_CCW );
-					NxXbox::set_blend_mode( 0x10000000UL | NxXbox::vBLEND_MODE_SUB_FIXED );
+					NxWn32::set_render_state( RS_CULLMODE, D3DCULL_CCW );
+					NxWn32::set_blend_mode( 0x10000000UL | NxWn32::vBLEND_MODE_SUB_FIXED );
 					p_mesh->Submit();
 				}
 				else
 				{
-					NxXbox::set_render_state( RS_CULLMODE, D3DCULL_NONE );
-					NxXbox::set_blend_mode( 0x30000000UL | NxXbox::vBLEND_MODE_BLEND_FIXED );
+					NxWn32::set_render_state( RS_CULLMODE, D3DCULL_NONE );
+					NxWn32::set_blend_mode( 0x30000000UL | NxWn32::vBLEND_MODE_BLEND_FIXED );
 					p_mesh->Submit();
 				}
 			}
@@ -2468,8 +2468,8 @@ void render_shadow_volumes( sScene *p_scene, uint32 viewport )
 	}
 
 	EngineGlobals.pixel_shader_override	= 0;
-	NxXbox::set_render_state( RS_ZWRITEENABLE,	1 );
-	NxXbox::set_render_state( RS_CULLMODE,		D3DCULL_CW );
+	NxWn32::set_render_state( RS_ZWRITEENABLE,	1 );
+	NxWn32::set_render_state( RS_CULLMODE,		D3DCULL_CW );
 	D3DDevice_SetRenderState( D3DRS_ZFUNC,		D3DCMP_LESSEQUAL );
 	*/
 }
@@ -2844,7 +2844,7 @@ void render_light_glows( bool test )
 	// the other to actually draw the pixels.
 
 	// Used to figure the right and up vectors for creating screen-aligned particle quads.
-	D3DXMATRIX *p_matrix = (D3DXMATRIX*)&NxXbox::EngineGlobals.view_matrix;
+	D3DXMATRIX *p_matrix = (D3DXMATRIX*)&NxWn32::EngineGlobals.view_matrix;
 
 	// Concatenate p_matrix with the emmission angle to create the direction.
 	Mth::Vector up( 0.0f, 1.0f, 0.0f, 0.0f );
@@ -2974,5 +2974,5 @@ void render_light_glows( bool test )
 
 
 
-} // namespace NxXbox
+} // namespace NxWn32
 
