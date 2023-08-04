@@ -21,7 +21,7 @@
 namespace Obj
 {
 
-Lst::HashTable<CEmitterObject> *	CEmitterManager::sp_emitter_lookup = NULL;
+Lst::HashTable<CEmitterObject> *	CEmitterManager::sp_emitter_lookup = nullptr;
 
 void CEmitterManager::sInit()
 {
@@ -51,7 +51,7 @@ void CEmitterManager::sCleanup()
 	   	}
 
 //		delete sp_emitter_lookup;
-//		sp_emitter_lookup = NULL;
+//		sp_emitter_lookup = nullptr;
 	}
 }
 
@@ -68,7 +68,7 @@ void CEmitterManager::sAddEmitter(int node,bool active)
 
 	pEmitterObject->m_active = active;  // created at start or not?
 	
-	pEmitterObject->mp_sector = NULL;
+	pEmitterObject->mp_sector = nullptr;
 	pEmitterObject->m_shape_type = CEmitterObject::vSHAPE_SPHERE;  
 
 	// Get pointer to the Emitter data	
@@ -187,7 +187,7 @@ void CEmitterManager::sUpdateEmitters(CSkater *pSkater, Gfx::Camera* camera)
 	CEmitterObject *pEmitterObject = sp_emitter_lookup->IterateNext();
 
     Mdl::Skate * skate_mod = Mdl::Skate::Instance();
-	if( skate_mod->mpProximManager == NULL )
+	if( skate_mod->mpProximManager == nullptr )
 	{
 		return;
 	}

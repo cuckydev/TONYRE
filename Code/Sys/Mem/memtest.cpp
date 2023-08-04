@@ -189,7 +189,7 @@ void Test( void )
 	}
 
 	test2[16] = new (pool, false) char[1024];
-	Dbg_Message ( " %x  should be NULL address ( no free slots )", test2[16] ); 
+	Dbg_Message ( " %x  should be nullptr address ( no free slots )", test2[16] ); 
 
 	delete test2[0];
 	delete test2[1];
@@ -244,11 +244,11 @@ void Test( void )
 //	testa = new TestA;
 
 	gooda = test_handle.GetPointer();	
-	Dbg_MsgAssert(( gooda == NULL ),( "Handles pointer not NULL" ));
+	Dbg_MsgAssert(( gooda == nullptr ),( "Handles pointer not nullptr" ));
 
 	if( gooda )
 	{
-		printf("Error!!!!!   Handles pointer not NULL\n" );
+		printf("Error!!!!!   Handles pointer not nullptr\n" );
 	}
 
 	Dbg_MsgAssert(( false ),("DONE" ));

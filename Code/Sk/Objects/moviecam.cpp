@@ -80,7 +80,7 @@ CMovieDetails* CMovieManager::get_movie_details( int index )
 {
 	if ( get_movie_count() == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return (CMovieDetails*)m_movieDetailsList.GetItem( index );
@@ -103,7 +103,7 @@ CMovieDetails* CMovieManager::get_movie_details_by_name( uint32 name )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -176,7 +176,7 @@ Gfx::Camera* CMovieManager::GetActiveCamera()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -229,7 +229,7 @@ void CMovieManager::CleanupMovie( CMovieDetails* pDetails )
 	// somehow (would cause a glitch otherwise)
 	if ( exitScriptName != 0 )
 	{
-		Script::RunScript( exitScriptName, pTempExitParams, NULL );
+		Script::RunScript( exitScriptName, pTempExitParams, nullptr );
 	}
 
 	delete pTempExitParams;
@@ -460,7 +460,7 @@ bool CMovieManager::RemoveMovieFromQueue( uint32 name )
 
 bool CMovieManager::AddMovieToQueue( uint32 name, Script::CStruct* pParams, uint32 movieType )
 {
-	CMovieDetails* pDetails = NULL;
+	CMovieDetails* pDetails = nullptr;
 
     bool old_last_movie_camera = m_use_last_movie_camera;
 
@@ -509,7 +509,7 @@ bool CMovieManager::AddMovieToQueue( uint32 name, Script::CStruct* pParams, uint
 
 			{
 				// fix 1-frame glitch with a loading screen here...
-				char* pFileName = NULL;
+				char* pFileName = nullptr;
 				bool freeze = true;
 				bool blank = false;
 				Nx::CLoadScreen::sDisplay( pFileName, freeze, blank );
@@ -649,7 +649,7 @@ Script::CStruct* CMovieManager::GetMovieParams( uint32 name )
 	if ( m_movieDetailsList.CountItems() == 0 )
 	{
 		// no movies in the queue
-		return NULL;
+		return nullptr;
 	}
 
 	if ( name == 0 )
@@ -667,7 +667,7 @@ Script::CStruct* CMovieManager::GetMovieParams( uint32 name )
 		if ( pDetails )
 			return pDetails->GetParams();
 	}
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

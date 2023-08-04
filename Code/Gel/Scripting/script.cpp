@@ -49,7 +49,7 @@ namespace Obj
 namespace Script
 {
 
-static CScript * sCurrentlyUpdating = NULL;
+static CScript * sCurrentlyUpdating = nullptr;
 
 // Parse.cpp needs this, for getting the script pointer to send to any cfunc it
 // encounters when evaluating an expression.
@@ -148,7 +148,7 @@ static void s_send_script_name(uint32 script_name, int numReturnAddresses)
 #endif
 
 
-static CScript *sp_scripts=NULL;
+static CScript *sp_scripts=nullptr;
 static uint32 s_num_cscripts=0;
 
 static bool	s_done_one_per_frame;
@@ -161,12 +161,12 @@ uint32 GetNumCScripts()
 }
 	
 // For use when external functions want to step through all existing scripts.
-// Pass it NULL to get the first CScript.
+// Pass it nullptr to get the first CScript.
 // Should probably eventually change all the script code to use the iterators in the 
 // standard container library at some point I guess.
 CScript *GetNextScript(CScript *p_script)
 {
-	if (p_script==NULL)
+	if (p_script==nullptr)
 	{
 		// They want the first CScript
 		return sp_scripts;
@@ -223,7 +223,7 @@ CScript::CScript()
 	#endif
 
 #ifdef	__SCRIPT_EVENT_TABLE__		
-	mp_event_handler_table = NULL;
+	mp_event_handler_table = nullptr;
 #endif	 
 
 	mp_return_addresses=mp_return_addresses_small_buffer;
@@ -244,7 +244,7 @@ CScript::~CScript()
 	Dbg_MsgAssert(mp_previous != (CScript *)-1,("mp_previous is -1 in script we are trying to delete!!!"));
 	
 	// Remove from the linked list.
-	if (mp_previous==NULL) 
+	if (mp_previous==nullptr) 
 	{
 		sp_scripts=mp_next;
 	}	
@@ -591,14 +591,14 @@ void CScript::DebugGo()
 void CScript::SetWait(EWaitType type, Obj::CBaseComponent *p_component)
 {
 	m_wait_type=type;
-	Dbg_MsgAssert(mp_wait_component==NULL,("\n%s\nExpected mp_wait_component to be NULL here?",GetScriptInfo()));
+	Dbg_MsgAssert(mp_wait_component==nullptr,("\n%s\nExpected mp_wait_component to be nullptr here?",GetScriptInfo()));
 	mp_wait_component=p_component;
 }
 
 void CScript::ClearWait()
 {
 	m_wait_type=WAIT_TYPE_NONE;
-	mp_wait_component=NULL;
+	mp_wait_component=nullptr;
 }
 
 void CScript::Block()
@@ -659,7 +659,7 @@ void CScript::set_script(uint32 scriptChecksum, uint8 *p_script, CStruct *p_para
 	// Reset the script.
 	ClearScript();
 	
-	Dbg_MsgAssert(mp_function_params==NULL,("mp_function_params not NULL"));
+	Dbg_MsgAssert(mp_function_params==nullptr,("mp_function_params not nullptr"));
 	mp_function_params=new CStruct;
 	
 	#ifdef __NOPT_ASSERT__ 
@@ -674,7 +674,7 @@ void CScript::set_script(uint32 scriptChecksum, uint8 *p_script, CStruct *p_para
 	#endif	
     mpObject=p_object;
 	
-	Dbg_MsgAssert(mp_params==NULL,("mp_params not NULL"));
+	Dbg_MsgAssert(mp_params==nullptr,("mp_params not nullptr"));
 	mp_params=new CStruct;
 	#ifdef __NOPT_ASSERT__ 
 	// This is so that the structure can print line number info in case one of
@@ -689,7 +689,7 @@ void CScript::set_script(uint32 scriptChecksum, uint8 *p_script, CStruct *p_para
 	else
 	{
 		Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-		Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+		Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	
 		mp_pc=p_script_cache->GetScript(scriptChecksum);
 		if (!mp_pc)
@@ -741,9 +741,9 @@ void CScript::set_script(uint32 scriptChecksum, uint8 *p_script, CStruct *p_para
 
 void CScript::SetScript(const SStructScript *p_structScript, CStruct *p_params, Obj::CObject *p_object)
 {
-	Dbg_MsgAssert(p_structScript,("NULL p_structScript"));
+	Dbg_MsgAssert(p_structScript,("nullptr p_structScript"));
 	Dbg_MsgAssert(p_structScript->mNameChecksum,("Zero p_structScript->mNameChecksum"));
-	Dbg_MsgAssert(p_structScript->mpScriptTokens,("NULL p_structScript->mpScriptTokens"));
+	Dbg_MsgAssert(p_structScript->mpScriptTokens,("nullptr p_structScript->mpScriptTokens"));
 	
 	// Calculate the size of the script
 	uint32 size=SkipOverScript(p_structScript->mpScriptTokens)-p_structScript->mpScriptTokens;
@@ -765,13 +765,13 @@ void CScript::SetScript(const SStructScript *p_structScript, CStruct *p_params, 
 	
 	// Now set mp_struct_script, so that the buffer can be deleted later.
 	// Note: The setting of mp_struct_script cannot be done before set_script, because set_script calls 
-	// ClearScript, which would have deleted mp_struct_script if it was not NULL.
+	// ClearScript, which would have deleted mp_struct_script if it was not nullptr.
 	mp_struct_script=p_new_script;
 }
 
 void CScript::SetScript(uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_object)
 {
-	set_script(scriptChecksum,NULL,p_params,p_object);
+	set_script(scriptChecksum,nullptr,p_params,p_object);
 }
 
 void CScript::SetScript(const char *p_scriptName, CStruct *p_params, Obj::CObject *p_object)
@@ -790,7 +790,7 @@ CStruct *CScript::MakeParamsSafeFromDeletionByClearScript(CStruct *p_params)
 	// of p_params in p_new_params & return it.
 	// This is a speed optimization, because it would be slow to always store the contents of
 	// p_params. (Copying structures can be slow)
-	CStruct *p_new_params=NULL;
+	CStruct *p_new_params=nullptr;
 	if (p_params)
 	{
 		if ((mp_function_params && mp_function_params->References(p_params)) || 
@@ -805,17 +805,17 @@ CStruct *CScript::MakeParamsSafeFromDeletionByClearScript(CStruct *p_params)
 }
 
 // Stops the script from executing, and deletes the parameters, clears the stack, etc.
-// (REQUIREMENT: Must set mp_pc to NULL, so script will be deleted by UpdateSpawnedScripts)
+// (REQUIREMENT: Must set mp_pc to nullptr, so script will be deleted by UpdateSpawnedScripts)
 void CScript::ClearScript()
 {
 	if (mp_struct_script)
 	{
 		Mem::Free(mp_struct_script);
-		mp_struct_script=NULL;
+		mp_struct_script=nullptr;
 	}
 
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+	Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	if (mp_pc)
 	{
 		// If a script was being executed, then decrement its usage in the script cache since
@@ -823,44 +823,44 @@ void CScript::ClearScript()
 		p_script_cache->DecrementScriptUsage(mScriptChecksum);
 	}
 	
-	mp_pc=NULL;	
+	mp_pc=nullptr;	
 	
 	if (mp_params)
 	{
 		delete mp_params;
-		mp_params=NULL;
+		mp_params=nullptr;
 	}
 	if (mp_function_params)
 	{
 		delete mp_function_params;
-		mp_function_params=NULL;
+		mp_function_params=nullptr;
 	}	
 	
     for (int i=0; i<m_num_return_addresses; ++i)
     {
 		p_script_cache->DecrementScriptUsage(mp_return_addresses[i].mScriptNameChecksum);
 		
-        Dbg_MsgAssert(mp_return_addresses[i].mpParams,("NULL mpParams in return stack"));
+        Dbg_MsgAssert(mp_return_addresses[i].mpParams,("nullptr mpParams in return stack"));
 		if (mp_return_addresses[i].mpParams)
 		{
 			delete mp_return_addresses[i].mpParams;
-			mp_return_addresses[i].mpParams=NULL;
+			mp_return_addresses[i].mpParams=nullptr;
 		}	
     }    
 	
 	m_num_return_addresses=0;
 	if (mp_return_addresses != mp_return_addresses_small_buffer)
 	{
-		Dbg_MsgAssert(mp_return_addresses,("NULL mp_return_addresses ?"));
+		Dbg_MsgAssert(mp_return_addresses,("nullptr mp_return_addresses ?"));
 		Mem::Free(mp_return_addresses);
 	}
 	mp_return_addresses=mp_return_addresses_small_buffer;
 
 
-	mp_current_loop=NULL;
+	mp_current_loop=nullptr;
 	if (mp_loops != mp_loops_small_buffer)
 	{
-		Dbg_MsgAssert(mp_loops,("NULL mp_loops ?"));
+		Dbg_MsgAssert(mp_loops,("nullptr mp_loops ?"));
 		Mem::Free(mp_loops);
 	}
 	mp_loops=mp_loops_small_buffer;
@@ -868,9 +868,9 @@ void CScript::ClearScript()
 	
 	m_wait_timer=0;
 	m_wait_type=WAIT_TYPE_NONE;
-	mp_wait_component=NULL;
+	mp_wait_component=nullptr;
 	
-	mpObject=NULL;
+	mpObject=nullptr;
 	mScriptChecksum=0;
 
 	m_interrupted=false;
@@ -883,7 +883,7 @@ void CScript::ClearScript()
 }
 
 // Cleans up the script's event handler table.  Call after ClearScript if you are not about to reset the script
-// (REQUIREMENT: Must set mp_pc to NULL, so script will be deleted by UpdateSpawnedScripts)
+// (REQUIREMENT: Must set mp_pc to nullptr, so script will be deleted by UpdateSpawnedScripts)
 void CScript::ClearEventHandlerTable()
 {
 	#ifdef	__SCRIPT_EVENT_TABLE__		
@@ -908,7 +908,7 @@ void CScript::Restart()
 	{
 		// If there are things in the call stack, then the script that we want to restart is
 		// the first one in the call stack, since this is the original script.
-		Dbg_MsgAssert(mp_return_addresses[0].mpParams,("NULL p_params in return stack"));
+		Dbg_MsgAssert(mp_return_addresses[0].mpParams,("nullptr p_params in return stack"));
 		*p_params=*mp_return_addresses[0].mpParams;
 		SetScript(mp_return_addresses[0].mScriptNameChecksum,p_params,mp_return_addresses[0].mpObject);
 	}
@@ -924,7 +924,7 @@ void CScript::Restart()
 	delete p_params;
 }
 
-// Stops the script from being associated with an object, ie, sets mpObject to NULL.
+// Stops the script from being associated with an object, ie, sets mpObject to nullptr.
 // Allows the script to continue executing though, so the script must not contain any
 // further member functions, otherwise the code will assert.
 // This function also sets m_wait_type=WAIT_TYPE_NONE; to ensure the Update function does
@@ -939,13 +939,13 @@ void CScript::DisassociateWithObject(Obj::CObject *pObjectToDisconnectFrom)
 
 	if (mpObject == pObjectToDisconnectFrom)
 	{
-		mpObject=NULL;
+		mpObject=nullptr;
 	}
 	for (int i=0; i<m_num_return_addresses; ++i)
 	{
 		if (mp_return_addresses[i].mpObject == pObjectToDisconnectFrom)
 		{
-			mp_return_addresses[i].mpObject = NULL;
+			mp_return_addresses[i].mpObject = nullptr;
 		}
 	}		
 	
@@ -960,8 +960,8 @@ static char sp_script_info[SCRIPT_INFO_BUF_SIZE];
 
 const char *CScript::GetScriptInfo()
 {
-	// if called on a NULL object, then return an appropiate string 
-	if (this == NULL)
+	// if called on a nullptr object, then return an appropiate string 
+	if (this == nullptr)
 	{
 		#ifdef	__NOPT_ASSERT__
 		return "No Script, probably CFunc called from RunScript or ForEachIn";
@@ -1124,7 +1124,7 @@ void CScript::call_script(uint32 newScriptChecksum, uint8 *p_script, CStruct *p_
 			mp_return_addresses[i].mpParams                   = mp_return_addresses_small_buffer[i].mpParams;             
 			mp_return_addresses[i].mpReturnAddress            = mp_return_addresses_small_buffer[i].mpReturnAddress;      
 			mp_return_addresses[i].mpObject                   = mp_return_addresses_small_buffer[i].mpObject.Convert();             
-			mp_return_addresses_small_buffer[i].mpObject = NULL;
+			mp_return_addresses_small_buffer[i].mpObject = nullptr;
 			mp_return_addresses[i].mpLoop                     = mp_return_addresses_small_buffer[i].mpLoop;               
 			#ifdef __NOPT_ASSERT__
 			mp_return_addresses[i].m_if_status                = mp_return_addresses_small_buffer[i].m_if_status;          
@@ -1175,11 +1175,11 @@ void CScript::call_script(uint32 newScriptChecksum, uint8 *p_script, CStruct *p_
 	
 	// Set the new mp_pc
     mp_pc=p_script;
-    Dbg_MsgAssert(mp_pc,("NULL p_script sent to call_script"));
+    Dbg_MsgAssert(mp_pc,("nullptr p_script sent to call_script"));
 	
 	// Create a new parameters structure, and fill it in using the default values listed after
 	// the script name.
-	// Note: Not asserting if mp_params is not NULL, because it probably won't be.
+	// Note: Not asserting if mp_params is not nullptr, because it probably won't be.
 	// The old value of mp_params has been safely stored in the mp_return_addresses array above.
     mp_params=new CStruct;
 	#ifdef __NOPT_ASSERT__ 
@@ -1215,7 +1215,7 @@ void CScript::call_script(uint32 newScriptChecksum, uint8 *p_script, CStruct *p_
 EScriptReturnVal CScript::Interrupt(uint32 newScriptChecksum, CStruct *p_params)
 {
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+	Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	uint8 *p_script=p_script_cache->GetScript(newScriptChecksum);
 
 	// The true means interrupt the script, which means that the call to Update will not continue
@@ -1364,9 +1364,9 @@ void CScript::load_function_params()
 	
 	// Clear the function parameters structure and add the new params, using mp_params to get
 	// any parameters referenced using the <,> operators.
-	Dbg_MsgAssert(mp_function_params,("NULL mp_function_params"));
+	Dbg_MsgAssert(mp_function_params,("nullptr mp_function_params"));
 	mp_function_params->Clear();
-	// AddComponentsUntilEndOfLine will assert if mp_pc is NULL
+	// AddComponentsUntilEndOfLine will assert if mp_pc is nullptr
 	mp_pc=AddComponentsUntilEndOfLine(mp_function_params,mp_pc,mp_params);
 	
 	#ifdef STOPWATCH_STUFF
@@ -1375,7 +1375,7 @@ void CScript::load_function_params()
 }
 
 // Runs the specified member function. Uses mpObject by default, but uses p_substituteObject 
-// if it is not NULL. p_substituteObject defaults to NULL if it is not specified.
+// if it is not nullptr. p_substituteObject defaults to nullptr if it is not specified.
 // Does not affect mp_pc
 bool CScript::run_member_function(uint32 functionName, Obj::CObject *p_substituteObject)
 {
@@ -1575,7 +1575,7 @@ uint32 CScript::get_name()
 // Executes the command pointed to by mp_pc, and returns true or false, which is the value to
 // be used by any preceding if-statement.
 // After executing the command, mp_pc will have changed. It might be pointing to the next command in
-// the current script, or to a command in a different script, or it might even be NULL, who knows?
+// the current script, or to a command in a different script, or it might even be nullptr, who knows?
 // A 'command' is either a cfunc,member func, or script call, in which the command has the form of
 // some sort of name followed by a list of parameters to be sent to it.
 // It also covers the direct setting of one of the script's parameters, such as <x>=3
@@ -1633,13 +1633,13 @@ bool CScript::execute_command()
 	// Check if the name is followed by a colon, in which case the name is the id of some object.
 	if (*mp_pc==ESCRIPTTOKEN_COLON)
 	{
-		Obj::CObject *p_substitute_object = NULL;
+		Obj::CObject *p_substitute_object = nullptr;
 		// Find the object
 #ifndef __PLAT_WN32__
 		p_substitute_object=Obj::ResolveToObject(name);
 #endif
 		Dbg_MsgAssert(p_substitute_object,("\n%s\nCould not resolve '%s' to a CObject instance",GetScriptInfo(),FindChecksumName(name)));
-		if( p_substitute_object == NULL )
+		if( p_substitute_object == nullptr )
 		{
 			return true;
 		}
@@ -1705,7 +1705,7 @@ bool CScript::execute_command()
 			#endif
 
 			Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-			Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+			Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 			uint8 *p_script=p_script_cache->GetScript(p_entry->mNameChecksum);
 			
 			call_script(function_checksum,p_script,mp_function_params,p_substitute_object);
@@ -1827,7 +1827,7 @@ bool CScript::execute_command()
 			#endif
 
 			Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-			Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+			Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 			uint8 *p_script=p_script_cache->GetScript(p_entry->mNameChecksum);
 		 
 			call_script(name,p_script,mp_function_params,mpObject);
@@ -1845,7 +1845,7 @@ bool CScript::execute_command()
 
 void CScript::execute_if()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_IF,("Unexpected *mp_pc='%s', expected keyword 'if'",GetTokenName((EScriptToken)*mp_pc)));
 
 	// Skip over the if token.	
@@ -1860,7 +1860,7 @@ void CScript::execute_if()
 		
 	bool return_value=execute_command();
 	
-	// mp_pc will have changed, and might be NULL.
+	// mp_pc will have changed, and might be nullptr.
 	if (!mp_pc)
 	{
 		return;
@@ -1951,7 +1951,7 @@ void CScript::execute_if()
 // Skips forward till it hits an endif, then skips over the endif.
 void CScript::execute_else()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_ELSE,("Unexpected *mp_pc='%s', expected keyword 'else'",GetTokenName((EScriptToken)*mp_pc)));
 	// else's are only allowed in the true blocks of if-statements.
 	// Bit 0 of m_if_status indicates the status of the last if.
@@ -1997,7 +1997,7 @@ void CScript::execute_else()
 // Either way there is nothing to do, so just skip over it.
 void CScript::execute_endif()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_ENDIF,("Unexpected *mp_pc='%s', expected keyword 'endif'",GetTokenName((EScriptToken)*mp_pc)));
 	
 	#ifdef STOPWATCH_STUFF
@@ -2020,7 +2020,7 @@ void CScript::execute_endif()
 // Afterwards, mp_pc will point to the token following the endswitch.
 void CScript::skip_to_after_endswitch()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	
 	while (*mp_pc!=ESCRIPTTOKEN_KEYWORD_ENDSWITCH)
 	{
@@ -2044,7 +2044,7 @@ void CScript::skip_to_after_endswitch()
 // code of the matching case. Or if none matches, it will point to after the endswitch.
 void CScript::execute_switch()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_SWITCH,("Unexpected *mp_pc='%s', expected keyword 'switch'",GetTokenName((EScriptToken)*mp_pc)));
 	
 	#ifdef __NOPT_ASSERT__
@@ -2057,7 +2057,7 @@ void CScript::execute_switch()
 	++mp_pc;
 	
 	// Put the parameters following the switch keyword into mp_function_params
-	Dbg_MsgAssert(mp_function_params,("NULL mp_function_params"));
+	Dbg_MsgAssert(mp_function_params,("nullptr mp_function_params"));
 	mp_function_params->Clear();
 	mp_pc=AddComponentsUntilEndOfLine(mp_function_params,mp_pc,mp_params);
 	
@@ -2068,7 +2068,7 @@ void CScript::execute_switch()
 	CComponent *p_first_comp=mp_function_params->GetNextComponent();
 	if (p_first_comp)
 	{
-		Dbg_MsgAssert(mp_function_params->GetNextComponent(p_first_comp)==NULL,("\n%s\nswitch argument contains more than one component",GetScriptInfo()));
+		Dbg_MsgAssert(mp_function_params->GetNextComponent(p_first_comp)==nullptr,("\n%s\nswitch argument contains more than one component",GetScriptInfo()));
 		CopyComponent(p_switch_comp,p_first_comp);
 	}			
 	
@@ -2099,7 +2099,7 @@ void CScript::execute_switch()
 			CComponent *p_case_comp=mp_function_params->GetNextComponent();
 			if (p_case_comp)
 			{
-				Dbg_MsgAssert(mp_function_params->GetNextComponent(p_case_comp)==NULL,("\n%s\ncase argument contains more than one component",GetScriptInfo()));
+				Dbg_MsgAssert(mp_function_params->GetNextComponent(p_case_comp)==nullptr,("\n%s\ncase argument contains more than one component",GetScriptInfo()));
 				
 				if (*p_switch_comp==*p_case_comp)
 				{
@@ -2152,7 +2152,7 @@ void CScript::execute_switch()
 
 void CScript::execute_begin()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_BEGIN,("Unexpected *mp_pc='%s', expected keyword 'begin'",GetTokenName((EScriptToken)*mp_pc)));
 	++mp_pc;
 	
@@ -2206,7 +2206,7 @@ void CScript::execute_begin()
 	// Record the start for looping back.
 	mp_current_loop->mpStart=mp_pc;
 	// These get filled in once the repeat is reached.
-	mp_current_loop->mpEnd=NULL;
+	mp_current_loop->mpEnd=nullptr;
 	mp_current_loop->mGotCount=false;
 	mp_current_loop->mNeedToReadCount=true;
 	mp_current_loop->mCount=0;
@@ -2215,15 +2215,15 @@ void CScript::execute_begin()
 
 void CScript::execute_repeat()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_REPEAT,("Unexpected *mp_pc='%s', expected keyword 'repeat'",GetTokenName((EScriptToken)*mp_pc)));
-	Dbg_MsgAssert(mp_current_loop,("\n%s\nEncountered repeat with NULL mp_current_loop",GetScriptInfo()));
+	Dbg_MsgAssert(mp_current_loop,("\n%s\nEncountered repeat with nullptr mp_current_loop",GetScriptInfo()));
 	
 	if (mp_current_loop->mNeedToReadCount)
 	{
 		// Skip over the repeat token. 
 		++mp_pc;
-		Dbg_MsgAssert(mp_function_params,("NULL mp_function_params"));
+		Dbg_MsgAssert(mp_function_params,("nullptr mp_function_params"));
 		mp_function_params->Clear();
 		mp_current_loop->mpEnd=AddComponentsUntilEndOfLine(mp_function_params,mp_pc,mp_params);
 		mp_current_loop->mGotCount=mp_function_params->GetInteger(NO_NAME,&mp_current_loop->mCount);
@@ -2254,13 +2254,13 @@ void CScript::execute_repeat()
 			// The loop has finished!
 			
 			// Jump PC to the next instruction after the repeat.
-			Dbg_MsgAssert(mp_current_loop->mpEnd,("NULL mp_current_loop->pEnd ??")); 
+			Dbg_MsgAssert(mp_current_loop->mpEnd,("nullptr mp_current_loop->pEnd ??")); 
 			mp_pc=mp_current_loop->mpEnd;
 			
 			// Rewind to the previous loop.
 			if (mp_current_loop==mp_loops)
 			{
-				mp_current_loop=NULL;
+				mp_current_loop=nullptr;
 			}
 			else
 			{
@@ -2273,9 +2273,9 @@ void CScript::execute_repeat()
 
 void CScript::execute_break()
 {
-	Dbg_MsgAssert(mp_pc,("NULL mp_pc"));
+	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
 	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_BREAK,("Unexpected *mp_pc='%s', expected keyword 'break'",GetTokenName((EScriptToken)*mp_pc)));
-	Dbg_MsgAssert(mp_current_loop,("\n%s\nEncountered break with NULL mp_current_loop",GetScriptInfo()));
+	Dbg_MsgAssert(mp_current_loop,("\n%s\nEncountered break with nullptr mp_current_loop",GetScriptInfo()));
 	
 	// Step over every token until repeat is reached.
 
@@ -2335,7 +2335,7 @@ void CScript::execute_break()
 	// Use AddComponentsUntilEndOfLine just to step over the possible repeat argument.
 	// Ugh! Kind of ugly, but shouldn't be too slow because repeat will probably be followed
 	// by nothing or just an integer.
-	Dbg_MsgAssert(mp_function_params,("NULL mp_function_params"));
+	Dbg_MsgAssert(mp_function_params,("nullptr mp_function_params"));
 	mp_function_params->Clear();
 	mp_pc=AddComponentsUntilEndOfLine(mp_function_params,mp_pc);
 
@@ -2343,7 +2343,7 @@ void CScript::execute_break()
 	// Rewind to the previous loop.
 	if (mp_current_loop==mp_loops)
 	{
-		mp_current_loop=NULL;
+		mp_current_loop=nullptr;
 	}
 	else
 	{
@@ -2353,14 +2353,14 @@ void CScript::execute_break()
 }
 
 // Returns from a sub-script by popping the info (mp_pc etc) off the stack.
-// If there is nothing on the stack, it sets mp_pc to NULL
+// If there is nothing on the stack, it sets mp_pc to nullptr
 // Returns true if the script being returned from was a script triggered by Interrupt.
 // This then allows Update() to not continue execution of the script that was interrupted.
 bool CScript::execute_return()
 {
 	// The current script is finished with, so decrement its usage in the script cache.
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+	Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	p_script_cache->DecrementScriptUsage(mScriptChecksum);
 
 	bool was_interrupted=m_interrupted;
@@ -2417,9 +2417,9 @@ bool CScript::execute_return()
 	}
 	else
 	{
-		// Nothing to return to, so stop the script by setting mp_pc to NULL.
+		// Nothing to return to, so stop the script by setting mp_pc to nullptr.
 		// This occurs when an endscript is hit.
-		mp_pc=NULL;
+		mp_pc=nullptr;
 	}	
 	
 	return was_interrupted;
@@ -2456,7 +2456,7 @@ void CScript::advance_pc_to_next_line_and_halt()
 //static uint64 sLastVBlanks=0;
 
 // Update the script, executing instructions
-// REQUIREMENT: is mp_pc is NULL, then return  ESCRIPTRETURNVAL_FINISHED, so the script is deleted by UpdateSpawnedScript
+// REQUIREMENT: is mp_pc is nullptr, then return  ESCRIPTRETURNVAL_FINISHED, so the script is deleted by UpdateSpawnedScript
 EScriptReturnVal CScript::Update()
 {
 	#ifdef	__NOPT_ASSERT__
@@ -2486,7 +2486,7 @@ EScriptReturnVal CScript::Update()
 	
 
 	#ifdef	__NOPT_ASSERT__	
-	Obj::CObjectPtr p_obj = NULL;
+	Obj::CObjectPtr p_obj = nullptr;
 	if (mpObject)
 	{
 		p_obj = mpObject;	   			// remember the object we locked
@@ -2497,17 +2497,17 @@ EScriptReturnVal CScript::Update()
 	m_skip_further_process_waits=false;
 	
 	// This loop is going to keep executing script commands until either mp_pc
-	// becomes NULL somehow, or if some sort of wait command gets executed.
+	// becomes nullptr somehow, or if some sort of wait command gets executed.
     while (true)
     {
 		if (!mp_pc) 
 		{
-			// Break out if mp_pc became NULL during the execution of the
+			// Break out if mp_pc became nullptr during the execution of the
 			// last command. 
 			#ifdef STOPWATCH_STUFF
 			pUpdateStopWatch->Stop();
 			#endif
-			sCurrentlyUpdating=NULL;
+			sCurrentlyUpdating=nullptr;
 	#ifdef	__NOPT_ASSERT__	
 	
 //			if (mpObject)
@@ -2564,7 +2564,7 @@ EScriptReturnVal CScript::Update()
 			#ifdef STOPWATCH_STUFF
 			pUpdateStopWatch->Stop();
 			#endif
-			sCurrentlyUpdating=NULL;
+			sCurrentlyUpdating=nullptr;
 
 	#ifdef	__NOPT_ASSERT__	
 			// If script is waiting, then we might be on a different object
@@ -2634,7 +2634,7 @@ EScriptReturnVal CScript::Update()
 			// mp_pc forward to the token after the else or endif.
 			// Otherwise, mp_pc will be left pointing to the first token of the 'true' block.
 			execute_if();
-			// Note: mp_pc may be NULL at this point
+			// Note: mp_pc may be nullptr at this point
 			break;
 			
 		case ESCRIPTTOKEN_KEYWORD_ELSE:
@@ -2699,7 +2699,7 @@ EScriptReturnVal CScript::Update()
 				// interrupted script.
 				return ESCRIPTRETURNVAL_FINISHED_INTERRUPT;
 			}	
-			// Note: mp_pc may be NULL at this point, if there is no calling script.
+			// Note: mp_pc may be nullptr at this point, if there is no calling script.
             break;
 			
         case ESCRIPTTOKEN_KEYWORD_RETURN:
@@ -2713,7 +2713,7 @@ EScriptReturnVal CScript::Update()
 			++mp_pc;
 			
 			// Put any parameters that follow into mp_function_params
-			Dbg_MsgAssert(mp_function_params,("NULL mp_function_params"));
+			Dbg_MsgAssert(mp_function_params,("nullptr mp_function_params"));
 			mp_function_params->Clear();
 			mp_pc=AddComponentsUntilEndOfLine(mp_function_params,mp_pc,mp_params);
 
@@ -2727,10 +2727,10 @@ EScriptReturnVal CScript::Update()
 				return ESCRIPTRETURNVAL_FINISHED_INTERRUPT;
 			}	
 			
-			// Note: mp_pc may be NULL at this point, if there is no calling script.
+			// Note: mp_pc may be nullptr at this point, if there is no calling script.
 
 			// Merge the return values onto the parameters of the calling script.
-			Dbg_MsgAssert(mp_params,("NULL mp_params ?"));
+			Dbg_MsgAssert(mp_params,("nullptr mp_params ?"));
 			mp_params->AppendStructure(mp_function_params);
 			break;
 
@@ -2756,7 +2756,7 @@ EScriptReturnVal CScript::Update()
 			//++sInstructionCount;
 			//printf("Running line %d in script '%s'\n",GetLineNumber(mp_pc),FindChecksumName(mScriptChecksum));
 			execute_command();
-			// Note: mp_pc may be NULL at this point
+			// Note: mp_pc may be nullptr at this point
             break;
 		}	
 		
@@ -2870,7 +2870,7 @@ bool CScript::AllScriptsInCallstackStillExist()
 	}	
 	
 	// Now we have to check that each of the scripts in the call stack still exist.
-	// These must all be global scripts, apart perhaps from the one at index 0. If mp_struct_script is not NULL
+	// These must all be global scripts, apart perhaps from the one at index 0. If mp_struct_script is not nullptr
 	// then the script at index 0 will be a local script that was defined in a structure, not a global script.
 	// In that case, its mScriptNameChecksum is not referring to a global script, so must not be checked for
 	// existence. (The mScriptNameChecksum will instead be the original parameter name in the structure)
@@ -2914,14 +2914,14 @@ void CScript::RemoveReferencesToObject(Obj::CObject *p_object)
 {
 	if (mpObject==p_object) 
 	{
-		mpObject=NULL;
+		mpObject=nullptr;
 	}	
 	
 	for (int i=0; i<m_num_return_addresses; ++i)
 	{
 		if (mp_return_addresses[i].mpObject==p_object) 
 		{
-			mp_return_addresses[i].mpObject=NULL;
+			mp_return_addresses[i].mpObject=nullptr;
 		}
 	}		
 }
@@ -3026,20 +3026,20 @@ void RunScript(uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_object,
 			// If the symbol is actually a c-function rather than a script, then run the c-function.
 			// This is handy sometimes because it saves having to write a special script just to run 
 			// one c-function.
-			Dbg_MsgAssert(p_entry->mpCFunction,("NULL pCFunction"));
+			Dbg_MsgAssert(p_entry->mpCFunction,("nullptr pCFunction"));
 
-			// Mick:  We now pass in NULL, as creating a dummy script is very slow			
-			(*p_entry->mpCFunction)(p_params,NULL);
+			// Mick:  We now pass in nullptr, as creating a dummy script is very slow			
+			(*p_entry->mpCFunction)(p_params,nullptr);
 			
 			break;
 		}
 		
 		case ESYMBOLTYPE_MEMBERFUNCTION:
 		{
-			Dbg_MsgAssert(p_object,("Tried to run member function '%s' on NULL p_object",Script::FindChecksumName(scriptChecksum)));
+			Dbg_MsgAssert(p_object,("Tried to run member function '%s' on nullptr p_object",Script::FindChecksumName(scriptChecksum)));
 	
-			// Mick:  We now pass in NULL, as creating a dummy script is very slow			
-			p_object->CallMemberFunction(scriptChecksum,p_params,NULL);
+			// Mick:  We now pass in nullptr, as creating a dummy script is very slow			
+			p_object->CallMemberFunction(scriptChecksum,p_params,nullptr);
 			
 			break;
 		}
@@ -3276,7 +3276,7 @@ CScript *GetScriptWithUniqueId(uint32 id)
 		p_script = GetNextScript(p_script);
 	}	
 
-	return NULL;
+	return nullptr;
 }
 
 // Called from ScriptSpawnScript in cfuncs.cpp
@@ -3300,7 +3300,7 @@ CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_scriptParams, uint32 call
 			// Creating a dummy script to send to the c-function. Normally the c-function would
 			// only be called from within a script's update function, and it uses the passed script 
 			// pointer in any call to GetScriptInfo if an assert goes off. 
-			// So we need to pass a dummy rather than NULL so that it does not crash if it
+			// So we need to pass a dummy rather than nullptr so that it does not crash if it
 			// dereferences the pointer.
 			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 			CScript *p_dummy=new CScript;
@@ -3309,14 +3309,14 @@ CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_scriptParams, uint32 call
 			(*p_entry->mpCFunction)(p_scriptParams,p_dummy);
 			
 			delete p_dummy;
-			return NULL;
+			return nullptr;
 		}
 		Dbg_MsgAssert(p_entry->mType!=ESYMBOLTYPE_MEMBERFUNCTION,("SpawnScript cannot run the member function '%s'",FindChecksumName(scriptChecksum)));
 	}	
 	
 	
 	CScript *p_script=new CScript;
-	p_script->SetScript(scriptChecksum, p_scriptParams, NULL);
+	p_script->SetScript(scriptChecksum, p_scriptParams, nullptr);
 	#ifdef __NOPT_ASSERT__
 	p_script->SetCommentString("Created by SpawnScript");
 	#endif
@@ -3329,7 +3329,7 @@ CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_scriptParams, uint32 call
 	p_script->mNotSessionSpecific=not_session_specific;
 	p_script->mPauseWithObject = pause_with_object;
 	
-	Dbg_MsgAssert(p_script->mpCallbackScriptParams==NULL,("p_script->mpCallbackScriptParams not NULL ?"));
+	Dbg_MsgAssert(p_script->mpCallbackScriptParams==nullptr,("p_script->mpCallbackScriptParams not nullptr ?"));
 	if (callbackScript)
 	{
 		p_script->mCallbackScript=callbackScript;
@@ -3347,7 +3347,7 @@ CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_scriptParams, uint32 call
 	if( netEnabled && gamenet_man->InNetGame())
 	{
 		// TODO: Should pass on the not_session_specific flag ...
-		SendSpawnScript( scriptChecksum, NULL, node, permanent );
+		SendSpawnScript( scriptChecksum, nullptr, node, permanent );
 	}
 	#endif
 
@@ -3413,7 +3413,7 @@ void KillSpawnedScriptsWithId(uint32 id)
 // this stops it from executing, but leaves it in the linked list
 // so it can be cleaned up next time around "UpdateSpawnedScripts"
 // Scripts that have ClearScript() called will automatically be deleted
-// as they have mp_pc set to NULL
+// as they have mp_pc set to nullptr
 //			delete p_script;
 			p_script->ClearScript();
 			p_script->ClearEventHandlerTable();
@@ -3513,7 +3513,7 @@ CScript* FindSpawnedScriptWithID(uint32 id)
 		p_script=p_next;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 
@@ -3589,7 +3589,7 @@ void KillStoppedScripts()
 	{
 		CScript *p_next=GetNextScript(p_script);
 		
-		// Delete the script if it has stopped (mpPC==NULL), but not if it is a spawned script,
+		// Delete the script if it has stopped (mpPC==nullptr), but not if it is a spawned script,
 		// because otherwise it will leave a dangling pointer in the array of spawned scripts,
 		// which will then get dereferenced in UpdateSpawnedScripts and crash.
 		// If the script has stopped, the next call to UpdateSpawnedScripts will delete it, so
@@ -3683,14 +3683,14 @@ void DumpScripts()
 		if (checksum)
 		{
 			CSymbolTableEntry *p_sym=LookUpSymbol(checksum);
-			Dbg_MsgAssert(p_sym,("NULL pSym ??"));
+			Dbg_MsgAssert(p_sym,("nullptr pSym ??"));
 	
 //			printf("%s: %s\n",FindChecksumName(p_sym->mSourceFileNameChecksum),FindChecksumName(checksum));
 			printf("%s\n",FindChecksumName(checksum));
 		}
 		else
 		{
-			printf (", Checksum is NULL, probably dead script\n");
+			printf (", Checksum is nullptr, probably dead script\n");
 		}
 		
 		p_scr=GetNextScript(p_scr);

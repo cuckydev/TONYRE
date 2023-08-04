@@ -335,12 +335,12 @@ uint32					CTerrainManager::s_get_action_checksum(ETerrainActionType action)
 
 bool					CTerrainManager::s_get_terrain_actions_struct(ETerrainType terrain, Script::CStruct *p_actions)
 {
-	Dbg_MsgAssert(p_actions, ("s_get_terrain_actions_struct given NULL CStruct"));
+	Dbg_MsgAssert(p_actions, ("s_get_terrain_actions_struct given nullptr CStruct"));
 
-	Script::CStruct *p_default_actions = NULL;
-	Script::CStruct *p_terrain_actions = NULL;
-	Script::CStruct *p_level_default_actions = NULL;
-	Script::CStruct *p_level_terrain_actions = NULL;
+	Script::CStruct *p_default_actions = nullptr;
+	Script::CStruct *p_terrain_actions = nullptr;
+	Script::CStruct *p_level_default_actions = nullptr;
+	Script::CStruct *p_level_terrain_actions = nullptr;
 
 	uint32 terrain_checksum;
 	ETerrainType terrain_type;
@@ -475,7 +475,7 @@ Script::CStruct *		CTerrainManager::s_choose_sound_action(Script::CStruct *p_sou
 	}
 	
 	Dbg_Assert(false);
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -485,7 +485,7 @@ Script::CStruct *		CTerrainManager::s_choose_sound_action(Script::CStruct *p_sou
 
 Script::CStruct *		CTerrainManager::s_get_action_sound_struct(Script::CStruct *p_actions, ETerrainActionType action, float soundChoice)
 {
-	Dbg_MsgAssert(p_actions, ("s_get_action_sound_struct given NULL action CStruct"));
+	Dbg_MsgAssert(p_actions, ("s_get_action_sound_struct given nullptr action CStruct"));
 
 	Script::CStruct *p_sound;
 	
@@ -526,7 +526,7 @@ Script::CStruct *		CTerrainManager::s_get_action_sound_struct(Script::CStruct *p
 	}
 	
 	Dbg_Assert(false);
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -536,10 +536,10 @@ Script::CStruct *		CTerrainManager::s_get_action_sound_struct(Script::CStruct *p
 
 bool					CTerrainManager::s_get_sound_info(Script::CStruct *p_sound, STerrainSoundInfo *p_info)
 {
-	Dbg_MsgAssert(p_info, ("s_get_sound_info given NULL STerrainSoundInfo"));
+	Dbg_MsgAssert(p_info, ("s_get_sound_info given nullptr STerrainSoundInfo"));
 
 	// Set defaults
-	p_info->mp_soundName = NULL;
+	p_info->mp_soundName = nullptr;
 	p_info->m_soundChecksum = 0;
 	p_info->m_maxPitch = 100.0f;
 	p_info->m_minPitch = 100.0f;
@@ -585,7 +585,7 @@ bool					CTerrainManager::s_get_sound_info(Script::CStruct *p_sound, STerrainSou
 
 void					CTerrainManager::s_load_action_sound( Script::CStruct* p_sound )
 {
-	Dbg_MsgAssert(p_sound, ("s_load_action_sound given NULL sound CStruct"));
+	Dbg_MsgAssert(p_sound, ("s_load_action_sound given nullptr sound CStruct"));
 	
 	STerrainSoundInfo soundInfo;
 	#ifdef	__NOPT_ASSERT__
@@ -604,7 +604,7 @@ void					CTerrainManager::s_load_action_sound( Script::CStruct* p_sound )
 
 void					CTerrainManager::s_load_action_sound_struct( Script::CStruct* p_actions, ETerrainActionType action )
 {
-	Dbg_MsgAssert(p_actions, ("s_load_action_sound_struct given NULL action CStruct"));
+	Dbg_MsgAssert(p_actions, ("s_load_action_sound_struct given nullptr action CStruct"));
 
 	Script::CStruct *p_sound;
 
@@ -696,7 +696,7 @@ bool					CTerrainManager::sGetTerrainSoundInfo( STerrainSoundInfo *p_info, ETerr
 	s_check_terrain_loaded(terrain);
 #endif __NOPT_ASSERT__
 
-	Dbg_MsgAssert(p_info, ("sGetTerrainSoundInfo given NULL STerrainSoundInfo"));
+	Dbg_MsgAssert(p_info, ("sGetTerrainSoundInfo given nullptr STerrainSoundInfo"));
 
 	// Allocate new script structure for combining data
 	Script::CStruct *p_actions = new Script::CStruct;
@@ -823,7 +823,7 @@ void					CTerrainManager::sPlaySfx( ETerrainActionType action, ETerrainType terr
 	
 	pitchPercent = sGetPitchPercent( &soundInfo, pitchPercent );
 	
-	sfx_manager->PlaySfx( soundInfo.m_soundChecksum, &vol, pitchPercent, 0, NULL, soundInfo.mp_soundName );
+	sfx_manager->PlaySfx( soundInfo.m_soundChecksum, &vol, pitchPercent, 0, nullptr, soundInfo.mp_soundName );
 }
 
 /******************************************************************/
@@ -835,7 +835,7 @@ void					CTerrainManager::sPlaySfx( ETerrainActionType action, ETerrainType terr
 float					CTerrainManager::sGetVolPercent( STerrainSoundInfo *pInfo, float volPercent, bool clipToMaxVol )
 {
 	
-	Dbg_MsgAssert(pInfo, ("pInfo set to NULL."));
+	Dbg_MsgAssert(pInfo, ("pInfo set to nullptr."));
 
 	if ( !( ( pInfo->m_minVol == 0.0f ) && ( pInfo->m_maxVol == 100.0f ) ) )
 	{
@@ -858,7 +858,7 @@ float					CTerrainManager::sGetVolPercent( STerrainSoundInfo *pInfo, float volPe
 float					CTerrainManager::sGetPitchPercent( STerrainSoundInfo *pInfo, float pitchPercent, bool clipToMaxPitch )
 {
 	
-	Dbg_MsgAssert(pInfo, ("pInfo set to NULL."));
+	Dbg_MsgAssert(pInfo, ("pInfo set to nullptr."));
 
 	if ( !( ( pInfo->m_minPitch == 0.0f ) && ( pInfo->m_maxPitch == 100.0f ) ) )
 	{
@@ -891,7 +891,7 @@ void CSk3SfxManager::SetSkaterSoundInfo( int surfaceFlag, uint32 whichSound, int
 	int i;
 	Sfx::CSfxManager * sfx_manager = Sfx::CSfxManager::Instance();
 
-	if ( NULL == sfx_manager->GetWaveTableIndex( whichSound ) )
+	if ( nullptr == sfx_manager->GetWaveTableIndex( whichSound ) )
 	{
 		Dbg_MsgAssert( 0,( "Terrain sound not loaded! surface %d sound %s checksum %d soundType %d",
 			surfaceFlag, Script::FindChecksumName( whichSound ), whichSound, whichArray ));
@@ -899,7 +899,7 @@ void CSk3SfxManager::SetSkaterSoundInfo( int surfaceFlag, uint32 whichSound, int
 	}
 	int numEntries = mNumEntries[ whichArray ];
 	SkaterSoundInfo	*pArray = mSoundArray[ whichArray ];
-	SkaterSoundInfo *pInfo = NULL;
+	SkaterSoundInfo *pInfo = nullptr;
 	
 	for ( i = 0; i < numEntries; i++ )
 	{

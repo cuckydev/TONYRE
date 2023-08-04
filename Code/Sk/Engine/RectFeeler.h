@@ -53,10 +53,10 @@ public:
 	void							SetIgnore ( uint16 ignore_1, uint16 ignore_0 );
 	
 	void							SetCache ( Nx::CCollCache* p_cache ) { mp_cache = p_cache; }
-	void							ClearCache (   ) { mp_cache = NULL; }
+	void							ClearCache (   ) { mp_cache = nullptr; }
 	
 	static void						sSetDefaultCache ( Nx::CCollCache* p_cache ) { sp_default_cache = p_cache; }
-	static void						sClearDefaultCache (   ) { sp_default_cache = NULL; }
+	static void						sClearDefaultCache (   ) { sp_default_cache = nullptr; }
 	
 	// ReduceCollisionSurfaces (   )
 	

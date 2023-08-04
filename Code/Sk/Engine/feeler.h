@@ -181,7 +181,7 @@ inline void		CFeeler::SetCache(Nx::CCollCache *p_cache)
 
 inline void		CFeeler::ClearCache()
 {
-	mp_cache = NULL;
+	mp_cache = nullptr;
 }
 
 inline void		CFeeler::sSetDefaultCache(Nx::CCollCache *p_cache)
@@ -191,7 +191,7 @@ inline void		CFeeler::sSetDefaultCache(Nx::CCollCache *p_cache)
 
 inline void		CFeeler::sClearDefaultCache()
 {
-	sp_default_cache = NULL;
+	sp_default_cache = nullptr;
 }
 
 #endif

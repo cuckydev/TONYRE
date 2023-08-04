@@ -26,9 +26,9 @@ class CWindow2D;
 class	CSprite
 {
 public:
-							CSprite(CWindow2D *p_window = NULL);
+							CSprite(CWindow2D *p_window = nullptr);
 							CSprite(CTexture *p_tex, float xpos, float ypos,
-									uint16 width, uint16 height, CWindow2D *p_window = NULL,
+									uint16 width, uint16 height, CWindow2D *p_window = nullptr,
 									Image::RGBA rgba = Image::RGBA(0x80, 0x80, 0x80, 0x80),
 									float xscale = 1.0f, float yscale = 1.0f,
 									float xanchor = -1.0f, float yanchor = -1.0f,
@@ -37,7 +37,7 @@ public:
 
 	// Initialization
 	void					Initialize(CTexture *p_tex, float xpos, float ypos,
-									   uint16 width, uint16 height, CWindow2D *p_window = NULL,
+									   uint16 width, uint16 height, CWindow2D *p_window = nullptr,
 									   Image::RGBA rgba = Image::RGBA(0x80, 0x80, 0x80, 0x80),
 									   float xscale = 1.0f, float yscale = 1.0f,
 									   float xanchor = -1.0f, float yanchor = -1.0f,

@@ -170,7 +170,7 @@ enum{
 };
 
 // Music track management:
-void	AddTrackToPlaylist( const char *trackName, int whichList, const char *trackTitle = NULL );
+void	AddTrackToPlaylist( const char *trackName, int whichList, const char *trackTitle = nullptr );
 void	ClearPlaylist( int whichList );
 
 const char *GetTrackName( int trackNum, int whichList );

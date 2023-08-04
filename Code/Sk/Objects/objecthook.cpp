@@ -30,9 +30,9 @@ namespace Obj
 
 CObjectHookManager::CObjectHookManager()
 {
-	mp_first_node = NULL;
+	mp_first_node = nullptr;
 	m_is_transformed = false;
-	mp_node_array = NULL;
+	mp_node_array = nullptr;
 	
 }
 
@@ -51,7 +51,7 @@ void CObjectHookManager::Cleanup()
 	}    
 	m_is_transformed = false;	
 	// Unhook from node array
-	mp_node_array = NULL;
+	mp_node_array = nullptr;
 }
 
 

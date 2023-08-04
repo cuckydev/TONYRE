@@ -17,7 +17,7 @@ class	CXboxViewport : public CViewport
 {
 public:
 								CXboxViewport();
-								CXboxViewport( const Mth::Rect *rect, Gfx::Camera *cam = NULL );
+								CXboxViewport( const Mth::Rect *rect, Gfx::Camera *cam = nullptr );
 	virtual						~CXboxViewport();
 
 private:		// It's all private, as it is machine specific

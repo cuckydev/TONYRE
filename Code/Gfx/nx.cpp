@@ -66,7 +66,7 @@ namespace	Nx
 // Static definitions
 
 CScene *						CEngine::sp_loaded_scenes[CEngine::MAX_LOADED_SCENES];
-Lst::HashTable< CParticle >*	CEngine::p_particle_table = NULL;
+Lst::HashTable< CParticle >*	CEngine::p_particle_table = nullptr;
 uint32							CEngine::s_next_avail_sector_checksum = 1;	// 0 is invalid
 uint32							CEngine::s_render_mode;
 uint32							CEngine::s_wireframe_mode;
@@ -74,9 +74,9 @@ uint32							CEngine::s_screen_blur;
 uint32							CEngine::s_debug_ignore_1;
 uint32							CEngine::s_debug_ignore_0;
 Obj::CGeneralManager*			CEngine::sp_moving_object_manager;
-CImposterManager*				CEngine::mp_imposter_manager	= NULL;
-CNewParticleManager*			CEngine::mp_particle_manager	= NULL;
-CWeather*						CEngine::mp_weather = NULL;
+CImposterManager*				CEngine::mp_imposter_manager	= nullptr;
+CNewParticleManager*			CEngine::mp_particle_manager	= nullptr;
+CWeather*						CEngine::mp_weather = nullptr;
 
 /******************************************************************/
 /*                                                                */
@@ -96,7 +96,7 @@ CSector	*		CEngine::sGetSector(uint32 sector_checksum)
 	}
 
 	// If we got here, we didn't find anything
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -384,7 +384,7 @@ bool			CEngine::sUnloadScene(CScene *p_scene)
 //#ifdef __PLAT_NGC__
 //		// Get the engine specific scene data and pass it to the engine to delete.
 //		NxNgc::DeleteScene( p_engine_scene );
-//		p_ngc_scene->SetEngineScene( NULL );
+//		p_ngc_scene->SetEngineScene( nullptr );
 //#endif		// __PLAT_NGC__
 
 		// and remove it from the list of scenes
@@ -392,7 +392,7 @@ bool			CEngine::sUnloadScene(CScene *p_scene)
 		{
 			if (sp_loaded_scenes[i] == p_scene)
 			{
-				sp_loaded_scenes[i] = NULL;
+				sp_loaded_scenes[i] = nullptr;
 				return true;
 			}
 		}
@@ -430,7 +430,7 @@ bool			CEngine::sQuickReloadGeometry(const char *p_scene_name)
 
 
 // Given the id of a scene, then return the CScene that has this id
-// returns NULL if scene not found
+// returns nullptr if scene not found
 CScene *		CEngine::sGetScene(uint32 id)
 {
 	for (int i = 0; i < MAX_LOADED_SCENES; i++)
@@ -440,7 +440,7 @@ CScene *		CEngine::sGetScene(uint32 id)
 			return sp_loaded_scenes[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -466,7 +466,7 @@ CScene *  		CEngine::sGetMainScene()
 			return sp_loaded_scenes[i];
 		}
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 // Get the first sky scene.
@@ -479,7 +479,7 @@ CScene *  		CEngine::sGetSkyScene()
 			return sp_loaded_scenes[i];
 		}
 	}
-	return NULL;	
+	return nullptr;	
 }
 
   
@@ -573,7 +573,7 @@ CTexture *CEngine::sCreateRenderTargetTexture( int width, int height, int depth,
 
 void CEngine::sProjectTextureIntoScene( Nx::CTexture *p_texture, Nx::CModel *p_model, Nx::CScene *p_scene )
 {
-	// usually we don't want to know the scene, so we pass in NULL
+	// usually we don't want to know the scene, so we pass in nullptr
 	// and let the engine figure it out
 	// if we have multiple scenes, then we would need to figure this out externally
 
@@ -590,7 +590,7 @@ void CEngine::sProjectTextureIntoScene( Nx::CTexture *p_texture, Nx::CModel *p_m
 		}
 	}
 
-	// It no longer matters if the scene is NULL.
+	// It no longer matters if the scene is nullptr.
 	s_plat_project_texture_into_scene( p_texture, p_model, p_scene );
 }
 
@@ -747,18 +747,18 @@ CMesh*			CEngine::sLoadMesh(const char* pFileName, uint32 texDictOffset, bool fo
 
 	bool foundSkin = false;
 	pEnd = strstr( baseName, ".skin" );
-	foundSkin = ( pEnd != NULL );
+	foundSkin = ( pEnd != nullptr );
 	if ( foundSkin )
 	{
-		*pEnd = NULL;
+		*pEnd = nullptr;
 	}
 
 	bool foundModel = false;
 	pEnd = strstr( baseName, ".mdl" );
-	foundModel = ( pEnd != NULL );
+	foundModel = ( pEnd != nullptr );
 	if ( foundModel )
 	{
-		*pEnd = NULL;
+		*pEnd = nullptr;
 	}
 
 	Dbg_Assert( foundSkin || foundModel );
@@ -843,7 +843,7 @@ void			CEngine::sSetMeshScalingParameters( SMeshScalingParameters* pParams )
 
 void	CEngine::sSetMovableObjectManager(Obj::CGeneralManager* p_object_manager)
 {
-	Dbg_MsgAssert(p_object_manager,("NULL Movable Object Manager"));
+	Dbg_MsgAssert(p_object_manager,("nullptr Movable Object Manager"));
 	sp_moving_object_manager = p_object_manager;
 	
 }
@@ -856,7 +856,7 @@ void	CEngine::sSetMovableObjectManager(Obj::CGeneralManager* p_object_manager)
 Lst::Head<Obj::CObject> & CEngine::sGetMovableObjects()
 {
 
-	Dbg_MsgAssert( sp_moving_object_manager, ("NULL sp_moving_object_manager"));
+	Dbg_MsgAssert( sp_moving_object_manager, ("nullptr sp_moving_object_manager"));
 	return sp_moving_object_manager->GetRefObjectList();
 }
 
@@ -883,7 +883,7 @@ SSec::Manager *	CEngine::sGetNearestSuperSectorManager(Mth::Line &collision_line
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -903,7 +903,7 @@ SSec::Manager *	CEngine::sGetNearestSuperSectorManager(Mth::Vector &collision_po
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1020,7 +1020,7 @@ int CEngine::sWriteSectorStatusBitfield(uint32 *p_bitfield, int numUint32s)
 	// was too small for the Skillzilla Park. Rather than increasing numUint32's
 	// and hence using up more memory, it was safer just to remove the contents of this function.
 	#if 0
-	Dbg_MsgAssert(p_bitfield,("NULL p_bitfield"));
+	Dbg_MsgAssert(p_bitfield,("nullptr p_bitfield"));
 
 	int i;
 	for (i=0; i<numUint32s; ++i)
@@ -1036,7 +1036,7 @@ int CEngine::sWriteSectorStatusBitfield(uint32 *p_bitfield, int numUint32s)
 		if (sp_loaded_scenes[i])
 		{
 			Lst::HashTable<CSector> *p_table=sp_loaded_scenes[i]->GetSectorList();
-			Dbg_MsgAssert(p_table,("NULL p_table"));
+			Dbg_MsgAssert(p_table,("nullptr p_table"));
 			
 			p_table->IterateStart();
 			CSector *p_sector=p_table->IterateNext();
@@ -1086,7 +1086,7 @@ void CEngine::sReadSectorStatusBitfield(uint32 *p_bitfield, int numUint32s)
 	// was too small for the Skillzilla Park. Rather than increasing numUint32's
 	// and hence using up more memory, it was safer just to remove the contents of this function.
 	#if 0
-	Dbg_MsgAssert(p_bitfield,("NULL p_bitfield"));
+	Dbg_MsgAssert(p_bitfield,("nullptr p_bitfield"));
 
 	int long_index=0;
 	int bit_index=0;
@@ -1096,7 +1096,7 @@ void CEngine::sReadSectorStatusBitfield(uint32 *p_bitfield, int numUint32s)
 		if (sp_loaded_scenes[i])
 		{
 			Lst::HashTable<CSector> *p_table=sp_loaded_scenes[i]->GetSectorList();
-			Dbg_MsgAssert(p_table,("NULL p_table"));
+			Dbg_MsgAssert(p_table,("nullptr p_table"));
 			
 			p_table->IterateStart();
 			CSector *p_sector=p_table->IterateNext();
@@ -1151,7 +1151,7 @@ void CEngine::sInitReplayStartState()
 		if (sp_loaded_scenes[i])
 		{
 			Lst::HashTable<CSector> *p_table=sp_loaded_scenes[i]->GetSectorList();
-			Dbg_MsgAssert(p_table,("NULL p_table"));
+			Dbg_MsgAssert(p_table,("nullptr p_table"));
 			
 			p_table->IterateStart();
 			CSector *p_sector=p_table->IterateNext();
@@ -1177,7 +1177,7 @@ void CEngine::sPrepareSectorsForReplayPlayback(bool store_initial_state)
 		if (sp_loaded_scenes[i])
 		{
 			Lst::HashTable<CSector> *p_table=sp_loaded_scenes[i]->GetSectorList();
-			Dbg_MsgAssert(p_table,("NULL p_table"));
+			Dbg_MsgAssert(p_table,("nullptr p_table"));
 			
 			p_table->IterateStart();
 			CSector *p_sector=p_table->IterateNext();
@@ -1206,7 +1206,7 @@ void CEngine::sRestoreSectorsAfterReplayPlayback()
 		if (sp_loaded_scenes[i])
 		{
 			Lst::HashTable<CSector> *p_table=sp_loaded_scenes[i]->GetSectorList();
-			Dbg_MsgAssert(p_table,("NULL p_table"));
+			Dbg_MsgAssert(p_table,("nullptr p_table"));
 			
 			p_table->IterateStart();
 			CSector *p_sector=p_table->IterateNext();

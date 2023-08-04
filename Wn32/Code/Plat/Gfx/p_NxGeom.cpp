@@ -32,10 +32,10 @@ namespace Nx
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-CXboxGeom::CXboxGeom() : mp_init_mesh_list( NULL ), m_mesh_array( NULL ), m_visible( 0xDEADBEEF )
+CXboxGeom::CXboxGeom() : mp_init_mesh_list( nullptr ), m_mesh_array( nullptr ), m_visible( 0xDEADBEEF )
 {
-	mp_instance = NULL;
-//	mp_sector	= NULL;
+	mp_instance = nullptr;
+//	mp_sector	= nullptr;
 	m_scale.Set( 1.0f, 1.0f, 1.0f );
 	m_active	= true;
 }
@@ -50,10 +50,10 @@ CXboxGeom::~CXboxGeom( void )
 {
 	DestroyMeshArray();
 
-	if( mp_instance != NULL )
+	if( mp_instance != nullptr )
 	{
 		delete mp_instance;
-		mp_instance = NULL;
+		mp_instance = nullptr;
 	}
 }
 
@@ -121,7 +121,7 @@ void CXboxGeom::CreateMeshArray( void )
 
 		// Delete temporary list.
 		delete mp_init_mesh_list;
-		mp_init_mesh_list = NULL;
+		mp_init_mesh_list = nullptr;
 	}
 }
 
@@ -169,7 +169,7 @@ void CXboxGeom::DestroyMeshArray( void )
 		}
 
 		delete [] m_mesh_array;
-		m_mesh_array = NULL;
+		m_mesh_array = nullptr;
 	}
 }
 
@@ -600,7 +600,7 @@ void CXboxGeom::plat_set_color( Image::RGBA rgba )
 			p_mesh->m_material_color_override[2] = (float)rgba.b / 255.0f;
 		}
 	}
-	else if( m_mesh_array != NULL )
+	else if( m_mesh_array != nullptr )
 	{
 		for( uint32 i = 0; i < m_num_mesh; ++i )
 		{
@@ -632,7 +632,7 @@ void CXboxGeom::plat_clear_color( void )
 			p_mesh->m_flags &= ~NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
 		}
 	}
-	else if( m_mesh_array != NULL )
+	else if( m_mesh_array != nullptr )
 	{
 		for( uint32 i = 0; i < m_num_mesh; ++i )
 		{
@@ -737,7 +737,7 @@ Image::RGBA	CXboxGeom::plat_get_color( void ) const
 {
 	Image::RGBA rgba( 0, 0, 0, 0 );
 
-	NxWn32::sMesh *p_mesh = NULL;
+	NxWn32::sMesh *p_mesh = nullptr;
 
 	if( mp_instance )
 	{
@@ -747,7 +747,7 @@ Image::RGBA	CXboxGeom::plat_get_color( void ) const
 		if( p_scene->m_num_mesh_entries > 0 )
 			p_mesh = p_scene->m_meshes[0];
 	}
-	else if( m_mesh_array != NULL )
+	else if( m_mesh_array != nullptr )
 	{
 		p_mesh = m_mesh_array[0];
 	}
@@ -1203,7 +1203,7 @@ bool CXboxGeom::plat_set_uv_matrix( uint32 mat_name_checksum, int pass, const Mt
 					if((uint32)adjusted_pass < p_mat->m_passes )
 					{
 						// Create the wibble params if they don't exist already.
-						if( p_mat->mp_UVWibbleParams[adjusted_pass] == NULL )
+						if( p_mat->mp_UVWibbleParams[adjusted_pass] == nullptr )
 						{
 							p_mat->mp_UVWibbleParams[adjusted_pass]	= new NxWn32::sUVWibbleParams;
 
@@ -1313,7 +1313,7 @@ bool CXboxGeom::plat_allocate_uv_matrix_params( uint32 mat_name_checksum, int pa
 					if((uint32)adjusted_pass < p_mat->m_passes )
 					{
 						// Create the wibble params if they don't exist already.
-						if( p_mat->mp_UVWibbleParams[adjusted_pass] == NULL )
+						if( p_mat->mp_UVWibbleParams[adjusted_pass] == nullptr )
 						{
 							p_mat->mp_UVWibbleParams[adjusted_pass]	= new NxWn32::sUVWibbleParams;
 
@@ -1350,7 +1350,7 @@ void CXboxGeom::plat_set_model_lights( CModelLights* p_model_lights )
 /******************************************************************/
 CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 {
-	CXboxGeom *p_clone = NULL;
+	CXboxGeom *p_clone = nullptr;
 	
 	// This is a CXboxGeom 'hanging' from a sector. Create a new CXboxGeom which will store the CInstance.
 	p_clone = new CXboxGeom();
@@ -1371,7 +1371,7 @@ CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 		// Grab a temporary workspace buffer.
 		Nx::CXboxScene *p_xbox_scene						= static_cast<CXboxScene*>( p_dest_scene );
 		NxWn32::sScene *p_scene								= p_xbox_scene->GetEngineScene();
-		NxWn32::sMesh **p_temp_mesh_buffer					= ( p_scene->m_num_mesh_entries > 0 ) ? new NxWn32::sMesh*[p_scene->m_num_mesh_entries] : NULL;
+		NxWn32::sMesh **p_temp_mesh_buffer					= ( p_scene->m_num_mesh_entries > 0 ) ? new NxWn32::sMesh*[p_scene->m_num_mesh_entries] : nullptr;
 
 		// Set the scene pointer for the clone.
 		p_clone->SetScene( p_xbox_scene );
@@ -1388,8 +1388,8 @@ CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 		// Delete current mesh array.
 		delete [] p_scene->m_meshes;
 
-		// Important to set this to NULL.
-		p_scene->m_meshes			= NULL;
+		// Important to set this to nullptr.
+		p_scene->m_meshes			= nullptr;
 		
 		// Include new meshes in count.
 		p_scene->CountMeshes( m_num_mesh, m_mesh_array );
@@ -1423,7 +1423,7 @@ CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 		// Create the instance.
 		Mth::Matrix temp;
 		temp.Identity();
-		NxWn32::CInstance *p_instance = new NxWn32::CInstance( p_scene, temp, 1, NULL );
+		NxWn32::CInstance *p_instance = new NxWn32::CInstance( p_scene, temp, 1, nullptr );
 		
 		// This instance will be the only object maintaining a reference to the attached scene, so we want to delete
 		// the scene when the instance gets removed.
@@ -1443,7 +1443,7 @@ CXboxGeom *CXboxGeom::plat_clone( bool instance, CScene *p_dest_scene )
 /******************************************************************/
 CXboxGeom* CXboxGeom::plat_clone( bool instance, CModel* p_dest_model )
 {
-	CXboxGeom* p_clone = NULL;
+	CXboxGeom* p_clone = nullptr;
 
 	Nx::CXboxScene* p_xbox_scene = new CXboxScene;
 	p_xbox_scene->SetEngineScene( mp_instance->GetScene() );
@@ -1454,7 +1454,7 @@ CXboxGeom* CXboxGeom::plat_clone( bool instance, CModel* p_dest_model )
 	int num_mesh		= mp_instance->GetScene()->m_num_mesh_entries;
 
 	// Create new meshes for the clone.
-	p_clone->m_mesh_array	= num_mesh ? new NxWn32::sMesh*[num_mesh] : NULL;
+	p_clone->m_mesh_array	= num_mesh ? new NxWn32::sMesh*[num_mesh] : nullptr;
 	p_clone->m_num_mesh		= num_mesh;
 	for( uint32 m = 0; m < p_clone->m_num_mesh; ++m )
 	{
@@ -1466,9 +1466,9 @@ CXboxGeom* CXboxGeom::plat_clone( bool instance, CModel* p_dest_model )
 	NxWn32::sScene* p_scene = p_clone->GenerateScene();
 
 	// Kill the temp scene.
-	p_xbox_scene->SetEngineScene( NULL );
+	p_xbox_scene->SetEngineScene( nullptr );
 	delete p_xbox_scene;
-	p_clone->mp_scene		= NULL;
+	p_clone->mp_scene		= nullptr;
 
 	p_clone->SetActive( true );
 

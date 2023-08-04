@@ -98,67 +98,67 @@
 //
 //NsClump::NsClump()
 //{
-//	m_pAtomicHead = NULL;
+//	m_pAtomicHead = nullptr;
 //	m_numAtomic	= 0;
 //
 //	for( int i = 0; i < NUM_BLEND_ANIMS; ++i )
 //	{
-//		m_pAnim[i]			= NULL;
+//		m_pAnim[i]			= nullptr;
 //		m_AnimWeights[i]	= ( i == 0 ) ? 1.0f : 0.0f;
 //	}
 //
 //	m_AnimFlipped = false;
-//	m_pFrameList = NULL;
-//	m_pBoneMat = NULL;
-//	m_pBoneData = NULL;
+//	m_pFrameList = nullptr;
+//	m_pBoneMat = nullptr;
+//	m_pBoneData = nullptr;
 //
-//	m_pWorld = NULL;
-//	m_pUserData = NULL;
-//	m_pTexMan	= NULL;
+//	m_pWorld = nullptr;
+//	m_pUserData = nullptr;
+//	m_pTexMan	= nullptr;
 //}
 //
 //NsClump::NsClump( NsModel * pModelData )
 //{
-//	m_pAtomicHead = NULL;
+//	m_pAtomicHead = nullptr;
 //	m_numAtomic	= 0;
 //
 //	for( int i = 0; i < NUM_BLEND_ANIMS; ++i )
 //	{
-//		m_pAnim[i]		= NULL;
+//		m_pAnim[i]		= nullptr;
 //		m_AnimWeights[i]	= ( i == 0 ) ? 1.0f : 0.0f;
 //	}
 //
 //	m_AnimFlipped = false;
-//	m_pFrameList = NULL;
-//	m_pBoneMat = NULL;
-//	m_pBoneData = NULL;
+//	m_pFrameList = nullptr;
+//	m_pBoneMat = nullptr;
+//	m_pBoneData = nullptr;
 //
-//	m_pWorld = NULL;
-//	m_pUserData = NULL;
-//	m_pTexMan	= NULL;
+//	m_pWorld = nullptr;
+//	m_pUserData = nullptr;
+//	m_pTexMan	= nullptr;
 //
 //	setModel( pModelData );
 //}
 //
 //NsClump::NsClump( unsigned int * pDFF )
 //{
-//	m_pAtomicHead = NULL;
+//	m_pAtomicHead = nullptr;
 //	m_numAtomic	= 0;
 //
 //	for( int i = 0; i < NUM_BLEND_ANIMS; ++i )
 //	{
-//		m_pAnim[i]		= NULL;
+//		m_pAnim[i]		= nullptr;
 //		m_AnimWeights[i]	= ( i == 0 ) ? 1.0f : 0.0f;
 //	}
 //
 //	m_AnimFlipped = false;
-//	m_pFrameList = NULL;
-//	m_pBoneMat = NULL;
-//	m_pBoneData = NULL;
+//	m_pFrameList = nullptr;
+//	m_pBoneMat = nullptr;
+//	m_pBoneData = nullptr;
 //
-//	m_pWorld = NULL;
-//	m_pUserData = NULL;
-//	m_pTexMan	= NULL;
+//	m_pWorld = nullptr;
+//	m_pUserData = nullptr;
+//	m_pTexMan	= nullptr;
 //
 //	setAtomics( pDFF );
 //}
@@ -208,7 +208,7 @@
 //	// Create a new clump.
 //	pClonedClump = new NsClump;
 //	memcpy( pClonedClump, this, sizeof( NsClump ) );
-//	pClonedClump->m_pAtomicHead = NULL;
+//	pClonedClump->m_pAtomicHead = nullptr;
 //	pClonedClump->m_numAtomic = 0;
 //	// Create new anim structure.
 //	for( int i = 0; i < NUM_BLEND_ANIMS; ++i )
@@ -309,7 +309,7 @@
 //
 //	// Note, these are added in reverse ( I believe Renderware does it like
 //	// that, as adding them forwards is bogus).
-//	m_pFrame = NULL;
+//	m_pFrame = nullptr;
 //	for ( lp = 0; lp < pDFF[0]; lp++ ) {
 //		pAtomic = new NsAtomic;
 //		m_pNextModel = pAtomic->setModel( pModelData, m_pTexMan );
@@ -425,7 +425,7 @@
 //		if ( pAtomic->m_pFlipPairs ) {
 //			if ( pAtomic->m_pFlipPairs->totalReferences() == 0 ) {
 //				delete pAtomic->m_pFlipPairs;
-//				pAtomic->m_pFlipPairs = NULL;
+//				pAtomic->m_pFlipPairs = nullptr;
 //				pAtomic->m_numFlipPairs = 0;
 //			} else {
 //				pAtomic->m_pFlipPairs->removeReference();
@@ -436,7 +436,7 @@
 //		// Onto the next one, deleting as we go.
 //		pAtomic = pAtomic->m_pNext;
 //	}
-//	source.m_pAtomicHead = NULL;
+//	source.m_pAtomicHead = nullptr;
 //	source.m_numAtomic = 0;
 //}
 //
@@ -906,7 +906,7 @@
 //{
 //	NsAtomic  * pSearchAtomic;
 //
-//	if ( m_pAtomicHead == NULL ) {
+//	if ( m_pAtomicHead == nullptr ) {
 //		// First one, just add it.
 //		m_pAtomicHead = pAtomic;
 //	} else {
@@ -915,7 +915,7 @@
 //		while ( pSearchAtomic->m_pNext ) pSearchAtomic = pSearchAtomic->m_pNext;
 //		pSearchAtomic->m_pNext = pAtomic;
 //	}
-//	pAtomic->m_pNext = NULL;
+//	pAtomic->m_pNext = nullptr;
 //	m_numAtomic++;
 //	pAtomic->m_pClump = this;
 //}

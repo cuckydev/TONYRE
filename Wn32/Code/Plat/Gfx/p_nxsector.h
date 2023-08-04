@@ -35,7 +35,7 @@ class CXboxSector : public CSector
 	virtual const Mth::CBBox		&plat_get_bounding_box( void ) const;
 	virtual const Mth::Vector		&plat_get_world_position( void ) const;
 	virtual void					plat_set_shatter( bool on );
-	virtual CSector					*plat_clone( bool instance, CScene *p_scene = NULL );
+	virtual CSector					*plat_clone( bool instance, CScene *p_scene = nullptr );
 
 	int								m_flags;
 

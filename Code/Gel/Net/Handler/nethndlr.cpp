@@ -398,7 +398,7 @@ int	App::handle_sequenced_messages( MsgHandlerContext *context )
 
 	// This might be dangerous in some apps, but it makes sense right now.  Don't add
 	// this message to the sequenced queue if we dont have a handler for it.
-	/*if( sh.FirstItem( context->m_App->m_Dispatcher.m_handler_list[msg_id] ) == NULL )
+	/*if( sh.FirstItem( context->m_App->m_Dispatcher.m_handler_list[msg_id] ) == nullptr )
 	{
 		Dbg_MsgAssert( 0, ( "No handler for msg %d\n", msg_id ));
 		delete msg_link->m_QMsg;
@@ -718,7 +718,7 @@ int	App::handle_connection_request( MsgHandlerContext *context )
 					 inet_ntoa( *(struct in_addr *) &ip), 
 					 context->m_Conn->GetPort());*/
 #endif		// __PLAT_NGC__
-		context->m_App->SendMessageTo( MSG_ID_CONNECTION_ACCEPTED, 0, NULL,
+		context->m_App->SendMessageTo( MSG_ID_CONNECTION_ACCEPTED, 0, nullptr,
 									   context->m_Conn->GetIP(), context->m_Conn->GetPort(), 0 );
 
 		return HANDLER_CONTINUE;

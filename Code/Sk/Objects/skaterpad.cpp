@@ -245,7 +245,7 @@ CSkaterButton *CSkaterPad::GetButton(uint32 NameChecksum)
 	{
 		Dbg_MsgAssert(0,("Bad checksum '%x' sent to GetButton",NameChecksum));
 	}
-	return NULL;
+	return nullptr;
 }	
 																			
 /******************************************************************/

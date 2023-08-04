@@ -80,7 +80,7 @@ static int  AppendContRequest(SFileIOTask *p_task);
 // Callback
 static void cd_callback(int arg)
 {
-	void *p_ee_addr = NULL, *p_iop_addr = NULL;
+	void *p_ee_addr = nullptr, *p_iop_addr = nullptr;
 	int block_size = 0;
 	SFileIODevice *p_device = &sFileIODevices[DEVICE_CD];
 	SFileIOHandle *p_file = p_device->mp_file_handle;
@@ -379,7 +379,7 @@ static void FileIO_Init(int priority, int buffer_size, short memory_destination,
 	printf("Starting FileIO_Init\n");
 
 	sFileIODevices[DEVICE_CD].m_in_use = FALSE;
-	sFileIODevices[DEVICE_CD].mp_file_handle = NULL;
+	sFileIODevices[DEVICE_CD].mp_file_handle = nullptr;
 
 	// Init drive
 	if (init_cd_device)
@@ -443,10 +443,10 @@ static void FileIO_Init(int priority, int buffer_size, short memory_destination,
 	for (i = 0; i < FILEIO_MAX_HANDLERS; i++)
 	{
 		gFileHandle[i].m_flags			= 0;		// Neither busy nor reserved
-		//gFileHandle[i].mp_buffer[0]		= NULL;
-		//gFileHandle[i].mp_buffer[1]		= NULL;
+		//gFileHandle[i].mp_buffer[0]		= nullptr;
+		//gFileHandle[i].mp_buffer[1]		= nullptr;
 		//gFileHandle[i].m_buffer_index  	= -1;
-		gFileHandle[i].mp_dest_buffer	= NULL;
+		gFileHandle[i].mp_dest_buffer	= nullptr;
 		gFileHandle[i].m_device_type	= DEVICE_UNKNOWN;
 		gFileHandle[i].m_buffer_size	= buffer_size;
 		gFileHandle[i].m_host_fd		= -1;
@@ -528,8 +528,8 @@ static int FileIO_GetDescriptor(int memory_destination, int buffer_size)
 			{
 				gFileHandle[i].m_flags &= ~FILEIO_HANDLE_EE_MEMORY;
 #if 0
-				gFileHandle[i].mp_buffer[0] = NULL;
-				gFileHandle[i].mp_buffer[1] = NULL;
+				gFileHandle[i].mp_buffer[0] = nullptr;
+				gFileHandle[i].mp_buffer[1] = nullptr;
 				gFileHandle[i].m_buffer_index = -1;
 #endif
 			}
@@ -556,7 +556,7 @@ static void FileIO_Open(int sector_num, int file_size, int memory_destination, i
 	{
 		// Init the handle itself
 		gFileHandle[fd].m_device_type = DEVICE_CD;
-		gFileHandle[fd].mp_dest_buffer = NULL;
+		gFileHandle[fd].mp_dest_buffer = nullptr;
 		gFileHandle[fd].m_host_fd = -1;
 		gFileHandle[fd].m_priority = priority;
 		gFileHandle[fd].m_stream = FALSE;
@@ -565,7 +565,7 @@ static void FileIO_Open(int sector_num, int file_size, int memory_destination, i
 		gFileHandle[fd].m_cur_position = 0;
 		gFileHandle[fd].m_file_size = file_size;
 		gFileHandle[fd].m_open_request_id= s_cur_command_status.m_request_id;
-		gFileHandle[fd].mp_blocked_request = NULL;
+		gFileHandle[fd].mp_blocked_request = nullptr;
 		gFileHandle[fd].m_flags &= ~FILEIO_HANDLE_BUSY;
 		gFileHandle[fd].m_cur_function = FILEIO_FUNCTION_IDLE;
 
@@ -621,7 +621,7 @@ static void FileIO_HostOpen(char *p_filename, int memory_destination, int buffer
 		{
 			// Init the handle itself
 			gFileHandle[fd].m_device_type = DEVICE_HOST;
-			gFileHandle[fd].mp_dest_buffer = NULL;
+			gFileHandle[fd].mp_dest_buffer = nullptr;
 			gFileHandle[fd].m_priority = priority;
 			gFileHandle[fd].m_stream = FALSE;
 			gFileHandle[fd].m_start_sector = -1;
@@ -629,7 +629,7 @@ static void FileIO_HostOpen(char *p_filename, int memory_destination, int buffer
 			gFileHandle[fd].m_cur_position = 0;
 			gFileHandle[fd].m_file_size = file_size;
 			gFileHandle[fd].m_open_request_id= s_cur_command_status.m_request_id;
-			gFileHandle[fd].mp_blocked_request = NULL;
+			gFileHandle[fd].mp_blocked_request = nullptr;
 			gFileHandle[fd].m_flags &= ~FILEIO_HANDLE_BUSY;
 			gFileHandle[fd].m_cur_function = FILEIO_FUNCTION_IDLE;
 
@@ -703,7 +703,7 @@ static void FileIO_Close(volatile unsigned int *p_file_handle_index)
 						// Found it, exchange it with last used buffer
 						gFileBufferList[i] = gFileBufferList[--gFreeFileBufferIndex];
 						gFileBufferList[gFreeFileBufferIndex] = p_file->mp_buffer[j];
-						p_file->mp_buffer[j] = NULL;
+						p_file->mp_buffer[j] = nullptr;
 					}
 				}
 			}
@@ -772,7 +772,7 @@ static void FileIO_Read(SFileIORequest *p_request, volatile unsigned int *p_file
 		else
 		{
 			// Clear blocked status
-			p_file->mp_blocked_request = NULL;
+			p_file->mp_blocked_request = nullptr;
 			p_file->m_flags &= ~FILEIO_HANDLE_BUSY;
 		}
 	}
@@ -808,7 +808,7 @@ static void FileIO_Read(SFileIORequest *p_request, volatile unsigned int *p_file
 		// Just do the read here until we set up a separate thread
 		while (p_file->m_bytes_to_process)
 		{
-			void *p_ee_addr = NULL, *p_iop_addr = NULL;
+			void *p_ee_addr = nullptr, *p_iop_addr = nullptr;
 			int block_size = 0;
 			int num_bytes;
 			void *p_local_buffer;
@@ -1107,7 +1107,7 @@ int AdpcmInit( int pIopBuf )
 		param.option = 0;
 		gThid = CreateThread (&param);
 		printf( "EzADPCM: create thread ID= %d\n", gThid );
-		StartThread (gThid, (u_long) NULL);
+		StartThread (gThid, (u_long) nullptr);
     }
 
 	memset( gStreamInfo, 0, sizeof( struct StreamInfo ) * NUM_STREAMS );
@@ -1183,12 +1183,12 @@ static ERequestState dispatch(volatile SFileIOTask *p_request_task)
 { 
 	volatile SFileIORequestEntry *p_request_entry = &(p_request_task->m_entry);
 	volatile SFileIORequest *p_request = &(p_request_entry->m_request);
-	SFileIORequest *p_cont_request = (p_request_task->mp_cont) ? (&p_request_task->mp_cont->m_entry.m_request) : NULL;
+	SFileIORequest *p_cont_request = (p_request_task->mp_cont) ? (&p_request_task->mp_cont->m_entry.m_request) : nullptr;
 
 	// Assume command will need to be completed asynchronously
 	s_cur_command_status.m_request_state = REQUEST_OPEN;
 	s_cur_command_status.m_request_id = p_request_entry->m_request_id;
-	s_cur_command_status.mp_file_handle = NULL;
+	s_cur_command_status.mp_file_handle = nullptr;
 
     switch ( p_request->m_command )
 	{
@@ -1293,7 +1293,7 @@ static volatile	int sFreeFileIORequest;			// This is the main variable that chan
 
 // The task entries
 static SFileIOTask sFileIOTaskArray[FILEIO_MAX_TASKS];
-static SFileIOTask *spTaskFreeList = NULL;
+static SFileIOTask *spTaskFreeList = nullptr;
 
 static void request_callback(void *p, void *q);
 
@@ -1315,10 +1315,10 @@ int fileio_command_loop( void )
 	sFreeFileIORequest = 0;
 
 	// Init free task list
-	spTaskFreeList = NULL;
+	spTaskFreeList = nullptr;
 	for (i = 0; i < FILEIO_MAX_TASKS; i++)
 	{
-		sFileIOTaskArray[i].mp_file_handle = NULL;
+		sFileIOTaskArray[i].mp_file_handle = nullptr;
 
 		// Add to beginning of list
 		sFileIOTaskArray[i].mp_next = spTaskFreeList;
@@ -1330,12 +1330,12 @@ int fileio_command_loop( void )
 	{
 		sFileIODevices[i].m_in_use = FALSE;
 		sFileIODevices[i].m_waiting_callback = FALSE;
-		sFileIODevices[i].mp_file_handle = NULL;
-		sFileIODevices[i].mp_task_list = NULL;
+		sFileIODevices[i].mp_file_handle = nullptr;
+		sFileIODevices[i].mp_task_list = nullptr;
 		sFileIODevices[i].m_cur_position = -1;
 		sFileIODevices[i].m_cur_sector = -1;
-		sFileIODevices[i].mp_buffer[0] = NULL;
-		sFileIODevices[i].mp_buffer[1] = NULL;
+		sFileIODevices[i].mp_buffer[0] = nullptr;
+		sFileIODevices[i].mp_buffer[1] = nullptr;
 		sFileIODevices[i].m_buffer_index = -1;
 	}
 
@@ -1347,7 +1347,7 @@ int fileio_command_loop( void )
 	// SIFCMD
 	sceSifSetCmdBuffer( &cmdbuffer[0], FILEIO_NUM_COMMAND_HANDLERS);
 
-	sceSifAddCmdHandler(FILEIO_REQUEST_COMMAND, (void *) request_callback, NULL );
+	sceSifAddCmdHandler(FILEIO_REQUEST_COMMAND, (void *) request_callback, nullptr );
 
 	CpuResumeIntr(oldStat);
 
@@ -1369,12 +1369,12 @@ int fileio_command_loop( void )
 			// Get a new task entry
 			p_new_task = spTaskFreeList;
 			spTaskFreeList = p_new_task->mp_next;
-			p_new_task->mp_next = NULL;
+			p_new_task->mp_next = nullptr;
 
 			// Copy data
 			p_new_task->m_entry = *p_request;
-			p_new_task->mp_file_handle = NULL;
-			p_new_task->mp_cont = NULL;
+			p_new_task->mp_file_handle = nullptr;
+			p_new_task->mp_cont = nullptr;
 
 			// And put onto unknown device task list
 			AppendTask(&sFileIODevices[DEVICE_UNKNOWN], p_new_task);
@@ -1436,7 +1436,7 @@ int fileio_command_loop( void )
 					{
 						p_dispatch_task->mp_cont->mp_next = spTaskFreeList;
 						spTaskFreeList = p_dispatch_task->mp_cont;
-						p_dispatch_task->mp_cont = NULL;
+						p_dispatch_task->mp_cont = nullptr;
 					}
 					p_dispatch_task->mp_next = spTaskFreeList;
 					spTaskFreeList = p_dispatch_task;
@@ -1517,7 +1517,7 @@ static void AppendTask(SFileIODevice *p_device, SFileIOTask *p_task)
 	{
 		// Empty list
 		p_device->mp_task_list = p_task;
-		p_task->mp_next = NULL;
+		p_task->mp_next = nullptr;
 	}
 }
 
@@ -1527,7 +1527,7 @@ static void AppendTask(SFileIODevice *p_device, SFileIOTask *p_task)
 static void InsertTask(SFileIODevice *p_device, SFileIOTask *p_task)
 {
 	SFileIOTask *p_task_node = p_device->mp_task_list;
-	SFileIOTask *p_prev_node = NULL;
+	SFileIOTask *p_prev_node = nullptr;
 
 	int priority = GetPriority(p_task->mp_file_handle);
 
@@ -1581,7 +1581,7 @@ static void RemoveTask(SFileIODevice *p_device, SFileIOTask *p_task)
 		// Remove
 		p_task_node->mp_next = p_task->mp_next;
 	}
-	p_task->mp_next = NULL;
+	p_task->mp_next = nullptr;
 }
 
 static int AppendContRequest(SFileIOTask *p_task)

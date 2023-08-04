@@ -52,7 +52,7 @@
 // ********************************************************************************/
 //NsCollision::NsCollision()
 //{
-//	m_pHead = NULL;
+//	m_pHead = nullptr;
 //}
 //
 //NsCollision::~NsCollision()
@@ -112,7 +112,7 @@
 //		m_pBranchNodes = new NsBranch[m_numBranchNodes];
 //		memcpy ( m_pBranchNodes, pBranchNodes, sizeof ( NsBranch ) * m_numBranchNodes );
 //	} else {
-//		m_pBranchNodes = NULL;
+//		m_pBranchNodes = nullptr;
 //	}
 //
 //	// Copy the leaf nodes.
@@ -120,7 +120,7 @@
 //		m_pLeafNodes = new NsLeaf[m_numLeafNodes];
 //		memcpy ( m_pLeafNodes, pLeafNodes, sizeof ( NsLeaf ) * m_numLeafNodes );
 //	} else {
-//		m_pLeafNodes = NULL;
+//		m_pLeafNodes = nullptr;
 //	}
 //
 //	// Copy the triangle map.
@@ -128,7 +128,7 @@
 //		m_pTriangleMap = new unsigned int[m_numTriangles];
 //		memcpy ( m_pTriangleMap, pTriangleMap, sizeof ( unsigned int ) * m_numTriangles );
 //	} else {
-//		m_pTriangleMap = NULL;
+//		m_pTriangleMap = nullptr;
 //	}
 //
 //	// Fix branch data.
@@ -228,7 +228,7 @@
 // *
 // *  Line intersections with collision BSP leaf nodes
 // *
-// *  Early out with NULL if callback returns NULL.
+// *  Early out with nullptr if callback returns nullptr.
 // */
 //
 //typedef struct nodeInfo nodeInfo;

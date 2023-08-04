@@ -18,10 +18,10 @@ namespace NxWn32
 {
 
 bool			s_meshScalingEnabled = false;
-char*			s_pWeightIndices = NULL;
-float*			s_pWeights = NULL;
-Mth::Vector*	s_pBonePositions = NULL;
-Mth::Vector*	s_pBoneScales = NULL;
+char*			s_pWeightIndices = nullptr;
+float*			s_pWeights = nullptr;
+Mth::Vector*	s_pBonePositions = nullptr;
+Mth::Vector*	s_pBoneScales = nullptr;
 int				s_currentVertIndex = 0;
 
 /******************************************************************/
@@ -49,10 +49,10 @@ void SetMeshScalingParameters( Nx::SMeshScalingParameters* pParams )
 void DisableMeshScaling( void )
 {
 	s_meshScalingEnabled	= false;
-	s_pWeights				= NULL;
-	s_pWeightIndices		= NULL;
-	s_pBoneScales			= NULL;
-	s_pBonePositions		= NULL;
+	s_pWeights				= nullptr;
+	s_pWeightIndices		= nullptr;
+	s_pBoneScales			= nullptr;
+	s_pBonePositions		= nullptr;
 	s_currentVertIndex		= 0;
 }
 
@@ -185,18 +185,18 @@ sMesh::sMesh( void )
 	m_current_write_vertex_buffer	= 0;
 	for( int vb = 0; vb < MAX_VERTEX_BUFFERS; ++vb )
 	{
-		mp_vertex_buffer[vb]		= NULL;
+		mp_vertex_buffer[vb]		= nullptr;
 	}
 	for( int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib )
 	{
-		mp_index_buffer[ib]			= NULL;
+		mp_index_buffer[ib]			= nullptr;
 		m_num_indices[ib]			= 0;
 	}
-	mp_vc_wibble_data				= NULL;
-	mp_index_lod_data				= NULL;
-	mp_billboard_data				= NULL;
+	mp_vc_wibble_data				= nullptr;
+	mp_index_lod_data				= nullptr;
+	mp_billboard_data				= nullptr;
 	m_bone_index					= -1;
-	mp_transform					= NULL;
+	mp_transform					= nullptr;
 	m_diffuse_offset				= 0;
 	m_uv0_offset					= 0;
 	m_normal_offset					= 0;
@@ -239,25 +239,25 @@ sMesh::~sMesh( void )
 		for( int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib )
 		{
 			delete [] mp_index_buffer[ib];
-			mp_index_buffer[ib] = NULL;
+			mp_index_buffer[ib] = nullptr;
 		}
 
 		if( mp_vc_wibble_data )
 		{
 			delete mp_vc_wibble_data;
-			mp_vc_wibble_data = NULL;
+			mp_vc_wibble_data = nullptr;
 		}
 
 		if( mp_index_lod_data )
 		{
 			delete mp_index_lod_data;
-			mp_index_lod_data = NULL;
+			mp_index_lod_data = nullptr;
 		}
 
 		if( mp_billboard_data )
 		{
 			delete mp_billboard_data;
-			mp_billboard_data = NULL;
+			mp_billboard_data = nullptr;
 		}
 
 		UINT					stride;
@@ -277,12 +277,12 @@ sMesh::~sMesh( void )
 				{
 					// We are deleting a vertex buffer that is set as the current stream source. This can result in
 					// problems with the internal D3D reference counter, so clear this up first.
-					D3DDevice_SetStreamSource( 0, NULL, 0 );
+					D3DDevice_SetStreamSource( 0, nullptr, 0 );
 				}
 			
 				uint8 *p_del = (uint8*)mp_vertex_buffer[i];
 				delete p_del;
-				mp_vertex_buffer[i]	= NULL;
+				mp_vertex_buffer[i]	= nullptr;
 			}
 		}
 	}
@@ -412,8 +412,8 @@ void sMesh::CreateDuplicateVertexBuffers( int n )
 {
 	/*
 	// Ensure this hasn't already been called.
-	Dbg_Assert( mp_vertex_buffer[0] != NULL );
-	Dbg_Assert( mp_vertex_buffer[1] == NULL );
+	Dbg_Assert( mp_vertex_buffer[0] != nullptr );
+	Dbg_Assert( mp_vertex_buffer[1] == nullptr );
 	Dbg_Assert(( n > 0 ) && ( n < MAX_VERTEX_BUFFERS ));
 
 	// Lock the source buffer.
@@ -450,7 +450,7 @@ void sMesh::SetPosition( Mth::Vector &pos )
 {
 	/*
 	// Create a transform if one doesn't exist yet.
-	if( mp_transform == NULL )
+	if( mp_transform == nullptr )
 	{
 		mp_transform = new Mth::Matrix();
 		mp_transform->Ident();
@@ -493,7 +493,7 @@ void sMesh::SetPosition( Mth::Vector &pos )
 void sMesh::GetPosition( Mth::Vector *p_pos )
 {
 	/*
-	if( mp_transform == NULL )
+	if( mp_transform == nullptr )
 	{
 		p_pos->Set( 0.0f, 0.0f, 0.0f );
 	}
@@ -516,7 +516,7 @@ void sMesh::SetYRotation( Mth::ERot90 rot )
 	if( rot > Mth::ROT_0 )
 	{
 		// Create a transform if one doesn't exist yet.
-		if( mp_transform == NULL )
+		if( mp_transform == nullptr )
 		{
 			mp_transform = new Mth::Matrix();
 			mp_transform->Ident();
@@ -716,7 +716,7 @@ void sMesh::Submit( void )
 		float dist = get_bounding_sphere_nearest_z();
 		for( int idx = 0; idx < MAX_INDEX_BUFFERS; ++idx )
 		{
-			if( mp_index_buffer[idx] == NULL )
+			if( mp_index_buffer[idx] == nullptr )
 			{
 				// We have got to the end of the set without drawing anything. Just use the last valid index set.
 				if( idx > 0 )
@@ -791,11 +791,11 @@ sMesh *sMesh::Clone( bool instance )
 		BYTE *p_byte_src, *p_byte_dest;
 		if( D3D_OK != mp_vertex_buffer[0]->Lock( 0, 0, &p_byte_src, D3DLOCK_READONLY ))
 		{
-			return NULL;
+			return nullptr;
 		}
 		if( D3D_OK != p_clone->mp_vertex_buffer[0]->Lock( 0, 0, &p_byte_dest, 0 ))
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// Copy over vertex information.
@@ -814,7 +814,7 @@ sMesh *sMesh::Clone( bool instance )
 		// Handle duplicate vertex buffers if they exist.
 		if( m_num_vertex_buffers > 1 )
 		{
-			p_clone->mp_vertex_buffer[1] = NULL;
+			p_clone->mp_vertex_buffer[1] = nullptr;
 			p_clone->CreateDuplicateVertexBuffers( m_num_vertex_buffers - 1 );
 		}
 	}
@@ -917,7 +917,7 @@ void sMesh::Crunch( void )
 void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector & pivot_axis )
 {
 	/*
-	Dbg_Assert( mp_billboard_data == NULL );
+	Dbg_Assert( mp_billboard_data == nullptr );
 
 	// Create the billboard data.
 	mp_billboard_data					= new sBillboardData;
@@ -1443,7 +1443,7 @@ void sMesh::Initialize( int				num_vertices,
 	}
 
 	// Copy in vertex texture coordinate data.
-	if(( tex_coord_pass > 0 ) && ( p_tex_coords != NULL ))
+	if(( tex_coord_pass > 0 ) && ( p_tex_coords != nullptr ))
 	{
 		m_uv0_offset						= (uint8)byte_write_offset;
 		p_read								= p_tex_coords + ( min_index * 2 * num_tc_sets );

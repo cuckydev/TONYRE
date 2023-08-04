@@ -91,7 +91,7 @@ static void set_xbox_actuators( HANDLE handle, unsigned short left_motor, unsign
 	// On the Xbox it is the reverse (although the left motor has more control than simple on/off).
 	
 	input_feedback[next_index].Header.dwStatus			= 0;
-	input_feedback[next_index].Header.hEvent			= NULL;
+	input_feedback[next_index].Header.hEvent			= nullptr;
 	input_feedback[next_index].Rumble.wLeftMotorSpeed	= right_motor;
 	input_feedback[next_index].Rumble.wRightMotorSpeed	= left_motor;
 
@@ -173,7 +173,7 @@ void Device::read_data ( void )
 
 	m_plugged_in = false;
 
-	if( m_data.m_handle == NULL )
+	if( m_data.m_handle == nullptr )
 	{
 		return;
 	}
@@ -182,7 +182,7 @@ void Device::read_data ( void )
 	if( hr != ERROR_SUCCESS )
 	{
 		XInputClose( m_data.m_handle );
-		m_data.m_handle	= NULL;
+		m_data.m_handle	= nullptr;
 		m_data.m_valid	= false;
 		Unacquire();
 		Acquire();
@@ -351,17 +351,17 @@ void Device::acquisition_pending( void )
 	/*
     int status;
 
-	if( m_data.m_handle == NULL )
+	if( m_data.m_handle == nullptr )
 	{
 		++m_unplugged_counter;
 
 		// Retry to connect every second or so.
 		if(( m_unplugged_counter & 0x3F ) == m_unplugged_retry )
 		{
-			m_data.m_handle = XInputOpen( XDEVICE_TYPE_GAMEPAD, m_data.m_port, XDEVICE_NO_SLOT, NULL );
+			m_data.m_handle = XInputOpen( XDEVICE_TYPE_GAMEPAD, m_data.m_port, XDEVICE_NO_SLOT, nullptr );
 		}
 		
-		if( m_data.m_handle == NULL )
+		if( m_data.m_handle == nullptr )
 		{
 			return;
 		}
@@ -520,7 +520,7 @@ void Device::Acquire( void )
     if( m_state == vIDLE )
     {
 		// Acquire device handle.
-		m_data.m_handle = XInputOpen( XDEVICE_TYPE_GAMEPAD, m_data.m_port, XDEVICE_NO_SLOT, NULL );
+		m_data.m_handle = XInputOpen( XDEVICE_TYPE_GAMEPAD, m_data.m_port, XDEVICE_NO_SLOT, nullptr );
 
 //		if( m_data.m_handle )
 		{
@@ -550,7 +550,7 @@ void Device::Unacquire ( void )
 
     if( m_state == vACQUIRED )
     {
-		m_data.m_handle = NULL;
+		m_data.m_handle = nullptr;
     }
 
     m_state = vIDLE;

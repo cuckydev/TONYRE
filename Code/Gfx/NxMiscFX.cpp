@@ -18,10 +18,10 @@
 namespace Nx
 {
 
-Lst::HashTable< sScreenFlashDetails >		*p_screen_flash_details_table	= NULL;
-Lst::HashTable< sSplatInstanceDetails >		*p_splat_details_table			= NULL;
-Lst::HashTable< sSplatTrailInstanceDetails >*p_splat_trail_details_table	= NULL;
-Lst::HashTable< sShatterInstanceDetails >	*p_shatter_details_table		= NULL;
+Lst::HashTable< sScreenFlashDetails >		*p_screen_flash_details_table	= nullptr;
+Lst::HashTable< sSplatInstanceDetails >		*p_splat_details_table			= nullptr;
+Lst::HashTable< sSplatTrailInstanceDetails >*p_splat_trail_details_table	= nullptr;
+Lst::HashTable< sShatterInstanceDetails >	*p_shatter_details_table		= nullptr;
 
 static const float	DEFAULT_AREA_TEST			= 288.0f;
 static const float	DEFAULT_VELOCITY_VARIANCE	= 0.0f;
@@ -217,22 +217,22 @@ int	sShatterInstanceDetails::s_query_memory_needed(int num_tris)
 /******************************************************************/
 void MiscFXInitialize( void )
 {
-	if( p_screen_flash_details_table == NULL )
+	if( p_screen_flash_details_table == nullptr )
 	{
 		p_screen_flash_details_table = new Lst::HashTable< sScreenFlashDetails >( 4 );
 	}
 
-	if( p_splat_details_table == NULL )
+	if( p_splat_details_table == nullptr )
 	{
 		p_splat_details_table = new Lst::HashTable< sSplatInstanceDetails >( 4 );
 	}
 
-	if( p_splat_trail_details_table == NULL )
+	if( p_splat_trail_details_table == nullptr )
 	{
 		p_splat_trail_details_table = new Lst::HashTable< sSplatTrailInstanceDetails >( 4 );
 	}
 	
-	if( p_shatter_details_table == NULL )
+	if( p_shatter_details_table == nullptr )
 	{
 		p_shatter_details_table = new Lst::HashTable< sShatterInstanceDetails >( 4 );
 	}
@@ -312,7 +312,7 @@ void AddScreenFlash( int viewport, Image::RGBA from, Image::RGBA to, float durat
 #endif		// __NOPT_ASSERT__
 
 	// Resolve the texture name if present.
-	CTexture *p_texture = NULL;
+	CTexture *p_texture = nullptr;
 	if( p_texture_name )
 	{
 	}
@@ -348,7 +348,7 @@ void ScreenFlashUpdate( void )
 		sScreenFlashDetails *p_details = p_screen_flash_details_table->IterateNext();
 		while( p_details )
 		{
-			sScreenFlashDetails *p_delete = NULL;
+			sScreenFlashDetails *p_delete = nullptr;
 
 			// Don't process if paused.
 			if( !Mdl::FrontEnd::Instance()->GamePaused() || ( p_details->m_flags & Nx::SCREEN_FLASH_FLAG_IGNORE_PAUSE ))
@@ -463,7 +463,7 @@ bool TextureSplat( Mth::Vector& splat_start, Mth::Vector& splat_end, float size,
 	Replay::WriteTextureSplat(splat_start,splat_end,size,lifetime,p_texture_name,trail);
 	
 	// If this is a flagged as a trail splat, see if we have a trail instance already that matches.
-	sSplatTrailInstanceDetails *p_trail_details = NULL;
+	sSplatTrailInstanceDetails *p_trail_details = nullptr;
 	if( trail > 0 )
 	{
 		uint32 time = Tmr::GetTime();
@@ -472,7 +472,7 @@ bool TextureSplat( Mth::Vector& splat_start, Mth::Vector& splat_end, float size,
 		p_trail_details = p_splat_trail_details_table->IterateNext();
 		while( p_trail_details )
 		{
-			sSplatTrailInstanceDetails *p_delete = NULL;
+			sSplatTrailInstanceDetails *p_delete = nullptr;
 
 			if(( time < p_trail_details->m_last_pos_added_time ) || (( time - p_trail_details->m_last_pos_added_time ) > 500 ))
 			{
@@ -504,7 +504,7 @@ bool TextureSplat( Mth::Vector& splat_start, Mth::Vector& splat_end, float size,
 		}
 
 		// If there were no trail details, create a new instance and just return.
-		if( p_trail_details == NULL )
+		if( p_trail_details == nullptr )
 		{
 			p_trail_details = new sSplatTrailInstanceDetails;
 			p_trail_details->m_trail_id				= trail;
@@ -569,11 +569,11 @@ bool TextureSplat( Mth::Vector& splat_start, Mth::Vector& splat_end, float size,
 		}
 	}
 
-	// Mark the end of the sector table with a NULL pointer.
+	// Mark the end of the sector table with a nullptr pointer.
 	if( sector_table_index > 0 )
 	{
-		sector_table[sector_table_index] = NULL;
-		collision_table[sector_table_index] = NULL;
+		sector_table[sector_table_index] = nullptr;
+		collision_table[sector_table_index] = nullptr;
 
 		// Make sure we can can calculate an up vector.  If not, just move on.
 		bool rv;
@@ -669,7 +669,7 @@ void ShatterUpdate( void )
 		sShatterInstanceDetails *p_details = p_shatter_details_table->IterateNext();
 		while( p_details )
 		{
-			sShatterInstanceDetails *p_delete = NULL;
+			sShatterInstanceDetails *p_delete = nullptr;
 			
 			p_details->m_lifetime -= framelength;
 			if( p_details->m_lifetime <= 0.0f )

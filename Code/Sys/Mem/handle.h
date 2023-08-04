@@ -48,7 +48,7 @@ nTemplateBaseClass( _T, Handle )
 	
 public :
 
-								Handle( _T* ptr = NULL );
+								Handle( _T* ptr = nullptr );
 								~Handle( void );
 
 	template < class _NewT >						                    // template copy contructor
@@ -174,7 +174,7 @@ _T*		Handle< _T >::GetPointer ( void ) const
 		return m_ptr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

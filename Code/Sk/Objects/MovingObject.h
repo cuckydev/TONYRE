@@ -91,7 +91,7 @@ public:
 		void					GetHoverOrgPos( Mth::Vector *p_orgPos );
 		
 protected:
-		bool					ObjectWithinRange( Script::CStruct *pParams, Script::CScript *pScript, SiteBox *pBox = NULL );
+		bool					ObjectWithinRange( Script::CStruct *pParams, Script::CScript *pScript, SiteBox *pBox = nullptr );
 		bool 					ObjectWithinRect( Script::CStruct *pParams, Script::CScript *pScript );
 		bool					ObjectFromNodeWithinRange( int nodeIndex, int radiusSqr, SiteBox *pBox );
 		void					InitializeSiteBox( SiteBox *pBox );
@@ -100,7 +100,7 @@ protected:
 		bool					SkaterInRange( SiteBox *pBox, float radiusSqr );
 		
 protected:
-		void					DrawBoundingBox( SBBox *pBox, Mth::Vector *pOffset = NULL, int numFrames = 1, Mth::Vector *pRot = NULL );
+		void					DrawBoundingBox( SBBox *pBox, Mth::Vector *pOffset = nullptr, int numFrames = 1, Mth::Vector *pRot = nullptr );
 		
 		void					ToggleFlipState( void );
 

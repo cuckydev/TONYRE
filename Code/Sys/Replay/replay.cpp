@@ -96,7 +96,7 @@ static uint32 sBigBufferEndOffset=0;
 // It is then appended to the big cyclic buffer by sWriteFrameBufferToBigBuffer
 #define FRAME_BUFFER_SIZE 20480
 static uint8 spFrameBuffer[FRAME_BUFFER_SIZE];
-static uint8 *spFrameBufferPos=NULL;
+static uint8 *spFrameBufferPos=nullptr;
 
 enum EReplayMode
 {
@@ -338,11 +338,11 @@ CSkaterTrackingInfo CTrackingInfo::sSkaterTrackingInfo;
 int CTrackingInfo::sScreenBlurTracker=0;
 
 
-static CTrackingInfo *spTrackingInfoHead=NULL;
+static CTrackingInfo *spTrackingInfoHead=nullptr;
 static Lst::HashTable<CTrackingInfo> sTrackingInfoHashTable(8);
 
-static CDummy *spStartStateDummies=NULL;
-static CDummy *spReplayDummies=NULL;
+static CDummy *spStartStateDummies=nullptr;
+static CDummy *spReplayDummies=nullptr;
 
 static Lst::HashTable<CDummy> sObjectStartStateHashTable(8);
 static Lst::HashTable<CDummy> sReplayDummysHashTable(8);
@@ -462,7 +462,7 @@ CTrackingInfo::CTrackingInfo()
 {
 	m_id=0xffffffff;		
 	mPointerType=UNDEFINED;
-	mpMovingObject=NULL;
+	mpMovingObject=nullptr;
 	mFlags=0;
 	mScale=1.0f;
 			
@@ -477,7 +477,7 @@ CTrackingInfo::CTrackingInfo()
 	m_primaryController.Reset();
 	
 	mpNext=spTrackingInfoHead;
-	mpPrevious=NULL;
+	mpPrevious=nullptr;
 	if (mpNext)
 	{
 		mpNext->mpPrevious=this;
@@ -508,8 +508,8 @@ void CTrackingInfo::SetMovingObject(Obj::CMovingObject *p_ob)
 void CTrackingInfo::SetSkaterCamera()
 {
 	Dbg_MsgAssert(mPointerType==UNDEFINED,("Expected mPointerType to be UNDEFINED"));
-	Dbg_MsgAssert(mpMovingObject==NULL,("Expected mpMovingObject to be NULL"));
-	mpMovingObject=NULL;
+	Dbg_MsgAssert(mpMovingObject==nullptr,("Expected mpMovingObject to be nullptr"));
+	mpMovingObject=nullptr;
 	
 	m_id=ID_CAMERA;
 	sTrackingInfoHashTable.PutItem((uint32)m_id,this);
@@ -708,7 +708,7 @@ static void sUnpauseCertainScreenElements()
 {
 	Front::CScreenElementManager* p_manager = Front::CScreenElementManager::Instance();
 	Front::CSpriteElement *p_balance_meter = (Front::CSpriteElement *) p_manager->GetElement(0xa4db8a4b + sGetSkater()->GetHeapIndex()).Convert(); // "the_balance_meter"
-	Dbg_MsgAssert(p_balance_meter,("NULL p_balance_meter"));
+	Dbg_MsgAssert(p_balance_meter,("nullptr p_balance_meter"));
 	Front::CSpriteElement *p_balance_arrow = (Front::CSpriteElement *) p_balance_meter->GetFirstChild().Convert();
 	
 	p_balance_meter->SetMorphPausedState(false);
@@ -728,14 +728,14 @@ static Obj::CSkater *sGetSkater()
 {
 	Mdl::Skate * p_skate_mod = Mdl::Skate::Instance();
 	Obj::CSkater *p_skater = p_skate_mod->GetSkater(0);
-	Dbg_MsgAssert(p_skater,("NULL p_skater"));
+	Dbg_MsgAssert(p_skater,("nullptr p_skater"));
 	return p_skater;
 }
 	
 static Mdl::Score *sGetSkaterScoreObject()
 {
 	Mdl::Score *p_score=sGetSkater()->GetScoreObject();
-	Dbg_MsgAssert(p_score,("NULL p_score"));
+	Dbg_MsgAssert(p_score,("nullptr p_score"));
 	return p_score;
 }
 
@@ -749,7 +749,7 @@ static void sDeleteDummies(EDummyList whichList)
 		p_dummy=p_next;
 	}	
 	sGetDummyHashTable(whichList)->FlushAllItems();
-	Dbg_MsgAssert(spReplayDummies==NULL,("Hey! spReplayDummies not NULL !!!"));
+	Dbg_MsgAssert(spReplayDummies==nullptr,("Hey! spReplayDummies not nullptr !!!"));
 }
 
 bool ScriptDeleteDummies( Script::CStruct *pParams, Script::CScript *pScript )
@@ -764,7 +764,7 @@ CDummy::CDummy(EDummyList whichList, uint32 id)
 	SetID(id);
 
 	mpNext=sGetDummyListHeadPointer(m_list);
-	mpPrevious=NULL;
+	mpPrevious=nullptr;
 	if (mpNext)
 	{
 		mpNext->mpPrevious=this;
@@ -816,12 +816,12 @@ CDummy::~CDummy()
     if (mp_skeletonComponent)
     {
         delete mp_skeletonComponent;
-		mp_skeletonComponent = NULL;
+		mp_skeletonComponent = nullptr;
     }
 	
 	if (mpPrevious) mpPrevious->mpNext=mpNext;
 	if (mpNext) mpNext->mpPrevious=mpPrevious;
-	if (mpPrevious==NULL)
+	if (mpPrevious==nullptr)
 	{
 		sSetDummyListHeadPointer(m_list,mpNext);
 	}	
@@ -887,8 +887,8 @@ CDummy& CDummy::operator=( const CDummy& rhs )
 		m_degenerateControllers[i]=rhs.m_degenerateControllers[i];
 	}
 		
-	mp_rendered_model=NULL;
-	mp_skater_camera=NULL;
+	mp_rendered_model=nullptr;
+	mp_skater_camera=nullptr;
 	
 	mAtomicStates=rhs.mAtomicStates;
 
@@ -907,7 +907,7 @@ CDummy& CDummy::operator=( const CDummy& rhs )
 void CDummy::Save(SSavedDummy *p_saved_dummy)
 {
 #if 0
-	Dbg_MsgAssert(p_saved_dummy,("NULL p_saved_dummy"));
+	Dbg_MsgAssert(p_saved_dummy,("nullptr p_saved_dummy"));
 
 	Dbg_MsgAssert(strlen(mpModelName)<=MAX_MODEL_NAME_CHARS,("mpModelName too long ?"));
 	strcpy(p_saved_dummy->mpModelName,mpModelName);
@@ -1048,7 +1048,7 @@ void CDummy::Update()
 void CDummy::CreateModel()
 {
 #if 0
-	Dbg_MsgAssert(mp_rendered_model==NULL,("Called CreateModel() when model already exists"));
+	Dbg_MsgAssert(mp_rendered_model==nullptr,("Called CreateModel() when model already exists"));
 
 	if (m_id==ID_SKATER)
 	{
@@ -1067,7 +1067,7 @@ void CDummy::CreateModel()
 		}
 	
 		mp_rendered_model = Nx::CEngine::sInitModel();
-		Dbg_MsgAssert(mp_rendered_model,("sInitModel() returned NULL"));
+		Dbg_MsgAssert(mp_rendered_model,("sInitModel() returned nullptr"));
 		Mth::Vector scale(mScale,mScale,mScale);
 		mp_rendered_model->SetScale(scale);
 
@@ -1150,7 +1150,7 @@ void CDummy::CreateModel()
 	}	
 	
 	// Now initialise the atomic states according to the states stored in the dummy.
-	Dbg_MsgAssert(mp_rendered_model,("NULL mp_rendered_model"));
+	Dbg_MsgAssert(mp_rendered_model,("nullptr mp_rendered_model"));
 	mp_rendered_model->SetGeomActiveMask(mAtomicStates);
 
 	mp_rendered_model->SetActive(mFlags & DUMMY_FLAG_ACTIVE);
@@ -1320,7 +1320,7 @@ uint8 *GetTempBuffer()
 	
 void WriteReplayDataHeader(SReplayDataHeader *p_header)
 {
-	Dbg_MsgAssert(p_header,("NULL p_header"));
+	Dbg_MsgAssert(p_header,("nullptr p_header"));
 	p_header->mBufferStartOffset=sBigBufferStartOffset;
 	p_header->mBufferEndOffset=sBigBufferEndOffset;
 	p_header->mNumStartStateDummies=sCountStartStateDummies();
@@ -1329,7 +1329,7 @@ void WriteReplayDataHeader(SReplayDataHeader *p_header)
 
 void ReadReplayDataHeader(const SReplayDataHeader *p_header)
 {
-	Dbg_MsgAssert(p_header,("NULL p_header"));
+	Dbg_MsgAssert(p_header,("nullptr p_header"));
 	sBigBufferStartOffset=p_header->mBufferStartOffset;
 	sBigBufferEndOffset=p_header->mBufferEndOffset;
 	sStartState=p_header->mStartState;
@@ -1339,7 +1339,7 @@ void ReadReplayDataHeader(const SReplayDataHeader *p_header)
 void CreateDummyFromSaveData(SSavedDummy *p_saved_dummy)
 {
 #if 0
-	Dbg_MsgAssert(p_saved_dummy,("NULL p_saved_dummy"));
+	Dbg_MsgAssert(p_saved_dummy,("nullptr p_saved_dummy"));
 	
 	CDummy *p_dummy=new CDummy(START_STATE_DUMMY_LIST,p_saved_dummy->m_id);
 	p_dummy->SetType(p_saved_dummy->m_type);
@@ -1489,7 +1489,7 @@ void DeallocateReplayMemory()
 {
 	sDeleteDummies(START_STATE_DUMMY_LIST);
 	sDeleteDummies(PLAYBACK_DUMMY_LIST);
-	Dbg_MsgAssert(spReplayDummies==NULL,("Hey! spReplayDummies not NULL !!!"));
+	Dbg_MsgAssert(spReplayDummies==nullptr,("Hey! spReplayDummies not nullptr !!!"));
 	sDeleteObjectTrackingInfo();
 	ClearBuffer();
 	DeallocateBuffer();
@@ -1515,7 +1515,7 @@ void StartRecordingAfresh()
 
 	sDeleteDummies(START_STATE_DUMMY_LIST);
 	sDeleteDummies(PLAYBACK_DUMMY_LIST);
-	Dbg_MsgAssert(spReplayDummies==NULL,("Hey! spReplayDummies not NULL !!!"));
+	Dbg_MsgAssert(spReplayDummies==nullptr,("Hey! spReplayDummies not nullptr !!!"));
 	sDeleteObjectTrackingInfo();
 	ClearBuffer();
 	sStartState.Reset();
@@ -1579,7 +1579,7 @@ static int sTokenCount[NUM_REPLAY_TOKEN_TYPES];
 // If offset does not point to a FRAME_START token, then the returned offset will be unchanged.
 static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList whichList)
 {
-	Dbg_MsgAssert(p_nothingFollows,("NULL p_nothingFollows"));
+	Dbg_MsgAssert(p_nothingFollows,("nullptr p_nothingFollows"));
 	Dbg_MsgAssert(offset<GetBufferSize(),("Bad offset sent to sReadFrame"));
 
 	#ifdef CHECK_TOKEN_USAGE
@@ -1604,7 +1604,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 	
 	Lst::HashTable<CDummy> *p_dummy_table=sGetDummyHashTable(whichList);
 	*p_nothingFollows=false;
-	CDummy *p_dummy=NULL;
+	CDummy *p_dummy=nullptr;
 	bool end=false;
 	while (!end)
 	{
@@ -1693,7 +1693,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				
 				flags|=Nx::SCREEN_FLASH_FLAG_IGNORE_PAUSE;
 				
-				Nx::AddScreenFlash(viewport,from,to,duration,z,flags,NULL);
+				Nx::AddScreenFlash(viewport,from,to,duration,z,flags,nullptr);
 				break;
 			}
 
@@ -1844,7 +1844,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				}
 				else
 				{
-					Script::RunScript( script_name, NULL, p_skater );
+					Script::RunScript( script_name, nullptr, p_skater );
 				}
 				break;
 			}
@@ -1996,7 +1996,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			{
 				++offset;
 				
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				if (token==FLIP)
 				{
 					p_dummy->mFlags|=DUMMY_FLAG_FLIPPED;
@@ -2023,7 +2023,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			{
 				++offset;
 				
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				if (token==MODEL_ACTIVE)
 				{
 					p_dummy->mFlags|=DUMMY_FLAG_ACTIVE;
@@ -2049,7 +2049,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 					break;
 				}
 				
-				Script::RunScript( "sparks_on", NULL, p_skater );
+				Script::RunScript( "sparks_on", nullptr, p_skater );
 				break;
 			}
 
@@ -2061,7 +2061,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 					break;
 				}
 				
-				Script::RunScript( "sparks_off", NULL, p_skater );
+				Script::RunScript( "sparks_off", nullptr, p_skater );
 				break;
 			}
 			
@@ -2515,7 +2515,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				{
 					Sfx::CSfxManager * sfx_manager =  Sfx::CSfxManager::Instance();
 					
-					Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+					Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 					if (p_dummy->m_looping_sound_id)
 					{
 						sfx_manager->StopSound( p_dummy->m_looping_sound_id );
@@ -2540,7 +2540,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				{
 					Sfx::CSfxManager * sfx_manager =  Sfx::CSfxManager::Instance();
 					
-					Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+					Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 					if (p_dummy->m_looping_sound_id)
 					{
 						sfx_manager->StopSound( p_dummy->m_looping_sound_id );
@@ -2562,7 +2562,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				pitch=Script::Read4Bytes((uint8*)&pitch).mFloat;
 				offset+=4;
 
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				if (token==PITCH_MIN)
 				{
 					p_dummy->m_pitch_min=pitch;
@@ -2582,7 +2582,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				id=Script::Read4Bytes((uint8*)&id).mUInt;
 				
 				p_dummy=p_dummy_table->GetItem(id);
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?  id=%d",id));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?  id=%d",id));
 				
 				offset+=4;
 				break;
@@ -2624,7 +2624,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				if (p_dummy)
 				{
 					delete p_dummy;
-					p_dummy=NULL;
+					p_dummy=nullptr;
 				}	
 				
 				offset+=4;
@@ -2640,7 +2640,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				++offset;
 				
 				Dbg_MsgAssert(len<=MAX_MODEL_NAME_CHARS,("Too many chars in model name"));
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)p_dummy->mpModelName,offset,len);
 				// The string has no terminating 0 in the big buffer, so wack one on.
 				p_dummy->mpModelName[len]=0;
@@ -2651,7 +2651,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SKELETON_NAME:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->mSkeletonName,offset,4);
 				p_dummy->mSkeletonName=Script::Read4Bytes((uint8*)&p_dummy->mSkeletonName).mUInt;
 				offset+=4;
@@ -2660,7 +2660,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case PROFILE_NAME:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->mProfileName,offset,4);
 				p_dummy->mProfileName=Script::Read4Bytes((uint8*)&p_dummy->mProfileName).mUInt;
 				offset+=4;
@@ -2669,7 +2669,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SECTOR_NAME:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->mSectorName,offset,4);
 				p_dummy->mSectorName=Script::Read4Bytes((uint8*)&p_dummy->mSectorName).mUInt;
 				offset+=4;
@@ -2678,7 +2678,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case ANIM_SCRIPT_NAME:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->mAnimScriptName,offset,4);
 				p_dummy->mAnimScriptName=Script::Read4Bytes((uint8*)&p_dummy->mAnimScriptName).mUInt;
 				offset+=4;
@@ -2687,7 +2687,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_SCALE:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->mScale,offset,4);
 				p_dummy->mScale=Script::Read4Bytes((uint8*)&p_dummy->mScale).mFloat;
 				if (p_dummy->mp_rendered_model)
@@ -2701,7 +2701,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_CAR_ROTATION_X:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_car_rotation_x,offset,4);
 				p_dummy->m_car_rotation_x=Script::Read4Bytes((uint8*)&p_dummy->m_car_rotation_x).mFloat;
 				p_dummy->m_car_rotation_x_vel=0.0f;
@@ -2711,7 +2711,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_WHEEL_ROTATION_X:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_wheel_rotation_x,offset,4);
 				p_dummy->m_wheel_rotation_x=Script::Read4Bytes((uint8*)&p_dummy->m_wheel_rotation_x).mFloat;
 				p_dummy->m_wheel_rotation_x_vel=0.0f;
@@ -2721,7 +2721,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_WHEEL_ROTATION_Y:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_wheel_rotation_y,offset,4);
 				p_dummy->m_wheel_rotation_y=Script::Read4Bytes((uint8*)&p_dummy->m_wheel_rotation_y).mFloat;
 				p_dummy->m_wheel_rotation_y_vel=0.0f;
@@ -2731,7 +2731,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_CAR_ROTATION_X_VEL:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_car_rotation_x_vel,offset,4);
 				p_dummy->m_car_rotation_x_vel=Script::Read4Bytes((uint8*)&p_dummy->m_car_rotation_x_vel).mFloat;
 				offset+=4;
@@ -2740,7 +2740,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_WHEEL_ROTATION_X_VEL:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_wheel_rotation_x_vel,offset,4);
 				p_dummy->m_wheel_rotation_x_vel=Script::Read4Bytes((uint8*)&p_dummy->m_wheel_rotation_x_vel).mFloat;
 				offset+=4;
@@ -2749,7 +2749,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_WHEEL_ROTATION_Y_VEL:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_wheel_rotation_y_vel,offset,4);
 				p_dummy->m_wheel_rotation_y_vel=Script::Read4Bytes((uint8*)&p_dummy->m_wheel_rotation_y_vel).mFloat;
 				offset+=4;
@@ -2759,7 +2759,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_ANGLE_X:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_angles[X],offset,4);
 				p_dummy->m_angles[X]=Script::Read4Bytes((uint8*)&p_dummy->m_angles[X]).mFloat;
 				p_dummy->m_ang_vel[X]=0.0f;
@@ -2769,7 +2769,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_ANGLE_Y:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_angles[Y],offset,4);
 				p_dummy->m_angles[Y]=Script::Read4Bytes((uint8*)&p_dummy->m_angles[Y]).mFloat;
 				p_dummy->m_ang_vel[Y]=0.0f;
@@ -2779,7 +2779,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_ANGLE_Z:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_angles[Z],offset,4);
 				p_dummy->m_angles[Z]=Script::Read4Bytes((uint8*)&p_dummy->m_angles[Z]).mFloat;
 				p_dummy->m_ang_vel[Z]=0.0f;
@@ -2789,7 +2789,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_ANGULAR_VELOCITY_X:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_ang_vel[X],offset,4);
 				p_dummy->m_ang_vel[X]=Script::Read4Bytes((uint8*)&p_dummy->m_ang_vel[X]).mFloat;
 				offset+=4;
@@ -2798,7 +2798,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_ANGULAR_VELOCITY_Y:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_ang_vel[Y],offset,4);
 				p_dummy->m_ang_vel[Y]=Script::Read4Bytes((uint8*)&p_dummy->m_ang_vel[Y]).mFloat;
 				offset+=4;
@@ -2807,7 +2807,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_ANGULAR_VELOCITY_Z:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_ang_vel[Z],offset,4);
 				p_dummy->m_ang_vel[Z]=Script::Read4Bytes((uint8*)&p_dummy->m_ang_vel[Z]).mFloat;
 				offset+=4;
@@ -2817,7 +2817,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_POSITION:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_pos[X],offset,4*3);
 				p_dummy->m_pos[X]=Script::Read4Bytes((uint8*)&p_dummy->m_pos[X]).mFloat;
 				p_dummy->m_pos[Y]=Script::Read4Bytes((uint8*)&p_dummy->m_pos[Y]).mFloat;
@@ -2831,7 +2831,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_POSITION_ANGLES:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				
 				ReadFromBuffer((uint8*)&p_dummy->m_pos[X],offset,4*3);
 				p_dummy->m_pos[X]=Script::Read4Bytes((uint8*)&p_dummy->m_pos[X]).mFloat;
@@ -2853,7 +2853,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case SET_VELOCITY:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				ReadFromBuffer((uint8*)&p_dummy->m_vel[X],offset,4*3);
 				p_dummy->m_vel[X]=Script::Read4Bytes((uint8*)&p_dummy->m_vel[X]).mFloat;
 				p_dummy->m_vel[Y]=Script::Read4Bytes((uint8*)&p_dummy->m_vel[Y]).mFloat;
@@ -2864,7 +2864,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case PRIMARY_ANIM_CONTROLLER_CHANGES:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				offset=sReadAnimControllerChanges(offset,&p_dummy->m_primaryController);
 				break;
 			}	
@@ -2874,7 +2874,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 				uint8 index=0;
 				ReadFromBuffer(&index,offset,1);
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				Dbg_MsgAssert(p_dummy->GetID()==ID_SKATER,("Got degenerate anim changes for a non-skater ?"));
 				offset=sReadAnimControllerChanges(offset,&p_dummy->m_degenerateControllers[index]);
 				break;
@@ -2882,7 +2882,7 @@ static uint32 sReadFrame(uint32 offset, bool *p_nothingFollows, EDummyList which
 			case HOVERING:
 			{
 				++offset;
-				Dbg_MsgAssert(p_dummy,("NULL p_dummy ?"));
+				Dbg_MsgAssert(p_dummy,("nullptr p_dummy ?"));
 				p_dummy->mFlags|=DUMMY_FLAG_HOVERING;
 				
 				ReadFromBuffer((uint8*)&p_dummy->m_pos[X],offset,4*3);
@@ -3041,7 +3041,7 @@ static void sMakeEnoughSpace(uint32 frameSize)
 					// it does not hang. All that will happen is that the replay will be lost.
 					sDeleteDummies(START_STATE_DUMMY_LIST);
 					sDeleteDummies(PLAYBACK_DUMMY_LIST);
-					Dbg_MsgAssert(spReplayDummies==NULL,("Hey! spReplayDummies not NULL !!!"));
+					Dbg_MsgAssert(spReplayDummies==nullptr,("Hey! spReplayDummies not nullptr !!!"));
 					sDeleteObjectTrackingInfo();
 					ClearBuffer();
 				}
@@ -3184,7 +3184,7 @@ static void sWriteVector(EReplayToken token, Mth::Vector &v)
 #if 0
 static void sWriteString(EReplayToken token, const char *p_string)
 {
-	Dbg_MsgAssert(p_string,("NULL p_string"));
+	Dbg_MsgAssert(p_string,("nullptr p_string"));
 	int len=strlen(p_string);
 	Dbg_MsgAssert(len<256,("String length too big, '%s'",p_string));
 	Dbg_MsgAssert(spFrameBufferPos+2+len <= spFrameBuffer+FRAME_BUFFER_SIZE,("Replay frame buffer overflow"));
@@ -3204,7 +3204,7 @@ static void sWriteString(EReplayToken token, const char *p_string)
 
 static void sWriteString(const char *p_string)
 {
-	Dbg_MsgAssert(p_string,("NULL p_string"));
+	Dbg_MsgAssert(p_string,("nullptr p_string"));
 	int len=strlen(p_string);
 	Dbg_MsgAssert(len<256,("String length too big, '%s'",p_string));
 	Dbg_MsgAssert(spFrameBufferPos+1+len <= spFrameBuffer+FRAME_BUFFER_SIZE,("Replay frame buffer overflow"));
@@ -3444,7 +3444,7 @@ void WriteScorePotText(const char *p_text)
 	{
 		return;
 	}	
-	Dbg_MsgAssert(p_text,("NULL p_text"));
+	Dbg_MsgAssert(p_text,("nullptr p_text"));
 	sWriteSingleToken(SCORE_POT_TEXT);
 //	sWriteString(p_text);
 }
@@ -3619,7 +3619,7 @@ void WritePlaySfx(uint32 checksum, float volL, float volR, float pitch)
 
 static void sRecordSkaterCamera(CTrackingInfo *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
 	if (p_info->mFlags & TRACKING_INFO_FLAG_OBJECT_CREATED)
 	{
@@ -3635,7 +3635,7 @@ static void sRecordSkaterCamera(CTrackingInfo *p_info)
 	
 	Obj::CSkater *p_skater=sGetSkater();
 	Gfx::Camera *p_skater_camera=p_skater->GetActiveCamera();
-	Dbg_MsgAssert(p_skater_camera,("NULL p_skater_camera"));
+	Dbg_MsgAssert(p_skater_camera,("nullptr p_skater_camera"));
 	
 	Mth::Vector actual_angles;
 	p_skater_camera->GetMatrix().GetEulers(actual_angles);
@@ -3644,7 +3644,7 @@ static void sRecordSkaterCamera(CTrackingInfo *p_info)
 
 static bool sIsFlipped(Obj::CMovingObject *p_movingObject)
 {
-	Dbg_MsgAssert(p_movingObject,("NULL p_movingObject"));
+	Dbg_MsgAssert(p_movingObject,("nullptr p_movingObject"));
 	
 	if (p_movingObject->GetType()==SKATE_TYPE_SKATER)
 	{
@@ -3660,7 +3660,7 @@ static bool sIsFlipped(Obj::CMovingObject *p_movingObject)
 
 static void sRecordCMovingObject(CTrackingInfo *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	Dbg_MsgAssert(p_info->mPointerType==CMOVINGOBJECT,("Not a moving object?"));
 	
 	if (!p_info->mpMovingObject)
@@ -3901,7 +3901,7 @@ static void sRecordCMovingObject(CTrackingInfo *p_info)
 		
 	// Do the animation stuff ...
 #if 0
-	uint8 *p_num_changes=NULL;
+	uint8 *p_num_changes=nullptr;
 	uint8 num_changes=0;
 	
 	Obj::CAnimationComponent* pAnimComponent = GetAnimationComponentFromObject( p_moving_object );
@@ -4182,7 +4182,7 @@ static void sPlayback(bool display)
 
 static void sEnsureTrackerExists( Obj::CObject *p_ob, void *p_data )
 {
-	Dbg_MsgAssert(p_ob,("NULL p_ob"));
+	Dbg_MsgAssert(p_ob,("nullptr p_ob"));
 
 	CTrackingInfo *p_info=sTrackingInfoHashTable.GetItem((uint32)p_ob->GetID());
 	if (!p_info)
@@ -4216,13 +4216,13 @@ static void sEnsureCameraTrackerExists()
 
 static void sHideForReplayPlayback( Obj::CObject *p_ob, void *p_data )
 {
-	Dbg_MsgAssert(p_ob,("NULL p_ob"));
+	Dbg_MsgAssert(p_ob,("nullptr p_ob"));
 	p_ob->HideForReplayPlayback();
 }
 
 static void sRestoreAfterReplayPlayback( Obj::CObject *p_ob, void *p_data )
 {
-	Dbg_MsgAssert(p_ob,("NULL p_ob"));
+	Dbg_MsgAssert(p_ob,("nullptr p_ob"));
 	p_ob->RestoreAfterReplayPlayback();
 }
 
@@ -4242,7 +4242,7 @@ static void sClearTrickAndScoreText()
 	Front::CTextBlockElement *p_text_block = (Front::CTextBlockElement *) p_manager->GetElement(0x44727dae/*the_trick_text*/ + index ).Convert();
 	if (p_text_block)
 	{
-		p_text_block->SetText(NULL, 0);
+		p_text_block->SetText(nullptr, 0);
 	}
 	Front::CTextElement *p_score_pot_text = (Front::CTextElement *) p_manager->GetElement(0xf4d3a70e + index ).Convert(); // "the_score_pot_text"
 	if (p_score_pot_text)
@@ -4266,9 +4266,9 @@ bool ScriptPlaybackReplay(Script::CStruct *pParams, Script::CScript *pScript)
 	Nx::CEngine::sSetScreenBlur(0);
 	
 	// Check that there are no replay dummy's in existence at the moment.
-	Dbg_MsgAssert(spReplayDummies==NULL,("Expected spReplayDummies to be NULL")); 
+	Dbg_MsgAssert(spReplayDummies==nullptr,("Expected spReplayDummies to be nullptr")); 
 	sReplayDummysHashTable.IterateStart();
-	Dbg_MsgAssert(sReplayDummysHashTable.IterateNext()==NULL,("Expected sReplayDummysHashTable to be empty")); 
+	Dbg_MsgAssert(sReplayDummysHashTable.IterateNext()==nullptr,("Expected sReplayDummysHashTable to be empty")); 
 
 	// Create the replay dummy's by making copies of the start-state dummy's.
 	CDummy *p_source_dummy=spStartStateDummies;
@@ -4306,14 +4306,14 @@ bool ScriptPlaybackReplay(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptHideGameObjects( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
-	pSkate->GetObjectManager()->ProcessAllObjects( sHideForReplayPlayback, NULL );
+	pSkate->GetObjectManager()->ProcessAllObjects( sHideForReplayPlayback, nullptr );
 	return true;
 }
 
 bool ScriptShowGameObjects( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
-	pSkate->GetObjectManager()->ProcessAllObjects( sRestoreAfterReplayPlayback, NULL );
+	pSkate->GetObjectManager()->ProcessAllObjects( sRestoreAfterReplayPlayback, nullptr );
 	
 	// Make sure that the balance meters are not left on if the replay was quit during a balance.
 	sGetSkaterScoreObject()->SetManualMeter(false);
@@ -4383,13 +4383,13 @@ bool Paused()
 	
 void AddReplayMemCardInfo(Script::CStruct *p_struct)
 {
-	Dbg_MsgAssert(p_struct,("NULL p_struct"));
+	Dbg_MsgAssert(p_struct,("nullptr p_struct"));
 	p_struct->AddChecksum("level_structure_name",sLevelStructureName);
 }
 
 void AddReplayMemCardSummaryInfo(Script::CStruct *p_struct)
 {
-	Dbg_MsgAssert(p_struct,("NULL p_struct"));
+	Dbg_MsgAssert(p_struct,("nullptr p_struct"));
 	
 	Script::CStruct *p_level_def=Script::GetStructure(sLevelStructureName);
 	Dbg_MsgAssert(p_level_def,("Could not find level def '%s'",Script::FindChecksumName(sLevelStructureName)));
@@ -4498,7 +4498,7 @@ void Manager::s_end_frame_code( const Tsk::Task< Manager >& task )
 			if (!p_front->GamePaused())
 			{
 				Mdl::Skate * p_skate = Mdl::Skate::Instance();
-				p_skate->GetObjectManager()->ProcessAllObjects( sEnsureTrackerExists, NULL );
+				p_skate->GetObjectManager()->ProcessAllObjects( sEnsureTrackerExists, nullptr );
 				
 				sRecord();
 			}	
@@ -4560,7 +4560,7 @@ Gfx::CSkeleton* CDummy::GetSkeleton()
 		return mp_skeletonComponent->GetSkeleton();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4581,7 +4581,7 @@ bool CDummy::LoadSkeleton( uint32 skeletonName )
 		Dbg_MsgAssert( 0, ("Unrecognized skeleton %s. (Is skeleton.q up to date?)", Script::FindChecksumName(skeletonName)) );
 	}
     
-	Dbg_MsgAssert( mp_skeletonComponent == NULL, ( "Model already has skeleton component.  Possible memory leak?" ) );    
+	Dbg_MsgAssert( mp_skeletonComponent == nullptr, ( "Model already has skeleton component.  Possible memory leak?" ) );    
 	mp_skeletonComponent = new Obj::CSkeletonComponent;
 
     Script::CStruct* pTempStructure = new Script::CStruct;

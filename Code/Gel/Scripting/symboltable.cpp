@@ -25,7 +25,7 @@ CSymbolTableEntry::CSymbolTableEntry()
 }
 
 // The destructor does not delete anything to avoid cyclic dependencies, so just assert
-// if it look like there could be a non-NULL pointer left.
+// if it look like there could be a non-nullptr pointer left.
 #ifdef __NOPT_ASSERT__
 CSymbolTableEntry::~CSymbolTableEntry()
 {
@@ -40,30 +40,30 @@ void CSymbolTableEntry::Reset()
     mUsed=false;
     mType=ESYMBOLTYPE_NONE;
 	mUnion=0;
-    mpNext=NULL;
+    mpNext=nullptr;
 	mSourceFileNameChecksum=NO_NAME;
 	#ifdef COUNT_USAGE
 	mUsage=0;
 	#endif
 }
 
-static CSymbolTableEntry *sp_hash_table=NULL;
+static CSymbolTableEntry *sp_hash_table=nullptr;
 
 void CreateSymbolHashTable()
 {
-	Dbg_MsgAssert(sp_hash_table==NULL,("sp_hash_table not NULL ?"));
+	Dbg_MsgAssert(sp_hash_table==nullptr,("sp_hash_table not nullptr ?"));
 	sp_hash_table=new CSymbolTableEntry[1<<NUM_HASH_BITS];
 }
 
 void DestroySymbolHashTable()
 {
-	Dbg_MsgAssert(sp_hash_table!=NULL,("sp_hash_table is NULL ?"));
+	Dbg_MsgAssert(sp_hash_table!=nullptr,("sp_hash_table is nullptr ?"));
 	delete[] sp_hash_table;
-	sp_hash_table=NULL;
+	sp_hash_table=nullptr;
 }
 
 // Searches for the symbol with the passed Checksum.
-// If not found, it returns NULL.
+// If not found, it returns nullptr.
 /*int LookUpSymbolCount=0;
 int ScriptCount=0;
 int CFuncCount=0;
@@ -104,7 +104,7 @@ CSymbolTableEntry *LookUpSymbol(uint32 checksum)
 	Dbg_MsgAssert( sp_hash_table, ( "No symbol table...  was CreateSymbolHashTable() called?" ) );
 #endif
 
-	// Instead of asserting if sp_hash_table is NULL, just return NULL.
+	// Instead of asserting if sp_hash_table is nullptr, just return nullptr.
 	// This is because when the sio_manager is created in main.cpp it calls GetInteger, but this is before
 	// SkateScript::Init has been called.
 	// I didn't want to fiddle with the init order there in case it broke something else, so just made this
@@ -113,19 +113,19 @@ CSymbolTableEntry *LookUpSymbol(uint32 checksum)
 //	if (!sp_hash_table)
 //	{
 //		//++NothingCount;
-//		return NULL;
+//		return nullptr;
 //	}	
 	
     // Get the first entry in the list for this checksum.
     CSymbolTableEntry *p_sym=&sp_hash_table[ checksum & ((1<<NUM_HASH_BITS)-1) ];
 
-    // If nothing here, return NULL.
+    // If nothing here, return nullptr.
 	// MICK: Don't need to do this anyway, as generally the symbol WILL exists (99.9% of the time)
 	// so we can afford to be slightly slower when it does not.
 //    if (!p_sym->mUsed) 
 //	{
 //		//++NothingCount;
-//		return NULL;
+//		return nullptr;
 //	}	
 
 #if 0	
@@ -143,7 +143,7 @@ CSymbolTableEntry *LookUpSymbol(uint32 checksum)
 		p_sym=p_sym->mpNext;
 	}	
 #else
-	// it it's an unused slot, then both mNameChecksum and mpNext will be 0 (NULL)
+	// it it's an unused slot, then both mNameChecksum and mpNext will be 0 (nullptr)
 	// so it will just drop through this test
 	do 
 	{
@@ -154,12 +154,12 @@ CSymbolTableEntry *LookUpSymbol(uint32 checksum)
 		p_sym=p_sym->mpNext;
 	} while (p_sym && p_sym->mNameChecksum!=checksum);
 	
-	// Here p_sym will be NULL	
+	// Here p_sym will be nullptr	
 	return p_sym;	
 
 #endif
 	
-	// p_sym will be NULL if the checksum was not found.
+	// p_sym will be nullptr if the checksum was not found.
 	/*
 	if (p_sym)
 	{
@@ -207,7 +207,7 @@ CSymbolTableEntry *LookUpSymbol(const char *p_name)
 
 // Resolves a checksum into a symbol table entry. Does any stepping over of chains of symbols linked by
 // name. Eg, Resolving a where a=b, b=c, c=d, d=6 will return the symbol d, with value 6.
-// Returns NULL if the checksum cannot be resolved.
+// Returns nullptr if the checksum cannot be resolved.
 CSymbolTableEntry *Resolve(uint32 checksum)
 {
     // Look up the checksum.
@@ -257,15 +257,15 @@ CSymbolTableEntry *Resolve(const char *p_name)
 // Removes the symbol from the table.
 // Used when reloading a .qb file. 
 // Note: Will not delete any entities referred to by the symbol, and will assert if any of the
-// pointers are not NULL.
+// pointers are not nullptr.
 // This is to avoid a cyclic dependency between symboltable and struct.
 // It is up to the caller to have deleted these before calling this.
 void RemoveSymbol(CSymbolTableEntry *p_sym)
 {
-	Dbg_MsgAssert(p_sym,("NULL p_sym"));
+	Dbg_MsgAssert(p_sym,("nullptr p_sym"));
 	Dbg_MsgAssert(p_sym->mUnion==0,("CSymbolTableEntry still contains data, possibly an undeleted pointer. Type='%s'",GetTypeName(p_sym->mType)));
 	Dbg_MsgAssert(p_sym->mUsed,("Tried to call RemoveSymbol on an unused CSymbolTableEntry"));
-	Dbg_MsgAssert(sp_hash_table!=NULL,("sp_hash_table is NULL ?"));
+	Dbg_MsgAssert(sp_hash_table!=nullptr,("sp_hash_table is nullptr ?"));
 
 	// Get the head pointer of the list that p_sym is in (or should be in) 
     CSymbolTableEntry *p_head=&sp_hash_table[ p_sym->mNameChecksum & ((1<<NUM_HASH_BITS)-1) ];
@@ -336,11 +336,11 @@ CSymbolTableEntry *CreateNewSymbolEntry(uint32 checksum)
 {
 	#ifdef __NOPT_ASSERT__
 	CSymbolTableEntry *p_entry=LookUpSymbol(checksum);
-    Dbg_MsgAssert(p_entry==NULL,("Symbol '%s' defined twice.",FindChecksumName(checksum)));
+    Dbg_MsgAssert(p_entry==nullptr,("Symbol '%s' defined twice.",FindChecksumName(checksum)));
 	#endif
     
     // Get the head pointer of the list where the new symbol needs to go.
-	Dbg_MsgAssert(sp_hash_table!=NULL,("sp_hash_table is NULL ?"));
+	Dbg_MsgAssert(sp_hash_table!=nullptr,("sp_hash_table is nullptr ?"));
     CSymbolTableEntry *p_sym=&sp_hash_table[ checksum & ((1<<NUM_HASH_BITS)-1) ];
 
     // If nothing in here, use this one.
@@ -359,7 +359,7 @@ CSymbolTableEntry *CreateNewSymbolEntry(uint32 checksum)
 
     // Find the last element of the linked list, checking for any checksum
     // clashes on the way.
-    CSymbolTableEntry *p_previous=NULL;
+    CSymbolTableEntry *p_previous=nullptr;
     while (p_sym)
     {
         Dbg_MsgAssert(p_sym->mNameChecksum!=checksum,("Checksum clash in symbol table: '%s'",FindChecksumName(checksum)));
@@ -378,10 +378,10 @@ CSymbolTableEntry *CreateNewSymbolEntry(uint32 checksum)
 	// that the symbol has changed in value.
 	p_new->mGotReloaded=true;
 	
-    p_new->mpNext=NULL;
+    p_new->mpNext=nullptr;
 
     // This assert should never go off, but do it just in case.
-    Dbg_MsgAssert(p_previous,("NULL p_previous ???"));
+    Dbg_MsgAssert(p_previous,("nullptr p_previous ???"));
     // Stick pNew on the end of the list.
     p_previous->mpNext=p_new;
 
@@ -391,11 +391,11 @@ CSymbolTableEntry *CreateNewSymbolEntry(uint32 checksum)
 // This function provides an easy way to loop through all the symbols in the symbol table by
 // hiding all the messy logic for stepping through the hash table.
 //
-// If passed NULL, it will return the first entry in the symbol table (or NULL if there is nothing in it)
-// If passed a pointer to a CSymbolTableEntry, it will return the next one, or NULL if none left.
+// If passed nullptr, it will return the first entry in the symbol table (or nullptr if there is nothing in it)
+// If passed a pointer to a CSymbolTableEntry, it will return the next one, or nullptr if none left.
 //
 // So if you want to loop through all the symbols just do something like:
-// CSymbolTableEntry *p_sym=GetNextSymbolTableEntry(); // No need to pass NULL, it defaults to it.
+// CSymbolTableEntry *p_sym=GetNextSymbolTableEntry(); // No need to pass nullptr, it defaults to it.
 // while (p_sym)
 // {
 // 		// ...
@@ -406,9 +406,9 @@ CSymbolTableEntry *GetNextSymbolTableEntry(CSymbolTableEntry *p_sym)
 {
 	// static's for keeping track of where we are in the hash table.
 	static uint32 s_current_hash_index=0;
-	static CSymbolTableEntry *sp_last=NULL;
+	static CSymbolTableEntry *sp_last=nullptr;
 	
-	if (p_sym==NULL)
+	if (p_sym==nullptr)
 	{
 		// They want the first symbol.
 		s_current_hash_index=0;
@@ -424,8 +424,8 @@ CSymbolTableEntry *GetNextSymbolTableEntry(CSymbolTableEntry *p_sym)
 			{
 				// Run out of hash table.
 				s_current_hash_index=0;
-				sp_last=NULL;
-				return NULL;
+				sp_last=nullptr;
+				return nullptr;
 			}	
 		}	
 		
@@ -457,8 +457,8 @@ CSymbolTableEntry *GetNextSymbolTableEntry(CSymbolTableEntry *p_sym)
 		{
 			// Run out of hash table.
 			s_current_hash_index=0;
-			sp_last=NULL;
-			return NULL;
+			sp_last=nullptr;
+			return nullptr;
 		}	
 		
 		// Step through the hash table entries until a used one is found.
@@ -470,8 +470,8 @@ CSymbolTableEntry *GetNextSymbolTableEntry(CSymbolTableEntry *p_sym)
 			if (s_current_hash_index>=(1<<NUM_HASH_BITS))
 			{
 				s_current_hash_index=0;
-				sp_last=NULL;
-				return NULL;
+				sp_last=nullptr;
+				return nullptr;
 			}	
 		}	
 	}
@@ -570,7 +570,7 @@ const char *GetString(uint32 checksum, EAssertType assert)
     }    
 
     Dbg_MsgAssert(p_entry->mType==ESYMBOLTYPE_STRING || p_entry->mType==ESYMBOLTYPE_LOCALSTRING,("GetString: Symbol '%s' has the wrong type of '%s'",FindChecksumName(checksum),GetTypeName(p_entry->mType)));
-	Dbg_MsgAssert(p_entry->mpString,("NULL p_entry->mpString"));
+	Dbg_MsgAssert(p_entry->mpString,("nullptr p_entry->mpString"));
 	return p_entry->mpString;	
 }
 
@@ -589,7 +589,7 @@ const char *GetLocalString(uint32 checksum, EAssertType assert)
     }    
 
     Dbg_MsgAssert(p_entry->mType==ESYMBOLTYPE_LOCALSTRING || p_entry->mType==ESYMBOLTYPE_STRING,("GetLocalString: Symbol '%s' has the wrong type of '%s'",FindChecksumName(checksum),GetTypeName(p_entry->mType)));
-	Dbg_MsgAssert(p_entry->mpLocalString,("NULL p_entry->mpLocalString"));
+	Dbg_MsgAssert(p_entry->mpLocalString,("nullptr p_entry->mpLocalString"));
 	return p_entry->mpLocalString;	
 }
 
@@ -604,11 +604,11 @@ CVector *GetVector(uint32 checksum, EAssertType assert)
     if (!p_entry)
     {
 		Dbg_MsgAssert(!assert,("Vector named '%s' not found.",FindChecksumName(checksum)));
-        return NULL;
+        return nullptr;
     }    
 
     Dbg_MsgAssert(p_entry->mType==ESYMBOLTYPE_VECTOR,("GetVector: Symbol '%s' has the wrong type of '%s'",FindChecksumName(checksum),GetTypeName(p_entry->mType)));
-	Dbg_MsgAssert(p_entry->mpVector,("NULL p_entry->mpVector"));
+	Dbg_MsgAssert(p_entry->mpVector,("nullptr p_entry->mpVector"));
 	return p_entry->mpVector;	
 }
 
@@ -623,11 +623,11 @@ CPair *GetPair(uint32 checksum, EAssertType assert)
     if (!p_entry)
     {
 		Dbg_MsgAssert(!assert,("Pair named '%s' not found.",FindChecksumName(checksum)));
-        return NULL;
+        return nullptr;
     }    
 
     Dbg_MsgAssert(p_entry->mType==ESYMBOLTYPE_PAIR,("GetPair: Symbol '%s' has the wrong type of '%s'",FindChecksumName(checksum),GetTypeName(p_entry->mType)));
-	Dbg_MsgAssert(p_entry->mpPair,("NULL p_entry->mpPair"));
+	Dbg_MsgAssert(p_entry->mpPair,("nullptr p_entry->mpPair"));
 	return p_entry->mpPair;	
 }
 
@@ -642,7 +642,7 @@ CStruct *GetStructure(uint32 checksum, EAssertType assert)
     if (!p_entry)
     {
 		Dbg_MsgAssert(!assert,("Structure named '%s' not found.",FindChecksumName(checksum)));
-        return NULL;
+        return nullptr;
     }    
 
 	#ifdef	__NOPT_ASSERT__
@@ -655,11 +655,11 @@ CStruct *GetStructure(uint32 checksum, EAssertType assert)
 	{
 		if (p_entry->mType!=ESYMBOLTYPE_STRUCTURE)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}		
 	
-	Dbg_MsgAssert(p_entry->mpStructure,("NULL p_entry->mpStructure"));
+	Dbg_MsgAssert(p_entry->mpStructure,("nullptr p_entry->mpStructure"));
 	return p_entry->mpStructure;	
 }
 
@@ -674,7 +674,7 @@ CArray *GetArray(uint32 checksum, EAssertType assert)
     if (!p_entry)
     {
 		Dbg_MsgAssert(!assert,("Array named '%s' not found.",FindChecksumName(checksum)));
-        return NULL;
+        return nullptr;
     }    
 
 	#ifdef	__NOPT_ASSERT__
@@ -687,11 +687,11 @@ CArray *GetArray(uint32 checksum, EAssertType assert)
 	{
 		if (p_entry->mType!=ESYMBOLTYPE_ARRAY)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 			
-	Dbg_MsgAssert(p_entry->mpArray,("NULL p_entry->mpArray"));
+	Dbg_MsgAssert(p_entry->mpArray,("nullptr p_entry->mpArray"));
 	return p_entry->mpArray;	
 }
 
@@ -706,13 +706,13 @@ bool (*GetCFunc(uint32 checksum, EAssertType assert))(CStruct *, CScript *)
 	if (!p_entry)
 	{
 		Dbg_MsgAssert(!assert,("GetCFunc could not find the symbol '%s'. No symbol of any type exists with that name.",FindChecksumName(checksum)));
-		return NULL;
+		return nullptr;
 	}
 		
 	switch (p_entry->mType)
 	{
 		case ESYMBOLTYPE_CFUNCTION:
-			Dbg_MsgAssert(p_entry->mpCFunction,("NULL p_entry->pCFunction ?"));
+			Dbg_MsgAssert(p_entry->mpCFunction,("nullptr p_entry->pCFunction ?"));
 			return p_entry->mpCFunction;
 			break;
 			
@@ -725,7 +725,7 @@ bool (*GetCFunc(uint32 checksum, EAssertType assert))(CStruct *, CScript *)
 			break;
 	}
 	
-	return NULL;			
+	return nullptr;			
 }
 
 bool (*GetCFunc(const char *p_name, EAssertType assert))(CStruct *, CScript *)

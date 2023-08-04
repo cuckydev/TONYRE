@@ -62,7 +62,7 @@ CRigidBodyComponent::CRigidBodyComponent() : CBaseComponent()
 {
 	SetType( CRC_RIGIDBODY );
 
-	mp_sound_component = NULL;
+	mp_sound_component = nullptr;
 	
 	// setup defaults
 	
@@ -85,9 +85,9 @@ CRigidBodyComponent::CRigidBodyComponent() : CBaseComponent()
 	m_num_contacts = 0;
 	
 	m_script_names.collide = m_script_names.bounce = m_script_names.settle = m_script_names.stuck = 0;
-	mp_script_params = NULL;
+	mp_script_params = nullptr;
 	
-	m_sound_setup.collide_sound = m_sound_setup.bounce_sound = NULL;
+	m_sound_setup.collide_sound = m_sound_setup.bounce_sound = nullptr;
 	m_sound_setup.collide_mute_delay = vRP_DEFAULT_COLLIDE_MUTE_DELAY;
 	m_sound_setup.global_collide_mute_delay = vRP_DEFAULT_GLOBAL_COLLIDE_MUTE_DELAY;
 	m_sound_setup.bounce_velocity_callback_threshold = vRP_DEFAULT_BOUNCE_VELOCITY_CALLBACK_THRESHOLD;
@@ -97,7 +97,7 @@ CRigidBodyComponent::CRigidBodyComponent() : CBaseComponent()
 	
 	m_die_countdown = -1.0f;
 	
-	mp_contacts = NULL;
+	mp_contacts = nullptr;
 	
 	#ifdef __NOPT_ASSERT__
 	m_sound_type_id = 0;
@@ -658,7 +658,7 @@ CBaseComponent::EMemberFunctionResult CRigidBodyComponent::CallMemberFunction( u
 		// @script : RigidBody_EnablePlayerCollision
 		case Crc::ConstCRC("RigidBody_MatchVelocityTo"):
 		{
-			Script::CComponent* p_component = pParams->GetNextComponent(NULL);
+			Script::CComponent* p_component = pParams->GetNextComponent(nullptr);
 			Dbg_MsgAssert(p_component->mType == ESYMBOLTYPE_NAME, ("RigidBody_MatchVelocityTo requires an object name as its first parameter"));
 			CCompositeObject* p_composite_object = static_cast< CCompositeObject* >(CCompositeObjectManager::Instance()->GetObjectByID(p_component->mChecksum));
 			Dbg_MsgAssert(p_composite_object, ("RigidBody_MatchVelocityTo requires a composite object name as its first parameter"));
@@ -707,7 +707,7 @@ CBaseComponent::EMemberFunctionResult CRigidBodyComponent::CallMemberFunction( u
 void CRigidBodyComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info, ("NULL p_info sent to CRigidBodyComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info, ("nullptr p_info sent to CRigidBodyComponent::GetDebugInfo"));
 
 	uint32 state_checksums[] =
 	{
@@ -1386,7 +1386,7 @@ void CRigidBodyComponent::get_sound_setup ( uint32 sound_type_id )
 	Script::CStruct* p_base_struct;
 	p_base_struct = Script::GetStructure(Crc::ConstCRC("RigidBodySounds"), Script::ASSERT);
 
-	Script::CStruct* p_sound_struct = NULL;
+	Script::CStruct* p_sound_struct = nullptr;
 	p_base_struct->GetStructure(sound_type_id, &p_sound_struct);
 	Dbg_MsgAssert(p_sound_struct, ("Sound type '%s' not found in RigidBodySounds", Script::FindChecksumName(sound_type_id)));
 

@@ -147,11 +147,11 @@ class CScript : public Mem::CPoolable<CScript>
 	// CScripts are linked into a list.
 	CScript *mp_next;
 	CScript *mp_previous;
-	friend CScript *GetNextScript(CScript *p_script=NULL);
+	friend CScript *GetNextScript(CScript *p_script=nullptr);
 	
 	// If this CScript got setup using a SStructScript (via the SetScript member function below)
 	// then this will be a pointer to a copy of the script, and mp_pc will point somewhere into it.
-	// Otherwise mp_struct_script will be left as NULL.
+	// Otherwise mp_struct_script will be left as nullptr.
 	uint8 *mp_struct_script;
 	
     // The program counter.
@@ -164,7 +164,7 @@ class CScript : public Mem::CPoolable<CScript>
     CStruct *mp_params;
 	
     // Begin-Repeat loop stuff.
-    // NULL if not in a loop, otherwise points into the following array.
+    // nullptr if not in a loop, otherwise points into the following array.
     SLoop *mp_current_loop;
 	// If the number of loops needs to be bigger than NESTED_BEGIN_REPEATS_SMALL_BUFFER_SIZE then
 	// mp_loops will point to a dynamically allocated array of MAX_NESTED_BEGIN_REPEATS SLoop structures,
@@ -223,7 +223,7 @@ class CScript : public Mem::CPoolable<CScript>
 	void process_waits();
 	
 	void load_function_params();
-	bool run_member_function(uint32 functionName, Obj::CObject *p_substituteObject=NULL);
+	bool run_member_function(uint32 functionName, Obj::CObject *p_substituteObject=nullptr);
 	bool run_cfunction(bool (*p_cfunc)(CStruct *pParams, CScript *pCScript));
 	uint32 get_name();
 	
@@ -327,12 +327,12 @@ public:
 
 	void				PrintEventHandlerTable (   );
 	
-	CStruct *GetParams() {Dbg_MsgAssert(mp_params,("NULL mp_params ?")); return mp_params;}
+	CStruct *GetParams() {Dbg_MsgAssert(mp_params,("nullptr mp_params ?")); return mp_params;}
 
 	int	mNode;		// Number of the node that caused this script to be spawned, -1 if none specific
 
-    // If NULL then the script is a free script, eg StartUp.
-    // If non-NULL, then the script is associated with some object.
+    // If nullptr then the script is a free script, eg StartUp.
+    // If non-nullptr, then the script is associated with some object.
     Obj::CObjectPtr mpObject;
 
     // Checksum of the name of this script.
@@ -358,9 +358,9 @@ public:
 	CScript();
     ~CScript();
 
-    void SetScript(uint32 scriptChecksum, CStruct *p_params=NULL, Obj::CObject *p_object=NULL);
-    void SetScript(const char *p_scriptName, CStruct *p_params=NULL, Obj::CObject *p_object=NULL);
-    void SetScript(const SStructScript *p_structScript, CStruct *p_params=NULL, Obj::CObject *p_object=NULL);
+    void SetScript(uint32 scriptChecksum, CStruct *p_params=nullptr, Obj::CObject *p_object=nullptr);
+    void SetScript(const char *p_scriptName, CStruct *p_params=nullptr, Obj::CObject *p_object=nullptr);
+    void SetScript(const SStructScript *p_structScript, CStruct *p_params=nullptr, Obj::CObject *p_object=nullptr);
 	
 	CStruct *MakeParamsSafeFromDeletionByClearScript(CStruct *p_params);
 	void ClearScript();
@@ -372,7 +372,7 @@ public:
 	bool AllScriptsInCallstackStillExist();
 	uint32 GetBaseScript();
 	void Restart();
-	EScriptReturnVal Interrupt(uint32 newScriptChecksum, CStruct *p_params=NULL);
+	EScriptReturnVal Interrupt(uint32 newScriptChecksum, CStruct *p_params=nullptr);
 	
     EScriptReturnVal Update();
     bool Finished();
@@ -389,7 +389,7 @@ public:
 
 	uint32 GetUniqueId() {return m_unique_id;}
 	
-	// Stops the script from being associated with an object, ie, sets mpObject to NULL.
+	// Stops the script from being associated with an object, ie, sets mpObject to nullptr.
 	// Allows the script to continue executing though, so the script must not contain any
 	// further member functions, otherwise the code will assert.
 	// This function also sets mWaitType=WAIT_TYPE_NONE; to ensure the Update function does
@@ -443,10 +443,10 @@ public:
 
 void SendScript( uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_object );
 
-void RunScript(const char *p_scriptName, CStruct *p_params=NULL, Obj::CObject *p_object=NULL,
+void RunScript(const char *p_scriptName, CStruct *p_params=nullptr, Obj::CObject *p_object=nullptr,
 				bool netScript = false );
-void RunScript(uint32 scriptChecksum, CStruct *p_params=NULL, Obj::CObject *p_object=NULL,
-				bool netScript = false, const char *p_scriptName=NULL );
+void RunScript(uint32 scriptChecksum, CStruct *p_params=nullptr, Obj::CObject *p_object=nullptr,
+				bool netScript = false, const char *p_scriptName=nullptr );
 
 void DeleteSpawnedScripts();
 void UpdateSpawnedScripts();
@@ -455,12 +455,12 @@ void UnpauseSpawnedScript(CScript* p_script);
 uint32 NumSpawnedScriptsRunning();
 bool	ScriptExists(uint32 scriptNameChecksum);
 
-CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_script_params=NULL, 
-					 uint32 callbackScript=NO_NAME, CStruct *p_callbackParams=NULL,
+CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_script_params=nullptr, 
+					 uint32 callbackScript=NO_NAME, CStruct *p_callbackParams=nullptr,
 					 int node = -1, uint32 id=0,
 					 bool netEnabled = false, bool permanent = false, bool not_session_specific=false, bool pause_with_object=false );
-CScript* SpawnScript(const char *pScriptName, CStruct *p_script_params=NULL,
-					 uint32 callbackScript=NO_NAME, CStruct *p_callbackParams=NULL,
+CScript* SpawnScript(const char *pScriptName, CStruct *p_script_params=nullptr,
+					 uint32 callbackScript=NO_NAME, CStruct *p_callbackParams=nullptr,
 					 int node = -1, uint32 id=0,
 					 bool netEnabled = false, bool permanent = false, bool not_session_specific=false, bool pause_with_object=false );
 void KillSpawnedScript(CScript *p_script);

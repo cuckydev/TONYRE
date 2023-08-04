@@ -68,11 +68,11 @@ static void get_checksums( const char * p_name, uint32 * p_dir, uint32 * p_file 
 }
 
 
-// Searches the hed file for the filename. If not found, returns NULL.
+// Searches the hed file for the filename. If not found, returns nullptr.
 SHedFile *FindFileInHed(const char *pFilename, SHed *pHed)
 {
-	Dbg_MsgAssert(pFilename,("NULL pFilename"));
-	Dbg_MsgAssert(pHed,("NULL pHed"));
+	Dbg_MsgAssert(pFilename,("nullptr pFilename"));
+	Dbg_MsgAssert(pHed,("nullptr pHed"));
 
 	uint32 check_dir;
 	uint32 check_file;
@@ -97,10 +97,10 @@ SHedFile *FindFileInHed(const char *pFilename, SHed *pHed)
 		pHd++;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
-// Searches the hed file for the filename with the same checksum. If not found, returns NULL.
+// Searches the hed file for the filename with the same checksum. If not found, returns nullptr.
 SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 {
 	// Garrett: This function can take over .1 ms to execute when there are over 2000 entries.  We may want to make a better
@@ -108,7 +108,7 @@ SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 	//uint64 start_time = Tmr::GetTimeInUSeconds();	
 	//int iterations = 0;
 
-	Dbg_MsgAssert(pHed,("NULL pHed"));
+	Dbg_MsgAssert(pHed,("nullptr pHed"));
 
 	SHed *pHd=pHed;
 	while ( pHd->numFiles != 0xffffffff )
@@ -132,7 +132,7 @@ SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 	//uint64 end_time = Tmr::GetTimeInUSeconds();	
 	//if ((end_time - start_time) > 100)
 	//	Dbg_Message("FindNameFromChecksum NotFound Iterations %d Time %d", iterations, (end_time - start_time));
-	return NULL;
+	return nullptr;
 }
 
 extern void StopStreaming( void );
@@ -147,7 +147,7 @@ int s_num_hed_buffers = 0;
 SHed *LoadHed( const char *filename, bool force_cd, bool no_wad )
 {
 	int lp;
-	uint32 *pHed = NULL;
+	uint32 *pHed = nullptr;
 
 	if (Config::CD() || force_cd)
 	{
@@ -174,14 +174,14 @@ SHed *LoadHed( const char *filename, bool force_cd, bool no_wad )
 				retry++;
 				if (retry == 10)
 				{
-					return NULL;					
+					return nullptr;					
 				}
 			}	
 		}
 		printf("%s opened successfully\n", uppercaseFilename );
 		long HedSize=sceLseek(HedId, 0, SCE_SEEK_END);
 		
-		Dbg_MsgAssert(pHed==NULL,("pHed not NULL ?"));
+		Dbg_MsgAssert(pHed==nullptr,("pHed not nullptr ?"));
 		if (no_wad)
 		{
 			// We'll want to keep this around
@@ -191,7 +191,7 @@ SHed *LoadHed( const char *filename, bool force_cd, bool no_wad )
 		{
 			pHed=(uint32*)Mem::Malloc((HedSize+2047)&~2047);
 		}
-		Dbg_MsgAssert(pHed,("pHed NULL ?"));
+		Dbg_MsgAssert(pHed,("pHed nullptr ?"));
 
 	/*
 		char *p = (char*) pHed;  
@@ -202,7 +202,7 @@ SHed *LoadHed( const char *filename, bool force_cd, bool no_wad )
 		}
 	*/						
 		// 9/5/03 - Garrett: Burn fix.  Added retry code to see if HED file actually written.
-		// If it cannot, it frees the buffer and returns NULL.
+		// If it cannot, it frees the buffer and returns nullptr.
 		int read_bytes = 0;
 		retry = 0;
 		while (read_bytes != HedSize)
@@ -217,7 +217,7 @@ SHed *LoadHed( const char *filename, bool force_cd, bool no_wad )
 				{
 					printf("READ ERROR: aborting read of %s\n", hedFileName );
 					delete pHed;
-					return NULL;					
+					return nullptr;					
 				}
 			}	
 		}
@@ -244,7 +244,7 @@ SHed *LoadHed( const char *filename, bool force_cd, bool no_wad )
 // Mick:   Don't assert, as we want to be able to run without a .HED on the disk, for music
 //			Dbg_MsgAssert( 0,( "Couldn't find hed file %s", tempFileName ));
 			printf( "failed to find %s\n", tempFileName );
-			return ( NULL );
+			return ( nullptr );
 		}
 		int fileSize = File::GetFileSize( fp );
 		File::Seek( fp, 0, SEEK_SET );

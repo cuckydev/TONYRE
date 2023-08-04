@@ -143,7 +143,7 @@
 ////				r.y = ( r.y * distance ) + pLine->start.y;
 ////				r.z = ( r.z * distance ) + pLine->start.z;
 ////				// Draw a collision cross.
-////				NsRender::setBlendMode( NsBlendMode_None, NULL, (unsigned char)0 );
+////				NsRender::setBlendMode( NsBlendMode_None, nullptr, (unsigned char)0 );
 ////				NsPrim::line( r.x, r.y, r.z, r.x+25.0f, r.y, r.z,       (GXColor){255,0,0,255} );
 ////				NsPrim::line( r.x, r.y, r.z, r.x-25.0f, r.y, r.z,       (GXColor){255,0,0,255} );
 ////				NsPrim::line( r.x, r.y, r.z, r.x,       r.y, r.z+25.0f, (GXColor){255,0,0,255} );

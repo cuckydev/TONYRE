@@ -179,7 +179,7 @@ void CSuspendComponent::InitFromStructure( Script::CStruct* pParams )
 
 void	CSuspendComponent::Finalize()
 {
-	// Might be NULL, if we don't have a model
+	// Might be nullptr, if we don't have a model
 	mp_model_component = GetModelComponentFromObject( GetObj() );
 }
 
@@ -267,7 +267,7 @@ bool CSuspendComponent::SkipRender()
 void CSuspendComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSuspendComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSuspendComponent::GetDebugInfo"));
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);	
 

@@ -92,7 +92,7 @@ Conn::Conn( int flags )
 	m_send_interval = 0;
 	m_last_send_time = 0;
 	m_force_send_packet = false;
-	m_alias_connection = NULL;
+	m_alias_connection = nullptr;
 	m_latest_packet_stamp = 0;
 	m_latest_sent_packet_stamp = 0;
 #ifdef __PLAT_NGPS__

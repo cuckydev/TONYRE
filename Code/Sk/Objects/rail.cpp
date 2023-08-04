@@ -86,12 +86,12 @@ void Rail_ComputeBB(Mth::Vector &pos1, Mth::Vector &pos2, Mth::Vector &bb_min, M
 
 CRailManager::CRailManager()
 {
-//	mp_first_node = NULL;
-	mp_nodes = NULL;
-	mp_links = NULL;
+//	mp_first_node = nullptr;
+	mp_nodes = nullptr;
+	mp_links = nullptr;
 	m_num_nodes = 0;
 	m_is_transformed = false;
-	mp_node_array = NULL;
+	mp_node_array = nullptr;
 	
 }
 
@@ -112,12 +112,12 @@ void CRailManager::Cleanup()
 	m_num_nodes = 0;
 	
 	Mem::Free(mp_nodes);
-	mp_nodes = NULL;
+	mp_nodes = nullptr;
 	
 	
 	m_is_transformed = false;	
 	// Unhook from node array
-	mp_node_array = NULL;
+	mp_node_array = nullptr;
 }
 
 
@@ -211,8 +211,8 @@ void CRailManager::AddRailNode(int node_number, Script::CStruct *p_node_struct)
 	uint32 type_checksum;
 	p_node_struct->GetChecksum(Crc::ConstCRC("type"), &type_checksum);
 
-	pRailNode->m_pNextLink = NULL;
-	pRailNode->m_pPrevLink = NULL;
+	pRailNode->m_pNextLink = nullptr;
+	pRailNode->m_pPrevLink = nullptr;
 	for (int i=0;i<MAX_RAIL_LINKS;i++)
 	{
 		pLinkNode->m_link[i] = -1;						// say it's not linked to anything, initially
@@ -715,7 +715,7 @@ bool CRailManager::CheckForLadderRail ( const Mth::Vector& pos, float max_horizo
 
 bool CRailManager::CheckForAirGrabLadderRail ( const Mth::Vector& start_pos, const Mth::Vector& end_pos, CWalkComponent* p_walk_component, SLadderRailData& rail_data, const CRailNode** pp_rail_node )
 {
-	*pp_rail_node = NULL;
+	*pp_rail_node = nullptr;
 	
 	Mth::Line movement;
 	movement.m_start = start_pos;
@@ -788,7 +788,7 @@ bool CRailManager::CheckForHopToHangRail ( const Mth::Vector& check_line_start, 
 	// The check box is aligned with the Y axis and the facing, is check_line_height tall,
 	// and has a max_foward_reach + max_backward_reach by vCHECK_BOX_WIDTH foot print in the horizontal plane.
 	
-	*pp_rail_node = NULL;
+	*pp_rail_node = nullptr;
 	float best_facing_distance = 0.0f;
 	float best_height = 0.0f;
 	
@@ -1009,7 +1009,7 @@ bool CRailManager::StickToRail(const Mth::Vector &pos1, const Mth::Vector &pos2,
 	bb_max.Set(bb_max.GetX() + snap_dist, bb_max.GetY() + snap_dist, bb_max.GetZ() + snap_dist);	
 	
 	float		closest_dist = 10000000.0f;
-	CRailNode   * p_closest_rail = NULL;
+	CRailNode   * p_closest_rail = nullptr;
 	Mth::Vector		closest_point; 
 
 	bool	found = false;
@@ -1802,7 +1802,7 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 	CRailNode **pp_railnodes = (CRailNode **) Mem::Malloc(num_nodes * sizeof(CRailNode*));
 	for (int i=0;i<num_nodes;i++)
 	{
-		pp_railnodes[i] = NULL;
+		pp_railnodes[i] = nullptr;
 	}
 
 	// now fill it in	
@@ -1836,7 +1836,7 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 	Mem::Free(pp_railnodes);
 	
 	Mem::Free(mp_links);
-	mp_links = NULL;
+	mp_links = nullptr;
 	
 	//printf ("THERE ARE %d rails\n",m_num_nodes);
 	
@@ -1926,7 +1926,7 @@ class BinItem
 
 private:
 	BinItem (   )
-		: mp_value(NULL), mp_next(NULL)
+		: mp_value(nullptr), mp_next(nullptr)
 		{   }
 
 	SAutoRail* mp_value;
@@ -1968,7 +1968,7 @@ BinTable::~BinTable (   )
 	FlushAllItems();
 
 	delete [] mp_table;
-	mp_table = NULL;
+	mp_table = nullptr;
 }
 
 bool BinTable::PutItem ( const uint32 key, SAutoRail* item )
@@ -1977,9 +1977,9 @@ bool BinTable::PutItem ( const uint32 key, SAutoRail* item )
 
 	Dbg_AssertPtr(mp_table);
 
-	Dbg_MsgAssert(key || item, ("Both key and item are 0 (NULL) in bin table"));
+	Dbg_MsgAssert(key || item, ("Both key and item are 0 (nullptr) in bin table"));
 	
-	Dbg_MsgAssert(item, ("NULL item added to bin table"));
+	Dbg_MsgAssert(item, ("nullptr item added to bin table"));
 
 	BinItem *pEntry = &mp_table[key_to_bin(key)];
 	if (pEntry->mp_value)
@@ -2027,7 +2027,7 @@ SAutoRail* BinTable::GetFirstItem ( const uint32 key )
 		pEntry = pEntry->mp_next;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 SAutoRail* BinTable::GetNextItem ( const uint32 key, SAutoRail* p_item )
@@ -2046,7 +2046,7 @@ SAutoRail* BinTable::GetNextItem ( const uint32 key, SAutoRail* p_item )
 	}
 	if (!pEntry)
 	{
-		return NULL;
+		return nullptr;
 	}	
 
 	pEntry = pEntry->mp_next;
@@ -2059,7 +2059,7 @@ SAutoRail* BinTable::GetNextItem ( const uint32 key, SAutoRail* p_item )
 		pEntry = pEntry->mp_next;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void BinTable::FlushAllItems (   )
@@ -2447,7 +2447,7 @@ CRailNode* CRailManager::GetRailNodeByNodeNumber( int node_num )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // knowns issues or ideas:
@@ -3032,10 +3032,10 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				// calculate connectivity using pointer offsets
 				pRailNode->m_pNextLink = (pOldRailNode->m_pNextLink
 										  ? pOldRailNode->m_pNextLink - mp_nodes + p_new_nodes
-										  : NULL);
+										  : nullptr);
 				pRailNode->m_pPrevLink = (pOldRailNode->m_pPrevLink
 										  ? pOldRailNode->m_pPrevLink - mp_nodes + p_new_nodes
-										  : NULL);
+										  : nullptr);
 
 				// copy in their state
 				pRailNode->m_flags = pOldRailNode->m_flags;
@@ -3075,7 +3075,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				}
 				else
 				{
-					pRailNode->m_pPrevLink = NULL;
+					pRailNode->m_pPrevLink = nullptr;
 				}
 
 				// check for a loop
@@ -3114,7 +3114,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				pRailNode->m_node = next_node;
 	
 				pRailNode->m_pPrevLink = &p_new_nodes[next_node - 1];
-				pRailNode->m_pNextLink = NULL;
+				pRailNode->m_pNextLink = nullptr;
 
 				pRailNode->m_pos = arg.p_rails[last_s].endpoints[END].p;
 	
@@ -3123,7 +3123,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 		} // END final-rail-list generation scope
 	
 		// first reset the manager (this)
-		// Note this invalidates mp_node_array (setting it to NULL)
+		// Note this invalidates mp_node_array (setting it to nullptr)
 		// so I had to patch up a couple of placed in skater.cpp
 		// that were using the rail manager's node array
 		Cleanup();

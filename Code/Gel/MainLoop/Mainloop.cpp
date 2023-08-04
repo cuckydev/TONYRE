@@ -104,8 +104,8 @@ Manager::Manager( void )
 {
 	
 	
-	start_render_hook = NULL;
-	end_render_hook = NULL;
+	start_render_hook = nullptr;
+	end_render_hook = nullptr;
 	done = false;
 }
 
@@ -327,7 +327,7 @@ void		Manager::MainLoop( void )
 		game_logic();		
 
  #ifdef	__PLAT_NGPS__		
-//		snProfSetRange( 4, (void*)NULL, (void*)-1);
+//		snProfSetRange( 4, (void*)nullptr, (void*)-1);
  #endif		
 
 
@@ -375,7 +375,7 @@ void		Manager::MainLoop( void )
 #	endif		
 		Tmr::OncePerRender();
  #ifdef	__PLAT_NGPS__		
-//		snProfSetRange( 4, (void*)NULL, (void*)-1);
+//		snProfSetRange( 4, (void*)nullptr, (void*)-1);
  #endif		
 #endif		
 		

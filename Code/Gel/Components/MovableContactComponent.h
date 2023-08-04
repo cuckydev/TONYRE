@@ -61,7 +61,7 @@ public:
 private:		
 	CCompositeObject*				find_inside_object ( const Mth::Vector& pos, Mth::Vector& p_return_pos );
 
-	CContact*						mp_contact;						// contact point (NULL if no current contact)
+	CContact*						mp_contact;						// contact point (nullptr if no current contact)
 	
 	Tmr::Time						m_lost_contact_timestamp;
 };
@@ -76,7 +76,7 @@ inline void CMovableContactComponent::LoseAnyContact (   )
 	if (mp_contact)
 	{
 		delete mp_contact;
-		mp_contact = NULL;
+		mp_contact = nullptr;
 		
 		m_lost_contact_timestamp = Tmr::GetTime();
 	}

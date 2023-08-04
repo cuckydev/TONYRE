@@ -44,7 +44,7 @@ CInputComponent::CInputComponent() : CBaseComponent()
 {
 	SetType( CRC_INPUT);
 	
-	m_input_handler = NULL;
+	m_input_handler = nullptr;
 }
 
 /******************************************************************/
@@ -249,7 +249,7 @@ CBaseComponent::EMemberFunctionResult CInputComponent::CallMemberFunction( uint3
 void CInputComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CInputComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CInputComponent::GetDebugInfo"));
 	
 	if (m_input_handler && m_input_handler->m_Device)
 	{
@@ -465,9 +465,9 @@ void CInputComponent::build_input_mask ( Inp::Data* input )
 	update_input_mask(input, Inp::Data::vA_R1,			Inp::Data::mA_R1, 		Crc::ConstCRC("Trigger_R1"),        Crc::ConstCRC("Release_R1"),        &m_pad.m_R1 		);	
 	update_input_mask(input, Inp::Data::vA_R2,			Inp::Data::mA_R2, 		Crc::ConstCRC("Trigger_R2"),        Crc::ConstCRC("Release_R2"),        &m_pad.m_R2 		);	
 	update_input_mask(input, Inp::Data::vA_R3,			Inp::Data::mA_R3, 		Crc::ConstCRC("Trigger_R3"),        Crc::ConstCRC("Release_R3"),        &m_pad.m_R3			);	
-	update_input_mask(input, Inp::Data::vA_BLACK,		Inp::Data::mA_BLACK, 	Crc::ConstCRC("Trigger_BLACK"),     Crc::ConstCRC("Release_BLACK"),     NULL				);	
-	update_input_mask(input, Inp::Data::vA_WHITE,		Inp::Data::mA_WHITE, 	Crc::ConstCRC("Trigger_WHITE"),     Crc::ConstCRC("Release_WHITE"),     NULL		 		);	
-	update_input_mask(input, Inp::Data::vA_Z,			Inp::Data::mA_Z,	 	Crc::ConstCRC("Trigger_Z"),         Crc::ConstCRC("Release_Z"),     	NULL		 		);	
+	update_input_mask(input, Inp::Data::vA_BLACK,		Inp::Data::mA_BLACK, 	Crc::ConstCRC("Trigger_BLACK"),     Crc::ConstCRC("Release_BLACK"),     nullptr				);	
+	update_input_mask(input, Inp::Data::vA_WHITE,		Inp::Data::mA_WHITE, 	Crc::ConstCRC("Trigger_WHITE"),     Crc::ConstCRC("Release_WHITE"),     nullptr		 		);	
+	update_input_mask(input, Inp::Data::vA_Z,			Inp::Data::mA_Z,	 	Crc::ConstCRC("Trigger_Z"),         Crc::ConstCRC("Release_Z"),     	nullptr		 		);	
 }
 
 /******************************************************************/

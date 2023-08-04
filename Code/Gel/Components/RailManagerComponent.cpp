@@ -61,7 +61,7 @@ CBaseComponent* CRailManagerComponent::s_create()
 CRailManagerComponent::CRailManagerComponent() : CBaseComponent()
 {
 	SetType( CRC_RAILMANAGER );
-	mp_rail_manager = NULL;
+	mp_rail_manager = nullptr;
 }
 
 
@@ -183,7 +183,7 @@ CBaseComponent::EMemberFunctionResult CRailManagerComponent::CallMemberFunction(
 void CRailManagerComponent::GetDebugInfo( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ("NULL p_info sent to CRailManagerComponent::GetDebugInfo" ));
+	Dbg_MsgAssert( p_info, ("nullptr p_info sent to CRailManagerComponent::GetDebugInfo" ));
 
 	// Add the number of Rail Manager nodes.
 	if( mp_rail_manager )

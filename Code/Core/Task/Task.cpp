@@ -77,7 +77,7 @@ namespace Tsk
 *****************************************************************************/
 
 BaseTask::BaseTask( Node::Priority priority )
-: tlist(NULL), stamp(0)
+: tlist(nullptr), stamp(0)
 {
 	
 
@@ -121,7 +121,7 @@ void	BaseTask::Remove( void )
 		node->Remove();
 
 		tlist->Permit();
-		tlist = NULL;
+		tlist = nullptr;
 	}
 	else
 	{

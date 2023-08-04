@@ -13,7 +13,7 @@
 #define DefinePoolableClass(_T)										\
 namespace Mem														\
 {																	\
-	Mem::CCompactPool *Mem::CPoolable< _T >::sp_pool[POOL_STACK_SIZE] = {NULL,NULL};		\
+	Mem::CCompactPool *Mem::CPoolable< _T >::sp_pool[POOL_STACK_SIZE] = {nullptr,nullptr};		\
 	bool Mem::CPoolable< _T >::s_internallyCreatedPool[POOL_STACK_SIZE] = {false,false};	\
 	int Mem::CPoolable< _T >::s_currentPool=0;						\
 }																	\
@@ -183,7 +183,7 @@ void CPoolable<_T>::SRemovePool()
 	{															
 		if (s_internallyCreatedPool[s_currentPool])
 			delete sp_pool[s_currentPool];											
-		sp_pool[s_currentPool] = NULL;											
+		sp_pool[s_currentPool] = nullptr;											
 	}															
 }																
 

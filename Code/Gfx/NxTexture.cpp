@@ -45,7 +45,7 @@ static uint32 s_convert_filename_to_checksum( const char* pFileName )
 CTexture::CTexture()
 {
 	#ifdef	__NOPT_ASSERT__
-	mp_name = NULL;
+	mp_name = nullptr;
 	#endif
 }
 
@@ -571,7 +571,7 @@ bool	CTexture::plat_combine_textures(CTexture *p_texture, bool palette_gen)
 /*                                                                */
 /******************************************************************/
 
-CMaterial::CMaterial() : mp_texture(NULL)
+CMaterial::CMaterial() : mp_texture(nullptr)
 {
 }
 
@@ -678,7 +678,7 @@ CTexDict::CTexDict(uint32 checksum, bool create_lookup_table)
 	}
 	else
 	{
-		mp_texture_lookup = NULL;
+		mp_texture_lookup = nullptr;
 	}
 
 	// Derived class loads the actual file
@@ -709,7 +709,7 @@ CTexDict::CTexDict(const char* p_tex_dict_name, bool create_lookup_table)
 	}
 	else
 	{
-		mp_texture_lookup = NULL;
+		mp_texture_lookup = nullptr;
 	}
 
 	// Derived class loads the actual file
@@ -876,7 +876,7 @@ CTexture* CTexDict::get_source_texture( const char* p_src_texture_name )
 
 	// look for the texture with that checksum
 	static int modifiers[] = { 2, 3, 4, 2 * 3, 3 * 4, 2 * 4, 2 * 3 * 4, -1 };
-	CTexture* pTexture = NULL;
+	CTexture* pTexture = nullptr;
 	for (int idx = 0; modifiers[idx] > 0; idx++)
 	{
 		uint32 calc_checksum = src_checksum * modifiers[idx];
@@ -891,7 +891,7 @@ CTexture* CTexDict::get_source_texture( const char* p_src_texture_name )
 
 	// If we haven't found the texture at this stage, it may be because an auto-generated MIP version was used.
 	// In which case, the name will have _auto32m0 appended to it. Try searching for this name instead.
-	if( pTexture == NULL )
+	if( pTexture == nullptr )
 	{
 		char auto32_name[512];
 		strcpy( auto32_name, p_src_texture_name );
@@ -1084,7 +1084,7 @@ CTexture *			CTexDict::GetTexture(uint32 checksum) const
 	if ( !mp_texture_lookup )
 	{
 		Dbg_Error( "No texture lookup has been created for this texdict" );
-		return NULL;
+		return nullptr;
 	}
 
 	return mp_texture_lookup->GetItem(checksum);
@@ -1113,7 +1113,7 @@ CTexture *			CTexDict::plat_load_texture(const char *p_texture_name, bool sprite
 {
 	printf ("STUB: PlatLoadTexture\n");
 	Dbg_Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1125,7 +1125,7 @@ CTexture *			CTexDict::plat_load_texture_from_buffer(uint8* p_buffer, int buffer
 {
 	printf ("STUB: PlatLoadTextureFromBuffer\n");
 	Dbg_MsgAssert(0, ("This function was only supposed to be called on the PS2"));
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1136,7 +1136,7 @@ CTexture *			CTexDict::plat_load_texture_from_buffer(uint8* p_buffer, int buffer
 CTexture *			CTexDict::plat_reload_texture(const char *p_texture_name)
 {
 	printf ("STUB: PlatReloadTexture\n");
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1179,7 +1179,7 @@ bool				CTexDict::plat_remove_texture(CTexture *p_texture)
 CTexture *			CTexDict::plat_copy_texture(uint32 new_texture_checksum, CTexture *p_texture)
 {
 	printf ("STUB: PlatCopyTexture\n");
-	return NULL;
+	return nullptr;
 }
 
 }

@@ -244,18 +244,18 @@ void CRecord::WriteIntoStructure(Script::CStruct *pIn)
 {
 	
 
-	Dbg_MsgAssert(pIn,("NULL pIn sent to CRecord::WriteIntoStructure"));
+	Dbg_MsgAssert(pIn,("nullptr pIn sent to CRecord::WriteIntoStructure"));
 
 	pIn->AddComponent(Script::GenerateCRC("Value"),ESYMBOLTYPE_INTEGER,m_value);
 	pIn->AddComponent(Script::GenerateCRC("Number"),ESYMBOLTYPE_INTEGER,m_number);
-	Dbg_MsgAssert(mp_initials,("NULL mp_initials"));
+	Dbg_MsgAssert(mp_initials,("nullptr mp_initials"));
 	pIn->AddComponent(Script::GenerateCRC("Initials"),ESYMBOLTYPE_STRING,mp_initials->Get());
 }
 
 void CRecord::ReadFromStructure(Script::CStruct *pIn)
 {
 	
-	Dbg_MsgAssert(pIn,("NULL pIn sent to CRecord::ReadFromStructure"));
+	Dbg_MsgAssert(pIn,("nullptr pIn sent to CRecord::ReadFromStructure"));
 	
 	if (!pIn->GetInteger("Value",&m_value))
 	{
@@ -271,7 +271,7 @@ void CRecord::ReadFromStructure(Script::CStruct *pIn)
 	{
 		Dbg_MsgAssert(0,("Structure is missing Initials parameter"));
 	}
-	Dbg_MsgAssert(mp_initials,("NULL mp_initials"));
+	Dbg_MsgAssert(mp_initials,("nullptr mp_initials"));
 	mp_initials->Set(pInitials);
 }
 
@@ -362,8 +362,8 @@ void 		CRecordTable::ReadFromStructure(Script::CStruct *pIn)
 {
 	
 
-	Dbg_MsgAssert(pIn, ("NULL pIn sent to CRecordTable::ReadFromStructure"));
-	Script::CArray *pArray=NULL;
+	Dbg_MsgAssert(pIn, ("nullptr pIn sent to CRecordTable::ReadFromStructure"));
+	Script::CArray *pArray=nullptr;
 	pIn->GetArray("RecordTable",&pArray);
 	Dbg_MsgAssert(pArray,("Structure is missing RecordTable parameter"));
 	
@@ -372,7 +372,7 @@ void 		CRecordTable::ReadFromStructure(Script::CStruct *pIn)
 		Dbg_Warning("m_numRecords mismatch: m_numRecords=%d, but num records in structure=%d",m_numRecords,pArray->GetSize());
 		return;
 	}
-	Dbg_MsgAssert(mp_records,("NULL mp_records"));
+	Dbg_MsgAssert(mp_records,("nullptr mp_records"));
 		
 	for (int i=0; i<m_numRecords; ++i)
 	{
@@ -384,12 +384,12 @@ void 		CRecordTable::WriteIntoStructure(Script::CStruct *pIn)
 {
 	
 
-	Dbg_MsgAssert(pIn, ("NULL pIn sent to CRecordTable::WriteIntoStructure"));
+	Dbg_MsgAssert(pIn, ("nullptr pIn sent to CRecordTable::WriteIntoStructure"));
 	
 	Script::CArray *pArray=new Script::CArray;
 	pArray->SetArrayType(m_numRecords,ESYMBOLTYPE_STRUCTURE);
 
-	Dbg_MsgAssert(mp_records,("NULL mp_records"));
+	Dbg_MsgAssert(mp_records,("nullptr mp_records"));
 	for (int i=0; i<m_numRecords; ++i)
 	{
 		Script::CStruct *pStruct=new Script::CStruct;
@@ -454,38 +454,38 @@ void		CLevelRecords::ReadFromStructure(Script::CStruct *pIn)
 {
 	
 
-	Dbg_MsgAssert(pIn,("NULL pIn sent to CLevelRecords::ReadFromStructure"));
+	Dbg_MsgAssert(pIn,("nullptr pIn sent to CLevelRecords::ReadFromStructure"));
 
-	Script::CStruct *pStruct=NULL;
+	Script::CStruct *pStruct=nullptr;
 	
 	pIn->GetStructure("HighScores",&pStruct);
 	Dbg_MsgAssert(pStruct,("Structure is missing HighScores"));
-   	Dbg_MsgAssert(mp_highScores,("NULL mp_highScores"));
+   	Dbg_MsgAssert(mp_highScores,("nullptr mp_highScores"));
 	mp_highScores->ReadFromStructure(pStruct);
 
 	pIn->GetStructure("BestCombos",&pStruct);
 	Dbg_MsgAssert(pStruct,("Structure is missing BestCombos"));
-   	Dbg_MsgAssert(mp_bestCombos,("NULL mp_bestCombos"));
+   	Dbg_MsgAssert(mp_bestCombos,("nullptr mp_bestCombos"));
 	mp_bestCombos->ReadFromStructure(pStruct);
 
 	pIn->GetStructure("LongestCombo",&pStruct);
 	Dbg_MsgAssert(pStruct,("Structure is missing LongestCombo"));
-   	Dbg_MsgAssert(mp_longestCombo,("NULL mp_longestCombo"));
+   	Dbg_MsgAssert(mp_longestCombo,("nullptr mp_longestCombo"));
 	mp_longestCombo->ReadFromStructure(pStruct);
 
 	pIn->GetStructure("LongestGrind",&pStruct);
 	Dbg_MsgAssert(pStruct,("Structure is missing LongestGrind"));
-   	Dbg_MsgAssert(mp_longestGrind,("NULL mp_longestGrind"));
+   	Dbg_MsgAssert(mp_longestGrind,("nullptr mp_longestGrind"));
 	mp_longestGrind->ReadFromStructure(pStruct);
 
 	pIn->GetStructure("LongestLipTrick",&pStruct);
 	Dbg_MsgAssert(pStruct,("Structure is missing LongestLipTrick"));
-   	Dbg_MsgAssert(mp_longestLipTrick,("NULL mp_longestLipTrick"));
+   	Dbg_MsgAssert(mp_longestLipTrick,("nullptr mp_longestLipTrick"));
 	mp_longestLipTrick->ReadFromStructure(pStruct);
 
 	pIn->GetStructure("LongestManual",&pStruct);
 	Dbg_MsgAssert(pStruct,("Structure is missing LongestManual"));
-   	Dbg_MsgAssert(mp_longestManual,("NULL mp_longestManual"));
+   	Dbg_MsgAssert(mp_longestManual,("nullptr mp_longestManual"));
 	mp_longestManual->ReadFromStructure(pStruct);
 }
 			
@@ -493,36 +493,36 @@ void		CLevelRecords::WriteIntoStructure(Script::CStruct *pIn)
 {
 	
 	
-	Dbg_MsgAssert(pIn,("NULL pIn sent to CLevelRecords::WriteIntoStructure"));
+	Dbg_MsgAssert(pIn,("nullptr pIn sent to CLevelRecords::WriteIntoStructure"));
 	
 
 	Script::CStruct *pStruct=new Script::CStruct;
-   	Dbg_MsgAssert(mp_highScores,("NULL mp_highScores"));
+   	Dbg_MsgAssert(mp_highScores,("nullptr mp_highScores"));
 	mp_highScores->WriteIntoStructure(pStruct);
 	pIn->AddComponent(Script::GenerateCRC("HighScores"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pStruct);
 	
 	pStruct=new Script::CStruct;
-   	Dbg_MsgAssert(mp_bestCombos,("NULL mp_bestCombos"));
+   	Dbg_MsgAssert(mp_bestCombos,("nullptr mp_bestCombos"));
 	mp_bestCombos->WriteIntoStructure(pStruct);
 	pIn->AddComponent(Script::GenerateCRC("BestCombos"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pStruct);
 	
 	pStruct=new Script::CStruct;
-   	Dbg_MsgAssert(mp_longestCombo,("NULL mp_longestCombo"));
+   	Dbg_MsgAssert(mp_longestCombo,("nullptr mp_longestCombo"));
 	mp_longestCombo->WriteIntoStructure(pStruct);
 	pIn->AddComponent(Script::GenerateCRC("LongestCombo"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pStruct);
 	
 	pStruct=new Script::CStruct;
-   	Dbg_MsgAssert(mp_longestGrind,("NULL mp_longestGrind"));
+   	Dbg_MsgAssert(mp_longestGrind,("nullptr mp_longestGrind"));
 	mp_longestGrind->WriteIntoStructure(pStruct);
 	pIn->AddComponent(Script::GenerateCRC("LongestGrind"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pStruct);
 	
 	pStruct=new Script::CStruct;
-   	Dbg_MsgAssert(mp_longestLipTrick,("NULL mp_longestLipTrick"));
+   	Dbg_MsgAssert(mp_longestLipTrick,("nullptr mp_longestLipTrick"));
 	mp_longestLipTrick->WriteIntoStructure(pStruct);
 	pIn->AddComponent(Script::GenerateCRC("LongestLipTrick"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pStruct);
    	
 	pStruct=new Script::CStruct;
-	Dbg_MsgAssert(mp_longestManual,("NULL mp_longestManual"));
+	Dbg_MsgAssert(mp_longestManual,("nullptr mp_longestManual"));
 	mp_longestManual->WriteIntoStructure(pStruct);
 	pIn->AddComponent(Script::GenerateCRC("LongestManual"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pStruct);
 }
@@ -583,9 +583,9 @@ void 		CGameRecords::ReadFromStructure(Script::CStruct *pIn)
 {
 	
 
-	Dbg_MsgAssert(pIn, ("NULL pIn sent to CGameRecords::ReadFromStructure"));	
+	Dbg_MsgAssert(pIn, ("nullptr pIn sent to CGameRecords::ReadFromStructure"));	
 
-	Script::CArray *pArray=NULL;
+	Script::CArray *pArray=nullptr;
 	pIn->GetArray("GameRecords",&pArray);
 	Dbg_MsgAssert(pArray,("Structure is missing GameRecords parameter"));
 	
@@ -594,7 +594,7 @@ void 		CGameRecords::ReadFromStructure(Script::CStruct *pIn)
 		Dbg_Warning("m_numLevels mismatch: m_numLevels=%d, but num levels in structure=%d",m_numLevels,pArray->GetSize());
 		return;
 	}
-	Dbg_MsgAssert(mp_levelRecords,("NULL mp_levelRecords"));
+	Dbg_MsgAssert(mp_levelRecords,("nullptr mp_levelRecords"));
 		
 	for (int i=0; i<m_numLevels; ++i)
 	{
@@ -603,7 +603,7 @@ void 		CGameRecords::ReadFromStructure(Script::CStruct *pIn)
 	
 	const char *pDefaultInitials="ABC";
 	pIn->GetText("DefaultInitials",&pDefaultInitials);
-	Dbg_MsgAssert(mp_defaultInitials,("NULL mp_defaultInitials"));
+	Dbg_MsgAssert(mp_defaultInitials,("nullptr mp_defaultInitials"));
 	mp_defaultInitials->Set(pDefaultInitials);
 	
 }
@@ -611,12 +611,12 @@ void 		CGameRecords::ReadFromStructure(Script::CStruct *pIn)
 void 		CGameRecords::WriteIntoStructure(Script::CStruct *pIn)
 {
 	
-	Dbg_MsgAssert(pIn, ("NULL pIn sent to CGameRecords::WriteIntoStructure"));	
+	Dbg_MsgAssert(pIn, ("nullptr pIn sent to CGameRecords::WriteIntoStructure"));	
 	
 	Script::CArray *pArray=new Script::CArray;
 	pArray->SetArrayType(m_numLevels,ESYMBOLTYPE_STRUCTURE);
 
-	Dbg_MsgAssert(mp_levelRecords,("NULL mp_levelRecords"));
+	Dbg_MsgAssert(mp_levelRecords,("nullptr mp_levelRecords"));
 	for (int i=0; i<m_numLevels; ++i)
 	{
 		Script::CStruct *pStruct=new Script::CStruct;

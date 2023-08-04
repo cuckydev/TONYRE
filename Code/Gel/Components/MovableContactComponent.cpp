@@ -36,7 +36,7 @@ CMovableContactComponent::CMovableContactComponent() : CBaseComponent()
 {
 	SetType( CRC_MOVABLECONTACT );
 	
-	mp_contact = NULL;
+	mp_contact = nullptr;
 	
 	m_lost_contact_timestamp = 0;
 }
@@ -102,7 +102,7 @@ CBaseComponent::EMemberFunctionResult CMovableContactComponent::CallMemberFuncti
 void CMovableContactComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CMovableContactComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CMovableContactComponent::GetDebugInfo"));
 	
 	if (mp_contact && mp_contact->GetObj())
 	{
@@ -159,7 +159,7 @@ CCompositeObject* CMovableContactComponent::CheckInsideObjectsToTop ( Mth::Vecto
 {
 	Mth::Vector top;
 	CCompositeObject *p_object = find_inside_object(pos, top);
-	if (!p_object) return NULL;
+	if (!p_object) return nullptr;
 	
 	pos = top;
 	pos[Y] += 1.0f;
@@ -184,7 +184,7 @@ CCompositeObject* CMovableContactComponent::CheckInsideObjects ( Mth::Vector& po
 
 	Mth::Vector top;
 	CCompositeObject *p_object = find_inside_object(pos, top);
-	if (!p_object) return NULL;
+	if (!p_object) return nullptr;
 	
 	// check if the last position is now fine...
 	Mth::Vector dummy;
@@ -239,13 +239,13 @@ CCompositeObject* CMovableContactComponent::find_inside_object ( const Mth::Vect
 	while (true)
 	{
 		// return on final builds to handle highly obscure cases I've not forseen....
-		if (++loop_detect == 10) return NULL;
+		if (++loop_detect == 10) return nullptr;
 		
 		// nothing above
-		if (!down_feeler.GetCollision()) return NULL;
+		if (!down_feeler.GetCollision()) return nullptr;
 		
 		// something above, but not movable
-		if (!down_feeler.IsMovableCollision()) return NULL;
+		if (!down_feeler.IsMovableCollision()) return nullptr;
 		
 		// something movable above
 		

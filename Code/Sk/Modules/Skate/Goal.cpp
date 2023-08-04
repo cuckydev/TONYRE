@@ -56,7 +56,7 @@ namespace Game
 CGoalLink::CGoalLink()
 {
 	m_relative = 0;
-	mp_next = NULL;
+	mp_next = nullptr;
 	m_beaten = false;
 }
 
@@ -360,7 +360,7 @@ void CGoal::Uninit( bool propogate, int recurse_level )
 	mp_params->GetChecksum( CRCD( 0x2d7e03d, "trigger_obj_id" ), &trigger_obj_id );
 	if ( trigger_obj_id )
 	{
-		Obj::CMovingObject* p_pos_obj = NULL;
+		Obj::CMovingObject* p_pos_obj = nullptr;
 		// p_pos_obj = Obj::CMovingObject::m_hash_table.GetItem( trigger_obj_id );
 		p_pos_obj = (Obj::CMovingObject*) Obj::CCompositeObjectManager::Instance()->GetObjectByID( trigger_obj_id );
 		if ( p_pos_obj )
@@ -553,7 +553,7 @@ bool CGoal::Activate()
 			CGoalManager* pGoalManager = GetGoalManager();
 			Dbg_Assert( pGoalManager );
 
-			CGoal* pParentGoal = NULL;
+			CGoal* pParentGoal = nullptr;
 
 			// get the root node and check the timer
 			CGoalLink* p_parent = mp_parents;
@@ -679,7 +679,7 @@ bool CGoal::Deactivate( bool force, bool affect_tree )
 				CGoalManager* pGoalManager = GetGoalManager();
 				Dbg_Assert( pGoalManager );
 				CGoalLink* p_link = mp_parents;
-				CGoal* pParentGoal = NULL;
+				CGoal* pParentGoal = nullptr;
 				while ( p_link && p_link->m_relative )
 				{
 					pParentGoal = pGoalManager->GetGoal( p_link->m_relative );
@@ -913,7 +913,7 @@ bool CGoal::ShouldExpire()
 	Obj::CSkater* p_skater;
 	
 	p_skater = skate_mod->GetLocalSkater();
-	if ( p_skater == NULL )
+	if ( p_skater == nullptr )
 	{
 		return true;
 	}
@@ -957,7 +957,7 @@ bool CGoal::IsExpired( bool force_end )
 	Obj::CSkater* p_skater;
 
 	p_skater = skate_mod->GetLocalSkater();
-	if ( p_skater == NULL )
+	if ( p_skater == nullptr )
 	{
 		return true;
 	}
@@ -1299,7 +1299,7 @@ bool CGoal::SetGoalFlag( uint32 flag, int value )
 	
 bool CGoal::GetCreatedGoalGap(int gapIndex)
 {
-	Script::CArray *p_required_gaps=NULL;
+	Script::CArray *p_required_gaps=nullptr;
 	if (!mp_params->GetArray(Crc::ConstCRC("required_gaps"),&p_required_gaps))
 	{
 		return false;
@@ -1371,7 +1371,7 @@ bool CGoal::GoalFlagEquals( uint32 flag, int value )
 void CGoal::ResetGoalFlags()
 {
 	// reset the goal flags
-	Script::CComponent* p_comp = mp_goalFlags->GetNextComponent( NULL );
+	Script::CComponent* p_comp = mp_goalFlags->GetNextComponent( nullptr );
 	while ( p_comp )
 	{
 		Script::CComponent* p_next = mp_goalFlags->GetNextComponent( p_comp );
@@ -1510,7 +1510,7 @@ bool CGoal::NextTourSpot()
         
 		#ifdef __NOPT_ASSERT__
 		// backward compatible with horse goal
-		Script::CScript *p_script=NULL;
+		Script::CScript *p_script=nullptr;
 		if ( mp_params->ContainsFlag( Crc::ConstCRC("horse") ) )
 			p_script=Script::SpawnScript( Crc::ConstCRC("goal_horse_next_spot"), p_waypoint );
 		else
@@ -1554,7 +1554,7 @@ bool CGoal::NextTourSpot()
 void CGoal::InitTrickObjects()
 {
     // get the object id's
-    Script::CArray* p_trickObjectArray = NULL;
+    Script::CArray* p_trickObjectArray = nullptr;
     mp_params->GetArray( Crc::ConstCRC("trick_objects"), &p_trickObjectArray, Script::ASSERT );
     
     Mdl::Skate* skate_mod = Mdl::Skate::Instance();
@@ -1874,7 +1874,7 @@ uint32 CGoal::GetGoalId()
 
 bool CGoal::IsEditedGoal()
 {
-	Dbg_MsgAssert(mp_params,("NULL mp_params"));
+	Dbg_MsgAssert(mp_params,("nullptr mp_params"));
 	return mp_params->ContainsFlag(Crc::ConstCRC("edited_goal"));
 }
 
@@ -2295,7 +2295,7 @@ bool CGoal::CheckDistanceRecord()
 	mp_params->GetChecksum( Crc::ConstCRC("distance_record_object"), &objId, Script::ASSERT );
 
 	// grab the object
-	Obj::CMovingObject* pObj = NULL;
+	Obj::CMovingObject* pObj = nullptr;
 //	pObj = Obj::CMovingObject::m_hash_table.GetItem( objId );
 	pObj = (Obj::CMovingObject*) Obj::CCompositeObjectManager::Instance()->GetObjectByID( objId);
 
@@ -2495,12 +2495,12 @@ void CGoal::ClearEndRun( Script::CScript* pScript )
 // as it should have been executed immediately
 // I'm removing this line for now, as the ExceptionComponent has gone  
 //		GetExceptionComponentFromObject(p_skater)->ClearException( CRCD( 0x822e13a9, "RunHasEnded" ));
-		p_skater->CallMemberFunction( CRCD( 0x4c58771e, "EndOfRunDone" ), NULL, pScript );
+		p_skater->CallMemberFunction( CRCD( 0x4c58771e, "EndOfRunDone" ), nullptr, pScript );
 		p_skater_endrun_component->ClearStartedEndOfRunFlag();
 		break;
 	case vGOALENDOFRUN:
 //		GetExceptionComponentFromObject(p_skater)->ClearException( CRCD( 0xab676175, "GoalHasEnded" ) );
-		p_skater->CallMemberFunction( CRCD( 0x69a9e37f, "Goal_EndOfRunDone" ), NULL, pScript );
+		p_skater->CallMemberFunction( CRCD( 0x69a9e37f, "Goal_EndOfRunDone" ), nullptr, pScript );
 		p_skater_endrun_component->ClearStartedGoalEndOfRunFlag();
 		break;
 	default:
@@ -2618,7 +2618,7 @@ bool CGoal::AddTempSpecialTrick()
 	}
 	
 	// get the list of valid key bindings for this trick type
-	Script::CStruct* p_keyBindings = NULL;
+	Script::CStruct* p_keyBindings = nullptr;
 	switch ( trickType )
 	{
 		case CRCC( 0x61a1bc57, "cat" ):
@@ -3121,7 +3121,7 @@ bool CGoal::ReplaceTrickText()
 {
 	// printf("ReplaceTrickText %s\n", Script::FindChecksumName( GetGoalId() ) );
 	// see if there's a key_combo associated with this goal
-	Script::CArray* p_key_combo = NULL;
+	Script::CArray* p_key_combo = nullptr;
 	if ( !mp_params->GetArray( "key_combos", &p_key_combo, Script::NO_ASSERT ) )
 	{
 		// printf("no key combos\n");
@@ -3182,7 +3182,7 @@ bool CGoal::ReplaceTrickText()
 	}
 	
 	const char* p_string;
-	Script::CArray* p_string_array = NULL;
+	Script::CArray* p_string_array = nullptr;
 
 	char new_string[Game::NEW_STRING_LENGTH];
 	
@@ -3279,7 +3279,7 @@ void CGoal::ColorTrickObjects( int seqIndex, bool clear )
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Obj::CTrickObjectManager* p_trickObjMan = skate_mod->GetTrickObjectManager();
 	
-	Script::CArray* p_clusters = NULL;
+	Script::CArray* p_clusters = nullptr;
 	if ( !mp_params->GetArray( "kill_clusters", &p_clusters, Script::NO_ASSERT ) )
 		return;
 
@@ -3368,7 +3368,7 @@ void CGoal::GetRewardsStructure( Script::CStruct *p_structure, bool give_cash )
 		// ************************
 		// grab the list of rewards
 		Script::CStruct* p_all_rewards = Script::GetStructure( "goal_rewards", Script::ASSERT );
-		Script::CStruct* p_rewards = NULL;
+		Script::CStruct* p_rewards = nullptr;
 		p_all_rewards->GetStructure( GetGoalId(), &p_rewards, Script::NO_ASSERT );
 		if ( p_rewards )
 		{
@@ -3423,7 +3423,7 @@ void CGoal::UnlockRewardGoals()
 	CGoalManager* pGoalManager = GetGoalManager();
 	
 	// unlock a new goal
-	Script::CArray* p_new_goal_array = NULL;
+	Script::CArray* p_new_goal_array = nullptr;
 	uint32 new_goal_checksum = 0;
 
 	if ( mp_params->GetChecksum( "reward_goal", &new_goal_checksum, Script::NO_ASSERT ) )
@@ -3535,7 +3535,7 @@ bool CGoal::RunCallbackScript( uint32 script_name )
 		pStruct->GetChecksum( Crc::ConstCRC("target"), &checksum, Script::ASSERT );
 
 		// but not the params...
-		Script::CStruct* pSubStruct = NULL;
+		Script::CStruct* pSubStruct = nullptr;
 		pStruct->GetStructure( Crc::ConstCRC("params"), &pSubStruct, Script::NO_ASSERT );
 
 		if ( pParams )

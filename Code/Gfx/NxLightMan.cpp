@@ -57,12 +57,12 @@ int					CLightManager::s_num_scene_lights	= 0;
 
 SVCLight			CLightManager::sp_vc_lights[MAX_VC_LIGHTS];
 int					CLightManager::s_num_vc_lights = 0;
-uint16 *			CLightManager::sp_fake_lights_nodes=NULL;
+uint16 *			CLightManager::sp_fake_lights_nodes=nullptr;
 int					CLightManager::s_num_fake_lights_nodes=0;
 int					CLightManager::s_next_fake_light_node_to_process=0;
 int					CLightManager::s_fake_lights_period=0;
 int					CLightManager::s_fake_lights_current_time=0;
-Script::CStruct *	CLightManager::sp_fake_lights_params=NULL;
+Script::CStruct *	CLightManager::sp_fake_lights_params=nullptr;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -347,7 +347,7 @@ CSceneLight * CLightManager::sAddSceneLight( void )
 		++s_num_scene_lights;
 		return &s_scene_lights[s_num_scene_lights - 1];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -420,7 +420,7 @@ void CLightManager::sClearCurrentFakeLightsCommand()
 	if (sp_fake_lights_nodes)
 	{
 		Mem::Free(sp_fake_lights_nodes);
-		sp_fake_lights_nodes=NULL;
+		sp_fake_lights_nodes=nullptr;
 	}	
 	s_num_fake_lights_nodes=0;
 	s_next_fake_light_node_to_process=0;
@@ -431,7 +431,7 @@ void CLightManager::sClearCurrentFakeLightsCommand()
 	if (sp_fake_lights_params)
 	{
 		delete sp_fake_lights_params;
-		sp_fake_lights_params=NULL;
+		sp_fake_lights_params=nullptr;
 	}	
 }
 
@@ -527,7 +527,7 @@ CSceneLight *CLightManager::sGetSceneLight( uint32 checksum )
 			return &s_scene_lights[l];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -569,7 +569,7 @@ CSceneLight * CLightManager::sGetOptimumSceneLight( Mth::Vector & pos )
 			return &s_scene_lights[best_index];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -787,7 +787,7 @@ SVCLight *CLightManager::s_get_vclight_from_checksum( uint32 cs )
 			return &sp_vc_lights[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -916,7 +916,7 @@ void SVCLight::ResetSectorList( void )
 bool SVCLight::AffectsSector( Nx::CSector *p_sector )
 {
 	Nx::CSector *p_match = mp_sector_list->GetItem((uint32)p_sector );
-    return ( p_match != NULL );	
+    return ( p_match != nullptr );	
 }
 
 
@@ -974,7 +974,7 @@ void SVCLight::CalculateSectorList( void )
 void CLightManager::s_recalculate_sector_lighting( Nx::CSector *p_sector )
 {
 	Nx::CGeom *p_geom = p_sector->GetGeom();
-	if( p_geom == NULL )
+	if( p_geom == nullptr )
 	{
 		return;
 	}
@@ -1085,7 +1085,7 @@ void CLightManager::s_apply_lighting( Nx::CScene * p_scene, uint32 checksum )
 
 	// Now deal with geometry.
 	SVCLight *p_scene_light = s_get_vclight_from_checksum( checksum );
-	if( p_scene_light == NULL )
+	if( p_scene_light == nullptr )
 	{
 		return;
 	}

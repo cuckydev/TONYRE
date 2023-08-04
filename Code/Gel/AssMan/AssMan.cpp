@@ -79,7 +79,7 @@ static SAssetLookup s_asset_lookup[] =
 	{"QB",		ASSET_NODEARRAY},
 	
 // Insert new types above this line	
-	{NULL,		ASSET_UNKNOWN}		   				// terminator;
+	{nullptr,		ASSET_UNKNOWN}		   				// terminator;
 };
 	
 /*****************************************************************************
@@ -141,7 +141,7 @@ EAssetType CAssMan::FindAssetType( const char *p_assetName )
 	// p_ext now points to the extension for the file name
 
 	SAssetLookup *p_lookup = &s_asset_lookup[0];
-	while ( p_lookup->p_extension != NULL )
+	while ( p_lookup->p_extension != nullptr )
 	{
 		// note, ignoring case
 		if ( strcmpi( p_lookup->p_extension, p_ext ) == 0 )	
@@ -170,7 +170,7 @@ void* CAssMan::LoadAssetFromStream(uint32 asset_name, uint32 asset_type, uint32*
 
 	Dbg_MsgAssert(!AssetAllocated(asset_name),("Asset %08x already loaded",asset_name));
 
-	CAsset* p_asset = NULL;	
+	CAsset* p_asset = nullptr;	
 		
 	// based on the asset type, create an asset of the correct type	
 	switch (asset_type)
@@ -209,9 +209,9 @@ void* CAssMan::LoadAssetFromStream(uint32 asset_name, uint32 asset_type, uint32*
 		else
 		{
 			delete p_asset;
-			p_asset = NULL;
+			p_asset = nullptr;
 		}
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -246,7 +246,7 @@ void* CAssMan::LoadAsset(const char *p_assetName, bool async_load, bool use_pip,
 
 	Dbg_MsgAssert(!AssetAllocated(p_assetName),("Asset %s already loaded",p_assetName));
 
-	CAsset	* p_asset = NULL;	
+	CAsset	* p_asset = nullptr;	
 	
 // Find the asset type	
 	EAssetType	asset_type = FindAssetType(p_assetName); 
@@ -306,9 +306,9 @@ void* CAssMan::LoadAsset(const char *p_assetName, bool async_load, bool use_pip,
 		else
 		{
 			delete p_asset;
-			p_asset = NULL;
+			p_asset = nullptr;
 		}
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -338,7 +338,7 @@ void* CAssMan::LoadAsset(const char *p_assetName, bool async_load, bool use_pip,
 void* CAssMan::GetFirstInGroup( uint32 group )
 {
 	// return the first asset in the asset manager that is in this group
-	// will return NULL if there are none of teh specified group
+	// will return nullptr if there are none of teh specified group
 	
 	return GetNthInGroup(group,0);
 }
@@ -351,7 +351,7 @@ void* CAssMan::GetFirstInGroup( uint32 group )
 void* CAssMan::GetNthInGroup( uint32 group, int n )
 {
 	// return the nth asset in the asset manager that is in this group
-	// will return NULL if there are none of the specified group
+	// will return nullptr if there are none of the specified group
 	
 	CAsset* p_asset = mp_assetlist_head->mp_next;
 	while (p_asset != mp_assetlist_head)
@@ -370,7 +370,7 @@ void* CAssMan::GetNthInGroup( uint32 group, int n )
 		}			
 		p_asset = p_next;		
 	}
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -539,7 +539,7 @@ CAsset*	CAssMan::GetAssetNode( uint32 assetID, bool assertOnFail )
 	// Don't return pointer if it isn't done loading
 	if ( p_asset && !p_asset->LoadFinished() )
 	{
-		//p_asset = NULL;
+		//p_asset = nullptr;
 
 		// Wait if not done loading
 		while (!p_asset->LoadFinished())
@@ -559,7 +559,7 @@ CAsset*	CAssMan::GetAssetNode( uint32 assetID, bool assertOnFail )
 
 void* CAssMan::GetAsset(uint32 assetID, bool assertOnFail )	
 {
-	// Return a pointer to the asset data, or NULL if not found
+	// Return a pointer to the asset data, or nullptr if not found
 	
 	CAsset *p_asset = mp_asset_table->GetItem(assetID);
 
@@ -583,7 +583,7 @@ void* CAssMan::GetAsset(uint32 assetID, bool assertOnFail )
 			Dbg_MsgAssert(p_asset, ("Asset 0x%x Not found (%s)",assetID,Script::FindChecksumName(assetID)));
 			//Dbg_MsgAssert(p_asset->LoadFinished(), ("Asset 0x%x not finished loading (%s)",assetID,Script::FindChecksumName(assetID)));
 		}
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -604,7 +604,7 @@ void* CAssMan::GetAsset(const char *p_assetName, bool assertOnFail)
 	
 	if ( assertOnFail )
 	{
-		Dbg_MsgAssert(p_asset_data,("Asset has NULL data %s",p_assetName));
+		Dbg_MsgAssert(p_asset_data,("Asset has nullptr data %s",p_assetName));
 	}
 	return p_asset_data;
 }
@@ -623,7 +623,7 @@ void* CAssMan::LoadOrGetAsset(const char *p_assetName, bool async_load, bool use
 	if (p_asset)
 	{
 		p_asset_data = p_asset->GetData();
-		Dbg_MsgAssert(p_asset_data,("Asset has NULL data %s",p_assetName));
+		Dbg_MsgAssert(p_asset_data,("Asset has nullptr data %s",p_assetName));
 		//Dbg_MsgAssert(p_asset->LoadFinished(), ("Asset not finished loading (%s)", p_assetName));
 
 		// Wait if not done loading
@@ -657,7 +657,7 @@ bool CAssMan::AssetAllocated(uint32 assetID)
 {
 	//  Return true if the asset has at least started loading
 	
-	return (NULL != mp_asset_table->GetItem(assetID));
+	return (nullptr != mp_asset_table->GetItem(assetID));
 }
 
 /******************************************************************/

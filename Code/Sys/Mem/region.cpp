@@ -88,7 +88,7 @@ void	Region::init( void* pStart, void* pEnd )
 	m_min_free  = (int)pEnd - (int)pStart;
 
 	m_alloc[vBOTTOM_UP] = 
-	m_alloc[vTOP_DOWN] 	= NULL;
+	m_alloc[vTOP_DOWN] 	= nullptr;
 
 	Dbg_Notify( "Region(%p) created %p -> %p ", this, mp_start, mp_end );
 
@@ -116,7 +116,7 @@ void		Region::RegisterAllocator( Allocator* pAlloc )
 
 	int index = ( pAlloc->m_dir & 2 ) >> 1;
 
-	Dbg_MsgAssert ( m_alloc[index] == NULL,( "Attempt to register multiple Allocators" ));
+	Dbg_MsgAssert ( m_alloc[index] == nullptr,( "Attempt to register multiple Allocators" ));
 
 	m_alloc[index] = pAlloc;
 
@@ -136,7 +136,7 @@ void		Region::UnregisterAllocator( Allocator* pAlloc )
 	
 	Dbg_MsgAssert ( m_alloc[index] == pAlloc,( "Allocator not currently registered" ));
 
-	m_alloc[index] = NULL;
+	m_alloc[index] = nullptr;
 }
 	
 
@@ -179,7 +179,7 @@ void*		Region::Allocate( Allocator* pAlloc, size_t size, bool assert_on_fail )
 					Dbg_MsgAssert( false,( "Failed to Allocate %d bytes", size ));
 				}
 				Dbg_Warning( "Failed to Allocate %d bytes", size ); 
-				return NULL;
+				return nullptr;
 			}
 		}
 		else	// we are top down, other allocator is bottom up
@@ -191,7 +191,7 @@ void*		Region::Allocate( Allocator* pAlloc, size_t size, bool assert_on_fail )
 					Dbg_MsgAssert( false,( "Failed to Allocate %d bytes", size ));
 				}
 				Dbg_Warning( "Failed to Allocate %d bytes", size ); 
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -207,7 +207,7 @@ void*		Region::Allocate( Allocator* pAlloc, size_t size, bool assert_on_fail )
 					Dbg_MsgAssert( false,( "Failed to Allocate %d bytes", size ));
 				}
 				Dbg_Warning( "Failed to Allocate %d bytes", size ); 
-				return NULL;
+				return nullptr;
 			}
 		}
 		else	// single top down	heap
@@ -219,7 +219,7 @@ void*		Region::Allocate( Allocator* pAlloc, size_t size, bool assert_on_fail )
 					Dbg_MsgAssert( false,( "Failed to Allocate %d bytes", size ));
 				}
 				Dbg_Warning( "Failed to Allocate %d bytes", size ); 
-				return NULL;
+				return nullptr;
 			}
 		}
 	}

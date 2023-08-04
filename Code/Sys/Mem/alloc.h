@@ -236,9 +236,9 @@ private :
 	static	void 			s_set_id( void* pAddr );
 	virtual void*			allocate( size_t size, bool assert_on_fail ) = 0;
 	virtual int				available(  ) {Dbg_MsgAssert(0,("available() not defined for this allocator!")); return 0;}
-	virtual void*			reallocate_down( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_down not defined for this allocator!")); return NULL;}
-	virtual void*			reallocate_up( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_up not defined for this allocator!")); return NULL;}
-	virtual void*			reallocate_shrink( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_shrink not defined for this allocator!")); return NULL;}
+	virtual void*			reallocate_down( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_down not defined for this allocator!")); return nullptr;}
+	virtual void*			reallocate_up( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_up not defined for this allocator!")); return nullptr;}
+	virtual void*			reallocate_shrink( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_shrink not defined for this allocator!")); return nullptr;}
 	virtual	void			free( BlockHeader* pAddr ) = 0;
 
 	static	uint			s_current_id;
@@ -385,13 +385,13 @@ inline Allocator::BlockHeader::BlockHeader( Allocator* pAlloc, size_t size )
 
 #ifdef	__LINKED_LIST_HEAP__    
 
-	mp_next_used = NULL;
-	mp_prev_used = NULL;
-	mp_debug_data  = NULL;
+	mp_next_used = nullptr;
+	mp_prev_used = nullptr;
+	mp_debug_data  = nullptr;
 
 #endif
 #ifdef __NOPT_ASSERT__
-	mp_profile = NULL;
+	mp_profile = nullptr;
 #endif		// __NOPT_ASSERT__
 }
 
@@ -405,8 +405,8 @@ inline Allocator::BlockHeader::~BlockHeader( void )
 	
 
 #ifdef	__LINKED_LIST_HEAP__    
-	Dbg_MsgAssert( mp_prev_used == NULL, ( "internal error" ));
-	Dbg_MsgAssert( mp_next_used == NULL, ( "internal error" ));
+	Dbg_MsgAssert( mp_prev_used == nullptr, ( "internal error" ));
+	Dbg_MsgAssert( mp_next_used == nullptr, ( "internal error" ));
 #endif
 }
 

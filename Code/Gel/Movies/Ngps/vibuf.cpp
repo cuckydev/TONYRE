@@ -200,7 +200,7 @@ void viBufBeginPut(ViBuf *f,
     if (f->buffSize - es >= en) {	// area0
 	*ptr0 = (u_char*)f->data + es;
     	*len0 = en;
-	*ptr1 = NULL;
+	*ptr1 = nullptr;
 	*len1 = 0;
     } else {				// area0 + area1
 	*ptr0 = (u_char*)f->data + es;

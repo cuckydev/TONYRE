@@ -294,7 +294,7 @@ void 	CSkater::DodgyTest()
 /******************************************************************/
 
 // K: This is a factored out code snippet that is used quite a bit.
-// It get's a pointer to this skater's score object and asserts if it's NULL.
+// It get's a pointer to this skater's score object and asserts if it's nullptr.
 Mdl::Score *CSkater::GetScoreObject()
 {
 	Dbg_Assert(mp_skater_score_component);
@@ -309,7 +309,7 @@ void CSkater::MoveToRestart(int node)
 	Dbg_Assert(mp_skater_core_physics_component);
 	
 	m_matrix.Ident();
-	Script::CStruct *pNode = NULL;
+	Script::CStruct *pNode = nullptr;
 	if (node >= 0)
 	{
 		Script::CArray *pNodeArray=Script::GetArray(Crc::ConstCRC("NodeArray"));
@@ -384,7 +384,7 @@ void CSkater::SkipToRestart(int node, bool walk)
 		// Reset the skater back to a collidable state
 		if( gamenet_man->InNetGame())
 		{   
-			CFuncs::ScriptNotifyBailDone( NULL, NULL );
+			CFuncs::ScriptNotifyBailDone( nullptr, nullptr );
 			mp_skater_core_physics_component->SetFlagFalse( IS_BAILING );
 		}
 	}
@@ -426,7 +426,7 @@ void CSkater::SkipToRestart(int node, bool walk)
 		}
 		if (node != -1)
 		{
-			Script::CStruct *pNode = NULL;	
+			Script::CStruct *pNode = nullptr;	
 			Script::CArray *pNodeArray=Script::GetArray(Crc::ConstCRC("NodeArray"));
 			pNode=pNodeArray->GetStructure(node);
 			// Now run any TriggerScript associated with this node
@@ -526,7 +526,7 @@ float	CSkater::GetStat(EStat stat)
 			value = 10.0f;
 		}
 	}
-	else if( CFuncs::ScriptInSplitScreenGame( NULL, NULL ))
+	else if( CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ))
 	{
 		GameNet::PlayerInfo* player;
 
@@ -565,7 +565,7 @@ float	CSkater::GetStat(EStat stat)
 			value = 10.0f;
 		}
 	}
-	else if( CFuncs::ScriptInSplitScreenGame( NULL, NULL ))
+	else if( CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ))
 	{
 		GameNet::PlayerInfo* player;
 
@@ -599,7 +599,7 @@ void	CSkater::SetStat(EStat stat, float value)
 {
 
 	// factor in the handicap if any...
-	if ( CFuncs::ScriptInSplitScreenGame( NULL, NULL ) )
+	if ( CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ) )
 	{
 		 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 		value += skate_mod->GetHandicap( m_id );
@@ -622,7 +622,7 @@ float	CSkater::GetScriptedStat(Script::CStruct *pSS)
 	int stat;
 	float limit;
 
-    Dbg_MsgAssert(pSS,("NULL pSS sent to GetScriptedStat"));
+    Dbg_MsgAssert(pSS,("nullptr pSS sent to GetScriptedStat"));
 	
 	if (!pSS->GetPair(NONAME,&range))
 	{
@@ -711,7 +711,7 @@ float	CSkater::GetScriptedStat(const uint32 checksum)
 {
 	
    // Get the structure that contains the range, stat and limit
-	Script::CStruct *pSS = NULL; 
+	Script::CStruct *pSS = nullptr; 
 	Script::CStruct *pPhysics; 
 	// Try to get it from the skater/biker physics structure first
 	pPhysics = get_physics_struct();
@@ -749,8 +749,8 @@ float	CSkater::GetScriptedStat(const uint32 checksum)
 // Different sets of control & wobble stats are stored in structures in physics.q
 float CSkater::GetScriptedStat(uint32 Checksum, Script::CStruct *pSetOfStats)
 {
-	Dbg_MsgAssert(pSetOfStats,("NULL pSetOfStats."));
-	Script::CStruct *pSS=NULL;
+	Dbg_MsgAssert(pSetOfStats,("nullptr pSetOfStats."));
+	Script::CStruct *pSS=nullptr;
 		pSetOfStats->GetStructure(Checksum,&pSS);
 	Dbg_MsgAssert(pSS,("Could not find stat called %s in pSetOfStats",Script::FindChecksumName(Checksum)));
 	
@@ -910,7 +910,7 @@ void CSkater::Pause()
 		mp_skater_score_component->GetScore()->SetBalanceMeter(false);
 		mp_skater_score_component->GetScore()->SetManualMeter(false);
 		
-		Script::RunScript(Crc::ConstCRC("pause_run_timer"), NULL);
+		Script::RunScript(Crc::ConstCRC("pause_run_timer"), nullptr);
 		
 		// Pause the input device (such as vibrations)
 		if (mp_input_component)
@@ -1031,10 +1031,10 @@ void CSkater::UpdateShadow(const Mth::Vector& pos, const Mth::Matrix& matrix)
 SIO::Device *CSkater::GetDevice()
 {
 	// Stubbed for now
-	// Dbg_MsgAssert(m_input_handler,("NULL m_input_handler"));
-	// Dbg_MsgAssert(m_input_handler->m_Device,("NULL m_input_handler->m_Device ?"));
+	// Dbg_MsgAssert(m_input_handler,("nullptr m_input_handler"));
+	// Dbg_MsgAssert(m_input_handler->m_Device,("nullptr m_input_handler->m_Device ?"));
 	// return m_input_handler->m_Device;
-	return NULL;
+	return nullptr;
 }
 
 int			CSkater::GetHeapIndex( void )
@@ -1078,19 +1078,19 @@ CSkater::CSkater ( int player_num, CBaseManager* p_obj_manager, bool local_clien
 
 	SetProfileColor(0x00c0c0);				// yellow = skater
 	
-	mp_animation_component=NULL;
-	mp_model_component=NULL;
-	mp_shadow_component=NULL;
-	mp_trick_component=NULL;
-	mp_vibration_component=NULL;
-	mp_input_component=NULL;
-	mp_skater_sound_component=NULL;
-	mp_skater_gap_component=NULL;
-	mp_skater_score_component=NULL;
-	mp_skater_core_physics_component=NULL;
-    mp_stats_manager_component=NULL;
-	mp_walk_component=NULL;
-	mp_skater_physics_control_component=NULL;
+	mp_animation_component=nullptr;
+	mp_model_component=nullptr;
+	mp_shadow_component=nullptr;
+	mp_trick_component=nullptr;
+	mp_vibration_component=nullptr;
+	mp_input_component=nullptr;
+	mp_skater_sound_component=nullptr;
+	mp_skater_gap_component=nullptr;
+	mp_skater_score_component=nullptr;
+	mp_skater_core_physics_component=nullptr;
+    mp_stats_manager_component=nullptr;
+	mp_walk_component=nullptr;
+	mp_skater_physics_control_component=nullptr;
 
 	// create the following components before CMovingObject creates components
 	
@@ -1279,8 +1279,8 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 		p_cam_object->AddComponent( p_skatercam_component );
 		p_cam_object->AddComponent( p_cam_component );
 
-		p_skatercam_component->InitFromStructure( NULL );
-		p_cam_component->InitFromStructure( NULL );
+		p_skatercam_component->InitFromStructure( nullptr );
+		p_cam_component->InitFromStructure( nullptr );
 
 		p_skatercam_component->SetSkater( this );
 		*/
@@ -1289,7 +1289,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	}
 
 	// Set up the AI script.
-	Dbg_MsgAssert(mp_script==NULL,("mp_script not NULL?"));
+	Dbg_MsgAssert(mp_script==nullptr,("mp_script not nullptr?"));
 
 	mp_script=new Script::CScript;
 
@@ -1318,7 +1318,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	Script::CStruct* pAnimationStruct = new Script::CStruct;
 	pAnimationStruct->AddChecksum( Crc::ConstCRC("component"), CRC_ANIMATION );
 	pAnimationStruct->AddChecksum( Crc::ConstCRC("AnimEventTableName"), Crc::ConstCRC("SkaterAnimEventTable") );
-	CreateComponentFromStructure(pAnimationStruct, NULL);
+	CreateComponentFromStructure(pAnimationStruct, nullptr);
     delete pAnimationStruct;
 	mp_animation_component = GetAnimationComponent();
 		
@@ -1327,7 +1327,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	pSkeletonStruct->AddChecksum( Crc::ConstCRC("component"), CRC_SKELETON );
     pSkeletonStruct->AddChecksum( Crc::ConstCRC("skeleton"), skeleton_name );
     pSkeletonStruct->AddInteger( Crc::ConstCRC("max_bone_skip_lod"), 0 );
-	CreateComponentFromStructure(pSkeletonStruct, NULL);
+	CreateComponentFromStructure(pSkeletonStruct, nullptr);
     delete pSkeletonStruct;
 	
 	#if 0
@@ -1338,7 +1338,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
     pStruct->AddInteger(Crc::ConstCRC("num_links"), 15);
     pStruct->AddFloat(Crc::ConstCRC("link_length"), 5.0f);
     pStruct->AddChecksum(Crc::ConstCRC("color"), MAKE_RGB(0, 0, 255));
-	CreateComponentFromStructure(pStruct, NULL);
+	CreateComponentFromStructure(pStruct, nullptr);
     delete pStruct;
 	#endif
 	
@@ -1366,7 +1366,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	pModelStruct->AddInteger( Crc::ConstCRC("ShadowVolume"), shadowVolumeEnabled ); 
 	
 	pModelStruct->AddChecksum( Crc::ConstCRC("component"), CRC_MODEL );
-	CreateComponentFromStructure(pModelStruct, NULL);
+	CreateComponentFromStructure(pModelStruct, nullptr);
 	delete pModelStruct;
 	mp_model_component = GetModelComponent();
 	
@@ -1396,7 +1396,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	Script::CStruct* pShadowStruct = new Script::CStruct;
 	pShadowStruct->AddChecksum( Crc::ConstCRC("component"), CRC_SHADOW );
     pShadowStruct->AddChecksum( Crc::ConstCRC("shadowType"), (Crc::ConstCRC("detailed")) );
-	CreateComponentFromStructure(pShadowStruct, NULL);
+	CreateComponentFromStructure(pShadowStruct, nullptr);
     delete pShadowStruct;
 	mp_shadow_component = GetShadowComponent();
 
@@ -1405,19 +1405,19 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 		Dbg_MsgAssert( !GetVibrationComponent(), ( "Vibration component already exists" ) );
 		Script::CStruct* p_vibration_struct = new Script::CStruct;
 		p_vibration_struct->AddChecksum( Crc::ConstCRC("component"), CRC_VIBRATION );
-		CreateComponentFromStructure(p_vibration_struct, NULL);
+		CreateComponentFromStructure(p_vibration_struct, nullptr);
 		delete p_vibration_struct;
 		mp_vibration_component = GetVibrationComponent();
 
 		Dbg_MsgAssert( !GetSkaterStancePanelComponent(), ( "StancePanel component already exists" ) );
 		Script::CStruct* p_stancepanel_struct = new Script::CStruct;
 		p_stancepanel_struct->AddChecksum( Crc::ConstCRC("component"), CRC_SKATERSTANCEPANEL );
-		CreateComponentFromStructure(p_stancepanel_struct, NULL);
+		CreateComponentFromStructure(p_stancepanel_struct, nullptr);
 		delete p_stancepanel_struct;
 	}
 	else
 	{
-		mp_vibration_component = NULL;
+		mp_vibration_component = nullptr;
 	}
 	
 	if ( m_local_client )
@@ -1425,7 +1425,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 		Dbg_MsgAssert( !GetSkaterSoundComponent(), ( "SkaterSound component already exists" ) );
 		Script::CStruct* p_skater_sound_struct = new Script::CStruct;
 		p_skater_sound_struct->AddChecksum( Crc::ConstCRC("component"), CRC_SKATERSOUND );
-		CreateComponentFromStructure(p_skater_sound_struct, NULL);
+		CreateComponentFromStructure(p_skater_sound_struct, nullptr);
 		delete p_skater_sound_struct;
 		mp_skater_sound_component = GetSkaterSoundComponent();
 	}
@@ -1453,7 +1453,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 		#ifdef __NOPT_ASSERT__
 		mp_script->SetCommentString("Created in CSkater constructor, assigned to CSkater::mp_script");
 		#endif
-		mp_script->SetScript("SkaterInit",NULL,this);
+		mp_script->SetScript("SkaterInit",nullptr,this);
 	}
 
 	
@@ -1516,14 +1516,14 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	}
 	else
 	{
-		// mp_collision_cache = NULL;
+		// mp_collision_cache = nullptr;
 	}
 
 	// make sure it doesn't flash at the origin for a brief moment,
 	mp_model_component->FinalizeModelInitialization();
 
 	// this needs to happen after the m_id has been assigned
-	Script::RunScript( Crc::ConstCRC("InitSkaterParticles"), NULL, this );
+	Script::RunScript( Crc::ConstCRC("InitSkaterParticles"), nullptr, this );
 
 	// safety-check to make sure he doesn't start out in the blair witch position
 	// (because of our animation LOD-ing system)
@@ -1537,10 +1537,10 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 		{
 			m_created_trick[i] = new Game::CCreateATrick;
 		}
-        Script::RunScript( CRCD(0xbdc1c89,"spawn_add_premade_cats_to_skater"), NULL, this );
+        Script::RunScript( CRCD(0xbdc1c89,"spawn_add_premade_cats_to_skater"), nullptr, this );
         
 		// setup the correct physics state
-		CCompositeObject::CallMemberFunction(Crc::ConstCRC("SkaterPhysicsControl_SwitchWalkingToSkating"), NULL, NULL);
+		CCompositeObject::CallMemberFunction(Crc::ConstCRC("SkaterPhysicsControl_SwitchWalkingToSkating"), nullptr, nullptr);
 	}
 }
 
@@ -1553,7 +1553,7 @@ void CSkater::Init(Obj::CSkaterProfile* pSkaterProfile)
 // Note, both tasks are registered as LOW_PRIORITY, so they come after everything else
 // this ensures the movement of the skater is in sync with objects the skater stands on
 	
-	if( m_local_client && CFuncs::ScriptInMultiplayerGame( NULL, NULL ))
+	if( m_local_client && CFuncs::ScriptInMultiplayerGame( nullptr, nullptr ))
 	{
 		Net::App* client;
 	
@@ -1681,7 +1681,7 @@ CSkater::~CSkater ( void )
 
 	DeleteResources();	   
 
-	Script::RunScript( Crc::ConstCRC("DestroySkaterParticles"), NULL, this );
+	Script::RunScript( Crc::ConstCRC("DestroySkaterParticles"), nullptr, this );
 
 	for (int i=0; i < Game::vMAX_CREATED_TRICKS; i++)
     {
@@ -1767,7 +1767,7 @@ void CSkater::DeleteResources(void)
 	if (mp_script)
 	{
 		delete mp_script;
-		mp_script = NULL;
+		mp_script = nullptr;
 		
 	}
 #else
@@ -1891,7 +1891,7 @@ void CSkater::ResetInitScript(bool walk, bool in_cleanup)
 		mp_script = new Script::CScript;
 	}
 	
-	Script::CStruct* p_params = NULL;
+	Script::CStruct* p_params = nullptr;
 	if (walk || in_cleanup)
 	{
 		p_params = new Script::CStruct;
@@ -2020,7 +2020,7 @@ bool CSkater::SkaterEquals( Script::CStruct* pStructure )
 bool CSkater::CallMemberFunction( uint32 Checksum, Script::CStruct *pParams, Script::CScript *pScript )
 {
 	
-	Dbg_MsgAssert(pScript,("NULL pScript"));
+	Dbg_MsgAssert(pScript,("nullptr pScript"));
 	
 	return _function0( Checksum, pParams, pScript );
 }
@@ -2138,7 +2138,7 @@ bool CSkater::_function1( uint32 Checksum, Script::CStruct *pParams, Script::CSc
 			// this prefix (will need a new node funtion:
 			//  int	GetNearestNodeByPrefix(const char *p_prefix, const Mth::Vector &pos)
 
-			const char *p_prefix = NULL;
+			const char *p_prefix = nullptr;
 			uint32	prefix_name = 0;
 			if (!pParams->GetChecksum(Crc::ConstCRC("prefix"),&prefix_name))
 			{
@@ -2340,7 +2340,7 @@ bool CSkater::_function1( uint32 Checksum, Script::CStruct *pParams, Script::CSc
 		case 0x9abe8a21:			// GetScriptedStat
 		{
 //			Script::PrintContents(pParams);
-			Script::CStruct *p_struct = NULL;
+			Script::CStruct *p_struct = nullptr;
 			pParams->GetStructure(NONAME,&p_struct,true);
 			pScript->GetParams()->AddFloat(Crc::ConstCRC("stat_value"),GetScriptedStat(p_struct));
 			break;
@@ -2415,7 +2415,7 @@ void CSkater::SparksOn()
 	// move this all to script, instead of calling the following
 	// script from C code.
 
-	Script::RunScript( Crc::ConstCRC("sparks_on"), NULL, this );
+	Script::RunScript( Crc::ConstCRC("sparks_on"), nullptr, this );
 	mSparksOn = true;
 }
 
@@ -2429,7 +2429,7 @@ void CSkater::SparksOff()
 	if ( mSparksOn )
 	{
 		Replay::WriteSparksOff();
-		Script::RunScript( Crc::ConstCRC("TurnOffSkaterSparks"), NULL, this );
+		Script::RunScript( Crc::ConstCRC("TurnOffSkaterSparks"), nullptr, this );
 		mSparksOn=false;
 	}
 }
@@ -2440,7 +2440,7 @@ void CSkater::JumpToScript(uint32 ScriptChecksum, Script::CStruct *pParams)
 {
 	Dbg_Assert(IsLocalClient());
 		
-//	Dbg_MsgAssert(mp_script,("NULL mp_script"));
+//	Dbg_MsgAssert(mp_script,("nullptr mp_script"));
 	if ( !mp_script )
 	{
 		mp_script = new Script::CScript;
@@ -2531,7 +2531,7 @@ const char* CSkater::GetDisplayName()
 
 void CSkater::AddCATInfo(Script::CStruct *pStuff)
 {
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
     Script::CArray *p_tricks=new Script::CArray;
     p_tricks->SetSizeAndType(Game::vMAX_CREATED_TRICKS,ESYMBOLTYPE_STRUCTURE);
@@ -2552,30 +2552,30 @@ void CSkater::AddCATInfo(Script::CStruct *pStuff)
 void CSkater::LoadCATInfo(Script::CStruct *pStuff)
 {
     printf("LoadCATInfo was called\n");
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 
-    Script::CArray *pCATInfo=NULL;
+    Script::CArray *pCATInfo=nullptr;
     pStuff->GetArray(Crc::ConstCRC("tricks"),&pCATInfo);
 
     Dbg_Assert( m_created_trick[1] );
 
     for (int i=0; i<Game::vMAX_CREATED_TRICKS; ++i)
     {
-        Script::CStruct *pTemp=NULL;
+        Script::CStruct *pTemp=nullptr;
         pTemp = pCATInfo->GetStructure(i);
         
         // other params
-        Script::CStruct *p_other_params=NULL;
+        Script::CStruct *p_other_params=nullptr;
         pTemp->GetStructure(Crc::ConstCRC("other"),&p_other_params,Script::ASSERT);
         m_created_trick[i]->mp_other_params->AppendStructure( p_other_params );
 
         // animations
-        Script::CArray *p_animation_info=NULL;
+        Script::CArray *p_animation_info=nullptr;
         pTemp->GetArray(Crc::ConstCRC("animations"),&p_animation_info,Script::ASSERT);
         Script::CopyArray( m_created_trick[i]->mp_animations, p_animation_info );
         
         // rotations
-        Script::CArray *p_rotation_info=NULL;
+        Script::CArray *p_rotation_info=nullptr;
         pTemp->GetArray(Crc::ConstCRC("rotations"),&p_rotation_info,Script::ASSERT);
         Script::CopyArray( m_created_trick[i]->mp_rotations, p_rotation_info );
 
@@ -2583,12 +2583,12 @@ void CSkater::LoadCATInfo(Script::CStruct *pStuff)
         //Script::PrintContents( m_created_trick[i]->mp_rotations );
     }
 
-    Script::RunScript(Crc::ConstCRC("kill_load_premade_cats"), NULL);
+    Script::RunScript(Crc::ConstCRC("kill_load_premade_cats"), nullptr);
 }
 
 void CSkater::AddStatGoalInfo(Script::CStruct *pStuff)
 {
-    Dbg_MsgAssert(pStuff,("NULL pStuff"));
+    Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
     Script::CArray *p_stat_goals=new Script::CArray;
     p_stat_goals->SetSizeAndType(Obj::NUM_STATS_GOALS,ESYMBOLTYPE_INTEGER);
@@ -2602,13 +2602,13 @@ void CSkater::AddStatGoalInfo(Script::CStruct *pStuff)
 
 void CSkater::LoadStatGoalInfo(Script::CStruct *pStuff)
 {
-    Dbg_MsgAssert(pStuff,("NULL pStuff"));
+    Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 
     // Reset Stats Goals and set to proper difficulty
-    Script::CStruct* p_params = NULL;
+    Script::CStruct* p_params = nullptr;
     mp_stats_manager_component->RefreshFromStructure(p_params);
 
-    Script::CArray *pStatGoalInfo=NULL;
+    Script::CArray *pStatGoalInfo=nullptr;
     pStuff->GetArray(Crc::ConstCRC("StatGoals"),&pStatGoalInfo);
 
     for (int i=0; i<Obj::NUM_STATS_GOALS; ++i)
@@ -2619,17 +2619,17 @@ void CSkater::LoadStatGoalInfo(Script::CStruct *pStuff)
 
 void CSkater::AddChapterStatusInfo(Script::CStruct *pStuff)
 {
-    Dbg_MsgAssert(pStuff,("NULL pStuff"));
+    Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
     pStuff->AddArray(Crc::ConstCRC("ChapterStatus"),Script::GetArray( Crc::ConstCRC("CHAPTER_STATUS"), Script::ASSERT ));
 }
 
 void CSkater::LoadChapterStatusInfo(Script::CStruct *pStuff)
 {
-    Dbg_MsgAssert(pStuff,("NULL pStuff"));
+    Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 
 	uint32 Name = Script::GenerateCRC("ChapterStatus");
-    Script::CArray *pChapterStatusInfo=NULL;
+    Script::CArray *pChapterStatusInfo=nullptr;
     pStuff->GetArray(Name,&pChapterStatusInfo);
 
     Script::CopyArray(Script::GetArray( Crc::ConstCRC("CHAPTER_STATUS"), Script::ASSERT ), pChapterStatusInfo);

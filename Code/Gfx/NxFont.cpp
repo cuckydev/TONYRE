@@ -285,7 +285,7 @@ void	CFont::plat_query_string(char *String, float &width, float &height) const
 /******************************************************************/
 
 CText::CText(CWindow2D *p_window) : 
-	mp_font(NULL),
+	mp_font(nullptr),
 	m_xpos(0.0f),
 	m_ypos(0.0f),
 	m_xscale(1.0f),
@@ -296,12 +296,12 @@ CText::CText(CWindow2D *p_window) :
 	m_hidden(true),
 	m_use_zbuffer(false),
 	mp_window(p_window),
-	mp_next(NULL)
+	mp_next(nullptr)
 {
 	#if						__STATIC_FONT_STRINGS__
 	m_string[0] = '\0';
 	#else
-	m_string = NULL;
+	m_string = nullptr;
 	#endif
 }
 
@@ -381,7 +381,7 @@ void			CText::ClearString()
 	if (m_string)
 	{
 		delete m_string;
-		m_string = NULL;
+		m_string = nullptr;
 	}
 	#endif
 }
@@ -518,7 +518,7 @@ void			CText::plat_update_window()
 ///////////////////////////////////////////////////////////////////////////////
 // CTextMan
 
-CText *			CTextMan::sp_dynamic_text_list = NULL;
+CText *			CTextMan::sp_dynamic_text_list = nullptr;
 
 /******************************************************************/
 /*                                                                */

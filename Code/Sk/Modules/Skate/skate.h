@@ -249,7 +249,7 @@ public:
 
 	const char*						GetSkaterDisplayName( int id );
 	Obj::CSkaterProfile*			GetProfile( int i );
-	Obj::CSkaterProfile*			GetCurrentProfile( Script::CStruct* pParams = NULL );
+	Obj::CSkaterProfile*			GetCurrentProfile( Script::CStruct* pParams = nullptr );
 	Obj::CSkaterCareer*				GetCareer(){return mp_career;} 
 	Game::CGameMode*				GetGameMode();
 	Game::CGoalManager*				GetGoalManager();

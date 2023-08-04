@@ -315,7 +315,7 @@ void CQuickAnim::plat_get_interpolated_frames( Mth::Quat* pRotations, Mth::Vecto
 	
 CQuickAnim::CQuickAnim()
 {
-	mp_frameData = NULL;
+	mp_frameData = nullptr;
 	m_quickAnimPointers.valid = false;
 }
 

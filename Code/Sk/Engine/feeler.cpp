@@ -28,7 +28,7 @@
 
 #define PRINT_TIMES 0
 						
-Nx::CCollCache *		CFeeler::sp_default_cache = NULL;
+Nx::CCollCache *		CFeeler::sp_default_cache = nullptr;
 
 					
 CFeeler::CFeeler()
@@ -51,8 +51,8 @@ void CFeeler::init (   )
 	// as they will be used the most
 	m_col_data.ignore_1 = mFD_NON_COLLIDABLE; 		// ignore NON_COLLIDABLES
 	m_col_data.ignore_0 = 0;						// don't ignore anything else
-	mp_callback = NULL;
-	mp_cache = NULL;
+	mp_callback = nullptr;
+	mp_cache = nullptr;
 
 	// Now un-initialized...
 	m_col_data.surface.normal.Set();
@@ -122,7 +122,7 @@ bool	CFeeler::GetCollision(bool movables, bool bfar)
 	m_col_data.trigger = false;
 	m_col_data.script = 0;				// This is a checksum
 
-	m_col_data.mp_callback_object = NULL;
+	m_col_data.mp_callback_object = nullptr;
 						  
 	void *callback = 0;					
 	if (mp_callback)
@@ -133,7 +133,7 @@ bool	CFeeler::GetCollision(bool movables, bool bfar)
 	Nx::CCollCache *p_cache = (mp_cache) ? mp_cache : sp_default_cache;
 
 	bool	collision;
-	mp_movable_collision_obj = NULL;
+	mp_movable_collision_obj = nullptr;
 	m_movable_collision_id = 0;
 	if (bfar)
 	{
@@ -185,7 +185,7 @@ bool	CFeeler::GetCollision(bool movables, bool bfar)
 
 
  #ifdef	__PLAT_NGPS__		
-	//	snProfSetRange( 4, (void*)NULL, (void*)-1);
+	//	snProfSetRange( 4, (void*)nullptr, (void*)-1);
  #endif		
 
 #if PRINT_TIMES
@@ -200,7 +200,7 @@ bool	CFeeler::GetCollision(bool movables, bool bfar)
 #endif
 
 	
-	return collision || (mp_movable_collision_obj != NULL);
+	return collision || (mp_movable_collision_obj != nullptr);
 
 
 
@@ -223,7 +223,7 @@ bool CFeeler::GetMovableCollision(bool bfar)
 	m_col_data.coll_found = false;
 	m_col_data.trigger = false;
 	m_col_data.script = 0;				// This is a checksum
-	m_col_data.mp_callback_object = NULL;
+	m_col_data.mp_callback_object = nullptr;
 // End of change
 ////////////////////////////////////////////////////////////
 
@@ -256,7 +256,7 @@ bool CFeeler::GetMovableCollision(bool bfar)
 	m_point = m_col_data.surface.point;
 	m_normal = m_col_data.surface.normal;
 
-	return mp_movable_collision_obj != NULL;
+	return mp_movable_collision_obj != nullptr;
 }
 
 // Check to see that if we have collision, that we have enough data to
@@ -309,7 +309,7 @@ float	CFeeler::GetBrightness()
 		Dbg_MsgAssert(p_object->IsTriangleCollision(),("Not triangle collision !!!"));
 
 		Nx::CCollObjTriData *p_tri_data=p_object->GetGeometry();
-		Dbg_MsgAssert(p_tri_data,("NULL p_tri_data"));
+		Dbg_MsgAssert(p_tri_data,("nullptr p_tri_data"));
 
 		// Get all the vertices into a nice simple array of (x,y,z,v).
 		for( i = 0; i < 3; ++i )

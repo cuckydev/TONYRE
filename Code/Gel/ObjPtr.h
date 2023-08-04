@@ -32,7 +32,7 @@ public:
 	T &						operator*() const;
 	T **					operator&() const;
 
-	bool					operator!() const {return (mp_object == NULL);}
+	bool					operator!() const {return (mp_object == nullptr);}
 	
 							operator T*() const {return mp_object;}
 
@@ -59,10 +59,10 @@ private:
 template<class T>
 inline CSmtPtr<T>::CSmtPtr()
 {
-	mp_prev_ptr = NULL;
-	mp_next_ptr = NULL;
+	mp_prev_ptr = nullptr;
+	mp_next_ptr = nullptr;
 	
-	mp_object = NULL;
+	mp_object = nullptr;
 }
 
 
@@ -71,8 +71,8 @@ inline CSmtPtr<T>::CSmtPtr()
 template<class T>
 inline CSmtPtr<T>::CSmtPtr(T *pT)
 {
-	mp_prev_ptr = NULL;
-	mp_next_ptr = NULL;
+	mp_prev_ptr = nullptr;
+	mp_next_ptr = nullptr;
 	
 	mp_object = pT;
 	add_ref();
@@ -85,8 +85,8 @@ inline CSmtPtr<T>::CSmtPtr(T *pT)
 template<class T>
 inline CSmtPtr<T>::CSmtPtr(CSmtPtr<T> &ref)
 {
-	mp_prev_ptr = NULL;
-	mp_next_ptr = NULL;
+	mp_prev_ptr = nullptr;
+	mp_next_ptr = nullptr;
 	
 	mp_object = ref.mp_object;
 	add_ref();
@@ -135,7 +135,7 @@ inline CSmtPtr<T> & CSmtPtr<T>::operator=(CSmtPtr<T> &ref)
 template<class T>
 inline T * CSmtPtr<T>::operator->() const
 {
-	Dbg_MsgAssert(mp_object, ("NULL smart pointer!"));
+	Dbg_MsgAssert(mp_object, ("nullptr smart pointer!"));
 	return (T *) mp_object;
 }
 
@@ -145,7 +145,7 @@ inline T * CSmtPtr<T>::operator->() const
 template<class T>
 inline T & CSmtPtr<T>::operator*()	const
 {
-	Dbg_MsgAssert(mp_object, ("NULL smart pointer!"));
+	Dbg_MsgAssert(mp_object, ("nullptr smart pointer!"));
 	return *((T *) mp_object);
 }
 
@@ -164,7 +164,7 @@ inline T ** CSmtPtr<T>::operator&()	const
 template<class T>
 inline void CSmtPtr<T>::Kill() const 
 {
-	Dbg_MsgAssert(mp_object, ("attempting delete with NULL smart pointer!"));
+	Dbg_MsgAssert(mp_object, ("attempting delete with nullptr smart pointer!"));
 	// this will lead to remove_ref() being called on this
 	delete mp_object;
 }
@@ -192,7 +192,7 @@ inline void CSmtPtr<T>::remove_ref()
 	{
 		//printf("WWW removing ref from 0x%x\n", mp_object);
 		mp_object->RemoveSmartPointer((CSmtPtr<CRefCounted> *) this);
-		mp_object = NULL;
+		mp_object = nullptr;
 	}
 }
 

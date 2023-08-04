@@ -36,10 +36,10 @@ static int sort_batches_by_draw_order( const void *p1, const void *p2 )
 	sBillboardMaterialBatch *p_batch0 = *((sBillboardMaterialBatch**)p1 );
 	sBillboardMaterialBatch *p_batch1 = *((sBillboardMaterialBatch**)p2 );
 
-	// Deal with NULL pointers first (caused by removing batches from the list).
-	if( p_batch0 == NULL )
+	// Deal with nullptr pointers first (caused by removing batches from the list).
+	if( p_batch0 == nullptr )
 	{
-		if( p_batch1 == NULL )
+		if( p_batch1 == nullptr )
 		{
 			return 0;
 		}
@@ -48,7 +48,7 @@ static int sort_batches_by_draw_order( const void *p1, const void *p2 )
 			return 1;
 		}
 	}
-	else if( p_batch1 == NULL )
+	else if( p_batch1 == nullptr )
 	{
 		return -1;
 	}
@@ -71,7 +71,7 @@ sBillboardMaterialBatch *sBillboardManager::GetBatch( sMaterial *p_material )
 			return mp_batches[b];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -85,10 +85,10 @@ void sBillboardManager::AddEntry( sMesh *p_mesh )
 	if( p_mesh->mp_material )
 	{
 		// Make sure it is textured.
-		if( p_mesh->mp_material->mp_tex[0] != NULL )
+		if( p_mesh->mp_material->mp_tex[0] != nullptr )
 		{
 			sBillboardMaterialBatch *p_batch = GetBatch( p_mesh->mp_material );
-			if( p_batch == NULL )
+			if( p_batch == nullptr )
 			{
 				Dbg_Assert( m_num_batches < ( MAX_BILLBOARD_BATCHES - 1 ));
 
@@ -130,12 +130,12 @@ void sBillboardManager::RemoveEntry( sMesh *p_mesh )
 					if( mp_batches[i] == p_batch )
 					{
 						delete p_batch;
-						mp_batches[i] = NULL;
+						mp_batches[i] = nullptr;
 						break;
 					}
 				}
 
-				// Resort the batches (will move the NULL pointer to the end).
+				// Resort the batches (will move the nullptr pointer to the end).
 				SortBatches();
 
 				// Important not to decrement this until after the resort has been performed.
@@ -608,7 +608,7 @@ void sBillboardMaterialBatch::Reset( void )
 		}
 	}
 
-	mp_material		= NULL;
+	mp_material		= nullptr;
 	m_entry_size	= 0;
 }
 
@@ -624,7 +624,7 @@ void sBillboardMaterialBatch::Reset( void )
 /******************************************************************/
 sBillboardEntry::sBillboardEntry( sMesh *p_mesh )
 {
-	Dbg_Assert( p_mesh->mp_billboard_data != NULL );
+	Dbg_Assert( p_mesh->mp_billboard_data != nullptr );
 
 	mp_mesh			= p_mesh;
 	m_type			= p_mesh->mp_billboard_data->m_type;

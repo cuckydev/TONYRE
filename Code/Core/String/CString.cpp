@@ -85,7 +85,7 @@ int String::sDumbCount = 0;
 
 
 String::String( void )
-: mp_string( NULL )
+: mp_string( nullptr )
 {
 //    
     
@@ -104,7 +104,7 @@ String::String( void )
  *****************************************************************************/
 
 String::String( const char* string )
-: mp_string ( NULL )
+: mp_string ( nullptr )
 {
 //    
     
@@ -128,7 +128,7 @@ String::String( const char* string )
  *****************************************************************************/
 
 String::String( const String& string )
-: mp_string ( NULL )
+: mp_string ( nullptr )
 {
 //    
     
@@ -158,7 +158,7 @@ String::~String( void )
 	if (mp_string)
 	{
 		delete [] mp_string;
-		mp_string = NULL;
+		mp_string = nullptr;
 	}
 
 	//Ryan("\n");
@@ -250,7 +250,7 @@ bool String::operator== (const String & string)
 
 bool String::operator!()
 {
-	return (mp_string == NULL);
+	return (mp_string == nullptr);
 }
 
 /******************************************************************************
@@ -301,7 +301,7 @@ void String::copy(const char *pChar, int first_char, int last_char)
 			if ( mp_string && ( length > m_length ))
 			{
 				delete [] mp_string;
-				mp_string = NULL;
+				mp_string = nullptr;
 			}
 
 			// if current string doesn't exist, or has been deleted, make a new one
@@ -327,7 +327,7 @@ void String::copy(const char *pChar, int first_char, int last_char)
 		if ( mp_string )
 		{
 			delete [] mp_string;
-			mp_string = NULL;
+			mp_string = nullptr;
 		}
 	}
 	

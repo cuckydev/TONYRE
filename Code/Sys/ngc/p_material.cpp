@@ -81,7 +81,7 @@
 // * Local variables.																*
 // ********************************************************************************/
 //
-//static NsMaterial* lastUVWibbleMaterial = NULL;
+//static NsMaterial* lastUVWibbleMaterial = nullptr;
 //
 ///********************************************************************************
 // * Forward references.															*
@@ -110,15 +110,15 @@
 ////
 //////		if ( pKillDL->m_pParent->m_pVertexPool ) {
 //////			delete pKillDL->m_pParent->m_pVertexPool;
-//////			pKillDL->m_pParent->m_pVertexPool = NULL;
+//////			pKillDL->m_pParent->m_pVertexPool = nullptr;
 //////		}
 ////		if ( pKillDL->m_pParent->m_pFaceFlags ) {
 ////			delete pKillDL->m_pParent->m_pFaceFlags;
-////			pKillDL->m_pParent->m_pFaceFlags = NULL;
+////			pKillDL->m_pParent->m_pFaceFlags = nullptr;
 ////		}
 ////		if ( pKillDL->m_pParent->m_pFaceMaterial ) {
 ////			delete pKillDL->m_pParent->m_pFaceMaterial;
-////			pKillDL->m_pParent->m_pFaceMaterial = NULL;
+////			pKillDL->m_pParent->m_pFaceMaterial = nullptr;
 ////		}
 ////	}
 ////	// Remove all display lists.
@@ -151,9 +151,9 @@
 //	m_id			=  *((unsigned int *)"GCMT");
 //	m_version		= 0;
 //	m_number		= number;
-//	m_pTexture	= NULL;
+//	m_pTexture	= nullptr;
 //	m_nDL			= 0;
-//	m_pDL			= NULL;
+//	m_pDL			= nullptr;
 //	m_priority	= 0;
 //}
 //
@@ -244,7 +244,7 @@
 ////	OSReport ( "Draw material: %d %s\n", number, pTexture ? pTexture->name : "<no texture" );
 //
 //	// Clear material flag for uv wibble.
-//	lastUVWibbleMaterial = NULL;
+//	lastUVWibbleMaterial = nullptr;
 //
 //	// Amend z-buffer state for decal materials.
 //	if( m_flags & mDECAL )
@@ -392,7 +392,7 @@
 //			if ( ( pDLToDraw->m_flags & rpWORLDUVS ) && m_pTexture ) {
 //				NsRender::setBlendMode ( m_blendMode, m_pTexture, m_alpha );
 //			} else {
-//				NsRender::setBlendMode ( m_blendMode, NULL, m_alpha );
+//				NsRender::setBlendMode ( m_blendMode, nullptr, m_alpha );
 //			}
 ////			// If model is straddling z, turn on clipping.
 ////			if ( pDLToDraw->cull.clipCodeOR ) {
@@ -459,19 +459,19 @@
 ////	WorldSectorPluginData* ws_plugin_data;
 //
 ////	mat_plugin_data = GetMaterialPluginData( material );
-////	if( mat_plugin_data->m_pWibble == NULL )
+////	if( mat_plugin_data->m_pWibble == nullptr )
 ////	{
-////		return NULL;
+////		return nullptr;
 ////	}
-//	if( p_dl->m_pParent->getWibbleColor() == NULL )
+//	if( p_dl->m_pParent->getWibbleColor() == nullptr )
 //	{
-//		return NULL;
+//		return nullptr;
 //	}
 //
 ////	ws_plugin_data = GetWorldSectorPluginData( sector );
-////	if( ( ws_plugin_data->m_pWibbleSeqIndices == NULL ) || ( ws_plugin_data->m_pWibbleSeqOffsets == NULL ))
+////	if( ( ws_plugin_data->m_pWibbleSeqIndices == nullptr ) || ( ws_plugin_data->m_pWibbleSeqOffsets == nullptr ))
 ////	{
-////		return NULL;
+////		return nullptr;
 ////	}
 //
 //	Spt::SingletonPtr< Gfx::Manager > gfx_man;
@@ -626,7 +626,7 @@
 //	}
 //
 //	new_colors = getVCWibbleParameters( p_dl, &change_mask );
-//	if( new_colors == NULL )
+//	if( new_colors == nullptr )
 //	{
 //		return false;
 //	}

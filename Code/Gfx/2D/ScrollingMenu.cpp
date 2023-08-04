@@ -16,7 +16,7 @@ namespace Front
 CBaseScrollingMenu::CBaseScrollingMenu()
 {
 	RegisterWithTracker(this);
-	mp_the_menu = NULL;
+	mp_the_menu = nullptr;
 	m_selected_element_id = 0;
 
 	m_in_focus = false;
@@ -210,7 +210,7 @@ void CBaseScrollingMenu::put_element_in_view(const CScreenElementPtr &pElement)
 
 void CBaseScrollingMenu::update()
 {
-	CScreenElementPtr pElement = NULL;
+	CScreenElementPtr pElement = nullptr;
 	int element_index = 0;
 	
 	float center_menu_offset_up = 0.0f;

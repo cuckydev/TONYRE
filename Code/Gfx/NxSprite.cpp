@@ -20,7 +20,7 @@ namespace	Nx
 /******************************************************************/
 
 CSprite::CSprite(CWindow2D *p_window) :
-	mp_texture(NULL),
+	mp_texture(nullptr),
 	m_pos_x(-1.0f),
 	m_pos_y(-1.0f),
 	m_scale_x(1.0f),

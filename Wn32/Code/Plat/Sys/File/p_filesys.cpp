@@ -201,7 +201,7 @@ static void* prefopen( const char *filename, const char *mode )
 	}
 
 	// Open the file
-	HANDLE h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+	HANDLE h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 
 	// Deal with various error returns.
 	if( h_file == INVALID_HANDLE_VALUE )
@@ -218,7 +218,7 @@ static void* prefopen( const char *filename, const char *mode )
 			printf( "FatalFileError: %x %s\n", error, nameConversionBuffer );
 			// NxWn32::FatalFileError((uint32)INVALID_HANDLE_VALUE );
 		}
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -295,7 +295,7 @@ void InstallFileSystem( void )
 /******************************************************************/
 long GetFileSize( void* pFP )
 {
-	Dbg_MsgAssert( pFP, ( "NULL pFP sent to GetFileSize" ));
+	Dbg_MsgAssert( pFP, ( "nullptr pFP sent to GetFileSize" ));
 
 	if( PreMgr::sPreEnabled())
     {
@@ -317,7 +317,7 @@ long GetFileSize( void* pFP )
 /******************************************************************/
 long GetFilePosition( void *pFP )
 {
-	Dbg_MsgAssert( pFP, ( "NULL pFP sent to GetFilePosition" ));
+	Dbg_MsgAssert( pFP, ( "nullptr pFP sent to GetFilePosition" ));
 
 	if( PreMgr::sPreEnabled())
 	{
@@ -406,12 +406,12 @@ bool Exist( const char *filename )
     }
 
 	void *p_result = prefopen( filename, "rb" );
-	if( p_result != NULL )
+	if( p_result != nullptr )
 	{
 		Close( p_result );
 	}
 
-	return( p_result != NULL );
+	return( p_result != nullptr );
 }
 
 
@@ -468,7 +468,7 @@ size_t Read( void *addr, size_t size, size_t count, void *pFP )
     }
 
 	DWORD bytes_read;
-	if( ReadFile((HANDLE)pFP, addr, size * count, &bytes_read, NULL ))
+	if( ReadFile((HANDLE)pFP, addr, size * count, &bytes_read, nullptr ))
 	{
 		// All is well.
 		return bytes_read;
@@ -533,7 +533,7 @@ char * GetS( char *buffer, int maxlen, void *pFP )
         if (PreMgr::sPreExecuteSuccess())
             return retval;
     }
-	return NULL;
+	return nullptr;
 }
 
 
@@ -584,7 +584,7 @@ int Seek( void *pFP, long offset, int origin )
 		if( PreMgr::sPreExecuteSuccess())
 			return retval;
 	}
-	return SetFilePointer((HANDLE)pFP, offset, NULL, ( origin == SEEK_CUR ) ? FILE_CURRENT : (( origin == SEEK_SET ) ? FILE_BEGIN : FILE_END ));
+	return SetFilePointer((HANDLE)pFP, offset, nullptr, ( origin == SEEK_CUR ) ? FILE_CURRENT : (( origin == SEEK_SET ) ? FILE_BEGIN : FILE_END ));
 }
 
 

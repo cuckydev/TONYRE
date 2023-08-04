@@ -51,7 +51,7 @@ DefineSingletonClass(CParkManager, "Park Manager");
 
 
 
-CParkManager *CParkManager::sp_instance = NULL;
+CParkManager *CParkManager::sp_instance = nullptr;
 
 GridDims::GridDims(uint8 x, sint8 y, uint8 z, uint8 w, uint8 h, uint8 l)
 {
@@ -107,7 +107,7 @@ void GridDims::PrintContents() const
 CMetaPiece::CMetaPiece()
 {
 	m_flags = EFlags(0);
-	mp_additional_desc_tab = NULL;
+	mp_additional_desc_tab = nullptr;
 	m_total_entries = 0;
 	m_num_used_entries = 0;
 }
@@ -126,7 +126,7 @@ CMetaPiece::~CMetaPiece()
 
 CConcreteMetaPiece *CMetaPiece::CastToConcreteMeta()
 {
-	Dbg_MsgAssert(this == NULL || (m_flags & mCONCRETE_META), ("not a concrete metapiece"));
+	Dbg_MsgAssert(this == nullptr || (m_flags & mCONCRETE_META), ("not a concrete metapiece"));
 	return (CConcreteMetaPiece *) this;
 }
 
@@ -135,7 +135,7 @@ CConcreteMetaPiece *CMetaPiece::CastToConcreteMeta()
 
 CAbstractMetaPiece *CMetaPiece::CastToAbstractMeta()
 {
-	Dbg_MsgAssert(this == NULL || (m_flags & mABSTRACT_META), ("not an abstract metapiece"));
+	Dbg_MsgAssert(this == nullptr || (m_flags & mABSTRACT_META), ("not an abstract metapiece"));
 	return (CAbstractMetaPiece *) this;
 }
 
@@ -191,7 +191,7 @@ void CMetaPiece::SetRot(Mth::ERot90 newRot)
 	SMetaDescriptor temp_new_first[USUAL_NUM_DESCRIPTORS];
 	
 	// Create a new table, which will soon replace the old one
-	SMetaDescriptor *p_meta_tab = NULL;
+	SMetaDescriptor *p_meta_tab = nullptr;
 	if (mp_additional_desc_tab)
 	{
 		Mem::Manager::sHandle().PushContext(CParkManager::sInstance()->GetGenerator()->GetParkEditorHeap());
@@ -311,7 +311,7 @@ void CMetaPiece::BuildElement3dSectorsArray(Script::CArray *pArray)
 */
 void CMetaPiece::initialize_desc_table(int numEntries)
 {
-	SMetaDescriptor *p_new_tab = NULL;
+	SMetaDescriptor *p_new_tab = nullptr;
 	if (numEntries > USUAL_NUM_DESCRIPTORS) 
 	{
 		Mem::Manager::sHandle().PushContext(CParkManager::sInstance()->GetGenerator()->GetParkEditorHeap());
@@ -370,7 +370,7 @@ int	CConcreteMetaPiece::CountContainedPieces()
 CPiece *CConcreteMetaPiece::GetContainedPiece(int index)
 {
 	if ((uint) index >= m_num_used_entries || index < 0)
-		return NULL;
+		return nullptr;
 
 	return get_desc_at_index(index).mpPiece;
 }
@@ -653,7 +653,7 @@ CAbstractMetaPiece::CAbstractMetaPiece()
 CPiece *CAbstractMetaPiece::GetContainedPiece(int index)
 {
 	if ((uint) index >= m_num_used_entries || index < 0)
-		return NULL;
+		return nullptr;
 
 	CPiece *p_piece = CParkManager::sInstance()->GetGenerator()->GetMasterPiece(get_desc_at_index(index).mPieceName);
 	Dbg_Assert(p_piece);
@@ -671,7 +671,7 @@ CPiece *CAbstractMetaPiece::GetContainedPiece(int index)
 void CAbstractMetaPiece::add_piece(CPiece *pPiece, GridDims *pPos, Mth::ERot90 rot, bool isRiser)
 {
 	Dbg_Assert(pPiece);
-	CSourcePiece *p_source = NULL;
+	CSourcePiece *p_source = nullptr;
 	if (pPiece->GetFlags() & CPiece::mSOURCE_PIECE)
 		p_source = pPiece->CastToCSourcePiece();
 	if (!p_source)
@@ -952,18 +952,18 @@ CParkManager::CParkManager()
 {
 	mp_generator = new CParkGenerator();
 	
-	mp_concrete_metapiece_list = NULL;
-	mp_abstract_metapiece_list = NULL;
+	mp_concrete_metapiece_list = nullptr;
+	mp_abstract_metapiece_list = nullptr;
 	m_num_concrete_metapieces = 0;
 	m_num_general_concrete_metapieces = 0;
 	m_dma_piece_count = 0;
 	m_num_abstract_metapieces = 0;
 
-	m_floor_height_map = NULL;
+	m_floor_height_map = nullptr;
 	
 	for (int i = 0; i < FLOOR_MAX_WIDTH; i++)
 		for (int j = 0; j < FLOOR_MAX_LENGTH; j++)
-			mp_bucket_list[i][j] = NULL;
+			mp_bucket_list[i][j] = nullptr;
 
 	m_state_on = false;
 
@@ -973,7 +973,7 @@ CParkManager::CParkManager()
 	m_compressed_map_flags = mNO_FLAGS;
 	m_park_is_valid = false;
 
-	mp_gap_manager = NULL;
+	mp_gap_manager = nullptr;
 	
 	for (int i = 0; i < NUM_RISER_INFO_SLOTS; i++)
 	{
@@ -995,13 +995,13 @@ CParkManager::CParkManager()
 	// Mick: Create a compressed map buffer, equivalent to an empty park								
 	fake_compressed_map_buffer();
 
-	mp_column_slide_list = NULL;	
+	mp_column_slide_list = nullptr;	
 	
 	mp_park_name[0]=0;
 	
 	#ifdef USE_BUILD_LIST
 	m_build_list_size=0;
-	mp_build_list_entry=NULL;
+	mp_build_list_entry=nullptr;
 	#endif
 }
 
@@ -1016,14 +1016,14 @@ CParkManager::~CParkManager()
 		#ifndef	__USE_EXTERNAL_BUFFER__
 		Mem::Free(mp_build_list_entry);
 		#endif
-		mp_build_list_entry=NULL;
+		mp_build_list_entry=nullptr;
 	}	
 	#endif
 	
 	delete mp_generator;
 	delete mp_compressed_map_buffer;
 
-	sp_instance = NULL;
+	sp_instance = nullptr;
 }
 
 
@@ -1095,7 +1095,7 @@ void CParkManager::Initialize()
 	{
 		Script::CStruct *p_set = p_set_array->GetStructure(s);
 		
-		m_palette_set[s].mpName = NULL;
+		m_palette_set[s].mpName = nullptr;
 		p_set->GetText("name", &m_palette_set[s].mpName, Script::ASSERT);
 		m_palette_set[s].mNameCrc = Script::GenerateCRC(m_palette_set[s].mpName);
 		m_palette_set[s].mSelectedEntry = 0;
@@ -1143,7 +1143,7 @@ void CParkManager::Initialize()
 				Script::CStruct *p_piece_entry = p_piece_array->GetStructure(entry);
 				if (!p_piece_entry->GetLocalString("text_name", &m_palette_set[s].mEntryTab[i].mpName))
 				{
-					m_palette_set[s].mEntryTab[i].mpName = NULL;
+					m_palette_set[s].mEntryTab[i].mpName = nullptr;
 				}
 			
 				++entry;
@@ -1307,7 +1307,7 @@ void CParkManager::ReadFromStructure(Script::CStruct *p_struct, bool do_post_mem
 	p_goal_editor->ClearOnlyParkGoals();
 	
 	// Read in any created goals.
-	Script::CStruct *p_goals_struct=NULL;
+	Script::CStruct *p_goals_struct=nullptr;
 	if (p_struct->GetStructure(Crc::ConstCRC("Park_editor_goals"),&p_goals_struct))
 	{
 		p_goal_editor->ReadFromStructure(p_goals_struct,Obj::CGoalEditorComponent::LOADING_PARK_GOALS);
@@ -1334,7 +1334,7 @@ void CParkManager::ReadFromStructure(Script::CStruct *p_struct, bool do_post_mem
 	uint32	*p_map_buffer = (uint32*) GetCompressedMapBuffer();
 	int		size = Ed::CParkManager::COMPRESSED_MAP_SIZE ;
 	// get the array
-	Script::CArray *p_map=NULL;
+	Script::CArray *p_map=nullptr;
 	if (p_struct->GetArray("Park_editor_map",&p_map,true))
 	{
 		// copy the park editor map from structure to buffer
@@ -1402,7 +1402,7 @@ const char *CParkManager::GetParkName()
 	if (mp_compressed_map_buffer && ((CompressedMapHeader *) mp_compressed_map_buffer)->mVersion == (VERSION))
 		return ((CompressedMapHeader *) mp_compressed_map_buffer)->mParkName;
 	else
-		return NULL;
+		return nullptr;
 }
 
 uint32 CParkManager::GetParkChecksum()
@@ -1522,7 +1522,7 @@ void CParkManager::Destroy(CParkGenerator::EDestroyType type)
 	mp_gap_manager->RemoveAllGaps();
 	
 	// remove all abstract metapieces
-	CMapListNode *p_node = NULL;
+	CMapListNode *p_node = nullptr;
 	while((p_node = mp_abstract_metapiece_list))
 	{
 		CMetaPiece *p_meta = p_node->GetMeta();
@@ -1540,7 +1540,7 @@ void CParkManager::Destroy(CParkGenerator::EDestroyType type)
 	for (int i = 0; i < FLOOR_MAX_WIDTH; i++)
 		delete [] m_floor_height_map[i];
 	delete [] m_floor_height_map;
-	m_floor_height_map = NULL;
+	m_floor_height_map = nullptr;
 	
 	m_state_on = false;
 	// since park is destroyed, buffer is out of sync and newer than park
@@ -1550,11 +1550,11 @@ void CParkManager::Destroy(CParkGenerator::EDestroyType type)
 	
 	Dbg_Assert(mp_gap_manager);
 	delete mp_gap_manager;
-	mp_gap_manager = NULL;
+	mp_gap_manager = nullptr;
 	
 	if (mp_column_slide_list)
 		mp_column_slide_list->DestroyList();
-	mp_column_slide_list = NULL;
+	mp_column_slide_list = nullptr;
 	
 	Mem::CPoolable<CClipboard>::SRemovePool();	
 	Mem::CPoolable<CClipboardEntry>::SRemovePool();	
@@ -2043,7 +2043,7 @@ CAbstractMetaPiece *CParkManager::GetAbstractMeta(uint32 type, int *pRetIndex)
 		p_node = p_node->GetNext();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2070,7 +2070,7 @@ CAbstractMetaPiece *CParkManager::GetAbstractMetaByIndex(int index)
 	}
 
 	Dbg_MsgAssert(0, ("index %d out of range", i));
-	return NULL;	
+	return nullptr;	
 }
 
 
@@ -2163,7 +2163,7 @@ CConcreteMetaPiece *CParkManager::CreateConcreteMeta(CAbstractMetaPiece *pSource
 	p_node->mp_next = mp_concrete_metapiece_list;
 	mp_concrete_metapiece_list = p_node;
 	#else
-	p_node->mp_next = NULL;		
+	p_node->mp_next = nullptr;		
 	if (!mp_concrete_metapiece_list)
 	{
 		mp_concrete_metapiece_list = p_node;
@@ -2368,7 +2368,7 @@ uint32 CParkManager::DestroyMetasInArea(GridDims area, EDestroyFlags flags)
 {
 	uint16 metas_killed = 0;
 	uint16 pieces_killed = 0;
-	CMapListNode *p_list = GetMetaPiecesAt(area, Mth::ROT_0, NULL, (flags & mEXCLUDE_RISERS));
+	CMapListNode *p_list = GetMetaPiecesAt(area, Mth::ROT_0, nullptr, (flags & mEXCLUDE_RISERS));
 	CMapListNode *p_node = p_list;
 	while (p_node)
 	{
@@ -2538,9 +2538,9 @@ CConcreteMetaPiece *CParkManager::RelocateMetaPiece(CConcreteMetaPiece *pMeta, i
 	Returns list of concrete metapieces in specified area.
 	
 	Modes:
-	pPiece == NULL, grab all pieces in area specified by 'dims', excluding risers and riser-containing metas if desired.
+	pPiece == nullptr, grab all pieces in area specified by 'dims', excluding risers and riser-containing metas if desired.
 	
-	pPiece != NULL, does pretty much the same thing right now.
+	pPiece != nullptr, does pretty much the same thing right now.
 */
 
 CMapListNode *CParkManager::GetMetaPiecesAt(GridDims dims, Mth::ERot90 rot, CAbstractMetaPiece *pPiece, bool excludeRisers)
@@ -2549,7 +2549,7 @@ CMapListNode *CParkManager::GetMetaPiecesAt(GridDims dims, Mth::ERot90 rot, CAbs
 	
 	if (!pPiece)
 	{
-		CMapListNode *p_out_list = NULL;
+		CMapListNode *p_out_list = nullptr;
 		
 		// need to be scanning an area bigger than 0
 		//if (dims.mW == 0) dims.mW++;
@@ -2593,7 +2593,7 @@ CMapListNode *CParkManager::GetMetaPiecesAt(GridDims dims, Mth::ERot90 rot, CAbs
 		dims[H] = pPiece->m_cell_area.GetH();
 		dims[L] = pPiece->m_cell_area.GetL();
 
-		CMapListNode *p_out_list = NULL;
+		CMapListNode *p_out_list = nullptr;
 		
 		// grab list of all concrete metas
 		CMapListTemp metas_in_park = GetMetaPiecesAt(dims);
@@ -2623,7 +2623,7 @@ CMapListNode *CParkManager::GetMetaPiecesAt(GridDims dims, Mth::ERot90 rot, CAbs
 		return p_out_list;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 // This is just a slightly faster version of GetMetaPiecesAt, which gets all
@@ -2631,7 +2631,7 @@ CMapListNode *CParkManager::GetAreaMetaPieces(GridDims dims)
 {
 	Dbg_Assert(m_state_on);
 
-	CMapListNode *p_out_list = NULL;
+	CMapListNode *p_out_list = nullptr;
 	
 	int end_x = dims.GetX() + dims.GetW();
 	for (int x = dims.GetX(); x < end_x; x++)
@@ -2883,7 +2883,7 @@ bool CParkManager::SlideColumn(GridDims area, int bottom, int top, bool up, bool
 	finish_slide_column();
 	if (mp_column_slide_list)
 		mp_column_slide_list->DestroyList();
-	mp_column_slide_list = NULL;
+	mp_column_slide_list = nullptr;
 	m_num_metas_killed_in_slide = 0;
 	m_num_pieces_killed_in_slide = 0;
 	
@@ -2954,7 +2954,7 @@ bool CParkManager::ChangeFloorHeight(GridDims dims, int dir)
 		Spt::SingletonPtr<CParkEditor> p_editor;
 		if (RebuildFloor(p_editor->IsParkFull()))
 		{
-			HighlightMetasWithGaps(false, NULL);
+			HighlightMetasWithGaps(false, nullptr);
 		}
 		else
 		{
@@ -3102,13 +3102,13 @@ CGapManager::GapDescriptor *CParkManager::GetGapDescriptor(GridDims &area, int *
 	area.SetWHL(1,1,1);
 	CMapListTemp meta_list = GetMetaPiecesAt(area);
 	if (meta_list.IsEmpty())
-		return NULL;
+		return nullptr;
 	CConcreteMetaPiece *p_meta = meta_list.GetList()->GetConcreteMeta();
 
 	int tab_index;
 	Dbg_Assert(mp_gap_manager);
 	if (!mp_gap_manager->IsGapAttached(p_meta, &tab_index))
-		return NULL;
+		return nullptr;
 	
 	CGapManager::GapDescriptor *pDesc = mp_gap_manager->GetGapDescriptor(tab_index, pHalf);
 	Dbg_MsgAssert(pDesc, ("couldn't find gap descriptor"));
@@ -3145,7 +3145,7 @@ bool CParkManager::AddGap(CGapManager::GapDescriptor &descriptor)
 		Dbg_MsgAssert(!meta_list.IsEmpty(), ("am expecting a metapiece here"));
 		CConcreteMetaPiece *p_meta = meta_list.GetList()->GetConcreteMeta();
 		Dbg_MsgAssert(p_meta, ("no pieces found at (%d,%d,%d)", descriptor.loc[i].GetX(), descriptor.loc[i].GetY(), descriptor.loc[i].GetZ()));
-		Dbg_MsgAssert(!mp_gap_manager->IsGapAttached(p_meta, NULL), ("gap is already attached"));
+		Dbg_MsgAssert(!mp_gap_manager->IsGapAttached(p_meta, nullptr), ("gap is already attached"));
 		p_meta->set_flag(CMetaPiece::mGAP_ATTACHED);
 		
 		descriptor.loc[i] = p_meta->GetArea();
@@ -3648,7 +3648,7 @@ void CParkManager::apply_meta_contained_risers_to_floor(CConcreteMetaPiece *pMet
 						GridDims area_above = riser_area;
 						area_above[Y] = riser_area.GetY() + riser_area.GetH();
 						area_above.MakeInfinitelyHigh();
-						CMapListTemp meta_list = GetMetaPiecesAt(area_above, Mth::ROT_0, NULL, true);
+						CMapListTemp meta_list = GetMetaPiecesAt(area_above, Mth::ROT_0, nullptr, true);
 						if (meta_list.IsEmpty())
 						{
 							if (m_floor_height_map[x][z].mHeight > riser_area.GetY())
@@ -3682,7 +3682,7 @@ bool CParkManager::intersection_with_riser_containing_metas(GridDims area)
 {
 	area.MakeInfiniteOnY();
 	
-	CMapListTemp list = GetMetaPiecesAt(area, Mth::ROT_0, NULL, true);
+	CMapListTemp list = GetMetaPiecesAt(area, Mth::ROT_0, nullptr, true);
 	CMapListNode *p_node = list.GetList();
 	while (p_node)
 	{
@@ -3748,7 +3748,7 @@ bool CParkManager::slide_column_part_one(GridDims area, int bottom, int top, ESl
 		}
 	}
 
-	CMapListTemp list = GetMetaPiecesAt(test_area, Mth::ROT_0, NULL, true);
+	CMapListTemp list = GetMetaPiecesAt(test_area, Mth::ROT_0, nullptr, true);
 	CMapListNode *p_node = list.GetList();
 	while (p_node)
 	{
@@ -3912,7 +3912,7 @@ void CParkManager::create_metas_in_build_list()
 {
 	for (int i=0; i<m_build_list_size; ++i)
 	{
-		Dbg_MsgAssert(mp_build_list_entry,("NULL mp_build_list_entry"));
+		Dbg_MsgAssert(mp_build_list_entry,("nullptr mp_build_list_entry"));
 		CConcreteMetaPiece *p_out = CreateConcreteMeta(GetAbstractMeta(mp_build_list_entry[i].mType));
 		AddMetaPieceToPark(mp_build_list_entry[i].mPos, p_out);
 	}	
@@ -3922,7 +3922,7 @@ void CParkManager::create_metas_in_build_list()
 		#ifndef	__USE_EXTERNAL_BUFFER__
 		Mem::Free(mp_build_list_entry);
 		#endif
-		mp_build_list_entry=NULL;
+		mp_build_list_entry=nullptr;
 	}	
 }
 #endif
@@ -3961,7 +3961,7 @@ bool CParkManager::generate_floor_pieces_from_height_map(bool simpleBuild, bool 
 
 	#ifdef USE_BUILD_LIST
 	m_build_list_size=0;
-	Dbg_MsgAssert(mp_build_list_entry==NULL,("Non-NULL mp_build_list_entry"));
+	Dbg_MsgAssert(mp_build_list_entry==nullptr,("Non-nullptr mp_build_list_entry"));
 	#endif
 
 	
@@ -4030,7 +4030,7 @@ bool CParkManager::generate_floor_pieces_from_height_map(bool simpleBuild, bool 
 		left_count+=m_build_list_size;
 		create_metas_in_build_list();
 	}
-	Dbg_MsgAssert(mp_build_list_entry==NULL,("Non-NULL mp_build_list_entry"));
+	Dbg_MsgAssert(mp_build_list_entry==nullptr,("Non-nullptr mp_build_list_entry"));
 	#endif
 		
 	// risers preexisting + risers added - risers killed == risers left
@@ -4092,7 +4092,7 @@ void CParkManager::add_metapiece_to_node_list(CMetaPiece *pMetaToAdd, CMapListNo
 void CParkManager::remove_metapiece_from_node_list(CMetaPiece *pMetaToRemove, CMapListNode **ppList)
 {
 	CMapListNode *p_node = *ppList;
-	CMapListNode *p_prev = NULL;
+	CMapListNode *p_prev = nullptr;
 	while(p_node)
 	{
 		if (p_node->GetMeta() == pMetaToRemove)
@@ -4140,7 +4140,7 @@ void CParkManager::debucketify_metapiece(CConcreteMetaPiece *pMeta)
 	{
 		for (int z = 0; z < pMeta->m_cell_area.GetL(); z++)
 		{
-			CMapListNode *p_prev = NULL;
+			CMapListNode *p_prev = nullptr;
 			CMapListNode *p_entry = mp_bucket_list[x + pMeta->m_cell_area.GetX()][z + pMeta->m_cell_area.GetZ()];
 			while(p_entry)
 			{
@@ -4205,7 +4205,7 @@ void CParkManager::create_abstract_metapieces()
 		
 		// see if singular or multiple metapiece
 		uint32 single_crc = 0;
-		Script::CArray *p_multiple_array = NULL;
+		Script::CArray *p_multiple_array = nullptr;
 		if (p_entry->GetChecksum("single", &single_crc))
 		{
 			p_meta->initialize_desc_table(1);
@@ -4214,7 +4214,7 @@ void CParkManager::create_abstract_metapieces()
 			
 			GridDims area(0, 0, 0);
 			p_source_piece->GetCellDims(&area);
-			Script::CArray *p_pos_array = NULL;
+			Script::CArray *p_pos_array = nullptr;
 			if (p_entry->GetArray("pos", &p_pos_array))
 			{
 				area.SetXYZ(p_pos_array->GetInteger(0), p_pos_array->GetInteger(1), p_pos_array->GetInteger(2));
@@ -4284,11 +4284,11 @@ void CParkManager::create_abstract_metapieces()
 			{
 				Script::CStruct *p_name_pos = p_multiple_array->GetStructure(j);
 				
-				Script::CComponent *p_name_crc_comp = p_name_pos->GetNextComponent(NULL);
+				Script::CComponent *p_name_crc_comp = p_name_pos->GetNextComponent(nullptr);
 				Dbg_Assert(p_name_crc_comp->mType == ESYMBOLTYPE_NAME);				
 				uint32 name_crc = p_name_crc_comp->mChecksum;
 
-				Script::CArray *p_pos_array = NULL;
+				Script::CArray *p_pos_array = nullptr;
 				p_name_pos->GetArray(NONAME, &p_pos_array, Script::ASSERT);
 				
 				CSourcePiece *p_source_piece = mp_generator->GetMasterPiece(name_crc, true);
@@ -4319,11 +4319,11 @@ void CParkManager::create_abstract_metapieces()
 			{
 				Script::CStruct *p_name_pos = p_multiple_array->GetStructure(j);
 				
-				Script::CComponent *p_name_crc_comp = p_name_pos->GetNextComponent(NULL);
+				Script::CComponent *p_name_crc_comp = p_name_pos->GetNextComponent(nullptr);
 				Dbg_Assert(p_name_crc_comp->mType == ESYMBOLTYPE_NAME);				
 				uint32 name_crc = p_name_crc_comp->mChecksum;
 
-				Script::CArray *p_pos_array = NULL;
+				Script::CArray *p_pos_array = nullptr;
 				p_name_pos->GetArray(NONAME, &p_pos_array, Script::ASSERT);
 				
 				CAbstractMetaPiece *p_source_meta = GetAbstractMeta(name_crc);
@@ -4513,7 +4513,7 @@ void CParkManager::FreeUpMemoryForPlayingPark()
 		p_node = p_next_node;
 	}
 	m_num_concrete_metapieces=0;
-	mp_concrete_metapiece_list=NULL;
+	mp_concrete_metapiece_list=nullptr;
 
 	printf("After deleting CParkManager::mp_concrete_metapiece_list ...\n");	
 	printf("Num CMapListNode's = %d\n",Ed::CMapListNode::SGetNumUsedItems());
@@ -4529,7 +4529,7 @@ void CParkManager::FreeUpMemoryForPlayingPark()
 		p_node = p_next_node;
 	}
 	m_num_abstract_metapieces=0;
-	mp_abstract_metapiece_list=NULL;
+	mp_abstract_metapiece_list=nullptr;
 
 
 	printf("After deleting CParkManager::mp_abstract_metapiece_list ...\n");	

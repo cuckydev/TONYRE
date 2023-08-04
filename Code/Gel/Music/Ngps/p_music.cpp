@@ -55,10 +55,10 @@ int	gPcmStatus = 0;
 SWadInfo gWadInfo[ 2 ];
 
 CFileStreamInfo gStreamList [ NUM_FILE_STREAMS ] = {
-		{ FILE_STREAM_MUSIC, LOAD_STATE_DONE, PLAY_STATE_DONE, NULL, 0, 0, 0 },					// Music stream
-		{ FILE_STREAM_STREAM0, LOAD_STATE_DONE, PLAY_STATE_DONE, NULL, 0, 0, 0 },				// Audio stream 0
-		{ FILE_STREAM_STREAM1, LOAD_STATE_DONE, PLAY_STATE_DONE, NULL, 0, 0, 0 },   			// Audio stream 1
-		{ FILE_STREAM_STREAM2, LOAD_STATE_DONE, PLAY_STATE_DONE, NULL, 0, 0, 0 }				// Audio stream 2
+		{ FILE_STREAM_MUSIC, LOAD_STATE_DONE, PLAY_STATE_DONE, nullptr, 0, 0, 0 },					// Music stream
+		{ FILE_STREAM_STREAM0, LOAD_STATE_DONE, PLAY_STATE_DONE, nullptr, 0, 0, 0 },				// Audio stream 0
+		{ FILE_STREAM_STREAM1, LOAD_STATE_DONE, PLAY_STATE_DONE, nullptr, 0, 0, 0 },   			// Audio stream 1
+		{ FILE_STREAM_STREAM2, LOAD_STATE_DONE, PLAY_STATE_DONE, nullptr, 0, 0, 0 }				// Audio stream 2
 };
 
 CFileStreamInfo * gpMusicInfo = &gStreamList[FILE_STREAM_MUSIC];
@@ -418,7 +418,7 @@ bool			CFileStreamInfo::file_finished()
 		Dbg_Assert(mp_fileHandle);		// It shouldn't be closed yet
 
 		File::CAsyncFileLoader::sClose( mp_fileHandle );
-		mp_fileHandle = NULL;
+		mp_fileHandle = nullptr;
 
 		return true;
 	}
@@ -594,7 +594,7 @@ bool			CFileStreamInfo::StopStream()
 	{
 		m_loadState = LOAD_STATE_DONE;
 		File::CAsyncFileLoader::sClose( mp_fileHandle );
-		mp_fileHandle = NULL;
+		mp_fileHandle = nullptr;
 	}
 
 	// Clear flags
@@ -750,7 +750,7 @@ int PCMAudio_Update( void )
 		if ( gMusicInfo.mp_fileHandle && !( gPcmStatus & PCMSTATUS_MUSIC_PLAYING ) )
 		{
 			File::CAsyncFileLoader::sClose( gMusicInfo.mp_fileHandle );
-			gMusicInfo.mp_fileHandle = NULL;
+			gMusicInfo.mp_fileHandle = nullptr;
 			Dbg_Message( "Symptom of a busy network: Closing music file." );
 		}
 		for ( i = 0; i < NUM_STREAMS; i++ )
@@ -758,7 +758,7 @@ int PCMAudio_Update( void )
 			if ( gStreamInfo[ i ].mp_fileHandle && !( gPcmStatus & (PCMSTATUS_STREAM_PLAYING( i ) | PCMSTATUS_LOAD_STREAM( i ))) )
 			{
 				File::CAsyncFileLoader::sClose( gStreamInfo[i].mp_fileHandle );
-				gStreamInfo[ i ].mp_fileHandle = NULL;
+				gStreamInfo[ i ].mp_fileHandle = nullptr;
 				Dbg_Message( "Symptom of a busy network: Closing stream file." );
 			}
 		}
@@ -812,8 +812,8 @@ void PCMAudio_Init( void )
 //	static sceSifCmdData cmdbuffer[NUM_COMMAND_HANDLERS];
 //	sceSifSetCmdBuffer( &cmdbuffer[0], NUM_COMMAND_HANDLERS);
 
-	sceSifAddCmdHandler(STREAM_RESULT_COMMAND, result_callback, NULL );
-	sceSifAddCmdHandler(STREAM_STATUS_COMMAND, status_callback, NULL );
+	sceSifAddCmdHandler(STREAM_RESULT_COMMAND, result_callback, nullptr );
+	sceSifAddCmdHandler(STREAM_STATUS_COMMAND, status_callback, nullptr );
 
 	EI();
 
@@ -1371,7 +1371,7 @@ uint32 PCMAudio_FindNameFromChecksum( uint32 checksum, int ch )
 
 	if ( !pHed )
 	{
-		return ( NULL );
+		return ( nullptr );
 	}
 
 	File::SHedFile* pHedFile = File::FindFileInHedUsingChecksum( checksum, pHed );
@@ -1379,7 +1379,7 @@ uint32 PCMAudio_FindNameFromChecksum( uint32 checksum, int ch )
 	{
 		return pHedFile->Checksum;
 	}
-	return NULL;
+	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1390,7 +1390,7 @@ bool			SWadInfo::LoadHeader(const char *nameOfFile, bool no_wad, bool assertOnEr
 	if ( mp_hed )
 	{
 		Mem::Free( mp_hed );
-		mp_hed = NULL;
+		mp_hed = nullptr;
 	}
 
 	mp_hed = File::LoadHed( nameOfFile, TEST_MOTHERFUCKING_CD, no_wad );
@@ -1409,7 +1409,7 @@ bool			SWadInfo::LoadHeader(const char *nameOfFile, bool no_wad, bool assertOnEr
 		if ( !m_lsn )
 		{
 			Mem::Free( mp_hed );
-			mp_hed = NULL;
+			mp_hed = nullptr;
 			Dbg_Message( "Couldn't find audio wad %s", nameOfFile );
 			Dbg_MsgAssert( !assertOnError,( "Couldn't find audio wad %s", nameOfFile ));
 			return false;

@@ -41,16 +41,16 @@ extern CScript *GetCurrentScript();
 static uint8 *sCalculateRandomRange(uint8 *p_token, CComponent *p_comp, bool useRnd2);
 static uint8 *sSkipType(uint8 *p_token);
 static bool   sIsEndOfLine(const uint8 *p_token);
-static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args=NULL);
-static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p_token, CStruct *p_args=NULL);
-static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, CStruct *p_args=NULL);
+static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args=nullptr);
+static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p_token, CStruct *p_args=nullptr);
+static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, CStruct *p_args=nullptr);
 static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 contentsChecksum, const uint8 *p_data, uint32 size, const char *p_fileName);
 static uint8 *sCreateSymbolOfTheFormNameEqualsValue(uint8 *p_token, const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplicateSymbols);
 static CStoredRandom *sFindStoredRandom(const uint8 *p_token, EScriptToken type, int numItems);
 static CStoredRandom *sCreateNewStoredRandom();
 
-static CStoredRandom *sp_first_stored_random=NULL;
-static CStoredRandom *sp_last_stored_random=NULL;
+static CStoredRandom *sp_first_stored_random=nullptr;
+static CStoredRandom *sp_last_stored_random=nullptr;
 static int s_num_stored_randoms=0;
 
 static uint32 s_qb_being_parsed=0;
@@ -325,7 +325,7 @@ static uint8 *sSkipType(uint8 *p_token)
 // Returns true if pToken points to and end-of-line, end-of-line-number or end-of-file token.
 static bool sIsEndOfLine(const uint8 *p_token)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
     return (*p_token==ESCRIPTTOKEN_ENDOFLINE || *p_token==ESCRIPTTOKEN_ENDOFLINENUMBER || *p_token==ESCRIPTTOKEN_ENDOFFILE);
 }
 
@@ -334,8 +334,8 @@ static bool sIsEndOfLine(const uint8 *p_token)
 // Gives error messages if all the elements are not of the same type.
 static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
     Dbg_MsgAssert(*p_token==ESCRIPTTOKEN_STARTARRAY,("p_token does not point to an array"));
 	
 	// Remember the start, since we're going to do a first pass through to determine the array type and size.
@@ -445,7 +445,7 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 	Mem::Manager::sHandle().PopContext();
 
 	// Just to be totally sure, cos we're about to write into it ...
-	Dbg_MsgAssert(p_dest->GetArrayPointer(),("NULL array pinter ???"));
+	Dbg_MsgAssert(p_dest->GetArrayPointer(),("nullptr array pinter ???"));
 	
 	#ifdef __NOPT_ASSERT__
 	int size_check=size;
@@ -892,8 +892,8 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 // Returns a pointer to the next token after parsing the value pointed to by p_token.
 static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p_token, CStruct *p_args)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
 	
 	bool use_rnd2=false;
 	
@@ -1063,7 +1063,7 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 						// Trying to add an unnamed structure, in which case it's contents
 						// should be merged onto p_dest.
 						p_dest->AppendStructure(p_comp->mpStructure);
-						// Note: OK to call AppendStructure with NULL, so no need to check mpStructure.
+						// Note: OK to call AppendStructure with nullptr, so no need to check mpStructure.
 					}
 					else
 					{
@@ -1081,13 +1081,13 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 					}	
 				}
 			}
-			// Don't assert if p_args is NULL, cos it will be when this function is used to skip over
+			// Don't assert if p_args is nullptr, cos it will be when this function is used to skip over
 			// parameter lists in FindReferences
 			break;	
 		}
 		case ESCRIPTTOKEN_KEYWORD_ALLARGS:
 		{
-			// Don't assert if p_args is NULL, cos it will be when this function is used to skip over
+			// Don't assert if p_args is nullptr, cos it will be when this function is used to skip over
 			// parameter lists in FindReferences
 			if (p_args)
 			{
@@ -1129,8 +1129,8 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 // Returns a pointer to the next token after parsing the tokens pointed to by p_token.
 static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, CStruct *p_args)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
     Dbg_MsgAssert(*p_token==ESCRIPTTOKEN_STARTSTRUCT,("p_token expected to point to ESCRIPTTOKEN_STARTSTRUCT, File %s, line %d",GetSourceFile(p_token),GetLineNumber(p_token)));
 	// Skip over the ESCRIPTTOKEN_STARTSTRUCT
     ++p_token;
@@ -1244,8 +1244,8 @@ static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, C
 // the data with the contents checksum.
 static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 contentsChecksum, const uint8 *p_data, uint32 size, const char *p_fileName)
 {
-	Dbg_MsgAssert(p_data,("NULL p_data ??"));
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_data,("nullptr p_data ??"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 
 	#ifdef __NOPT_ASSERT__
 	#ifndef __PLAT_WN32__
@@ -1254,7 +1254,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	#endif
 
 	CSymbolTableEntry *p_new=CreateNewSymbolEntry(nameChecksum);
-	Dbg_MsgAssert(p_new,("NULL p_new ??"));
+	Dbg_MsgAssert(p_new,("nullptr p_new ??"));
 	
 	p_new->mType=ESYMBOLTYPE_QSCRIPT;
 	
@@ -1329,7 +1329,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	// Now that the new script has been loaded, the script cache needs to be refreshed in case any existing
 	// CScript's are running this script. They will all get restarted later (see file.cpp)
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	// Not asserting if p_script_cache is NULL, because it will be when all the q-files are loaded on startup.
+	// Not asserting if p_script_cache is nullptr, because it will be when all the q-files are loaded on startup.
 	if (p_script_cache)	
 	{
 		p_script_cache->RefreshAfterReload(nameChecksum);
@@ -1345,8 +1345,8 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 // Creates a symbol defined by a name, followed by equals, followed by a value.
 static uint8 *sCreateSymbolOfTheFormNameEqualsValue(uint8 *p_token, const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplicateSymbols)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 	
 	Dbg_MsgAssert(*p_token==ESCRIPTTOKEN_NAME,("\nExpected ESCRIPTTOKEN_NAME"));
 	++p_token;
@@ -1374,7 +1374,7 @@ static uint8 *sCreateSymbolOfTheFormNameEqualsValue(uint8 *p_token, const char *
 
 	// Create a new symbol with the given name.
 	CSymbolTableEntry *p_new=CreateNewSymbolEntry(name_checksum);
-	Dbg_MsgAssert(p_new,("NULL p_new ??"));
+	Dbg_MsgAssert(p_new,("nullptr p_new ??"));
 
 	// Store the name of the source qb in the symbol so that the qb is able to be unloaded.
 	// Note: This used to be after the switch statement below. Moved it here so that if any
@@ -1387,7 +1387,7 @@ static uint8 *sCreateSymbolOfTheFormNameEqualsValue(uint8 *p_token, const char *
 		case ESCRIPTTOKEN_OPENPARENTH:
 		{
 			CComponent *p_comp=new CComponent;
-			p_token=Evaluate(p_token,NULL,p_comp);
+			p_token=Evaluate(p_token,nullptr,p_comp);
 			Dbg_MsgAssert(p_comp->mType!=ESYMBOLTYPE_NONE,("Global symbol '%s' did not evaluate to anything ...",FindChecksumName(p_comp->mNameChecksum)));
 			p_new->mType=p_comp->mType;
 			p_new->mUnion=p_comp->mUnion;
@@ -1405,7 +1405,7 @@ static uint8 *sCreateSymbolOfTheFormNameEqualsValue(uint8 *p_token, const char *
 		case ESCRIPTTOKEN_NAME:
 		{
 			CComponent *p_comp=new CComponent;
-			p_token=FillInComponentUsingQB(p_token,NULL,p_comp);
+			p_token=FillInComponentUsingQB(p_token,nullptr,p_comp);
 			p_new->mType=p_comp->mType;
 			p_new->mUnion=p_comp->mUnion;
 			p_comp->mUnion=0;
@@ -1461,7 +1461,7 @@ void PreProcessScript(uint8 *p_token)
 	
 				// Look up the name to see if it is a cfunction or member function.
 				CSymbolTableEntry *p_entry=Resolve(name_checksum);
-				// Must not assert if p_entry is NULL, cos they might just be loading in
+				// Must not assert if p_entry is nullptr, cos they might just be loading in
 				// a qb file that refers to a script that has not been written yet.
 				if (p_entry)
 				{
@@ -1470,7 +1470,7 @@ void PreProcessScript(uint8 *p_token)
 						// Change the token type and replace the checksum with the
 						// function pointer to save having to resolve it later.
 						*(p_token-5)=ESCRIPTTOKEN_RUNTIME_CFUNCTION;
-						Dbg_MsgAssert(p_entry->mpCFunction,("NULL p_entry->mpCFunction"));
+						Dbg_MsgAssert(p_entry->mpCFunction,("nullptr p_entry->mpCFunction"));
 						Write4Bytes(p_token-4, (uint32)p_entry->mpCFunction);
 					}
 					else if (p_entry->mType==ESYMBOLTYPE_MEMBERFUNCTION)
@@ -1501,7 +1501,7 @@ static CStoredRandom *sFindStoredRandom(const uint8 *p_token, EScriptToken type,
 			p_search->mType==type &&
 			p_search->mNumItems==numItems)
 		{
-			if (p_search->mpScript==p_current_script || p_search->mpScript==NULL)
+			if (p_search->mpScript==p_current_script || p_search->mpScript==nullptr)
 			{
 				return p_search;
 			}
@@ -1509,14 +1509,14 @@ static CStoredRandom *sFindStoredRandom(const uint8 *p_token, EScriptToken type,
 			
 		p_search=p_search->mpNext;
 	}	
-	return NULL;
+	return nullptr;
 }
 
 static CStoredRandom *sCreateNewStoredRandom()
 {
 	if (s_num_stored_randoms>=MAX_STORED_RANDOMS)
 	{
-		Dbg_MsgAssert(sp_last_stored_random,("NULL sp_last_stored_random ?"));
+		Dbg_MsgAssert(sp_last_stored_random,("nullptr sp_last_stored_random ?"));
 		
 		CStoredRandom *p_new_last=sp_last_stored_random->mpPrevious;
 		delete sp_last_stored_random;
@@ -1524,13 +1524,13 @@ static CStoredRandom *sCreateNewStoredRandom()
 		sp_last_stored_random=p_new_last;
 		if (p_new_last)
 		{
-			p_new_last->mpNext=NULL;
+			p_new_last->mpNext=nullptr;
 		}	
 	}
 	
 	CStoredRandom *p_new=new CStoredRandom;
 	p_new->mpNext=sp_first_stored_random;
-	p_new->mpPrevious=NULL;
+	p_new->mpPrevious=nullptr;
 	
 	if (sp_first_stored_random)
 	{
@@ -1538,7 +1538,7 @@ static CStoredRandom *sCreateNewStoredRandom()
 	}	
 	else
 	{
-		Dbg_MsgAssert(sp_last_stored_random==NULL,("sp_last_stored_random not NULL?"));
+		Dbg_MsgAssert(sp_last_stored_random==nullptr,("sp_last_stored_random not nullptr?"));
 		sp_last_stored_random=p_new;
 	}
 	
@@ -1605,7 +1605,7 @@ uint8 *Write2Bytes(uint8 *p_buffer, uint16 val)
 // Skips over end-of-line tokens.    
 uint8 *SkipEndOfLines(uint8 *p_token)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
     while (true)
     {
 		if (*p_token==ESCRIPTTOKEN_ENDOFLINE)
@@ -1628,8 +1628,8 @@ uint8 *SkipEndOfLines(uint8 *p_token)
 
 CStoredRandom::CStoredRandom()
 {
-	mpNext=NULL;
-	mpPrevious=NULL;
+	mpNext=nullptr;
+	mpPrevious=nullptr;
 	
 	++s_num_stored_randoms;
 }
@@ -1647,7 +1647,7 @@ void ReleaseStoredRandoms(CScript *p_script)
 	{
 		if (p_search->mpScript==p_script)
 		{
-			p_search->mpScript=NULL;
+			p_search->mpScript=nullptr;
 		}
 		p_search=p_search->mpNext;
 	}	
@@ -1694,7 +1694,7 @@ void CStoredRandom::RandomizeIndices(bool makeNewFirstDifferFromOldLast)
 // Returns the new p_token, which is all this function modifies.
 uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
 	
 	while (true)
 	{
@@ -1762,7 +1762,7 @@ uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 			if (!p_stored)
 			{
 				p_stored=sCreateNewStoredRandom();
-				Dbg_MsgAssert(p_stored,("NULL return value from sCreateNewStoredRandom()"));
+				Dbg_MsgAssert(p_stored,("nullptr return value from sCreateNewStoredRandom()"));
 				p_stored->mpToken=p_token;
 				p_stored->mType=ESCRIPTTOKEN_KEYWORD_RANDOM_NO_REPEAT;
 				p_stored->mNumItems=num_items;
@@ -1801,7 +1801,7 @@ uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 			if (!p_stored)
 			{
 				p_stored=sCreateNewStoredRandom();
-				Dbg_MsgAssert(p_stored,("NULL return value from sCreateNewStoredRandom()"));
+				Dbg_MsgAssert(p_stored,("nullptr return value from sCreateNewStoredRandom()"));
 				p_stored->mpToken=p_token;
 				p_stored->mType=ESCRIPTTOKEN_KEYWORD_RANDOM_PERMUTE;
 				p_stored->mNumItems=num_items;
@@ -1853,7 +1853,7 @@ uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 // Returns the pointer to after the script.
 uint8 *SkipOverScript(uint8 *p_token)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
 	
 	while (*p_token!=ESCRIPTTOKEN_KEYWORD_ENDSCRIPT) 
 	{
@@ -1879,7 +1879,7 @@ uint8 *SkipOverScript(uint8 *p_token)
 // deleting lines won't cause all the scripts after that line to restart.
 uint32 CalculateScriptContentsChecksum(uint8 *p_token)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
 
 	uint32 checksum=0xffffffff;
 		
@@ -2029,8 +2029,8 @@ int GetLineNumber(uint8 *p_token)
 // Returns true if the passed p_token points somewhere in the passed p_script.
 bool PointsIntoScript(uint8 *p_token, uint8 *p_script)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
-	Dbg_MsgAssert(p_script,("NULL p_script"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
+	Dbg_MsgAssert(p_script,("nullptr p_script"));
 	
 	// Scan through the whole script to see if p_token points to
 	// a token in it. Blimey.
@@ -2063,14 +2063,14 @@ const char *GetSourceFile(uint8 *p_token)
 	// into one of them.
 	
 	// Check if pToken points into any of the scripts currently loaded.
-	CSymbolTableEntry *p_sym=GetNextSymbolTableEntry(NULL);
+	CSymbolTableEntry *p_sym=GetNextSymbolTableEntry(nullptr);
 	while (p_sym)
 	{
 		// For every script ...
 		if (p_sym->mType==ESYMBOLTYPE_QSCRIPT)
 		{
 			uint8 *p_script=p_sym->mpScript;
-			Dbg_MsgAssert(p_script,("NULL p_sym->mpScript ?"));
+			Dbg_MsgAssert(p_script,("nullptr p_sym->mpScript ?"));
 			// Skip over the contents checksum.
 			p_script+=4;
 			
@@ -2088,7 +2088,7 @@ const char *GetSourceFile(uint8 *p_token)
 	// on mpScript will point to compressed data, which cannot be stepped through.
 	// So ask the script cache to step through its decompressed scripts instead.
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+	Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	return p_script_cache->GetSourceFile(p_token);
 	
 	#endif
@@ -2102,14 +2102,14 @@ void CalcSpaceUsedByLineNumberInfo()
 {
 	int space_used=0;
 	
-	CSymbolTableEntry *p_sym=GetNextSymbolTableEntry(NULL);
+	CSymbolTableEntry *p_sym=GetNextSymbolTableEntry(nullptr);
 	while (p_sym)
 	{
 		// For every script ...
 		if (p_sym->mType==ESYMBOLTYPE_QSCRIPT)
 		{
 			uint8 *p_script=p_sym->mpScript;
-			Dbg_MsgAssert(p_script,("NULL p_sym->mpScript ?"));
+			Dbg_MsgAssert(p_script,("nullptr p_sym->mpScript ?"));
 			// Skip over the contents checksum.
 			p_script+=4;
 			
@@ -2131,8 +2131,8 @@ void CalcSpaceUsedByLineNumberInfo()
 
 uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_comp)
 {
-	Dbg_MsgAssert(p_token,("NULL p_token"));
-	Dbg_MsgAssert(p_comp,("NULL p_comp"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
+	Dbg_MsgAssert(p_comp,("nullptr p_comp"));
 	bool use_rnd2=false;
 	
 	switch (*p_token++)
@@ -2333,8 +2333,8 @@ void DisableExpressionEvaluatorErrorChecking()
 static CComponent sTemp;
 uint8 *Evaluate(uint8 *p_token, CStruct *p_args, CComponent *p_result)
 {
-	Dbg_MsgAssert(p_result,("NULL p_result"));
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_result,("nullptr p_result"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
 	
 	// SPEEDOPT: Make the Clear function faster
 	sExpressionEvaluator.ClearIfNeeded();
@@ -2459,7 +2459,7 @@ uint8 *Evaluate(uint8 *p_token, CStruct *p_args, CComponent *p_result)
 			p_token=FillInComponentUsingQB(p_token,p_args,&sTemp);
 			
 			// TODO: Use ResolveNameComponent instead of this switch ...
-            CSymbolTableEntry *p_entry=NULL;
+            CSymbolTableEntry *p_entry=nullptr;
 			if (operator_is_dot)
 			{
 				// This is a bit of a hack ...
@@ -2728,8 +2728,8 @@ uint8 *Evaluate(uint8 *p_token, CStruct *p_args, CComponent *p_result)
 // contain no <,> operators.
 uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_args)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
-	Dbg_MsgAssert(p_token,("NULL p_token"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
+	Dbg_MsgAssert(p_token,("nullptr p_token"));
 	
     while (true)
     {
@@ -2863,7 +2863,7 @@ uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_a
 // Deletes any entity pointed to by p_sym, then removes p_sym from the symbol table.
 void CleanUpAndRemoveSymbol(CSymbolTableEntry *p_sym)
 {
-	Dbg_MsgAssert(p_sym,("NULL p_sym"));
+	Dbg_MsgAssert(p_sym,("nullptr p_sym"));
 	switch (p_sym->mType)
 	{
 		case ESYMBOLTYPE_INTEGER:
@@ -2873,35 +2873,35 @@ void CleanUpAndRemoveSymbol(CSymbolTableEntry *p_sym)
 			break;		
 			
 		case ESYMBOLTYPE_STRING:
-			Dbg_MsgAssert(p_sym->mpString,("NULL p_sym->mpString"));
+			Dbg_MsgAssert(p_sym->mpString,("nullptr p_sym->mpString"));
 			DeleteString(p_sym->mpString);
 			break;
 		case ESYMBOLTYPE_LOCALSTRING:
-			Dbg_MsgAssert(p_sym->mpLocalString,("NULL p_sym->mpLocalString"));
+			Dbg_MsgAssert(p_sym->mpLocalString,("nullptr p_sym->mpLocalString"));
 			DeleteString(p_sym->mpLocalString);
 			break;
 		case ESYMBOLTYPE_PAIR:
-			Dbg_MsgAssert(p_sym->mpPair,("NULL p_sym->mpPair"));
+			Dbg_MsgAssert(p_sym->mpPair,("nullptr p_sym->mpPair"));
 			delete p_sym->mpPair;
 			break;
 		case ESYMBOLTYPE_VECTOR:
-			Dbg_MsgAssert(p_sym->mpVector,("NULL p_sym->mpVector"));
+			Dbg_MsgAssert(p_sym->mpVector,("nullptr p_sym->mpVector"));
 			delete p_sym->mpVector;
 			break;
 		case ESYMBOLTYPE_QSCRIPT:
 #ifdef __PLAT_NGC__
 			NsARAM::free( p_sym->mScriptOffset );
 #else
-			Dbg_MsgAssert(p_sym->mpScript,("NULL p_sym->mpScript"));
+			Dbg_MsgAssert(p_sym->mpScript,("nullptr p_sym->mpScript"));
 			Mem::Free(p_sym->mpScript);
 #endif		// __PLAT_NGC__
 			break;
 		case ESYMBOLTYPE_STRUCTURE:
-			Dbg_MsgAssert(p_sym->mpStructure,("NULL p_sym->mpStructure"));
+			Dbg_MsgAssert(p_sym->mpStructure,("nullptr p_sym->mpStructure"));
 			delete p_sym->mpStructure;
 			break;
 		case ESYMBOLTYPE_ARRAY:
-			Dbg_MsgAssert(p_sym->mpArray,("NULL p_sym->mpArray"));
+			Dbg_MsgAssert(p_sym->mpArray,("nullptr p_sym->mpArray"));
 			CleanUpArray(p_sym->mpArray);
 			delete p_sym->mpArray;
 			break;
@@ -2939,11 +2939,11 @@ struct SChecksum
 	SChecksum *mpNext;
 };
 
-static SChecksum *sp_hash_table=NULL;
+static SChecksum *sp_hash_table=nullptr;
 
 const char *GetChecksumNameFromLastQB(uint32 checksum)
 {
-	Dbg_MsgAssert(sp_hash_table,("NULL sp_hash_table"));
+	Dbg_MsgAssert(sp_hash_table,("nullptr sp_hash_table"));
 	
 	SChecksum *p_entry=&sp_hash_table[checksum&((1<<HASHBITS)-1)];
 	while (p_entry)
@@ -2955,7 +2955,7 @@ const char *GetChecksumNameFromLastQB(uint32 checksum)
 		p_entry=p_entry->mpNext;
 	}	
 	
-	return NULL;
+	return nullptr;
 }	
 
 void RemoveChecksumNameLookupHashTable()
@@ -2970,7 +2970,7 @@ void RemoveChecksumNameLookupHashTable()
 			{
 				SChecksum *p_next=p_ch->mpNext;
 				// The dynamically allocated entries must have had their mpName set.
-				Dbg_MsgAssert(p_ch->mpName,("NULL p_ch->mpName ?"));
+				Dbg_MsgAssert(p_ch->mpName,("nullptr p_ch->mpName ?"));
 				Mem::Free(p_ch->mpName);
 				Mem::Free(p_ch);
 				p_ch=p_next;
@@ -2984,7 +2984,7 @@ void RemoveChecksumNameLookupHashTable()
 		}	
 	
 		Mem::Free(sp_hash_table);
-		sp_hash_table=NULL;
+		sp_hash_table=nullptr;
 	}	
 }
 
@@ -3032,8 +3032,8 @@ uint8 *SkipToStartOfNextLine(uint8 *p_token)
 // all the symbols from a particular qb to be unloaded using the UnloadQB function (in file.cpp)
 void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols assertIfDuplicateSymbols, bool allocateChecksumNameLookupTable)
 {
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
-	Dbg_MsgAssert(p_qb,("NULL p_qb"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
+	Dbg_MsgAssert(p_qb,("nullptr p_qb"));
 
 	// Do a first parse through the qb to register the checksum names.
 	// They get added to a lookup table that can be queried using GetChecksumNameFromLastQB defined above.
@@ -3081,9 +3081,9 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 		{
 			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 		}
-		Dbg_MsgAssert(sp_hash_table==NULL,("sp_hash_table not NULL ?"));
+		Dbg_MsgAssert(sp_hash_table==nullptr,("sp_hash_table not nullptr ?"));
 		sp_hash_table=(SChecksum*)Mem::Malloc((1<<HASHBITS)*sizeof(SChecksum));
-		Dbg_MsgAssert(sp_hash_table,("NULL sp_hash_table"));
+		Dbg_MsgAssert(sp_hash_table,("nullptr sp_hash_table"));
 		Mem::Manager::sHandle().PopContext();
 		
 		// Initialise it.
@@ -3091,8 +3091,8 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 		for (uint32 i=0; i<(1<<HASHBITS); ++i)
 		{
 			p_entry->mChecksum=0;
-			p_entry->mpName=NULL;
-			p_entry->mpNext=NULL;
+			p_entry->mpName=nullptr;
+			p_entry->mpNext=nullptr;
 			++p_entry;
 		}	
 	}
@@ -3151,7 +3151,7 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 					p_entry->mChecksum=checksum;
 					p_entry->mpName=(char*)Mem::Malloc(strlen(p_name)+1);
 					strcpy(p_entry->mpName,p_name);
-					p_entry->mpNext=NULL;
+					p_entry->mpNext=nullptr;
 				}	
 			}
 						
@@ -3266,7 +3266,7 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 						NsDMA::toMRAM( header, p_existing_entry->mScriptOffset, SCRIPT_HEADER_SIZE );
 						uint32 old_contents_checksum=header[0];
 #else
-						Dbg_MsgAssert(p_existing_entry->mpScript,("NULL p_existing_entry->mpScript ??"));
+						Dbg_MsgAssert(p_existing_entry->mpScript,("nullptr p_existing_entry->mpScript ??"));
 						uint32 old_contents_checksum=*(uint32*)(p_existing_entry->mpScript);
 #endif		// __PLAT_NGC__
 						
@@ -3325,7 +3325,7 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 // Used by the EditorCameraComponent when it checks polys to see if they are Kill polys
 bool ScriptContainsName(uint8 *p_script, uint32 searchName)
 {
-	Dbg_MsgAssert(p_script,("NULL p_script"));
+	Dbg_MsgAssert(p_script,("nullptr p_script"));
 
 	//int num_names_found=0;
 	//uint32 last_name=0;
@@ -3365,7 +3365,7 @@ bool ScriptContainsName(uint8 *p_script, uint32 searchName)
 	if (num_names_found==1)
 	{
 		Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-		Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+		Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	
 		p_script=p_script_cache->GetScript(last_name);
 		if (p_script)
@@ -3384,14 +3384,14 @@ bool ScriptContainsName(uint8 *p_script, uint32 searchName)
 bool ScriptContainsAnyOfTheNames(uint32 scriptName, uint32 *p_names, int numNames)
 {
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+	Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 
 	uint8 *p_script=p_script_cache->GetScript(scriptName);
-	Dbg_MsgAssert(p_script,("NULL p_script for %s",Script::FindChecksumName(scriptName)));
+	Dbg_MsgAssert(p_script,("nullptr p_script for %s",Script::FindChecksumName(scriptName)));
 
 	bool contains_name=false;
 	
-	Dbg_MsgAssert(p_names,("NULL p_names"));
+	Dbg_MsgAssert(p_names,("nullptr p_names"));
 	uint32 *p_name=p_names;
 	for (int i=0; i<numNames; ++i)
 	{

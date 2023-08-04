@@ -82,17 +82,17 @@ CSkaterCorePhysicsComponent::CSkaterCorePhysicsComponent() : CBaseComponent()
 {
 	SetType( CRC_SKATERCOREPHYSICS );
 	
-	mp_input_component = NULL;
-	mp_trigger_component = NULL;
-	mp_sound_component = NULL;
-	mp_trick_component = NULL;
-	mp_rotate_component = NULL;
-	mp_score_component = NULL;
-	mp_balance_trick_component = NULL;
-	mp_state_component = NULL;
-	mp_movable_contact_component = NULL;
-	mp_physics_control_component = NULL;
-	mp_walk_component = NULL;
+	mp_input_component = nullptr;
+	mp_trigger_component = nullptr;
+	mp_sound_component = nullptr;
+	mp_trick_component = nullptr;
+	mp_rotate_component = nullptr;
+	mp_score_component = nullptr;
+	mp_balance_trick_component = nullptr;
+	mp_state_component = nullptr;
+	mp_movable_contact_component = nullptr;
+	mp_physics_control_component = nullptr;
+	mp_walk_component = nullptr;
 	
 	mp_coll_cache = Nx::CCollCacheManager::sCreateCollCache();
 }
@@ -635,7 +635,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			// If we are going to "LIP" via script then clear the rail node, as it's a patch to get the skater to freeze
 			if (GetState() != LIP && StateChecksum == Crc::ConstCRC("Lip"))
 			{
-				mp_rail_node = NULL;
+				mp_rail_node = nullptr;
 			}
 			
 			// if script alters state from wallride (like for a bail), then snap upright   
@@ -922,7 +922,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
         // @uparm [] | array of friction values
 		case Crc::ConstCRC("SetSpecialFriction"):
 		{
-			Script::CArray* pArray = NULL;
+			Script::CArray* pArray = nullptr;
 			pParams->GetArray(NO_NAME, &pArray);
 			Dbg_MsgAssert(pArray, ("\n%s\nSetSpecialFriction requires an array of friction values", pScript->GetScriptInfo()));
 			if (m_special_friction_index >= static_cast< int >(pArray->GetSize()))
@@ -1067,7 +1067,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 void CSkaterCorePhysicsComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterCorePhysicsComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterCorePhysicsComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 
@@ -1136,8 +1136,8 @@ void CSkaterCorePhysicsComponent::Reset (   )
 	mp_state_component->mJumpedOutOfLipTrick = false;
 		
 	// mp_rail_node points to previous rail grinded, which might no longer be valid
-	// best to set it to NULL  (fixed crash in park editor with multiple test-plays TT#678)	
-	mp_rail_node = NULL;
+	// best to set it to nullptr  (fixed crash in park editor with multiple test-plays TT#678)	
+	mp_rail_node = nullptr;
 	
 	m_override_limits_time = 0.0f;
 	m_transfer_overrides_factor = 1.0f;
@@ -1507,7 +1507,7 @@ void CSkaterCorePhysicsComponent::do_on_ground_physics (  )
 	SetFlagFalse(AIR_ACID_DROP_DISALLOWED);
 
 	// ground skateing will cancel any memory of what rail we were on, so the next one seems fresh	
-	mp_rail_node = NULL;
+	mp_rail_node = nullptr;
 	m_last_rail_trigger_node_name = 0;
 	
 	// rotate velocity, so it lays in the plane we are on: (as skaters orientation can lag behind)	
@@ -4744,7 +4744,7 @@ void CSkaterCorePhysicsComponent::maybe_skitch (   )
 	// Find the nearest skitch point.
 	Mth::Vector closest_pos;
 	float closest_dist = GetPhysicsFloat(Crc::ConstCRC("Skitch_Max_Distance"));
-	CCompositeObject* p_closest = NULL;
+	CCompositeObject* p_closest = nullptr;
 	
 	for (CSkitchComponent *p_skitch_comp = static_cast< CSkitchComponent* >(CCompositeObjectManager::Instance()->GetFirstComponentByType(CRC_SKITCH));
 		  p_skitch_comp;
@@ -6228,7 +6228,7 @@ void CSkaterCorePhysicsComponent::do_wallride_physics (   )
 	SetFlagFalse(AIR_ACID_DROP_DISALLOWED);
 
 	// Wallriding will cancel any memory of what rail we were on, so the next one seems fresh	
-	mp_rail_node = NULL;
+	mp_rail_node = nullptr;
 	m_last_rail_trigger_node_name = 0;
 	
 
@@ -6534,7 +6534,7 @@ void CSkaterCorePhysicsComponent::do_wallplant_physics (   )
 	}
 
 	// Wallplanting will cancel any memory of what rail we were on, so the next one seems fresh	
-	mp_rail_node = NULL;
+	mp_rail_node = nullptr;
 	m_last_rail_trigger_node_name = 0;
 
 	
@@ -6601,7 +6601,7 @@ void CSkaterCorePhysicsComponent::maybe_stick_to_rail ( bool override_air )
 	// first check the world rail manager (rails that do not move)
 	CRailNode* pNode;		
 	Mth::Vector rail_pos;
-	if (p_rail_man->StickToRail(a, b, &rail_pos, &pNode, NULL, min_dot))
+	if (p_rail_man->StickToRail(a, b, &rail_pos, &pNode, nullptr, min_dot))
 	{
 		TrackingLine(2,GetOldPos(), GetPos());	  // 2 = stick to rail
 		
@@ -6631,7 +6631,7 @@ void CSkaterCorePhysicsComponent::maybe_stick_to_rail ( bool override_air )
 		Mth::Vector local_a = inv.Transform(a);
 		Mth::Vector local_b = inv.Transform(b);
 
-		if (p_rail_man->StickToRail(local_a, local_b, &rail_pos, &pNode, NULL, min_dot))
+		if (p_rail_man->StickToRail(local_a, local_b, &rail_pos, &pNode, nullptr, min_dot))
 		{
 			// transform from object space to world space
 			rail_pos[W] = 1.0f;
@@ -6791,8 +6791,8 @@ void CSkaterCorePhysicsComponent::got_rail ( const Mth::Vector& rail_pos, const 
 			mp_trigger_component->TripTrigger(
 				TRIGGER_LAND_ON,
 				m_last_rail_node_name,
-				pNodeArray == Script::GetArray(Crc::ConstCRC("NodeArray")) ? NULL : pNodeArray,
-				mp_movable_contact_component->HaveContact() ? mp_movable_contact_component->GetContact()->GetObj() : NULL
+				pNodeArray == Script::GetArray(Crc::ConstCRC("NodeArray")) ? nullptr : pNodeArray,
+				mp_movable_contact_component->HaveContact() ? mp_movable_contact_component->GetContact()->GetObj() : nullptr
 			);
 		}
 
@@ -6866,8 +6866,8 @@ void CSkaterCorePhysicsComponent::got_rail ( const Mth::Vector& rail_pos, const 
 			mp_trigger_component->TripTrigger(
 				TRIGGER_SKATE_OFF,
 				m_last_rail_node_name,
-				pNodeArray == Script::GetArray(Crc::ConstCRC("NodeArray")) ? NULL : pNodeArray,
-				mp_movable_contact_component->HaveContact() ? mp_movable_contact_component->GetContact()->GetObj() : NULL
+				pNodeArray == Script::GetArray(Crc::ConstCRC("NodeArray")) ? nullptr : pNodeArray,
+				mp_movable_contact_component->HaveContact() ? mp_movable_contact_component->GetContact()->GetObj() : nullptr
 			);
 		}
 			
@@ -6963,7 +6963,7 @@ void CSkaterCorePhysicsComponent::got_rail ( const Mth::Vector& rail_pos, const 
 		}
 
 		// Run the lip script.
-		GetObj()->GetScript()->SetScript(Crc::ConstCRC("LipTrick"), NULL, GetObj());
+		GetObj()->GetScript()->SetScript(Crc::ConstCRC("LipTrick"), nullptr, GetObj());
 		GetObj()->GetScript()->Update();
 	
 		// Set the mDoingTrick flag so that the camera can detect that a trick is being done.
@@ -7394,7 +7394,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 		const CRailNode* pEnd = pStart->GetNextLink();
 		
 		const CRailNode* pFrom = pStart;
-		const CRailNode* pOnto = NULL;
+		const CRailNode* pOnto = nullptr;
 		
 		#ifdef __USER_DAN__
 		if (Script::GetInteger(CRCD(0x1a5eab7, "rail_highlights")))
@@ -7976,17 +7976,17 @@ void CSkaterCorePhysicsComponent::maybe_trip_rail_trigger ( uint32 type )
 		m_last_rail_trigger_node_name = new_last_rail_node_name;
 		
 		
-		// if we are using the default node array, then set it to NULL, so TriggerEventFromNode can use this default, which is a lot faster
+		// if we are using the default node array, then set it to nullptr, so TriggerEventFromNode can use this default, which is a lot faster
 		if (pNodeArray == Script::GetArray(Crc::ConstCRC("NodeArray")))
 		{
-			pNodeArray = NULL;
+			pNodeArray = nullptr;
 		}
 		
 		mp_trigger_component->TripTrigger(
 			type,
 			m_last_rail_node_name,
 			pNodeArray,
-			mp_movable_contact_component->HaveContact() ? mp_movable_contact_component->GetContact()->GetObj() : NULL
+			mp_movable_contact_component->HaveContact() ? mp_movable_contact_component->GetContact()->GetObj() : nullptr
 		);
 	}
 }		
@@ -8255,7 +8255,7 @@ void CSkaterCorePhysicsComponent::start_skitch (   )
 	m_moving_to_skitch = true;
 	move_to_skitch_point();
 	
-	// Mick:  For some reason we sometimes get a NULL smart pointer here
+	// Mick:  For some reason we sometimes get a nullptr smart pointer here
 	// so I'm checking again here, in addition to changing the code
 	// to use .Convert 	
 	if (!mp_skitch_object.Convert()) return;
@@ -8329,7 +8329,7 @@ void CSkaterCorePhysicsComponent::do_grind_trick ( uint Direction, bool Right, b
 		GetObj()->SetScript(new Script::CScript);
 	}
 	
-	GetObj()->GetScript()->SetScript(pSubArray->GetNameChecksum(Index), NULL, GetObj());
+	GetObj()->GetScript()->SetScript(pSubArray->GetNameChecksum(Index), nullptr, GetObj());
 	GetObj()->GetScript()->Update();
 	
 	// Set the mDoingTrick flag so that the camera can detect that a trick is being done.
@@ -8351,7 +8351,7 @@ void CSkaterCorePhysicsComponent::StopSkitch (   )
 	if (mp_skitch_object)
 	{
 		mp_skitch_object->SelfEvent(Crc::ConstCRC("SkitchOff"));
-		mp_skitch_object = NULL;
+		mp_skitch_object = nullptr;
 	}
 	mp_movable_contact_component->LoseAnyContact();
 }

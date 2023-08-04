@@ -26,7 +26,7 @@ class CObject;
 
 CObject *ResolveToObject(uint32 id, bool ignoreScreenElements)
 {
-	return NULL;
+	return nullptr;
 }
 }
 
@@ -34,7 +34,7 @@ namespace Pip
 {
 void *Load(const char *p_fileName)
 {
-	return NULL;
+	return nullptr;
 }
 
 void Unload(const char *p_fileName)
@@ -45,7 +45,7 @@ void Unload(const char *p_fileName)
 namespace Mem
 {
 
-Manager *Manager::sp_instance = NULL;
+Manager *Manager::sp_instance = nullptr;
 
 Manager::Manager( void )
 {
@@ -83,17 +83,17 @@ char *Manager::GetContextName()
 
 Mem::Heap *Manager::FirstHeap()
 {
-	return NULL;
+	return nullptr;
 }
 
 Heap* Manager::GetHeap( uint32 whichHeap )
 {
-	return NULL;
+	return nullptr;
 }
 
 Mem::Heap *Manager::NextHeap(Mem::Heap * pHeap)
 {
-	return NULL;
+	return nullptr;
 }
 
 void SetThreadSafe(bool safe)

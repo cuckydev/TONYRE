@@ -14,7 +14,7 @@ namespace Nx
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-CXboxTexture::CXboxTexture() :  m_transparent( false ), mp_texture( NULL )
+CXboxTexture::CXboxTexture() :  m_transparent( false ), mp_texture( nullptr )
 {
 	m_num_mipmaps = 0;
 }
@@ -126,8 +126,8 @@ bool CXboxTexture::plat_replace_texture( CTexture *p_texture )
 		p_src->pD3DTexture->GetLevelDesc( l, &desc );
 
 		D3DLOCKED_RECT src_rect, dst_rect;
-		p_src->pD3DTexture->LockRect( l, &src_rect, NULL, D3DLOCK_READONLY );
-		p_dst->pD3DTexture->LockRect( l, &dst_rect, NULL, 0 );
+		p_src->pD3DTexture->LockRect( l, &src_rect, nullptr, D3DLOCK_READONLY );
+		p_dst->pD3DTexture->LockRect( l, &dst_rect, nullptr, 0 );
 
 		CopyMemory( dst_rect.pBits, src_rect.pBits, desc.Size );
 	}
@@ -346,7 +346,7 @@ CTexture *CXboxTexDict::plat_load_texture( const char *p_texture_name, bool spri
 /******************************************************************/
 CTexture *CXboxTexDict::plat_reload_texture( const char *p_texture_name )
 {
-	return NULL;
+	return nullptr;
 }
 
 

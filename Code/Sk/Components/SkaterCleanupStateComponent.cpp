@@ -55,7 +55,7 @@ CSkaterCleanupStateComponent::~CSkaterCleanupStateComponent()
 
 void CSkaterCleanupStateComponent::InitFromStructure( Script::CStruct* pParams )
 {
-	mp_state_component = NULL;
+	mp_state_component = nullptr;
 }
 
 /******************************************************************/
@@ -128,7 +128,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCleanupStateComponent::CallMemberFu
 void CSkaterCleanupStateComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterCleanupStateComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterCleanupStateComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

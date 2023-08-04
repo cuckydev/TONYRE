@@ -52,7 +52,7 @@ namespace Mem
 class CCompactPool
 {
 public:
-						CCompactPool(int item_size, int desired_num_items, char *name = NULL);
+						CCompactPool(int item_size, int desired_num_items, char *name = nullptr);
 						~CCompactPool();
 
 	void *				Allocate();
@@ -90,7 +90,7 @@ template<class _V>
 class StaticCCompactPool
 {
 public:
-	static void			SAllocPool(int size, char *name = NULL) {sp_pool = new CCompactPool<_V>(size, name);}
+	static void			SAllocPool(int size, char *name = nullptr) {sp_pool = new CCompactPool<_V>(size, name);}
 	static void			SFreePool()	{delete sp_pool;}
 	static _V*			SCreate() {return sp_pool->Create();}
 	static void			SFree(_V *pItem) {sp_pool->Free(pItem);}

@@ -52,7 +52,7 @@ class  CViewport
 	
 	public :
 						CViewport();
-						CViewport(const Mth::Rect* Rect, Gfx::Camera* cam = NULL);
+						CViewport(const Mth::Rect* Rect, Gfx::Camera* cam = nullptr);
 	virtual				~CViewport();
 
 	Gfx::Camera *		GetCamera();
@@ -188,7 +188,7 @@ inline const float		CViewport::GetPixelRatio ( void ) const
 /*                                                                */
 /******************************************************************/
 // Returns a pointer to the viewport's camera
-// since this uses a smart pointer, it will be NULL
+// since this uses a smart pointer, it will be nullptr
 // if the camera has been deleted
 			
 inline Gfx::Camera *	CViewport::GetCamera ( void )

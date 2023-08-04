@@ -51,7 +51,7 @@ public:
 						CGeom();
     virtual				~CGeom();
 
-	CGeom *				Clone(bool instance, CScene* pDestScene=NULL);
+	CGeom *				Clone(bool instance, CScene* pDestScene=nullptr);
 	CGeom *				Clone(bool instance, CModel* pDestModel);		// Clones a Geom from one model into a new model
 
 	bool				LoadGeomData(CMesh* pMesh, CModel* pModel, bool color_per_material);
@@ -142,7 +142,7 @@ protected:
 private:
     // The virtual functions will have a stub implementation
     // in p_nxgeom.cpp
-	virtual CGeom *		plat_clone(bool instance, CScene* pDestScene=NULL);
+	virtual CGeom *		plat_clone(bool instance, CScene* pDestScene=nullptr);
 	virtual CGeom *		plat_clone(bool instance, CModel* pDestModel);
 
 	virtual	bool		plat_load_geom_data(CMesh* pMesh, CModel* pModel, bool color_per_material);

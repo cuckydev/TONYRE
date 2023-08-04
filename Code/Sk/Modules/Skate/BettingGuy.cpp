@@ -440,7 +440,7 @@ bool CBettingGuy::EndBetAttempt( uint32 goalId )
 
 Script::CStruct* CBettingGuy::GetBetParams()
 {
-	Script::CStruct* p_params = NULL;
+	Script::CStruct* p_params = nullptr;
 	
 	if ( m_currentMinigame )
 	{		

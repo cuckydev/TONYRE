@@ -72,10 +72,10 @@ public:
 	float					GetDuration();
 	int						GetNumBones();
 	uint32					GetBoneName( int index );
-    bool				    GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = NULL);
-    bool				    GetCompressedInterpolatedFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = NULL);
-    bool				    GetCompressedInterpolatedPartialFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = NULL);
-    bool				    GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = NULL);
+    bool				    GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = nullptr);
+    bool				    GetCompressedInterpolatedFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = nullptr);
+    bool				    GetCompressedInterpolatedPartialFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = nullptr);
+    bool				    GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = nullptr);
 	bool					ResetCustomKeys( void );
 	bool					ProcessCustomKeys( float startTimeInclusive, float endTimeExclusive, Obj::CObject* pObject, bool endInclusive = false );
 

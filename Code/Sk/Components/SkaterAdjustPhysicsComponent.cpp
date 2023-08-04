@@ -53,10 +53,10 @@ CSkaterAdjustPhysicsComponent::CSkaterAdjustPhysicsComponent() : CBaseComponent(
 {
 	SetType( CRC_SKATERADJUSTPHYSICS );
 	
-	mp_core_physics_component = NULL;
-	mp_model_component = NULL;
-	mp_shadow_component = NULL;
-	mp_movable_contact_component = NULL;
+	mp_core_physics_component = nullptr;
+	mp_model_component = nullptr;
+	mp_shadow_component = nullptr;
+	mp_movable_contact_component = nullptr;
 	
 	m_uber_frigged_this_frame = false;
 }
@@ -155,7 +155,7 @@ CBaseComponent::EMemberFunctionResult CSkaterAdjustPhysicsComponent::CallMemberF
 void CSkaterAdjustPhysicsComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterAdjustPhysicsComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterAdjustPhysicsComponent::GetDebugInfo"));
 	
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

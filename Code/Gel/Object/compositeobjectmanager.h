@@ -48,7 +48,7 @@ public:
 	CCompositeObject*	CreateCompositeObject();
 	CCompositeObject* 	CreateCompositeObjectFromNode(Script::CArray *pArray, Script::CStruct *pNodeData, bool finalize=true);
 
-	void				RegisterComponent(uint32 id, CBaseComponent *(p_create_function)(), void(p_register_function)() = NULL); 
+	void				RegisterComponent(uint32 id, CBaseComponent *(p_create_function)(), void(p_register_function)() = nullptr); 
 	CBaseComponent*		CreateComponent(uint32 id);
     
 	CBaseComponent*		GetFirstComponentByType( uint32 id );

@@ -70,7 +70,7 @@ void CSk3SfxManager::SetSkaterSoundInfo( int surfaceFlag, uint32 whichSound, int
 	int i;
 	Sfx::CSfxManager * sfx_manager = Sfx::CSfxManager::Instance();
 
-	if ( NULL == sfx_manager->GetWaveTableIndex( whichSound ) )
+	if ( nullptr == sfx_manager->GetWaveTableIndex( whichSound ) )
 	{
 		Dbg_MsgAssert( 0,( "Terrain sound not loaded! surface %d sound %s checksum %d soundType %d",
 			surfaceFlag, Script::FindChecksumName( whichSound ), whichSound, whichArray ));
@@ -78,7 +78,7 @@ void CSk3SfxManager::SetSkaterSoundInfo( int surfaceFlag, uint32 whichSound, int
 	}
 	int numEntries = mNumEntries[ whichArray ];
 	SkaterSoundInfo	*pArray = mSoundArray[ whichArray ];
-	SkaterSoundInfo *pInfo = NULL;
+	SkaterSoundInfo *pInfo = nullptr;
 	
 	for ( i = 0; i < numEntries; i++ )
 	{
@@ -112,7 +112,7 @@ void CSk3SfxManager::SetSkaterSoundInfo( int surfaceFlag, uint32 whichSound, int
 SkaterSoundInfo	*CSk3SfxManager::GetSkaterSoundInfo( int surfaceFlag, int whichArray )
 {
 	
-	if (Sfx::NoSoundPlease()) return NULL;
+	if (Sfx::NoSoundPlease()) return nullptr;
 	
 	
 	int numEntries = 0;
@@ -136,7 +136,7 @@ SkaterSoundInfo	*CSk3SfxManager::GetSkaterSoundInfo( int surfaceFlag, int whichA
 		}
 	}
 
-	return ( NULL );
+	return ( nullptr );
 } // end of GetSkaterSoundInfo( )
 
 void CSk3SfxManager::PlaySfx( int whichArray, int surfaceFlag, const Mth::Vector &pos, float volPercent,

@@ -138,7 +138,7 @@ void CImposterManager::plat_post_render_imposters( void )
 {
 	/*
 	// Clean up the common material attributes for the imposters.
-	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, nullptr );
 	NxWn32::set_render_state( RS_CULLMODE, D3DCULL_CW );
 	*/
 }
@@ -157,7 +157,7 @@ void CImposterManager::plat_post_render_imposters( void )
 CXboxImposterGroup::CXboxImposterGroup()
 {
 	/*
-	mp_texture					= NULL;
+	mp_texture					= nullptr;
 	m_update_count				= Mth::Rnd( XBOX_IMPOSTER_UPDATE_LIMIT );
 	mp_removed_textures_list	= new Lst::Head <sRemovedTextureDetails>;
 	*/
@@ -175,7 +175,7 @@ CXboxImposterGroup::~CXboxImposterGroup()
 	if( mp_texture )
 	{
 		mp_texture->Release();
-		mp_texture = NULL;
+		mp_texture = nullptr;
 	}
 
 	// Remove all nodes from the removed textures table.
@@ -285,7 +285,7 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 
 	// Create a render target texture into which the object will be drawn.
 	HRESULT hr;
-	if( mp_texture == NULL )
+	if( mp_texture == nullptr )
 	{
 		hr = D3DDevice_CreateTexture( m_tex_width, m_tex_height, 1, 0, D3DFMT_LIN_A8R8G8B8, 0, &mp_texture );
 		Dbg_Assert( hr == D3D_OK );
@@ -305,8 +305,8 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 	D3DDevice_SetRenderTarget( p_surface, p_depth_surface );
 			
 	// Clear the render target.
-	D3DDevice_Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x00000000, 1.0f, 0 );
-//	D3DDevice_Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x80800000, 1.0f, 0 );
+	D3DDevice_Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x00000000, 1.0f, 0 );
+//	D3DDevice_Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x80800000, 1.0f, 0 );
 
 	// The imposter polygon has now been created.
 	m_imposter_polygon_exists = true;
@@ -340,7 +340,7 @@ void CXboxImposterGroup::plat_create_imposter_polygon( void )
 
 	// Render each mesh into the render target.
 	NxWn32::EngineGlobals.blend_mode_override = NxWn32::vBLEND_MODE_ONE_INV_SRC_ALPHA;
-	NxWn32::sMaterial*	p_material = NULL;
+	NxWn32::sMaterial*	p_material = nullptr;
 	for( uint32 m = 0; m < num_meshes; ++m )
 	{
 		NxWn32::sMesh* p_mesh = mesh_list[m];
@@ -429,7 +429,7 @@ void CXboxImposterGroup::plat_remove_imposter_polygon( void )
 			Lst::Node<sRemovedTextureDetails> *p_new_node	= new Lst::Node<sRemovedTextureDetails>( p_new_details );
 			mp_removed_textures_list->AddToTail( p_new_node );
 
-			mp_texture = NULL;
+			mp_texture = nullptr;
 		}
 
 		Lst::Node<Nx::CGeom> *node, *next;
@@ -524,7 +524,7 @@ void CXboxImposterGroup::plat_draw_imposter_polygon( void )
 {
 	/*
 	// Have to clear texture 0 before switching to the imposter texture, because it is a linear format.
-	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, nullptr );
 	NxWn32::set_texture( 0, mp_texture );
 
 	NxWn32::EngineGlobals.p_Device->DrawPrimitiveUP( D3DPT_QUADLIST, 1, m_vertex_buffer, sizeof( sImposterPolyVert ));

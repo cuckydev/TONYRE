@@ -147,7 +147,7 @@ void audioDecPause(AudioDec *ad)
     // Stop DMA and save the position to be played
     //
     ret = sceSdRemote(1, rSdBlockTrans, AUTODMA_CH,
-			   SD_TRANS_MODE_STOP, NULL, 0) & 0x00FFFFFF;
+			   SD_TRANS_MODE_STOP, nullptr, 0) & 0x00FFFFFF;
     ad->iopPausePos = ret - ad->iopBuff;
 
     // ///////////////////////////////////////
@@ -237,7 +237,7 @@ void audioDecBeginPut(AudioDec *ad,
     if (ad->size -  ad->put >= len) { // area0
     	*ptr0 = ad->data + ad->put;
 	*len0 = len;
-	*ptr1 = NULL;
+	*ptr1 = nullptr;
 	*len1 = 0;
     } else {			    // area0 + area1
     	*ptr0 = ad->data + ad->put;

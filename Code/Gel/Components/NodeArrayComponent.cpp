@@ -61,7 +61,7 @@ CNodeArrayComponent::CNodeArrayComponent() : CBaseComponent()
 {
 	SetType( CRC_NODEARRAY );
 
-	mp_node_array = NULL;
+	mp_node_array = nullptr;
 }
 
 
@@ -87,7 +87,7 @@ CNodeArrayComponent::~CNodeArrayComponent()
 void CNodeArrayComponent::InitFromStructure( Script::CStruct* pParams )
 {
 	// Obtain the model name from the structure. At a later date, perhaps the node could override the .qb name.
-	const char *p_model_name = NULL;
+	const char *p_model_name = nullptr;
 	if( !pParams->GetText( 0x286a8d26, &p_model_name ))
 	{
 		// This is currently an error.
@@ -127,7 +127,7 @@ void CNodeArrayComponent::InitFromStructure( Script::CStruct* pParams )
 void CNodeArrayComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
 	// Obtain the model name from the structure. At a later date, perhaps the node could override the .qb name.
-	const char *p_model_name = NULL;
+	const char *p_model_name = nullptr;
 	if( !pParams->GetText( 0x286a8d26, &p_model_name ))
 	{
 		// Not an error during a refresh, just exit with existing values maintained.
@@ -199,7 +199,7 @@ CBaseComponent::EMemberFunctionResult CNodeArrayComponent::CallMemberFunction( u
 void CNodeArrayComponent::GetDebugInfo( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ("NULL p_info sent to CNodeArrayComponent::GetDebugInfo" ));
+	Dbg_MsgAssert( p_info, ("nullptr p_info sent to CNodeArrayComponent::GetDebugInfo" ));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)

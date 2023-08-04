@@ -95,9 +95,9 @@ public:
 								uint16			**pp_indices,			// Pointer to an array of pointers to the actual indices
 								unsigned long	material_checksum,
 								void			*p_scene,
-								uint16			*p_matrix_indices	= NULL,
-								uint32			*p_weights			= NULL,
-								char			*p_vc_wibble_anims	= NULL );
+								uint16			*p_matrix_indices	= nullptr,
+								uint32			*p_weights			= nullptr,
+								char			*p_vc_wibble_anims	= nullptr );
 
 	void			Submit( void );
 	void			HandleColorOverride( void );
@@ -134,9 +134,9 @@ public:
 	uint32					m_pixel_shader;
 
 	float					*mp_index_lod_data;				// List of distances (squared) for which a particular index list should be used.
-															// NULL for meshes that only have one set of index data.
+															// nullptr for meshes that only have one set of index data.
 
-	sBillboardData			*mp_billboard_data;				// Data defining billboard properties. NULL for non-billboard meshes.
+	sBillboardData			*mp_billboard_data;				// Data defining billboard properties. nullptr for non-billboard meshes.
 
 	// D3DPRIMITIVETYPE		m_primitive_type;
 	uint16					*mp_index_buffer[MAX_INDEX_BUFFERS];

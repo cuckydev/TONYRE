@@ -48,9 +48,9 @@ struct SChecksumName
 // with no wasted space in between. They stay in memory forever.
 #define CHECKSUM_NAME_SPACE 5000000
 
-static SChecksumName *sp_checksum_name_hash_table=NULL;
-static char *sp_checksum_names=NULL;
-static char *sp_end_of_checksum_names=NULL;
+static SChecksumName *sp_checksum_name_hash_table=nullptr;
+static char *sp_checksum_names=nullptr;
+static char *sp_end_of_checksum_names=nullptr;
 
 void AllocateChecksumNameLookupTables()
 {
@@ -59,9 +59,9 @@ void AllocateChecksumNameLookupTables()
 		return;
 	}
 		
-	Dbg_MsgAssert(sp_checksum_name_hash_table==NULL,("sp_checksum_name_hash_table not NULL ?"));				  
-	Dbg_MsgAssert(sp_checksum_names==NULL,("sp_checksum_names not NULL ?"));				  
-	Dbg_MsgAssert(sp_end_of_checksum_names==NULL,("sp_end_of_checksum_names not NULL ?"));				  
+	Dbg_MsgAssert(sp_checksum_name_hash_table==nullptr,("sp_checksum_name_hash_table not nullptr ?"));				  
+	Dbg_MsgAssert(sp_checksum_names==nullptr,("sp_checksum_names not nullptr ?"));				  
+	Dbg_MsgAssert(sp_end_of_checksum_names==nullptr,("sp_end_of_checksum_names not nullptr ?"));				  
 	
 	#ifdef __PLAT_NGPS__
 
@@ -103,7 +103,7 @@ void AllocateChecksumNameLookupTables()
 	for (int i=0; i<(1<<CHECKSUM_LOOKUP_HASH_BITS) * CHECKSUM_ENTRIES_PER_SLOT; ++i)
 	{
 		sp_checksum_name_hash_table[i].mChecksum=0;
-		sp_checksum_name_hash_table[i].mpName=NULL;
+		sp_checksum_name_hash_table[i].mpName=nullptr;
 	}
 	// Initialise the pile of strings.
 	*sp_checksum_names=0;
@@ -116,8 +116,8 @@ void DeallocateChecksumNameLookupTables()
 		return;
 	}
 	
-	Dbg_MsgAssert(sp_checksum_name_hash_table,("NULL sp_checksum_name_hash_table ?"));				  
-	Dbg_MsgAssert(sp_checksum_names,("NULL sp_checksum_names ?"));				  
+	Dbg_MsgAssert(sp_checksum_name_hash_table,("nullptr sp_checksum_name_hash_table ?"));				  
+	Dbg_MsgAssert(sp_checksum_names,("nullptr sp_checksum_names ?"));				  
 	
 	#ifdef __PLAT_NGPS__
 	// Nothing to delete on PS2 because the arrays were not dynamically allocated.
@@ -126,21 +126,21 @@ void DeallocateChecksumNameLookupTables()
 	Mem::Free(sp_checksum_names);
 	#endif
 	
-	sp_checksum_name_hash_table=NULL;
-	sp_checksum_names=NULL;
-	sp_end_of_checksum_names=NULL;
+	sp_checksum_name_hash_table=nullptr;
+	sp_checksum_names=nullptr;
+	sp_end_of_checksum_names=nullptr;
 }	
 
 // Used by the script debugger code to send the set of checksum names to the debugger program
 // running on the PC.
 void GetChecksumNamesBuffer(char **pp_start, char **pp_end)
 {
-	Dbg_MsgAssert(pp_start && pp_end,("pp_start and pp_end must be non-NULL"));
+	Dbg_MsgAssert(pp_start && pp_end,("pp_start and pp_end must be non-nullptr"));
 	
 	if (!Config::GotExtraMemory())
 	{
-		*pp_start=NULL;
-		*pp_end=NULL;
+		*pp_start=nullptr;
+		*pp_end=nullptr;
 		return;
 	}
 
@@ -157,8 +157,8 @@ void AddChecksumName(uint32 checksum, const char *p_name)
 	}
 	
 	Dbg_MsgAssert(checksum,("Zero checksum sent to AddChecksumName"));
-	Dbg_MsgAssert(p_name,("NULL p_name sent to AddChecksumName"));
-	Dbg_MsgAssert(sp_checksum_name_hash_table,("NULL sp_checksum_name_hash_table"));
+	Dbg_MsgAssert(p_name,("nullptr p_name sent to AddChecksumName"));
+	Dbg_MsgAssert(sp_checksum_name_hash_table,("nullptr sp_checksum_name_hash_table"));
 	
 	SChecksumName *p_first=&sp_checksum_name_hash_table[(checksum&((1<<CHECKSUM_LOOKUP_HASH_BITS)-1))*CHECKSUM_ENTRIES_PER_SLOT];
 	int c=0;
@@ -181,7 +181,7 @@ void AddChecksumName(uint32 checksum, const char *p_name)
 				#ifdef __QDEBUG__
 				char p_foo[1024];
 				sprintf(p_foo,"Checksum clash between %s and %s, both have checksum 0x%08x",p_name,p_first->mpName,checksum);
-				MessageBox(NULL,p_foo,"Warning",MB_OK);
+				MessageBox(nullptr,p_foo,"Warning",MB_OK);
 				#endif
 				// Carry on anyway, won't cause a crash.
 				#else				
@@ -216,17 +216,17 @@ void AddChecksumName(uint32 checksum, const char *p_name)
 
 static char sp_unknown_checksum_buf[100];
 
-// Returns NULL if not found.
-// This version is not safe to use in a printf because it may return NULL, but can be handy for
+// Returns nullptr if not found.
+// This version is not safe to use in a printf because it may return nullptr, but can be handy for
 // when the calling code needs to do something special if the name is not found.
 const char *FindChecksumNameNULL(uint32 checksum)
 {
 	if (!Config::GotExtraMemory())
 	{
-		return NULL;
+		return nullptr;
 	}
 	
-	Dbg_MsgAssert(sp_checksum_name_hash_table,("NULL sp_checksum_name_hash_table"));
+	Dbg_MsgAssert(sp_checksum_name_hash_table,("nullptr sp_checksum_name_hash_table"));
 	SChecksumName *p_first=&sp_checksum_name_hash_table[(checksum&((1<<CHECKSUM_LOOKUP_HASH_BITS)-1))*CHECKSUM_ENTRIES_PER_SLOT];
 	int c=CHECKSUM_ENTRIES_PER_SLOT;
 	while (p_first->mpName)
@@ -244,7 +244,7 @@ const char *FindChecksumNameNULL(uint32 checksum)
 		++p_first;
 	}
 	
-	return NULL;		
+	return nullptr;		
 }
 
 // Returns "Unknown" if not found.

@@ -37,15 +37,15 @@ int videoDecCreate(VideoDec *vd,
 
     // Add Callbacks
     sceMpegAddCallback(&vd->mpeg,
-    	sceMpegCbError, (sceMpegCallback)mpegError, NULL);
+    	sceMpegCbError, (sceMpegCallback)mpegError, nullptr);
     sceMpegAddCallback(&vd->mpeg,
-    	sceMpegCbNodata, mpegNodata, NULL);
+    	sceMpegCbNodata, mpegNodata, nullptr);
     sceMpegAddCallback(&vd->mpeg,
-    	sceMpegCbStopDMA, mpegStopDMA, NULL);
+    	sceMpegCbStopDMA, mpegStopDMA, nullptr);
     sceMpegAddCallback(&vd->mpeg,
-    	sceMpegCbRestartDMA, mpegRestartDMA, NULL);
+    	sceMpegCbRestartDMA, mpegRestartDMA, nullptr);
     sceMpegAddCallback(&vd->mpeg, sceMpegCbTimeStamp,
-    	(sceMpegCallback)mpegTS, NULL);
+    	(sceMpegCallback)mpegTS, nullptr);
 
     videoDecReset(vd);
 
@@ -210,7 +210,7 @@ int videoDecFlush(VideoDec *vd)
     pd0Unc = (u_char*)UncAddr(pd0);
     pd1Unc = (u_char*)UncAddr(pd1);
 
-    len = cpy2area(pd0Unc, d0, pd1Unc, d1, seq_end_code, 4, NULL, 0);
+    len = cpy2area(pd0Unc, d0, pd1Unc, d1, seq_end_code, 4, nullptr, 0);
 
     videoDecEndPut(& MOVIE_MEM_PTR videoDec, len);
 

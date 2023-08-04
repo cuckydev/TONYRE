@@ -190,7 +190,7 @@ public:
 #	ifdef __PLAT_NGC__
 	int				m_mem_size;				// Overall memory size of unit.
 	int				m_sector_size;			// Sector size of unit.
-	char*			mp_work_area;			// Used also as a flag: == NULL means not yet mounted.
+	char*			mp_work_area;			// Used also as a flag: == nullptr means not yet mounted.
 	bool			m_broken;
 	int 			CountFilesLeft();			// Required to check if there are enough files left to allow a game save.
 	bool			IsForeign( void );

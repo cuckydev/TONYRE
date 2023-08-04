@@ -152,7 +152,7 @@ void LoadAllStartupQBFiles()
 // generating the node name hash table & prefix info
 void LoadQB(const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplicateSymbols)
 {
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 	//if (strcmp("..\\runnow.qb",p_fileName) != 0)
 	//{
 	//	printf("Loading %s\n",p_fileName); // REMOVE
@@ -241,7 +241,7 @@ void UnloadQB(uint32 fileNameChecksum)
 
 uint32 GenerateFileNameChecksum(const char *p_fileName)
 {
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 	
 	// TODO May need to process the file name a bit first, eg prefix it with the
 	// full path if it is not there already, before calculating its checksum, in order to ensure a match.

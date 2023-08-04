@@ -76,8 +76,8 @@ namespace Mdl
 
 CGameFlow::CGameFlow( void )
 {
-	mp_gameFlowScript = NULL;
-	mp_tester_script = NULL;
+	mp_gameFlowScript = nullptr;
+	mp_tester_script = nullptr;
 	
 	m_requestedScript = 0;
 	m_requestNewScript = false;
@@ -147,7 +147,7 @@ bool CGameFlow::KillTesterScript()
 	if (mp_tester_script)
 	{
 		delete mp_tester_script;
-		mp_tester_script=NULL;
+		mp_tester_script=nullptr;
 		return true;
 	}
 		
@@ -196,7 +196,7 @@ void CGameFlow::Update()
 		if ( mp_gameFlowScript->Update() == Script::ESCRIPTRETURNVAL_FINISHED )
 		{
 			delete mp_gameFlowScript;
-			mp_gameFlowScript = NULL;
+			mp_gameFlowScript = nullptr;
 		}
 
 	}

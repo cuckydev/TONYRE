@@ -67,9 +67,9 @@ CMotionComponent::CMotionComponent() : CBaseComponent()
 {
 	SetType( CRC_MOTION );
 
-	mp_pathOb = NULL;
+	mp_pathOb = nullptr;
 	
-	mp_path_object_tracker = NULL;
+	mp_path_object_tracker = nullptr;
 
 	m_point_stick_to_ground = true;
 
@@ -86,7 +86,7 @@ CMotionComponent::~CMotionComponent()
 	if ( mp_pathOb )
 	{
 		delete mp_pathOb;
-		mp_pathOb = NULL;
+		mp_pathOb = nullptr;
 	}
 
 	// Note: No need to unregister from mp_path_object_tracker, because the path tracker
@@ -95,13 +95,13 @@ CMotionComponent::~CMotionComponent()
 	if ( mp_slerp )
 	{
 		delete mp_slerp;
-		mp_slerp = NULL;
+		mp_slerp = nullptr;
 	}
 	
 	if (mp_follow_ob)
 	{
 		delete mp_follow_ob;
-		mp_follow_ob=NULL;
+		mp_follow_ob=nullptr;
 	}	
 
 }
@@ -337,7 +337,7 @@ bool CMotionComponent::IsHovering( void )
 
 void CMotionComponent::GetHoverOrgPos( Mth::Vector* p_orgPos )
 {
-	Dbg_MsgAssert(p_orgPos,("NULL p_orgPos"));
+	Dbg_MsgAssert(p_orgPos,("nullptr p_orgPos"));
 	Mth::Vector pos=GetObj()->GetPos();
 	p_orgPos->Set(pos[X],m_y_before_applying_hover,pos[Z]);
 }
@@ -1066,7 +1066,7 @@ int CMotionComponent::GetDestinationPathNode()
 	{
 		return -1;
 	}	
-	//Dbg_MsgAssert(mp_pathOb,("NULL GetPathOb() ?"));
+	//Dbg_MsgAssert(mp_pathOb,("nullptr GetPathOb() ?"));
 	return mp_pathOb->m_node_to;
 }
 
@@ -1086,7 +1086,7 @@ int CMotionComponent::GetPreviousPathNode()
 	{
 		return -1;
 	}	
-	//Dbg_MsgAssert(mp_pathOb,("NULL GetPathOb() ?"));
+	//Dbg_MsgAssert(mp_pathOb,("nullptr GetPathOb() ?"));
 	return mp_pathOb->m_node_from;
 }
 
@@ -1172,7 +1172,7 @@ void CMotionComponent::InitPath( int nodeNumber )
 	}	
 
 	mp_path_object_tracker=Obj::CPathMan::Instance()->TrackObject( GetObj(), nodeNumber );	
-	// Note: mp_path_object_tracker could be NULL
+	// Note: mp_path_object_tracker could be nullptr
 	
 	EnsurePathobExists( GetObj() );
 	GetPathOb()->NewPath( nodeNumber, GetObj()->GetPos() );
@@ -1225,7 +1225,7 @@ void CMotionComponent::HitWaypoint( int nodeIndex )
 	
 	if ( pNodeData->GetChecksum( 0x3aefe377, &scriptChecksum ) ) 	// "SpawnObjScript"
 	{
-		Script::CStruct* pScriptParams = NULL;
+		Script::CStruct* pScriptParams = nullptr;
 		pNodeData->GetStructure( Crc::ConstCRC("Params"), &pScriptParams );
 #ifdef __NOPT_ASSERT__
 		Script::CScript* p_script=GetObj()->SpawnScriptPlease( scriptChecksum, pScriptParams );
@@ -1238,7 +1238,7 @@ void CMotionComponent::HitWaypoint( int nodeIndex )
 	
 	if ( pNodeData->GetChecksum( 0x86125749, &scriptChecksum ) ) 	// "SwitchObjScript"
 	{
-		Script::CStruct* pScriptParams = NULL;
+		Script::CStruct* pScriptParams = nullptr;
 		pNodeData->GetStructure( Crc::ConstCRC("Params"), &pScriptParams );
 		GetObj()->SwitchScript( scriptChecksum, pScriptParams );
 		return;
@@ -1756,16 +1756,16 @@ CCompositeObject* CMotionComponent::GetNextObjectOnPath( float range )
 {
 	if (!(m_movingobj_status & MOVINGOBJ_STATUS_ON_PATH) || !GetPathOb() || !mp_path_object_tracker)
 	{
-		return NULL;
+		return nullptr;
 	}	
 	
 	float distance_covered=0.0f;
 	Mth::Vector path_pos=m_pos;
 	int next_node=GetPathOb()->m_node_to;
 	
-	// Copy the non-NULL object pointers from the tracker to a small local array for speed,
+	// Copy the non-nullptr object pointers from the tracker to a small local array for speed,
 	// since they may need to be stepped through several times and the tracker's array
-	// contains lots of NULL's
+	// contains lots of nullptr's
 	#define MAX_OBS 20
 	CCompositeObject* pp_objects[MAX_OBS];
 	int num_objects=0;
@@ -1780,7 +1780,7 @@ CCompositeObject* CMotionComponent::GetNextObjectOnPath( float range )
 		}
 	}		
 	
-	CCompositeObject* p_nearest=NULL;
+	CCompositeObject* p_nearest=nullptr;
 	while (true)
 	{
 		float min_dist=0.0f;
@@ -1807,7 +1807,7 @@ CCompositeObject* CMotionComponent::GetNextObjectOnPath( float range )
 		}	
 		
 		Script::CStruct* p_node=SkateScript::GetNode(next_node);
-		Dbg_MsgAssert(p_node,("NULL p_node"));
+		Dbg_MsgAssert(p_node,("nullptr p_node"));
 		Mth::Vector node_pos;
 		SkateScript::GetPosition(p_node,&node_pos);
 		
@@ -1815,7 +1815,7 @@ CCompositeObject* CMotionComponent::GetNextObjectOnPath( float range )
 		path_pos=node_pos;
 
 		// Get the next linked node
-		Script::CArray* p_links=NULL;
+		Script::CArray* p_links=nullptr;
 		p_node->GetArray(0x2e7d5ee7/*Links*/,&p_links);
 		
 		if (!p_links)
@@ -2143,9 +2143,9 @@ void CMotionComponent::FollowPath( void )
 		
 		// send in our forward direction, distance traveled...
 		//if ( GetPathOb()->TraversePath( is_being_skitched, m_vel_z * m_time, 
-		//	( m_movingobj_flags & MOVINGOBJ_FLAG_INDEPENDENT_HEADING ) ? NULL : &m_matrix[ Z ] ) )
+		//	( m_movingobj_flags & MOVINGOBJ_FLAG_INDEPENDENT_HEADING ) ? nullptr : &m_matrix[ Z ] ) )
 		if ( GetPathOb()->TraversePath( m_vel_z * m_time, 
-			( m_movingobj_flags & MOVINGOBJ_FLAG_INDEPENDENT_HEADING ) ? NULL : &GetObj()->m_matrix[ Z ] ) )
+			( m_movingobj_flags & MOVINGOBJ_FLAG_INDEPENDENT_HEADING ) ? nullptr : &GetObj()->m_matrix[ Z ] ) )
 		{
 			// path is done... turn off flag:
 			m_movingobj_status &= ~MOVINGOBJ_STATUS_ON_PATH;
@@ -2324,7 +2324,7 @@ static bool s_do_collision_check(const Mth::Vector *p_v0, const Mth::Vector *p_v
 			Dbg_MsgAssert(p_col_obj->IsTriangleCollision(),("Not triangle collision !!!"));
 	
 			Nx::CCollObjTriData* p_tri_data=p_col_obj->GetGeometry();
-			Dbg_MsgAssert(p_tri_data,("NULL p_tri_data"));
+			Dbg_MsgAssert(p_tri_data,("nullptr p_tri_data"));
 	
 			int face_index=feeler.GetFaceIndex();
 			p_lastTriangle->mpVertices[0]=p_col_obj->GetVertexPos(p_tri_data->GetFaceVertIndex(face_index, 0));
@@ -2477,7 +2477,7 @@ bool CMotionComponent::StickToGround()
 void CMotionComponent::GetDebugInfo( Script::CStruct* p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ( "NULL p_info sent to CMotionComponent::GetDebugInfo" ) );
+	Dbg_MsgAssert( p_info, ( "nullptr p_info sent to CMotionComponent::GetDebugInfo" ) );
 	CBaseComponent::GetDebugInfo(p_info);
 	
 	p_info->AddChecksum( CRCD(0x9e6b250,"m_movingobj_status"), m_movingobj_status );
@@ -2545,7 +2545,7 @@ void CMotionComponent::GetDebugInfo( Script::CStruct* p_info )
 
 CCompositeObject* CMotionComponent::GetNextObjectOnPath( float range )
 {
-	CCompositeObject* p_closest_ob=NULL;
+	CCompositeObject* p_closest_ob=nullptr;
 
 	if ( mp_path_object_tracker )
 	{		
@@ -2622,7 +2622,7 @@ void CMotionComponent::FollowLeader_Init( Script::CStruct* pParams )
 		if (mp_follow_ob)
 		{
 			delete mp_follow_ob;
-			mp_follow_ob=NULL;
+			mp_follow_ob=nullptr;
 		}
 		return;
 	}		

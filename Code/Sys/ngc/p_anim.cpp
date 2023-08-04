@@ -18,12 +18,12 @@
 //	m_tnow				= new NsTFrame[numBones];
 ////	m_pBoneMat			= new ROMtx[numBones];
 //
-//	m_pQ0				= NULL;
-//	m_pT0				= NULL;
-//	m_pQ1				= NULL;
-//	m_pT1				= NULL;
+//	m_pQ0				= nullptr;
+//	m_pT0				= nullptr;
+//	m_pQ1				= nullptr;
+//	m_pT1				= nullptr;
 //
-//	m_pCurrentSequence	= NULL;
+//	m_pCurrentSequence	= nullptr;
 //
 //	m_numCachedBones	= numBones;
 //	m_duration			= 0.0f;

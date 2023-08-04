@@ -52,7 +52,7 @@ namespace Obj
 void CModelComponent::init_model_from_level_object( uint32 checksumName )
 {
 	Nx::CSector *p_sector = Nx::CEngine::sGetSector(checksumName);
-	Dbg_MsgAssert( p_sector, ( "WARNING: sGetSector(0x%x) returned NULL (%s)\n", checksumName, Script::FindChecksumName(checksumName) ) );
+	Dbg_MsgAssert( p_sector, ( "WARNING: sGetSector(0x%x) returned nullptr (%s)\n", checksumName, Script::FindChecksumName(checksumName) ) );
 	if ( p_sector )
 	{
 		// need to clone the source, not the instance?
@@ -238,7 +238,7 @@ void CModelComponent::InitModel( Script::CStruct* pParams )
 			Dbg_MsgAssert( p_src_model_comp->mp_model, ( "Couldn't find CModel in model component of object id %d", cloneID ) );
 
 			uint32 geomName;
-			Script::CArray *p_geom_array=NULL;
+			Script::CArray *p_geom_array=nullptr;
 			if ( pParams->GetChecksum( Crc::ConstCRC("geom"), &geomName, Script::NO_ASSERT ) )
 			{
 				Nx::CGeom *p_orig_geom = p_src_model_comp->mp_model->GetGeom(geomName);
@@ -362,7 +362,7 @@ void CModelComponent::InitModel( Script::CStruct* pParams )
 			Nx::CGeom *p_orig_geom = p_source_sector->GetGeom();
 			Dbg_MsgAssert(p_orig_geom, ("Couldn't find CGeom for %s",Script::FindChecksumName(model_name_checksum)));
 
-			Nx::CGeom *p_new_geom = p_orig_geom->Clone(true, (Nx::CScene*)NULL);
+			Nx::CGeom *p_new_geom = p_orig_geom->Clone(true, (Nx::CScene*)nullptr);
 			Dbg_MsgAssert(p_new_geom, ("Couldn't clone CGeom %s", Script::FindChecksumName(model_name_checksum)));
 			p_new_geom->SetActive(true);
 			
@@ -398,7 +398,7 @@ void CModelComponent::InitModelFromProfile( Gfx::CModelAppearance* pAppearance, 
 	// operations)
 	//	pModel->ClearGeoms();
 
-    Gfx::CSkeleton* pSkeleton = NULL;
+    Gfx::CSkeleton* pSkeleton = nullptr;
 	Obj::CSkeletonComponent* pSkeletonComponent = GetSkeletonComponentFromObject( GetObj() );
 	if ( pSkeletonComponent )
 	{
@@ -693,7 +693,7 @@ void CModelComponent::Update()
 		
 		// TODO:  The interface between different components
 		// should be more generic, maybe...
-		Gfx::CSkeleton* pSkeleton = NULL;
+		Gfx::CSkeleton* pSkeleton = nullptr;
 		if ( mp_skeleton_component )
 		{
 			pSkeleton = mp_skeleton_component->GetSkeleton();
@@ -809,7 +809,7 @@ void CModelComponent::SetBoundingSphere( const Mth::Vector& newSphere )
 
 void CModelComponent::UpdateBrightness()
 {
-	Dbg_MsgAssert(mp_model, ("UpdateBrightness: CModel is NULL"));
+	Dbg_MsgAssert(mp_model, ("UpdateBrightness: CModel is nullptr"));
 	Dbg_MsgAssert(mp_model->GetModelLights(), ("UpdateBrightness: MovingObject has no model lights"));
 	mp_model->GetModelLights()->UpdateBrightness();
 }
@@ -824,7 +824,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 	bool success = true;
     Script::CStruct *p_script_params;
 	 
-	p_script_params = NULL;
+	p_script_params = nullptr;
 	if( pScript )
 	{
 		p_script_params = pScript->GetParams();
@@ -990,7 +990,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 		// @script | Obj_HasModelLights | tests existence of model lights
 		case 0xe11f85e8: // Obj_HasModelLights
 			{
-				Dbg_MsgAssert(mp_model, ("Obj_HasModelLights: CModel is NULL"));
+				Dbg_MsgAssert(mp_model, ("Obj_HasModelLights: CModel is nullptr"));
 				
 				return mp_model->GetModelLights() ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 			}
@@ -1003,21 +1003,21 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 		// add this function to explicitly copy over the data...  there's probably
 		// a cleaner way to do it, but I didn't want to break the existing code.
 		case 0x1c16332e: // Obj_UpdateBrightness
-			Dbg_MsgAssert(mp_model, ("Obj_UpdateBrightness: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_UpdateBrightness: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_UpdateBrightness: MovingObject has no model lights"));
 			mp_model->GetModelLights()->UpdateBrightness();
 			break;
 
 		// @script | Obj_EnableAmbientLight | enables the ambient model light
 		case 0xa14d6372: // Obj_EnableAmbientLight
-			Dbg_MsgAssert(mp_model, ("Obj_EnableAmbientLight: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_EnableAmbientLight: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_EnableAmbientLight: MovingObject has no model lights"));
 			mp_model->GetModelLights()->EnableAmbientLight(true);
 			break;
 
 		// @script | Obj_DisableAmbientLight | disables the ambient model light
 		case 0x8a445e26: // Obj_DisableAmbientLight
-			Dbg_MsgAssert(mp_model, ("Obj_DisableAmbientLight: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_DisableAmbientLight: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_DisableAmbientLight: MovingObject has no model lights"));
 			mp_model->GetModelLights()->EnableAmbientLight(false);
 			break;
@@ -1033,7 +1033,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				Dbg_MsgAssert(0, ("Obj_EnableDiffuseLight: Can't find 'index' of light"));
 			}
 
-			Dbg_MsgAssert(mp_model, ("Obj_EnableDiffuseLight: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_EnableDiffuseLight: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_EnableDiffuseLight: MovingObject has no model lights"));
 			mp_model->GetModelLights()->EnableDiffuseLight(index, true);
 			break;
@@ -1050,7 +1050,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				Dbg_MsgAssert(0, ("Obj_DisableDiffuseLight: Can't find 'index' of light"));
 			}
 
-			Dbg_MsgAssert(mp_model, ("Obj_DisableDiffuseLight: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_DisableDiffuseLight: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_DisableDiffuseLight: MovingObject has no model lights"));
 			mp_model->GetModelLights()->EnableDiffuseLight(index, false);
 			break;
@@ -1078,7 +1078,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 
 			Image::RGBA rgb(r, g, b, 0x80);
 
-			Dbg_MsgAssert(mp_model, ("Obj_SetLightAmbientColor: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_SetLightAmbientColor: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_SetLightAmbientColor: MovingObject has no model lights"));
 			mp_model->GetModelLights()->SetLightAmbientColor(rgb);
 			mp_model->GetModelLights()->EnableAmbientLight(true);
@@ -1118,7 +1118,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				Dbg_MsgAssert(0, ("Obj_SetLightDirection: Can't find 'direction' or 'heading' and 'pitch' of light"));
 			}
 
-			Dbg_MsgAssert(mp_model, ("Obj_SetLightDirection: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_SetLightDirection: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_SetLightDirection: MovingObject has no model lights"));
 			mp_model->GetModelLights()->SetLightDirection(index, direction);
 
@@ -1155,7 +1155,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 
 			Image::RGBA rgb(r, g, b, 0x80);
 
-			Dbg_MsgAssert(mp_model, ("Obj_SetLightDiffuseColor: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_SetLightDiffuseColor: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_SetLightDiffuseColor: MovingObject has no model lights"));
 			mp_model->GetModelLights()->SetLightDiffuseColor(index, rgb);
 			mp_model->GetModelLights()->EnableDiffuseLight(index, true);
@@ -1187,7 +1187,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 
 			Dbg_MsgAssert(found_all, ("Missing one or more of the wibble offset parameters.  Must fill them all out."));
 
-			Dbg_MsgAssert(mp_model, ("Obj_SetUVOffset: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_SetUVOffset: CModel is nullptr"));
 			mp_model->SetUVOffset(mat_checksum, pass, u_offset, v_offset);
 
 			break;
@@ -1249,7 +1249,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				mat[3][1] = voffset;
 			}
 
-			Dbg_MsgAssert(mp_model, ("Obj_SetUVParams: CModel is NULL"));
+			Dbg_MsgAssert(mp_model, ("Obj_SetUVParams: CModel is nullptr"));
 			mp_model->SetUVMatrix(mat_checksum, pass, mat);
 
 			break;
@@ -1526,7 +1526,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 void CModelComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CModelComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CModelComponent::GetDebugInfo"));
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);	  
 	

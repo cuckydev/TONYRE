@@ -29,7 +29,7 @@ extern bool				gun_fired;
 extern bool				allow_strafe_locking;
 
 int						best_ped_timer			= 0;
-Obj::CCompositeObject*	p_selected_target		= NULL;
+Obj::CCompositeObject*	p_selected_target		= nullptr;
 float					target_selection_timer	= 0.0f;		// Times how long the selected target has been targeted for.
 
 namespace Obj
@@ -419,7 +419,7 @@ CBaseComponent::EMemberFunctionResult CWalkCameraComponent::CallMemberFunction( 
 
 void CWalkCameraComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CWalkCameraComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CWalkCameraComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 }

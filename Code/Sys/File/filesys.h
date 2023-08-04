@@ -67,7 +67,7 @@ void ResetQuickFileSystem( void );
 uint32	CanFileBeLoadedQuickly( const char *filename );
 bool LoadFileQuicklyPlease( const char *filename, uint8 *addr );
 
-void   *LoadAlloc(const char *p_fileName, int *p_filesize=NULL, void *p_dest = NULL, int maxSize=0);
+void   *LoadAlloc(const char *p_fileName, int *p_filesize=nullptr, void *p_dest = nullptr, int maxSize=0);
 
 
 void StopStreaming( void );

@@ -42,7 +42,7 @@ public:
 	void							SetAllTargetProps(const Props &newProps, Tmr::Time time);
 	void							SetAnimTime(Tmr::Time time);
 
-	const Props &					SetMorph(Script::CStruct *pProps, Tmr::Time *pRetTime = NULL);
+	const Props &					SetMorph(Script::CStruct *pProps, Tmr::Time *pRetTime = nullptr);
 
 protected:
 

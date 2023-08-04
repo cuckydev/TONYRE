@@ -281,8 +281,8 @@ public:
 	CMapListTemp(CMapListNode *p_list);
 	~CMapListTemp();
 	
-	bool						IsEmpty() {return (mp_list == NULL);}
-	bool						IsSingular() {return (mp_list->GetNext() == NULL);}
+	bool						IsEmpty() {return (mp_list == nullptr);}
+	bool						IsSingular() {return (mp_list->GetNext() == nullptr);}
 	CMapListNode *				GetList();
 	void						PrintContents();
 
@@ -356,7 +356,7 @@ public:
 	
 	/* ======== Abstract metapiece functions ======== */
 	
-	CAbstractMetaPiece *		GetAbstractMeta(uint32 type, int *pRetIndex = NULL);
+	CAbstractMetaPiece *		GetAbstractMeta(uint32 type, int *pRetIndex = nullptr);
 	CAbstractMetaPiece *		GetAbstractMetaByIndex(int index);
 	
 	/* ======== Concrete metapiece functions ======== */
@@ -377,7 +377,7 @@ public:
 	//GridDims					FindBoundingArea(GridDims area);
 	void						AddMetaPieceToPark(GridDims pos, CConcreteMetaPiece *pPiece);
 	CConcreteMetaPiece *		RelocateMetaPiece(CConcreteMetaPiece *pMeta, int changeX, int changeY, int changeZ);
-	CMapListNode *				GetMetaPiecesAt(GridDims dims, Mth::ERot90 rot = Mth::ROT_0, CAbstractMetaPiece *pPiece = NULL, bool excludeRisers = false);
+	CMapListNode *				GetMetaPiecesAt(GridDims dims, Mth::ERot90 rot = Mth::ROT_0, CAbstractMetaPiece *pPiece = nullptr, bool excludeRisers = false);
 	CMapListNode *				GetAreaMetaPieces(GridDims dims);
 	CMapListNode *				GetMapListNode(int x, int z);
 	CMapListNode *				GetConcreteMetaList() {return mp_concrete_metapiece_list;}
@@ -393,7 +393,7 @@ public:
 	
 	/* ======== Floor height functions ======== */
 	
-	int							GetFloorHeight(GridDims dims, bool *pRetUniformHeight = NULL);
+	int							GetFloorHeight(GridDims dims, bool *pRetUniformHeight = nullptr);
 	#if 0
 	void						SetFloorHeight(GridDims area, int newHeight, bool justDropHighest);
 	#endif
@@ -407,7 +407,7 @@ public:
 	
 	const GridDims &			GetParkNearBounds() {return m_park_near_bounds;}
 	const GridDims &			GetParkFarBounds() {return m_park_far_bounds;}
-	Mth::Vector					GridCoordinatesToWorld(const GridDims &cellDims, Mth::Vector *pRetDims = NULL);
+	Mth::Vector					GridCoordinatesToWorld(const GridDims &cellDims, Mth::Vector *pRetDims = nullptr);
 
 	static CParkManager *		sInstance();
 	
@@ -442,7 +442,7 @@ public:
 		MAX_SETS =								40,
 	};
 
-	CPieceSet &					GetPieceSet(int setNumber, int *pMenuSetNumber = NULL);
+	CPieceSet &					GetPieceSet(int setNumber, int *pMenuSetNumber = nullptr);
 	int							GetTotalNumPieceSets() {return m_total_sets;}
 
 	/* ======== Road mask functions ======== */

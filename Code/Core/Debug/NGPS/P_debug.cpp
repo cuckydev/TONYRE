@@ -90,8 +90,8 @@ union InstanceNodeBlock
 **								 Private Data								**
 *****************************************************************************/
 
-static ClassNodeBlock*		spClassNodeFreeList = NULL;
-static InstanceNodeBlock*	spInstanceNodeFreeList = NULL;
+static ClassNodeBlock*		spClassNodeFreeList = nullptr;
+static InstanceNodeBlock*	spInstanceNodeFreeList = nullptr;
 
 
 /*****************************************************************************

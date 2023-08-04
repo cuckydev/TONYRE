@@ -124,7 +124,7 @@ FrontEnd::~FrontEnd()
 	for ( int i = 0; i < SIO::vMAX_DEVICES; i++ )
 	{
 		delete mp_input_handlers[i];
-		mp_input_handlers[i] = NULL;
+		mp_input_handlers[i] = nullptr;
 	}
 }
 
@@ -166,7 +166,7 @@ bool FrontEnd::PadsPluggedIn()
 {
 	for ( int i = 0; i < SIO::vMAX_DEVICES; i++ )
 	{
-		Dbg_MsgAssert(mp_input_handlers[i],("NULL mp_input_handlers[%d]",i));
+		Dbg_MsgAssert(mp_input_handlers[i],("nullptr mp_input_handlers[%d]",i));
 		if (mp_input_handlers[i]->m_Device->IsPluggedIn())
 		{
 			return true;
@@ -709,7 +709,7 @@ void FrontEnd::update(bool game_is_paused)
 		run_runmenow = false;
 		Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 		Obj::CSkater *pSkater = skate_mod->GetLocalSkater();						   
-		Script::RunScript("RunMeNow",NULL,pSkater);
+		Script::RunScript("RunMeNow",nullptr,pSkater);
 	}
 
 
@@ -875,7 +875,7 @@ uint32 FrontEnd::turn_mask_into_event_type(uint mask, int count, int index, uint
 
 					pParams= new Script::CStruct;
 					pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "current_menu_anchor" ));
-					if( Obj::ScriptObjectExists( pParams, NULL ) == false )
+					if( Obj::ScriptObjectExists( pParams, nullptr ) == false )
 					{
 						event_type = Obj::CEvent::TYPE_PAD_START;
 					}
@@ -898,13 +898,13 @@ uint32 FrontEnd::turn_mask_into_event_type(uint mask, int count, int index, uint
 					pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "keyboard_anchor" ));
 					
 					// Enter and space act as "choose" only if you're not currently using the on-screen keyboard
-					if( Obj::ScriptObjectExists( pParams, NULL ) == false )
+					if( Obj::ScriptObjectExists( pParams, nullptr ) == false )
 					{
 						pParams->Clear();
     					pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "actions_menu" ));
                         
                         // only allow enter in actions menu
-                        if( (Obj::ScriptObjectExists( pParams, NULL ) == true) && ( makes[i] == 32 ) )
+                        if( (Obj::ScriptObjectExists( pParams, nullptr ) == true) && ( makes[i] == 32 ) )
     					{
                             return 0;
                         }
@@ -912,7 +912,7 @@ uint32 FrontEnd::turn_mask_into_event_type(uint mask, int count, int index, uint
                         {
                             pParams->Clear();
     						pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "current_menu_anchor" ));
-    						if( Obj::ScriptObjectExists( pParams, NULL ))
+    						if( Obj::ScriptObjectExists( pParams, nullptr ))
     						{
     							menu_up = true;
     						}
@@ -920,7 +920,7 @@ uint32 FrontEnd::turn_mask_into_event_type(uint mask, int count, int index, uint
     						{
     							pParams->Clear();
     							pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "dialog_box_anchor" ));
-    							if( Obj::ScriptObjectExists( pParams, NULL ))
+    							if( Obj::ScriptObjectExists( pParams, nullptr ))
     							{
     								menu_up = true;
     							}

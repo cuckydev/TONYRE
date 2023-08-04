@@ -39,7 +39,7 @@ namespace Thread {
 
 //	inline THREADID			GetCurrentThreadId() 	{ return (g_pCurrThread) ?  g_pCurrThread->m_utid : 0; }
 //	inline HTHREAD			GetCurrentHandle() 		{ return (HTHREAD) g_pCurrThread; }	// This is fastest, so use it if you want to get data fast;
-	//inline void				StartThread( HTHREAD hthr, void* arg = NULL )  { ::StartThread( ((PerThreadStruct*)hthr)->m_osId, arg ); }
+	//inline void				StartThread( HTHREAD hthr, void* arg = nullptr )  { ::StartThread( ((PerThreadStruct*)hthr)->m_osId, arg ); }
 	// So you must set up the stack, and the perthreadstruct.
 	HTHREAD CreateThread( PerThreadStruct* pPTS );
 

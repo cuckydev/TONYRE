@@ -68,7 +68,7 @@ int CNodeArrayAsset::Reload( const char* p_file )
 	
 	Unload();
 
-	return( Load( p_file, false, 0, NULL, NULL ) == 0 );
+	return( Load( p_file, false, 0, nullptr, nullptr ) == 0 );
 }
 
 /******************************************************************/

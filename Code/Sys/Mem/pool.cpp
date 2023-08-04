@@ -119,7 +119,7 @@ void*	Pool::allocate( size_t size, bool assert_on_fail )
 		Dbg_MsgAssert ( false,( "Failed to allocate %d bytes, no free slots", size ));
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -175,7 +175,7 @@ Pool::Pool( Region* region, size_t size, uint count, Direction dir )
 	}
 
 	new ((void*)p_freeblock) BlockHeader( this, m_size );		
-	p_freeblock->mpNext = NULL;
+	p_freeblock->mpNext = nullptr;
 }
 
 /******************************************************************/

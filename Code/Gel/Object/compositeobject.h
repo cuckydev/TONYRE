@@ -66,8 +66,8 @@ public:
 	void            				InitFromStructure( Script::CStruct* pParams );
 	void							Finalize();
 	void            				RefreshFromStructure( Script::CStruct* pParams );
-	void 							CreateComponentFromStructure(Script::CStruct *p_struct, Script::CStruct* p_params = NULL);
-	void 							CreateComponentsFromArray(Script::CArray *p_array, Script::CStruct * p_params = NULL);
+	void 							CreateComponentFromStructure(Script::CStruct *p_struct, Script::CStruct* p_params = nullptr);
+	void 							CreateComponentsFromArray(Script::CArray *p_array, Script::CStruct * p_params = nullptr);
 	CBaseComponent* 				GetComponent( uint32 id ) const;
 	virtual bool 					CallMemberFunction (uint32 Checksum, Script::CStruct *pParams, Script::CScript *pScript);
 

@@ -31,9 +31,9 @@ DWORD PixelShader_ShadowBuffer;
 DWORD PixelShaderBumpWater;
 DWORD ShadowBufferStaticGeomPS;
 
-//D3DXMATRIX *p_bbox_transform = NULL;
+//D3DXMATRIX *p_bbox_transform = nullptr;
 //D3DXMATRIX bbox_transform;
-// XGMATRIX	*p_bbox_transform = NULL;
+// XGMATRIX	*p_bbox_transform = nullptr;
 // XGMATRIX	bbox_transform;
 
 extern DWORD ShadowBufferStaticGeomVS;
@@ -43,7 +43,7 @@ namespace NxWn32
 
 const float FRONT_TO_BACK_SORT_CUTOFF	= ( 50.0f * 12.0f );
 
-Lst::HashTable< sTextureProjectionDetails >	*pTextureProjectionDetailsTable = NULL;
+Lst::HashTable< sTextureProjectionDetails >	*pTextureProjectionDetailsTable = nullptr;
 
 // For converting a FLOAT to a DWORD (useful for SetRenderState() calls)
 inline DWORD FtoDW( FLOAT f ) { return *((DWORD*)&f); }
@@ -249,7 +249,7 @@ uint32 sVisibilityTestFIFO::GetStatus( void )
 	UINT result;
 
 	// Get the result from the least recently issued test.
-	HRESULT hr = D3DDevice_GetVisibilityTestResult( m_status_fifo[0], &result, NULL );
+	HRESULT hr = D3DDevice_GetVisibilityTestResult( m_status_fifo[0], &result, nullptr );
 
 	if( hr == D3D_OK )
 	{
@@ -966,13 +966,13 @@ DWORD get_pixel_shader( sMaterial *p_material )
 										shader_buffer,									// A pointer to the source data.
 										strlen( shader_buffer ),						// The source data length.
 										SASM_SKIPPREPROCESSOR | SASM_SKIPVALIDATION,	// SASM_xxx flags. See xgraphics.h for a complete list.
-										NULL,											// If constants are declared in the shader, they are written here. Pass NULL if you don't care.
-										&pCompiledShader,								// The shader microcode is written here. Pass NULL if you don't care.
-										NULL,											// Errors are written here. Pass NULL if you don't care.
-										NULL,											// A human-readable listing is written here. Pass NULL if you don't want it.
-										NULL,											// Used by the preprocessor. Can be NULL if you don't use #include in your source file.
-										NULL,											// Passed unmodified to the pResolver function.
-										NULL );											// Returns the type of shader that was assembled. Pass NULL if you don't care.
+										nullptr,											// If constants are declared in the shader, they are written here. Pass nullptr if you don't care.
+										&pCompiledShader,								// The shader microcode is written here. Pass nullptr if you don't care.
+										nullptr,											// Errors are written here. Pass nullptr if you don't care.
+										nullptr,											// A human-readable listing is written here. Pass nullptr if you don't want it.
+										nullptr,											// Used by the preprocessor. Can be nullptr if you don't use #include in your source file.
+										nullptr,											// Passed unmodified to the pResolver function.
+										nullptr );											// Returns the type of shader that was assembled. Pass nullptr if you don't care.
 		Dbg_Assert( hr == S_OK );
 		
 		// Copy the microcode into our buffer.
@@ -1076,7 +1076,7 @@ void GetPixelShader( sMaterial *p_material, uint32 *p_pixel_shader_id )
 	if( p_material->m_passes == 1 )
 	{
 		// There are only 2 shader for single pass materials, depending on whether a texture is required.
-		if( p_material->mp_tex[0] == NULL )
+		if( p_material->mp_tex[0] == nullptr )
 		{
 			*p_pixel_shader_id = PixelShader1;
 		}
@@ -1120,10 +1120,10 @@ void set_texture( uint32 pass, IDirect3DTexture8 *p_texture, IDirect3DPalette8 *
 {
 	if((IDirect3DTexture8*)( EngineGlobals.p_texture[pass] ) != p_texture )
 	{
-		// Use SwitchTexture() whenever possible. Cannot switch from or to a NULL texture. Also cannot
-		// switch to a liner texture (in this case the calling code should perform a set_texture( NULL )
+		// Use SwitchTexture() whenever possible. Cannot switch from or to a nullptr texture. Also cannot
+		// switch to a liner texture (in this case the calling code should perform a set_texture( nullptr )
 		// call first, to force D3DDevice_SetTexture() to be called for the linear texture.
-		if(( p_texture != NULL ) && ( EngineGlobals.p_texture[pass] != NULL ))
+		if(( p_texture != nullptr ) && ( EngineGlobals.p_texture[pass] != nullptr ))
 		{
 			EngineGlobals.p_Device->SwitchTexture( pass, (LPDIRECT3DBASETEXTURE8)( p_texture ));
 		}
@@ -1880,9 +1880,9 @@ bool IsVisible( Mth::Vector &center, float radius )
 void set_frustum_bbox_transform( Mth::Matrix *p_transform )
 {
 	/*
-	if( p_transform == NULL )
+	if( p_transform == nullptr )
 	{
-		p_bbox_transform = NULL;
+		p_bbox_transform = nullptr;
 	}
 	else
 	{
@@ -2089,7 +2089,7 @@ void calculate_tex_proj_matrix( XGMATRIX *p_tex_view_matrix, XGMATRIX *p_tex_pro
 	// Get the current view matrix.
 	XGMATRIX matView, matInvView;
 	D3DDevice_GetTransform( D3DTS_VIEW, (XGMATRIX*)&matView );
-	XGMatrixInverse( &matInvView,  NULL, &matView );
+	XGMatrixInverse( &matInvView,  nullptr, &matView );
 
 	XGMATRIX matBiasScale;
     XGMatrixIdentity( &matBiasScale );
@@ -2175,7 +2175,7 @@ void render_shadow_targets( void )
 			D3DDevice_SetRenderTarget( &fake_target, pSurface );
 			
 			// Clear the target.
-			D3DDevice_Clear( 0, NULL, D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0, 1.0f, 0 ); 
+			D3DDevice_Clear( 0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0, 1.0f, 0 ); 
 			
 			// Disable color writes.
 			D3DDevice_SetRenderState( D3DRS_COLORWRITEENABLE, 0 );
@@ -2282,13 +2282,13 @@ void render_shadow_meshes( sScene *p_scene, sMesh **p_mesh_indices, int num_mesh
 
 		set_render_state( RS_ALPHACUTOFF, 1 );
 		
-		// Set the other textures to NULL.
-		set_texture( 0, NULL );
-		set_texture( 2, NULL );
-		set_texture( 3, NULL );
+		// Set the other textures to nullptr.
+		set_texture( 0, nullptr );
+		set_texture( 2, nullptr );
+		set_texture( 3, nullptr );
 
-		// Need to set this texture NULL first, to flush the texture state, since the incoming texture is linear.
-		set_texture( 1, NULL );
+		// Need to set this texture nullptr first, to flush the texture state, since the incoming texture is linear.
+		set_texture( 1, nullptr );
 
 		// Set the projected texture (as the second-pass texture).
 		if( p_details->p_texture->pD3DSurface )
@@ -2400,7 +2400,7 @@ void render_shadow_meshes( sScene *p_scene, sMesh **p_mesh_indices, int num_mesh
 	set_render_state( RS_FOGENABLE, stored_fog_state );
 
 	// Reflush linear texture.
-	set_texture( 1, NULL );
+	set_texture( 1, nullptr );
 	*/
 }
 
@@ -2430,7 +2430,7 @@ void render_shadow_volumes( sScene *p_scene, uint32 viewport )
 	
 	NxWn32::set_pixel_shader( PixelShader5 );
 	EngineGlobals.pixel_shader_override	= PixelShader5;
-	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, nullptr );
 	NxWn32::set_render_state( RS_ZWRITEENABLE,	0 );
 	NxWn32::set_render_state( RS_ZTESTENABLE,	1 );
 	NxWn32::set_render_state( RS_ALPHACUTOFF,	0 );
@@ -2485,7 +2485,7 @@ static sMesh	*visible_mesh_array[VISIBLE_MESH_ARRAY_SIZE];
 void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 {
 	/*
-	sMaterial		*p_material					= NULL;
+	sMaterial		*p_material					= nullptr;
 	bool			no_culling					= ( flags & vRENDER_NO_CULLING ) > 0 ;
 	bool			render;
 	int				visible_mesh_array_index	= 0;
@@ -2867,7 +2867,7 @@ void render_light_glows( bool test )
 		D3DDevice_SetRenderState( D3DRS_ZWRITEENABLE,		FALSE );
 
 		set_blend_mode( vBLEND_MODE_DIFFUSE );
-		set_texture( 0, NULL );
+		set_texture( 0, nullptr );
 		set_pixel_shader( PixelShader5 );
 		set_vertex_shader( D3DFVF_XYZ | D3DFVF_DIFFUSE );
 

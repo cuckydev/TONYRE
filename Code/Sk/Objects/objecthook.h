@@ -40,7 +40,7 @@ public:
 protected:
 
 	Mth::Vector m_pos;			// position of the node
-	CObjectHookNode *m_pNext;			// Pointer to next node in master list	 	(or NULL if none)
+	CObjectHookNode *m_pNext;			// Pointer to next node in master list	 	(or nullptr if none)
 	sint16 m_node;					// Number of the node in the trigger array
 	char m_active;				// ObjectHook segment starting at this node: active or not?
 	char m_flags;				// flags for ObjectHook segment
@@ -73,7 +73,7 @@ public:
 	bool 			IsActive( int node );
 	bool			IsMoving(){return m_is_transformed;}
 	
-	void			DebugRender(Mth::Matrix *p_transform = NULL);
+	void			DebugRender(Mth::Matrix *p_transform = nullptr);
 	void			RemoveOverlapping();
 	
 	CObjectHookNode*		GetFirstNode(){return mp_first_node;}

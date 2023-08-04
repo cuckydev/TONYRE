@@ -93,15 +93,15 @@ CHorseComponent::CHorseComponent() : CBaseComponent()
 {
 	SetType( CRC_HORSE );
 	
-	mp_input_component				= NULL;
-	mp_animation_component			= NULL;
-	mp_movable_contact_component	= NULL;
+	mp_input_component				= nullptr;
+	mp_animation_component			= nullptr;
+	mp_movable_contact_component	= nullptr;
 
 	mp_collision_cache = Nx::CCollCacheManager::sCreateCollCache();
 	
 	m_draw_debug_lines = 0;
 
-	mp_rider						= NULL;
+	mp_rider						= nullptr;
 
 	m_vel.Set( 0.0f, 0.0f, 0.0f, 0.0f );
 	m_upward.Set( 0.0f, 1.0f, 0.0f, 0.0f );
@@ -479,7 +479,7 @@ CBaseComponent::EMemberFunctionResult CHorseComponent::CallMemberFunction( uint3
 
 void CHorseComponent::GetDebugInfo ( Script::CStruct *p_info )
 {
-	Dbg_MsgAssert(p_info, ("NULL p_info sent to CHorseComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info, ("nullptr p_info sent to CHorseComponent::GetDebugInfo"));
 
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);	  
@@ -577,7 +577,7 @@ bool CHorseComponent::AcceptRiderDismount( CCompositeObject* p_rider )
 	// Also want to set the horse camera as inactive.
 	Script::RunScript( CRCD( 0x400b95f5, "DismountHorse" ));
 
-	mp_rider = NULL;
+	mp_rider = nullptr;
 	return true;
 }
 
@@ -1296,7 +1296,7 @@ void CHorseComponent::go_in_air_state( void )
 void CHorseComponent::get_controller_input( void )
 {
 	// If no rider, ignore input.
-	if( mp_rider == NULL )
+	if( mp_rider == nullptr )
 	{
 		// Set it as if we are trying to slow downn to the max.
 		m_control_direction[X]	= -1.0f;
@@ -2207,7 +2207,7 @@ void CHorseComponent::do_path_following( void )
 void CHorseComponent::cleanup_node_based_path_following( void )
 {
 	delete [] mp_nav_nodes;
-	mp_nav_nodes = NULL;
+	mp_nav_nodes = nullptr;
 }
 
 
@@ -2244,7 +2244,7 @@ void CHorseComponent::switch_to_node_based_path_following( void )
 
 		CNavNode* p_target_node = CalculateNodePath( start_pos, target_pos );
 
-		if( p_target_node == NULL )
+		if( p_target_node == nullptr )
 		{
 			// Try with a shorter distance.
 			target_distance -= FEET_TO_INCHES( 50.0f );
@@ -2254,7 +2254,7 @@ void CHorseComponent::switch_to_node_based_path_following( void )
 		// A path was found, so set up the state accordingly. First count how many nodes on the path.
 		CNavNode*	p_node_counter	= p_target_node;
 		int			num_nodes		= 1;
-		while( p_node_counter->GetAStarNode()->mp_parent != NULL )
+		while( p_node_counter->GetAStarNode()->mp_parent != nullptr )
 		{
 			++num_nodes;
 			p_node_counter = p_node_counter->GetAStarNode()->mp_parent;

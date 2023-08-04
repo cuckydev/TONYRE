@@ -73,7 +73,7 @@ namespace Nx
 /******************************************************************/
 
 CViewport::CViewport( ) 
-: m_Rect(0,0,1,1), m_flags(0), mp_camera(NULL)
+: m_Rect(0,0,1,1), m_flags(0), mp_camera(nullptr)
 {
 
 }
@@ -155,7 +155,7 @@ void			CViewport::DeleteMarkedCamera()
 	{
 		Dbg_Assert(mp_camera);
 		delete mp_camera;
-		mp_camera = NULL;
+		mp_camera = nullptr;
 
 		m_flags &= ~mCAMERA_MARKED_FOR_DELETION;
 	}

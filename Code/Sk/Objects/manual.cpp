@@ -217,7 +217,7 @@ void CManual::SetUp(uint32 ButtonAChecksum, uint32 ButtonBChecksum, int Tweak, b
 	mDoFlipCheck=DoFlipCheck;
 	mPlayRangeAnimBackwards=PlayRangeAnimBackwards;
 
-	Dbg_MsgAssert(mpSkater,("NULL mpSkater"));
+	Dbg_MsgAssert(mpSkater,("nullptr mpSkater"));
 
 	// Check for whether the skater has re-railed onto the same rail
 	// or a different one.
@@ -226,7 +226,7 @@ void CManual::SetUp(uint32 ButtonAChecksum, uint32 ButtonBChecksum, int Tweak, b
 	{
 		const CRailNode* p_rail_node = GetSkaterCorePhysicsComponentFromObject(mpSkater)->mp_rail_node;
 		
-		Dbg_MsgAssert(p_rail_node,("What, NULL mp_rail_node ??"));
+		Dbg_MsgAssert(p_rail_node,("What, nullptr mp_rail_node ??"));
 		
 		if (mOldRailNode==-1)
 		{
@@ -394,9 +394,9 @@ void CManual::DoManualPhysics()
 	GameNet::PlayerInfo* player;
 	Net::Conn* skater_conn;
 	
-	Dbg_MsgAssert(mpSkater,("NULL mpSkater"));
+	Dbg_MsgAssert(mpSkater,("nullptr mpSkater"));
 	
-	skater_conn = NULL;
+	skater_conn = nullptr;
 	if(( server = gamenet_man->GetServer()))
 	{
 		if(( player = gamenet_man->GetPlayerByObjectID( mpSkater->GetID() )))

@@ -101,7 +101,7 @@ CEventListener::~CEventListener()
 	targeted to the attached object if it isn't necessary -- this will 
 	speed things up.
 	
-	pObject = NULL means no associated CObject, which is legal, but you must
+	pObject = nullptr means no associated CObject, which is legal, but you must
 	set mALL_ALL_EVENTS
 */
 void CEventListener::RegisterWithTracker(CObject *pObject)
@@ -149,7 +149,7 @@ void CEventListener::event_filter(CEvent *pEvent)
 CEventHandlerTable::CEventHandlerTable()
 {
 	m_num_entries = 0; 
-	mp_tab = NULL;
+	mp_tab = nullptr;
 	m_valid = true;
 	m_in_immediate_use_counter = 0;
 	m_changed = false;
@@ -214,7 +214,7 @@ void CEventHandlerTable::GetDebugInfo(Script::CStruct *p_info)
 // replacing any existing event handler with the same ex type
 void	CEventHandlerTable::AddEvent(uint32 ex, uint32 scr, uint32 group, bool exception, Script::CStruct *p_params)
 {
-	Entry *p_entry = NULL;	
+	Entry *p_entry = nullptr;	
 
 // if there is no mp_tab, then we'll need to create a single entry one 
 	if (!mp_tab)
@@ -269,7 +269,7 @@ void	CEventHandlerTable::AddEvent(uint32 ex, uint32 scr, uint32 group, bool exce
 
 GOT_ENTRY:
 
-	Dbg_MsgAssert(p_entry, ("NULL p_entry"));
+	Dbg_MsgAssert(p_entry, ("nullptr p_entry"));
 
 	p_entry->enabled = true;
 	p_entry->exception = exception;
@@ -282,7 +282,7 @@ GOT_ENTRY:
 	}
 	else
 	{
-		p_entry->p_params = NULL;  
+		p_entry->p_params = nullptr;  
 	}
 	p_entry->script = scr;
 	p_entry->type = ex;
@@ -314,7 +314,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 				}
 			}
 			delete [] mp_tab;
-			mp_tab = NULL;
+			mp_tab = nullptr;
 			m_num_entries = 0;
 			m_changed = true;
 		}
@@ -329,7 +329,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 		// get the type, script pair, and any params and flags
 		Script::CStruct *pEventStruct = pArray->GetStructure(0);
 		
-		Script::CComponent *p_left = pEventStruct->GetNextComponent(NULL);
+		Script::CComponent *p_left = pEventStruct->GetNextComponent(nullptr);
 		Dbg_MsgAssert(p_left, ("missing 'type' half of event handler pair"));
 		Dbg_Assert(p_left->mType == ESYMBOLTYPE_NAME);
 
@@ -339,7 +339,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 
 		uint32	type = p_left->mChecksum;
 
-		Entry *p_entry = NULL;
+		Entry *p_entry = nullptr;
 
 
 		// if it's a "replace" entry, then we scan through to see if we already have an entry
@@ -355,7 +355,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 					if (mp_tab[i].p_params)
 					{
 						delete mp_tab[i].p_params;
-						mp_tab[i].p_params = NULL;
+						mp_tab[i].p_params = nullptr;
 					}
 					p_entry = &mp_tab[i];
 					break;
@@ -395,7 +395,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 			}
 			else
 			{
-				p_entry->p_params = NULL;
+				p_entry->p_params = nullptr;
 			}
 			
 			if (!pEventStruct->GetChecksum(Crc::ConstCRC("Group"), &p_entry->group))
@@ -438,7 +438,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 		// get the type, script pair, and any params and flags
 		Script::CStruct *pEventStruct = pArray->GetStructure(i);
 		
-		Script::CComponent *p_left = pEventStruct->GetNextComponent(NULL);
+		Script::CComponent *p_left = pEventStruct->GetNextComponent(nullptr);
 		Dbg_MsgAssert(p_left, ("missing 'type' half of event handler pair"));
 		Dbg_Assert(p_left->mType == ESYMBOLTYPE_NAME);
 
@@ -467,7 +467,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 		}
 		else
 		{
-			p_entry->p_params = NULL;
+			p_entry->p_params = nullptr;
 		}
 		
 		if (!pEventStruct->GetChecksum(Crc::ConstCRC("Group"), &p_entry->group))
@@ -524,7 +524,7 @@ void CEventHandlerTable::remove_entry(uint32 type)
 			if (mp_tab[i].p_params)
 			{
 				delete mp_tab[i].p_params;
-				mp_tab[i].p_params = NULL;
+				mp_tab[i].p_params = nullptr;
 			}
 		}
 	}
@@ -548,7 +548,7 @@ void CEventHandlerTable::remove_group(uint32 group)
 			if (mp_tab[i].p_params)
 			{
 				delete mp_tab[i].p_params;
-				mp_tab[i].p_params = NULL;
+				mp_tab[i].p_params = nullptr;
 			}
 		}
 	}
@@ -578,7 +578,7 @@ void CEventHandlerTable::compress_table()
 	m_changed = true;
 
 	// Mick - If new table has zero size, then don't allocate it	
-	// just delete the old table, and set it to NULL
+	// just delete the old table, and set it to nullptr
 	if ( 0 == new_size)
 	{
 		for (int i = 0; i < m_num_entries; i++)
@@ -588,12 +588,12 @@ void CEventHandlerTable::compress_table()
 			if ( mp_tab[i].p_params )
 			{
 				delete mp_tab[i].p_params;
-				mp_tab[i].p_params = NULL;
+				mp_tab[i].p_params = nullptr;
 			}
 		}
 
 		delete[]	mp_tab;
-		mp_tab = NULL;
+		mp_tab = nullptr;
 		m_num_entries = 0;
 	}
 	else
@@ -617,7 +617,7 @@ void CEventHandlerTable::compress_table()
 				if ( mp_tab[in].p_params )
 				{
 					delete mp_tab[in].p_params;
-					mp_tab[in].p_params = NULL;
+					mp_tab[in].p_params = nullptr;
 				}
 			}
 		}
@@ -681,9 +681,9 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, Script::CScript *pScript, bo
 		if (p_entry->type == pEvent->GetType() && p_entry->script != vDEAD_ENTRY && p_entry->enabled)
 		{
 			
-			Script::CScript *p_new_script = NULL;
-			Script::CStruct	*p_params = NULL;
-			Script::CStruct	*p_passed_params = NULL;
+			Script::CScript *p_new_script = nullptr;
+			Script::CStruct	*p_params = nullptr;
+			Script::CStruct	*p_passed_params = nullptr;
 			
 			
 			
@@ -758,7 +758,7 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, Script::CScript *pScript, bo
 				if (pScript->mpObject &&  pScript->mpObject->GetFlags() & Front::CScreenElement::vIS_SCREEN_ELEMENT)
 				{
 					// Normal events spawn a new script running on the same object as the current script (if any)
-					p_new_script = Script::SpawnScript(p_entry->script, p_passed_params, 0, NULL);
+					p_new_script = Script::SpawnScript(p_entry->script, p_passed_params, 0, nullptr);
 					#ifdef __NOPT_ASSERT__
 					p_new_script->SetCommentString("Spawned by CEventHandlerTable::pass_event, 1");
 					#endif
@@ -778,7 +778,7 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, Script::CScript *pScript, bo
 			}
 			
 			Dbg_MsgAssert((*(uint32*)this) != 0x01010101,("%s\nCEventHandlerTable deleted whilst being used",p_new_script->GetScriptInfo()));
-			//p_new_script->mpObject = NULL;
+			//p_new_script->mpObject = nullptr;
 
 			// do logging
 			//pEvent->MarkHandled(pObject->GetID(), p_entry->script);
@@ -848,9 +848,9 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, CObject *pObject, bool broad
 		if (p_entry->type == pEvent->GetType() && p_entry->script != vDEAD_ENTRY && p_entry->enabled)
 		{
 			
-			Script::CScript *p_new_script = NULL;
-			Script::CStruct	*p_params = NULL;
-			Script::CStruct	*p_passed_params = NULL;
+			Script::CScript *p_new_script = nullptr;
+			Script::CStruct	*p_params = nullptr;
+			Script::CStruct	*p_passed_params = nullptr;
 			
 			// visual debugging, if there is a source and target, and they are different
 			// then draw a line between the two objects
@@ -920,7 +920,7 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, CObject *pObject, bool broad
 
 
 				// Ooh, we need to run a script, so better make sure mp_script points to something.
-				if (pObject->GetScript()==NULL)
+				if (pObject->GetScript()==nullptr)
 				{
 					pObject->SetScript( new Script::CScript);
 					#ifdef __NOPT_ASSERT__
@@ -952,7 +952,7 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, CObject *pObject, bool broad
 			{
 				// Normal events spawn a script running on an object
 //				printf("SPAWNING exception %s script %s on object %s\n",Script::FindChecksumName(p_entry->type),Script::FindChecksumName(p_entry->script),Script::FindChecksumName(pObject->GetID()));
-				p_new_script = Script::SpawnScript(p_entry->script, p_passed_params, 0, NULL);
+				p_new_script = Script::SpawnScript(p_entry->script, p_passed_params, 0, nullptr);
 				#ifdef __NOPT_ASSERT__
 				p_new_script->SetCommentString("Spawned by CEventHandlerTable::pass_event, 1");
 				#endif
@@ -966,7 +966,7 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, CObject *pObject, bool broad
 			}
 			
 			Dbg_MsgAssert((*(uint32*)this) != 0x01010101,("%s\nCEventHandlerTable deleted whilst being used",p_new_script->GetScriptInfo()));
-			//p_new_script->mpObject = NULL;
+			//p_new_script->mpObject = nullptr;
 
 			// do logging
 			pEvent->MarkHandled(pObject->GetID(), p_entry->script);

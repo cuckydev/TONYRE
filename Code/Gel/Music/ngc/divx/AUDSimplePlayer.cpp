@@ -268,8 +268,8 @@ void AUDSimpleDestroyDecoder(void)
 	ASSERT(audio_player.decoder);
 	VAUDDestroyDecoder(audio_player.decoder);
 	
-	// Set the decoder to NULL.
-	audio_player.decoder = NULL;
+	// Set the decoder to nullptr.
+	audio_player.decoder = nullptr;
 }
 
 
@@ -963,10 +963,10 @@ BOOL AUDSimpleClose(void)
 				{
 				audio_player.open = FALSE;
 				DVDClose(&audio_player.fileHandle);
-				if(audio_player.audioHeaderChunk != NULL)
+				if(audio_player.audioHeaderChunk != nullptr)
 					{
 					(*audio_player.cbFree)(audio_player.audioHeaderChunk);
-					audio_player.audioHeaderChunk = NULL;
+					audio_player.audioHeaderChunk = nullptr;
 					}
 				return TRUE;
 				}

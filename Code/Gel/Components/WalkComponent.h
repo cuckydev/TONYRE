@@ -582,7 +582,7 @@ inline void CWalkComponent::SetForwardControlLock ( bool forward_control_lock )
 
 inline const SRailData* CWalkComponent::GetRailData (   )
 {
-	return m_special_transition_data.type == RAIL_TRANSITION ? &m_special_transition_data.rail_data : NULL;
+	return m_special_transition_data.type == RAIL_TRANSITION ? &m_special_transition_data.rail_data : nullptr;
 }
 
 /******************************************************************/
@@ -592,7 +592,7 @@ inline const SRailData* CWalkComponent::GetRailData (   )
 
 inline const SAcidDropData* CWalkComponent::GetAcidDropData (   )
 {
-	return m_special_transition_data.type == ACID_DROP_TRANSITION ? &m_special_transition_data.acid_drop_data : NULL;
+	return m_special_transition_data.type == ACID_DROP_TRANSITION ? &m_special_transition_data.acid_drop_data : nullptr;
 }
 
 /******************************************************************/

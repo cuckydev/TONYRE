@@ -102,10 +102,10 @@ CVehicleSoundComponent::CVehicleSoundComponent() : CBaseComponent()
 {
 	SetType( CRC_VEHICLESOUND );
 	
-	mp_vehicle_component = NULL;
-	mp_sound_component = NULL;
+	mp_vehicle_component = nullptr;
+	mp_sound_component = nullptr;
 	
-	m_sound_setup_struct = NULL;
+	m_sound_setup_struct = nullptr;
 	
 	m_use_default_sounds = false;
 	
@@ -223,7 +223,7 @@ CBaseComponent::EMemberFunctionResult CVehicleSoundComponent::CallMemberFunction
 
 void CVehicleSoundComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CVehicleSoundComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CVehicleSoundComponent::GetDebugInfo"));
 	
 	p_info->AddChecksum(Crc::ConstCRC("engine_sound"), m_engine_sound_checksum);
 	p_info->AddChecksum(Crc::ConstCRC("tire_sound"), m_tire_sound_checksum);
@@ -363,7 +363,7 @@ void CVehicleSoundComponent::update_engine_sounds (   )
 	// play or adjust sound
 	if (!m_engine_sound_id)
 	{
-		m_engine_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_engine_sound_checksum, &volume, pitch, NULL);
+		m_engine_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_engine_sound_checksum, &volume, pitch, nullptr);
 	}
 	else
 	{
@@ -433,7 +433,7 @@ void CVehicleSoundComponent::update_tire_sounds (   )
 	{
 		if (!m_tire_sound_id)
 		{
-			m_tire_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_tire_sound_checksum, &volume, pitch, NULL);
+			m_tire_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_tire_sound_checksum, &volume, pitch, nullptr);
 		}
 		else
 		{

@@ -86,12 +86,12 @@ const uint	Allocator::BlockHeader::sSize = (uint)nAlignUpBy( sizeof(BlockHeader)
 *****************************************************************************/
 
 Allocator::Context::Context( void ) 
-: m_node( this ), mp_free_list( NULL ) 
+: m_node( this ), mp_free_list( nullptr ) 
 {
 	
 
 #ifdef __LINKED_LIST_HEAP__
-	mp_used_list = NULL;
+	mp_used_list = nullptr;
 #endif
 
 	Dbg_AssertType( &m_node, Lst::Node< Context > );
@@ -107,8 +107,8 @@ Allocator::Context::~Context( void )
 	
 
 #ifdef __NOPT_DEBUG__
-	Dbg_MsgAssert( mp_used_list == NULL,( "Memory Leak" ));
-	Dbg_MsgAssert( mp_free_list == NULL,( "Corrupt Free List" ));
+	Dbg_MsgAssert( mp_used_list == nullptr,( "Memory Leak" ));
+	Dbg_MsgAssert( mp_free_list == nullptr,( "Corrupt Free List" ));
 	Dbg_AssertType( &m_node, Lst::Node< Context > );
 #endif
 }
@@ -141,7 +141,7 @@ Allocator* Allocator::s_free( void* pAddr )
 
 	Mem::Manager& mem_man = Mem::Manager::sHandle();	
 	bool found = false;
-	for (Mem::Heap* heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+	for (Mem::Heap* heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 	{		
 		if (heap == p_ret) found = true;
 	}
@@ -236,9 +236,9 @@ uint	Allocator::sGetId( void* pAddr )
 	
 
 #ifdef __EFFICIENT__
-	if ( pAddr == NULL )
+	if ( pAddr == nullptr )
 #else
-	if (( pAddr == NULL ) || !nAligned( pAddr ))
+	if (( pAddr == nullptr ) || !nAligned( pAddr ))
 #endif		// __EFFICIENT__
 	{
 		return 0;
@@ -347,7 +347,7 @@ void 	Allocator::dump_free_list( void )
 #ifdef	__LINKED_LIST_HEAP__    
 
 // find the block that contains this pointer
-// return NULL if not found   
+// return nullptr if not found   
 // also includes the header area of the block  							   
 void * Allocator::find_block(void *p)
 {
@@ -367,7 +367,7 @@ void * Allocator::find_block(void *p)
 		}		
 		p_header = p_header->mp_next_used;
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 Allocator::BlockHeader* Allocator::first_block()

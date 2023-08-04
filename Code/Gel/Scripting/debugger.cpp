@@ -29,7 +29,7 @@ uint32 gpDebugInfoBuffer[SCRIPT_DEBUGGER_BUFFER_SIZE/4];
 
 static Script::CScript *s_find_cscript_given_id(uint32 id)
 {
-	Script::CScript *p_script=Script::GetNextScript(NULL);
+	Script::CScript *p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->GetUniqueId()==id)
@@ -38,12 +38,12 @@ static Script::CScript *s_find_cscript_given_id(uint32 id)
 		}	
 		p_script=Script::GetNextScript(p_script);
 	}	
-	return NULL;
+	return nullptr;
 }
 
 static Script::CScript *s_find_cscript_given_name(uint32 name)
 {
-	Script::CScript *p_script=Script::GetNextScript(NULL);
+	Script::CScript *p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->RefersToScript(name))
@@ -52,7 +52,7 @@ static Script::CScript *s_find_cscript_given_name(uint32 name)
 		}	
 		p_script=Script::GetNextScript(p_script);
 	}	
-	return NULL;
+	return nullptr;
 }
 
 static Obj::CCompositeObject *s_find_nearest_object(int screen_x, int screen_y, float search_radius)
@@ -62,7 +62,7 @@ static Obj::CCompositeObject *s_find_nearest_object(int screen_x, int screen_y, 
 	
 	Lst::Search<Obj::CObject> sh;
 	Obj::CObject *p_ob = (Obj::CObject*) sh.FirstItem( Obj::CCompositeObjectManager::Instance()->GetRefObjectList() );
-	Obj::CCompositeObject *p_nearest_ob=NULL;
+	Obj::CCompositeObject *p_nearest_ob=nullptr;
 	float min_d=1000000.0f;
 	while (p_ob)
 	{
@@ -114,10 +114,10 @@ CScriptDebugger::CScriptDebugger()
 	m_split_message_id=1;
 	
 	m_state=SCRIPT_DEBUGGER_STATE_IDLE;
-	mp_checksum_names_current_pos=NULL;
-	mp_checksum_names_end=NULL;
-	mp_server=NULL;
-	mp_logic_task=NULL;
+	mp_checksum_names_current_pos=nullptr;
+	mp_checksum_names_end=nullptr;
+	mp_server=nullptr;
+	mp_logic_task=nullptr;
 	
 	m_num_watched_scripts=0;
 	
@@ -125,7 +125,7 @@ CScriptDebugger::CScriptDebugger()
 	m_got_valid_mouse_position=false;
 	m_mouse_x=0;
 	m_mouse_y=0;
-	mp_currently_selected_object=NULL;
+	mp_currently_selected_object=nullptr;
 	m_original_object_render_mode=Nx::vNONE;
 	m_left_button_down=false;	
 	m_right_button_down=false;	
@@ -140,7 +140,7 @@ CScriptDebugger::CScriptDebugger()
 	m_state_when_right_pressed.mMouseX=0;
 	m_state_when_right_pressed.mMouseY=0;
 	
-	mp_viewed_object=NULL;
+	mp_viewed_object=nullptr;
 	setup_default_camera_viewing_position();
 	
 	m_in_object_single_step_mode=false;
@@ -293,7 +293,7 @@ void CScriptDebugger::transmit_cscript_list()
 	//int total_num_return_addresses=0;
 	//int total_scripts_using_big_buffer=0;
 	int num_scripts=0;
-	Script::CScript *p_script=Script::GetNextScript(NULL);
+	Script::CScript *p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		//total_num_return_addresses+=p_script->GetNumReturnAddresses();
@@ -312,10 +312,10 @@ void CScriptDebugger::transmit_cscript_list()
 
 	// Add the script cache info.	
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+	Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	p_script_cache->GetDebugInfo(p_list);
 
-	p_script=Script::GetNextScript(NULL);
+	p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		Script::CStruct *p_script_info=new Script::CStruct;
@@ -462,7 +462,7 @@ SWatchedScript *CScriptDebugger::find_watched_script(uint32 checksum)
 			return &mp_watched_scripts[i];
 		}
 	}		
-	return NULL;
+	return nullptr;
 }
 
 void CScriptDebugger::add_to_watched_scripts(uint32 checksum, bool stopScriptImmediately)
@@ -495,7 +495,7 @@ void CScriptDebugger::refresh()
 	transmit_cscript_list();
 	transmit_composite_object_list();
 	
-	Script::CScript *p_script=Script::GetNextScript(NULL);
+	Script::CScript *p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->BeingWatchedInDebugger())
@@ -602,7 +602,7 @@ void CScriptDebugger::set_object_update_mode(SObjectUpdateMode *pObjectUpdateMod
 
 void CScriptDebugger::view_object(SViewObject *pViewObject)
 {
-	Obj::CCompositeObject *p_obj=NULL;
+	Obj::CCompositeObject *p_obj=nullptr;
 	
 	if (pViewObject->mDoViewObject)
 	{
@@ -714,7 +714,7 @@ void CScriptDebugger::stop_debugging()
 {
 	m_num_watched_scripts=0;
 	
-	Script::CScript *p_script=Script::GetNextScript(NULL);
+	Script::CScript *p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		p_script->StopWatchingInDebugger();
@@ -903,7 +903,7 @@ int	CScriptDebugger::s_handle_clear_script_watches( Net::MsgHandlerContext* cont
 	p_this->transmit_watch_list();
 	
 	// Then run through all existing scripts making sure none of them are transmitting any more.
-	Script::CScript *p_script=Script::GetNextScript(NULL);
+	Script::CScript *p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		p_script->StopWatchingInDebugger();
@@ -1260,7 +1260,7 @@ SWatchedScript *CScriptDebugger::GetScriptWatchInfo(uint32 checksum)
 		}
 	}		
 	
-	return NULL;
+	return nullptr;
 }	
 
 void CScriptDebugger::check_for_timeouts( void )
@@ -1342,7 +1342,7 @@ void CScriptDebugger::update_mouse_cursor()
 	// set but no mouse position message received yet.
 	if (m_mouse_on_screen && m_got_valid_mouse_position)
 	{
-		Obj::CCompositeObject *p_ob=NULL;
+		Obj::CCompositeObject *p_ob=nullptr;
 															
 		if (0)//mp_viewed_object)
 		{
@@ -1396,7 +1396,7 @@ void CScriptDebugger::switch_off_mouse_cursor()
 	{
 		s_change_render_mode(mp_currently_selected_object,m_original_object_render_mode);
 	}
-	mp_currently_selected_object=NULL;	
+	mp_currently_selected_object=nullptr;	
 	m_original_object_render_mode=Nx::vNONE;
 	
 }
@@ -1497,7 +1497,7 @@ void CScriptDebugger::setup_default_camera_viewing_position()
 // This will override the camera position and angles so as to view the mp_viewed_object.
 void CScriptDebugger::update_camera()
 {
-	// Note: mp_viewed_object is a smart pointer, so will become NULL if the object dies.
+	// Note: mp_viewed_object is a smart pointer, so will become nullptr if the object dies.
 	if (!mp_viewed_object)
 	{
 		// Nothing to see

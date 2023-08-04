@@ -56,9 +56,9 @@ sMaterial::sMaterial( void )
 {
 	/*
 	m_num_wibble_vc_anims		= 0;
-	mp_wibble_vc_params			= NULL;
-	mp_wibble_vc_colors			= NULL;
-	mp_wibble_texture_params	= NULL;
+	mp_wibble_vc_params			= nullptr;
+	mp_wibble_vc_colors			= nullptr;
+	mp_wibble_texture_params	= nullptr;
 	m_uv_wibble					= false;
 	m_texture_wibble			= false;
 	m_grass_layers				= 0;
@@ -66,7 +66,7 @@ sMaterial::sMaterial( void )
 	for( int p = 0; p < MAX_PASSES; ++p )
 	{
 		m_flags[p]				= 0;
-		mp_UVWibbleParams[p]	= NULL;
+		mp_UVWibbleParams[p]	= nullptr;
 
 		m_envmap_tiling[p][0]	= 3.0f;
 		m_envmap_tiling[p][1]	= 3.0f;
@@ -484,7 +484,7 @@ void sMaterial::Submit( void )
 			}
 			else
 			{
-				set_texture( p, NULL, NULL );
+				set_texture( p, nullptr, nullptr );
 			}
 		}
 	}
@@ -494,12 +494,12 @@ void sMaterial::Submit( void )
 		CopyMemory( EngineGlobals.pixel_shader_constants, &m_color[0][0], sizeof( float ) * 4 * m_passes );
 	}
 
-	// Make sure to set the textures for unused stages to NULL, to reduce texture overhead.
+	// Make sure to set the textures for unused stages to nullptr, to reduce texture overhead.
 //	for( ; p < 4; ++p )
 //	{
 //		if( !( EngineGlobals.texture_stage_override & ( 1 << p )))
 //		{
-//			set_texture( p, NULL, NULL );
+//			set_texture( p, nullptr, nullptr );
 //		}
 //	}
 	*/
@@ -548,7 +548,7 @@ sMaterial* GetMaterial( uint32 checksum, sScene *p_scene )
 			p_mat = p_scene->pMaterialTable->IterateNext();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -744,7 +744,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 			if( pMat->m_flags[pass] & MATFLAG_PASS_TEXTURE_ANIMATES )
 			{
 				// Create the texture wibble structure if not created yet.
-				if( pMat->mp_wibble_texture_params == NULL )
+				if( pMat->mp_wibble_texture_params == nullptr )
 				{
 					pMat->mp_wibble_texture_params = new NxWn32::sTextureWibbleParams;
 					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxWn32::sTextureWibbleParams ));
@@ -782,7 +782,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 
 					// Resolve the checksum to a texture pointer.
 					Nx::CXboxTexture *p_xbox_texture = static_cast<Nx::CXboxTexture*>( p_texture_table->GetItem( cs ));
-					pMat->mp_wibble_texture_params->mp_keyframes[pass][ati].mp_texture = ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : NULL;
+					pMat->mp_wibble_texture_params->mp_keyframes[pass][ati].mp_texture = ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : nullptr;
 				}
 			}
 
@@ -790,13 +790,13 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 			{
 				// If textured, resolve texture checksum...
 				Nx::CXboxTexture	*p_xbox_texture	= static_cast<Nx::CXboxTexture*>( p_texture_table->GetItem( TextureChecksum ));
-				sTexture			*mp_tex			= ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : NULL;
+				sTexture			*mp_tex			= ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : nullptr;
 
 				// Bail if checksum not found.
-				if( mp_tex == NULL )
+				if( mp_tex == nullptr )
 				{
 					Dbg_Message( "error: couldn't find texture checksum %08X\n", TextureChecksum );
-					pMat->mp_tex[pass] = NULL;
+					pMat->mp_tex[pass] = nullptr;
 				}
 				else
 				{
@@ -824,7 +824,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 			else
 			{
 				// ...otherwise just step past mipmap info.
-				pMat->mp_tex[pass] = NULL;
+				pMat->mp_tex[pass] = nullptr;
 				p_data += 16;
 			}
 		}
@@ -1059,7 +1059,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 			if( pMat->m_flags[pass] & MATFLAG_PASS_TEXTURE_ANIMATES )
 			{
 				// Create the texture wibble structure if not created yet.
-				if( pMat->mp_wibble_texture_params == NULL )
+				if( pMat->mp_wibble_texture_params == nullptr )
 				{
 					pMat->mp_wibble_texture_params = new NxWn32::sTextureWibbleParams;
 					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxWn32::sTextureWibbleParams ));
@@ -1097,7 +1097,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 
 					// Resolve the checksum to a texture pointer.
 					Nx::CXboxTexture *p_xbox_texture = static_cast<Nx::CXboxTexture*>( p_texture_table->GetItem( cs ));
-					pMat->mp_wibble_texture_params->mp_keyframes[pass][ati].mp_texture = ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : NULL;
+					pMat->mp_wibble_texture_params->mp_keyframes[pass][ati].mp_texture = ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : nullptr;
 				}
 			}
 
@@ -1105,13 +1105,13 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 			{
 				// If textured, resolve texture checksum...
 				Nx::CXboxTexture	*p_xbox_texture	= static_cast<Nx::CXboxTexture*>( p_texture_table->GetItem( TextureChecksum ));
-				sTexture			*mp_tex			= ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : NULL;
+				sTexture			*mp_tex			= ( p_xbox_texture ) ? p_xbox_texture->GetEngineTexture() : nullptr;
 
 				// Bail if checksum not found.
-				if( mp_tex == NULL )
+				if( mp_tex == nullptr )
 				{
 					Dbg_Message( "error: couldn't find texture checksum %08X\n", TextureChecksum );
-					pMat->mp_tex[pass] = NULL;
+					pMat->mp_tex[pass] = nullptr;
 				}
 				else
 				{
@@ -1139,7 +1139,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 			else
 			{
 				// ...otherwise just step past mipmap info.
-				pMat->mp_tex[pass] = NULL;
+				pMat->mp_tex[pass] = nullptr;
 				File::Seek( p_FH, 16, SEEK_CUR );
 			}
 		}

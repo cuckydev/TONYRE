@@ -125,7 +125,7 @@ int Manager::s_handle_new_player( Net::MsgHandlerContext* context )
 
 	strcpy( new_player.Name, msg->m_Name );
 	new_player.ObjID = msg->m_ObjId;
-	new_player.Conn = NULL;
+	new_player.Conn = nullptr;
 	new_player.Flags = msg->m_Flags;
 	new_player.Team = msg->m_Team;
 	new_player.Profile = msg->m_Profile;
@@ -521,7 +521,7 @@ int Manager::s_handle_find_server( Net::MsgHandlerContext* context )
 	name[ vMAX_SERVER_NAME_LEN ] = '\0';
 	
 	server = gamenet_man->GetServer();
-	Dbg_Assert( server != NULL );
+	Dbg_Assert( server != nullptr );
 
 	msg.m_SkillLevel = gamenet_man->GetSkillLevel();
 	msg.m_NumPlayers = gamenet_man->GetNumPlayers();
@@ -861,7 +861,7 @@ int	Manager::s_handle_observe( Net::MsgHandlerContext* context )
 			gamenet_man->DropPlayer( player, vREASON_OBSERVING );
 			skate_mod->remove_skater( skater );
 			player->m_flags.SetMask( PlayerInfo::mOBSERVER );
-			player->m_Skater = NULL;
+			player->m_Skater = nullptr;
 			if( player->IsServerPlayer())
 			{
 				player->MarkAsNotServerPlayer();
@@ -873,7 +873,7 @@ int	Manager::s_handle_observe( Net::MsgHandlerContext* context )
 				gamenet_man->m_cam_player = gamenet_man->GetNextPlayerToObserve();
 				if( player == gamenet_man->m_cam_player )
 				{
-					gamenet_man->m_cam_player = NULL;
+					gamenet_man->m_cam_player = nullptr;
 				}
 				
 				gamenet_man->ObservePlayer( gamenet_man->m_cam_player );
@@ -993,7 +993,7 @@ int Manager::s_handle_observe_proceed( Net::MsgHandlerContext* context )
 	Dbg_Printf( "Entering Observer Mode\n" );	
 
 	gamenet_man = (Manager *) context->m_Data;
-	ScriptExitSurveyorMode( NULL, NULL );
+	ScriptExitSurveyorMode( nullptr, nullptr );
 	gamenet_man->EnterObserverMode(); 
 	
 	return Net::HANDLER_CONTINUE;
@@ -1567,7 +1567,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 	Dbg_Printf( "GOT FCFS REQUEST\n" );
 	// First, ensure we even have an fcfs server
 	player = gamenet_man->GetServerPlayer();
-	if( player == NULL )
+	if( player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -1668,11 +1668,11 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 			score = gamenet_man->GetIntFromArrayEntry( "target_score_options", msg->m_TargetScore, CRCD( 0xcd66c8ae, "score" ));
 			// Our "target score" comes from either the target score options array or the time limit options array, depending on
 			// whether the game type is score challenge or koth
-			if( ui_string == NULL )
+			if( ui_string == nullptr )
 			{
 				ui_string = gamenet_man->GetNameFromArrayEntry( "capture_options", msg->m_TargetScore );
 				score = gamenet_man->GetIntFromArrayEntry( "capture_options", msg->m_TargetScore, CRCD( 0xcd66c8ae, "score" ));
-				if( ui_string == NULL )
+				if( ui_string == nullptr )
 				{
 					ui_string = gamenet_man->GetNameFromArrayEntry( "time_limit_options", msg->m_TargetScore );
 					score = gamenet_man->GetIntFromArrayEntry( "time_limit_options", msg->m_TargetScore, CRCD( 0x906b67ba, "time" ));
@@ -1703,7 +1703,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 			msg = (MsgRemovePlayerRequest*) context->m_Msg;
 
 			i = 0;
-			target_player = NULL;
+			target_player = nullptr;
 			for( player = gamenet_man->FirstPlayerInfo( sh, true ); player; player = gamenet_man->NextPlayerInfo( sh, true ))
 			{
 				if( msg->m_Index == i )
@@ -1717,7 +1717,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 				i++;
 			}
 
-			if( target_player == NULL )
+			if( target_player == nullptr )
 			{
 				return Net::HANDLER_MSG_DONE;
 			}
@@ -1853,7 +1853,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 			prefs->SetPreference( Script::GenerateCRC("team_mode"), pPrefStruct );
 			delete pPrefStruct;
 
-			ScriptSetNumTeams( pParams, NULL );
+			ScriptSetNumTeams( pParams, nullptr );
 
 			delete pParams;
 			break;
@@ -1887,7 +1887,7 @@ int	Manager::s_handle_dropped_crown( Net::MsgHandlerContext* context )
 	if( king && king->IsLocalPlayer())
 	{
 		gamenet_man->CreateNetPanelMessage( false, Script::GenerateCRC("net_message_dropped_crown_you"),
-											NULL, NULL, king->m_Skater );
+											nullptr, nullptr, king->m_Skater );
 	}
 	else
 	{   
@@ -1914,7 +1914,7 @@ int	Manager::s_handle_dropped_crown( Net::MsgHandlerContext* context )
 			if( other_player )
 			{
 				gamenet_man->CreateNetPanelMessage( false, Script::GenerateCRC("net_message_dropped_crown_other"),
-													NULL, NULL, other_player->m_Skater );
+													nullptr, nullptr, other_player->m_Skater );
 			}
 		}
 	}
@@ -1941,7 +1941,7 @@ int	Manager::s_handle_dropped_crown( Net::MsgHandlerContext* context )
 			Script::CArray *pNodeArray=Script::GetArray("NodeArray");
 	
 			// Make sure there's a node array
-			Dbg_Assert( pNodeArray != NULL );
+			Dbg_Assert( pNodeArray != nullptr );
 							 
 			i = 0;
 			// scan through it for a crown spawn point
@@ -2324,7 +2324,7 @@ int Manager::s_handle_change_level( Net::MsgHandlerContext* context )
 		mlp_man->AddLogicTask( *gamenet_man->m_change_level_task );
 
 		gamenet_man->CreateNetPanelMessage( false, Script::GenerateCRC("net_message_changing_levels"),
-											gamenet_man->GetLevelName(), NULL, NULL, NULL, false, Tmr::Seconds( 5 ));
+											gamenet_man->GetLevelName(), nullptr, nullptr, nullptr, false, Tmr::Seconds( 5 ));
 		
 		Script::RunScript("hide_console_window");
 		// Don't let this message pass through the Skate. We don't want to change levels just yet
@@ -2450,7 +2450,7 @@ int	Manager::s_handle_game_info( Net::MsgHandlerContext* context )
 	gamenet_man->m_game_pending = false;
 	gamenet_man->m_cheating_occurred = false;
 	gamenet_man->MarkReceivedFinalScores( false );
-	gamenet_man->SetCurrentLeader( NULL );
+	gamenet_man->SetCurrentLeader( nullptr );
 	gamenet_man->SetCurrentLeadingTeam( vNO_TEAM );
 	gamenet_man->SetNetworkGameId( msg->m_GameId );
 	if( msg->m_GameMode == Script::GenerateCRC( "netgoalattack" ))
@@ -2585,7 +2585,7 @@ int Manager::s_handle_panel_message( Net::MsgHandlerContext* context )
 	msg = (GameNet::MsgPanelMessage*) context->m_Msg;
 	gamenet_man = (Manager *) context->m_Data;
 	
-	gamenet_man->CreateNetPanelMessage( false, msg->m_StringId, msg->m_Parm1, msg->m_Parm2, NULL, NULL, false, msg->m_Time );
+	gamenet_man->CreateNetPanelMessage( false, msg->m_StringId, msg->m_Parm1, msg->m_Parm2, nullptr, nullptr, false, msg->m_Time );
 
 	return Net::HANDLER_CONTINUE;
 }
@@ -2675,7 +2675,7 @@ int	Manager::s_handle_game_over( Net::MsgHandlerContext* context )
 	gamenet_man = (Manager *) context->m_Data;
 	gamenet_man->MarkGameOver();
 
-	if( ( CFuncs::ScriptIsObserving( NULL, NULL )) &&
+	if( ( CFuncs::ScriptIsObserving( nullptr, nullptr )) &&
 		( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC("netgoalattack" )))
 	{
 		Script::RunScript( Crc::ConstCRC("create_rankings"));
@@ -2819,8 +2819,8 @@ int	Manager::s_handle_team_change_request( Net::MsgHandlerContext* context )
 	
 	msg = (MsgChangeTeam*) context->m_Msg;
 	change_player = gamenet_man->GetPlayerByObjectID( msg->m_ObjID );
-	if(( change_player == NULL ) ||
-	   ( change_player->m_Skater == NULL ) ||
+	if(( change_player == nullptr ) ||
+	   ( change_player->m_Skater == nullptr ) ||
 	   ( skate_mod->GetGameMode()->GetNameChecksum() != Script::GenerateCRC( "netlobby" )))	// ignore unless in lobby
 	{
 		return Net::HANDLER_MSG_DONE;
@@ -3050,7 +3050,7 @@ int Manager::s_handle_beat_goal_relay( Net::MsgHandlerContext* context )
     
 	pGoalManager = Game::GetGoalManager();
 	pGoal = pGoalManager->GetGoal( msg->m_GoalId );
-	pCurrentGoal = NULL;
+	pCurrentGoal = nullptr;
 	current_goal_index = pGoalManager->GetActiveGoal( true );
 	if( current_goal_index >= 0 )
 	{
@@ -3096,7 +3096,7 @@ int Manager::s_handle_beat_goal_relay( Net::MsgHandlerContext* context )
 				Script::CStruct* pParams;
 				bool in_same_goal;
 					
-				in_same_goal = 	( pCurrentGoal != NULL ) && 
+				in_same_goal = 	( pCurrentGoal != nullptr ) && 
 								( pGoal->GetRootGoalId() == pCurrentGoal->GetRootGoalId());
 				if( ( skate_mod->GetGameMode()->IsTeamGame()) && 
 					( local_player->m_Team == player->m_Team ))
@@ -3140,7 +3140,7 @@ int Manager::s_handle_beat_goal_relay( Net::MsgHandlerContext* context )
 			
 					if( num_goals > num_beaten )
 					{
-						const char* p_view_goals_text = NULL;
+						const char* p_view_goals_text = nullptr;
 	
 						pGoal->GetViewGoalsText( &p_view_goals_text );
 						pParams = new Script::CStruct;
@@ -3252,7 +3252,7 @@ int Manager::s_handle_started_goal_relay( Net::MsgHandlerContext* context )
 	if( pGoal )
 	{
 		Script::CStruct* pParams;
-		const char* p_view_goals_text = NULL;
+		const char* p_view_goals_text = nullptr;
 		PlayerInfo* player;
 
 		player = gamenet_man->GetPlayerByObjectID( msg->m_ObjId );
@@ -3347,7 +3347,7 @@ int	Manager::s_handle_set_num_teams( Net::MsgHandlerContext* context )
 		Script::RunScript( "ChooseTeamMessage" );
 		if( skate_mod->GetLocalSkater())
 		{
-			Script::RunScript( "PrepareSkaterForMove", NULL, skate_mod->GetLocalSkater());
+			Script::RunScript( "PrepareSkaterForMove", nullptr, skate_mod->GetLocalSkater());
 			skate_mod->move_to_restart_point( skate_mod->GetLocalSkater());
 		}
 	}

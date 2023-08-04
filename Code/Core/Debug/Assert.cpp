@@ -87,7 +87,7 @@ static const int vASSERT_BUFFER_SIZE = 512;
 **								 Private Data								**
 *****************************************************************************/
 
-static 	AssertTrap*		assert_trap_handler = NULL;
+static 	AssertTrap*		assert_trap_handler = nullptr;
 static 	bool			screen_assert_active = false;
 
 // made public for Dbg_ Macros
@@ -160,7 +160,7 @@ void		Assert( char* file, uint line, char* reason )
 	_output("Name            Used  Frag  Free   Min  Blocks\n");
 	_output("--------------- ----- ----- ---- ------ ------\n");
 	Mem::Heap* heap;
-	for (heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+	for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 	{		
 			Mem::Region* region = heap->ParentRegion();			
 			_output( "%12s: %5dK %4dK %4dK %4dK  %5d \n",
@@ -185,7 +185,7 @@ void		Assert( char* file, uint line, char* reason )
 			// Show dialog box
 			char buffer[1024];
 			sprintf(buffer, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
-			MessageBox(NULL, buffer, "Assertion Failure", MB_OK | MB_ICONERROR);
+			MessageBox(nullptr, buffer, "Assertion Failure", MB_OK | MB_ICONERROR);
 		}
 	#endif
 }
@@ -204,7 +204,7 @@ void		assert_vcc( char* file, uint line, char* reason )
 	sprintf( tmp, "ASSERTION: %s(%d)\n%s\n\n", 
 		file, line, reason ); 
 
-	if ( assert_trap_handler != NULL )
+	if ( assert_trap_handler != nullptr )
 	{
 		Dbg_Printf( "%s\n", tmp );
 		assert_trap_handler( tmp );

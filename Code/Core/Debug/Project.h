@@ -111,7 +111,7 @@ inline	Project::Project ( const char& name, const char& description )
 {
 	next = RegisteredProjects;
 	RegisteredProjects = this;
-	children = NULL;
+	children = nullptr;
 }
 
 /******************************************************************/

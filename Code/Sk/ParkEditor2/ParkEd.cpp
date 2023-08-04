@@ -53,7 +53,7 @@ CParkEditor::CParkEditor() :
 	m_movement_vel = 480.0f; //8.0f;		// default movement velocity in inches per second
 	m_rotate_vel = 120.0f;		// 120 degrees per second. In 3 seconds you should complete 1 revolution
 
-	mp_camera = NULL;
+	mp_camera = nullptr;
 	m_camDist = 1400.0f;
 	m_camAngle = 0.0f; //225.0f;
 	m_camAngleVert = 10.0f;
@@ -62,19 +62,19 @@ CParkEditor::CParkEditor() :
 	m_state = vINACTIVE;
 	m_paused = false;
 
-	mp_cursor = NULL;
-	mp_menu_manager = NULL;
+	mp_cursor = nullptr;
+	mp_menu_manager = nullptr;
 	
 	m_pct_resources_used = 1.0f;
 	m_last_main_heap_free=0;
 	
 	m_tod_script=0;
 
-	mp_play_mode_gap_manager=NULL;
+	mp_play_mode_gap_manager=nullptr;
 
 	m_allow_defrag=false;
 		
-	RegisterWithTracker(NULL);
+	RegisterWithTracker(nullptr);
 }
 
 
@@ -116,7 +116,7 @@ void CParkEditor::Rebuild(bool justRebuildFloor, bool clearMap, bool makeCursor)
 	{
 		if (mp_cursor)
 			delete mp_cursor;
-		mp_cursor = NULL;
+		mp_cursor = nullptr;
 		mp_park_manager->RebuildWholePark(clearMap);
 	}	   
 	
@@ -177,7 +177,7 @@ void CParkEditor::SetState(EEditorState desiredState)
 		Mdl::Skate::Instance()->CleanupForParkEditor();
 	
 		p_front_end->SetAutoRepeatTimes(320, 100);
-		mp_park_manager->HighlightMetasWithGaps(false, NULL);
+		mp_park_manager->HighlightMetasWithGaps(false, nullptr);
 	}
 	else
 	{
@@ -254,7 +254,7 @@ void CParkEditor::AccessDisk(bool save, int fileSlot, bool blockRebuild)
 			{
 				CParkManager::sInstance()->RebuildWholePark(false);
 				mp_cursor->ChangePieceInSet(0);
-				mp_park_manager->HighlightMetasWithGaps(false, NULL);
+				mp_park_manager->HighlightMetasWithGaps(false, nullptr);
 			}
 		}
 	}
@@ -290,7 +290,7 @@ void CParkEditor::PostMemoryCardLoad(uint8 * p_map_buffer, int oldTheme)
 		{
 			CParkManager::sInstance()->RebuildWholePark(false);
 			mp_cursor->ChangePieceInSet(0);
-			mp_park_manager->HighlightMetasWithGaps(false, NULL);
+			mp_park_manager->HighlightMetasWithGaps(false, nullptr);
 		}
 	}
 }
@@ -302,7 +302,7 @@ void CParkEditor::DeleteCursor()
 	if (mp_cursor)
 	{
 		delete mp_cursor;
-		mp_cursor=NULL;
+		mp_cursor=nullptr;
 	}
 }
 
@@ -313,11 +313,11 @@ void CParkEditor::DeleteCursor()
 // So a copy is made for play mode, since the gap manager is needed when a gap fires.
 void CParkEditor::CreatePlayModeGapManager()
 {
-	Dbg_MsgAssert(mp_play_mode_gap_manager==NULL,("Expected mp_play_mode_gap_manager to be NULL"));
+	Dbg_MsgAssert(mp_play_mode_gap_manager==nullptr,("Expected mp_play_mode_gap_manager to be nullptr"));
 	Ed::CGapManager *p_original_gap_manager = CGapManager::sInstance();
 	
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-	mp_play_mode_gap_manager=new Ed::CGapManager(NULL);
+	mp_play_mode_gap_manager=new Ed::CGapManager(nullptr);
 	
 	// Use the overloaded assignement operator to make the copy.
 	*mp_play_mode_gap_manager = *p_original_gap_manager;
@@ -332,8 +332,8 @@ void CParkEditor::CreatePlayModeGapManager()
 
 void CParkEditor::SwitchToPlayModeGapManager()
 {
-	Dbg_MsgAssert(CGapManager::sInstanceNoAssert() == NULL,("Expected CGapManager::sInstance() to be NULL"));
-	Dbg_MsgAssert(mp_play_mode_gap_manager,("NULL mp_play_mode_gap_manager"));
+	Dbg_MsgAssert(CGapManager::sInstanceNoAssert() == nullptr,("Expected CGapManager::sInstance() to be nullptr"));
+	Dbg_MsgAssert(mp_play_mode_gap_manager,("nullptr mp_play_mode_gap_manager"));
 	mp_play_mode_gap_manager->SetInstance();
 }	
 
@@ -342,9 +342,9 @@ void CParkEditor::DeletePlayModeGapManager()
 	if (mp_play_mode_gap_manager)
 	{
 		delete mp_play_mode_gap_manager;
-		mp_play_mode_gap_manager=NULL;
+		mp_play_mode_gap_manager=nullptr;
 	}
-	Dbg_MsgAssert(CGapManager::sInstanceNoAssert() == NULL,("Expected CGapManager::sInstance() to be NULL"));
+	Dbg_MsgAssert(CGapManager::sInstanceNoAssert() == nullptr,("Expected CGapManager::sInstance() to be nullptr"));
 }
 
 void CParkEditor::PlayModeGapManagerChecks()
@@ -361,12 +361,12 @@ void CParkEditor::Cleanup()
 	if (mp_cursor)
 	{
 		delete mp_cursor;
-		mp_cursor = NULL;
+		mp_cursor = nullptr;
 	}
 	if (mp_menu_manager)
 	{
 		delete mp_menu_manager;
-		mp_menu_manager = NULL;
+		mp_menu_manager = nullptr;
 	}
 	
 	mp_park_manager->Destroy(CParkGenerator::DESTROY_PIECES_AND_SECTORS);
@@ -429,7 +429,7 @@ void CParkEditor::do_piece_select_commands()
 
 void CParkEditor::regular_command_logic()
 {
-	Dbg_MsgAssert(mp_cursor,("NULL mp_cursor"));
+	Dbg_MsgAssert(mp_cursor,("nullptr mp_cursor"));
 
 	Mth::Matrix cam_matrix;
 	cam_matrix.Ident();
@@ -722,7 +722,7 @@ void CParkEditor::regular_command_logic()
 
 void CParkEditor::rail_placement_logic()
 {
-	Dbg_MsgAssert(mp_cursor,("NULL mp_cursor"));
+	Dbg_MsgAssert(mp_cursor,("nullptr mp_cursor"));
 
 	if (!m_paused)
 	{
@@ -738,11 +738,11 @@ void CParkEditor::Update()
 		{
 			Script::CStruct params;
 			params.AddChecksum(NONAME, Script::GenerateCRC("hide"));
-			CFuncs::ScriptPauseSkaters(&params, NULL);
+			CFuncs::ScriptPauseSkaters(&params, nullptr);
 		}
 		else if (m_state == vTEST_PLAY)
 		{
-			CFuncs::ScriptUnPauseSkaters(NULL, NULL);
+			CFuncs::ScriptUnPauseSkaters(nullptr, nullptr);
 		}
 	}
 
@@ -1374,7 +1374,7 @@ void CParkEditor::BindParkEditorToController( int controller )
 
 Mth::Vector& CParkEditor::GetCursorPos()
 {
-	Dbg_MsgAssert(mp_cursor,("NULL mp_cursor"));
+	Dbg_MsgAssert(mp_cursor,("nullptr mp_cursor"));
 	return mp_cursor->m_pos;
 }
 
@@ -1391,7 +1391,7 @@ void CParkEditor::SetTimeOfDayScript(uint32 tod_script)
 	m_tod_script=tod_script;
 }	
 
-CCursor *CCursor::sp_instance = NULL;
+CCursor *CCursor::sp_instance = nullptr;
 const float CCursor::MOTION_PCT_INC = .15f;
 const float CCursor::ROT_DEG_INC = 15.0f;
 
@@ -1405,13 +1405,13 @@ CCursor::CCursor() :
 	m_hard_rot(Mth::ROT_0),
 	m_target_rot(0.0f),
 	m_rot(0.0f),
-	mp_meta(NULL)
+	mp_meta(nullptr)
 {
 	m_num_corners_selected=0;
 	m_initialised_highlight=false;
 	
-	mp_clipboards=NULL;
-	mp_current_clipboard=NULL;
+	mp_clipboards=nullptr;
+	mp_current_clipboard=nullptr;
 	
 	m_hard_rot = Mth::ROT_0;
 
@@ -1446,7 +1446,7 @@ CCursor::~CCursor()
 
 	destroy_clipboards();
 	
-	sp_instance = NULL;
+	sp_instance = nullptr;
 }
 
 // K: Added to test something
@@ -1455,7 +1455,7 @@ void CCursor::DeleteMeta()
 	if (mp_meta)
 	{
 		delete mp_meta;
-		mp_meta=NULL;
+		mp_meta=nullptr;
 	}
 }
 		
@@ -1468,13 +1468,13 @@ void CCursor::destroy_clipboards()
 		delete p_clipboard;
 		p_clipboard=p_next;
 	}	
-	mp_current_clipboard=NULL;
+	mp_current_clipboard=nullptr;
 }
 
 // Called when the park is resized.
 void CCursor::DestroyClipboardsWhichAreTooBigToFit()
 {
-	CClipboard *p_last=NULL;
+	CClipboard *p_last=nullptr;
 	CClipboard *p_clipboard=mp_clipboards;
 	while (p_clipboard)
 	{
@@ -1519,7 +1519,7 @@ void CCursor::DestroyGeometry()
 	{
 		mp_meta->MarkUnlocked();
 		m_manager->DestroyConcreteMeta(mp_meta, CParkManager::mDONT_DESTROY_PIECES_ABOVE);
-		mp_meta = NULL;
+		mp_meta = nullptr;
 	}
 }
 
@@ -1880,7 +1880,7 @@ bool CCursor::AttemptRemoveGap()
 		// remove gap at this position
 		m_manager->RemoveGap(*pDesc);
 		m_manager->RebuildFloor();
-		m_manager->HighlightMetasWithGaps(true, NULL);
+		m_manager->HighlightMetasWithGaps(true, nullptr);
 		return true;
 	}
 
@@ -2173,8 +2173,8 @@ void CCursor::DeleteOldestClipboard()
 {
 	// Find p_last, the last clipboard in the list.
 	CClipboard *p_clip=mp_clipboards;
-	CClipboard *p_last=NULL;
-	CClipboard *p_next_to_last=NULL;
+	CClipboard *p_last=nullptr;
+	CClipboard *p_next_to_last=nullptr;
 	while (p_clip)
 	{
 		p_next_to_last=p_last;
@@ -2192,11 +2192,11 @@ void CCursor::DeleteOldestClipboard()
 	
 	if (p_next_to_last)
 	{
-		p_next_to_last->mpNext=NULL;
+		p_next_to_last->mpNext=nullptr;
 	}
 	else
 	{
-		mp_clipboards=NULL;
+		mp_clipboards=nullptr;
 	}
 }
 
@@ -2287,7 +2287,7 @@ bool CCursor::CopySelectionToClipboard()
 		// blank area or the above attempts at copying failed due to lack of memory.
 		
 		delete p_clipboard;
-		p_clipboard=NULL;
+		p_clipboard=nullptr;
 		
 		return false;
 	}	
@@ -2363,7 +2363,7 @@ void CCursor::remove_clipboard(int index)
 	}
 	
 	CClipboard *p_search=mp_clipboards;
-	CClipboard *p_last=NULL;
+	CClipboard *p_last=nullptr;
 	while (p_search)
 	{
 		if (p_search==p_remove)
@@ -2535,7 +2535,7 @@ void CCursor::SwitchMenuPieceToMostRecentClipboard()
 	}
 		
 	int num_sets=m_manager->GetTotalNumPieceSets();
-	CParkManager::CPieceSet *p_piece_set=NULL;
+	CParkManager::CPieceSet *p_piece_set=nullptr;
 	
 	for (int i=0; i<num_sets; ++i)
 	{
@@ -2599,7 +2599,7 @@ bool CCursor::ChangeFloorHeight(GridDims dims, int height, int dir, bool uniform
 		Spt::SingletonPtr<CParkEditor> p_editor;
 		if (m_manager->RebuildFloor(p_editor->IsParkFull()))
 		{
-			m_manager->HighlightMetasWithGaps(false, NULL);
+			m_manager->HighlightMetasWithGaps(false, nullptr);
 		}
 		else
 		{
@@ -2836,7 +2836,7 @@ void CCursor::change_cell_pos(int incX, int incZ)
 		if (m_current_gap.numCompleteHalves > 0)
 			m_manager->HighlightMetasWithGaps(true, &m_current_gap);
 		else
-			m_manager->HighlightMetasWithGaps(true, NULL);
+			m_manager->HighlightMetasWithGaps(true, nullptr);
 	}
 }
 	
@@ -2850,7 +2850,7 @@ void CCursor::set_source_meta(uint32 nameChecksum)
 	{
 		mp_meta->MarkUnlocked();
 		m_manager->DestroyConcreteMeta(mp_meta, CParkManager::mDONT_DESTROY_PIECES_ABOVE);
-		mp_meta = NULL;
+		mp_meta = nullptr;
 	}
 	
 	CAbstractMetaPiece *p_source_meta = m_manager->GetAbstractMeta(nameChecksum);
@@ -2877,22 +2877,22 @@ void CCursor::set_source_meta(uint32 nameChecksum)
 	if (p_source_meta->IsGapPlacement())
 	{
 		change_mode(GAP);
-		//m_manager->HighlightMetasWithGaps(true, NULL);
+		//m_manager->HighlightMetasWithGaps(true, nullptr);
 	}
 	else if (p_source_meta->IsAreaSelection())
 	{
 		change_mode(AREA_SELECT);
-		m_manager->HighlightMetasWithGaps(false, NULL);
+		m_manager->HighlightMetasWithGaps(false, nullptr);
 	}
 	else if (p_source_meta->IsRailPlacement())
 	{
 		change_mode(RAIL_PLACEMENT);
-		m_manager->HighlightMetasWithGaps(false, NULL);
+		m_manager->HighlightMetasWithGaps(false, nullptr);
 	}
 	else
 	{
 		change_mode(REGULAR);
-		m_manager->HighlightMetasWithGaps(false, NULL);
+		m_manager->HighlightMetasWithGaps(false, nullptr);
 	}
 		
 	//m_manager->AddMetaPieceToPark(GridDims(0, 8, 0), mp_meta);
@@ -2951,7 +2951,7 @@ CUpperMenuManager::CUpperMenuManager()
 	//Rulon: Commented this out to prevent menu set items from being added twice
 	//Enable();
 
-	mp_current_set = NULL;
+	mp_current_set = nullptr;
 	m_current_entry_in_set = 0;
 	m_current_set_index = 0;
 }
@@ -3146,7 +3146,7 @@ void CUpperMenuManager::Enable()
 	}
 
 	// will force menu to be rebuilt in SetPieceSet()
-	mp_current_set = NULL;
+	mp_current_set = nullptr;
 }
 
 
@@ -3158,7 +3158,7 @@ void CUpperMenuManager::Disable()
 	
 	Script::RunScript("parked_destroy_piece_menu");
 	Script::RunScript("parked_destroy_set_menu");
-	mp_current_set= NULL;
+	mp_current_set= nullptr;
 }
 
 bool ScriptSetParkEditorTimeOfDay(Script::CStruct *pParams, Script::CScript *pScript)
@@ -3429,7 +3429,7 @@ bool ScriptCanCleanlyResizePark(Script::CStruct *pParams, Script::CScript *pScri
 {
 	GridDims new_bounds;
 	
-	Script::CStruct *p_new_bounds=NULL;
+	Script::CStruct *p_new_bounds=nullptr;
 	if (pParams->GetStructure(Crc::ConstCRC("NewBounds"),&p_new_bounds))
 	{
 		int x,z,w,l;
@@ -3491,7 +3491,7 @@ bool ScriptResizePark(Script::CStruct *pParams, Script::CScript *pScript)
 	
 	GridDims new_bounds;
 	
-	Script::CStruct *p_new_bounds=NULL;
+	Script::CStruct *p_new_bounds=nullptr;
 	if (pParams->GetStructure(Crc::ConstCRC("NewBounds"),&p_new_bounds))
 	{
 		int x,z,w,l;
@@ -3548,7 +3548,7 @@ bool ScriptCanChangeParkDimension(Script::CStruct *pParams, Script::CScript *pSc
 	GridDims current_bounds = CParkManager::sInstance()->GetParkNearBounds();
 	GridDims max_bounds = CParkManager::sInstance()->GetParkFarBounds();
 	
-	Script::CArray *p_dim_array = NULL;
+	Script::CArray *p_dim_array = nullptr;
 	if (pParams->GetArray(NONAME, &p_dim_array))
 	{
 		int w = p_dim_array->GetInt(0);
@@ -3632,14 +3632,14 @@ bool ScriptFireCustomParkGap(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptSetEditedParkGapInfo(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_name = NULL;
+	const char *p_name = nullptr;
 	pParams->GetString("name", &p_name);
 	int score = -1;
 	pParams->GetInteger("score", &score);
 	
 	CCursor::sInstance()->SetGapNameAndScore(p_name, score);
 
-	Script::CStruct *p_cancel_flags=NULL;
+	Script::CStruct *p_cancel_flags=nullptr;
 	pParams->GetStructure(CRCD(0x49ec3f9,"cancel_flags"),&p_cancel_flags);
 	CCursor::sInstance()->SetGapCancelFlags(p_cancel_flags);
 	return true;
@@ -3747,7 +3747,7 @@ bool ScriptGetCustomParkName(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptSetCustomParkName(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_name = NULL;
+	const char *p_name = nullptr;
 	pParams->GetString("name", &p_name, Script::ASSERT);
 	CParkManager::sInstance()->SetParkName(p_name);
 	return true;

@@ -37,7 +37,7 @@ CSkaterMatrixQueriesComponent::CSkaterMatrixQueriesComponent() : CBaseComponent(
 {
 	SetType( CRC_SKATERMATRIXQUERIES );
 	
-	mp_core_physics_component = NULL;
+	mp_core_physics_component = nullptr;
 }
 
 /******************************************************************/
@@ -251,7 +251,7 @@ CBaseComponent::EMemberFunctionResult CSkaterMatrixQueriesComponent::CallMemberF
 void CSkaterMatrixQueriesComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterMatrixQueriesComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterMatrixQueriesComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

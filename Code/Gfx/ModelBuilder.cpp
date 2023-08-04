@@ -99,9 +99,9 @@ const uint32 vCHECKSUM_NO_SCALING_ALLOWED = 0xb25e39fd;				// no_scaling_allowed
 **								 Private Data								**
 *****************************************************************************/
 
-Nx::CModel* CModelBuilder::mp_model = NULL;
-Gfx::CSkeleton* CModelBuilder::mp_skeleton = NULL;
-CModelAppearance* CModelBuilder::mp_appearance = NULL;
+Nx::CModel* CModelBuilder::mp_model = nullptr;
+Gfx::CSkeleton* CModelBuilder::mp_skeleton = nullptr;
+CModelAppearance* CModelBuilder::mp_appearance = nullptr;
 
 /*****************************************************************************
 **								 Public Data								**
@@ -183,13 +183,13 @@ void CModelBuilder::BuildModel( CModelAppearance* pAppearance, Nx::CModel* pMode
 	// are "supported" should be completely in
 	// script.
 //    Dbg_Message( "BuildModel - %s", Script::FindChecksumName(buildScriptName) );
-    Script::RunScript( buildScriptName, NULL, this );
+    Script::RunScript( buildScriptName, nullptr, this );
     
-	mp_model = NULL;
-	mp_skeleton = NULL;
+	mp_model = nullptr;
+	mp_skeleton = nullptr;
 
 	delete mp_appearance;
-	mp_appearance = NULL;
+	mp_appearance = nullptr;
 
 //	Dbg_Message( "BuildModel took %d ms", Tmr::ElapsedTime( baseTime ) );
 }
@@ -280,7 +280,7 @@ bool CModelBuilder::CallMemberFunction( uint32 checksum, Script::CStruct* pParam
 
 		case 0x50f1285b:		// ModelApplyObjectScale
 		{
-			Script::CStruct* pBodyShapeStructure = NULL;
+			Script::CStruct* pBodyShapeStructure = nullptr;
 			if ( pParams->GetStructure( vCHECKSUM_BODY_SHAPE, &pBodyShapeStructure, false ) )
 			{
 				Mth::Vector vec = mp_model->GetScale();
@@ -317,7 +317,7 @@ bool CModelBuilder::CallMemberFunction( uint32 checksum, Script::CStruct* pParam
 		
 		case 0xc0bc8271:		// ModelApplyBodyShape
 		{
-			Script::CStruct* pBodyShapeStructure = NULL;
+			Script::CStruct* pBodyShapeStructure = nullptr;
 			if ( pParams->GetStructure( vCHECKSUM_BODY_SHAPE, &pBodyShapeStructure, false ) )
 			{
 				// GJ:  PATCH TO FIX STEVE CABALLERO'S INCORRECT WEIGHTING IN BIGHEAD MODE
@@ -583,7 +583,7 @@ bool CModelBuilder::model_apply_body_shape()
 	Script::CStruct* pStructure = mp_appearance->GetStructure();
 	Dbg_Assert( pStructure );
 	
-	Script::CStruct* pBodyShapeStructure = NULL;
+	Script::CStruct* pBodyShapeStructure = nullptr;
 	if ( pStructure->GetStructure( vCHECKSUM_BODY_SHAPE, &pBodyShapeStructure, false ) )
 	{
 		return mp_skeleton->ApplyBoneScale( pBodyShapeStructure );
@@ -691,7 +691,7 @@ bool CModelBuilder::model_apply_object_scale()
 	Dbg_Assert( pStructure );
 	
 	// sometimes the object scale can be found in the bone params
-	Script::CStruct* pBodyShapeStructure = NULL;
+	Script::CStruct* pBodyShapeStructure = nullptr;
 	if ( pStructure->GetStructure( vCHECKSUM_BODY_SHAPE, &pBodyShapeStructure, false ) )
 	{
 		if ( Gfx::GetScaleFromParams( &theScale, pBodyShapeStructure ) )
@@ -1019,7 +1019,7 @@ bool CModelBuilder::model_run_script( uint32 partChecksum, uint32 targetChecksum
 		{
 			// construct a script and run it
 			Script::CScript* pScript = new Script::CScript;
-			pScript->SetScript( pStructScript, NULL, mp_appearance );	
+			pScript->SetScript( pStructScript, nullptr, mp_appearance );	
 			#ifdef __NOPT_ASSERT__
 			pScript->SetCommentString("Created in CModelBuilder::model_run_script(...)");
 			#endif
@@ -1090,7 +1090,7 @@ bool CModelScalingModifier::ApplyModifier( Model* pModel, CModelAppearance* pApp
 
 	// apply the desired scaling script here...
 //	Dbg_Message( "Applying %s scaling mode\n", Script::FindChecksumName( scalingMode ) );
-	Script::RunScript( scalingMode, NULL, pModel );
+	Script::RunScript( scalingMode, nullptr, pModel );
 
 	pModel->ApplyScaling();
 

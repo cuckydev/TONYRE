@@ -72,7 +72,7 @@ CPedLogicComponent::CPedLogicComponent() : CBaseComponent()
 	ResetBias();
 	m_turn_frames = 0;
 	m_max_turn_frames = 0; // Script::GetInteger( CRCD( 0x793535f5, "ped_turn_frames" ), Script::ASSERT );
-	mp_path_object_tracker = NULL;
+	mp_path_object_tracker = nullptr;
 
 	m_col_dist_above = Script::GetFloat( CRCD( 0x379d93d2, "ped_skater_stick_dist_above" ), Script::ASSERT );
 	m_col_dist_below = Script::GetFloat( CRCD( 0x8715b7b2, "ped_skater_stick_dist_below" ), Script::ASSERT );
@@ -401,7 +401,7 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 void CPedLogicComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to C......Component::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to C......Component::GetDebugInfo"));
 	p_info->AddChecksum( "m_state", m_state );
 	
 	Script::CArray* pTempArray = new Script::CArray();
@@ -1744,7 +1744,7 @@ bool CPedLogicComponent::do_collision_check( Mth::Vector *p_v0, Mth::Vector *p_v
 		Dbg_MsgAssert( p_col_obj->IsTriangleCollision(), ( "Not triangle collision !!!" ) );
 
 		Nx::CCollObjTriData* p_tri_data=p_col_obj->GetGeometry();
-		Dbg_MsgAssert( p_tri_data, ( "NULL p_tri_data" ) );
+		Dbg_MsgAssert( p_tri_data, ( "nullptr p_tri_data" ) );
 
 		int face_index=feeler.GetFaceIndex();
 		p_lastTriangle->mpVertices[0]=p_col_obj->GetVertexPos(p_tri_data->GetFaceVertIndex(face_index, 0));

@@ -380,7 +380,7 @@ int CHorse::get_next_valid_skater_id()
 	
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 
-	Obj::CSkater *pSkater = NULL;
+	Obj::CSkater *pSkater = nullptr;
 	int check_id = 0;
 
 	for ( int i = 0; i < Skate::vMAX_SKATERS; i++ )

@@ -57,7 +57,7 @@ static void sDoIndent(int indent)
 void PrintContents(const CArray *p_array, int indent)
 {
 #ifdef __NOPT_ASSERT__	
-	Dbg_MsgAssert(p_array,("NULL p_array"));
+	Dbg_MsgAssert(p_array,("nullptr p_array"));
 	int size=p_array->GetSize();
 	ESymbolType type=p_array->GetType();
 	
@@ -111,7 +111,7 @@ void PrintContents(const CArray *p_array, int indent)
 			}	
 			else
 			{
-				printf("NULL string\n");
+				printf("nullptr string\n");
 			}	
             break;
 		}	
@@ -124,7 +124,7 @@ void PrintContents(const CArray *p_array, int indent)
 			}	
 			else
 			{
-				printf("NULL local string\n");
+				printf("nullptr local string\n");
 			}	
             break;
 		}	
@@ -137,7 +137,7 @@ void PrintContents(const CArray *p_array, int indent)
 			}	
 			else
 			{
-				printf("NULL pair\n");
+				printf("nullptr pair\n");
 			}	
             break;
 		}	
@@ -150,7 +150,7 @@ void PrintContents(const CArray *p_array, int indent)
 			}	
 			else
 			{
-				printf("NULL vector\n");
+				printf("nullptr vector\n");
 			}	
             break;
 		}	
@@ -166,7 +166,7 @@ void PrintContents(const CArray *p_array, int indent)
 			}	
 			else
 			{
-				printf("NULL structure\n");
+				printf("nullptr structure\n");
 			}	
             break;
 		}	
@@ -179,7 +179,7 @@ void PrintContents(const CArray *p_array, int indent)
 			}	
 			else
 			{
-				printf("NULL array\n");
+				printf("nullptr array\n");
 			}	
             break;
 		}	
@@ -202,7 +202,7 @@ void PrintContents(const CArray *p_array, int indent)
 void PrintContents(const CStruct *p_structure, int indent)
 {
 #ifdef __NOPT_ASSERT__
-	Dbg_MsgAssert(p_structure,("NULL p_structure"));
+	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
 	
 	if (!indent)
 	{
@@ -213,7 +213,7 @@ void PrintContents(const CStruct *p_structure, int indent)
 	printf("{\n");
 	indent+=3;
 		
-    CComponent *p_comp=p_structure->GetNextComponent(NULL);
+    CComponent *p_comp=p_structure->GetNextComponent(nullptr);
     while (p_comp)
     {
 		sDoIndent(indent);
@@ -260,7 +260,7 @@ void PrintContents(const CStruct *p_structure, int indent)
 				{
 					sDoIndent(indent);
 					printf("... Defined in %s ...\n",FindChecksumName(p_entry->mSourceFileNameChecksum));
-					Dbg_MsgAssert(p_entry->mpStructure,("NULL p_entry->mpStructure"));
+					Dbg_MsgAssert(p_entry->mpStructure,("nullptr p_entry->mpStructure"));
 					PrintContents(p_entry->mpStructure,indent);
 				}
 			}		
@@ -471,7 +471,7 @@ static uint32 sChecksumWriteToBuffer(uint32 name, uint32 checksum, uint8 *p_buff
 
 static uint32 sStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_buffer, uint32 bufferSize)
 {
-	Dbg_MsgAssert(p_string,("NULL p_string sent to sStringWriteToBuffer"));
+	Dbg_MsgAssert(p_string,("nullptr p_string sent to sStringWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 		
 	uint32 Len=strlen(p_string);
@@ -495,7 +495,7 @@ static uint32 sStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_b
 
 static uint32 sLocalStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_buffer, uint32 bufferSize)
 {
-	Dbg_MsgAssert(p_string,("NULL p_string sent to sLocalStringWriteToBuffer"));
+	Dbg_MsgAssert(p_string,("nullptr p_string sent to sLocalStringWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 	
 	uint32 len=strlen(p_string);
@@ -519,7 +519,7 @@ static uint32 sLocalStringWriteToBuffer(uint32 name, const char *p_string, uint8
 
 static uint32 sPairWriteToBuffer(uint32 name, CPair *p_pair, uint8 *p_buffer, uint32 bufferSize)
 {
-	Dbg_MsgAssert(p_pair,("NULL p_pair sent to sPairWriteToBuffer"));
+	Dbg_MsgAssert(p_pair,("nullptr p_pair sent to sPairWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 	
 	// Check that there is enough space before doing any writing.
@@ -538,7 +538,7 @@ static uint32 sPairWriteToBuffer(uint32 name, CPair *p_pair, uint8 *p_buffer, ui
 
 static uint32 sVectorWriteToBuffer(uint32 name, CVector *p_vector, uint8 *p_buffer, uint32 bufferSize)
 {
-	Dbg_MsgAssert(p_vector,("NULL p_vector sent to sVectorWriteToBuffer"));
+	Dbg_MsgAssert(p_vector,("nullptr p_vector sent to sVectorWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 	
 	// Check that there is enough space before doing any writing.
@@ -558,7 +558,7 @@ static uint32 sVectorWriteToBuffer(uint32 name, CVector *p_vector, uint8 *p_buff
 
 static uint32 sStructureWriteToBuffer(uint32 name, CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
 {
-	Dbg_MsgAssert(p_structure,("NULL p_structure sent to sStructureWriteToBuffer"));
+	Dbg_MsgAssert(p_structure,("nullptr p_structure sent to sStructureWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 	
 	// Check that there is enough space before doing any writing.
@@ -586,7 +586,7 @@ static uint32 sStructureWriteToBuffer(uint32 name, CStruct *p_structure, uint8 *
 
 static uint32 sArrayWriteToBuffer(uint32 name, CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
 {
-	Dbg_MsgAssert(p_array,("NULL p_array sent to sArrayWriteToBuffer"));
+	Dbg_MsgAssert(p_array,("nullptr p_array sent to sArrayWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 	
 	// Check that there is enough space before doing any writing.
@@ -624,14 +624,14 @@ static uint32 sArrayWriteToBuffer(uint32 name, CArray *p_array, uint8 *p_buffer,
 //
 uint32 WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
 {
-	Dbg_MsgAssert(p_buffer,("NULL p_buffer sent to WriteToBuffer"));
+	Dbg_MsgAssert(p_buffer,("nullptr p_buffer sent to WriteToBuffer"));
 	uint32 bytes_left=bufferSize;
 
 	// Scan through the components adding each to the buffer.	
-    CComponent *p_comp=NULL;
+    CComponent *p_comp=nullptr;
 	if (p_structure)
 	{
-		p_comp=p_structure->GetNextComponent(NULL);
+		p_comp=p_structure->GetNextComponent(nullptr);
 	}
 		
     while (p_comp)
@@ -721,7 +721,7 @@ uint32 WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, E
 // Calculates how big a buffer will need to be to hold a structure using WriteToBuffer.
 uint32 CalculateBufferSize(CStruct *p_structure, uint32 tempBufferSize)
 {
-	Dbg_MsgAssert(p_structure,("NULL p_structure"));
+	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
 
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap()); // Use the temporary heap
 	
@@ -742,8 +742,8 @@ uint32 CalculateBufferSize(CStruct *p_structure, uint32 tempBufferSize)
 // when this function calls itself.
 uint8 *ReadFromBuffer(CStruct *p_structure, uint8 *p_buffer)
 {
-	Dbg_MsgAssert(p_structure,("NULL p_structure"));
-	Dbg_MsgAssert(p_buffer,("NULL p_buffer sent to ReadFromBuffer"));
+	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
+	Dbg_MsgAssert(p_buffer,("nullptr p_buffer sent to ReadFromBuffer"));
 	float zero_float=0.0f;
 
 	// First clear anything currently in the structure.
@@ -902,8 +902,8 @@ uint8 *ReadFromBuffer(CStruct *p_structure, uint8 *p_buffer)
 //
 uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
 {
-	Dbg_MsgAssert(p_array,("NULL p_array"));
-	Dbg_MsgAssert(p_buffer,("NULL p_buffer sent to WriteToBuffer"));
+	Dbg_MsgAssert(p_array,("nullptr p_array"));
+	Dbg_MsgAssert(p_buffer,("nullptr p_buffer sent to WriteToBuffer"));
 	uint32 bytes_left=bufferSize;
 
 	if (bytes_left<3)
@@ -958,7 +958,7 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			for (uint32 i=0; i<size; ++i)
 			{
 				const char *p_string=*pp_strings++;
-				Dbg_MsgAssert(p_string,("NULL p_string for element %d when attempting to WriteToBuffer",i));
+				Dbg_MsgAssert(p_string,("nullptr p_string for element %d when attempting to WriteToBuffer",i));
 
 				while (*p_string)
 				{
@@ -1005,12 +1005,12 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			}
 			
 			CPair **pp_pairs=(CPair**)p_array->GetArrayPointer();
-			Dbg_MsgAssert(pp_pairs,("NULL pp_pairs ?"));
+			Dbg_MsgAssert(pp_pairs,("nullptr pp_pairs ?"));
 			
 			for (uint32 i=0; i<size; ++i)
 			{
 				CPair *p_pair=*pp_pairs;
-				Dbg_MsgAssert(p_pair,("NULL p_pair for element %d when attempting to WriteToBuffer",i));			
+				Dbg_MsgAssert(p_pair,("nullptr p_pair for element %d when attempting to WriteToBuffer",i));			
 				p_buffer=Write4Bytes(p_buffer,p_pair->mX);
 				p_buffer=Write4Bytes(p_buffer,p_pair->mY);
 				++pp_pairs;
@@ -1032,12 +1032,12 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			}
 			
 			CVector **pp_vectors=(CVector**)p_array->GetArrayPointer();
-			Dbg_MsgAssert(pp_vectors,("NULL pp_vectors ?"));
+			Dbg_MsgAssert(pp_vectors,("nullptr pp_vectors ?"));
 			
 			for (uint32 i=0; i<size; ++i)
 			{
 				CVector *p_vector=*pp_vectors;
-				Dbg_MsgAssert(p_vector,("NULL p_vector for element %d when attempting to WriteToBuffer",i));			
+				Dbg_MsgAssert(p_vector,("nullptr p_vector for element %d when attempting to WriteToBuffer",i));			
 			
 				p_buffer=Write4Bytes(p_buffer,p_vector->mX);
 				p_buffer=Write4Bytes(p_buffer,p_vector->mY);
@@ -1052,12 +1052,12 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
         case ESYMBOLTYPE_STRUCTURE:
 		{
 			CStruct **pp_structures=(CStruct**)p_array->GetArrayPointer();
-			Dbg_MsgAssert(pp_structures,("NULL pp_structures ?"));
+			Dbg_MsgAssert(pp_structures,("nullptr pp_structures ?"));
 			
 			for (uint32 i=0; i<size; ++i)
 			{
 				CStruct *p_structure=*pp_structures++;
-				Dbg_MsgAssert(p_structure,("NULL p_structure for element %d when attempting to WriteToBuffer",i));			
+				Dbg_MsgAssert(p_structure,("nullptr p_structure for element %d when attempting to WriteToBuffer",i));			
 				
 				uint32 bytes_written=WriteToBuffer(p_structure,p_buffer,bytes_left,assert);
 				if (!bytes_written)
@@ -1080,12 +1080,12 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
         case ESYMBOLTYPE_ARRAY:
 		{
 			CArray **pp_arrays=(CArray**)p_array->GetArrayPointer();
-			Dbg_MsgAssert(pp_arrays,("NULL pp_arrays ?"));
+			Dbg_MsgAssert(pp_arrays,("nullptr pp_arrays ?"));
 			
 			for (uint32 i=0; i<size; ++i)
 			{
 				CArray *p_array_element=*pp_arrays++;
-				Dbg_MsgAssert(p_array_element,("NULL p_array_element for element %d when attempting to WriteToBuffer",i));			
+				Dbg_MsgAssert(p_array_element,("nullptr p_array_element for element %d when attempting to WriteToBuffer",i));			
 				
 				uint32 bytes_written=WriteToBuffer(p_array_element,p_buffer,bytes_left,assert);
 				if (!bytes_written)
@@ -1143,7 +1143,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			for (i=0; i<size; ++i)
 			{
 				const char *p_string=p_array->GetString(i);
-				Dbg_MsgAssert(p_string,("NULL GetString() for element %d when attempting to call CalculateBufferSize",i));			
+				Dbg_MsgAssert(p_string,("nullptr GetString() for element %d when attempting to call CalculateBufferSize",i));			
 				space_required+=strlen(p_string)+1;
 			}
 			break;
@@ -1152,7 +1152,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			for (i=0; i<size; ++i)
 			{
 				const char *p_string=p_array->GetLocalString(i);
-				Dbg_MsgAssert(p_string,("NULL GetLocalString() for element %d when attempting to call CalculateBufferSize",i));			
+				Dbg_MsgAssert(p_string,("nullptr GetLocalString() for element %d when attempting to call CalculateBufferSize",i));			
 				space_required+=strlen(p_string)+1;
 			}
 			break;
@@ -1162,7 +1162,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			for (i=0; i<size; ++i)
 			{
 				CPair *p_pair=p_array->GetPair(i);
-				Dbg_MsgAssert(p_pair,("NULL GetPair() for element %d when attempting to call CalculateBufferSize",i));
+				Dbg_MsgAssert(p_pair,("nullptr GetPair() for element %d when attempting to call CalculateBufferSize",i));
 			}	
 			#endif
 			space_required+=size*8;
@@ -1173,7 +1173,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			for (i=0; i<size; ++i)
 			{
 				CVector *p_vector=p_array->GetVector(i);
-				Dbg_MsgAssert(p_vector,("NULL GetVector() for element %d when attempting to call CalculateBufferSize",i));
+				Dbg_MsgAssert(p_vector,("nullptr GetVector() for element %d when attempting to call CalculateBufferSize",i));
 			}	
 			#endif
 			space_required+=size*12;
@@ -1183,7 +1183,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			for (i=0; i<size; ++i)
 			{
 				CStruct *p_structure=p_array->GetStructure(i);
-				Dbg_MsgAssert(p_structure,("NULL GetStructure() for element %d when attempting to call CalculateBufferSize",i));
+				Dbg_MsgAssert(p_structure,("nullptr GetStructure() for element %d when attempting to call CalculateBufferSize",i));
 				space_required+=CalculateBufferSize(p_structure);
 			}
 			break;
@@ -1192,7 +1192,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			for (i=0; i<size; ++i)
 			{
 				CArray *p_array_element=p_array->GetArray(i);
-				Dbg_MsgAssert(p_array_element,("NULL GetArray() for element %d when attempting to call CalculateBufferSize",i));
+				Dbg_MsgAssert(p_array_element,("nullptr GetArray() for element %d when attempting to call CalculateBufferSize",i));
 				space_required+=CalculateBufferSize(p_array_element);
 			}
 			break;
@@ -1216,8 +1216,8 @@ uint32 CalculateBufferSize(CArray *p_array)
 // Returns a pointer to after the read array data.
 uint8 *ReadFromBuffer(CArray *p_array, uint8 *p_buffer)
 {
-	Dbg_MsgAssert(p_array,("NULL p_array sent to ReadFromBuffer"));
-	Dbg_MsgAssert(p_buffer,("NULL p_buffer sent to ReadFromBuffer"));
+	Dbg_MsgAssert(p_array,("nullptr p_array sent to ReadFromBuffer"));
+	Dbg_MsgAssert(p_buffer,("nullptr p_buffer sent to ReadFromBuffer"));
 
 	// First clear anything currently in the array.
 	CleanUpArray(p_array);
@@ -1407,16 +1407,16 @@ bool CComponent::operator==( const CComponent& v ) const
 		case ESYMBOLTYPE_STRING:
 			if (type_b==ESYMBOLTYPE_STRING)
 			{
-				Dbg_MsgAssert(value_a.mpString,("NULL value_a.mpString ?"));
-				Dbg_MsgAssert(value_b.mpString,("NULL value_b.mpString ?"));
+				Dbg_MsgAssert(value_a.mpString,("nullptr value_a.mpString ?"));
+				Dbg_MsgAssert(value_b.mpString,("nullptr value_b.mpString ?"));
 				return strcmp(value_a.mpString,value_b.mpString)==0;
 			}
 			break;
 		case ESYMBOLTYPE_LOCALSTRING:
 			if (type_b==ESYMBOLTYPE_LOCALSTRING)
 			{
-				Dbg_MsgAssert(value_a.mpLocalString,("NULL value_a.mpLocalString ?"));
-				Dbg_MsgAssert(value_b.mpLocalString,("NULL value_b.mpLocalString ?"));
+				Dbg_MsgAssert(value_a.mpLocalString,("nullptr value_a.mpLocalString ?"));
+				Dbg_MsgAssert(value_b.mpLocalString,("nullptr value_b.mpLocalString ?"));
 				return strcmp(value_a.mpLocalString,value_b.mpLocalString)==0;
 			}
 			break;
@@ -1429,8 +1429,8 @@ bool CComponent::operator==( const CComponent& v ) const
 		case ESYMBOLTYPE_PAIR:
 			if (type_b==ESYMBOLTYPE_PAIR)
 			{
-				Dbg_MsgAssert(value_a.mpPair,("NULL value_a.mpPair ?"));
-				Dbg_MsgAssert(value_b.mpPair,("NULL value_b.mpPair ?"));
+				Dbg_MsgAssert(value_a.mpPair,("nullptr value_a.mpPair ?"));
+				Dbg_MsgAssert(value_b.mpPair,("nullptr value_b.mpPair ?"));
 				return value_a.mpPair->mX==value_b.mpPair->mX && 
 					   value_a.mpPair->mY==value_b.mpPair->mY;
 			}
@@ -1438,8 +1438,8 @@ bool CComponent::operator==( const CComponent& v ) const
 		case ESYMBOLTYPE_VECTOR:
 			if (type_b==ESYMBOLTYPE_VECTOR)
 			{
-				Dbg_MsgAssert(value_a.mpVector,("NULL value_a.mpVector ?"));
-				Dbg_MsgAssert(value_b.mpVector,("NULL value_b.mpVector ?"));
+				Dbg_MsgAssert(value_a.mpVector,("nullptr value_a.mpVector ?"));
+				Dbg_MsgAssert(value_b.mpVector,("nullptr value_b.mpVector ?"));
 				return value_a.mpVector->mX==value_b.mpVector->mX && 
 					   value_a.mpVector->mY==value_b.mpVector->mY &&
 					   value_a.mpVector->mZ==value_b.mpVector->mZ;
@@ -1454,8 +1454,8 @@ bool CComponent::operator==( const CComponent& v ) const
 		case ESYMBOLTYPE_STRUCTURE:
 			if (type_b==ESYMBOLTYPE_STRUCTURE)
 			{
-				Dbg_MsgAssert(value_a.mpStructure,("NULL value_a.mpStructure ?"));
-				Dbg_MsgAssert(value_b.mpStructure,("NULL value_b.mpStructure ?"));
+				Dbg_MsgAssert(value_a.mpStructure,("nullptr value_a.mpStructure ?"));
+				Dbg_MsgAssert(value_b.mpStructure,("nullptr value_b.mpStructure ?"));
 				
 				// The structures definitely match if the pointers match, cos its the 
 				// same bloomin' structure.
@@ -1476,8 +1476,8 @@ bool CComponent::operator==( const CComponent& v ) const
 		case ESYMBOLTYPE_ARRAY:
 			if (type_b==ESYMBOLTYPE_ARRAY)
 			{
-				Dbg_MsgAssert(value_a.mpArray,("NULL value_a.mpArray ?"));
-				Dbg_MsgAssert(value_b.mpArray,("NULL value_b.mpArray ?"));
+				Dbg_MsgAssert(value_a.mpArray,("nullptr value_a.mpArray ?"));
+				Dbg_MsgAssert(value_b.mpArray,("nullptr value_b.mpArray ?"));
 				
 				// The arrays definitely match if the pointers match.
 				if (value_a.mpArray==value_b.mpArray)
@@ -1550,8 +1550,8 @@ bool CComponent::operator<( const CComponent& v ) const
 		case ESYMBOLTYPE_STRING:
 			if (type_b==ESYMBOLTYPE_STRING)
 			{
-				Dbg_MsgAssert(value_a.mpString,("NULL value_a.mpString ?"));
-				Dbg_MsgAssert(value_b.mpString,("NULL value_b.mpString ?"));
+				Dbg_MsgAssert(value_a.mpString,("nullptr value_a.mpString ?"));
+				Dbg_MsgAssert(value_b.mpString,("nullptr value_b.mpString ?"));
 				// Using string length rather than position in the alphabet, cos it's
 				// probably more useful.
 				return strlen(value_a.mpString) < strlen(value_b.mpString);
@@ -1560,8 +1560,8 @@ bool CComponent::operator<( const CComponent& v ) const
 		case ESYMBOLTYPE_LOCALSTRING:
 			if (type_b==ESYMBOLTYPE_LOCALSTRING)
 			{
-				Dbg_MsgAssert(value_a.mpLocalString,("NULL value_a.mpLocalString ?"));
-				Dbg_MsgAssert(value_b.mpLocalString,("NULL value_b.mpLocalString ?"));
+				Dbg_MsgAssert(value_a.mpLocalString,("nullptr value_a.mpLocalString ?"));
+				Dbg_MsgAssert(value_b.mpLocalString,("nullptr value_b.mpLocalString ?"));
 				return strlen(value_a.mpLocalString) < strlen(value_b.mpLocalString);
 			}
 			break;
@@ -1607,8 +1607,8 @@ bool CComponent::operator>( const CComponent& v ) const
 		case ESYMBOLTYPE_STRING:
 			if (type_b==ESYMBOLTYPE_STRING)
 			{
-				Dbg_MsgAssert(value_a.mpString,("NULL value_a.mpString ?"));
-				Dbg_MsgAssert(value_b.mpString,("NULL value_b.mpString ?"));
+				Dbg_MsgAssert(value_a.mpString,("nullptr value_a.mpString ?"));
+				Dbg_MsgAssert(value_b.mpString,("nullptr value_b.mpString ?"));
 				// Using string length rather than position in the alphabet, cos it's
 				// probably more useful.
 				return strlen(value_a.mpString) > strlen(value_b.mpString);
@@ -1617,8 +1617,8 @@ bool CComponent::operator>( const CComponent& v ) const
 		case ESYMBOLTYPE_LOCALSTRING:
 			if (type_b==ESYMBOLTYPE_LOCALSTRING)
 			{
-				Dbg_MsgAssert(value_a.mpLocalString,("NULL value_a.mpLocalString ?"));
-				Dbg_MsgAssert(value_b.mpLocalString,("NULL value_b.mpLocalString ?"));
+				Dbg_MsgAssert(value_a.mpLocalString,("nullptr value_a.mpLocalString ?"));
+				Dbg_MsgAssert(value_b.mpLocalString,("nullptr value_b.mpLocalString ?"));
 				return strlen(value_a.mpLocalString) > strlen(value_b.mpLocalString);
 			}
 			break;
@@ -1664,9 +1664,9 @@ bool CComponent::operator>=( const CComponent& v ) const
 // the switch statement.
 void CopyArrayElementIntoComponent(CArray *p_array, uint32 index, CComponent *p_comp)
 {
-	Dbg_MsgAssert(p_array,("NULL p_array"));
+	Dbg_MsgAssert(p_array,("nullptr p_array"));
 	Dbg_MsgAssert(index<p_array->GetSize(),("Array index %d out of range, array size is %d",index,p_array->GetSize()));
-	Dbg_MsgAssert(p_comp,("NULL p_comp"));
+	Dbg_MsgAssert(p_comp,("nullptr p_comp"));
 	
 	p_comp->mType=p_array->GetType();
 	switch (p_comp->mType)
@@ -1719,7 +1719,7 @@ void CopyArrayElementIntoComponent(CArray *p_array, uint32 index, CComponent *p_
 // This is used in parse.cpp, and cfuncs.cpp in sFormatText
 void ResolveNameComponent(CComponent *p_comp)
 {
-	Dbg_MsgAssert(p_comp,("NULL p_comp"));
+	Dbg_MsgAssert(p_comp,("nullptr p_comp"));
 
 	if (p_comp->mType!=ESYMBOLTYPE_NAME)
 	{

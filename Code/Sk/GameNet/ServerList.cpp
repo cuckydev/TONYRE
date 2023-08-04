@@ -137,7 +137,7 @@ bool	gEnteringFromMainMenu;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }*/
 #endif // __PLAT_NGPS__
 
@@ -364,7 +364,7 @@ void	Manager::s_server_list_state_code( const Tsk::Task< Manager >& task )
 		{
 			// If we didn't get any lobbies, that either means the matchmaker's down or their
 			// connection isn't valid
-			if( man.mpLobbyMan->GetLobbyInfo( 0 ) == NULL )
+			if( man.mpLobbyMan->GetLobbyInfo( 0 ) == nullptr )
 			{
 				Script::CScriptStructure* pStructure = new Script::CScriptStructure;
 				
@@ -620,10 +620,10 @@ void	Manager::PostGame( void )
 	s_gamespy_parse_data[0] = '\0';
 
 	// Hardcode the IP of the master server until we get the message of the day squared away
-	result = qr_init_socket( NULL, m_server->GetSocket(), "thps4ps2", "H2r8W1", basic_callback,
+	result = qr_init_socket( nullptr, m_server->GetSocket(), "thps4ps2", "H2r8W1", basic_callback,
 							 info_callback, rules_callback, players_callback, this );
 	// Uncomment for media burns
-	//result = qr_init_socket( NULL, m_server->GetSocket(), "thps3media", "tRKg39", basic_callback,
+	//result = qr_init_socket( nullptr, m_server->GetSocket(), "thps3media", "tRKg39", basic_callback,
 							 //info_callback, rules_callback, players_callback, this );
 	 
 	switch( result )
@@ -701,7 +701,7 @@ ServerInfo*		Manager::GetServerFocus( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -822,11 +822,11 @@ GHTTPBool	Manager::MotdComplete( GHTTPRequest request, GHTTPResult result, char*
 			{
 				//Dbg_Printf( "Matched!\n" );
 				// Next token is the IP address for the gamespy servers
-				ip_ptr = strtok( NULL, " " );
+				ip_ptr = strtok( nullptr, " " );
 				if( ip_ptr )
 				{
 					//Dbg_Printf( "Got an IP Pointer of %s!\n", ip_ptr );
-					message = strtok( NULL, "\n" );
+					message = strtok( nullptr, "\n" );
 					if( message )
 					{
 						//Dbg_Printf( "Got a message of %s\n", message );
@@ -948,10 +948,10 @@ void		Manager::s_threaded_get_message_of_the_day( Manager* gamenet_man )
 	sprintf( motd_path, "http://www.thugonline.com/motd.txt" );
 	//sprintf( motd_path, "http://www.neversoft.com/thps5/motd.txt" );
 	gamenet_man->m_ghttp_request = ghttpGetEx( 	motd_path,
-												NULL,
+												nullptr,
 												gamenet_man->m_motd,
 												1024,
-												NULL,
+												nullptr,
 												GHTTPFalse,
 												GHTTPFalse,
 												MotdProgress,
@@ -1286,7 +1286,7 @@ bool	Manager::StartServerList( void )
 
 		Mem::Manager::sHandle().PopContext();
 
-		if( client == NULL )
+		if( client == nullptr )
 		{
 			return false;
 		}
@@ -1422,7 +1422,7 @@ void	Manager::RefreshServerList( bool force_refresh )
 		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().InternetBottomUpHeap());
 		
 		Dbg_Printf( "******** START LISTING GAMES **********\n" );
-		peerStartListingGames( mpLobbyMan->GetPeer(), key_list, sizeof(key_list), NULL, 
+		peerStartListingGames( mpLobbyMan->GetPeer(), key_list, sizeof(key_list), nullptr, 
 								s_server_list_callback, this );
 		Mem::Manager::sHandle().PopContext();
 #endif
@@ -1552,7 +1552,7 @@ ServerInfo*	Manager::GetServerInfo( uint32 id )
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1579,7 +1579,7 @@ ServerInfo::ServerInfo( void ) : Lst::Node< ServerInfo > ( this )
 	m_HasBasicInfo = false;
 	m_HasFullInfo = false;
 #ifdef __PLAT_NGPS__
-	m_GServer = NULL;
+	m_GServer = nullptr;
 #endif
 }
 
@@ -1659,7 +1659,7 @@ char*	ServerInfo::GetPlayerName( int index )
 		index--;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

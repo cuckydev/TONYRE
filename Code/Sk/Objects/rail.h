@@ -79,8 +79,8 @@ protected:
 
     Mth::Quat m_orientation;    // orientation of the rail node; only set for climbing nodes
 	
-	CRailNode *m_pNextLink;		// Pointer to next Node	in rail(or NULL if none)
-	CRailNode *m_pPrevLink;		// Pointer to previous Node	(or NULL if none)
+	CRailNode *m_pNextLink;		// Pointer to next Node	in rail(or nullptr if none)
+	CRailNode *m_pPrevLink;		// Pointer to previous Node	(or nullptr if none)
 
 	Flags< ERailNodeFlag > m_flags; // flags for rail segment
 	
@@ -123,7 +123,7 @@ public:
 	bool			CheckForHangRail ( const Mth::Vector& start_pos, const Mth::Vector& end_pos, const Mth::Vector& facing, CWalkComponent* p_walk_component, SHangRailData& rail_data, float snap_distance );
 	bool			RailNodesAreCoincident ( const CRailNode* p_node_a, const CRailNode* p_node_b );
 	bool			CheckForCoincidentRailNode ( const CRailNode* p_node, uint32 ignore_mask, const CRailNode** pp_next_node );
-    bool 			StickToRail(const Mth::Vector &pos1, const Mth::Vector &pos2, Mth::Vector *p_point, Obj::CRailNode **pp_rail_node, const Obj::CRailNode *p_ignore_node = NULL, float min_dot = 1.0f, int side = 0);
+    bool 			StickToRail(const Mth::Vector &pos1, const Mth::Vector &pos2, Mth::Vector *p_point, Obj::CRailNode **pp_rail_node, const Obj::CRailNode *p_ignore_node = nullptr, float min_dot = 1.0f, int side = 0);
 	
 	void 			SetActive( int node, int active, bool wholeRail );
 	bool 			IsActive( int node );
@@ -132,7 +132,7 @@ public:
 	void 			MoveNode( int node, Mth::Vector &pos );
 
 	
-	void			DebugRender(Mth::Matrix *p_transform = NULL);
+	void			DebugRender(Mth::Matrix *p_transform = nullptr);
 	void			RemoveOverlapping();
 	
 	int				GetNumNodes(){return m_num_nodes;}

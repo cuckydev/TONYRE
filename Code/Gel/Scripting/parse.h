@@ -114,7 +114,7 @@ uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_com
 
 // Exported because needed by CScript when generating the structure of function 
 // parameters when executing each line of script.
-uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_args=NULL);
+uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_args=nullptr);
 
 // Used by UnloadQB in file.cpp
 void CleanUpAndRemoveSymbol(CSymbolTableEntry *p_sym);

@@ -148,7 +148,7 @@ void CBaseManager::UnregisterObject( CObject& obj )
 	if ( obj.m_node.InList() )
 	{
 		obj.m_node.Remove();
-		obj.mp_manager = NULL;
+		obj.mp_manager = nullptr;
 
 		// set all list changed bits
 		m_list_changed = 0xFFFFFFFF;

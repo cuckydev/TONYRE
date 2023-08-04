@@ -99,10 +99,10 @@ void filesync_async_callback(File::CAsyncFileHandle*, File::EAsyncFunctionType f
 CFileLibrary::CFileLibrary()
 {
 #ifndef __PLAT_NGC__
-	mp_baseBuffer = NULL;
-	mp_fileBuffer = NULL;
+	mp_baseBuffer = nullptr;
+	mp_fileBuffer = nullptr;
 #endif		// __PLAT_NGC__
-	mp_fileHandle = NULL;
+	mp_fileHandle = nullptr;
 	m_dataLoaded = false;
 }
 
@@ -119,7 +119,7 @@ CFileLibrary::~CFileLibrary()
 	if ( mp_baseBuffer )
 	{
 		Mem::Free( mp_baseBuffer );
-		mp_baseBuffer = NULL;
+		mp_baseBuffer = nullptr;
 	}
 #endif		// __PLAT_NGC__
 	
@@ -151,7 +151,7 @@ bool CFileLibrary::PostLoad( bool assertOnFail, int file_size )
 	if ( mp_fileHandle )
 	{
 		File::CAsyncFileLoader::sClose( mp_fileHandle );
-		mp_fileHandle = NULL;
+		mp_fileHandle = nullptr;
 	}
 	
 	Dbg_MsgAssert( (file_size & 0x3) == 0, ( "Size of file is not multiple of 4 (%d bytes)", file_size ) );
@@ -200,7 +200,7 @@ bool CFileLibrary::PostLoad( bool assertOnFail, int file_size )
 	{
 #ifdef __PLAT_NGC__
 		m_fileOffsets[i] = (uint32)(m_aramOffset + m_fileInfo[i].fileOffset);
-		mp_filePointers[i] = NULL;
+		mp_filePointers[i] = nullptr;
 #else
 		mp_filePointers[i] = (uint32*)(mp_fileBuffer + m_fileInfo[i].fileOffset);
 #endif		// __PLAT_NGC__
@@ -243,8 +243,8 @@ bool CFileLibrary::PostLoad( bool assertOnFail, int file_size )
 	// by this point, all that should be left in the original block
 	// is the header, which we don't need any more
 	Mem::Free( mp_baseBuffer );
-	mp_baseBuffer = NULL;
-	mp_fileBuffer = NULL;
+	mp_baseBuffer = nullptr;
+	mp_fileBuffer = nullptr;
 #endif		// __PLAT_NGC__
 
 	// if the data is ready to be accessed
@@ -315,7 +315,7 @@ bool CFileLibrary::Load( const char* p_fileName, bool assertOnFail, bool async_l
 		{
 			Dbg_MsgAssert( 0, ("Library file %s size is 0 (possibly not found?)", p_fileName) );
 			File::CAsyncFileLoader::sClose( mp_fileHandle );
-			mp_fileHandle = NULL;
+			mp_fileHandle = nullptr;
 			return false;
 		}
 
@@ -403,8 +403,8 @@ bool CFileLibrary::Load( const char* p_fileName, bool assertOnFail, bool async_l
 		if ( !File::Read( mp_fileBuffer, 1, file_size, pStream ) )
 		{
 			Mem::Free( mp_fileBuffer );
-			mp_baseBuffer = NULL;
-			mp_fileBuffer = NULL;
+			mp_baseBuffer = nullptr;
+			mp_fileBuffer = nullptr;
 			File::Close( pStream );
 
 			Dbg_MsgAssert( assertOnFail, ( "Load of %s failed - bad format?", p_fileName ) );
@@ -536,7 +536,7 @@ const SFileInfo* CFileLibrary::GetFileInfo( uint32 name, uint32 extension, bool 
 		Dbg_MsgAssert( 0, ( "Couldn't find file %08x %08x\n", name, extension ) );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -559,7 +559,7 @@ uint32* CFileLibrary::GetFileData( uint32 name, uint32 extension, bool assertOnF
 		Dbg_MsgAssert( 0, ( "Couldn't find file %08x %08x\n", name, extension ) );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -576,7 +576,7 @@ bool CFileLibrary::ClearFile( uint32 name, uint32 extension )
 		if ( m_fileInfo[index].fileNameChecksum == name && m_fileInfo[index].fileExtensionChecksum == extension )
 		{
 			Mem::Free( mp_filePointers[index] );
-			mp_filePointers[index] = NULL;
+			mp_filePointers[index] = nullptr;
 			success = true;
 		}
 	}

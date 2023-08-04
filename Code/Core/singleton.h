@@ -46,7 +46,7 @@ To make a class such as CStats a singleton class, you do this:
 	}
 
 This macro just places some static functions in the class, and a static pointer to 
-the single instance of class itself (initially NULL)
+the single instance of class itself (initially nullptr)
 
 You can then initialize the singleton by the line
 
@@ -234,14 +234,14 @@ private:																	\
 public:																		\
 	inline static void	Create(void) {sp_sgltn_instance = new _T;}			\
 	inline static _T*	Instance(void) {return sp_sgltn_instance;}			\
-	inline bool	Initilized(void) {return (sp_sgltn_instance!=NULL);}		\
+	inline bool	Initilized(void) {return (sp_sgltn_instance!=nullptr);}		\
 																			\
 	friend class Spt::SingletonPtr< _T >;									\
 
 
 #define DefinePlacementSingletonClass(_T, _P, _N )							\
 																			\
-_T*		_T::sp_sgltn_instance = NULL;										\
+_T*		_T::sp_sgltn_instance = nullptr;										\
 uint	_T::s_sgltn_count = 0;												\
 																			\
 _T*	_T::sSgltnInstance( bool create )										\
@@ -272,13 +272,13 @@ void _T::sSgltnDelete( void )												\
 	}																		\
 																			\
 	delete sp_sgltn_instance;												\
-	sp_sgltn_instance = NULL;												\
+	sp_sgltn_instance = nullptr;												\
 	s_sgltn_count = 0;														\
 }																			\
 
 														 
 #define	DefineSingletonClass(_T,_N)		\
-		DefinePlacementSingletonClass(_T, (Mem::Allocator*)NULL, _N )
+		DefinePlacementSingletonClass(_T, (Mem::Allocator*)nullptr, _N )
 
 /*****************************************************************************
 **							 Private Declarations							**

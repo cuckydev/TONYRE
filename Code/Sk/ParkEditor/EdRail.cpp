@@ -73,7 +73,7 @@ namespace Ed
 RailPoint::RailPoint() :
 	m_pos(0.0f, 0.0f, 0.0f, 0.0f)
 {
-	mp_next = NULL;
+	mp_next = nullptr;
 }
 
 
@@ -88,9 +88,9 @@ RailPoint::~RailPoint()
 
 RailString::RailString()
 {
-	mp_pointList = NULL;
+	mp_pointList = nullptr;
 	m_numPoints = 0;
-	mp_next = NULL;
+	mp_next = nullptr;
 
 	m_isLoop = false;
 }
@@ -127,8 +127,8 @@ void RailString::Destroy()
 		mp_parentSet->DestroyRailPoint(pPoint);
 		pPoint = pNext;
 	}
-	mp_pointList = NULL;
-	mp_lastPoint = NULL;
+	mp_pointList = nullptr;
+	mp_lastPoint = nullptr;
 	m_numPoints = 0;
 }
 
@@ -143,7 +143,7 @@ int	RailString::CountLinkedPoints()
 		return Count();
 
 	int count = 0;
-	for (RailPoint *pPoint = mp_pointList; pPoint != NULL; pPoint = pPoint->mp_next)
+	for (RailPoint *pPoint = mp_pointList; pPoint != nullptr; pPoint = pPoint->mp_next)
 		count++;
 
 	Dbg_MsgAssert(count > 1, ("invalid number of linked rail points in a rail (%d) need 2 or more",count));
@@ -211,11 +211,11 @@ void RailString::CopyOffsetAndRot(RailString *pSource, Mth::Vector &pos, int rot
 
 RailSet::RailSet()
 {
-	mp_stringList = NULL;
+	mp_stringList = nullptr;
 	m_numStrings = 0;
 
-	mp_pointAllocator = NULL;
-	mp_stringAllocator = NULL;
+	mp_pointAllocator = nullptr;
+	mp_stringAllocator = nullptr;
 }
 
 
@@ -251,8 +251,8 @@ void RailSet::Destroy()
 		DestroyRailString(pString);
 		pString = pNext;
 	}
-	mp_stringList = NULL;
-	mp_lastString = NULL;
+	mp_stringList = nullptr;
+	mp_lastString = nullptr;
 	m_numStrings = 0;
 }
 
@@ -290,7 +290,7 @@ RailString *RailSet::GetString(uint32 id, int requested_num)
 		}
 		pString = pString->GetNext();
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -307,9 +307,9 @@ void RailSet::SetupAllocators(int num_points, int num_strings, bool in_set)
 	char string_name[64];
 	sprintf(string_name, "%s RailString", m_setName);
 	
-	Dbg_MsgAssert(mp_pointAllocator==NULL,("mp_pointAllocator not NULL"));
+	Dbg_MsgAssert(mp_pointAllocator==nullptr,("mp_pointAllocator not nullptr"));
 	mp_pointAllocator = new Mem::CCompactPool(sizeof(RailPoint), num_points, point_name);
-	Dbg_MsgAssert(mp_stringAllocator==NULL,("mp_stringAllocator not NULL"));
+	Dbg_MsgAssert(mp_stringAllocator==nullptr,("mp_stringAllocator not nullptr"));
 	mp_stringAllocator = new Mem::CCompactPool(sizeof(RailString), num_strings, string_name);
 }
 
@@ -321,12 +321,12 @@ void RailSet::FreeAllocators()
 	if (mp_stringAllocator)
 	{
 		delete mp_stringAllocator;
-		mp_stringAllocator=NULL;
+		mp_stringAllocator=nullptr;
 	}
 	if (mp_pointAllocator)
 	{
 		delete mp_pointAllocator;
-		mp_pointAllocator=NULL;
+		mp_pointAllocator=nullptr;
 	}	
 }
 

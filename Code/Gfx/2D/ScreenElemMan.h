@@ -35,7 +35,7 @@ public:
 	CScreenElementPtr 			CreateElement(uint32 type, uint32 id, Script::CStruct *pProps);
 	enum 						ERecurse { DONT_RECURSE = 0, RECURSE = 1};
 	enum 						EPreserveParent { DONT_PRESERVE_PARENT = 0, PRESERVE_PARENT = 1};
-	void						DestroyElement(uint32 id, ERecurse recurse = RECURSE, EPreserveParent preserveParent = DONT_PRESERVE_PARENT, Script::CScript *pCallingScript = NULL);
+	void						DestroyElement(uint32 id, ERecurse recurse = RECURSE, EPreserveParent preserveParent = DONT_PRESERVE_PARENT, Script::CScript *pCallingScript = nullptr);
 
 	void						SetParent(const CScreenElementPtr &pParent, const CScreenElementPtr &pChild, CScreenElement::EPosRecalc recalculatePosition = CScreenElement::vRECALC_POS);
 	enum EAssert

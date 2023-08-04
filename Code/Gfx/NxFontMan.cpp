@@ -89,7 +89,7 @@ void CFontManager::sUnloadFont(const char *pName)
 			s_font_lookup.FlushItem(Script::GenerateCRC(pName));
 			
 			s_plat_unload_font(s_font_tab[i].mp_font);
-			s_font_tab[i].mp_font = NULL;
+			s_font_tab[i].mp_font = nullptr;
 			
 			break;
 		}
@@ -97,30 +97,30 @@ void CFontManager::sUnloadFont(const char *pName)
 }
 
 
-// returns pointer to font if loaded, NULL if not
+// returns pointer to font if loaded, nullptr if not
 Nx::CFont *CFontManager::sGetFont(uint32 checksum)
 {
 	FontEntry *p_entry = s_font_lookup.GetItem(checksum);
 	if (p_entry)
 		return p_entry->mp_font;
 	else
-		return NULL;
+		return nullptr;
 }
 
-// returns pointer to font if loaded, NULL if not
+// returns pointer to font if loaded, nullptr if not
 Nx::CFont *CFontManager::sGetFont(const char *pName)
 {
 	return sGetFont(Script::GenerateCRC(pName));
 }
 
-// returns pointer to name if loaded, NULL if not
+// returns pointer to name if loaded, nullptr if not
 const char *CFontManager::sTestFontLoaded(uint32 checksum)
 {
 	FontEntry *p_entry = s_font_lookup.GetItem(checksum);
 	if (p_entry)
 		return p_entry->mName;
 	else
-		return NULL;
+		return nullptr;
 }
 
 

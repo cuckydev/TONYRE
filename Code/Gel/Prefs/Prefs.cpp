@@ -119,7 +119,7 @@ void Preferences::ReadFromBuffer(uint8 *pBuffer)
 
 Script::CStruct* Preferences::GetPreference( uint32 field_id )
 {
-	Script::CStruct* p_structure = NULL;
+	Script::CStruct* p_structure = nullptr;
 	m_root.GetStructure( field_id, &p_structure );
 	return p_structure;
 }
@@ -131,7 +131,7 @@ Script::CStruct* Preferences::GetPreference( uint32 field_id )
 
 Script::CArray* Preferences::GetPreferenceArray( uint32 field_id )
 {
-	Script::CArray* p_array = NULL;
+	Script::CArray* p_array = nullptr;
 	m_root.GetArray( field_id, &p_array );
 
 	return p_array;
@@ -144,7 +144,7 @@ Script::CArray* Preferences::GetPreferenceArray( uint32 field_id )
 
 void Preferences::RemoveComponent( uint32 field_id, uint32 sub_field_id )
 {
-	Script::CStruct* p_structure = NULL;
+	Script::CStruct* p_structure = nullptr;
 	m_root.GetStructure( field_id, &p_structure );
 
 	p_structure->RemoveComponent( sub_field_id );
@@ -157,8 +157,8 @@ void Preferences::RemoveComponent( uint32 field_id, uint32 sub_field_id )
 void Preferences::SetRoot(Script::CStruct* pStuff)
 {
 	
-	// OK if pStuff is NULL, so no need to assert
-	// Probably still an error if it is NULL, but AppendStructure won't crash if it is.
+	// OK if pStuff is nullptr, so no need to assert
+	// Probably still an error if it is nullptr, but AppendStructure won't crash if it is.
 	
 	// Don't clear out the options structure. New stuff should just override old options
 	//m_root.Clear();
@@ -172,7 +172,7 @@ void Preferences::SetRoot(Script::CStruct* pStuff)
 
 const char* Preferences::GetPreferenceString( uint32 field_id, uint32 sub_field_id )
 {
-	Script::CStruct* p_structure = NULL;
+	Script::CStruct* p_structure = nullptr;
 	m_root.GetStructure( field_id, &p_structure );
 
 	const char* p_string;
@@ -187,7 +187,7 @@ const char* Preferences::GetPreferenceString( uint32 field_id, uint32 sub_field_
 
 int Preferences::GetPreferenceValue( uint32 field_id, uint32 sub_field_id )
 {
-	Script::CStruct* p_structure = NULL;
+	Script::CStruct* p_structure = nullptr;
 	m_root.GetStructure( field_id, &p_structure );
 
 	int returnVal;
@@ -202,7 +202,7 @@ int Preferences::GetPreferenceValue( uint32 field_id, uint32 sub_field_id )
 
 uint32 Preferences::GetPreferenceChecksum( uint32 field_id, uint32 sub_field_id )
 {
-	Script::CStruct* p_structure = NULL;
+	Script::CStruct* p_structure = nullptr;
 	m_root.GetStructure( field_id, &p_structure, true );
 
 	uint32 returnVal;
@@ -219,7 +219,7 @@ bool Preferences::SetPreference( uint32 field_id, Script::CStruct* p_to_append )
 {
 	
 	
-	Script::CStruct* p_structure = NULL;
+	Script::CStruct* p_structure = nullptr;
 
 	// TODO:  Decide if we can add preferences at runtime,
 	// or whether all the categories already exist at load-time
@@ -244,7 +244,7 @@ bool Preferences::SetPreference( uint32 field_id, Script::CStruct* p_to_append )
 
 bool Preferences::SetPreference( uint32 field_id, Script::CArray* p_to_append )
 {
-	Script::CArray* p_array = NULL;
+	Script::CArray* p_array = nullptr;
 
 	// TODO:  Decide if we can add preferences at runtime,
 	// or whether all the categories already exist at load-time
@@ -312,11 +312,11 @@ bool Preferences::UpdateUIElement( uint32 control_id, uint32 field_id, bool mask
 {
 	
 	
-	Script::CStruct* pStructure = NULL;
+	Script::CStruct* pStructure = nullptr;
 	m_root.GetStructure( field_id, &pStructure, true );
 
 	char buf[256];
-	const char* pText = NULL;
+	const char* pText = nullptr;
 	int value = 0;
 	if ( pStructure->GetText( "ui_string", &pText ) )
 	{

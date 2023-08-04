@@ -44,10 +44,10 @@ CScreenElement::CScreenElement()
 	: CObject()
 {
 	m_key_time = 0;
-	mp_parent = NULL;
-	mp_child_list = NULL;
-	mp_prev_sibling = NULL;
-	mp_next_sibling = NULL;
+	mp_parent = nullptr;
+	mp_child_list = nullptr;
+	mp_prev_sibling = nullptr;
+	mp_next_sibling = nullptr;
 
 	m_local_props.SetScale(1.0f, 1.0f);
 	m_local_props.SetAbsoluteScale(1.0f, 1.0f);
@@ -87,7 +87,7 @@ CScreenElement::CScreenElement()
 
 CScreenElement::~CScreenElement()
 {
-	set_parent(NULL, vDONT_RECALC_POS);
+	set_parent(nullptr, vDONT_RECALC_POS);
 	m_id = 0xDEADBEEF;
 }
 
@@ -1047,7 +1047,7 @@ CWindowElement * CScreenElement::get_window()
 	}
 
 	Dbg_MsgAssert(0, ("Could not find window for CScreenElement."));
-	return NULL;
+	return nullptr;
 }
 
 /*
@@ -1125,8 +1125,8 @@ void CScreenElement::set_parent(const CScreenElementPtr &pParent, EPosRecalc rec
 	}
 	else
 		// no parent, therefore no siblings
-		mp_prev_sibling = NULL;
-	mp_next_sibling = NULL;
+		mp_prev_sibling = nullptr;
+	mp_next_sibling = nullptr;
 
 	if (pParent)
 		auto_set_z_priorities_recursive(pParent->m_z_priority + AUTO_Z_SPACE);

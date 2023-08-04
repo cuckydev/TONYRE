@@ -38,8 +38,8 @@ CSkaterFinalizePhysicsComponent::CSkaterFinalizePhysicsComponent() : CBaseCompon
 {
 	SetType( CRC_SKATERFINALIZEPHYSICS );
 
-	mp_core_physics_component = NULL;
-	mp_state_component = NULL;
+	mp_core_physics_component = nullptr;
+	mp_state_component = nullptr;
 }
 
 /******************************************************************/
@@ -181,7 +181,7 @@ CBaseComponent::EMemberFunctionResult CSkaterFinalizePhysicsComponent::CallMembe
 void CSkaterFinalizePhysicsComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterFinalizePhysicsComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterFinalizePhysicsComponent::GetDebugInfo"));
 	
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

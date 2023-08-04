@@ -55,7 +55,7 @@ CBonedAnimController::~CBonedAnimController()
 	if ( mp_quickAnim )
 	{
 		Nx::CEngine::sUninitQuickAnim( mp_quickAnim );
-		mp_quickAnim = NULL;
+		mp_quickAnim = nullptr;
 	}
 }
 
@@ -203,7 +203,7 @@ CWobbleController::~CWobbleController()
 	if ( mp_quickAnim )
 	{
 		Nx::CEngine::sUninitQuickAnim( mp_quickAnim );
-		mp_quickAnim = NULL;
+		mp_quickAnim = nullptr;
 	}
 }
 
@@ -1444,13 +1444,13 @@ CPartialAnimController::~CPartialAnimController()
 	if ( mp_quickAnim )
 	{
 		Nx::CEngine::sUninitQuickAnim( mp_quickAnim );
-		mp_quickAnim = NULL;
+		mp_quickAnim = nullptr;
 	}
 
 	if ( mp_animChannel )
 	{
 		delete mp_animChannel;
-		mp_animChannel = NULL;
+		mp_animChannel = nullptr;
 	}
 }
 
@@ -1471,7 +1471,7 @@ void CPartialAnimController::InitFromStructure( Script::CStruct* pParams )
 	float Current = 0.0f;
 	Obj::CAnimationComponent* pAnimationComponent = GetAnimationComponentFromObject( GetObj() );
 	float Duration = pAnimationComponent->AnimDuration( anim_name );
-	Gfx::GetTimeFromParams( &From, &To, Current, Duration, pParams, NULL );
+	Gfx::GetTimeFromParams( &From, &To, Current, Duration, pParams, nullptr );
 	  
 	Gfx::EAnimLoopingType loopingType;
 	Gfx::GetLoopingTypeFromParams( &loopingType, pParams );

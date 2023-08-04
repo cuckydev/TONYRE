@@ -192,7 +192,7 @@ void plat_texture_splat_initialize( void );
 void plat_texture_splat_cleanup( void );
 void plat_texture_splat_render( void );
 void plat_texture_splat_reset_poly( sSplatInstanceDetails *p_details, int index );
-bool plat_texture_splat( Nx::CSector **pp_sectors, Nx::CCollStatic **pp_collision, Mth::Vector& start, Mth::Vector& end, float size, float lifetime, Nx::CTexture *p_texture, Nx::sSplatTrailInstanceDetails *p_trail_details = NULL );
+bool plat_texture_splat( Nx::CSector **pp_sectors, Nx::CCollStatic **pp_collision, Mth::Vector& start, Mth::Vector& end, float size, float lifetime, Nx::CTexture *p_texture, Nx::sSplatTrailInstanceDetails *p_trail_details = nullptr );
 
 void plat_shatter_initialize( void );
 void plat_shatter_cleanup( void );

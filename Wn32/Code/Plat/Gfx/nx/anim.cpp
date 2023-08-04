@@ -367,7 +367,7 @@ void setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matric
 	// the normal by the world transform for every vertex in the vertex shader. However, the function D3DXVec3TransformNormal
 	// (used below) does the inverse transform for us, so need to actually figure the inverse...
 //	XGMATRIX inverse_world_transform = worldMatrix;
-//	D3DXMatrixInverse( &inverse_world_transform, NULL, &worldMatrix );
+//	D3DXMatrixInverse( &inverse_world_transform, nullptr, &worldMatrix );
 
 	float directional_light_color[24];
 	CopyMemory( directional_light_color, EngineGlobals.directional_light_color, sizeof( float ) * 24 );

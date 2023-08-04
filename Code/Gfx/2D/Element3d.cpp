@@ -48,7 +48,7 @@ static float sGetScaleFromScreenDimensions(float screenW, float screenH, float z
 // screenX, screenY indicate where the origin of the model will be located
 static void sGetWorldMatrixFromScreenPosition(int camera_num, Mth::Matrix *p_world_matrix, float screenX, float screenY, float zOffset, Mth::Vector &model_offs)
 {
-	Dbg_MsgAssert(p_world_matrix,("NULL p_world_matrix"));
+	Dbg_MsgAssert(p_world_matrix,("nullptr p_world_matrix"));
 	Dbg_MsgAssert((camera_num >= 0) && (camera_num < Nx::CViewportManager::vMAX_NUM_ACTIVE_VIEWPORTS), ("Camera number is out of range: %d", camera_num));
 
 	Mth::Vector camera_space_pos;
@@ -131,8 +131,8 @@ CElement3d::CElement3d()
 {
 	for (int i=0; i<MAX_MODELS_PER_ELEMENT; ++i)
 	{
-		mp_models[i].mpModel=NULL;
-        mp_models[i].mpSkeleton=NULL;
+		mp_models[i].mpModel=nullptr;
+        mp_models[i].mpSkeleton=nullptr;
 		mp_models[i].mOffset.Set();
 	}
 	m_num_models=0;
@@ -191,7 +191,7 @@ void CElement3d::UnloadModels()
 		if (mp_models[i].mpModel)
 		{
 			Nx::CEngine::sUninitModel(mp_models[i].mpModel);
-			mp_models[i].mpModel=NULL;
+			mp_models[i].mpModel=nullptr;
 		}	
 
         if (mp_models[i].mpSkeleton)
@@ -242,7 +242,7 @@ Nx::CModel* CElement3d::CreateModel( uint32 skeleton_name, Mth::Vector offset )
 	Dbg_MsgAssert(m_num_models<MAX_MODELS_PER_ELEMENT,("Reached max models for one CElement3d"));
 
 	Nx::CModel *p_new_model=Nx::CEngine::sInitModel();
-	Dbg_MsgAssert(p_new_model,("Nx::CEngine::sInitModel() returned NULL"));
+	Dbg_MsgAssert(p_new_model,("Nx::CEngine::sInitModel() returned nullptr"));
 
 	if ( skeleton_name )
 	{
@@ -252,7 +252,7 @@ Nx::CModel* CElement3d::CreateModel( uint32 skeleton_name, Mth::Vector offset )
 
 	p_new_model->SetColor(m_rgba.r,m_rgba.g,m_rgba.b,m_rgba.a);
 
-	Dbg_MsgAssert(mp_models[m_num_models].mpModel==NULL,("mp_models[m_num_models].mpModel not NULL ?"));
+	Dbg_MsgAssert(mp_models[m_num_models].mpModel==nullptr,("mp_models[m_num_models].mpModel not nullptr ?"));
 	mp_models[m_num_models].mpModel=p_new_model;
 	
 	mp_models[m_num_models].mOffset=offset;
@@ -271,7 +271,7 @@ void CElement3d::AddModel(const char *p_model_name, uint32 skeleton_name, Mth::V
 	Dbg_MsgAssert(m_num_models<MAX_MODELS_PER_ELEMENT,("Reached max models for one CElement3d"));
 		
 	Nx::CModel *p_new_model=Nx::CEngine::sInitModel();
-	Dbg_MsgAssert(p_new_model,("Nx::CEngine::sInitModel() returned NULL"));
+	Dbg_MsgAssert(p_new_model,("Nx::CEngine::sInitModel() returned nullptr"));
 	
 	if ( skeleton_name )
 	{
@@ -289,7 +289,7 @@ void CElement3d::AddModel(const char *p_model_name, uint32 skeleton_name, Mth::V
 	
 	p_new_model->SetColor(m_rgba.r,m_rgba.g,m_rgba.b,m_rgba.a);
 	
-	Dbg_MsgAssert(mp_models[m_num_models].mpModel==NULL,("mp_models[m_num_models].mpModel not NULL ?"));
+	Dbg_MsgAssert(mp_models[m_num_models].mpModel==nullptr,("mp_models[m_num_models].mpModel not nullptr ?"));
 	mp_models[m_num_models].mpModel=p_new_model;
 	
 	mp_models[m_num_models].mOffset=offset;
@@ -309,10 +309,10 @@ void CElement3d::AddModelFromSector(uint32 sectorName, Mth::Vector offset)
 	Dbg_MsgAssert(m_num_models<MAX_MODELS_PER_ELEMENT,("Reached max models for one CElement3d"));
 		
 	Nx::CModel *p_new_model=Nx::CEngine::sInitModel();
-	Dbg_MsgAssert(p_new_model,("Nx::CEngine::sInitModel() returned NULL"));
+	Dbg_MsgAssert(p_new_model,("Nx::CEngine::sInitModel() returned nullptr"));
 	
 	Nx::CSector *p_sector = Nx::CEngine::sGetSector(sectorName);
-	Dbg_MsgAssert( p_sector, ( "This is not my beautiful CSector. sGetSector(0x%x) returned NULL (%s)\n", sectorName, Script::FindChecksumName(sectorName) ) );
+	Dbg_MsgAssert( p_sector, ( "This is not my beautiful CSector. sGetSector(0x%x) returned nullptr (%s)\n", sectorName, Script::FindChecksumName(sectorName) ) );
 
 	if ( p_sector )
 	{
@@ -329,7 +329,7 @@ void CElement3d::AddModelFromSector(uint32 sectorName, Mth::Vector offset)
 	
 	p_new_model->SetColor(m_rgba.r,m_rgba.g,m_rgba.b,m_rgba.a);
 	
-	Dbg_MsgAssert(mp_models[m_num_models].mpModel==NULL,("mp_models[m_num_models].mpModel not NULL ?"));
+	Dbg_MsgAssert(mp_models[m_num_models].mpModel==nullptr,("mp_models[m_num_models].mpModel not nullptr ?"));
 	mp_models[m_num_models].mpModel=p_new_model;
 	
 	mp_models[m_num_models].mOffset=offset;
@@ -422,10 +422,10 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 	p_props->GetChecksum( CRCD(0x9794932,"skeletonName"), &skeletonChecksum, false );
 	
 	const char* p_model_name="";
-	Script::CArray *p_model_array=NULL;
+	Script::CArray *p_model_array=nullptr;
 	uint32 clone_model_name;
 	uint32 sector_name;
-	Script::CArray *p_sector_array=NULL;
+	Script::CArray *p_sector_array=nullptr;
 	bool skip_empty_model = false;
     
     int texDictOffset = 0;
@@ -446,7 +446,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 		Dbg_MsgAssert( p_src_model_comp, ( "Couldn't find model component in object id %d", clone_model_name ) );
 		Dbg_MsgAssert( p_src_model_comp->GetModel(), ( "Couldn't find CModel in model component of object id %d", clone_model_name ) );
 
-		Script::CArray *p_geom_array=NULL;
+		Script::CArray *p_geom_array=nullptr;
 		if (p_props->GetArray(Crc::ConstCRC("CloneModelGeoms"), &p_geom_array))
 		{
 			// Create new model
@@ -525,7 +525,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 		// a skeleton anyway (like for the preview models)
 		Mth::Vector off;
 		off.Set();
-		AddModel(NULL, skeletonChecksum, off, 0);
+		AddModel(nullptr, skeletonChecksum, off, 0);
 	}
 	
 	p_props->GetFloat(Crc::ConstCRC("CameraZ"),&m_camera_z);
@@ -553,7 +553,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 	{
 		int node_to_point_to=SkateScript::FindNamedNode(node_checksum);
 		Script::CStruct *p_node=SkateScript::GetNode(node_to_point_to);
-		Dbg_MsgAssert(p_node,("NULL p_node"));
+		Dbg_MsgAssert(p_node,("nullptr p_node"));
 		SkateScript::GetPosition(p_node,&m_node_position_to_point_to);
 
 		m_point_type=POINT_TYPE_NODE;
@@ -570,7 +570,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 	
 	m_hover_amp=0.0f;
 	m_hover_period=0;
-	Script::CStruct *p_hover_params=NULL;
+	Script::CStruct *p_hover_params=nullptr;
 	if (p_props->GetStructure(CRCD(0xca1c41,"HoverParams"),&p_hover_params))
 	{
 		p_hover_params->GetFloat(Crc::ConstCRC("Amp"),&m_hover_amp);
@@ -583,7 +583,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 	m_parent_object_name=0;
 	m_parent_node_name=0;
 	m_parent_offset.Set();
-	Script::CStruct *p_parent_params=NULL;
+	Script::CStruct *p_parent_params=nullptr;
 	if (p_props->GetStructure(Crc::ConstCRC("ParentParams"),&p_parent_params))
 	{
 		p_parent_params->GetChecksum(Crc::ConstCRC("Name"),&m_parent_object_name);
@@ -642,7 +642,7 @@ void CElement3d::update()
 		if (m_parent_object_name)
 		{
 			// Get a pointer to the parent object.
-			Obj::CMovingObject *p_pos_obj=NULL;
+			Obj::CMovingObject *p_pos_obj=nullptr;
 
 // Skate module 
 //			if (m_parent_object_name==0x5b8ab877/*Skater*/)
@@ -687,7 +687,7 @@ void CElement3d::update()
 			// FindNamedNode will assert if it does not find the node.
 			int node_index=SkateScript::FindNamedNode(m_parent_node_name);
 			Script::CStruct *p_node=SkateScript::GetNode(node_index);
-			Dbg_MsgAssert(p_node,("NULL p_node"));
+			Dbg_MsgAssert(p_node,("nullptr p_node"));
 			
 			Mth::Vector pos;
 			SkateScript::GetPosition(p_node,&pos);
@@ -853,7 +853,7 @@ void CElement3d::update()
 
 		for (int i=0; i<m_num_models; ++i)
 		{
-			Dbg_MsgAssert(mp_models[i].mpModel,("NULL mp_models[i].mpModel"));
+			Dbg_MsgAssert(mp_models[i].mpModel,("nullptr mp_models[i].mpModel"));
 			
 			Mth::Vector p=mp_models[i].mOffset*m_model_matrix;
 			Mth::Matrix display_matrix=m_model_matrix;
@@ -889,7 +889,7 @@ void CElement3d::update_visibility()
 	uint32 vis_mask = 1 << m_active_viewport_number;
 	for (int i=0; i<m_num_models; ++i)
 	{
-		Dbg_MsgAssert(mp_models[i].mpModel,("NULL mp_models[i].mpModel"));
+		Dbg_MsgAssert(mp_models[i].mpModel,("nullptr mp_models[i].mpModel"));
 
 		mp_models[i].mpModel->SetVisibility(vis_mask);
 	}

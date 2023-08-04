@@ -288,7 +288,7 @@ bool CRunScriptKey::process_key( Obj::CObject* pObject )
 	{
 		Dbg_Message( "Processing Run Script key (script = %s) @ %d!", Script::FindChecksumName( m_scriptName ), m_frame );
 	}
-	Script::RunScript( m_scriptName, NULL, pObject );
+	Script::RunScript( m_scriptName, nullptr, pObject );
 	
 	return true;
 }
@@ -503,7 +503,7 @@ CEventKey::~CEventKey()
 	if ( mp_eventParams )
 	{
 		delete mp_eventParams;
-		mp_eventParams = NULL;
+		mp_eventParams = nullptr;
 	}
 }
 
@@ -677,11 +677,11 @@ CCustomAnimKey* ReadCustomAnimKey( uint8** pData )
 				*pData += theIntermediateHeader.size;
 				Dbg_Assert(!((uint) *pData & 0x3));
 
-				return NULL;
+				return nullptr;
 			}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

@@ -154,26 +154,26 @@
 //	
 //	//		if ( pKillDL->m_pParent->m_pVertexPool ) {
 //	//			delete pKillDL->m_pParent->m_pVertexPool;
-//	//			pKillDL->m_pParent->m_pVertexPool = NULL;
+//	//			pKillDL->m_pParent->m_pVertexPool = nullptr;
 //	//		}
 //			if ( pKillDL->m_pParent->m_pFaceFlags ) {
 //				delete pKillDL->m_pParent->m_pFaceFlags;
-//				pKillDL->m_pParent->m_pFaceFlags = NULL;
+//				pKillDL->m_pParent->m_pFaceFlags = nullptr;
 //				count++;
 //			}
 //			if ( pKillDL->m_pParent->m_pFaceMaterial ) {
 //				delete pKillDL->m_pParent->m_pFaceMaterial;
-//				pKillDL->m_pParent->m_pFaceMaterial = NULL;
+//				pKillDL->m_pParent->m_pFaceMaterial = nullptr;
 //				count++;
 //			}
 //			if ( pKillDL->m_pParent->m_pVertexPool && ( ( pKillDL->m_pParent->m_vpoolFlags & (1<<4) ) == 0 ) ) {
 //				delete pKillDL->m_pParent->m_pVertexPool;
-//				pKillDL->m_pParent->m_pVertexPool = NULL;
+//				pKillDL->m_pParent->m_pVertexPool = nullptr;
 //				count++;
 //			}
 //			if ( pKillDL->m_pParent->m_pWibbleData ) {
 //				delete pKillDL->m_pParent->m_pWibbleData;
-//				pKillDL->m_pParent->m_pWibbleData = NULL;
+//				pKillDL->m_pParent->m_pWibbleData = nullptr;
 //				count++;
 //			}
 //		}
@@ -222,7 +222,7 @@
 // *	Inputs:																		*
 // *				number	The material number to retrieve.						*
 // *	Output:																		*
-// *				Pointer to the requested material. NULL if out of range.		*
+// *				Pointer to the requested material. nullptr if out of range.		*
 // *	Description:																*
 // *				Retrieve a material from the material manager.					*
 // *																				*
@@ -234,7 +234,7 @@
 //	if ( ( (int)number < m_materialListSize ) && ( number >= 0 ) ) {
 //		rv = &m_pMaterialList[number];
 //	} else {
-//		rv = NULL;
+//		rv = nullptr;
 //	}
 //
 //	return rv;
@@ -443,7 +443,7 @@
 //	for( ;; )
 //	{
 //		NsWorldSector* pDL = *pp_sectors++;
-//		if( pDL == NULL )
+//		if( pDL == nullptr )
 //		{
 //			// Finished.
 //			break;
@@ -489,7 +489,7 @@
 //	// Set material list up.
 //	for ( lp = 0; lp < m_materialListSize; lp++ ) {
 //		m_pMaterialList[lp].init ( lp );
-//		m_pSortedMaterialList[lp] = NULL;
+//		m_pSortedMaterialList[lp] = nullptr;
 //	}
 //}
 

@@ -170,7 +170,7 @@ public:
 	#endif
 	
 
-	bool						LaunchEvent(uint32 type, uint32 target = CEvent::vSYSTEM_EVENT, uint32 source = CEvent::vSYSTEM_EVENT, Script::CStruct *pData = NULL, bool broadcast=false);
+	bool						LaunchEvent(uint32 type, uint32 target = CEvent::vSYSTEM_EVENT, uint32 source = CEvent::vSYSTEM_EVENT, Script::CStruct *pData = nullptr, bool broadcast=false);
 	void						BlockEventLaunching(bool block) {m_block_event_launching = block;}
 	
 	void 						LogEventScript(uint32 script = 0);

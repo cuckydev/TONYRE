@@ -45,7 +45,7 @@ Gfx::CBonedAnimFrameData* GetCachedAnim( uint32 animChecksum, bool assertOnFail 
 {
 	if ( animChecksum == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Ass::CAssMan* ass_man = Ass::CAssMan::Instance();

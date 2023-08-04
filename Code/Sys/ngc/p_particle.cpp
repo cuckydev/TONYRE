@@ -57,7 +57,7 @@
 //
 //static NsVector		screen_right;
 //static NsVector		screen_up;
-//static NsCamera*	p_current_cam	= NULL;
+//static NsCamera*	p_current_cam	= nullptr;
 //
 //
 //
@@ -416,7 +416,7 @@
 //		GX::SetChanCtrl( GX_COLOR0A0, GX_DISABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHT_NULL, GX_DF_NONE, GX_AF_NONE );
 //
 //		// Upload texture if present.
-//		NsTexture* p_texture = ( mp_material ) ? ( mp_material->getTexture() ) : NULL;
+//		NsTexture* p_texture = ( mp_material ) ? ( mp_material->getTexture() ) : nullptr;
 //		if( p_texture )
 //		{
 //			p_texture->upload( NsTexture_Wrap_Clamp );

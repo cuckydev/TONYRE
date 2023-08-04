@@ -33,7 +33,7 @@ namespace Nx
 CGeom* 			CGeom::plat_clone(bool instance, CScene* pDestScene)
 {
 	printf ("STUB: PlatClone\n");
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -44,7 +44,7 @@ CGeom* 			CGeom::plat_clone(bool instance, CScene* pDestScene)
 CGeom* 			CGeom::plat_clone(bool instance, CModel* pDestModel)
 {
 	printf ("STUB: PlatClone\n");
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -520,8 +520,8 @@ bool		CGeom::plat_allocate_uv_matrix_params(uint32 mat_checksum, int pass)
 CGeom::CGeom()
 {
 	m_cloned = vORIGINAL;
-	mp_coll_tri_data = NULL;
-	mp_orig_render_colors = NULL;
+	mp_coll_tri_data = nullptr;
+	mp_orig_render_colors = nullptr;
 	m_multipleColorsEnabled = false;
 }
 
@@ -575,14 +575,14 @@ CGeom*  CGeom::Clone(bool instance, CScene* pDestScene)
 			// Garrett: Just copying the pointer now, since the CGeom version is just used for reference
 			p_new_geom->mp_coll_tri_data = mp_coll_tri_data;
 #else
-			// Make NULL for now until we can figure out a better way of cloning collision with CSector
-			p_new_geom->mp_coll_tri_data = NULL;
+			// Make nullptr for now until we can figure out a better way of cloning collision with CSector
+			p_new_geom->mp_coll_tri_data = nullptr;
 			//p_new_geom->mp_coll_tri_data = mp_coll_tri_data->Clone(instance);
 			//Dbg_Assert(p_new_geom->mp_coll_tri_data);
 #endif
 		}
 		// Mick:  bit of a patch - attempt to fix crash from deleting thigns twice
-		p_new_geom->mp_orig_render_colors = NULL;
+		p_new_geom->mp_orig_render_colors = nullptr;
 	}
 
 	return p_new_geom;
@@ -605,7 +605,7 @@ CGeom* CGeom::Clone(bool instance, CModel* pDestModel)
 		Dbg_MsgAssert(!mp_coll_tri_data, ("Cloning of model geometry doesn't support collision now"));
 
 		// Mick:  bit of a patch - attempt to fix crash from deleting thigns twice
-		p_new_geom->mp_orig_render_colors = NULL;
+		p_new_geom->mp_orig_render_colors = nullptr;
 	}
 
 	return p_new_geom;

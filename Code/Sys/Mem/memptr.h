@@ -47,7 +47,7 @@ nTemplateBaseClass( _T, PtrToConst )
 	
 public :
 
-								PtrToConst( const _T* ptr = NULL );
+								PtrToConst( const _T* ptr = nullptr );
 								~PtrToConst( void );
 
 #if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
@@ -99,7 +99,7 @@ nTemplateSubClass( _T, Ptr, PtrToConst< _T > )
 
 	
 public :
-								Ptr( const _T* ptr = NULL );
+								Ptr( const _T* ptr = nullptr );
 								~Ptr( void );
 
 #if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
@@ -385,7 +385,7 @@ bool		PtrToConst< _T >::operator ! ( void ) const
 {
 	
 
-	return ( m_const_ptr == NULL );	
+	return ( m_const_ptr == nullptr );	
 }
 
 /******************************************************************/

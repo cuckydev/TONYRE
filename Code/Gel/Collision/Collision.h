@@ -94,7 +94,7 @@ struct CollData
 	ETerrainType terrain;
 	CCollObj *p_coll_object;	// the sector (object) with which we collided
 	uint32	node_name;			// checsum of name of node associated with this object
-	uint32	script;				// set to the script checksum of the object (or NULL if none)
+	uint32	script;				// set to the script checksum of the object (or nullptr if none)
 	void	(*callback)( CollData* p_col_data);	   // a callback called every frame
 	void 	*p_callback_data;		// 	pointer to some data the callback can use
 
@@ -182,15 +182,15 @@ public:
 												Obj::CCompositeObject *p_object);
 
 	// Does collision against all the static collision in the SuperSectors
-	static bool			sFindNearestStaticCollision(Mth::Line &is, CollData *p_data, void *p_callback = NULL, CCollCache *p_cache = NULL);
-	static bool			sFindFarStaticCollision(Mth::Line &is, CollData *p_data, void *p_callback = NULL, CCollCache *p_cache = NULL);
+	static bool			sFindNearestStaticCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
+	static bool			sFindFarStaticCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
 
 	// Does collision against all the movable collision
-	static Obj::CCompositeObject *	sFindNearestMovableCollision(Mth::Line &is, CollData *p_data, void *p_callback = NULL, CCollCache *p_cache = NULL);
-	static Obj::CCompositeObject *	sFindFarMovableCollision(Mth::Line &is, CollData *p_data, void *p_callback = NULL, CCollCache *p_cache = NULL);
+	static Obj::CCompositeObject *	sFindNearestMovableCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
+	static Obj::CCompositeObject *	sFindFarMovableCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
 
 	// Does rect collision against all the static collision
-	static bool			sFindRectangleStaticCollision(Mth::Rectangle& rect, S2DCollData* p_coll_data, CCollCache* p_cache = NULL);
+	static bool			sFindRectangleStaticCollision(Mth::Rectangle& rect, S2DCollData* p_coll_data, CCollCache* p_cache = nullptr);
 	
 	// Triangle collision function
 	static bool			sRayTriangleCollision(const Mth::Vector *rayStart, const Mth::Vector *rayDir,
@@ -541,7 +541,7 @@ inline void				CCollObj::ClearObjectFlags(uint16 flags)
 
 inline Mth::CBBox *		CCollObj::get_bbox()
 {
-	return NULL;		// default is none
+	return nullptr;		// default is none
 }
 
 /******************************************************************/

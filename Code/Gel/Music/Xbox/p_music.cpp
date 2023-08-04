@@ -87,7 +87,7 @@ struct sFileStreamInfo
 	void				Pause( uint32 pause );
 	void				SetOkayToPlay( bool okay_to_play );
 	bool				GetOkayToPlay( void );
-	bool				HasFileStream( void )	{ return (( p_wma_filestream != NULL ) || ( p_adpcm_filestream != NULL )); }
+	bool				HasFileStream( void )	{ return (( p_wma_filestream != nullptr ) || ( p_adpcm_filestream != nullptr )); }
 	bool				IsCompleted( void );
 	bool				IsAwaitingDeletion( void );
 	void				SetAwaitingDeletion( bool is_awaiting );
@@ -107,7 +107,7 @@ struct sFileStreamInfo
 /******************************************************************/
 void sFileStreamInfo::CreateFileStream( FileStreamType type, bool use_3d )
 {
-	Dbg_Assert(( p_wma_filestream == NULL ) && ( p_adpcm_filestream == NULL ));
+	Dbg_Assert(( p_wma_filestream == nullptr ) && ( p_adpcm_filestream == nullptr ));
 	if( type == FILESTREAM_TYPE_WMA )
 	{
 		p_wma_filestream = new CWMAFileStream( use_3d );
@@ -133,13 +133,13 @@ void sFileStreamInfo::DestroyFileStream( void )
 	if( p_wma_filestream )
 	{
 		delete p_wma_filestream;
-		p_wma_filestream = NULL;
+		p_wma_filestream = nullptr;
 	}
 
 	if( p_adpcm_filestream )
 	{
 		delete p_adpcm_filestream;
-		p_adpcm_filestream = NULL;
+		p_adpcm_filestream = nullptr;
 	}
 }
 
@@ -456,11 +456,11 @@ int				gNextOverlap = 0;
 *****************************************************************************/
 
 HANDLE	ghWADFile				= INVALID_HANDLE_VALUE;
-uint32	*pWADData				= NULL;
+uint32	*pWADData				= nullptr;
 uint32	numWADFileEntries		= 0;
 
 HANDLE	ghMusicWADFile			= INVALID_HANDLE_VALUE;
-uint32	*pMusicWADData			= NULL;
+uint32	*pMusicWADData			= nullptr;
 uint32	numMusicWADFileEntries	= 0;
 
 
@@ -534,10 +534,10 @@ void PCMAudio_Init( void )
 #	endif
 								GENERIC_READ,
 								FILE_SHARE_READ,								// Share mode.
-								NULL,											// Ignored (security attributes).
+								nullptr,											// Ignored (security attributes).
 								OPEN_EXISTING,									// File has to exist already.
 								FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING,	// Xbox has no asynchronous i/o buffering.
-								NULL );											// Ignored (template file).
+								nullptr );											// Ignored (template file).
 #	ifdef STREAMS_ARE_PCM
 	ghMusicWADFile = CreateFile( "d:\\data\\streams\\pcm\\music_pcm.wad",
 #	else
@@ -545,10 +545,10 @@ void PCMAudio_Init( void )
 #	endif
 								GENERIC_READ,
 								FILE_SHARE_READ,								// Share mode.
-								NULL,											// Ignored (security attributes).
+								nullptr,											// Ignored (security attributes).
 								OPEN_EXISTING,									// File has to exist already.
 								FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING,	// Xbox has no asynchronous i/o buffering.
-								NULL );											// Ignored (template file).
+								nullptr );											// Ignored (template file).
 
 	// Now read in the data files used for indexing into the WAD files.
 #	ifdef STREAMS_ARE_PCM
@@ -558,17 +558,17 @@ void PCMAudio_Init( void )
 #	endif
 									GENERIC_READ,
 									FILE_SHARE_READ,								// Share mode.
-									NULL,											// Ignored (security attributes).
+									nullptr,											// Ignored (security attributes).
 									OPEN_EXISTING,									// File has to exist already.
 									FILE_FLAG_SEQUENTIAL_SCAN,
-									NULL );											// Ignored (template file).
+									nullptr );											// Ignored (template file).
 
 	if( wad_data != INVALID_HANDLE_VALUE )
 	{
 		uint32 bytes_read;
-		ReadFile( wad_data, &numWADFileEntries, sizeof( uint32 ), &bytes_read, NULL );
+		ReadFile( wad_data, &numWADFileEntries, sizeof( uint32 ), &bytes_read, nullptr );
 		pWADData = new uint32[numWADFileEntries * 3];
-		ReadFile( wad_data, pWADData, sizeof( uint32 ) * numWADFileEntries * 3, &bytes_read, NULL );
+		ReadFile( wad_data, pWADData, sizeof( uint32 ) * numWADFileEntries * 3, &bytes_read, nullptr );
 		CloseHandle( wad_data );
 	}
 			
@@ -601,17 +601,17 @@ void PCMAudio_Init( void )
 #	endif
 							GENERIC_READ,
 							FILE_SHARE_READ,								// Share mode.
-							NULL,											// Ignored (security attributes).
+							nullptr,											// Ignored (security attributes).
 							OPEN_EXISTING,									// File has to exist already.
 							FILE_FLAG_SEQUENTIAL_SCAN,
-							NULL );											// Ignored (template file).
+							nullptr );											// Ignored (template file).
 
 	if( wad_data != INVALID_HANDLE_VALUE )
 	{
 		uint32 bytes_read;
-		ReadFile( wad_data, &numMusicWADFileEntries, sizeof( uint32 ), &bytes_read, NULL );
+		ReadFile( wad_data, &numMusicWADFileEntries, sizeof( uint32 ), &bytes_read, nullptr );
 		pMusicWADData = new uint32[numMusicWADFileEntries * 3];
-		ReadFile( wad_data, pMusicWADData, sizeof( uint32 ) * numMusicWADFileEntries * 3, &bytes_read, NULL );
+		ReadFile( wad_data, pMusicWADData, sizeof( uint32 ) * numMusicWADFileEntries * 3, &bytes_read, nullptr );
 		CloseHandle( wad_data );
 	}
 }
@@ -743,7 +743,7 @@ bool PCMAudio_PreLoadStream( uint32 checksum, int whichStream )
 	sPreLoadChecksum[whichStream] = checksum;
 
 	// Start the track as normal...
-	if( PCMAudio_PlayStream( checksum, whichStream, NULL, 0.0f, false ))
+	if( PCMAudio_PlayStream( checksum, whichStream, nullptr, 0.0f, false ))
 	{
 		// ...but then flag it as not okay to play until we say so.
 		if( gStreamInfo[whichStream].HasFileStream())

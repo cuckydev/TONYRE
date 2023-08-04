@@ -37,7 +37,7 @@ CAsyncFileHandle::CAsyncFileHandle()
 void				CAsyncFileHandle::init()
 {
 	// Init vars
-	mp_callback = NULL;
+	mp_callback = nullptr;
 	m_callback_arg0 = 0;
 	m_callback_arg1 = 0;
 	m_current_function = FUNC_IDLE;
@@ -52,7 +52,7 @@ void				CAsyncFileHandle::init()
 	m_busy_count = 0;
 	m_last_result = 0;
 
-	mp_pre_file = NULL;
+	mp_pre_file = nullptr;
 
 	plat_init();
 }
@@ -504,7 +504,7 @@ char *				CAsyncFileHandle::plat_get_s(char *p_buffer, int maxlen)
 {
 	printf ("STUB: CAsyncFileHandle::GetS\n");
 
-	return NULL;
+	return nullptr;
 }
 
 int					CAsyncFileHandle::plat_seek(long offset, int origin)
@@ -582,7 +582,7 @@ CAsyncFileHandle *	CAsyncFileLoader::sOpen(const char *filename, bool blocking, 
 		{
 			//Dbg_MsgAssert(0, ("Error opening Async file %s", filename));
 			s_free_file_handle(p_file_handle);
-			return NULL;
+			return nullptr;
 		}
 
 		return p_file_handle;
@@ -590,7 +590,7 @@ CAsyncFileHandle *	CAsyncFileLoader::sOpen(const char *filename, bool blocking, 
 	else
 	{
 		Dbg_MsgAssert(0, ("Out of Async handles"));
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -713,7 +713,7 @@ CAsyncFileHandle *	CAsyncFileLoader::s_get_file_handle()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 

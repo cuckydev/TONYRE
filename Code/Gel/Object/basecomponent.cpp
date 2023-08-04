@@ -112,7 +112,7 @@ void CBaseComponent::Teleport()
 // for transmitting to the monitor.exe utility running on the PC.
 void CBaseComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CBaseComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CBaseComponent::GetDebugInfo"));
 	
 	#ifdef __NOPT_ASSERT__
 	p_info->AddInteger("CPUTime",m_update_time);

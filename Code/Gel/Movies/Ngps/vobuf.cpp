@@ -62,7 +62,7 @@ void voBufIncCount(VoBuf *f)
 
 VoData *voBufGetData(VoBuf *f)
 {
-    return voBufIsFull(f)? (VoData*)NULL: f->data + f->write;
+    return voBufIsFull(f)? (VoData*)nullptr: f->data + f->write;
 }
 
 // ////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ int voBufIsEmpty(VoBuf *f)
 
 VoTag *voBufGetTag(VoBuf *f)
 {
-    return voBufIsEmpty(f)? (VoTag*)NULL:
+    return voBufIsEmpty(f)? (VoTag*)nullptr:
     	f->tag + ((f->write - f->count + f->size) % f->size);
 }
 

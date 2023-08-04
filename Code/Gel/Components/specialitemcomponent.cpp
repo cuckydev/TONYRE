@@ -59,7 +59,7 @@ CSpecialItemComponent::CSpecialItemComponent() : CBaseComponent()
 	
 	for ( int i = 0; i < vMAX_SPECIAL_ITEMS; i++ )
 	{
-		mp_special_items[i] = NULL;
+		mp_special_items[i] = nullptr;
 	}
 }
 
@@ -266,7 +266,7 @@ CBaseComponent::EMemberFunctionResult CSpecialItemComponent::CallMemberFunction(
 void CSpecialItemComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSpecialItemComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSpecialItemComponent::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)
@@ -332,14 +332,14 @@ Obj::CCompositeObject* CSpecialItemComponent::CreateSpecialItem( int index, Scri
 	// in case there's any scaling applied to the model,
 	// apply that to the special item's model as well...
 	Obj::CModelComponent* pModelComponent = GetModelComponentFromObject( GetObj() );
-	Nx::CModel* pModel = NULL;
+	Nx::CModel* pModel = nullptr;
 	if ( pModelComponent )
 	{
 		pModel = pModelComponent->GetModel();
 	}
 	
 	Obj::CModelComponent* pGameObjModelComponent = GetModelComponentFromObject( pGameObj );
-	Nx::CModel* pGameObjModel = NULL;
+	Nx::CModel* pGameObjModel = nullptr;
 	if ( pGameObjModelComponent )
 	{
 		pGameObjModel = pGameObjModelComponent->GetModel();
@@ -373,7 +373,7 @@ void CSpecialItemComponent::DestroySpecialItem( int index )
 		if ( pStruct->GetChecksum( Crc::ConstCRC("CleanupScript"), &cleanupScript, Script::NO_ASSERT ) )
 		{
 			// run a cleanup script if it exists
-			Script::RunScript( cleanupScript, NULL, mp_special_items[index] );
+			Script::RunScript( cleanupScript, nullptr, mp_special_items[index] );
 		}
 		delete pStruct;
 
@@ -382,7 +382,7 @@ void CSpecialItemComponent::DestroySpecialItem( int index )
 		// that if any objects still refer to
 		// it on this frame, it won't crash...
 		mp_special_items[index]->MarkAsDead();
-		mp_special_items[index] = NULL;
+		mp_special_items[index] = nullptr;
 		
 		// THPS4:  flushes dead objects so that we can
 		// recreate it on the same frame

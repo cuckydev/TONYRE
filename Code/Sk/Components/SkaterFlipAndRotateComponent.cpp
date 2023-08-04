@@ -47,8 +47,8 @@ CSkaterFlipAndRotateComponent::CSkaterFlipAndRotateComponent() : CBaseComponent(
 {
 	SetType( CRC_SKATERFLIPANDROTATE );
 	
-	mp_animation_component = NULL;
-	mp_model_component = NULL;
+	mp_animation_component = nullptr;
+	mp_model_component = nullptr;
 	
 	m_rotate_board = false;
 }
@@ -207,7 +207,7 @@ CBaseComponent::EMemberFunctionResult CSkaterFlipAndRotateComponent::CallMemberF
 void CSkaterFlipAndRotateComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterFlipAndRotateComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterFlipAndRotateComponent::GetDebugInfo"));
 	
 	if (mp_core_physics_component)
 	{

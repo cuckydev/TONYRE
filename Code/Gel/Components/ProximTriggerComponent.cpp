@@ -133,7 +133,7 @@ CBaseComponent::EMemberFunctionResult CProximTriggerComponent::CallMemberFunctio
 void CProximTriggerComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info, ("NULL p_info sent to CProximTriggerComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info, ("nullptr p_info sent to CProximTriggerComponent::GetDebugInfo"));
 	
 	p_info->AddChecksum("mp_script_target_object", mp_script_target_object->GetID());
 	p_info->AddInteger("proxim_trigger_mask", Mdl::Skate::Instance()->mpProximManager->GetProximTriggerMask(m_viewport));

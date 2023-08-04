@@ -28,7 +28,7 @@
  * Local variables.																*
  ********************************************************************************/
 
-char * g_p_buffer = NULL;
+char * g_p_buffer = nullptr;
 int g_buffer_offset = 0;
 int g_buffer_size = 0;
 
@@ -151,9 +151,9 @@ void end ( void )
 
 void * alloc ( int size )
 {
-	if ( !g_p_buffer ) return NULL;
+	if ( !g_p_buffer ) return nullptr;
 
-	void * rv = NULL;
+	void * rv = nullptr;
 
 	// See if the remaining buffer space is large enough.
 	if ( ( g_buffer_size - g_buffer_offset ) < size )

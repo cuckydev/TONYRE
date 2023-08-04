@@ -156,7 +156,7 @@ Score::Score() :
 	m_bestCombo = 0;
 	m_bestGameCombo = 0;
 	
-	//mp_trickWindow = NULL;
+	//mp_trickWindow = nullptr;
 
 	m_debug = (bool) Script::GetInteger("print_trick_info");
 
@@ -604,7 +604,7 @@ void Score::Trigger(char *trick_name, int base_score, Flags flags)
 			}
 				
 			char *p_trick_text_formatted=m_infoTab[index].trickTextFormatted;
-			Dbg_MsgAssert(p_trick_text_formatted,("NULL p_trick_text_formatted"));
+			Dbg_MsgAssert(p_trick_text_formatted,("nullptr p_trick_text_formatted"));
 			
 			int len=strlen(p_trick_text_formatted);
 			if (*p_trick_text_formatted == '.')
@@ -1509,7 +1509,7 @@ void Score::setup_balance_meter_stuff()
 	Dbg_Assert(p_balance_meter_struct);
 	
 	// fetch arrow position table
-	Script::CArray *p_arrow_array = NULL;
+	Script::CArray *p_arrow_array = nullptr;
 	p_balance_meter_struct->GetArray("arrow_positions", &p_arrow_array);
 	Dbg_Assert(p_arrow_array);
 	m_numArrowPositions = p_arrow_array->GetSize();
@@ -1521,8 +1521,8 @@ void Score::setup_balance_meter_stuff()
 	m_arrowPosTab[m_numArrowPositions] = m_arrowPosTab[m_numArrowPositions-1];
 	m_arrowInterval = 1.0f / ((float) m_numArrowPositions);
 
-	Script::CArray *p_bar_pos_array = NULL;
-	if( ( CFuncs::ScriptInSplitScreenGame( NULL, NULL )) && 
+	Script::CArray *p_bar_pos_array = nullptr;
+	if( ( CFuncs::ScriptInSplitScreenGame( nullptr, nullptr )) && 
 		( skate_mod->GetGameMode()->GetNameChecksum() != Script::GenerateCRC( "horse" )) &&
 		( skate_mod->GetGameMode()->GetNameChecksum() != Script::GenerateCRC( "nethorse" )))
 	{
@@ -1827,7 +1827,7 @@ Net::Conn* Score::GetAssociatedNetworkConnection( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

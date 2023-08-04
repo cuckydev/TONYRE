@@ -84,7 +84,7 @@ const uint	CCollObjTriData::s_max_tree_levels = 7;			// maximum number of levels
 CCollObjTriData::CCollObjTriData()
 {
 #ifdef __PLAT_NGC__
-	mp_cloned_vert_pos = NULL;
+	mp_cloned_vert_pos = nullptr;
 #endif		// __PLAT_NGC__
 }
 
@@ -147,7 +147,7 @@ bool	CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_add
 	NxNgc::sScene *p_engine_scene = ( static_cast<CNgcScene*>( p_scene ))->GetEngineScene();
 	mp_raw_vert_pos = (NsVector*)p_engine_scene->mp_pos_pool;
 	mp_intensity = (unsigned char *) ((int) p_base_vert_addr + (int)mp_intensity); 
-	mp_cloned_vert_pos = NULL;
+	mp_cloned_vert_pos = nullptr;
 #else
 #ifdef FIXED_POINT_VERTICES
 	// Get indexes
@@ -165,7 +165,7 @@ bool	CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_add
 	// Find first element
 	mp_vert_pos = (Mth::Vector *) ((int) p_base_vert_addr + start_vert_pos_offset);
 
-	mp_intensity = NULL;
+	mp_intensity = nullptr;
 #endif // FIXED_POINT_VERTICES
 #endif		// __PLAT_NGC__
 
@@ -194,7 +194,7 @@ CCollBSPNode::CCollBSPNode()
 	//m_node.m_split_axis = 0;
 	m_node.m_split_point = 0; 		// This is so we know it is a node
 	m_node.m_children.Init();
-	//mp_greater_branch = NULL;
+	//mp_greater_branch = nullptr;
 }
 
 CCollBSPNode::~CCollBSPNode()
@@ -299,7 +299,7 @@ CCollBSPNode * CCollBSPNode::clone(bool instance)
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -518,8 +518,8 @@ bool	CCollObjTriData::s_init_tree(CCollBSPNode *p_tree, void *p_base_node_addr, 
 		//Dbg_Assert(((int) p_leaf->mp_less_branch) == -1);
 		//Dbg_Assert(((int) p_leaf->mp_greater_branch) == -1);
 
-		//p_leaf->mp_less_branch = NULL;
-		//p_leaf->mp_greater_branch = NULL;
+		//p_leaf->mp_less_branch = nullptr;
+		//p_leaf->mp_greater_branch = nullptr;
 	} else {
 		Dbg_MsgAssert(p_tree->GetSplitAxis() < 3, ("BSP split axis is %d", p_tree->GetSplitAxis()));
 		// Set branch pointers
@@ -557,7 +557,7 @@ bool	CCollObjTriData::InitBSPTree()
    	// Don't use this since it is pip-ed
 	//mp_bsp_tree = create_bsp_tree(m_bbox, s_seq_face_index_buffer, m_num_faces);
 
-	return mp_bsp_tree != NULL;
+	return mp_bsp_tree != nullptr;
 }
 
 /******************************************************************/
@@ -588,7 +588,7 @@ bool	CCollObjTriData::DeleteBSPTree()
 		}
 		delete [] mp_bsp_tree;
 #endif
-		mp_bsp_tree = NULL;
+		mp_bsp_tree = nullptr;
 
 		return true;
 	} else {
@@ -668,8 +668,8 @@ CCollBSPLeaf * CCollObjTriData::create_bsp_leaf(FaceIndex *p_face_indexes, uint 
 {
 	CCollBSPLeaf *p_bsp_leaf = new CCollBSPLeaf;
 	p_bsp_leaf->m_split_axis = -1;
-	p_bsp_leaf->mp_less_branch = NULL;
-	p_bsp_leaf->mp_greater_branch = NULL;
+	p_bsp_leaf->mp_less_branch = nullptr;
+	p_bsp_leaf->mp_greater_branch = nullptr;
 
 	// Make new array in BottomUp memory
 	p_bsp_leaf->m_num_faces = num_faces;
@@ -888,7 +888,7 @@ CCollObjTriData *	CCollObjTriData::Clone(bool instance, bool skip_no_verts)
 	// Don't clone when there is no geometry and skip_no_verts is set
 	if (skip_no_verts && (m_num_verts == 0))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int intensity_array_size;
@@ -954,7 +954,7 @@ CCollObjTriData *	CCollObjTriData::Clone(bool instance, bool skip_no_verts)
 #endif		// __PLAT_NGC__
 	} else {
 		Dbg_Error("Can't allocate new collision data");
-		return NULL;
+		return nullptr;
 	}
 
 	// Copy intensity array if there is one
@@ -964,11 +964,11 @@ CCollObjTriData *	CCollObjTriData::Clone(bool instance, bool skip_no_verts)
 		memcpy(m_new_coll->mp_intensity, mp_intensity , intensity_array_size * sizeof(uint8));
 	}
 
-	// Set BSP tree to NULL for now until we come up with a method to copy and translate
+	// Set BSP tree to nullptr for now until we come up with a method to copy and translate
 #ifdef USE_BSP_CLONE
 	m_new_coll->mp_bsp_tree = mp_bsp_tree->clone(instance);
 #else
-	m_new_coll->mp_bsp_tree = NULL;
+	m_new_coll->mp_bsp_tree = nullptr;
 #endif // USE_BSP_CLONE
 
 	return m_new_coll;
@@ -989,13 +989,13 @@ void	CCollObjTriData::Translate(const Mth::Vector & delta_pos)
 	if (mp_bsp_tree)
 	{
 		//printf ("WARNING:  moving colision geometry that contains a BSP tree.  *** CLEARING ***\n");
-		//mp_bsp_tree = NULL;
+		//mp_bsp_tree = nullptr;
 		mp_bsp_tree->translate(delta_pos);
 	}
 
 	#ifdef __PLAT_NGC__
 	// Get Verts
-	Mth::Vector *p_float_verts = NULL;
+	Mth::Vector *p_float_verts = nullptr;
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
 	p_float_verts = new Mth::Vector[m_num_verts];
 	Mem::Manager::sHandle().PopContext();
@@ -1064,7 +1064,7 @@ void	CCollObjTriData::RotateY(const Mth::Vector & world_origin, Mth::ERot90 rot_
 	}
 
 	// Convert to floating point, if fixed point data
-	Mth::Vector *p_float_verts = NULL;
+	Mth::Vector *p_float_verts = nullptr;
 	#ifndef __PLAT_NGC__
 	if (m_use_fixed_verts)
 	#endif		// __PLAT_NGC__
@@ -1138,7 +1138,7 @@ void	CCollObjTriData::Scale(const Mth::Vector & world_origin, const Mth::Vector 
 	}
 
 	// Convert to floating point, if fixed point data
-	Mth::Vector *p_float_verts = NULL;
+	Mth::Vector *p_float_verts = nullptr;
 	#ifndef __PLAT_NGC__
 	if (m_use_fixed_verts)
 	#endif		// __PLAT_NGC__
@@ -1206,7 +1206,7 @@ void	CCollObjTriData::Scale(const Mth::Vector & world_origin, const Mth::Vector 
 
 void	CCollObjTriData::SetRawVertexPos(int vert_idx, const Mth::Vector & pos)
 {
-	Dbg_MsgAssert(mp_bsp_tree == NULL, ("Cannot change a vertex within a BSP Tree"));
+	Dbg_MsgAssert(mp_bsp_tree == nullptr, ("Cannot change a vertex within a BSP Tree"));
 
 	set_vertex_pos(vert_idx, pos);
 }

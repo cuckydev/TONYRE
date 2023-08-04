@@ -232,7 +232,7 @@ public:
 	CScreenElement*		GetLastChild();
 	CScreenElement*		GetPrevSibling() {return mp_prev_sibling;}
 	CScreenElement*		GetNextSibling() {return mp_next_sibling;}
-	CScreenElement*		GetChildById(uint32 id, int *pIndex = NULL);
+	CScreenElement*		GetChildById(uint32 id, int *pIndex = nullptr);
 	CScreenElement*		GetChildByIndex(int index);
 	
 	int						CountChildren();

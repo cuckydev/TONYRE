@@ -108,7 +108,7 @@ struct sTextureDL;		// Forward reference.
 // Allows switching between GX & GD.
 namespace GX
 {
-	void				begin				( void *						p_buffer = NULL,
+	void				begin				( void *						p_buffer = nullptr,
 											  int							max_size = 0 );
 								
 	int					end					( void );           			

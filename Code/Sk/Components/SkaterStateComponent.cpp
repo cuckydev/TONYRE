@@ -141,7 +141,7 @@ CBaseComponent::EMemberFunctionResult CSkaterStateComponent::CallMemberFunction(
 void CSkaterStateComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterStateComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterStateComponent::GetDebugInfo"));
 	
 	const uint32 p_state_checksums [   ] =
 	{

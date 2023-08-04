@@ -41,7 +41,7 @@ CSkaterStancePanelComponent::CSkaterStancePanelComponent() : CBaseComponent()
 {
 	SetType( CRC_SKATERSTANCEPANEL );
 	
-	mp_core_physics_component = NULL;
+	mp_core_physics_component = nullptr;
 }
 
 /******************************************************************/
@@ -193,7 +193,7 @@ CBaseComponent::EMemberFunctionResult CSkaterStancePanelComponent::CallMemberFun
 void CSkaterStancePanelComponent::GetDebugInfo ( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterStancePanelComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterStancePanelComponent::GetDebugInfo"));
 	
 	p_info->AddInteger("stance", determine_stance());
 

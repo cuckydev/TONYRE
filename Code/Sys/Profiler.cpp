@@ -181,12 +181,12 @@ void Profiler::start_new_frame( void )
 {
 	mp_current_context_list 	= m_context_list[ s_flip ];
 	mpp_current_context_stack 	= m_context_stack[ s_flip ];
-	mp_current_context 			= NULL;								// nothing has been pushed yet
+	mp_current_context 			= nullptr;								// nothing has been pushed yet
 	mp_current_context_count	= &m_context_count[ s_flip ];
 	m_context_stack_depth		= 0;								// nothing on stack
 	m_next_context				= 0;								// start of list (index into mp_current_context_list)
 	m_acc						= false;
-	mp_acc_context				= NULL;
+	mp_acc_context				= nullptr;
 }
 
 /******************************************************************/
@@ -280,8 +280,8 @@ void Profiler::PopContext( void )
 
 			if ( ! m_context_stack_depth)
 			{
-				// nothing left on stack, so set current context to NULL
-				mp_current_context = NULL;
+				// nothing left on stack, so set current context to nullptr
+				mp_current_context = nullptr;
 				// update the count of valid contexts
 				*mp_current_context_count = m_next_context;
 			}
@@ -330,9 +330,9 @@ void Profiler::sCloseDown( void )
 	delete VUProfiler;
 	delete DMAProfiler;
 	delete CPUProfiler;
-	VUProfiler = NULL;
-	DMAProfiler = NULL;
-	CPUProfiler = NULL;
+	VUProfiler = nullptr;
+	DMAProfiler = nullptr;
+	CPUProfiler = nullptr;
 }
 
 /******************************************************************/

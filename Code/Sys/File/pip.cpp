@@ -115,12 +115,12 @@ public:
 
 		for (i=0; i<MAX_PRE_FILES; ++i)
 		{
-			spp_pre_files[i]=NULL;
+			spp_pre_files[i]=nullptr;
 		}
 
 		for (i=0; i<MAX_UNPREED_FILES; ++i)
 		{
-			sp_unpreed_files[i].mpFileData=NULL;
+			sp_unpreed_files[i].mpFileData=nullptr;
 			sp_unpreed_files[i].mFileNameChecksum=0;
 			sp_unpreed_files[i].mFileSize=0;
 			sp_unpreed_files[i].mUsage=0;
@@ -135,7 +135,7 @@ static CInit s_initter;
 // When used on the processed pre, quadWordAlignedData should be set to QUAD_WORD_ALIGNED, which is its default value.
 static SPreContained *sSkipToNextPreContained(SPreContained *p_preContained, EQuadAligned quadWordAlignedData)
 {
-	Dbg_MsgAssert(p_preContained,("NULL p_preContained"));
+	Dbg_MsgAssert(p_preContained,("nullptr p_preContained"));
 
 
 	int total_data_size=p_preContained->mDataSize;
@@ -160,7 +160,7 @@ static SPreContained *sSkipToNextPreContained(SPreContained *p_preContained, EQu
 
 static SPreHeader *sSkipOverPreName(const char *p_pre_name)
 {
-	Dbg_MsgAssert(p_pre_name,("NULL p_pre_name"));
+	Dbg_MsgAssert(p_pre_name,("nullptr p_pre_name"));
 
 	int len=strlen(p_pre_name)+1; // +1 for terminator
 	len=(len+15)&~15;	// Round up to a multiple of 16
@@ -172,7 +172,7 @@ static SPreHeader *sSkipOverPreName(const char *p_pre_name)
 // Ie, a valid name would be "alc.pre"
 void LoadPre(const char *p_preFileName)
 {
-	Dbg_MsgAssert(p_preFileName,("NULL p_preFileName"));
+	Dbg_MsgAssert(p_preFileName,("nullptr p_preFileName"));
 
 	// Check to see if the pre is already loaded, and return without doing anything if it is.
 	for (int i=0; i<MAX_PRE_FILES; ++i)
@@ -217,7 +217,7 @@ void LoadPre(const char *p_preFileName)
 
 
 
-	char *p_old_file_data=NULL;
+	char *p_old_file_data=nullptr;
 	uint32 original_file_size = File::CanFileBeLoadedQuickly( p_full_pre_name );
 	uint32 old_pre_buffer_size=0;
 
@@ -239,7 +239,7 @@ void LoadPre(const char *p_preFileName)
 		{
 			Dbg_MsgAssert( 0,( "File %s failed to load quickly.\n", p_full_pre_name));
 			Mem::Free(p_old_file_data);
-			p_old_file_data=NULL;
+			p_old_file_data=nullptr;
 		}
 	}
 	else
@@ -339,7 +339,7 @@ void LoadPre(const char *p_preFileName)
 
 
 	// Reallocate the buffer.
-	char *p_new_file_data=NULL;
+	char *p_new_file_data=nullptr;
 	if (Mem::Manager::sHandle().GetContextDirection()==Mem::Allocator::vTOP_DOWN)
 	{
 		// If using the top-down heap expand the buffer downwards ...
@@ -470,7 +470,7 @@ bool UnloadPre(const char *p_preFileName)
 {
 	bool success = false;
 
-	Dbg_MsgAssert(p_preFileName,("NULL p_preFileName"));
+	Dbg_MsgAssert(p_preFileName,("nullptr p_preFileName"));
 
 	for (int i=0; i<MAX_PRE_FILES; ++i)
 	{
@@ -495,7 +495,7 @@ bool UnloadPre(const char *p_preFileName)
 
 				// Delete it.
 				Mem::Free(spp_pre_files[i]);
-				spp_pre_files[i]=NULL;
+				spp_pre_files[i]=nullptr;
 
 				// we've successfully unloaded a pre
 				success = true;
@@ -508,7 +508,7 @@ bool UnloadPre(const char *p_preFileName)
 }
 
 // Searches each of the loaded pre files for the passed contained file.
-// Returns NULL if not found.
+// Returns nullptr if not found.
 static SPreContained *sSeeIfFileIsInAnyPre(uint32 fileNameCRC)
 {
 	for (int i=0; i<MAX_PRE_FILES; ++i)
@@ -531,7 +531,7 @@ static SPreContained *sSeeIfFileIsInAnyPre(uint32 fileNameCRC)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 #ifdef __NOPT_ASSERT__
@@ -588,7 +588,7 @@ void* Load(const char* p_fileName)
 				// It is already loaded, so increment the usage and return the pointer.
 				++sp_unpreed_files[i].mUsage;
 
-				Dbg_MsgAssert(sp_unpreed_files[i].mpFileData,("NULL sp_unpreed_files[i].mpFileData ?"));
+				Dbg_MsgAssert(sp_unpreed_files[i].mpFileData,("nullptr sp_unpreed_files[i].mpFileData ?"));
 				return sp_unpreed_files[i].mpFileData;
 			}
 		}
@@ -597,7 +597,7 @@ void* Load(const char* p_fileName)
 	// It's not in a pre, and it is not already loaded, so load it.
 
 	// Find a free slot.
-	SUnPreedFile *p_new_unpreed_file=NULL;
+	SUnPreedFile *p_new_unpreed_file=nullptr;
 	for (int i=0; i<MAX_UNPREED_FILES; ++i)
 	{
 		if (!sp_unpreed_files[i].mpFileData)
@@ -645,7 +645,7 @@ void Unload(uint32 fileNameCRC)
 				if (sp_unpreed_files[i].mUsage==0)
 				{
 					Mem::Free(sp_unpreed_files[i].mpFileData);
-					sp_unpreed_files[i].mpFileData=NULL;
+					sp_unpreed_files[i].mpFileData=nullptr;
 
 					sp_unpreed_files[i].mFileSize=0;
 					sp_unpreed_files[i].mFileNameChecksum=0;
@@ -679,7 +679,7 @@ void Unload(uint32 fileNameCRC)
 // If it is neither, it won't do anything.
 void Unload(const char *p_fileName)
 {
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 
 	Unload( Crc::GenerateCRCFromString(p_fileName) );
 }
@@ -720,7 +720,7 @@ uint32 GetFileSize(uint32 fileNameCRC)
 
 uint32 GetFileSize(const char *p_fileName)
 {
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 
 	uint32 file_size = GetFileSize( Crc::GenerateCRCFromString(p_fileName) );
 
@@ -734,7 +734,7 @@ uint32 GetFileSize(const char *p_fileName)
 
 const char *GetNextLoadedPre(const char *p_pre_name)
 {
-	if (p_pre_name==NULL)
+	if (p_pre_name==nullptr)
 	{
 		for (int i=0; i<MAX_PRE_FILES; ++i)
 		{
@@ -743,7 +743,7 @@ const char *GetNextLoadedPre(const char *p_pre_name)
 				return spp_pre_files[i];
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	bool found=false;
@@ -763,12 +763,12 @@ const char *GetNextLoadedPre(const char *p_pre_name)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool PreFileIsInUse(const char *p_pre_name)
 {
-	Dbg_MsgAssert(p_pre_name,("NULL p_pre_name"));
+	Dbg_MsgAssert(p_pre_name,("nullptr p_pre_name"));
 
 	for (int i=0; i<MAX_PRE_FILES; ++i)
 	{
@@ -916,8 +916,8 @@ namespace File
 // Load file as quickly as possible
 // Try loading from the pre manager first, then from the CD, using the "quick filesys"
 // then finally using the regular file loading functions
-// returns pointer to allocated memory, or NULL if file fails to load
-// optionally returns size of file in bytes, in *p_filesize (ignored if p_filesize is NULL)
+// returns pointer to allocated memory, or nullptr if file fails to load
+// optionally returns size of file in bytes, in *p_filesize (ignored if p_filesize is nullptr)
 // if file fails to load, *p_filesize will be 0
 // if you pass in p_dest, you must also pass in maxSize, the size of the buffer
 void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxSize)
@@ -953,7 +953,7 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 				{
 					Mem::Free(p_file_data);
 				}
-				p_file_data=NULL;
+				p_file_data=nullptr;
 			}
 		}
 		else

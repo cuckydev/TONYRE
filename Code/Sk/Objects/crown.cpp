@@ -201,10 +201,10 @@ void CCrown::InitCrown( CGeneralManager* p_obj_man, Script::CStruct* pNodeData )
 	MovingObjectCreateComponents();
 
 	// Create an empty model 
-	Dbg_MsgAssert( GetModelComponent() == NULL, ( "Model component already exists" ) );
+	Dbg_MsgAssert( GetModelComponent() == nullptr, ( "Model component already exists" ) );
 	Script::CStruct* pModelStruct = new Script::CStruct;
 	pModelStruct->AddChecksum( Crc::ConstCRC("component"), CRC_MODEL );
-	this->CreateComponentFromStructure(pModelStruct, NULL);
+	this->CreateComponentFromStructure(pModelStruct, nullptr);
 	delete pModelStruct;
 	
 	MovingObjectInit( pNodeData, p_obj_man );

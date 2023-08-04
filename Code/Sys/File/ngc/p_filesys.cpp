@@ -166,8 +166,8 @@ struct skyFile
 //
 ////	return fopen( nameConversionBuffer, mode );
 //
-//	HANDLE h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
-//	return ( h_file == INVALID_HANDLE_VALUE ) ? NULL : h_file;
+//	HANDLE h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
+//	return ( h_file == INVALID_HANDLE_VALUE ) ? nullptr : h_file;
 //}
 
 
@@ -200,7 +200,7 @@ skyFile* lock_skyfile( void )
 			g_skyFile[i].ngcFile.m_sizeCached		= 0; 
 			g_skyFile[i].ngcFile.m_numCacheBytes	= 0; 
 			g_skyFile[i].ngcFile.m_seekOffset		= 0;
-			g_skyFile[i].ngcFile.m_preHandle		= NULL;
+			g_skyFile[i].ngcFile.m_preHandle		= nullptr;
 			g_skyFile[i].ngcFile.m_unique_tag		= 0x1234ABCD;
 			return &g_skyFile[i];
 		}
@@ -214,7 +214,7 @@ skyFile* lock_skyfile( void )
 
 	// if we get here, that means that all the sky files were locked
 	Dbg_MsgAssert( 0, ( "Trying to open too many files simultaneously (max=%d)", max_open_files ) );
-	return NULL;
+	return nullptr;
 }
 
 void unlock_skyfile( skyFile* pSkyFile )
@@ -249,7 +249,7 @@ void unlock_skyfile( skyFile* pSkyFile )
 
 long GetFileSize( void* pFP )
 {
-	Dbg_MsgAssert(pFP,("NULL pFP sent to GetFileSize"));
+	Dbg_MsgAssert(pFP,("nullptr pFP sent to GetFileSize"));
 
     if (PreMgr::sPreEnabled())
     {
@@ -265,7 +265,7 @@ long GetFileSize( void* pFP )
 long GetFilePosition(void *pFP)
 {
 	
-	Dbg_MsgAssert(pFP,("NULL pFP sent to GetFilePosition"));
+	Dbg_MsgAssert(pFP,("nullptr pFP sent to GetFilePosition"));
 
     if (PreMgr::sPreEnabled())
     {
@@ -389,12 +389,12 @@ void * Open( const char *filename, const char *access )
 		else
 		{
 			unlock_skyfile( fp );
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 

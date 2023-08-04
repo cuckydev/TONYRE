@@ -493,7 +493,7 @@ CVictoryCondition*	CreateVictoryConditionInstance( Script::CScriptStructure* p_s
 	uint32 condition_type;
 	p_structure->GetChecksum( "type", &condition_type, true );
 
-	CVictoryCondition* pVictoryCondition = NULL;
+	CVictoryCondition* pVictoryCondition = nullptr;
 	
 	switch ( condition_type )
 	{

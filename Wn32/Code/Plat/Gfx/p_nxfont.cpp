@@ -17,7 +17,7 @@ namespace Nx
 /*                                                                */
 /******************************************************************/
 
-CXboxFont::CXboxFont() : mp_plat_font(NULL)
+CXboxFont::CXboxFont() : mp_plat_font(nullptr)
 {
 }
 
@@ -62,7 +62,7 @@ bool CXboxFont::plat_load(const char *filename)
 	mp_plat_font = NxWn32::LoadFont(filename);
 #	endif
 
-	return (mp_plat_font != NULL);
+	return (mp_plat_font != nullptr);
 }
 
 /******************************************************************/
@@ -95,7 +95,7 @@ void CXboxFont::plat_set_rgba_table(Image::RGBA *pTab)
 
 void CXboxFont::plat_mark_as_button_font(bool isButton)
 {
-	NxWn32::pButtonsFont = (isButton) ? mp_plat_font : NULL;
+	NxWn32::pButtonsFont = (isButton) ? mp_plat_font : nullptr;
 }
 
 /******************************************************************/
@@ -106,7 +106,7 @@ void CXboxFont::plat_mark_as_button_font(bool isButton)
 void CXboxFont::plat_unload()
 {
 	NxWn32::UnloadFont(mp_plat_font);
-	mp_plat_font = NULL;
+	mp_plat_font = nullptr;
 }
 
 /******************************************************************/

@@ -15,7 +15,7 @@ CPathObjectTracker *CPathMan::TrackObject(CCompositeObject *p_ob, int node_numbe
 {
 	Script::CStruct *p_node=SkateScript::GetNode(node_number);
 	#ifdef __NOPT_ASSERT__
-	Dbg_MsgAssert(p_node,("NULL p_node for node %d",node_number));
+	Dbg_MsgAssert(p_node,("nullptr p_node for node %d",node_number));
 	#endif
 	
 	int path_number=0;
@@ -32,7 +32,7 @@ CPathObjectTracker *CPathMan::TrackObject(CCompositeObject *p_ob, int node_numbe
 CPathObjectTracker *CPathMan::TrackPed(CCompositeObject *p_ob, int node_number)
 {
 	Script::CStruct *p_node=SkateScript::GetNode(node_number);
-	Dbg_MsgAssert(p_node,("NULL p_node for node %d",node_number));
+	Dbg_MsgAssert(p_node,("nullptr p_node for node %d",node_number));
 	
 	int path_number=0;
 	if (!p_node->GetInteger("PathNum",&path_number))
@@ -59,25 +59,25 @@ void CPathObjectTracker::Clear()
 {
 	for (int i=0; i<MAX_OBJECTS_PER_PATH; ++i)
 	{
-		mpp_objects[i]=NULL;
+		mpp_objects[i]=nullptr;
 	}
 }
 
 void CPathObjectTracker::StopTrackingObject(CCompositeObject *p_ob)
 {
-	Dbg_MsgAssert(p_ob,("NULL p_ob"));
+	Dbg_MsgAssert(p_ob,("nullptr p_ob"));
 	for (int i=0; i<MAX_OBJECTS_PER_PATH; ++i)
 	{
 		if (mpp_objects[i]==p_ob)
 		{
-			mpp_objects[i]=NULL;
+			mpp_objects[i]=nullptr;
 		}
 	}
 }			
 
 void CPathObjectTracker::AddObjectPointer(CCompositeObject *p_ob)
 {
-	Dbg_MsgAssert(p_ob,("NULL p_ob"));
+	Dbg_MsgAssert(p_ob,("nullptr p_ob"));
 	//printf("Tracking %s\n",Script::FindChecksumName(p_ob->mNodeNameChecksum));
 
 	for (int i=0; i<MAX_OBJECTS_PER_PATH; ++i)
@@ -92,7 +92,7 @@ void CPathObjectTracker::AddObjectPointer(CCompositeObject *p_ob)
 }
 
 
-CPathMan *CPathMan::mp_instance=NULL;
+CPathMan *CPathMan::mp_instance=nullptr;
 
 CPathMan *CPathMan::Instance()
 {
@@ -106,7 +106,7 @@ CPathMan *CPathMan::Instance()
 CPathMan::CPathMan()
 {
 	m_num_paths=0;
-	mp_path_object_trackers = NULL;
+	mp_path_object_trackers = nullptr;
 }
 
 void CPathMan::ClearPathObjectTrackers()
@@ -236,7 +236,7 @@ void CPathMan::DeallocateObjectTrackerMemory()
 	{
 		ClearPathObjectTrackers();
 		delete[] mp_path_object_trackers;
-		mp_path_object_trackers = NULL;
+		mp_path_object_trackers = nullptr;
 	}
 }
 

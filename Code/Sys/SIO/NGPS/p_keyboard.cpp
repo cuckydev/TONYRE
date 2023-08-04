@@ -64,7 +64,7 @@ namespace SIO
 
 #define USBKEYBD_ARG "keybd=8\0debug=1"
 
-static	unsigned char *s_old_status = NULL;
+static	unsigned char *s_old_status = nullptr;
 static	USBKBINFO_t	s_info;
 static	u_char 		s_location[7];
 static	USBKBDATA_t s_kdata;

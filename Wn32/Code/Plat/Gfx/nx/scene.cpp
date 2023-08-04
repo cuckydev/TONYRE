@@ -21,8 +21,8 @@ int sort_by_material_draw_order( const void *p1, const void *p2 )
 	sMaterial	*p_material1	= p_mesh1->mp_material;
 	sMaterial	*p_material2	= p_mesh2->mp_material;
 	
-	Dbg_Assert( p_material1 != NULL );
-	Dbg_Assert( p_material2 != NULL );
+	Dbg_Assert( p_material1 != nullptr );
+	Dbg_Assert( p_material2 != nullptr );
 
 	if( p_material1->m_draw_order == p_material2->m_draw_order )
 	{
@@ -76,10 +76,10 @@ sScene::sScene( void )
 	m_num_dynamic_sort_entries			= 0;
 	m_is_dictionary						= false;
 
-	m_meshes							= NULL;
-	pMaterialTable						= NULL;
+	m_meshes							= nullptr;
+	pMaterialTable						= nullptr;
 
-	mp_hierarchyObjects					= NULL;
+	mp_hierarchyObjects					= nullptr;
 	m_numHierarchyObjects				= 0;
 }
 
@@ -97,7 +97,7 @@ sScene::~sScene( void )
 		delete pMaterialTable;
 	}
 
-	if( m_meshes != NULL )
+	if( m_meshes != nullptr )
 	{
 		delete [] m_meshes;
 	}
@@ -194,7 +194,7 @@ void sScene::RemoveMeshes( int num_meshes, sMesh **pp_meshes )
 			if( m_meshes[i] == p_mesh )
 			{
 				found = true;
-				m_meshes[i] = NULL;
+				m_meshes[i] = nullptr;
 				++num_mesh_entries_removed;
 				break;
 			}
@@ -208,7 +208,7 @@ void sScene::RemoveMeshes( int num_meshes, sMesh **pp_meshes )
 	{
 		for( int i = 0; i < m_num_mesh_entries; ++i )
 		{
-			if( m_meshes[i] == NULL )
+			if( m_meshes[i] == nullptr )
 			{
 				// Only worth copying if there is anything beyond this mesh.
 				if( i < ( m_num_mesh_entries - 1 ))
@@ -308,7 +308,7 @@ sMesh *sScene::GetMeshByLoadOrder( int load_order )
 			return m_meshes[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -332,7 +332,7 @@ sMaterial *sScene::GetMaterial( uint32 checksum )
 			p_mat = pMaterialTable->IterateNext();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -369,7 +369,7 @@ void sScene::HidePolys( uint32 mask, sCASData *p_cas_data, uint32 num_entries )
 
 			Dbg_Assert( load_order < 32 );
 			
-			if( p_mesh == NULL )
+			if( p_mesh == nullptr )
 			{
 				continue;
 			}
@@ -456,7 +456,7 @@ void sScene::HidePolys( uint32 mask, sCASData *p_cas_data, uint32 num_entries )
 /******************************************************************/
 sScene *LoadScene( const char *Filename, sScene *pScene )
 {
-	return NULL;
+	return nullptr;
 }
 
 

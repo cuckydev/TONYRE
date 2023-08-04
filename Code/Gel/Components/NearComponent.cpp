@@ -174,7 +174,7 @@ CBaseComponent::EMemberFunctionResult CNearComponent::CallMemberFunction( uint32
 void CNearComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ( "NULL p_info sent to CNearComponent::GetDebugInfo" ));
+	Dbg_MsgAssert( p_info, ( "nullptr p_info sent to CNearComponent::GetDebugInfo" ));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)
@@ -366,7 +366,7 @@ CNearComponent** CNearComponent::GetIntersectingNearComponents( Mth::Vector &bbm
 		{
 			// Nothing was found, therefore there can be no intersections.
 			*p_num_intersecting = 0;
-			return NULL;
+			return nullptr;
 		}
 
 		// Find the end index.
@@ -375,7 +375,7 @@ CNearComponent** CNearComponent::GetIntersectingNearComponents( Mth::Vector &bbm
 		{
 			// Nothing was found, therefore there can be no intersections.
 			*p_num_intersecting = 0;
-			return NULL;
+			return nullptr;
 		}
 
 		Dbg_Assert( end_index > start_index );
@@ -395,7 +395,7 @@ CNearComponent** CNearComponent::GetIntersectingNearComponents( Mth::Vector &bbm
 		if( intersections_for_this_axis == 0 )
 		{
 			*p_num_intersecting = 0;
-			return NULL;
+			return nullptr;
 		}
 
 		// Store off the number of intersections for this axis.
@@ -407,7 +407,7 @@ CNearComponent** CNearComponent::GetIntersectingNearComponents( Mth::Vector &bbm
 	int final_intersections = sSweepPruneArray::BuildCompositeIntersectingArray();
 
 	*p_num_intersecting = final_intersections;
-	return ( final_intersections > 0 ) ? &combinedAxisWorkspace[0] : NULL;
+	return ( final_intersections > 0 ) ? &combinedAxisWorkspace[0] : nullptr;
 }
 
 
@@ -448,7 +448,7 @@ CNearComponent** CNearComponent::GetIntersectingNearComponents( int *p_num_inter
 		if( perAxisIntersections[axis] == 0 )
 		{
 			*p_num_intersecting = 0;
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -456,7 +456,7 @@ CNearComponent** CNearComponent::GetIntersectingNearComponents( int *p_num_inter
 	int final_intersections = sSweepPruneArray::BuildCompositeIntersectingArray();
 
 	*p_num_intersecting = final_intersections;
-	return ( final_intersections > 0 ) ? &combinedAxisWorkspace[0] : NULL;
+	return ( final_intersections > 0 ) ? &combinedAxisWorkspace[0] : nullptr;
 }
 
 

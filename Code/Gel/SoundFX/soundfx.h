@@ -225,7 +225,7 @@ public:
 	int				MemAvailable( void );
 
 	bool			LoadSound( const char *sfxName,  int flags = 0, float dropoff = 0.0f, float pitch = 100.0f, float volume = 100.0f );
-	uint32			PlaySfx( uint32 checksum, sVolume *p_vol, float pitch = 100.0f, uint32 controlID = 0, SoundUpdateInfo *pUpdateInfo = NULL, const char *pSoundName = NULL );
+	uint32			PlaySfx( uint32 checksum, sVolume *p_vol, float pitch = 100.0f, uint32 controlID = 0, SoundUpdateInfo *pUpdateInfo = nullptr, const char *pSoundName = nullptr );
 	uint32			PlaySoundWithPos( uint32 soundChecksum, SoundUpdateInfo *pUpdateInfo, Obj::CSoundComponent *pObj, bool noPosUpdate );
 	ObjectSoundInfo	*GetObjectSoundProperties( Obj::CSoundComponent *pObj, uint32 checksum );
 
@@ -236,14 +236,14 @@ public:
 	void			StopObjectSound( Obj::CSoundComponent *pObj, uint32 checksum );
 	void			PauseSounds( void );
 	void			SetReverb( float reverbLevel, int reverbMode = 0, bool instant = false );
-	bool			SoundIsPlaying( uint32 uniqueID, int *pWhichVoice = NULL );
+	bool			SoundIsPlaying( uint32 uniqueID, int *pWhichVoice = nullptr );
 	int				GetNumSoundsPlaying();
 	void			SetMainVolume( float volume );
 	void			SetDefaultDropoffDist( float dist );
 	void			SetVolumeFromPos( sVolume *p_vol, const Mth::Vector &soundSource, float dropoffDist,
 									  EDropoffFunc dropoff_func = DROPOFF_FUNC_STANDARD,
-									  Gfx::Camera* pCamera = NULL, const Mth::Vector *p_dropoff_pos = NULL );
-	void			AdjustPitchForDoppler( float *pitch, const Mth::Vector &currentPos, const Mth::Vector &oldPos, float elapsedTime, Gfx::Camera* pCam = NULL );
+									  Gfx::Camera* pCamera = nullptr, const Mth::Vector *p_dropoff_pos = nullptr );
+	void			AdjustPitchForDoppler( float *pitch, const Mth::Vector &currentPos, const Mth::Vector &oldPos, float elapsedTime, Gfx::Camera* pCam = nullptr );
 	void			Get5ChannelMultipliers( const Mth::Vector &sound_source, float *p_multipliers );
 	void			Get5ChannelMultipliers( float angle, float *p_multipliers );
 
@@ -274,7 +274,7 @@ private:
 	bool			AdjustObjectSound( Obj::CSoundComponent *pObj, VoiceInfo *pVoiceInfo, Tmr::Time gameTime );
 	void			TweakVolumeAndPitch( sVolume* p_vol, float *pitch, WaveTableEntry* waveTableIndex );
 	void			RemovePositionalSoundFromList( PositionalSoundEntry *pEntry, bool stopIfPlaying );
-	void			AddPositionalSoundToUpdateList( uint32 uniqueID, uint32 soundChecksum, Obj::CSoundComponent *pObj = NULL );
+	void			AddPositionalSoundToUpdateList( uint32 uniqueID, uint32 soundChecksum, Obj::CSoundComponent *pObj = nullptr );
 
 	// UniqueID functions
 	bool			IDAvailable(uint32 id);

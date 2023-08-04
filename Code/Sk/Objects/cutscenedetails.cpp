@@ -2933,10 +2933,10 @@ Mth::Vector testBoneScales[] = {
 
 CCutsceneData::CCutsceneData()
 {
-	mp_fileLibrary = NULL;
+	mp_fileLibrary = nullptr;
 
-	mp_cameraQuickAnim = NULL;
-	mp_objectQuickAnim = NULL;
+	mp_cameraQuickAnim = nullptr;
+	mp_objectQuickAnim = nullptr;
 
 	m_numObjects = 0;
 	m_numAssets = 0;
@@ -2959,19 +2959,19 @@ CCutsceneData::~CCutsceneData()
 	if ( mp_fileLibrary )
 	{
 		delete mp_fileLibrary;
-		mp_fileLibrary = NULL;
+		mp_fileLibrary = nullptr;
 	}
 
 	if ( mp_cameraQuickAnim )
 	{
 		delete mp_cameraQuickAnim;
-		mp_cameraQuickAnim = NULL;
+		mp_cameraQuickAnim = nullptr;
 	}
 
 	if ( mp_objectQuickAnim )
 	{
 		delete mp_objectQuickAnim;
-		mp_objectQuickAnim = NULL;
+		mp_objectQuickAnim = nullptr;
 	}
 	
 	for ( int i = 0; i < m_numBonedAnims; i++ )
@@ -2980,7 +2980,7 @@ CCutsceneData::~CCutsceneData()
 	
 		Dbg_MsgAssert( pAnimInfo->mp_bonedQuickAnim, ( "No quick anim to delete" ) );
 		delete pAnimInfo->mp_bonedQuickAnim;
-		pAnimInfo->mp_bonedQuickAnim = NULL;
+		pAnimInfo->mp_bonedQuickAnim = nullptr;
 	}
 
 	for ( int i = 0; i < m_numObjects; i++ )
@@ -3020,7 +3020,7 @@ CCutsceneData::~CCutsceneData()
 		}
 
 		delete pObjectInfo->mp_object;
-		pObjectInfo->mp_object = NULL;
+		pObjectInfo->mp_object = nullptr;
 	}
 	
 	for ( int i = 0; i < m_numAssets; i++ )
@@ -3030,7 +3030,7 @@ CCutsceneData::~CCutsceneData()
 		Ass::CAssMan* pAssMan = Ass::CAssMan::Instance();
 		Ass::CAsset* pAsset = pAssMan->GetAssetNode( m_assetName[i], true );
 		pAssMan->UnloadAsset( pAsset );
-		m_assetName[i] = NULL;
+		m_assetName[i] = nullptr;
 		
 		// TODO:  Need to handle anims slightly
 		// if we use references...  fortunately,
@@ -3062,7 +3062,7 @@ bool CCutsceneData::OverridesCamera()
 
 Mth::Vector get_scale( Script::CStruct* pAppearance, uint32 bone_group_name )
 {
-	Script::CStruct* pVirtualDescStruct = NULL;
+	Script::CStruct* pVirtualDescStruct = nullptr;
 
 	if ( pAppearance->GetStructure( bone_group_name, &pVirtualDescStruct, Script::NO_ASSERT ) )
 	{
@@ -3105,7 +3105,7 @@ void CCutsceneData::load_models()
 		const File::SFileInfo* pFileInfo = mp_fileLibrary->GetFileInfo( i );
 
 #ifdef __PLAT_NGC__
-		uint32* pData = NULL;
+		uint32* pData = nullptr;
 		switch ( pFileInfo->fileExtensionChecksum )
 		{
 			case 0x5ac14717:	// CIF
@@ -3230,7 +3230,7 @@ void CCutsceneData::load_models()
 #ifdef __NOPT_ASSERT__
 					if ( Script::GetInteger( Crc::ConstCRC("CutsceneScaleTest"), Script::NO_ASSERT ) )
 					{
-						Script::CVector* pVec = NULL;
+						Script::CVector* pVec = nullptr;
 						pVec = Script::GetVector( Crc::ConstCRC("CutsceneScaleTestNeck") );
 						testBoneScales[0] = Mth::Vector( pVec->mX, pVec->mY, pVec->mZ, 1.0f );
 						pVec = Script::GetVector( Crc::ConstCRC("CutsceneScaleTestHead") );
@@ -3276,15 +3276,15 @@ void CCutsceneData::load_models()
 					// ordered male/nonfacemapped, male/facemapped, female/nonfacemapped, 
 					// female/facemapped, so we should be able to figure out which head
 					// is which depending on what other files exist...
-					int is_male_head = ( mp_fileLibrary->GetFileInfo( pFileInfo->fileNameChecksum + 2, Crc::ConstCRC("SKIN"), false ) != NULL );
+					int is_male_head = ( mp_fileLibrary->GetFileInfo( pFileInfo->fileNameChecksum + 2, Crc::ConstCRC("SKIN"), false ) != nullptr );
 					int is_facemapped_head;
 					if ( is_male_head )
 					{
-						is_facemapped_head = ( mp_fileLibrary->GetFileInfo( pFileInfo->fileNameChecksum - 1, Crc::ConstCRC("SKIN"), false ) != NULL );
+						is_facemapped_head = ( mp_fileLibrary->GetFileInfo( pFileInfo->fileNameChecksum - 1, Crc::ConstCRC("SKIN"), false ) != nullptr );
 					}
 					else
 					{
-						is_facemapped_head = ( mp_fileLibrary->GetFileInfo( pFileInfo->fileNameChecksum + 1, Crc::ConstCRC("SKIN"), false ) == NULL );
+						is_facemapped_head = ( mp_fileLibrary->GetFileInfo( pFileInfo->fileNameChecksum + 1, Crc::ConstCRC("SKIN"), false ) == nullptr );
 					}
 
 					int is_male_skater;
@@ -3449,7 +3449,7 @@ bool CCutsceneData::PostLoad( bool assertOnFail )
 	Mem::Manager::sHandle().PopContext();
 
 	delete mp_fileLibrary;
-	mp_fileLibrary = NULL;
+	mp_fileLibrary = nullptr;
 
 	//-------------------------------------------------------------
 	// There's a blue glitch that appears for a few frames while
@@ -3597,7 +3597,7 @@ SCutsceneObjectInfo* CCutsceneData::get_object_info( uint32 objectName )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -3615,7 +3615,7 @@ SCutsceneAnimInfo* CCutsceneData::get_anim_info( uint32 animName )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -3785,7 +3785,7 @@ bool CCutsceneData::create_objects( uint32* pData )
 				Obj::CSkaterProfile* pSkaterProfile = Mdl::Skate::Instance()->GetProfile( 0 );
 				Gfx::CModelAppearance* pCASModelAppearance = pSkaterProfile->GetAppearance();
 
-				Script::CStruct* pHeadStruct = NULL;
+				Script::CStruct* pHeadStruct = nullptr;
 				pHeadStruct = pCASModelAppearance->GetActualDescStructure( Crc::ConstCRC("skater_m_head") );
 				if ( !pHeadStruct )
 				{
@@ -3799,7 +3799,7 @@ bool CCutsceneData::create_objects( uint32* pData )
 				}
 
 				// another special case for the paper bag...
-				Script::CStruct* pHatStruct = NULL;
+				Script::CStruct* pHatStruct = nullptr;
 				pHatStruct = pCASModelAppearance->GetActualDescStructure( Crc::ConstCRC("hat") );
 				if ( pHatStruct && pHatStruct->ContainsFlag( Crc::ConstCRC("NoCutsceneHead") ) )
 				{
@@ -3901,8 +3901,8 @@ bool CCutsceneData::create_objects( uint32* pData )
 		pObjectInfo->m_doPlayerSubstitution = do_player_substitution;
 		pObjectInfo->m_flags = flags;
 
-		pObjectInfo->mp_animInfo = NULL;
-		pObjectInfo->mp_parentObject = NULL;
+		pObjectInfo->mp_animInfo = nullptr;
+		pObjectInfo->mp_parentObject = nullptr;
 		pObjectInfo->m_obaIndex = -1;
 
 		// the animation doesn't necessarily exist for all the objects
@@ -4026,7 +4026,7 @@ bool CCutsceneData::create_objects( uint32* pData )
 				// (we can't do this in replace_cutscene_skater_from_appearance
 				// because it might have an object color to set, which you can
 				// only do if you have the correct geom name)
-				Script::CStruct* pHeadStruct = NULL;
+				Script::CStruct* pHeadStruct = nullptr;
 
 				pCASModelAppearance->PrintContents();
 
@@ -4101,7 +4101,7 @@ char* get_cut_name( const char* p_fileName )
 	char* pExt = strstr( cutsceneName, "." );
 	if ( pExt )
 	{
-		*pExt = NULL;
+		*pExt = nullptr;
 	}
 
 	return cutsceneName;
@@ -4976,7 +4976,7 @@ void CCutsceneData::update_moving_objects()
 			theBox.m_min.Set(-1.0f, -1.0f, -1.0f);    
 
 			// For now, draw a bounding box
-			Gfx::AddDebugBox( pCompositeObject->GetDisplayMatrix(), pCompositeObject->GetPos(), &theBox, NULL, 1, NULL ); 
+			Gfx::AddDebugBox( pCompositeObject->GetDisplayMatrix(), pCompositeObject->GetPos(), &theBox, nullptr, 1, nullptr ); 
 		}
 	}
 }
@@ -5033,13 +5033,13 @@ void CCutsceneData::get_current_frame(Mth::Quat* pQuat, Mth::Vector* pTrans)
 
 CCutsceneDetails::CCutsceneDetails()
 {				  
-	mp_cutsceneAsset = NULL;
+	mp_cutsceneAsset = nullptr;
 	m_cutsceneAssetName = 0;
 
 	mp_cutsceneStruct = new Script::CStruct;
 
 	m_numHiddenObjects = 0;
-	mp_hiddenObjects = NULL;
+	mp_hiddenObjects = nullptr;
 }
 
 /******************************************************************/
@@ -5059,13 +5059,13 @@ CCutsceneDetails::~CCutsceneDetails()
 		Ass::CAssMan* pAssMan = Ass::CAssMan::Instance();
 		Ass::CAsset* pAsset = pAssMan->GetAssetNode( m_cutsceneAssetName, true );
 		pAssMan->UnloadAsset( pAsset );
-		mp_cutsceneAsset = NULL;
+		mp_cutsceneAsset = nullptr;
 	}
 
 	if ( mp_hiddenObjects )
 	{
 		delete[] mp_hiddenObjects;
-		mp_hiddenObjects = NULL;
+		mp_hiddenObjects = nullptr;
 	}
 	
 	// restore the dynamic light modulation factor
@@ -5220,7 +5220,7 @@ void CCutsceneDetails::Cleanup()
 		Ass::CAssMan* pAssMan = Ass::CAssMan::Instance();
 		Ass::CAsset* pAsset = pAssMan->GetAssetNode( m_cutsceneAssetName, true );
 		pAssMan->UnloadAsset( pAsset );
-		mp_cutsceneAsset = NULL;
+		mp_cutsceneAsset = nullptr;
 	}
 
 	if ( m_endScriptName )
@@ -5380,7 +5380,7 @@ void CCutsceneDetails::hide_moving_objects()
 		}
 		p_component = p_component->GetNextSameType();		
 	}
-	Dbg_MsgAssert( mp_hiddenObjects	== NULL, ( "hidden objects array already exists?" ) );
+	Dbg_MsgAssert( mp_hiddenObjects	== nullptr, ( "hidden objects array already exists?" ) );
 
 	if ( !numObjects)
 		return;
@@ -5444,7 +5444,7 @@ void CCutsceneDetails::unhide_moving_objects()
 		}
 
 		delete[] mp_hiddenObjects;
-		mp_hiddenObjects = NULL;
+		mp_hiddenObjects = nullptr;
 	}
 
 	m_numHiddenObjects = 0;

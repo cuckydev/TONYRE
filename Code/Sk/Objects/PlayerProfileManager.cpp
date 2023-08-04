@@ -72,7 +72,7 @@ CPlayerProfileManager::CPlayerProfileManager() : m_Profiles(vMAX_PROFILES)
 
 	for ( int i = 0; i < vMAX_PLAYERS; i++ )
 	{
-		mp_CurrentProfile[i] = NULL;
+		mp_CurrentProfile[i] = nullptr;
 	}
 
 	m_LockCurrentSkaterProfileIndex = false;
@@ -213,14 +213,14 @@ CPlayerProfileManager::~CPlayerProfileManager()
 	{
 		Dbg_Assert( mp_CurrentProfile[i] );
 		delete mp_CurrentProfile[i];
-		mp_CurrentProfile[i] = NULL;
+		mp_CurrentProfile[i] = nullptr;
 	}
 
 	for ( int i = 0; i < m_TemporaryProfileCount; i++ )
 	{
 		Dbg_Assert( mp_TemporaryProfiles[i] );
 		delete mp_TemporaryProfiles[i];
-		mp_TemporaryProfiles[i] = NULL;
+		mp_TemporaryProfiles[i] = nullptr;
 	}
 }
 
@@ -386,10 +386,10 @@ bool CPlayerProfileManager::GetGlobalFlag(int flag)
 	{
 		int key;
 		CSkaterProfile* pProfile = m_Profiles.GetItemByIndex( i, &key );
-		Dbg_MsgAssert(pProfile,("NULL pProfile"));
+		Dbg_MsgAssert(pProfile,("nullptr pProfile"));
 
 		CSkaterCareer *pCareer=pProfile->GetCareer();
-		Dbg_MsgAssert(pCareer,("NULL pCareer"));
+		Dbg_MsgAssert(pCareer,("nullptr pCareer"));
 
 		if (pCareer->GetGlobalFlag(flag))
 		{
@@ -436,7 +436,7 @@ void CPlayerProfileManager::Reset()
 
 void CPlayerProfileManager::AddAllProProfileInfo(Script::CStruct *pStuff)
 {
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
 	uint32 tableSize = m_Profiles.getSize( );
 	for ( uint32 i = 0; i < tableSize; i++ )
@@ -452,7 +452,7 @@ void CPlayerProfileManager::AddAllProProfileInfo(Script::CStruct *pStuff)
 	}
 	
 	
-	Dbg_MsgAssert(mp_CurrentProfile[m_CurrentProfileIndex],("NULL mp_CurrentProfile[%d]",m_CurrentProfileIndex));
+	Dbg_MsgAssert(mp_CurrentProfile[m_CurrentProfileIndex],("nullptr mp_CurrentProfile[%d]",m_CurrentProfileIndex));
 	
 	uint32 CurrentSkaterNameChecksum = mp_CurrentProfile[m_CurrentProfileIndex]->GetSkaterNameChecksum();
 	pStuff->AddComponent(Script::GenerateCRC("CurrentSkater"),ESYMBOLTYPE_NAME,(int)CurrentSkaterNameChecksum);
@@ -492,7 +492,7 @@ void CPlayerProfileManager::AddAllProProfileInfo(Script::CStruct *pStuff)
 
 void CPlayerProfileManager::LoadAllProProfileInfo(Script::CStruct *pStuff)
 {
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 	
@@ -522,7 +522,7 @@ void CPlayerProfileManager::LoadAllProProfileInfo(Script::CStruct *pStuff)
 
 void CPlayerProfileManager::AddCASProfileInfo(Script::CStruct *pStuff)
 {
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
 	uint32 tableSize = m_Profiles.getSize( );
 	for ( uint32 i = 0; i < tableSize; i++ )
@@ -544,13 +544,13 @@ void CPlayerProfileManager::AddCASProfileInfo(Script::CStruct *pStuff)
 
 void CPlayerProfileManager::LoadCASProfileInfo( Script::CStruct *pStuff, bool load_info )
 {
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 
 	ApplyTemplateToCurrentProfile(0xa7be964/*custom*/);
 	CSkaterProfile* pProfile=GetCurrentProfile();
 
 	uint32 Name = Script::GenerateCRC("custom");
-	Script::CStruct *pSkaterInfo=NULL;
+	Script::CStruct *pSkaterInfo=nullptr;
 	pStuff->GetStructure(Name,&pSkaterInfo);
    
 	Dbg_MsgAssert(pSkaterInfo,("Memory card data is missing info for skater '%s'",Script::FindChecksumName(Name)));
@@ -561,15 +561,15 @@ void CPlayerProfileManager::LoadCASProfileInfo( Script::CStruct *pStuff, bool lo
 	{
 		if (Version==CSkaterProfile::vVERSION_NUMBER)
 		{
-			Script::CStruct *pTemp=NULL;
+			Script::CStruct *pTemp=nullptr;
 	
 			pSkaterInfo->GetStructure("Appearance",&pTemp);
 			Gfx::CModelAppearance* pAppearance=pProfile->GetAppearance();
-			Dbg_MsgAssert(pAppearance,("NULL pAppearance"));
+			Dbg_MsgAssert(pAppearance,("nullptr pAppearance"));
 			pAppearance->Load(pTemp);
 	
 //			CSkaterCareer* pCareer=pProfile->GetCareer();
-//			Dbg_MsgAssert(pCareer,("NULL pCareer"));
+//			Dbg_MsgAssert(pCareer,("nullptr pCareer"));
 //			pCareer->ReadFromStructure(pSkaterInfo);
 	
 			// GJ:  maybe this function could be refactored to use
@@ -577,7 +577,7 @@ void CPlayerProfileManager::LoadCASProfileInfo( Script::CStruct *pStuff, bool lo
 			// i'm not sure why there's one set of code for the pros
 			// and one for the custom skater
 			Gfx::CFaceTexture* pFaceTexture = pAppearance->GetFaceTexture();
-			Dbg_MsgAssert( (!pProfile->IsPro()) == (pFaceTexture!=NULL), ( "Only custom skaters should have face textures (Pro=%d, FaceTexture=%p)", pProfile->IsPro(), pFaceTexture ) )
+			Dbg_MsgAssert( (!pProfile->IsPro()) == (pFaceTexture!=nullptr), ( "Only custom skaters should have face textures (Pro=%d, FaceTexture=%p)", pProfile->IsPro(), pFaceTexture ) )
 			if ( pFaceTexture )
 			{
 				bool faceTextureFound = pSkaterInfo->GetStructure( Crc::ConstCRC("FaceTexture"), &pTemp );
@@ -622,7 +622,7 @@ void CPlayerProfileManager::LoadCASProfileInfo( Script::CStruct *pStuff, bool lo
 			pSpecialTricks->AppendStructure( pProfile->GetSpecialTricksStructure() );
             
             
-            pTemp=NULL;
+            pTemp=nullptr;
             pSkaterInfo->GetStructure("Info",&pTemp);
             Script::CStruct* pInfo = pProfile->GetInfo();
             Dbg_Assert(pInfo);
@@ -706,7 +706,7 @@ CSkaterProfile* CPlayerProfileManager::GetTemporaryProfile(uint32 profileName)
 	
 	Dbg_MsgAssert( 0, ( "Couldn't find temporary profile with checksum %s\n", Script::FindChecksumName(profileName) ) );
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

@@ -152,8 +152,8 @@ int CViewerObject::s_handle_sequence_preview( Net::MsgHandlerContext* context )
 	script_name = context->m_Msg;
 	sprintf( path, "scripts\\animview\\%s.qb", script_name );
 	SkateScript::LoadQB( path );
-	//Script::RunScriptOnObject("RunMeNow",NULL,pViewerObject);
-	Script::CScript *pNewScript=Script::SpawnScript(script_name,NULL,0,NULL);
+	//Script::RunScriptOnObject("RunMeNow",nullptr,pViewerObject);
+	Script::CScript *pNewScript=Script::SpawnScript(script_name,nullptr,0,nullptr);
 	pNewScript->mpObject = pViewerObject;
 	
 	return Net::HANDLER_CONTINUE;
@@ -176,7 +176,7 @@ int CViewerObject::s_handle_reload_cam_anim( Net::MsgHandlerContext* context )
 	pTempStruct->AddString( NONAME, p_msg->m_Filename );
 	pTempStruct->AddChecksum( NONAME, p_msg->m_checksum );
 
-	CFuncs::ScriptReloadSkaterCamAnim( pTempStruct, NULL );
+	CFuncs::ScriptReloadSkaterCamAnim( pTempStruct, nullptr );
 
 	delete pTempStruct;
 
@@ -453,7 +453,7 @@ void CViewerObject::ChangeAnimSpeed( float animSpeed )
 		// update partial anims
 		Script::CStruct* pTempStruct = new Script::CStruct;
 		pTempStruct->AddFloat( Crc::ConstCRC("speed"), m_animSpeed );
-		GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("SetPartialAnimSpeed"), pTempStruct, NULL );
+		GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("SetPartialAnimSpeed"), pTempStruct, nullptr );
 		delete pTempStruct;
     }
 
@@ -483,7 +483,7 @@ void CViewerObject::IncrementFrame( bool forwards )
         
 			Script::CStruct* pTempStruct = new Script::CStruct;
 			pTempStruct->AddFloat( Crc::ConstCRC("incVal"), 1.0f / 60.0f );
-			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("IncrementPartialAnimTime"), pTempStruct, NULL );
+			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("IncrementPartialAnimTime"), pTempStruct, nullptr );
 			delete pTempStruct;
 		}
         else
@@ -497,14 +497,14 @@ void CViewerObject::IncrementFrame( bool forwards )
 
 			GetAnimationComponent()->ReverseDirection( false );
     		
-			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("ReversePartialAnimDirection"), NULL, NULL );
+			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("ReversePartialAnimDirection"), nullptr, nullptr );
 			
 			Script::CStruct* pTempStruct = new Script::CStruct;
 			pTempStruct->AddFloat( Crc::ConstCRC("incVal"), -1.0f / 60.0f );
-			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("IncrementPartialAnimTime"), pTempStruct, NULL );
+			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("IncrementPartialAnimTime"), pTempStruct, nullptr );
 			delete pTempStruct;
 			
-			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("ReversePartialAnimDirection"), NULL, NULL );
+			GetAnimationComponent()->CallMemberFunction( Crc::ConstCRC("ReversePartialAnimDirection"), nullptr, nullptr );
 		}
 		
 		// don't want to call the animation component's

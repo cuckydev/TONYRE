@@ -142,7 +142,7 @@ void CModelAppearance::resolve_randomized_desc_ids()
 	// this selected as well
 	uint32 random_set = 0;
 
-	Script::CComponent* p_comp = m_appearance.GetNextComponent( NULL );
+	Script::CComponent* p_comp = m_appearance.GetNextComponent( nullptr );
 	while ( p_comp )
 	{
 		Script::CComponent* p_next = m_appearance.GetNextComponent( p_comp );		
@@ -249,7 +249,7 @@ void CModelAppearance::set_checksum(uint32 fieldChecksum, uint32 valueChecksum)
 	
 CModelAppearance::CModelAppearance( void )
 {
-	mp_faceTexture = NULL;
+	mp_faceTexture = nullptr;
 
 	m_willEventuallyHaveFaceTexture = false;
 }
@@ -261,7 +261,7 @@ CModelAppearance::CModelAppearance( void )
 
 CModelAppearance::CModelAppearance( const CModelAppearance& rhs )
 {
-	mp_faceTexture = NULL;
+	mp_faceTexture = nullptr;
 
 	// use the overridden assignment operator
 	*this = rhs;
@@ -277,7 +277,7 @@ CModelAppearance::~CModelAppearance()
 	if ( mp_faceTexture )
 	{
 		delete mp_faceTexture;
-		mp_faceTexture = NULL;
+		mp_faceTexture = nullptr;
 	}
 }
 
@@ -303,7 +303,7 @@ CModelAppearance& CModelAppearance::operator=( const CModelAppearance& rhs )
 	if ( mp_faceTexture )
 	{
 		delete mp_faceTexture;
-		mp_faceTexture = NULL;
+		mp_faceTexture = nullptr;
 
 	}
 
@@ -533,14 +533,14 @@ void CModelAppearance::PrintContents( const Script::CStruct* p_structure )
 	}
 	//const Script::CStruct* p_structure= &m_appearance;
 
-	Dbg_MsgAssert(p_structure,("NULL p_structure"));
+	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
 	  
 	//printf(" ");
 	
 	
 	printf("{");
 			
-    Script::CComponent *p_comp=p_structure->GetNextComponent(NULL);
+    Script::CComponent *p_comp=p_structure->GetNextComponent(nullptr);
 
     while (p_comp)
     {
@@ -586,7 +586,7 @@ void CModelAppearance::PrintContents( const Script::CStruct* p_structure )
 				if (p_entry && p_entry->mType==ESYMBOLTYPE_STRUCTURE)
 				{
 					printf("... Defined in %s ...\n",Script::FindChecksumName(p_entry->mSourceFileNameChecksum));
-					Dbg_MsgAssert(p_entry->mpStructure,("NULL p_entry->mpStructure"));
+					Dbg_MsgAssert(p_entry->mpStructure,("nullptr p_entry->mpStructure"));
 					CModelAppearance::PrintContents(p_entry->mpStructure);
 				}
 			}		
@@ -635,7 +635,7 @@ Script::CStruct* CModelAppearance::GetActualDescStructure( uint32 partChecksum )
 		return Cas::GetOptionStructure( partChecksum, get_desc_id_from_structure( pStructure ), false );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -645,7 +645,7 @@ Script::CStruct* CModelAppearance::GetActualDescStructure( uint32 partChecksum )
 
 Script::CStruct* CModelAppearance::GetVirtualDescStructure( uint32 partChecksum )
 {
-	Script::CStruct* pStructure = NULL;
+	Script::CStruct* pStructure = nullptr;
 	m_appearance.GetStructure( partChecksum, &pStructure, Script::NO_ASSERT );
 	return pStructure;
 }
@@ -782,7 +782,7 @@ void CModelAppearance::DestroyFaceTexture()
 	if ( mp_faceTexture )
 	{
 		delete mp_faceTexture;
-		mp_faceTexture = NULL;
+		mp_faceTexture = nullptr;
 	}
 }
 

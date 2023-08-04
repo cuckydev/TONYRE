@@ -115,7 +115,7 @@ public:
 	
 	
 	bool 		FileExists(const char *pName);
-	void*		LoadContainedFile(const char *pName,int *p_size, void *p_dest = NULL);
+	void*		LoadContainedFile(const char *pName,int *p_size, void *p_dest = nullptr);
 	FileHandle*	GetContainedFile(const char *pName);
 	uint8*		GetContainedFileByHandle(FileHandle *pHandle);
 
@@ -159,7 +159,7 @@ public:
 	void LoadPre(const char *pFilename, bool async, bool dont_assert = false, bool useBottomUpHeap=false);
 	void LoadPrePermanently(const char *pFilename, bool async, bool dont_assert = false);
 	void UnloadPre(const char *pFilename, bool dont_assert = false);
-	void * LoadFile(const char *pName, int *p_size, void *p_dest = NULL);
+	void * LoadFile(const char *pName, int *p_size, void *p_dest = nullptr);
 
 	// Async check functions
 	bool IsLoadPreFinished(const char *pFilename);

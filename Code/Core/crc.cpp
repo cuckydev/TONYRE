@@ -76,7 +76,7 @@ namespace Crc
 //
 // output:
 //		 returns uint32 = checksum of the data
-//       if NULL pointer passed in, or zero size is given, then will return 0
+//       if nullptr pointer passed in, or zero size is given, then will return 0
 //
 uint32 GenerateCRCCaseSensitive( const char *stream, int size )
 {
@@ -109,7 +109,7 @@ uint32 GenerateCRCCaseSensitive( const char *stream, int size )
 // Currently used when saving out the replay buffer to mem card.
 uint32 UpdateCRC( const char *p_stream, int size, uint32 rc )
 {
-	Dbg_MsgAssert(p_stream,("NULL p_stream"));	
+	Dbg_MsgAssert(p_stream,("nullptr p_stream"));	
     
     for (int i=0; i<size; i++)
     {

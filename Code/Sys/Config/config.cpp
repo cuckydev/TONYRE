@@ -46,10 +46,10 @@ static bool sIsPrefixedWith(const char *p_string, const char *p_prefix)
 
 // If p_name is found to be followed by an equals in the command line, then this function
 // will return the word following the equals.
-// If p_name is not found, or equals blank, it will return NULL. 
+// If p_name is not found, or equals blank, it will return nullptr. 
 const char *GetCommandLineParam(const char *p_name, sint argc, char** argv)
 {
-	const char *p_found=NULL;
+	const char *p_found=nullptr;
 	
 	for (int i=0; i<argc; ++i)
 	{

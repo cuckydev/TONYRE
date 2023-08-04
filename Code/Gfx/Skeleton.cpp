@@ -121,7 +121,7 @@ CBone* CSkeleton::get_bone_by_id( uint32 boneId )
 			return &mp_bones[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -132,13 +132,13 @@ CBone* CSkeleton::get_bone_by_id( uint32 boneId )
 CBone::CBone()
 {
 	m_name = 0;
-	mp_parentMatrix = NULL;
+	mp_parentMatrix = nullptr;
 // GJ:  Parent name has been moved to skeleton data
 //	m_parentName = 0;
-	mp_flippedMatrix = NULL;
+	mp_flippedMatrix = nullptr;
 // GJ:  Neutral pose has been moved to skeleton data
 //	m_invertedNeutralMatrix.Ident();
-//	mp_invertedNeutralParentMatrix = NULL;
+//	mp_invertedNeutralParentMatrix = nullptr;
 	m_flipIndex = -1;
 	m_flags = 0;
 	m_scale = Mth::Vector( 1.0f, 1.0f, 1.0f );
@@ -1237,7 +1237,7 @@ uint32* CSkeleton::GetBoneSkipList( void )
 	{
 		return mp_skeletonData->GetBoneSkipList();
 	}
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1314,7 +1314,7 @@ CSkeletonData::CSkeletonData()
     m_numBones = 0;
 	m_flags = 0;
     m_animScriptName = 0;
-	mp_inverseNeutralPoseMatrices = NULL;
+	mp_inverseNeutralPoseMatrices = nullptr;
 
 	// Default the Level0 LOD distance to a large number.
 	m_skipLODDistances[0] = MAX_LOD_DISTANCE;
@@ -1330,7 +1330,7 @@ CSkeletonData::~CSkeletonData()
 	if ( mp_inverseNeutralPoseMatrices )
 	{
 		delete[] mp_inverseNeutralPoseMatrices;
-		mp_inverseNeutralPoseMatrices = NULL;
+		mp_inverseNeutralPoseMatrices = nullptr;
 	}
 }
 
@@ -1369,7 +1369,7 @@ bool CSkeletonData::Load( uint32* p_data32, int data_size, bool assertOnFail )
 	memcpy( m_flipNameTable, p_data, m_numBones * sizeof(uint32) );
 	p_data += ( m_numBones * sizeof(uint32) );
 	
-	Dbg_MsgAssert( mp_inverseNeutralPoseMatrices == NULL, ( "Inverse neutral pose matrices not NULL?!?" ) );
+	Dbg_MsgAssert( mp_inverseNeutralPoseMatrices == nullptr, ( "Inverse neutral pose matrices not nullptr?!?" ) );
 	mp_inverseNeutralPoseMatrices = new Mth::Matrix[m_numBones];
 
 	for ( int i = 0; i < m_numBones; i++ )
@@ -1438,7 +1438,7 @@ void CSkeletonData::InitialiseBoneSkipList( const char* p_fileName )
 	char skeleton_name[128];
 
 	char *p_copy = (char*)strrchr( p_fileName, '/' );
-	if( p_copy == NULL )
+	if( p_copy == nullptr )
 		p_copy = (char *)strrchr( p_fileName, '\\' );
 
 	if( p_copy )
@@ -1461,7 +1461,7 @@ void CSkeletonData::InitialiseBoneSkipList( const char* p_fileName )
 	Script::CStruct *p_all_lod_info = Script::GetStructure( CRCD( 0x7da53781, "BoneSkipLODInfo" ));
 	if( p_all_lod_info )
 	{
-		Script::CArray *p_skeleton_lod_info = NULL;
+		Script::CArray *p_skeleton_lod_info = nullptr;
 		p_all_lod_info->GetArray( skeleton_name, &p_skeleton_lod_info );
 
 		// No requirement that there *must* be SkipBoneLODInfo for a given skeleton.
@@ -1496,7 +1496,7 @@ void CSkeletonData::InitialiseBoneSkipList( const char* p_fileName )
 					Dbg_MsgAssert( 0, ( "Missing LODDistance field for LOD level %d in skeleton %s\n", lod_level, skeleton_name ));
 				}
 	
-				Script::CArray *p_skip_bones_array = NULL;
+				Script::CArray *p_skip_bones_array = nullptr;
 				if( p_element->GetArray( "SkipBones", &p_skip_bones_array ))
 				{
 					// There are bones to be skipped for this entry.
@@ -1531,7 +1531,7 @@ bool CSkeletonData::Load(const char* p_fileName, bool assertOnFail)
 	// new load of platform-specific SKE files...
 	bool success = false;
 	int file_size;
-	uint32* p_fileBuffer = NULL;
+	uint32* p_fileBuffer = nullptr;
 
 	// open the file as a stream
 	void* pStream = File::Open( p_fileName, "rb" );

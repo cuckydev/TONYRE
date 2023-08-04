@@ -80,7 +80,7 @@ uint32 get_desc_id_from_structure( Script::CStruct* pStructure )
 
 bool IsValidOption( uint32 partChecksum, uint32 lookFor )
 {
-	return ( GetOptionStructure( partChecksum, lookFor ) != NULL );
+	return ( GetOptionStructure( partChecksum, lookFor ) != nullptr );
 }
 
 /******************************************************************/
@@ -93,13 +93,13 @@ Script::CStruct* GetOptionStructure( uint32 partChecksum, uint32 lookFor, bool a
 	Script::CArray* pArray;
 	pArray = Script::GetArray( partChecksum, Script::ASSERT );
 
-	Script::CStruct* pReturnStructure = NULL;
+	Script::CStruct* pReturnStructure = nullptr;
 
 	if ( lookFor == 0 )
 	{
-		// special checksum, meaning to return NULL
+		// special checksum, meaning to return nullptr
 		// (handy when preprocessing random descs)
-		return NULL;
+		return nullptr;
 	}
 
 	for ( uint32 i = 0; i < pArray->GetSize(); i++ )
@@ -345,7 +345,7 @@ Script::CStruct* GetRandomOptionStructureByIndex( uint32 partChecksum, int desir
 	}
 
 	Dbg_MsgAssert( 0, ( "Couldn't find 'random_index' %d for ped part %s", desired_index, Script::FindChecksumName(partChecksum) ) );
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

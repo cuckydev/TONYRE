@@ -265,7 +265,7 @@ int AdpcmInit( int pIopBuf )
 		param.option = 0;
 		gThid = CreateThread (&param);
 		printf( "EzADPCM: create thread ID= %d\n", gThid );
-		StartThread (gThid, (u_long) NULL);
+		StartThread (gThid, (u_long) nullptr);
     }
 
 	sceSdSetTransIntrHandler( TRANS_DMA_CH_MUSIC, ( sceSdTransIntrHandler ) _AdpcmDmaIntMusic, ( void * ) &gSem );
@@ -1698,8 +1698,8 @@ int sce_adpcm_loop( void )
 	// No longer need to call sceSifSetCmdBuffer() since we share it with fileio.irx
 	//sceSifSetCmdBuffer( &cmdbuffer[0], NUM_COMMAND_HANDLERS);
 
-	sceSifAddCmdHandler(STREAM_REQUEST_COMMAND, (void *) request_callback, NULL );
-	sceSifAddCmdHandler(STREAM_LOAD_STATUS_COMMAND, (void *) load_status_callback, NULL );
+	sceSifAddCmdHandler(STREAM_REQUEST_COMMAND, (void *) request_callback, nullptr );
+	sceSifAddCmdHandler(STREAM_LOAD_STATUS_COMMAND, (void *) load_status_callback, nullptr );
 
 	CpuResumeIntr(oldStat);
 

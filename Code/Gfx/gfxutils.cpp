@@ -174,7 +174,7 @@ int TIME_TO_FRAMES(float time)
 
 void GetModelFromFileName ( char* filename, char* pModelNameBuf )
 {
-	char* pModelName = NULL;
+	char* pModelName = nullptr;
 	while (*filename)
 	{
 		if (*filename == '\\' || *filename == '/')

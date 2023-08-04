@@ -52,7 +52,7 @@ CRibbonComponent::CRibbonComponent() : CBaseComponent()
 {
 	SetType( CRC_RIBBON );
 	
-	mp_links = NULL;
+	mp_links = nullptr;
 	
 	m_last_frame_length = 0.0f;
 }
@@ -67,7 +67,7 @@ CRibbonComponent::~CRibbonComponent()
 	if (mp_links)
 	{
 		delete mp_links;
-		mp_links = NULL;
+		mp_links = nullptr;
 	}
 }
 
@@ -164,7 +164,7 @@ void CRibbonComponent::Update()
 			// hack
 			if (length > 20.0f * m_link_length)
 			{
-				CallMemberFunction(Crc::ConstCRC("Ribbon_Reset"), NULL, NULL);
+				CallMemberFunction(Crc::ConstCRC("Ribbon_Reset"), nullptr, nullptr);
 				return;
 			}
 			
@@ -275,7 +275,7 @@ CBaseComponent::EMemberFunctionResult CRibbonComponent::CallMemberFunction( uint
 void CRibbonComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CRibbonComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CRibbonComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

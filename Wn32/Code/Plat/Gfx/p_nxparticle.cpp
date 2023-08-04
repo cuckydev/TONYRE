@@ -112,7 +112,7 @@ CParticle *plat_create_particle( uint32 checksum, uint32 type_checksum, int max_
 		}
 	}
 	*/
-	return NULL;
+	return nullptr;
 }
 
 } // Nx

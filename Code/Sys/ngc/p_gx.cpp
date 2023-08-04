@@ -118,23 +118,23 @@ typedef enum
 
 USE	g_use = USE_MAX;		// Currently set usage.
 
-static _write_u8  _u8 = NULL;
-static _write_s8  _s8 = NULL;
-static _write_u16 _u16 = NULL;
-static _write_s16 _s16 = NULL;
-static _write_u32 _u32 = NULL;
-static _write_s32 _s32 = NULL;
-static _write_f32 _f32 = NULL;
-static _write_u24 _u24 = NULL;
+static _write_u8  _u8 = nullptr;
+static _write_s8  _s8 = nullptr;
+static _write_u16 _u16 = nullptr;
+static _write_s16 _s16 = nullptr;
+static _write_u32 _u32 = nullptr;
+static _write_s32 _s32 = nullptr;
+static _write_f32 _f32 = nullptr;
+static _write_u24 _u24 = nullptr;
 
-static _write_BPCmd      _BPCmd = NULL;
-static _write_CPCmd      _CPCmd = NULL;
-static _write_XFCmd      _XFCmd = NULL;
-static _write_XFCmdHdr   _XFCmdHdr = NULL;
-static _write_XFIndxACmd _XFIndxACmd = NULL;
-static _write_XFIndxBCmd _XFIndxBCmd = NULL;
-static _write_XFIndxCCmd _XFIndxCCmd = NULL;
-static _write_XFIndxDCmd _XFIndxDCmd = NULL;
+static _write_BPCmd      _BPCmd = nullptr;
+static _write_CPCmd      _CPCmd = nullptr;
+static _write_XFCmd      _XFCmd = nullptr;
+static _write_XFCmdHdr   _XFCmdHdr = nullptr;
+static _write_XFIndxACmd _XFIndxACmd = nullptr;
+static _write_XFIndxBCmd _XFIndxBCmd = nullptr;
+static _write_XFIndxCCmd _XFIndxCCmd = nullptr;
+static _write_XFIndxDCmd _XFIndxDCmd = nullptr;
 
 u8 GDTexMode0Ids[8] = {
     TX_SETMODE0_I0_ID,
@@ -3699,7 +3699,7 @@ static void multi_add_texture ( sTexture * p_texture, GXColor matcol, GXTexWrapM
 	unsigned char ab = 1;   //( 1 << 4 ) | layer; 
 
 	void * p_tex_data = (void *)((tb<<16)|(tb<<8)|tb);
-	void * p_alpha_data = (p_texture->m_PaletteFormat & 1) ? (void *)((ab<<16)|(ab<<8)|ab) : NULL;
+	void * p_alpha_data = (p_texture->m_PaletteFormat & 1) ? (void *)((ab<<16)|(ab<<8)|ab) : nullptr;
 	GXTevSwapSel alpha_swap = GX_TEV_SWAP1;
 	if ( (p_texture->m_PaletteFormat & 1) )
 	{
@@ -3725,7 +3725,7 @@ static void multi_add_texture ( sTexture * p_texture, GXColor matcol, GXTexWrapM
 #else
 	void * p_tex_data = p_texture->pTexelData;
 	bool has_alpha = ( p_texture->flags & NxNgc::sTexture::TEXTURE_FLAG_HAS_ALPHA ) ? true : false;
-	void * p_alpha_data = has_alpha ? p_texture->pAlphaData : NULL;
+	void * p_alpha_data = has_alpha ? p_texture->pAlphaData : nullptr;
 	GXTevSwapSel alpha_swap = GX_TEV_SWAP1;
 	if ( has_alpha )
 	{
@@ -3895,7 +3895,7 @@ static void multi_add_texture ( sTexture * p_texture, GXColor matcol, GXTexWrapM
 				//if(tx && _su) GX::SetTexCoordScale( u_id, GX_TRUE, width, height );
 				break;
 			default:
-				p_alpha_data = NULL;
+				p_alpha_data = nullptr;
 				break;
 		}
 	}
@@ -4112,7 +4112,7 @@ static void multi_add_texture ( sTexture * p_texture, GXColor matcol, GXTexWrapM
 			break;
 	}
 	
-	// Set texture coordinates. Note: If p_tex is NULL, it means this layer is environment mapped.
+	// Set texture coordinates. Note: If p_tex is nullptr, it means this layer is environment mapped.
 //	if ( !(flags & MATFLAG_ENVIRONMENT) )
 //	{
 		//*p_uv_slot = uv_id;

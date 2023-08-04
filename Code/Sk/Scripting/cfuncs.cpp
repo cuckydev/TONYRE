@@ -211,12 +211,12 @@ bool dump_open(const char *name)
 	dump_handle = File::Open( name, "wb");		
 	p_pos = p_buffer;
 
-	if (dump_handle != NULL)
+	if (dump_handle != nullptr)
 	{
 		dumping_printfs = 1;
 	}
 
-	return ( dump_handle != NULL );
+	return ( dump_handle != nullptr );
 }
 
 void dump_flush()
@@ -299,7 +299,7 @@ enum{
 
 //static Tmr::Time		s_start_network_test_time = 0;
 //static Tsk::Task< Tmr::Time >*	s_network_test_task;
-static Tsk::Task< int >*		s_second_controller_check_task = NULL;
+static Tsk::Task< int >*		s_second_controller_check_task = nullptr;
 
 // GJ:  viewer mode stuff...  will eventually be moved to CViewer class, hopefully.
 static int s_view_mode = 0;
@@ -924,7 +924,7 @@ bool ScriptSetArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 	// It will be in the script's parameters.
 	uint32 array_name=0;
 	pParams->GetChecksum("ArrayName",&array_name,Script::ASSERT);
-	Script::CArray *p_array=NULL;
+	Script::CArray *p_array=nullptr;
 	pScript->GetParams()->GetArray(array_name,&p_array,Script::ASSERT);
 	
 	// Get the index of the element to be changed.
@@ -978,7 +978,7 @@ bool ScriptSetArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 	// In each of these cases, first the existing pointer in the array gets deleted.
 	// The the pointer to the array of pointers is got, and the new pointer written in.
 	// Cannot use the regular SetString, SetVector etc functions because they all assert if
-	// the existing pointer is not NULL, to catch memory leaks.
+	// the existing pointer is not nullptr, to catch memory leaks.
     case ESYMBOLTYPE_STRING:
 	{
 		Script::DeleteString(p_array->GetString(index));
@@ -1035,7 +1035,7 @@ bool ScriptSetArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 		break;		
 	}
 	
-	// Now delete the temporary component, but set any pointer in it to NULL first since the
+	// Now delete the temporary component, but set any pointer in it to nullptr first since the
 	// pointer has been given to the array.
 	p_copy->mUnion=0;
 	delete p_copy;
@@ -1053,7 +1053,7 @@ bool ScriptGet2DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	uint32 array_name=0;
 	pParams->GetChecksum(Crc::ConstCRC("ArrayName"),&array_name,Script::ASSERT);
-	Script::CArray *p_array1=NULL;
+	Script::CArray *p_array1=nullptr;
 	if(!pScript->GetParams()->GetArray(array_name,&p_array1,Script::NO_ASSERT))
 	{
 		p_array1 = Script::GetArray( array_name,Script::ASSERT);
@@ -1134,7 +1134,7 @@ bool ScriptGet3DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	uint32 array_name=0;
 	pParams->GetChecksum(Crc::ConstCRC("ArrayName"),&array_name,Script::ASSERT);
-	Script::CArray *p_array1=NULL;
+	Script::CArray *p_array1=nullptr;
 	if(!pScript->GetParams()->GetArray(array_name,&p_array1,Script::NO_ASSERT))
 	{
 		p_array1 = Script::GetArray( array_name,Script::ASSERT);
@@ -1222,7 +1222,7 @@ bool ScriptGetNDArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	uint32 array_name=0;
 	pParams->GetChecksum(Crc::ConstCRC("ArrayName"),&array_name,Script::ASSERT);
-	Script::CArray *p_array=NULL;
+	Script::CArray *p_array=nullptr;
 	if(!pScript->GetParams()->GetArray(array_name,&p_array,Script::NO_ASSERT))
 	{
 		p_array = Script::GetArray( array_name,Script::ASSERT);
@@ -1230,7 +1230,7 @@ bool ScriptGetNDArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 
 	uint32 indices_name=Crc::ConstCRC("Indices");
 	//pParams->GetChecksum("Indices",&indices_name,Script::ASSERT);
-	Script::CArray *p_indices=NULL;
+	Script::CArray *p_indices=nullptr;
 	pScript->GetParams()->GetArray(indices_name,&p_indices,Script::ASSERT);
 
 	uint32 i = 0;
@@ -1638,12 +1638,12 @@ bool ScriptRemoveParameter(Script::CStruct *pParams, Script::CScript *pScript)
 	pParams->GetChecksum(NONAME,&name);
 	
 	#ifdef __NOPT_ASSERT__
-	const char *p_foo=NULL;
+	const char *p_foo=nullptr;
 	Dbg_MsgAssert(!pParams->GetString(NONAME,&p_foo),("\n%s\nRemoveParameter requires a name, not a string",pScript->GetScriptInfo()));
 	#endif
 	
 	CStruct *p_params=pScript->GetParams();
-	Dbg_MsgAssert(p_params,("NULL p_params ??"));
+	Dbg_MsgAssert(p_params,("nullptr p_params ??"));
 	p_params->RemoveComponent(name);
 	p_params->RemoveFlag(name);
 	return true;	
@@ -1882,7 +1882,7 @@ bool ScriptCustomSkaterFilenameDefined(Script::CStruct *pParams, Script::CScript
 	
 	 Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Obj::CSkaterProfile* pSkaterProfile=pSkate->GetCurrentProfile();
-	Dbg_MsgAssert(pSkaterProfile,("NULL pSkaterProfile"));
+	Dbg_MsgAssert(pSkaterProfile,("nullptr pSkaterProfile"));
 	
 	if (strcmp(pSkaterProfile->GetCASFileName(),"Unimplemented")==0)
 	{
@@ -1905,7 +1905,7 @@ bool ScriptGetCustomSkaterFilename(Script::CStruct *pParams, Script::CScript *pS
 	
 	Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Obj::CSkaterProfile* pSkaterProfile=pSkate->GetCurrentProfile();
-	Dbg_MsgAssert(pSkaterProfile,("NULL pSkaterProfile"));
+	Dbg_MsgAssert(pSkaterProfile,("nullptr pSkaterProfile"));
 	
 	pScript->GetParams()->AddString(Crc::ConstCRC("CASFileName"),pSkaterProfile->GetCASFileName());
 	return true;
@@ -1921,7 +1921,7 @@ bool ScriptSetCustomSkaterFilename(Script::CStruct *pParams, Script::CScript *pS
 {
 	Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Obj::CSkaterProfile* pSkaterProfile=pSkate->GetCurrentProfile();
-	Dbg_MsgAssert(pSkaterProfile,("NULL pSkaterProfile"));
+	Dbg_MsgAssert(pSkaterProfile,("nullptr pSkaterProfile"));
 
 	const char *p_file_name="Unimplemented";
 	pParams->GetString(NONAME,&p_file_name);
@@ -2024,10 +2024,10 @@ static bool MenuIsShown(uint32 id)
 bool ScriptMenuIsShown(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	// If there is an array of names, check them.		
-	Script::CArray *pArray=NULL;
+	Script::CArray *pArray=nullptr;
 	if (pParams->GetArray(NONAME,&pArray))
 	{
-		Dbg_MsgAssert(pArray,("Eh? NULL pArray?"));
+		Dbg_MsgAssert(pArray,("Eh? nullptr pArray?"));
 		for (uint32 i=0; i<pArray->GetSize(); ++i)
 		{
 			if (MenuIsShown(pArray->GetNameChecksum(i)))
@@ -2085,14 +2085,14 @@ bool ScriptForEachIn(Script::CStruct *pParams, Script::CScript *pScript)
 	pParams->GetChecksum(Crc::ConstCRC("Do"),&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nScript name missing in call to ForEachIn\n(eg, ForEachIn AnArray Do=AScript)",pScript->GetScriptInfo()));
 	
-	Script::CArray *pArray=NULL;
+	Script::CArray *pArray=nullptr;
 	pParams->GetArray(NONAME,&pArray);
 	Dbg_MsgAssert(pArray,("\n%s\nMissing array parameter in call to ForEachIn",pScript->GetScriptInfo()));
 	Dbg_MsgAssert(pArray->GetSize()==0 || pArray->GetType()==ESYMBOLTYPE_STRUCTURE,("\n%s\nForEachIn only supports arrays of structures at the moment",pScript->GetScriptInfo()));
 	
 	
 	// Get any extra parameters that need to be merged onto each of those in the array.
-	Script::CStruct *pExtraParams=NULL;
+	Script::CStruct *pExtraParams=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("params"),&pExtraParams);
 	
 	if (pExtraParams)
@@ -2143,7 +2143,7 @@ bool ScriptForEachIn(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm [] | The array of which we're finding the size
 bool ScriptSizeOf(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	Script::CArray *p_array=NULL;
+	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 	
 	int size=0;
@@ -2166,7 +2166,7 @@ bool ScriptSizeOf(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | Index | 0 | The index value of the array element
 bool ScriptGetElement(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	Script::CArray *p_array=NULL;
+	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 
 	int index=0;
@@ -2223,7 +2223,7 @@ bool ScriptGetElement(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm [] | the array
 bool ScriptGetNextArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	Script::CArray *p_array=NULL;
+	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 
 	int index=-1;
@@ -2308,7 +2308,7 @@ bool ScriptGetRandomArrayElement(Script::CStruct *pParams, Script::CScript *pScr
 	pScript->GetParams()->RemoveComponent(Crc::ConstCRC("Element"));
 	pScript->GetParams()->RemoveComponent(Crc::ConstCRC("index"));
 
-	Script::CArray *p_array=NULL;
+	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 
 	if (!p_array)
@@ -2369,7 +2369,7 @@ bool ScriptGetRandomArrayElement(Script::CStruct *pParams, Script::CScript *pScr
 // So the NewArrayName parameter is not required in this case, it will be ignored.
 bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	Script::CArray *p_source_array=NULL;
+	Script::CArray *p_source_array=nullptr;
 	pParams->GetArray("Array",&p_source_array);
 	
 	if (!p_source_array)
@@ -2384,7 +2384,7 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 	bool create_new_array=!pParams->ContainsFlag("PermuteSource");
 	
 	uint32 new_array_name=0;
-	CArray *p_new_array=NULL;
+	CArray *p_new_array=nullptr;
 	
 	if (create_new_array)
 	{
@@ -2408,7 +2408,7 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 	if (size)
 	{
 		uint32 *p_array_data=p_array_to_be_permuted->GetArrayPointer();
-		Dbg_MsgAssert(p_array_data,("NULL p_array_data ?"));
+		Dbg_MsgAssert(p_array_data,("nullptr p_array_data ?"));
 		
 		int num_swaps=size*10;
 		
@@ -2547,7 +2547,7 @@ bool ScriptGotParam(Script::CStruct *pParams, Script::CScript *pScript)
 	
 	// Get the script's parameters, and see if they contain the aforementioned flag therein.
 	Script::CStruct *pScriptParams=pScript->GetParams();
-	Dbg_MsgAssert(pScriptParams,("NULL pScriptParams"));
+	Dbg_MsgAssert(pScriptParams,("nullptr pScriptParams"));
 	return pScriptParams->ContainsComponentNamed(FlagChecksum);
 }
 
@@ -2933,7 +2933,7 @@ bool ScriptPauseStream( Script::CStruct *pParams, Script::CScript *pScript )
 bool ScriptLoadMusicHeader( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	
-	const char *pName = NULL;
+	const char *pName = nullptr;
 	pParams->GetText( NONAME, &pName );
 	if ( pName )
 	{
@@ -2957,7 +2957,7 @@ bool ScriptLoadMusicHeader( Script::CStruct *pParams, Script::CScript *pScript )
 bool ScriptLoadStreamHeader( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	
-	const char *pName = NULL;
+	const char *pName = nullptr;
 	pParams->GetText( NONAME, &pName );
 	if ( pName )
 	{
@@ -3020,8 +3020,8 @@ bool ScriptStreamIsAvailable( Script::CStruct *pParams, Script::CScript *pScript
 bool ScriptAddMusicTrack( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	
-	const char *pTrackName = NULL;
-	const char *pTrackTitle = NULL;
+	const char *pTrackName = nullptr;
+	const char *pTrackTitle = nullptr;
 	// default to ambient tracks...
 	pParams->GetText( NONAME, &pTrackName );
 	pParams->GetText( "TrackTitle", &pTrackTitle );
@@ -3224,7 +3224,7 @@ bool ScriptUnloadAnim( Script::CStruct *pParams, Script::CScript *pScript )
 	// get the assman
 	Ass::CAssMan * ass_man = Ass::CAssMan::Instance();
 
-	const char* pAnimName = NULL;
+	const char* pAnimName = nullptr;
 	pParams->GetText( "name", &pAnimName, Script::ASSERT );
 
 	Ass::CAsset* pAsset = ass_man->GetAssetNode( Script::GenerateCRC(pAnimName), false );
@@ -3313,7 +3313,7 @@ bool ScriptLoadAsset( Script::CStruct *pParams, Script::CScript *pScript )
 #endif
 
 //	if( !ass_man->LoadOrGetAsset( p_asset_filename, false, ass_man->GetDefaultPermanent() ) )
-	if( !ass_man->LoadOrGetAsset( p_asset_filename, false, false, ass_man->GetDefaultPermanent(), 0, NULL, pParams ) )
+	if( !ass_man->LoadOrGetAsset( p_asset_filename, false, false, ass_man->GetDefaultPermanent(), 0, nullptr, pParams ) )
 	{
 		if ( Script::GetInteger( Crc::ConstCRC("AssertOnMissingAssets") ) )
 		{
@@ -3692,7 +3692,7 @@ bool ScriptSetStreamParams( Script::CStruct *pParams, Script::CScript *pScript )
 bool ScriptPlayTrack( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	
-	const char *songName = NULL;
+	const char *songName = nullptr;
 	char p_calculated_track_name[MAX_TRACKNAME_STRING_LENGTH];
     int track_num=999;
 	int loop = 0;
@@ -4613,7 +4613,7 @@ bool ScriptGoto(Script::CStruct *pParams, Script::CScript *pScript)
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("Goto command requires a script name"));
 	
-	Script::CStruct *pArgs=NULL;
+	Script::CStruct *pArgs=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pArgs);
 	pScript->SetScript(ScriptChecksum,pArgs,pScript->mpObject);
 	return true;
@@ -4644,7 +4644,7 @@ bool ScriptGotoPreserveParams(Script::CStruct *pParams, Script::CScript *pScript
 	pTemp->AppendStructure(pScript->GetParams());
 	
 	// If any more params are specified, merge them on too.
-	Script::CStruct *pMoreParams=NULL;
+	Script::CStruct *pMoreParams=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pMoreParams);
 	pTemp->AppendStructure(pMoreParams);
 	
@@ -4670,14 +4670,14 @@ bool ScriptGotoRandomScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	
 	
-	Script::CArray *pArray=NULL;
+	Script::CArray *pArray=nullptr;
 	pParams->GetArray(NONAME,&pArray);
 	if (pArray && pArray->GetSize())
 	{
 		switch (pArray->GetType())
 		{
 			case ESYMBOLTYPE_NAME:
-				pScript->SetScript(pArray->GetNameChecksum(Mth::Rnd(pArray->GetSize())),NULL,pScript->mpObject);				
+				pScript->SetScript(pArray->GetNameChecksum(Mth::Rnd(pArray->GetSize())),nullptr,pScript->mpObject);				
 				break;
 			default:
 				Dbg_MsgAssert(0,("GotoRandomScript requires an array of script names."));
@@ -4712,7 +4712,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 	#define FORMATTED_TEXT_MAX_LEN 1000
 	static char s_printf_buffer[FORMATTED_TEXT_MAX_LEN+1];
 
-	Dbg_MsgAssert(p_format,("NULL p_format"));
+	Dbg_MsgAssert(p_format,("nullptr p_format"));
 	
 	uint32 string_name_checksum=0;
 	p_format->GetChecksum(Crc::ConstCRC("TextName"),&string_name_checksum);
@@ -4838,7 +4838,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 				case ESYMBOLTYPE_PAIR:
 				{
 					CPair *p_pair=sTempComponent.mpPair;
-					Dbg_MsgAssert(p_pair,("NULL p_pair"));
+					Dbg_MsgAssert(p_pair,("nullptr p_pair"));
 					
 					sprintf(p_temp,"(%.3f,%.3f)",p_pair->mX,p_pair->mY);
 					int len=strlen(p_temp);
@@ -4851,7 +4851,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 				case ESYMBOLTYPE_VECTOR:
 				{
 					CVector *p_vector=sTempComponent.mpVector;
-					Dbg_MsgAssert(p_vector,("NULL p_vector"));
+					Dbg_MsgAssert(p_vector,("nullptr p_vector"));
 					
 					sprintf(p_temp,"(%.3f,%.3f,%.3f)",p_vector->mX,p_vector->mY,p_vector->mZ);
 					int len=strlen(p_temp);
@@ -4910,7 +4910,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 	}
 	*p_dest=0;
 
-	Dbg_MsgAssert(p_dest_struct,("NULL p_dest_struct"));
+	Dbg_MsgAssert(p_dest_struct,("nullptr p_dest_struct"));
 	if (string_name_checksum)
 	{
 		p_dest_struct->AddString(string_name_checksum,s_printf_buffer);
@@ -5156,8 +5156,8 @@ bool ScriptLoadLevelGeometry(Script::CStruct *pParams, Script::CScript *pScript)
 	
 	 File::PreMgr * pre_mgr =  File::PreMgr::Instance();
 	
-	const char*	p_level = NULL;
-	const char*	p_sky 	= NULL;
+	const char*	p_level = nullptr;
+	const char*	p_sky 	= nullptr;
 
 	pParams->GetText( "Level",&p_level );
 	pParams->GetText( "Sky", &p_sky );
@@ -5211,7 +5211,7 @@ bool ScriptLoadScene(Script::CStruct *pParams, Script::CScript *pScript)
 	bool is_net = pParams->ContainsFlag(Crc::ConstCRC("is_net"));						// the _net version
 	bool add_super_sectors = ! pParams->ContainsFlag(Crc::ConstCRC("no_supersectors"));	// optionally ignore supersectors
 	
-	const char *p_scene_name = NULL;
+	const char *p_scene_name = nullptr;
 	pParams->GetText( Crc::ConstCRC("scene"),&p_scene_name,true );
 	Dbg_MsgLog(("Loading Scene %s ...",p_scene_name));
 	printf ("Loading Scene %s ...",p_scene_name);
@@ -5281,8 +5281,8 @@ bool ScriptLoadScene(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptAddScene(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_scene_name = NULL;
-	const char *p_add_name = NULL;
+	const char *p_scene_name = nullptr;
+	const char *p_add_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
 	pParams->GetText( "add",&p_add_name );
 	if (p_scene_name && p_add_name)
@@ -5311,7 +5311,7 @@ bool ScriptAddScene(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptLoadCollision(Script::CStruct *pParams, Script::CScript *pScript)
 {
 
-	const char *p_scene_name = NULL;
+	const char *p_scene_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
 	bool is_net = pParams->ContainsFlag(Crc::ConstCRC("is_net"));						// the _net version
 	if (p_scene_name)
@@ -5332,8 +5332,8 @@ bool ScriptLoadCollision(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptAddCollision(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_scene_name = NULL;
-	const char *p_add_name = NULL;
+	const char *p_scene_name = nullptr;
+	const char *p_add_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
 	pParams->GetText( "add",&p_add_name );
 	if (p_scene_name && p_add_name)
@@ -5353,7 +5353,7 @@ bool ScriptAddCollision(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptUnloadScene(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_scene_name = NULL;
+	const char *p_scene_name = nullptr;
 	bool matching_names;
 	pParams->GetText( "scene",&p_scene_name );
 
@@ -5393,7 +5393,7 @@ bool ScriptUnloadScene(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptQuickReload(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_scene_name = NULL;
+	const char *p_scene_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
 	if (p_scene_name)
 	{
@@ -5424,7 +5424,7 @@ bool ScriptCreateFromNode( Script::CStruct *pNode )
 	pNode->GetInteger(Crc::ConstCRC("NodeIndex"), &nodeIndex);
 
 //	Script::CStruct *pNode=pNodeArray->GetStructure( nodeIndex );
-	Dbg_MsgAssert( pNode,( "NULL pNode" ));
+	Dbg_MsgAssert( pNode,( "nullptr pNode" ));
 
 	// If this is a net game, don't load objects that were meant to be left out for 
 	// performance/bandwidth/gameplay reasons
@@ -5538,7 +5538,7 @@ bool ScriptCreateFromNode( Script::CStruct *pNode )
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
 				if (p_sector)
 				{
-					Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+					Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 					p_sector->SetVisibility(0xffffffff);
 					p_sector->SetActive(true);
 					p_sector->SetCollidable(true);
@@ -5551,7 +5551,7 @@ bool ScriptCreateFromNode( Script::CStruct *pNode )
 				}
 				else
 				{
-					printf(" WARNING: sGetSector(0x%x) returned NULL (%s)\n",checksumName,Script::FindChecksumName(checksumName));
+					printf(" WARNING: sGetSector(0x%x) returned nullptr (%s)\n",checksumName,Script::FindChecksumName(checksumName));
 				}
 				//Bsp::ClearWorldSectorFlag( checksumName, mSD_KILLED | mSD_NON_COLLIDABLE | mSD_INVISIBLE  | mSD_INVISIBLE2);
 			}
@@ -5604,8 +5604,8 @@ struct MaybeKillObjectInfo
 static void MaybeKillObject( Obj::CObject *pOb, void *pVoidData )
 {
 	
-	Dbg_MsgAssert(pOb,("NULL pOb"));
-	Dbg_MsgAssert(pVoidData,("NULL pVoidData"));
+	Dbg_MsgAssert(pOb,("nullptr pOb"));
+	Dbg_MsgAssert(pVoidData,("nullptr pVoidData"));
 
 	MaybeKillObjectInfo *pInfo;
 	pInfo = ( MaybeKillObjectInfo * )pVoidData;
@@ -5637,7 +5637,7 @@ bool ScriptKillFromNodeIndex( int nodeIndex, Script::CScript *pScript )
 	Dbg_MsgAssert( pNodeArray,( "No NodeArray found" ));
 
 	Script::CStruct *pNode=pNodeArray->GetStructure( nodeIndex );
-	Dbg_MsgAssert( pNode,( "NULL pNode" ));
+	Dbg_MsgAssert( pNode,( "nullptr pNode" ));
 
 	uint32 ClassChecksum = 0;
 	pNode->GetChecksum( 0x12b4e660 /*"Class"*/, &ClassChecksum );
@@ -5689,14 +5689,14 @@ bool ScriptKillFromNodeIndex( int nodeIndex, Script::CScript *pScript )
 				// We only want to get sectors from the main scene, as that is what the node array applies to															
 				Nx::CScene * p_main_scene = Nx::CEngine::sGetMainScene();
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
-				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 				p_sector->SetActive(false);
 				//Bsp::SetWorldSectorFlag(  checksumName, mSD_KILLED );
 
 				// If this node is an occluder, let the occlusion code know that this occluder is no longer enabled.
 				if( pNode->ContainsFlag( 0x4e549fe1 /*"Occluder"*/ ))
 				{
-					Dbg_MsgAssert(!ScriptInSplitScreenGame(NULL, NULL),
+					Dbg_MsgAssert(!ScriptInSplitScreenGame(nullptr, nullptr),
 								  ("Can't turn occlusion polys on or off during a 2 player game"));
 					Nx::CEngine::sEnableOcclusionPoly( checksumName, false );
 				}
@@ -5810,7 +5810,7 @@ bool DoNodeAction( Script::CStruct *pParams, Script::CScript *pScript, int actio
 	
 		/*
 		int numLinks;
-		Script::CStruct *pNode = NULL;
+		Script::CStruct *pNode = nullptr;
 		if ( pParams->GetChecksumOrStringChecksum( 0xa1dc81f9, &nameChecksum ) ) // checksum 'name'
 		{
 			if ( useCurrentLinks )
@@ -5942,12 +5942,12 @@ bool ScriptCreate( Script::CStruct *pParams, Script::CScript *pScript )
 
 
 	// Flush dead objects before we create any new ones
-	ScriptFlushDeadObjects(NULL,NULL);	
+	ScriptFlushDeadObjects(nullptr,nullptr);	
 	
 	bool result = ( DoNodeAction( pParams, pScript, NODE_ACTION_CREATE ) );
 
  #ifdef	__PLAT_NGPS__		
-//		snProfSetRange( 4, (void*)NULL, (void*)-1);
+//		snProfSetRange( 4, (void*)nullptr, (void*)-1);
  #endif		
  
 	return result;
@@ -6174,7 +6174,7 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 	for (i=0; i<pNodeArray->GetSize(); ++i)
 	{
 		Script::CStruct *pNode=pNodeArray->GetStructure(i);
-		Dbg_MsgAssert(pNode,("NULL pNode"));
+		Dbg_MsgAssert(pNode,("nullptr pNode"));
 
 		uint32 ClassChecksum = 0;
 		pNode->GetChecksum( 0x12b4e660 /*"Class"*/, &ClassChecksum );
@@ -6246,7 +6246,7 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 				//Nx::CSector *p_sector = Nx::CEngine::sGetSector(checksumName);
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
 				
-				//Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+				//Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 				
 				if (p_sector)
 				{
@@ -6326,7 +6326,7 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 					// as they are stripped out at SceneConv time 
 					if (!skate_mod->IsMultiplayerGame())
 					{
-						//printf("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName));
+						//printf("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName));
 						printf("FAILED BECAUSE: Cannot find level geometry or collision for node %d \nMaybe there are spaces in or after the name of the Max object (%s)?\nOr maybe the .QN file does not match the .SCN file checked into Perforce?\n"
 									   ,i,Script::FindChecksumName(checksumName));
 						fail = true;
@@ -6423,7 +6423,7 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 	for (i=0; i<pNodeArray->GetSize(); ++i)
 	{
 		Script::CStruct *pNode=pNodeArray->GetStructure(i);
-		Dbg_MsgAssert(pNode,("NULL pNode"));
+		Dbg_MsgAssert(pNode,("nullptr pNode"));
 
 		uint32 ClassChecksum = 0;
 		pNode->GetChecksum( 0x12b4e660 /*"Class"*/, &ClassChecksum );
@@ -6518,7 +6518,7 @@ bool ScriptLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 	Script::DeleteSpawnedScripts();
 		
 	
-	const char *pFileName=NULL;
+	const char *pFileName=nullptr;
 	pParams->GetText(NONAME,&pFileName);
 	Dbg_MsgAssert(pFileName,("LoadNodeArray requires a file name."));
 
@@ -6545,7 +6545,7 @@ bool ScriptLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 	else
 	{
 		// not a park editor QB, parse as normal
-//		ScriptPreloadModels( NULL, NULL );
+//		ScriptPreloadModels( nullptr, nullptr );
 	}
 	Mem::PopMemProfile(/*"LoadNodeArray"*/);
 	
@@ -6842,7 +6842,7 @@ bool ScriptSetFogDistance( Script::CStruct *pParams,
 	for ( int cam = 0; cam < 2; cam++ )
 	{
 		Gfx::Camera *p_cam = Nx::CViewportManager::sGetCamera(cam);
-		if ( NULL != p_cam )
+		if ( nullptr != p_cam )
 		{
 			p_cam->SetFogNearPlane( fog_dist );
 		}
@@ -7879,7 +7879,7 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 	//  Unload the level geometry
 					
 	printf ("Starting to unload Geometry from the engine .....\n");
-	ScriptUnloadAllLevelGeometry(NULL,NULL);
+	ScriptUnloadAllLevelGeometry(nullptr,nullptr);
 	printf ("Done unloading Geometry from the engine .....\n");					 
 
 // ********************************************************************************************
@@ -7888,7 +7888,7 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 	// Maybe unload the skaters		 
 	if (preserve)
 	{
-		//ScriptUnhookSkaters(NULL,NULL);	    // just tell the skaters that there is no world loaded  (maybe not needed)
+		//ScriptUnhookSkaters(nullptr,nullptr);	    // just tell the skaters that there is no world loaded  (maybe not needed)
 	
 						/*
 		// NASTY (TEMPORARY) PATCH
@@ -8037,7 +8037,7 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt LevelSpecific | Whether this is the level specific script file
 bool ScriptLoadQB(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_file_name=NULL;
+	const char *p_file_name=nullptr;
 	pParams->GetString(NONAME,&p_file_name);
 	Dbg_MsgAssert(p_file_name,("LoadQB requires a file name."));
 
@@ -8095,7 +8095,7 @@ bool ScriptLoadQB(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm "data\scripts\ken.qb" | File name of the qb to unload
 bool ScriptUnloadQB(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	const char *p_file_name=NULL;
+	const char *p_file_name=nullptr;
 	pParams->GetString(NONAME,&p_file_name);
 	Dbg_MsgAssert(p_file_name,("LoadQB requires a file name."));
 
@@ -8255,7 +8255,7 @@ bool ScriptDumpShots(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptIfDebugOn(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	
-	Dbg_MsgAssert(pScript,("NULL pScript ?"));
+	Dbg_MsgAssert(pScript,("nullptr pScript ?"));
 	pScript->SwitchOnIfDebugging();
 	return true;
 }	
@@ -8269,7 +8269,7 @@ bool ScriptIfDebugOn(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptIfDebugOff(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	
-	Dbg_MsgAssert(pScript,("NULL pScript ?"));
+	Dbg_MsgAssert(pScript,("nullptr pScript ?"));
 	pScript->SwitchOffIfDebugging();
 	return true;
 }	
@@ -8438,8 +8438,8 @@ static void DoAction( Obj::CCompositeObject* pOb, SActionData* pData )
 static void Action_ByNameChecksum( Obj::CObject* pOb, void* pVoidData )
 {
 	
-	Dbg_MsgAssert(pOb,("NULL pOb"));
-	Dbg_MsgAssert(pVoidData,("NULL pVoidData"));
+	Dbg_MsgAssert(pOb,("nullptr pOb"));
+	Dbg_MsgAssert(pVoidData,("nullptr pVoidData"));
 	
 	SActionData_NameChecksum *pData=(SActionData_NameChecksum*)pVoidData;
 
@@ -8459,8 +8459,8 @@ static void Action_ByNameChecksum( Obj::CObject* pOb, void* pVoidData )
 static void Action_ByNodeIndex(Obj::CObject* pOb, void* pVoidData)
 {
 	
-	Dbg_MsgAssert(pOb,("NULL pOb"));
-	Dbg_MsgAssert(pVoidData,("NULL pVoidData"));
+	Dbg_MsgAssert(pOb,("nullptr pOb"));
+	Dbg_MsgAssert(pVoidData,("nullptr pVoidData"));
 	
 	SActionData_NodeIndex *pData=(SActionData_NodeIndex*)pVoidData;
 
@@ -8687,7 +8687,7 @@ bool ScriptSetVisibilityFromNodeIndex( int nodeIndex, bool invisible, int viewpo
 	Dbg_MsgAssert( pNodeArray,( "No NodeArray found" ));
 
 	Script::CStruct *pNode=pNodeArray->GetStructure( nodeIndex );
-	Dbg_MsgAssert( pNode,( "NULL pNode" ));
+	Dbg_MsgAssert( pNode,( "nullptr pNode" ));
 
 	// If this is a net game, don't show/hide objects that were meant to be left out for 
 	// performance/bandwidth/gameplay reasons
@@ -8739,7 +8739,7 @@ bool ScriptSetVisibilityFromNodeIndex( int nodeIndex, bool invisible, int viewpo
 				// We only want to get sectors from the main scene, as that is what the node array applies to															
 				Nx::CScene * p_main_scene = Nx::CEngine::sGetMainScene();
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
-				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 
 				uint32 orig_flag = p_sector->GetVisibility();
 				uint32 flag = 0x1; 
@@ -8784,7 +8784,7 @@ bool ScriptCheckExistenceFromNodeIndex( int nodeIndex )
 	Dbg_MsgAssert( pNodeArray,( "No NodeArray found" ));
 
 	Script::CStruct *pNode=pNodeArray->GetStructure( nodeIndex );
-	Dbg_MsgAssert( pNode,( "NULL pNode" ));
+	Dbg_MsgAssert( pNode,( "nullptr pNode" ));
 
 	uint32 ClassChecksum = 0;
 	pNode->GetChecksum( 0x12b4e660 /*"Class"*/, &ClassChecksum );
@@ -8823,7 +8823,7 @@ bool ScriptCheckExistenceFromNodeIndex( int nodeIndex )
 				// We only want to get sectors from the main scene, as that is what the node array applies to															
 				Nx::CScene * p_main_scene = Nx::CEngine::sGetMainScene();
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
-				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 				return (p_sector->IsActive());
 				//return ( Bsp::WorldSectorIsAlive( checksumName ) );
 			}
@@ -8869,7 +8869,7 @@ bool ScriptSetColorFromNodeIndex( int nodeIndex, Script::CStruct *pParams )
 	Dbg_MsgAssert( pNodeArray,( "No NodeArray found" ));
 
 	Script::CStruct *pNode=pNodeArray->GetStructure( nodeIndex );
-	Dbg_MsgAssert( pNode,( "NULL pNode" ));
+	Dbg_MsgAssert( pNode,( "nullptr pNode" ));
 
 	uint32 ClassChecksum = 0;
 	pNode->GetChecksum( 0x12b4e660 /*"Class"*/, &ClassChecksum );
@@ -8884,7 +8884,7 @@ bool ScriptSetColorFromNodeIndex( int nodeIndex, Script::CStruct *pParams )
 			{
 				Nx::CScene * p_main_scene = Nx::CEngine::sGetMainScene();
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
-				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 				p_sector->SetColor(rgb);
 			
 			}
@@ -8923,7 +8923,7 @@ bool ScriptShatterFromNodeIndex( int nodeIndex )
 	Dbg_MsgAssert( pNodeArray,( "No NodeArray found" ));
 
 	Script::CStruct *pNode=pNodeArray->GetStructure( nodeIndex );
-	Dbg_MsgAssert( pNode,( "NULL pNode" ));
+	Dbg_MsgAssert( pNode,( "nullptr pNode" ));
 
 	// If this is a net game, don't show/hide objects that were meant to be left out for 
 	// performance/bandwidth/gameplay reasons
@@ -8949,7 +8949,7 @@ bool ScriptShatterFromNodeIndex( int nodeIndex )
 				// We only want to get sectors from the main scene, as that is what the node array applies to															
 				Nx::CScene * p_main_scene = Nx::CEngine::sGetMainScene();
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
-				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+				Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 				p_sector->SetShatter(true);
 				//Bsp::ShatterWorldSector(  checksumName );
 			}
@@ -8992,14 +8992,14 @@ bool ScriptMakeSkaterGoto(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	
 	
-	Script::CStruct *pParamsToPass=NULL;
+	Script::CStruct *pParamsToPass=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pParamsToPass);
 	
 	uint32 ScriptChecksum=0;
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nMakeSkaterGoto requires a script name, eg MakeSkaterGoto Blaa",pScript->GetScriptInfo()));
 
-	Obj::CSkater *pSkater=NULL;
+	Obj::CSkater *pSkater=nullptr;
 	if (pScript && pScript->mpObject && pScript->mpObject->GetType()==SKATE_TYPE_SKATER)	
 	{
 		// If the script using this has an object associated with it, and that object
@@ -9042,14 +9042,14 @@ bool ScriptMakeSkaterGoto(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptMakeSkaterGosub(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	
-	Script::CStruct *pParamsToPass=NULL;
+	Script::CStruct *pParamsToPass=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pParamsToPass);
 	
 	uint32 ScriptChecksum=0;
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nMakeSkaterGosub requires a script name, eg MakeSkaterGosub Blaa",pScript->GetScriptInfo()));
 
-	Obj::CSkater *pSkater=NULL;
+	Obj::CSkater *pSkater=nullptr;
 	if (pScript && pScript->mpObject && pScript->mpObject->GetType()==SKATE_TYPE_SKATER)	
 	{
 		// If the script using this has an object associated with it, and that object
@@ -9096,7 +9096,7 @@ bool ScriptSpawnScript(Script::CStruct *pParams, Script::CScript *pScript)
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nMissing script name in SpawnScript command.",pScript->GetScriptInfo()));
 	bool net_enabled, permanent;
-	Script::CStruct *pScriptParams=NULL;
+	Script::CStruct *pScriptParams=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pScriptParams);
 	
 	// The spawned script can optionally be given an Id, so that it can be deleted
@@ -9106,7 +9106,7 @@ bool ScriptSpawnScript(Script::CStruct *pParams, Script::CScript *pScript)
 
 	uint32 CallbackScript=0;
 	pParams->GetChecksum("Callback",&CallbackScript);
-	Script::CStruct *pCallbackParams=NULL;
+	Script::CStruct *pCallbackParams=nullptr;
 	pParams->GetStructure("CallbackParams",&pCallbackParams);
 		
 	//net_enabled = 0;
@@ -9171,7 +9171,7 @@ bool ScriptSpawnSound(Script::CStruct *pParams, Script::CScript *pScript)
 			// keep the same ID as the parent if not specified...
 			Id = Script::FindSpawnedScriptID(pScript);
 			pParams->GetChecksum("Id",&Id);
-			Script::CScriptStructure *pScriptParams = NULL;
+			Script::CScriptStructure *pScriptParams = nullptr;
 			pParams->GetStructure( "Params", &pScriptParams );
 			#ifdef __NOPT_ASSERT__	
 			Script::CScript *p_script=pScript->mpObject->SpawnScriptPlease( scriptChecksum, pScriptParams, Id );
@@ -9209,7 +9209,7 @@ bool ScriptSpawnSkaterScript(Script::CStruct *pParams, Script::CScript *pScript)
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nMissing script name in SpawnSkaterScript command.",pScript->GetScriptInfo()));
 	
-	Script::CStruct *pScriptParams=NULL;
+	Script::CStruct *pScriptParams=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pScriptParams);
 	
 	// The spawned script can optionally be given an Id, so that it can be deleted
@@ -9219,7 +9219,7 @@ bool ScriptSpawnSkaterScript(Script::CStruct *pParams, Script::CScript *pScript)
 
 	uint32 CallbackScript=0;
 	pParams->GetChecksum("Callback",&CallbackScript);
-	Script::CStruct *pCallbackParams=NULL;
+	Script::CStruct *pCallbackParams=nullptr;
 	pParams->GetStructure("CallbackParams",&pCallbackParams);
 	
 	Script::CScript *pNewScript=Script::SpawnScript(ScriptChecksum,pScriptParams,CallbackScript,pCallbackParams,pScript->mNode,Id); 	// copy the parent's node
@@ -9548,7 +9548,7 @@ bool ScriptDoFlash( Script::CStruct *pParams, Script::CScript *pScript )
 	uint32		flags			= 0;
 	bool		fullscreen		= false;
 	int			skater_num		= -1;
-	const char*	p_texture_name	= NULL;
+	const char*	p_texture_name	= nullptr;
 
 	pParams->GetFloat( "duration", &duration );
 	
@@ -9764,7 +9764,7 @@ bool ScriptJoinServer(Script::CStruct *pParams, Script::CScript *pScript )
 			gamenet_man->JoinServer( observe_only, (unsigned long) host_addr.s_addr, port, 0 );
 		}
 #else
-		const char *server_ip = NULL;
+		const char *server_ip = nullptr;
 		int port = 0;
 		bool observe_only;
 		
@@ -10188,7 +10188,7 @@ bool ScriptSkatersAreReady(Script::CStruct *pParams, Script::CScript *pScript)
 	// poll the server to find out whether the skaters are done loading
 	if( gamenet_man->ReadyToPlay() && 
 		( ( skate_mod->GetNumSkaters() > 0 ) ||
-		  ( ScriptIsObserving( NULL, NULL ))))
+		  ( ScriptIsObserving( nullptr, nullptr ))))
 	{
 		return true;
 	}
@@ -10288,12 +10288,12 @@ bool ScriptDumpNetMessageStats( Script::CStruct *pParams, Script::CScript *pScri
 	Net::Metrics* metrics;
 
 	app = gamenet_man->GetServer();
-	if( app == NULL )
+	if( app == nullptr )
 	{
 		app = gamenet_man->GetClient( 0 );
 	}
 
-	if( app == NULL )
+	if( app == nullptr )
 	{
 		return true;
 	}
@@ -10393,7 +10393,7 @@ bool ScriptNotifyBailDone( Script::CStruct *pParams, Script::CScript *pScript )
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	Net::Client* client;	
 
-	Obj::CSkater *pSkater=NULL;
+	Obj::CSkater *pSkater=nullptr;
 	if( pScript && pScript->mpObject && pScript->mpObject->GetType() == SKATE_TYPE_SKATER )	
 	{
 		// If the script using this has an object associated with it, and that object
@@ -10730,7 +10730,7 @@ bool ScriptGetCurrentLevel(Script::CStruct *pParams, Script::CScript *pScript)
 	pScript->GetParams()->AddComponent( Script::GenerateCRC("level"), ESYMBOLTYPE_NAME, (int)skate_mod->m_requested_level );
 	
 	Game::CGoalManager* p_goal_manager = Game::GetGoalManager();
-	Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager ?"));
+	Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager ?"));
 	pScript->GetParams()->AddChecksum(Crc::ConstCRC("level_structure"),p_goal_manager->GetLevelStructureName());
 	
 	
@@ -11000,17 +11000,17 @@ bool ScriptJoinWithPassword(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptSendChatMessage(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	
-	const char* p_string = NULL;
+	const char* p_string = nullptr;
 	pParams->GetText( "string", &p_string );
-	if( p_string == NULL )
+	if( p_string == nullptr )
 	{
 		return false;
 	}
 
 #if ( ENGLISH == 0 )
-	if ( ( p_string != NULL ) && ( strlen( p_string ) > 0 ) && ( stricmp( p_string, Script::GetLocalString( "kc_str_empty" ) ) ) )
+	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( stricmp( p_string, Script::GetLocalString( "kc_str_empty" ) ) ) )
 #else
-	if ( ( p_string != NULL ) && ( strlen( p_string ) > 0 ) && ( stricmp( p_string, "--EMPTY--" ) ) )
+	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( stricmp( p_string, "--EMPTY--" ) ) )
 #endif
 	{
 		 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
@@ -11216,7 +11216,7 @@ bool	ScriptAttachToSkater(  Script::CStruct *pParams, Script::CScript *pScript )
 	
 	if (pParams->ContainsFlag("End"))
 	{
-		pScript->mpObject = NULL; 
+		pScript->mpObject = nullptr; 
 	}
 	else
 	{
@@ -11567,7 +11567,7 @@ bool ScriptResetPS2( Script::CStruct *pParams, Script::CScript *pScript )
 
 	Dbg_Printf( "Resetting PS2\n" );
 	
-	while( sceDevctl("dev9x:", DDIOC_OFF, NULL, 0, NULL, 0 ) < 0 );
+	while( sceDevctl("dev9x:", DDIOC_OFF, nullptr, 0, nullptr, 0 ) < 0 );
 	// PS2 power off
 	while( !sceCdPowerOff( &stat ) || stat );
 #	endif // __PLAT_NGPS__
@@ -11588,9 +11588,9 @@ bool ScriptResetHD( Script::CStruct *pParams, Script::CScript *pScript )
 
 #	ifdef __PLAT_NGPS__
 	int stat;
-	sceDevctl("pfs:", PDIOC_CLOSEALL, NULL, 0, NULL, 0);
-	while (sceDevctl("hdd:", HDIOC_DEV9OFF, NULL, 0, NULL, 0) < 0);
-	while (sceDevctl("dev9x:", DDIOC_OFF, NULL, 0, NULL, 0) < 0);
+	sceDevctl("pfs:", PDIOC_CLOSEALL, nullptr, 0, nullptr, 0);
+	while (sceDevctl("hdd:", HDIOC_DEV9OFF, nullptr, 0, nullptr, 0) < 0);
+	while (sceDevctl("dev9x:", DDIOC_OFF, nullptr, 0, nullptr, 0) < 0);
     while (!sceCdPowerOff(&stat) || stat);
 #	endif
 
@@ -12085,7 +12085,7 @@ bool ScriptAddWarpPointsToMenu( Script::CStruct* pParams, Script::CScript* pScri
     Script::CStruct* p_restart_params;
     
     // grab array of warp points
-    Script::CArray *p_Array = NULL;
+    Script::CArray *p_Array = nullptr;
 
     pParams->GetArray( "nodes", &p_Array );
     Dbg_MsgAssert(p_Array, ("AddWarpPointsToMenu requires an array of nodes"));
@@ -12137,7 +12137,7 @@ bool ScriptRunScriptOnObject( Script::CStruct* pParams, Script::CScript* pScript
 	uint32 scriptName;
 	pParams->GetChecksum(NONAME, &scriptName, true);
 
-	Script::CStruct* pSubParams = NULL;
+	Script::CStruct* pSubParams = nullptr;
 	pParams->GetStructure(Crc::ConstCRC("params"), &pSubParams);
 
 	pScript->GetParams()->RemoveComponent(Crc::ConstCRC("UniqueID"));	
@@ -12148,7 +12148,7 @@ bool ScriptRunScriptOnObject( Script::CStruct* pParams, Script::CScript* pScript
 	if ( pObject )
 	{
 		/*
-		Script::CScript *pNewScript=Script::SpawnScript(scriptName,pSubParams,0,NULL,scriptName);
+		Script::CScript *pNewScript=Script::SpawnScript(scriptName,pSubParams,0,nullptr,scriptName);
 		#ifdef __NOPT_ASSERT__
 		pNewScript->SetCommentString("Spawned by script command RunScriptOnObject");
 		pNewScript->SetOriginatingScriptInfo(pScript->GetCurrentLineNumber(),pScript->mScriptChecksum);
@@ -12163,11 +12163,11 @@ bool ScriptRunScriptOnObject( Script::CStruct* pParams, Script::CScript* pScript
 	
 		if (pObject->GetScript())
 		{
-			// (Mick) If this object has a script, but it's got a NULL mpObject
+			// (Mick) If this object has a script, but it's got a nullptr mpObject
 			// that means that script has been cleared in the current game loop
 			// but not got around to being deleted.
 			// it's quite safe to re-use it, we just need to set the object on it
-			if (pObject->GetScript()->mpObject == NULL)
+			if (pObject->GetScript()->mpObject == nullptr)
 			{
 				pObject->GetScript()->mpObject = pObject;
 			}
@@ -12209,7 +12209,7 @@ bool ScriptRunScriptOnComponentType( Script::CStruct *pParams, Script::CScript *
 	uint32 target;
 	pParams->GetChecksum( Crc::ConstCRC("target"), &target, Script::ASSERT );
 
-	Script::CStruct* pSubParams = NULL;
+	Script::CStruct* pSubParams = nullptr;
 	pParams->GetStructure( Crc::ConstCRC("params"), &pSubParams, Script::NO_ASSERT );
 
 	// new fast way, just go directly to the components, if any
@@ -12362,7 +12362,7 @@ bool ScriptGotoXboxDashboard( Script::CStruct* pParams, Script::CScript* pScript
 		ld.dwReason = XLD_LAUNCH_DASHBOARD_MAIN_MENU;
 	}
 
-    XLaunchNewImage( NULL, PLAUNCH_DATA( &ld ) );
+    XLaunchNewImage( nullptr, PLAUNCH_DATA( &ld ) );
 #	endif	// __PLAT_XBOX__
 	
 	return true;
@@ -12450,7 +12450,7 @@ bool ScriptCreateParticleSystem( Script::CStruct* pParams, Script::CScript* pScr
 	// anything after it has been created.
 	Nx::CParticle * p_particle = Nx::create_particle( name, type, max, max_streams, texture, blendmode, fix, segments, split, history, perm );
 	
-	Script::CStruct* pSubParams = NULL;
+	Script::CStruct* pSubParams = nullptr;
 	pParams->GetStructure( "params", &pSubParams, Script::NO_ASSERT );
 
 	uint32 emitscript = 0;
@@ -12492,7 +12492,7 @@ bool ScriptSetScript( Script::CStruct* pParams, Script::CScript* pScript )
 	uint32 name = 0;
 	pParams->GetChecksum("Name",&name);
 
-	Script::CStruct* pSubParams = NULL;
+	Script::CStruct* pSubParams = nullptr;
 	pParams->GetStructure( "params", &pSubParams, Script::NO_ASSERT );
 
 	Nx::CParticle * p_particle = Nx::get_particle( name );
@@ -12705,7 +12705,7 @@ bool ScriptParticlesOn( Script::CStruct* pParams, Script::CScript* pScript )
 //		Dbg_MsgAssert( 0, ( "Couldn't find particle system to turn on" ) );
 	}
 
-	return ( p_particle != NULL );
+	return ( p_particle != nullptr );
 }
 
 /******************************************************************/
@@ -12730,7 +12730,7 @@ bool ScriptParticlesOff( Script::CStruct* pParams, Script::CScript* pScript )
 //		Dbg_MsgAssert( 0, ( "Couldn't find particle system to turn off" ) );
 	}
 
-	return ( p_particle != NULL );
+	return ( p_particle != nullptr );
 }
 
 /******************************************************************/
@@ -13209,10 +13209,10 @@ bool ScriptGetRescaledTargetValue( Script::CStruct* pParams, Script::CScript* pS
 bool ScriptMenuIsSelected(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	// If there is an array of names, check them.		
-	Script::CArray *pArray=NULL;
+	Script::CArray *pArray=nullptr;
 	if (pParams->GetArray(NONAME,&pArray))
 	{
-		Dbg_MsgAssert(pArray,("Eh? NULL pArray?"));
+		Dbg_MsgAssert(pArray,("Eh? nullptr pArray?"));
 		for (uint32 i=0; i<pArray->GetSize(); ++i)
 		{
 			if (MenuIsSelected(pArray->GetNameChecksum(i)))
@@ -13276,14 +13276,14 @@ bool ScriptGetNodeName(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptSetTesterScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	uint32 tester_script=0;
-	CStruct *p_params=NULL;
+	CStruct *p_params=nullptr;
 	
 	pParams->GetChecksum(NONAME,&tester_script);
 	pParams->GetStructure(Crc::ConstCRC("params"),&p_params);
 	
 	 Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 
-	Dbg_MsgAssert(pSkate->mp_gameFlow,("NULL pSkate->mp_gameFlow ??"));
+	Dbg_MsgAssert(pSkate->mp_gameFlow,("nullptr pSkate->mp_gameFlow ??"));
 	pSkate->mp_gameFlow->SetTesterScript(tester_script, p_params);
 	return true;
 }
@@ -13299,7 +13299,7 @@ bool ScriptKillTesterScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	 Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 
-	Dbg_MsgAssert(pSkate->mp_gameFlow,("NULL pSkate->mp_gameFlow ??"));
+	Dbg_MsgAssert(pSkate->mp_gameFlow,("nullptr pSkate->mp_gameFlow ??"));
 	return pSkate->mp_gameFlow->KillTesterScript();
 }									 
 
@@ -13427,7 +13427,7 @@ bool ScriptAnalyzeHeap( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	// GJ:  I am planning to refactor this!
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	Mem::Heap* pHeap = NULL;
+	Mem::Heap* pHeap = nullptr;
 	uint32 whichHeap = Script::GenerateCRC("BottomUpHeap");
 	if ( pParams )
 	{
@@ -13458,7 +13458,7 @@ bool ScriptAnalyzeHeap( Script::CStruct *pParams, Script::CScript *pScript )
 bool ScriptPrintMemInfo( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	Mem::Heap* pHeap = NULL;
+	Mem::Heap* pHeap = nullptr;
 	char buf[64];
 	uint32 whichHeap = Script::GenerateCRC("BottomUpHeap");
 	if ( pParams )
@@ -13507,7 +13507,7 @@ bool ScriptDisplayFreeMem( Script::CStruct *pParams, Script::CScript *pScript )
 	Script::CStruct* params;
 
 	params = new Script::CStruct;
-	for (heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+	for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 	{		
 			Mem::Region* region = heap->ParentRegion();			
 			
@@ -13559,7 +13559,7 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 	{
 		printf("Name              Used    Frag    Free    Min Blocks\n");
 		printf("--------------- ------ ------- ------- ------ ------\n");
-		for (heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+		for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 		{		
 				Mem::Region* region = heap->ParentRegion();			
 				printf( "%12s: %8d %7d %7d %7d  %5d \n",
@@ -13576,7 +13576,7 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 	{
 		printf("Name            Used  Frag  Free   Min  Blocks\n");
 		printf("--------------- ----- ----- ---- ------ ------\n");
-		for (heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+		for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 		{		
 				Mem::Region* region = heap->ParentRegion();			
 				printf( "%12s: %5dK %4dK %4dK %4dK  %5d \n",
@@ -13634,7 +13634,7 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 		dump_printf(buf);
 		sprintf(buf,"--------------- ----- ----- ------ ------\n");
 		dump_printf(buf);
-		for (heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+		for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 		{		
 				Mem::Region* region = heap->ParentRegion();			
 				sprintf(buf, "%12s: %5dK %4dK %4dK   %5d \n",
@@ -13796,7 +13796,7 @@ bool ScriptSpawnSecondControllerCheck( Script::CStruct* pParams, Script::CScript
 	 Mlp::Manager * mlp_manager =  Mlp::Manager::Instance();
 	int not_used;
 
-	if( s_second_controller_check_task != NULL )
+	if( s_second_controller_check_task != nullptr )
 	{
 		return true;
 	}
@@ -13815,10 +13815,10 @@ bool ScriptSpawnSecondControllerCheck( Script::CStruct* pParams, Script::CScript
 
 bool ScriptStopSecondControllerCheck( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	Dbg_Assert( s_second_controller_check_task != NULL );
+	Dbg_Assert( s_second_controller_check_task != nullptr );
 
 	delete s_second_controller_check_task;
-	s_second_controller_check_task = NULL;
+	s_second_controller_check_task = nullptr;
 
 	return true;
 }
@@ -13882,7 +13882,7 @@ bool ScriptExitDemo( Script::CStruct*, Script::CScript* )
 
 bool ScriptIsArray( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	Script::CArray* pTest = NULL;
+	Script::CArray* pTest = nullptr;
 	if ( pParams->GetArray( NONAME, &pTest, Script::NO_ASSERT ) )
 		return true;
 	return false;
@@ -14043,11 +14043,11 @@ test_composite = [
 bool ScriptCreateCompositeObject( Script::CStruct* pParams, Script::CScript* pScript )
 {
 	// Required array of structures containing "component="
-	Script::CArray*	p_array = NULL;
+	Script::CArray*	p_array = nullptr;
 	pParams->GetArray(Crc::ConstCRC("components"),&p_array,Script::ASSERT);
 
 	// Optional extra structure of parameters that override any provided in the array	
-	Script::CStruct* p_struct = NULL;
+	Script::CStruct* p_struct = nullptr;
 	pParams->GetStructure(Crc::ConstCRC("params"),&p_struct);
 	
 	Obj::CCompositeObjectManager::Instance()->CreateCompositeObjectFromNode(p_array, p_struct);
@@ -14275,12 +14275,12 @@ bool	ScriptMoveNode(Script::CStruct* pParams, Script::CScript* pScript)
 				Nx::CSector *p_sector = p_main_scene->GetSector(checksumName);
 				if (p_sector)
 				{
-					Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",checksumName,Script::FindChecksumName(checksumName)));
+					Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",checksumName,Script::FindChecksumName(checksumName)));
 					p_sector->SetWorldPosition(new_pos);
 				}
 				else
 				{
-					printf(" WARNING: sGetSector(0x%x) returned NULL (%s)\n",checksumName,Script::FindChecksumName(checksumName));
+					printf(" WARNING: sGetSector(0x%x) returned nullptr (%s)\n",checksumName,Script::FindChecksumName(checksumName));
 				}
 				//Bsp::ClearWorldSectorFlag( checksumName, mSD_KILLED | mSD_NON_COLLIDABLE | mSD_INVISIBLE  | mSD_INVISIBLE2);
 			}*/
@@ -14723,7 +14723,7 @@ bool ScriptSetEventHandler(Script::CStruct* pParams, Script::CScript* pScript)
 	uint32 group = Crc::ConstCRC("default");
 	pParams->GetChecksum(Crc::ConstCRC("group"), &group);	
 	bool exception = pParams->ContainsFlag(Crc::ConstCRC("exception"));
-	Script::CStruct *pExtraParams=NULL;
+	Script::CStruct *pExtraParams=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("params"),&pExtraParams);
 	pScript->SetEventHandler(ex,scr,group,exception,pExtraParams);	
 	return true;

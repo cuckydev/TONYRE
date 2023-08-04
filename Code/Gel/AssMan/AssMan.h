@@ -53,11 +53,11 @@ public:
 	EAssetType	FindAssetType(const char *p_assetName);
 
 	void*		LoadAssetFromStream(uint32 asset_name, uint32 asset_type, uint32* p_data, int data_size, bool permanent, uint32 group);
-	void*		LoadAsset(const char *p_assetName, bool async_load, bool use_pip = false, bool permanent = false, uint32 group = 0, void* pExtraData = NULL, Script::CStruct * pParams = NULL);
+	void*		LoadAsset(const char *p_assetName, bool async_load, bool use_pip = false, bool permanent = false, uint32 group = 0, void* pExtraData = nullptr, Script::CStruct * pParams = nullptr);
 	bool		ReloadAsset( uint32 assetID, const char* pFileName, bool assertOnFail );
 	void*		GetAsset(const char *p_assetName, bool assertOnFail = true);	
 	void*		GetAsset(uint32	assetID, bool assertOnFail = true);	
-	void*		LoadOrGetAsset(const char *p_assetName, bool async_load, bool use_pip, bool permanent = false, uint32 group = 0, void* pExtraData = NULL, Script::CStruct *pParams = NULL);	
+	void*		LoadOrGetAsset(const char *p_assetName, bool async_load, bool use_pip, bool permanent = false, uint32 group = 0, void* pExtraData = nullptr, Script::CStruct *pParams = nullptr);	
 	
 	bool		AssetAllocated(uint32	assetID);
 	bool		AssetAllocated(const char *p_assetName);

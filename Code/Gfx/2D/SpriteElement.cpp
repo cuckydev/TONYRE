@@ -20,7 +20,7 @@ CSpriteElement::CSpriteElement()
 {
 	//m_rgba = 0x40909090;
 	m_texture = 0;
-	mp_sprite = Nx::CEngine::sCreateSprite(NULL);
+	mp_sprite = Nx::CEngine::sCreateSprite(nullptr);
 	
 	SetType(CScreenElement::TYPE_SPRITE_ELEMENT);
 }

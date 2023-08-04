@@ -53,7 +53,7 @@ CTexDict *			CTexDictManager::sCreateTextureDictionary(const char *p_tex_dict_na
 	p_dict = sGetTextureDictionary(checksum);
 
 	// Assert for now unless we can think of a reason to use with ref counts
-	Dbg_MsgAssert((p_dict == NULL), ("Texture dictionary %s already exists", p_tex_dict_name));
+	Dbg_MsgAssert((p_dict == nullptr), ("Texture dictionary %s already exists", p_tex_dict_name));
 
 	if (p_dict)	
 	{
@@ -190,7 +190,7 @@ bool ScriptLoadTexture(Script::CScriptStructure *pParams, Script::CScript *pScri
 	
 	CTexture *p_texture = CTexDictManager::sp_sprite_tex_dict->LoadTexture(p_name, true, alloc_vram);
 
-	return p_texture != NULL;
+	return p_texture != nullptr;
 }
 
 
@@ -199,7 +199,7 @@ bool ScriptLoadTexture(Script::CScriptStructure *pParams, Script::CScript *pScri
 // @parm string |  | name of texture
 bool ScriptUnloadTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
-	CTexture *p_texture = NULL;
+	CTexture *p_texture = nullptr;
 	const char *p_name;
 	uint32 checksum;
 
@@ -292,14 +292,14 @@ bool ScriptLoadFaceTextureFromProfile(Script::CScriptStructure *pParams, Script:
     Dbg_Assert( pAppearance );
     Gfx::CFaceTexture* pFaceTexture = pAppearance->GetFaceTexture();
 
-	Dbg_MsgAssert(pFaceTexture,("NULL pFaceTexture"));
+	Dbg_MsgAssert(pFaceTexture,("nullptr pFaceTexture"));
 	Dbg_MsgAssert(pFaceTexture->IsValid(),("Invalid pFaceTexture"));
 
     Nx::CTexture* p_texture = Nx::CTexDictManager::sp_sprite_tex_dict->LoadTextureFromBuffer(pFaceTexture->GetTextureData(), pFaceTexture->GetTextureSize(), checksum, true, alloc_vram);
     Dbg_MsgAssert( p_texture, ( "Appearance has no face texture" ) );
 
 
-	return p_texture != NULL;
+	return p_texture != nullptr;
 }
 
 // @script | Generate32BitImage | Generates 32bit image data for texture
@@ -714,7 +714,7 @@ bool ScriptLoadParticleTexture(Script::CScriptStructure *pParams, Script::CScrip
 		#endif
 	}
 	
-	return p_texture != NULL;
+	return p_texture != nullptr;
 }
 
 
@@ -746,7 +746,7 @@ bool ScriptLoadSFPTexture(Script::CScriptStructure *pParams, Script::CScript *pS
 	
 	CTexture *p_texture = CTexDictManager::sp_particle_tex_dict->LoadTexture(p_name, false);
 
-	return p_texture != NULL;
+	return p_texture != nullptr;
 }
 
 

@@ -106,8 +106,8 @@ struct SLogBufferInfo
 **								 Private Data								**
 *****************************************************************************/
 static bool sInitialised=false;
-static SLogBufferInfo *spLogInfo=NULL;
-static SLogEntry *spNotALeak=NULL;
+static SLogBufferInfo *spLogInfo=nullptr;
+static SLogEntry *spNotALeak=nullptr;
 
 /*****************************************************************************
 **								 Public Data								**
@@ -155,7 +155,7 @@ void AddEntry(char *p_fileName, int lineNumber, char *p_functionName, char *p_me
 	{
 		Dbg_MsgAssert(sInitialised,("Log::AddEntry called before Log::Init called"));
 		
-		SLogEntry *p_new=NULL;
+		SLogEntry *p_new=nullptr;
 		if (spLogInfo->mNumEntries < MAX_LOG_ENTRIES)
 		{
 			p_new=spLogInfo->mpTop++;

@@ -122,7 +122,7 @@ private :
 **							   Public Prototypes							**
 *****************************************************************************/
 
-int LoadIRX(const char *pName, int num_args = 0, char* args = NULL, bool assert_on_fail = true);
+int LoadIRX(const char *pName, int num_args = 0, char* args = nullptr, bool assert_on_fail = true);
 
 /*****************************************************************************
 **								Inline Functions							**

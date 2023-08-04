@@ -54,12 +54,12 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
     if (p_entry)
     {
         Dbg_MsgAssert(p_entry->mType==ESYMBOLTYPE_QSCRIPT,("Symbol %s is not a QScript",FindChecksumName(scriptName)));
-        Dbg_MsgAssert(p_entry->mpScript,("NULL p_entry->mpScript"));
+        Dbg_MsgAssert(p_entry->mpScript,("nullptr p_entry->mpScript"));
 
 		return p_entry->mpScript+4; // +4 to skip over the contents checksum
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 void CScriptCache::DecrementScriptUsage(uint32 scriptName)
@@ -89,11 +89,11 @@ void CScriptCache::GetDebugInfo( Script::CStruct* p_info )
 
 CScriptCacheEntry::CScriptCacheEntry()
 {
-	mpDecompressedScript=NULL;
+	mpDecompressedScript=nullptr;
 	mUsage=0;
 	mScriptNameChecksum=0;
-	mpNext=NULL;
-	mpPrevious=NULL;
+	mpNext=nullptr;
+	mpPrevious=nullptr;
 }
 
 CScriptCacheEntry::~CScriptCacheEntry()
@@ -101,8 +101,8 @@ CScriptCacheEntry::~CScriptCacheEntry()
 	// This is just to make sure nothing accidentally deletes an entry in the CScriptCache's
 	// list of zero-usage entries. It won't work if there is only one entry in the list, but
 	// it's better than nothing.
-	Dbg_MsgAssert(mpNext==NULL,("CScriptCacheEntry::mpNext not NULL !"));
-	Dbg_MsgAssert(mpPrevious==NULL,("CScriptCacheEntry::mpPrevious not NULL !"));
+	Dbg_MsgAssert(mpNext==nullptr,("CScriptCacheEntry::mpNext not nullptr !"));
+	Dbg_MsgAssert(mpPrevious==nullptr,("CScriptCacheEntry::mpPrevious not nullptr !"));
 	
 	if (mpDecompressedScript)
 	{
@@ -115,7 +115,7 @@ CScriptCache::CScriptCache()
 	Dbg_MsgAssert(IDEAL_MAX_DECOMPRESSED_SCRIPTS < MAX_DECOMPRESSED_SCRIPTS,("IDEAL_MAX_DECOMPRESSED_SCRIPTS should be less than MAX_DECOMPRESSED_SCRIPTS"));
 	
 	#ifdef __NOPT_ASSERT__
-	mp_logic_task=NULL;
+	mp_logic_task=nullptr;
 	m_current_decompress_count_index=0;
 	for (int i=0; i<MAX_DECOMPRESS_COUNTS; ++i)
 	{
@@ -133,8 +133,8 @@ CScriptCache::CScriptCache()
 	mp_cache_hash_table = new Lst::HashTable<CScriptCacheEntry>(8);
 	Mem::Manager::sHandle().PopContext();
 	
-	mp_first_zero_usage=NULL;
-	mp_last_zero_usage=NULL;
+	mp_first_zero_usage=nullptr;
+	mp_last_zero_usage=nullptr;
 	
 	m_delete_zero_usage_straight_away=false;
 }
@@ -150,8 +150,8 @@ CScriptCache::~CScriptCache()
 		mp_cache_hash_table->FlushItem(p_cache_entry->mScriptNameChecksum);
 		
 		// Clear these to prevent ~CScriptCacheEntry from asserting.
-		p_cache_entry->mpNext=NULL;
-		p_cache_entry->mpPrevious=NULL;
+		p_cache_entry->mpNext=nullptr;
+		p_cache_entry->mpPrevious=nullptr;
 		delete p_cache_entry;
 		
 		p_cache_entry = mp_cache_hash_table->IterateNext();
@@ -188,7 +188,7 @@ void CScriptCache::v_stop_cb ( void )
 
 void CScriptCache::add_to_zero_usage_list(CScriptCacheEntry *p_entry)
 {
-	Dbg_MsgAssert(p_entry,("NULL p_entry sent to add_to_zero_usage_list"));
+	Dbg_MsgAssert(p_entry,("nullptr p_entry sent to add_to_zero_usage_list"));
 	
 	#ifdef __NOPT_ASSERT__
 	CScriptCacheEntry *p_search=mp_first_zero_usage;
@@ -199,7 +199,7 @@ void CScriptCache::add_to_zero_usage_list(CScriptCacheEntry *p_entry)
 	}	
 	#endif
 	
-	p_entry->mpPrevious=NULL;
+	p_entry->mpPrevious=nullptr;
 	p_entry->mpNext=mp_first_zero_usage;
 	mp_first_zero_usage=p_entry;
 	if (p_entry->mpNext)
@@ -214,7 +214,7 @@ void CScriptCache::add_to_zero_usage_list(CScriptCacheEntry *p_entry)
 
 void CScriptCache::remove_from_zero_usage_list(CScriptCacheEntry *p_entry)
 {
-	Dbg_MsgAssert(p_entry,("NULL p_entry sent to remove_from_zero_usage_list"));
+	Dbg_MsgAssert(p_entry,("nullptr p_entry sent to remove_from_zero_usage_list"));
 	
 	// Unlink the entry from the list.
 	if (p_entry->mpPrevious)
@@ -236,15 +236,15 @@ void CScriptCache::remove_from_zero_usage_list(CScriptCacheEntry *p_entry)
 		mp_last_zero_usage=p_entry->mpPrevious;
 	}
 	
-	p_entry->mpNext=NULL;
-	p_entry->mpPrevious=NULL;
+	p_entry->mpNext=nullptr;
+	p_entry->mpPrevious=nullptr;
 }
 
 // This function must be used to delete a CScriptCacheEntry rather than deleting it directly,
 // since this function will update the list of zero-usage entries if necessary.
 void CScriptCache::delete_entry(CScriptCacheEntry *p_entry)
 {
-	Dbg_MsgAssert(p_entry,("NULL p_entry sent to delete_entry"));
+	Dbg_MsgAssert(p_entry,("nullptr p_entry sent to delete_entry"));
 	
 	mp_cache_hash_table->FlushItem(p_entry->mScriptNameChecksum);
 	// Note: If the entry is not in the zero-usage list, this function won't do anything, so safe to call.
@@ -298,7 +298,7 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
     {
         Dbg_MsgAssert(p_entry->mType==ESYMBOLTYPE_QSCRIPT,("Symbol %s is not a QScript",FindChecksumName(scriptName)));
 #ifndef __PLAT_NGC__
-        Dbg_MsgAssert(p_entry->mpScript,("NULL p_entry->mpScript"));
+        Dbg_MsgAssert(p_entry->mpScript,("nullptr p_entry->mpScript"));
 #endif		// __PLAT_NGC__
 		
 		// Change the passed scriptName to be the actual scriptName so that when decompressed it gets registered in
@@ -409,7 +409,7 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
 		return p_cache_entry->mpDecompressedScript;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 void CScriptCache::DecrementScriptUsage(uint32 scriptName)
@@ -454,7 +454,7 @@ void CScriptCache::RefreshAfterReload(uint32 scriptName)
 		
 		// Put the usage value back.
 		p_cache_entry=mp_cache_hash_table->GetItem(scriptName);
-		Dbg_MsgAssert(p_cache_entry,("NULL p_cache_entry ?"));
+		Dbg_MsgAssert(p_cache_entry,("nullptr p_cache_entry ?"));
 		p_cache_entry->mUsage=old_usage;
 	}	
 }

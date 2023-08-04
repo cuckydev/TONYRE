@@ -70,7 +70,7 @@ public:
 	
 	void							CheckFeelerForTrigger ( TriggerEventType type, CLineFeeler& p_feeler );
 	void							CheckFeelerForTrigger ( TriggerEventType type, CRectFeeler& feeler );
-	void							TripTrigger ( TriggerEventType type, uint32 node_checksum, Script::CArray* p_node_array = NULL, CCompositeObject* p_object = NULL);
+	void							TripTrigger ( TriggerEventType type, uint32 node_checksum, Script::CArray* p_node_array = nullptr, CCompositeObject* p_object = nullptr);
 	
 private:
 	static void						s_through_trigger_callback ( CFeeler* p_feeler );

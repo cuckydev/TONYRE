@@ -36,11 +36,11 @@ CComponent::CComponent()
 	mNameChecksum=NO_NAME;
 	mScriptSize=0;
 	mUnion=0;
-	mpNext=NULL;
+	mpNext=nullptr;
 }
 
 // The destructor does not delete anything to avoid cyclic dependencies, so just assert
-// if it look like there could be a non-NULL pointer left.
+// if it look like there could be a non-nullptr pointer left.
 #ifdef __NOPT_ASSERT__
 CComponent::~CComponent()
 {

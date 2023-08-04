@@ -154,8 +154,8 @@ static void s_power_off_thread(void *arg)
 	{
 		WaitSema(sid);
 		// dev9 power off, need to power off PS2
-		//while( sceDevctl("dev9x:", DDIOC_OFF, NULL, 0, NULL, 0 ) < 0 );
-		while( sceDevctl("dev9x:", DDIOC_OFF, NULL, 0, NULL, 0 ) < 0 );
+		//while( sceDevctl("dev9x:", DDIOC_OFF, nullptr, 0, nullptr, 0 ) < 0 );
+		while( sceDevctl("dev9x:", DDIOC_OFF, nullptr, 0, nullptr, 0 ) < 0 );
 		// PS2 power off
 		while( !sceCdPowerOff( &stat ) || stat );
     }
@@ -382,7 +382,7 @@ bool	Manager::start_stack( void )
 
 	if( ShouldUseDHCP())
 	{
-		struct hostent* hentp       = NULL;
+		struct hostent* hentp       = nullptr;
 		sn_bool         got_ip_addr = SN_FALSE;
 		struct in_addr  ip_addr;
 	
@@ -393,7 +393,7 @@ bool	Manager::start_stack( void )
 			// A way of getting the local IP address
 			hentp = gethostbyname(LOCAL_NAME);
 	
-			if(( hentp != NULL ) && ( hentp->h_addr_list[0] != NULL ))
+			if(( hentp != nullptr ) && ( hentp->h_addr_list[0] != nullptr ))
 			{
 				// Read the IP address from the hostent struct
 				memcpy( &ip_addr,hentp->h_addr_list[0], sizeof( ip_addr ));
@@ -872,12 +872,12 @@ sn_int32 custom_connect_modem(	sn_char*               phone_no,
 
         // Now check whether the modem state has changed since the
         // previous time round this loop, and if so call the user
-        // callback function (unless it's NULL), otherwise check
+        // callback function (unless it's nullptr), otherwise check
         // for time-out / do a delay
         if( modem_state != prev_modem_state )
         {
             prev_modem_state = modem_state;
-            if( callback != NULL )
+            if( callback != nullptr )
 			{
 				(*callback)(modem_state);
 			}
@@ -988,8 +988,8 @@ void	Manager::threaded_modem_conn( void *data )
 	else
 	{   
 		sntc_disconnect_modem(	vMODEM_DISCONNECT_TIMEOUT,	// timeout_secs
-								NULL,		// callback
-								NULL );				// error_message
+								nullptr,		// callback
+								nullptr );				// error_message
 		man->SetModemState( vMODEM_STATE_ERROR );
 		man->m_modem_err = result;
 		Dbg_Printf( "EE:sntc_connect_modem() failed: %d\n", result );
@@ -1610,7 +1610,7 @@ bool	Manager::load_irx_files( void )
 					}
 					s_prepare_power_off();
 					// Load the Sony Ethernet driver IRX file
-					if( SIO::LoadIRX( "smap", 0, NULL, false ) < 0 )
+					if( SIO::LoadIRX( "smap", 0, nullptr, false ) < 0 )
 					{
 						SetError( vRES_ERROR_DEVICE_NOT_CONNECTED );
 						return false;
@@ -1652,7 +1652,7 @@ bool	Manager::load_irx_files( void )
 					}
 					s_prepare_power_off();
 					// Load the Sony Ethernet driver IRX file
-					if( SIO::LoadIRX( "smap", 0, NULL, false ) < 0 )
+					if( SIO::LoadIRX( "smap", 0, nullptr, false ) < 0 )
 					{
 						SetError( vRES_ERROR_DEVICE_NOT_CONNECTED );
 						return false;
@@ -2082,7 +2082,7 @@ bool	Manager::ConnectToInternet( void )
 			int modem_state;
             
 			s_cancel_dialup_conn = false;
-            result = sndev_get_attached(0, &device_type, NULL, NULL);
+            result = sndev_get_attached(0, &device_type, nullptr, nullptr);
 			// Check that the above function call worked ok
 			if( result != 0 )
 			{
@@ -2476,10 +2476,10 @@ void	Manager::SetHostName( char* host )
 {
 	
 
-	// Either they pass us NULL or they pass us a value less than 32 chars long
+	// Either they pass us nullptr or they pass us a value less than 32 chars long
 	Dbg_Assert( !host || ( strlen( host ) < 32 ));
 
-    if( host == NULL )
+    if( host == nullptr )
 	{
 		m_host_name[0] = '\0';
 	}
@@ -2496,10 +2496,10 @@ void	Manager::SetDomainName( char* domain )
 {
 	
 
-	// Either they pass us NULL or they pass us a value less than 32 chars long
+	// Either they pass us nullptr or they pass us a value less than 32 chars long
 	Dbg_Assert( !domain || ( strlen( domain ) < 32 ));
 
-    if( domain == NULL )
+    if( domain == nullptr )
 	{
 		m_domain_name[0] = '\0';
 	}
@@ -2852,7 +2852,7 @@ StreamLink::StreamLink( StreamDesc* desc )
 /******************************************************************/
 
 StreamDesc::StreamDesc( void )
-: m_Size( 0 ), m_Data( NULL ), m_DataPtr( NULL ), m_GroupId( 0 ), m_SendInPlace( false )
+: m_Size( 0 ), m_Data( nullptr ), m_DataPtr( nullptr ), m_GroupId( 0 ), m_SendInPlace( false )
 {
 }
 
@@ -2889,7 +2889,7 @@ QueuedMsg::QueuedMsg( unsigned char msg_id, unsigned short msg_len, void* data )
 {
 	
 	
-	m_Data = NULL;
+	m_Data = nullptr;
 	if( msg_len > 0 )
 	{
 		m_Data = new char[ msg_len ];
@@ -2926,7 +2926,7 @@ QueuedMsgSeq::QueuedMsgSeq( unsigned char msg_id, unsigned short msg_len, void* 
 {
 	
 	
-	m_Data = NULL;
+	m_Data = nullptr;
 	if( msg_len > 0 )
 	{
 		m_Data = new char[ msg_len ];
@@ -2962,7 +2962,7 @@ QueuedMsgSeq::~QueuedMsgSeq( void )
 
 BitStream::BitStream( void )
 {
-	m_data = NULL;
+	m_data = nullptr;
 	m_bits_left = 32;
 	m_size = 0;
 	m_cur_val = 0;

@@ -69,8 +69,8 @@ public:
 	Mth::Vector		GetClosestEmitterPos( Gfx::Camera *pCamera );
 	Mth::Vector		GetClosestOldEmitterPos( Gfx::Camera *pCamera );
 
-	bool			HasProximNode() const { return mp_proxim_node != NULL; }
-	void			ClearProximNode() { mp_proxim_node = NULL; }								// Needed for early proxim node cleanup
+	bool			HasProximNode() const { return mp_proxim_node != nullptr; }
+	void			ClearProximNode() { mp_proxim_node = nullptr; }								// Needed for early proxim node cleanup
 	bool			GetClosestDropoffPos( Gfx::Camera *pCamera, Mth::Vector & dropoff_pos );	// returns true if position defined
 
 	// If the sound is muted due to the object being far from the nearest camera,

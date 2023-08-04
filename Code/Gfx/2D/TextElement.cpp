@@ -30,9 +30,9 @@ CTextElement::CTextElement() :
 {
 	//Ryan("I am a new CTextElement\n");
 	m_font_checksum = 0;
-	mp_font = NULL;
-	mp_text = NULL;
-	mp_blur_effect = NULL;
+	mp_font = nullptr;
+	mp_text = nullptr;
+	mp_blur_effect = nullptr;
 	m_use_shadow = false;
 	create_text_instances(1);
 
@@ -347,7 +347,7 @@ void CTextElement::DetachBlurEffect()
 	{
 		destroy_text_instances();
 		delete mp_blur_effect;
-		mp_blur_effect = NULL;
+		mp_blur_effect = nullptr;
 		create_text_instances(1);
 	}
 }
@@ -591,7 +591,7 @@ void CTextElement::destroy_text_instances(bool shadow_only)
 			Nx::CTextMan::sFreeTextInstance(mpp_shadow_req_tab[i]);
 		}
 		delete mpp_shadow_req_tab;
-		mpp_shadow_req_tab = NULL;
+		mpp_shadow_req_tab = nullptr;
 	}
 	
 	if (!shadow_only)
@@ -626,7 +626,7 @@ CTextBlockElement::CTextBlockElement() :
 	m_total_height = 0.0f;
 	m_total_out_lines = 0;
 
-	mp_blur_effect = NULL;
+	mp_blur_effect = nullptr;
 	m_allow_expansion = false;
 
 	m_override_encoded_rgba = false;
@@ -716,7 +716,7 @@ void CTextBlockElement::SetProperties(Script::CStruct *pProps)
 	else if (pProps->ContainsFlag(Crc::ConstCRC("no_blur_effect")) && mp_blur_effect)
 	{
 		delete mp_blur_effect;
-		mp_blur_effect = NULL;
+		mp_blur_effect = nullptr;
 	}
 	
 	Image::RGBA blur_rgba;
@@ -977,7 +977,7 @@ void CTextBlockElement::SetText(const char **ppTextLines, int numLines)
 //	for (int l = 0; l < MAX_LINES; l++)
 //	{
 //		delete mpp_parsed_lines[l];
-//		mpp_parsed_lines[l] = NULL;			
+//		mpp_parsed_lines[l] = nullptr;			
 //	}
 	delete mpp_parsed_lines[0];
 	delete mpp_parsed_lines;

@@ -98,7 +98,7 @@ Obj::CCompositeObject* create_game_obj( CGeneralManager* p_obj_man, Script::CStr
 	uint32 AIScriptChecksum=0;
 	if ( pNodeData->GetChecksum(Crc::ConstCRC("TriggerScript"),&AIScriptChecksum) )
 	{
-		Script::CScriptStructure *pScriptParams=NULL;
+		Script::CScriptStructure *pScriptParams=nullptr;
 		pNodeData->GetStructure(Crc::ConstCRC("Params"),&pScriptParams);
 		pGameObj->SwitchScript( AIScriptChecksum, pScriptParams );
 	}
@@ -176,7 +176,7 @@ void CreateParticleEmitter( CGeneralManager* p_obj_man, Script::CStruct* pNodeDa
 			
 		// Get the parameters for the TriggerScript, and run it
 		// this should create a particle system
-		Script::CScriptStructure *pScriptParams=NULL;
+		Script::CScriptStructure *pScriptParams=nullptr;
 		pNodeData->GetStructure("Params",&pScriptParams);
 		Script::RunScript(AIScriptChecksum,pScriptParams);		// this will create the particle emitter
 		

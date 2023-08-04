@@ -247,7 +247,7 @@ void CSkaterLoopingSoundComponent::Update()
 		m_last_pitch = pitch;
 		
 		// start the sound
-		m_looping_sound_id = p_sfx_manager->PlaySfx(m_sound_info.m_soundChecksum, &volume, pitch, 0, NULL, m_sound_info.mp_soundName);
+		m_looping_sound_id = p_sfx_manager->PlaySfx(m_sound_info.m_soundChecksum, &volume, pitch, 0, nullptr, m_sound_info.mp_soundName);
 		if (!m_looping_sound_id)
 		{
 			return;
@@ -316,7 +316,7 @@ CBaseComponent::EMemberFunctionResult CSkaterLoopingSoundComponent::CallMemberFu
 void CSkaterLoopingSoundComponent::GetDebugInfo ( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterLoopingSoundComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterLoopingSoundComponent::GetDebugInfo"));
 	
 	p_info->AddInteger("m_looping_sound_id", m_looping_sound_id);
 	p_info->AddChecksum("m_looping_sound_checksum", m_looping_sound_checksum);

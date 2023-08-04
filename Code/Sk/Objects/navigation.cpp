@@ -94,7 +94,7 @@ void sAStarNode::Reset( void )
 	m_cost_from_start	= 0.0f;
 	m_cost_to_goal		= 0.0f;
 	m_total_cost		= 0.0f;
-	mp_parent			= NULL;
+	mp_parent			= nullptr;
 }
 
 
@@ -182,7 +182,7 @@ CNavNode* get_nearest_visible_node( Mth::Vector& pos, Mth::Vector& heading )
 	Obj::CNavManager* p_nav_man = skate_mod->GetNavManager();
 
 	float		best_dp		= -0.707106f;	// cosine of 135 degrees
-	CNavNode*	p_best_node	= NULL;
+	CNavNode*	p_best_node	= nullptr;
 
 	int num_nodes = p_nav_man->GetNumNodes();
 	for( int i = 0; i < num_nodes; ++i )
@@ -236,7 +236,7 @@ CNavNode* CalculateNodePath( Mth::Vector pos, Mth::Vector target_pos )
 	heading[W] = 0.0f;
 	heading.Normalize();
 	CNavNode* p_nearest_visible = get_nearest_visible_node( pos, heading );
-	if( p_nearest_visible == NULL )
+	if( p_nearest_visible == nullptr )
 	{
 		return false;
 	}
@@ -245,7 +245,7 @@ CNavNode* CalculateNodePath( Mth::Vector pos, Mth::Vector target_pos )
 	p_nearest_visible->GetAStarNode()->m_cost_from_start	= path_cost_estimate( pos, p_nearest_visible->GetPos());
 	p_nearest_visible->GetAStarNode()->m_cost_to_goal		= path_cost_estimate( p_nearest_visible->GetPos(), target_pos );
 	p_nearest_visible->GetAStarNode()->m_total_cost			= p_nearest_visible->GetAStarNode()->m_cost_from_start + p_nearest_visible->GetAStarNode()->m_cost_to_goal;
-	p_nearest_visible->GetAStarNode()->mp_parent			= NULL;
+	p_nearest_visible->GetAStarNode()->mp_parent			= nullptr;
 
 	// Push this node on to the open list.
 	openList.Push( p_nearest_visible );
@@ -313,7 +313,7 @@ CNavNode* CalculateNodePath( Mth::Vector pos, Mth::Vector target_pos )
 	closedList.Empty();
 
 	// If we get here we have failed to find any valid path.
-	return NULL;
+	return nullptr;
 }
 
 
@@ -396,7 +396,7 @@ CNavNode* sAStarOpenList::Pop( void )
 	// Assumes always sorted, so just return lowest cost node.
 	--m_num_open;
 	CNavNode* p_return		= m_open_list[m_num_open];
-	m_open_list[m_num_open]	= NULL;
+	m_open_list[m_num_open]	= nullptr;
 
 	// Flag this node as no longer being in the open list.
 	p_return->GetAStarNode()->m_flags &= ~sAStarNode::IN_OPEN;
@@ -482,7 +482,7 @@ void sAStarClosedList::Add( CNavNode* p_node )
 {
 	for( int i = 0; i < 512; ++i )
 	{
-		if( m_closed_list[i] == NULL )
+		if( m_closed_list[i] == nullptr )
 		{
 			m_closed_list[i] = p_node;
 			++m_num_closed;
@@ -505,7 +505,7 @@ void sAStarClosedList::Remove( CNavNode* p_node )
 	{
 		if( m_closed_list[i] == p_node )
 		{
-			m_closed_list[i] = NULL;
+			m_closed_list[i] = nullptr;
 			--m_num_closed;
 			p_node->GetAStarNode()->m_flags &= ~sAStarNode::IN_CLOSED;
 			return;
@@ -555,9 +555,9 @@ void sAStarClosedList::Remove( CNavNode* p_node )
 /******************************************************************/
 CNavManager::CNavManager()
 {
-	mp_nodes		= NULL;
+	mp_nodes		= nullptr;
 	m_num_nodes		= 0;
-	mp_node_array	= NULL;
+	mp_node_array	= nullptr;
 }
 
 
@@ -582,8 +582,8 @@ void CNavManager::Cleanup()
 	m_num_nodes = 0;
 	
 	Mem::Free( mp_nodes );
-	mp_nodes		= NULL;
-	mp_node_array	= NULL;
+	mp_nodes		= nullptr;
+	mp_node_array	= nullptr;
 }
 
 
@@ -606,7 +606,7 @@ void CNavManager::AddNavNode( int node_number, Script::CStruct* p_node_struct )
 	pNavNode->m_num_links = 0;
 	for( int i = 0;i < MAX_NAV_LINKS; ++i )
 	{
-		pNavNode->mp_links[i] = NULL;
+		pNavNode->mp_links[i] = nullptr;
 	}
 
 	// The node_number is use primarily for calculating links.
@@ -712,7 +712,7 @@ void CNavManager::AddNavsFromNodeArray( Script::CArray *p_nodearray )
 	CNavNode **pp_navnodes = (CNavNode**)Mem::Malloc( num_nodes * sizeof( CNavNode* ));
 	for( int i = 0; i < num_nodes; ++i )
 	{
-		pp_navnodes[i] = NULL;
+		pp_navnodes[i] = nullptr;
 	}
 
 	// Now fill it in.

@@ -140,7 +140,7 @@ private:
 
 	Obj::CGapCheck *					get_indexed_gapcheck(int gap_index);
 	bool								m_valid;			// true if we'd parsed the scripts for this level
-	Lst::Head< Obj::CGapCheck >			m_gapcheck_list;	// list of unique gaps in level, or NULL if none
+	Lst::Head< Obj::CGapCheck >			m_gapcheck_list;	// list of unique gaps in level, or nullptr if none
 };
 
 // CGap is a gap we are in the middle of

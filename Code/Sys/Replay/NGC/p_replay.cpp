@@ -58,7 +58,7 @@ void ReadFromBuffer(uint8 *p_dest, int bufferOffset, int numBytes)
 {
 //	OSReport( "READ: 0x%08x - %d bytes\n", bufferOffset, numBytes );
 	Dbg_MsgAssert(sp_buffer,("Replay buffer has not been allocated"));
-	Dbg_MsgAssert(p_dest,("NULL p_dest sent to Replay::Read()"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest sent to Replay::Read()"));
 	Dbg_MsgAssert(bufferOffset>=0 && bufferOffset<REPLAY_BUFFER_SIZE,("Bad bufferOffset of %d sent to Read()",bufferOffset));
 	Dbg_MsgAssert(bufferOffset+numBytes<=REPLAY_BUFFER_SIZE,("Requested Read() goes past the end of the buffer:\nbufferOffset=%d numBytes=%d REPLAY_BUFFER_SIZE=%d",bufferOffset,numBytes,REPLAY_BUFFER_SIZE));
 
@@ -84,7 +84,7 @@ void WriteIntoBuffer(uint8 *p_source, int bufferOffset, int numBytes)
 //	OSReport( "WRITE: 0x%08x - %d bytes\n", bufferOffset, numBytes );
 
 	Dbg_MsgAssert(sp_buffer,("Replay buffer has not been allocated"));
-	Dbg_MsgAssert(p_source,("NULL p_source sent to Replay::Write()"));
+	Dbg_MsgAssert(p_source,("nullptr p_source sent to Replay::Write()"));
 	Dbg_MsgAssert(bufferOffset>=0 && bufferOffset<REPLAY_BUFFER_SIZE,("Bad bufferOffset of %d sent to Write()",bufferOffset));
 	Dbg_MsgAssert(bufferOffset+numBytes<=REPLAY_BUFFER_SIZE,("Requested Write() goes past the end of the buffer:\nbufferOffset=%d numBytes=%d REPLAY_BUFFER_SIZE=%d",bufferOffset,numBytes,REPLAY_BUFFER_SIZE));
 	

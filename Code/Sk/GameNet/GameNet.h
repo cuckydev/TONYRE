@@ -711,8 +711,8 @@ public:
 	void				TogglePlayerNames( void );
 	bool				ShouldDrawPlayerNames( void );
 
-	void				CreateNetPanelMessage( 	bool broadcast, uint32 message_checksum, char* string_parm_1 = NULL,
-												char* string_param_2 = NULL, Obj::CMovingObject* object = NULL, char* properties = NULL,
+	void				CreateNetPanelMessage( 	bool broadcast, uint32 message_checksum, char* string_parm_1 = nullptr,
+												char* string_param_2 = nullptr, Obj::CMovingObject* object = nullptr, char* properties = nullptr,
 												bool important = false, int time = 2000 );
 	bool				ReadyToPlay( void ) { return m_ready_to_play; }
 	void				SetReadyToPlay( bool ready_to_play );

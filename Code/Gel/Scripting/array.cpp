@@ -18,7 +18,7 @@ CArray::CArray()
 	// Initialise everything. CArray is not derived from CClass so we don't get
 	// the auro-zeroing.
 	m_type=ESYMBOLTYPE_NONE;
-	mp_array_data=NULL;
+	mp_array_data=nullptr;
 	m_size=0;
 }
 
@@ -41,7 +41,7 @@ bool CArray::operator!=( const CArray& v ) const
 	return !(*this==v);
 }
 
-// Deletes the array buffer if it exists, asserting if it contains any non-NULL pointers.
+// Deletes the array buffer if it exists, asserting if it contains any non-nullptr pointers.
 // Sets type to NONE and size to 0.
 void CArray::Clear()
 {
@@ -73,7 +73,7 @@ void CArray::Clear()
 				{
 					// The array contains a pointer to something.
 					// The CArray cannot delete it itself because this would cause cyclic dependencies.
-					Dbg_MsgAssert(0,("Tried to delete a CArray that still contains non-NULL data: size=%d type='%s'",m_size,GetTypeName(m_type)));
+					Dbg_MsgAssert(0,("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName(m_type)));
 					break;
 				}	
 				
@@ -111,7 +111,7 @@ void CArray::Clear()
 					// The CArray cannot delete them itself because this would cause cyclic dependencies.
 					for (uint32 i=0; i<m_size; ++i)
 					{
-						Dbg_MsgAssert(mp_array_data[i]==0,("Tried to delete a CArray that still contains non-NULL data: size=%d type='%s'",m_size,GetTypeName(m_type)));
+						Dbg_MsgAssert(mp_array_data[i]==0,("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName(m_type)));
 					}
 					break;
 				}	
@@ -123,7 +123,7 @@ void CArray::Clear()
 			#endif
 			
 			Mem::Free(mp_array_data);
-			mp_array_data=NULL;
+			mp_array_data=nullptr;
 		}	
 	}
 		
@@ -169,7 +169,7 @@ void CArray::SetSizeAndType(int size, ESymbolType type)
 		}
 		else
 		{
-			Dbg_MsgAssert(mp_array_data==NULL,("mp_array_data not NULL ?"));
+			Dbg_MsgAssert(mp_array_data==nullptr,("mp_array_data not nullptr ?"));
 			
 			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 			mp_array_data=(uint32*)Mem::Malloc(m_size*sizeof(uint32));
@@ -213,7 +213,7 @@ void CArray::Resize(uint32 newSize)
 	uint32 *p_source=GetArrayPointer();
 	// Note: Does not support resizing zero size arrays because it does not know what the type of the 
 	// new array should be.
-	Dbg_MsgAssert(p_source,("NULL array pointer ?"));
+	Dbg_MsgAssert(p_source,("nullptr array pointer ?"));
 	uint32 *p_dest=p_new_buffer;
 	uint32 i;
 	for (i=0; i<m_size; ++i)
@@ -254,13 +254,13 @@ void CArray::SetString(uint32 index, char *p_string)
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetString, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
-		Dbg_MsgAssert(mp_string==NULL,("mp_string expected to be NULL"));
+		Dbg_MsgAssert(mp_string==nullptr,("mp_string expected to be nullptr"));
 		mp_string=p_string;
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
-		Dbg_MsgAssert(mpp_strings[index]==NULL,("Non-NULL pointer in mpp_strings[index]"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
+		Dbg_MsgAssert(mpp_strings[index]==nullptr,("Non-nullptr pointer in mpp_strings[index]"));
 		mpp_strings[index]=p_string;
 	}	
 }
@@ -271,13 +271,13 @@ void CArray::SetLocalString(uint32 index, char *p_string)
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetLocalString, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
-		Dbg_MsgAssert(mp_local_string==NULL,("mp_local_string expected to be NULL"));
+		Dbg_MsgAssert(mp_local_string==nullptr,("mp_local_string expected to be nullptr"));
 		mp_local_string=p_string;
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
-		Dbg_MsgAssert(mpp_local_strings[index]==NULL,("Non-NULL pointer in mpp_local_strings[index]"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
+		Dbg_MsgAssert(mpp_local_strings[index]==nullptr,("Non-nullptr pointer in mpp_local_strings[index]"));
 		mpp_local_strings[index]=p_string;
 	}	
 }
@@ -292,7 +292,7 @@ void CArray::SetInteger(uint32 index, int int_val)
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		mp_integers[index]=int_val;
 	}	
 }
@@ -307,7 +307,7 @@ void CArray::SetFloat(uint32 index, float float_val)
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		mp_floats[index]=float_val;
 	}	
 }
@@ -322,7 +322,7 @@ void CArray::SetChecksum(uint32 index, uint32 checksum)
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		mp_checksums[index]=checksum;
 	}	
 }
@@ -333,13 +333,13 @@ void CArray::SetVector(uint32 index, CVector *p_vector)
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetVector, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
-		Dbg_MsgAssert(mp_vector==NULL,("mp_vector expected to be NULL"));
+		Dbg_MsgAssert(mp_vector==nullptr,("mp_vector expected to be nullptr"));
 		mp_vector=p_vector;
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
-		Dbg_MsgAssert(mpp_vectors[index]==NULL,("Non-NULL pointer in mpp_vectors[index]"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
+		Dbg_MsgAssert(mpp_vectors[index]==nullptr,("Non-nullptr pointer in mpp_vectors[index]"));
 		mpp_vectors[index]=p_vector;
 	}	
 }
@@ -350,13 +350,13 @@ void CArray::SetPair(uint32 index, CPair *p_pair)
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetPair, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
-		Dbg_MsgAssert(mp_pair==NULL,("mp_pair expected to be NULL"));
+		Dbg_MsgAssert(mp_pair==nullptr,("mp_pair expected to be nullptr"));
 		mp_pair=p_pair;
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
-		Dbg_MsgAssert(mpp_pairs[index]==NULL,("Non-NULL pointer in mpp_pairs[index]"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
+		Dbg_MsgAssert(mpp_pairs[index]==nullptr,("Non-nullptr pointer in mpp_pairs[index]"));
 		mpp_pairs[index]=p_pair;
 	}	
 }
@@ -367,13 +367,13 @@ void CArray::SetStructure(uint32 index, CStruct *p_struct)
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetStructure, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
-		Dbg_MsgAssert(mp_structure==NULL,("mp_structure expected to be NULL"));
+		Dbg_MsgAssert(mp_structure==nullptr,("mp_structure expected to be nullptr"));
 		mp_structure=p_struct;
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
-		Dbg_MsgAssert(mpp_structures[index]==NULL,("Non-NULL pointer in mpp_structures[index]"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
+		Dbg_MsgAssert(mpp_structures[index]==nullptr,("Non-nullptr pointer in mpp_structures[index]"));
 		mpp_structures[index]=p_struct;
 	}	
 }
@@ -384,13 +384,13 @@ void CArray::SetArray(uint32 index, CArray *p_array)
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetArray, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
-		Dbg_MsgAssert(mp_array==NULL,("mp_array expected to be NULL"));
+		Dbg_MsgAssert(mp_array==nullptr,("mp_array expected to be nullptr"));
 		mp_array=p_array;
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
-		Dbg_MsgAssert(mpp_arrays[index]==NULL,("Non-NULL pointer in mpp_arrays[index]"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
+		Dbg_MsgAssert(mpp_arrays[index]==nullptr,("Non-nullptr pointer in mpp_arrays[index]"));
 		mpp_arrays[index]=p_array;
 	}	
 }
@@ -410,7 +410,7 @@ char *CArray::GetString(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mpp_strings[index];
 	}	
 }
@@ -429,7 +429,7 @@ char *CArray::GetLocalString(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mpp_local_strings[index];
 	}	
 }
@@ -444,7 +444,7 @@ int CArray::GetInteger(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mp_integers[index];
 	}	
 }
@@ -467,7 +467,7 @@ float CArray::GetFloat(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		
 		if (m_type==ESYMBOLTYPE_FLOAT)
 		{
@@ -490,7 +490,7 @@ uint32 CArray::GetChecksum(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mp_checksums[index];
 	}	
 }
@@ -505,7 +505,7 @@ CVector	*CArray::GetVector(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mpp_vectors[index];
 	}	
 }
@@ -520,7 +520,7 @@ CPair *CArray::GetPair(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mpp_pairs[index];
 	}	
 }
@@ -535,7 +535,7 @@ CStruct *CArray::GetStructure(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mpp_structures[index];
 	}	
 }
@@ -550,7 +550,7 @@ CArray *CArray::GetArray(uint32 index) const
 	}
 	else
 	{
-		Dbg_MsgAssert(mp_array_data,("NULL mp_array_data ?"));
+		Dbg_MsgAssert(mp_array_data,("nullptr mp_array_data ?"));
 		return mpp_arrays[index];
 	}	
 }

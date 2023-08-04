@@ -276,7 +276,7 @@ VecFont::VecFont( const Image::RGBA color, float w, float h )
 //	RwV2dScale( &m_size, size, (RwReal)(1.0f/192.0f) );
 	
 	m_color = color;
-	m_lineVertBuffer = NULL;
+	m_lineVertBuffer = nullptr;
 	m_lineVertBufferSize = 0;
 
     uint32 i;
@@ -418,7 +418,7 @@ void	VecFont::Print( float x, float y, const char* string )
         }
 
         /* We don't need to corrupt too much render state here */
-        RwRenderStateSet(rwRENDERSTATETEXTURERASTER, NULL);
+        RwRenderStateSet(rwRENDERSTATETEXTURERASTER, nullptr);
 
         RwIm2DRenderPrimitive(rwPRIMTYPELINELIST, m_lineVertBuffer, numLines*2);
     }

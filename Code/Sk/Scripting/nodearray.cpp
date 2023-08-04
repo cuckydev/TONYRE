@@ -92,7 +92,7 @@ int FindNamedNode(uint32 checksum, bool assert)
 
 	// Added 9/18/03 for THUG submission. If the node array doesn't exist, interpret that
 	// as just another condition of the node not existing
-	if( p_node_array == NULL )
+	if( p_node_array == nullptr )
 	{
 		return -1;
 	}
@@ -102,7 +102,7 @@ int FindNamedNode(uint32 checksum, bool assert)
 	while ( node_hash[hash] != -1 )
 	{
 		CStruct *p_node=p_node_array->GetStructure(node_hash[hash]);
-		if ( assert ) Dbg_MsgAssert(p_node,("NULL p_node"));
+		if ( assert ) Dbg_MsgAssert(p_node,("nullptr p_node"));
 		
 		uint32 name_checksum=0;
 		if (p_node->GetChecksum(Crc::ConstCRC("Name"),&name_checksum))
@@ -121,7 +121,7 @@ int FindNamedNode(uint32 checksum, bool assert)
 //	for (uint32 i=0; i<p_node_array->GetSize(); ++i)
 //	{
 //		CStruct *p_node=p_node_array->GetStructure(i);
-//		if ( assert ) Dbg_MsgAssert(p_node,("NULL p_node"));
+//		if ( assert ) Dbg_MsgAssert(p_node,("nullptr p_node"));
 //		
 //		uint32 name_checksum=0;
 //		if (p_node->GetChecksum("Name",&name_checksum))
@@ -153,7 +153,7 @@ bool NodeExists(uint32 checksum)
 //	for (uint32 i=0; i<p_node_array->GetSize(); ++i)
 //	{
 //		CStruct *p_node=p_node_array->GetStructure(i);
-//		Dbg_MsgAssert(p_node,("NULL p_node"));
+//		Dbg_MsgAssert(p_node,("nullptr p_node"));
 //		
 //		uint32 name_checksum=0;
 //		if (p_node->GetChecksum("Name",&name_checksum))
@@ -199,7 +199,7 @@ void InitNodeNameHashTable()
 		sp_node_name_hash_table[i].mNameChecksum=0;
 		sp_node_name_hash_table[i].mNodeIndex=0;
 	#if	__OLD_HASH_TABLE__
-		sp_node_name_hash_table[i].mpNext=NULL;
+		sp_node_name_hash_table[i].mpNext=nullptr;
 	#endif
 	}	
 	s_node_name_hash_table_initialised=true;
@@ -221,7 +221,7 @@ void ClearNodeNameHashTable()
 				Mem::Free(p_entry);
 				p_entry=p_next;
 			}
-			sp_node_name_hash_table[i].mpNext=NULL;	
+			sp_node_name_hash_table[i].mpNext=nullptr;	
 		#endif					
 		sp_node_name_hash_table[i].mNameChecksum=0;
 		sp_node_name_hash_table[i].mNodeIndex=0;
@@ -249,7 +249,7 @@ void CreateNodeNameHashTable()
 	for (uint32 i=0; i<p_node_array->GetSize(); ++i)
 	{
 		CStruct *p_node=p_node_array->GetStructure(i);
-		Dbg_MsgAssert(p_node,("NULL p_node"));
+		Dbg_MsgAssert(p_node,("nullptr p_node"));
 		
 		uint32 name_checksum=0;
 		if (p_node->GetChecksum("Name",&name_checksum))
@@ -278,7 +278,7 @@ void CreateNodeNameHashTable()
 				SNodeNameHashEntry *p_new=(SNodeNameHashEntry*)Mem::Malloc(sizeof(SNodeNameHashEntry));
 				p_new->mNameChecksum=name_checksum;
 				p_new->mNodeIndex=i;
-				p_new->mpNext=NULL;
+				p_new->mpNext=nullptr;
 				
 				// Tag it onto the end of the list.
 				p_entry->mpNext=p_new;
@@ -291,8 +291,8 @@ void CreateNodeNameHashTable()
 				p_entry->mNameChecksum=name_checksum;
 				p_entry->mNodeIndex=i;
 				// Quick check for leaks.
-				Dbg_MsgAssert(p_entry->mpNext==NULL,("p_entry->mpNext not NULL ??"));
-				p_entry->mpNext=NULL;
+				Dbg_MsgAssert(p_entry->mpNext==nullptr,("p_entry->mpNext not nullptr ??"));
+				p_entry->mpNext=nullptr;
 			}
 			#else
 			// just skip forward until we find an empty entry
@@ -409,8 +409,8 @@ struct STempNode
 
 // MEMOPT 800K TEMP Size of temporary buffer used when generating prefix info.
 #define NUM_TEMP_NODES 120000
-static STempNode *sp_temp_nodes=NULL;
-static STempNode *sp_free_temp_nodes=NULL;
+static STempNode *sp_temp_nodes=nullptr;
+static STempNode *sp_free_temp_nodes=nullptr;
 
 // The lookup table, which exists in memory for the duration of the level.
 struct SPrefixLookup
@@ -484,7 +484,7 @@ static uint32 sFindPrefixLookup(uint32 checksum)
 // Creates the big temporary array of nodes.
 static void sCreateTempNodes()
 {
-	Dbg_MsgAssert(sp_temp_nodes==NULL,("sp_temp_nodes not NULL ?"));
+	Dbg_MsgAssert(sp_temp_nodes==nullptr,("sp_temp_nodes not nullptr ?"));
 	sp_temp_nodes=(STempNode*)Mem::Malloc(NUM_TEMP_NODES*sizeof(STempNode));
 	Dbg_MsgAssert(sp_temp_nodes,("Could not allocate sp_temp_nodes"));
 	
@@ -493,7 +493,7 @@ static void sCreateTempNodes()
 	{
 		sp_temp_nodes[i].mpNext=&sp_temp_nodes[i+1];
 	}
-	sp_temp_nodes[NUM_TEMP_NODES-1].mpNext=NULL;
+	sp_temp_nodes[NUM_TEMP_NODES-1].mpNext=nullptr;
 	
 	sp_free_temp_nodes=sp_temp_nodes;
 }
@@ -504,8 +504,8 @@ static void sDeleteTempNodes()
     if (sp_temp_nodes)
 	{
 		Mem::Free(sp_temp_nodes);
-		sp_temp_nodes=NULL;
-		sp_free_temp_nodes=NULL;
+		sp_temp_nodes=nullptr;
+		sp_free_temp_nodes=nullptr;
 	}	
 }
 
@@ -531,7 +531,7 @@ static void sConvertTempNodes()
 	{
 		// Get the linked list.
 		STempNode *p_first=sp_prefix_lookups[i].mpTempNodesHeadPointer;
-		Dbg_MsgAssert(p_first,("NULL p_first"));
+		Dbg_MsgAssert(p_first,("nullptr p_first"));
 		
 		// Count how many nodes are in it.
 		int count=0;
@@ -573,7 +573,7 @@ static void sAddNewPrefix(uint32 checksum, int nodeIndex)
 	{
 		STempNode *p_new=sNewTempNode();
 		p_new->mNodeIndex=nodeIndex;
-		p_new->mpNext=NULL;
+		p_new->mpNext=nullptr;
 		
 		// Stick it in at index 0. The array will be maintained as a sorted
 		// array from now on.
@@ -632,7 +632,7 @@ static void sAddNewPrefix(uint32 checksum, int nodeIndex)
 		// Insert the new checksum, and make a new list for it with just one entry at the moment.
 		STempNode *p_new=sNewTempNode();
 		p_new->mNodeIndex=nodeIndex;
-		p_new->mpNext=NULL;
+		p_new->mpNext=nullptr;
 		
 		sp_prefix_lookups[index].mChecksum=checksum;
 		sp_prefix_lookups[index].mpTempNodesHeadPointer=p_new;
@@ -666,7 +666,7 @@ void GeneratePrefixInfo()
 	for (uint32 i=0; i<p_node_array->GetSize(); ++i)
 	{
 		CStruct *p_node=p_node_array->GetStructure(i);
-		Dbg_MsgAssert(p_node,("NULL p_node"));
+		Dbg_MsgAssert(p_node,("nullptr p_node"));
 		uint32 name_checksum=0;
 		p_node->GetChecksum("Name",&name_checksum);
 		
@@ -718,7 +718,7 @@ void GeneratePrefixInfo()
 // the matching nodes.
 // It loads the size of the array into the passed p_numMatches.
 //
-// Note: It will never return NULL, but p_numMatches may contain zero.
+// Note: It will never return nullptr, but p_numMatches may contain zero.
 //
 ////////////////////////////////////////////////////////////////////
 const uint16 *GetPrefixedNodes(uint32 checksum, uint16 *p_numMatches)
@@ -805,7 +805,7 @@ CStruct *GetNode(int nodeIndex)
 	CArray *p_node_array=GetArray(0xc472ecc5/*NodeArray*/);
 	Dbg_MsgAssert(p_node_array,("NodeArray not found"));
 	CStruct *p_node=p_node_array->GetStructure(nodeIndex);
-	Dbg_MsgAssert(p_node,("NULL p_node"));
+	Dbg_MsgAssert(p_node,("nullptr p_node"));
 	return p_node;
 }
 
@@ -822,10 +822,10 @@ uint32	GetNodeNameChecksum(int nodeIndex)
 
 uint32 GetNumLinks(CStruct *p_node)
 {
-	Dbg_MsgAssert(p_node,("NULL p_node"));
-	CArray *p_links=NULL;
+	Dbg_MsgAssert(p_node,("nullptr p_node"));
+	CArray *p_links=nullptr;
 	p_node->GetArray(0x2e7d5ee7/*Links*/,&p_links);
-	if (p_links==NULL)
+	if (p_links==nullptr)
 	{
 		return 0;
 	}
@@ -838,7 +838,7 @@ uint32 GetNumLinks(int nodeIndex)
 	if (p_node_array)
 	{
 		CStruct *p_node=p_node_array->GetStructure(nodeIndex);
-		Dbg_MsgAssert(p_node,("NULL p_node"));
+		Dbg_MsgAssert(p_node,("nullptr p_node"));
 	
 		return GetNumLinks(p_node);
 	}	
@@ -847,8 +847,8 @@ uint32 GetNumLinks(int nodeIndex)
 
 int GetLink(CStruct *p_node, int linkNumber)
 {
-	Dbg_MsgAssert( p_node, ( "NULL p_node" ) );
-	CArray *p_links=NULL;
+	Dbg_MsgAssert( p_node, ( "nullptr p_node" ) );
+	CArray *p_links=nullptr;
 	p_node->GetArray( CRCD( 0x2e7d5ee7, "Links" ), &p_links);
 	Dbg_MsgAssert( p_links, ( "Tried to call GetLink when there are no links" ) );
 	Dbg_MsgAssert( p_links->GetSize(), ( "Tried to call GetLink when there are no links (empty Links array)" ) );
@@ -876,8 +876,8 @@ bool IsLinkedTo(int node1, int node2)
 
 void GetPosition(CStruct *p_node, Mth::Vector *p_vector)
 {
-	Dbg_MsgAssert(p_node,("NULL p_node"));
-	Dbg_MsgAssert(p_vector,("NULL p_vector"));
+	Dbg_MsgAssert(p_node,("nullptr p_node"));
+	Dbg_MsgAssert(p_vector,("nullptr p_vector"));
 	   
 	#ifdef	__NOPT_ASSERT__
 	if ( p_node->GetVector(Crc::ConstCRC("Position"),p_vector,Script::NO_ASSERT) )
@@ -913,14 +913,14 @@ void GetPosition(CStruct *p_node, Mth::Vector *p_vector)
 
 void GetPosition(int nodeIndex, Mth::Vector *p_vector)
 {
-	Dbg_MsgAssert(p_vector,("NULL p_vector"));
+	Dbg_MsgAssert(p_vector,("nullptr p_vector"));
 	GetPosition(GetNode(nodeIndex),p_vector);
 }
 
 void GetOrientation(CStruct *p_node, Mth::Matrix *p_matrix)
 {
-	Dbg_MsgAssert(p_node,("NULL p_node"));
-	Dbg_MsgAssert(p_matrix,("NULL p_matrix"));
+	Dbg_MsgAssert(p_node,("nullptr p_node"));
+	Dbg_MsgAssert(p_matrix,("nullptr p_matrix"));
 	   
 	Mth::Vector orientation_vector;
 	if ( p_node->GetVector(Crc::ConstCRC("orientation"),&orientation_vector,Script::NO_ASSERT) )
@@ -940,14 +940,14 @@ void GetOrientation(CStruct *p_node, Mth::Matrix *p_matrix)
 
 void GetOrientation(int nodeIndex, Mth::Vector *p_matrix)
 {
-	Dbg_MsgAssert(p_matrix,("NULL p_matrix"));
+	Dbg_MsgAssert(p_matrix,("nullptr p_matrix"));
 	GetPosition(GetNode(nodeIndex),p_matrix);
 }
 
 void GetAngles(CStruct *p_node, Mth::Vector *p_vector)
 {
-	Dbg_MsgAssert(p_node,("NULL p_node"));
-	Dbg_MsgAssert(p_vector,("NULL p_vector"));
+	Dbg_MsgAssert(p_node,("nullptr p_node"));
+	Dbg_MsgAssert(p_vector,("nullptr p_vector"));
 	// Make sure they are initialised to zero, in case there is no Angles component.
 	// Angles components of (0,0,0) are ommitted to save memory.
 	p_vector->Set(); 
@@ -956,14 +956,14 @@ void GetAngles(CStruct *p_node, Mth::Vector *p_vector)
 
 void GetAngles(int nodeIndex, Mth::Vector *p_vector)
 {
-	Dbg_MsgAssert(p_vector,("NULL p_vector"));
+	Dbg_MsgAssert(p_vector,("nullptr p_vector"));
 	GetAngles(GetNode(nodeIndex),p_vector);
 }
 
 CArray *GetIgnoredLightArray(CStruct *p_node)
 {
-	Dbg_MsgAssert(p_node,("NULL p_node"));
-	CArray *p_ignored_lights=NULL;
+	Dbg_MsgAssert(p_node,("nullptr p_node"));
+	CArray *p_ignored_lights=nullptr;
 	p_node->GetArray(0xb7b030be/*IgnoredLights*/,&p_ignored_lights);
 	return p_ignored_lights;
 }
@@ -987,7 +987,7 @@ void CreateNodeArray(int size, bool hackUseFrontEndHeap)
 	
 	// Make sure it doesn't exist already.
 	// ParseQB will catch this anyway, but may as well check before getting there.
-	Dbg_MsgAssert(GetArray(Crc::ConstCRC("NodeArray"))==NULL,("Called CreateNodeArray when a NodeArray already exists"));
+	Dbg_MsgAssert(GetArray(Crc::ConstCRC("NodeArray"))==nullptr,("Called CreateNodeArray when a NodeArray already exists"));
 
 
 	// Create a dummy QB file, and parse it the usual way.	
@@ -1068,17 +1068,17 @@ static void FindReferences(uint32 scriptToScanThrough, uint32 functionToScanFor,
 		return;
 	}
 		
-	Dbg_MsgAssert(p_callback,("NULL p_callback"));
+	Dbg_MsgAssert(p_callback,("nullptr p_callback"));
 
 	#ifdef __NOPT_ASSERT__
 	// Look up the function being scanned for to see if it is a cfunction.
-    bool (*p_cfunction)(CStruct *pParams, CScript *pCScript)=NULL;
+    bool (*p_cfunction)(CStruct *pParams, CScript *pCScript)=nullptr;
 	CSymbolTableEntry *p_function_entry=LookUpSymbol(functionToScanFor);
 	if (p_function_entry && p_function_entry->mType==ESYMBOLTYPE_CFUNCTION)
 	{
 		p_cfunction=p_function_entry->mpCFunction;
 	}	
-	Dbg_MsgAssert(p_cfunction==NULL,("Cannot use FindReferences to find cfunction calls yet ..."));
+	Dbg_MsgAssert(p_cfunction==nullptr,("Cannot use FindReferences to find cfunction calls yet ..."));
 	#endif
 
 	#ifdef NO_SCRIPT_CACHING
@@ -1093,13 +1093,13 @@ static void FindReferences(uint32 scriptToScanThrough, uint32 functionToScanFor,
 	
 	// Get a pointer to it.
 	uint8 *p_token=p_script_entry->mpScript;
-	Dbg_MsgAssert(p_token,("NULL p_token ???"));
+	Dbg_MsgAssert(p_token,("nullptr p_token ???"));
 	// Skip over the 4-byte contents checksum.
 	p_token+=4;
 	#else
 	
 	Script::CScriptCache *p_script_cache=Script::CScriptCache::Instance();
-	Dbg_MsgAssert(p_script_cache,("NULL p_script_cache"));
+	Dbg_MsgAssert(p_script_cache,("nullptr p_script_cache"));
 	uint8 *p_script=p_script_cache->GetScript(scriptToScanThrough);
 	Dbg_MsgAssert(p_script,("Script %s not found in script cache",Script::FindChecksumName(scriptToScanThrough)));
 	uint8 *p_token=p_script;
@@ -1185,9 +1185,9 @@ static void FindReferences(uint32 scriptToScanThrough, uint32 functionToScanFor,
 							uint32 GapScript=0;
 							if (p_params->GetChecksum("GapScript",&GapScript))
 							{
-								// Passing NULL for p_args here because it is not clear what parameters are
+								// Passing nullptr for p_args here because it is not clear what parameters are
 								// going to be passed to the GapScript when it is run.
-								FindReferences(GapScript,functionToScanFor,p_callback,NULL,Count+1);
+								FindReferences(GapScript,functionToScanFor,p_callback,nullptr,Count+1);
 							}	
 						}	
 					}
@@ -1282,12 +1282,12 @@ void ScanNodeScripts(uint32 componentName, uint32 functionName, void (*p_callbac
 	for (uint32 i=0; i<p_node_array->GetSize(); ++i)
 	{
 		CStruct *p_node=p_node_array->GetStructure(i);
-		Dbg_MsgAssert(p_node,("NULL p_node"));
+		Dbg_MsgAssert(p_node,("nullptr p_node"));
 		
 		uint32 script_checksum=0;
 		if (p_node->GetChecksum(componentName,&script_checksum))
 		{
-			FindReferences(script_checksum,functionName,p_callback,NULL,0);
+			FindReferences(script_checksum,functionName,p_callback,nullptr,0);
 		}	
 	}
 	

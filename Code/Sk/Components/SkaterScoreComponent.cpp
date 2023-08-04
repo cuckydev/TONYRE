@@ -39,7 +39,7 @@ CBaseComponent* CSkaterScoreComponent::s_create()
 CSkaterScoreComponent::CSkaterScoreComponent() : CBaseComponent()
 {
 	SetType( CRC_SKATERSCORE );
-	mp_score = NULL;
+	mp_score = nullptr;
 }
 
 /******************************************************************/
@@ -268,7 +268,7 @@ CBaseComponent::EMemberFunctionResult CSkaterScoreComponent::CallMemberFunction(
 void CSkaterScoreComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterScoreComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterScoreComponent::GetDebugInfo"));
 	
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

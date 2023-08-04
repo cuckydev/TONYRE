@@ -139,7 +139,7 @@ void queue_set_switch(unsigned short entry, unsigned int value)
 		struct SysClock clock;
 		USec2SysClock(SET_PARAM_ALARM_TIME, &clock);
 
-		SetAlarm(&clock, switch_set_callback, NULL);
+		SetAlarm(&clock, switch_set_callback, nullptr);
 
 		s_switch_alarm_set = TRUE;
 	}
@@ -316,7 +316,7 @@ int sce_sound_loop( void )
 
 	// SIFCMD
 	// No longer need to call sceSifSetCmdBuffer() since we share it with fileio.irx
-	sceSifAddCmdHandler(SOUND_REQUEST_COMMAND, (void *) sound_request_callback, NULL );
+	sceSifAddCmdHandler(SOUND_REQUEST_COMMAND, (void *) sound_request_callback, nullptr );
 
 	CpuResumeIntr(oldStat);
 

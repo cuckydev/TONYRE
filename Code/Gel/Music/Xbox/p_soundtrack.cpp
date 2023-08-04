@@ -131,7 +131,7 @@ const WCHAR* GetSoundtrackName( int soundtrack )
 	{
 		return soundtrackData[soundtrack].szName;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -146,7 +146,7 @@ unsigned int GetSoundtrackNumSongs( int soundtrack )
 	{
 		return soundtrackData[soundtrack].uSongCount;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -180,7 +180,7 @@ const WCHAR* GetSongName( int soundtrack, int track )
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -202,7 +202,7 @@ HANDLE GetSoundtrackWMAHandle( int soundtrack, int track )
 												track,
 												&dwSongID,
 												&dwSongLength,
-												NULL,
+												nullptr,
 												0 );
 
 			if( rv )

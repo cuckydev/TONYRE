@@ -88,12 +88,12 @@ namespace Pcm
 //-----------------------------------------------------------------------------
 CADPCMFileStream::CADPCMFileStream( bool use_3d )
 {
-    m_pSourceFilter		= NULL;
-    m_pRenderFilter		= NULL;
-    m_pvSourceBuffer	= NULL;
-    m_pFileBuffer		= NULL;
+    m_pSourceFilter		= nullptr;
+    m_pRenderFilter		= nullptr;
+    m_pvSourceBuffer	= nullptr;
+    m_pFileBuffer		= nullptr;
 	m_hFile				= INVALID_HANDLE_VALUE;
-	m_hThread			= NULL;
+	m_hThread			= nullptr;
 	m_bUse3D			= use_3d;
 	m_bOkayToPlay		= true;
 
@@ -213,7 +213,7 @@ void CADPCMFileStream::AsyncRead( void )
 		}
 		
 		// We still have more data to read. Start another asynchronous read from the file.
-		BOOL bComplete	= ReadFile( m_hFile, (BYTE*)m_pFileBuffer + ( m_FileBytesRead % PCMAudio_GetFilestreamBufferSize()), BYTES_PER_READ, NULL, m_pOverlapped );
+		BOOL bComplete	= ReadFile( m_hFile, (BYTE*)m_pFileBuffer + ( m_FileBytesRead % PCMAudio_GetFilestreamBufferSize()), BYTES_PER_READ, nullptr, m_pOverlapped );
 		dwLastError		= GetLastError();
 
 		// Deal with hitting EOF (for files that are some exact multiple of BYTES_PER_READ bytes).
@@ -291,7 +291,7 @@ HRESULT CADPCMFileStream::PostInitialize( void )
 	}
 	m_pOverlapped->OffsetHigh	= 0;
 
-	BOOL bComplete = ReadFile( m_hFile, m_pFileBuffer, BYTES_PER_READ, NULL, m_pOverlapped );
+	BOOL bComplete = ReadFile( m_hFile, m_pFileBuffer, BYTES_PER_READ, nullptr, m_pOverlapped );
 	if( !bComplete )
 	{
 		DWORD dwLastError = GetLastError();
@@ -374,7 +374,7 @@ bool CADPCMFileStream::CreateSourceBuffer( void )
 	m_pvSourceBuffer = new BYTE[m_PacketBytes * ADPCMSTRM_PACKET_COUNT];
 	Mem::Manager::sHandle().PopContext();
 
-	return ( m_pvSourceBuffer != NULL );
+	return ( m_pvSourceBuffer != nullptr );
 }
 
 
@@ -426,7 +426,7 @@ HRESULT CADPCMFileStream::Process( void )
 	// Has the first block of raw data been read? If so we need to instantiate the playback objects and data buffers.
 	if( m_FirstRead && ( m_FileBytesRead > 1024 ))
 	{
-		if( m_pSourceFilter == NULL )
+		if( m_pSourceFilter == nullptr )
 		{
 			// Create the thread which will create the in-memory decoder. 
 			m_DecoderCreation = 0;
@@ -553,7 +553,7 @@ HRESULT CADPCMFileStream::Process( void )
 			if( FAILED( hr ))
 			{
 				Dbg_Assert( 0 );
-				m_pRenderFilter		= NULL;
+				m_pRenderFilter		= nullptr;
 				m_AwaitingDeletion	= true;
 				return S_OK;
 			}
@@ -634,7 +634,7 @@ BOOL CADPCMFileStream::FindFreePacket( DWORD* pdwPacketIndex )
 //-----------------------------------------------------------------------------
 HRESULT CADPCMFileStream::ProcessSource( DWORD dwPacketIndex )
 {
-	if( m_pvSourceBuffer == NULL )
+	if( m_pvSourceBuffer == nullptr )
 	{
 		if( CreateSourceBuffer() == false )
 		{
@@ -701,7 +701,7 @@ HRESULT CADPCMFileStream::ProcessRenderer( DWORD dwPacketIndex )
     XMEDIAPACKET xmp;
     HRESULT      hr;
 
-	Dbg_Assert( m_pvSourceBuffer != NULL );
+	Dbg_Assert( m_pvSourceBuffer != nullptr );
 
 	// There's a full packet's worth of data ready for us to send to the renderer.  We want to track the status
 	// of this packet since the render filter is asychronous and we need to know when the packet is completed.
@@ -716,7 +716,7 @@ HRESULT CADPCMFileStream::ProcessRenderer( DWORD dwPacketIndex )
 		m_LastPacket = dwPacketIndex;
 	}
 
-    hr = m_pRenderFilter->Process( &xmp, NULL );
+    hr = m_pRenderFilter->Process( &xmp, nullptr );
 
 	if( m_Completed )
 	{

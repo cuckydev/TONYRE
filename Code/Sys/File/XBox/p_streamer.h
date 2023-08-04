@@ -288,7 +288,7 @@ inline BOOL CLevelLoader::IsCurrentCacheGood()
 }
 inline VOID* CLevelLoader::GetData( DWORD dwOffset ) const
 {
-    return m_pCurrentLevel ? &m_pSysMemData[dwOffset] : NULL;
+    return m_pCurrentLevel ? &m_pSysMemData[dwOffset] : nullptr;
 }
 inline LPDIRECT3DRESOURCE8 CLevelLoader::GetResource( DWORD dwOffset ) const
 {

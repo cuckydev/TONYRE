@@ -46,7 +46,7 @@ int CAnimAsset::Load(const char* p_file, bool async_load, bool use_pip, void* pE
 			Dbg_MsgAssert( 0,( "Anim %s doesn't exist.", fullName ) );
 		}
 		delete pSeq;
-		pSeq = NULL;
+		pSeq = nullptr;
 		goto failure;
 	}
 
@@ -79,7 +79,7 @@ int CAnimAsset::Load(uint32* p_data, int data_size)     // create or load the as
 			Dbg_Assert( 0 );
 		}
 		delete pSeq;
-		pSeq = NULL;
+		pSeq = nullptr;
 		goto failure;
 	}
 
@@ -106,7 +106,7 @@ int CAnimAsset::Unload()
 	{
         delete (Gfx::CBonedAnimFrameData*) GetData();
 		
-        SetData(NULL);
+        SetData(nullptr);
 	}
 	return 0;
 }
@@ -122,7 +122,7 @@ int CAnimAsset::Reload(const char* p_file)
 	
 	Unload();
 
-	return ( Load(p_file, false, 0, NULL, NULL ) == 0 );
+	return ( Load(p_file, false, 0, nullptr, nullptr ) == 0 );
 }
 
 /******************************************************************/
@@ -133,7 +133,7 @@ int CAnimAsset::Reload(const char* p_file)
 bool CAnimAsset::LoadFinished()
 {
 	Gfx::CBonedAnimFrameData * p_anim = (Gfx::CBonedAnimFrameData*) GetData();
-	Dbg_MsgAssert(p_anim, ("LoadFinished(): Data pointer NULL (load probably was never started)"));
+	Dbg_MsgAssert(p_anim, ("LoadFinished(): Data pointer nullptr (load probably was never started)"));
 
 	return p_anim->LoadFinished();
 }

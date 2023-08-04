@@ -211,11 +211,11 @@ class CXBSound
 *****************************************************************************/
 
 // Because we don't use voices in the same way as on PS2, this array simulates
-// the system. An entry with a NULL pointer means no sound is playing on that
+// the system. An entry with a nullptr pointer means no sound is playing on that
 // 'voice', a valid pointer indicates a sound is playing on that 'voice', and
 // provides details of the buffer.
 static VoiceEntry		VoiceSimulator[NUM_VOICES];
-static IDirectSound8*	pDirectSound	= NULL;
+static IDirectSound8*	pDirectSound	= nullptr;
 
 static I3DL2ENVIRONMENT reverbEnvironments[] =
 {
@@ -271,8 +271,8 @@ CRiffChunk::CRiffChunk()
 {
     // Initialize defaults
     m_fccChunkId   = 0;
-    m_pParentChunk = NULL;
-    m_hFile        = NULL;
+    m_pParentChunk = nullptr;
+    m_hFile        = nullptr;
     m_dwDataOffset = 0;
     m_dwDataSize   = 0;
     m_dwFlags      = 0;
@@ -388,7 +388,7 @@ bool CRiffChunk::ReadData( LONG lOffset, VOID* pData, DWORD dwDataSize )
 //-----------------------------------------------------------------------------
 CWaveFile::CWaveFile()
 {
-    m_hFile = NULL;
+    m_hFile = nullptr;
 }
 
 
@@ -421,13 +421,13 @@ bool CWaveFile::Open( const char* strFileName )
 //	RwFileFunctions* fs = RwOsGetFileInterface();
 //	m_hFile = fs->rwfopen( strFileName, "rb" );
 
-	if( m_hFile == NULL )
+	if( m_hFile == nullptr )
 	{
         return false;
 	}
 
 	// Initialize the chunk objects.
-    m_RiffChunk.Initialize( FOURCC_RIFF, NULL, m_hFile );
+    m_RiffChunk.Initialize( FOURCC_RIFF, nullptr, m_hFile );
     m_FormatChunk.Initialize( FOURCC_FORMAT, &m_RiffChunk, m_hFile );
     m_DataChunk.Initialize( FOURCC_DATA, &m_RiffChunk, m_hFile );
     m_SamplerChunk.Initialize( FOURCC_SAMPLER, &m_RiffChunk, m_hFile );
@@ -478,7 +478,7 @@ bool CWaveFile::GetFormat( WAVEFORMATEX* pwfxFormat, DWORD dwFormatSize )
 {
     DWORD dwValidSize = m_FormatChunk.GetDataSize();
 
-    if( NULL == pwfxFormat || 0 == dwFormatSize )
+    if( nullptr == pwfxFormat || 0 == dwFormatSize )
         return false;
 
     // Read the format chunk into the buffer
@@ -551,11 +551,11 @@ bool CWaveFile::ContainsLoop( void )
 //-----------------------------------------------------------------------------
 void CWaveFile::Close( void )
 {
-    if( m_hFile != NULL )
+    if( m_hFile != nullptr )
     {
 //		RwFileFunctions* fs = RwOsGetFileInterface();
 //		fs->rwfclose( m_hFile );
-//		m_hFile = NULL;
+//		m_hFile = nullptr;
 		File::Close( m_hFile );
     }
 }
@@ -570,7 +570,7 @@ void CWaveFile::Close( void )
 CXBSound::CXBSound( void )
 {
     m_dwBufferSize  = 0L;
-	m_pRawData		= NULL;
+	m_pRawData		= nullptr;
 }
 
 
@@ -622,22 +622,22 @@ bool CXBSound::Create( const CHAR* strFileName, DWORD dwFlags )
 	m_Loops = waveFile.ContainsLoop();
 
     // Create the sound buffer
-    br = Create( &m_WaveFormat, dwFlags, NULL, m_dwBufferSize );
+    br = Create( &m_WaveFormat, dwFlags, nullptr, m_dwBufferSize );
     if( !br )
 	{
         return false;
 	}
 
     // Lock the buffer so it can be filled
-    VOID* pLock1 = NULL;
-    VOID* pLock2 = NULL;
+    VOID* pLock1 = nullptr;
+    VOID* pLock2 = nullptr;
     DWORD dwLockSize1 = 0L;
     DWORD dwLockSize2 = 0L;
 
 	pLock1 = new char[m_dsbd.dwBufferBytes];
 
     // Read the wave file data into the buffer
-    br = waveFile.ReadSample( 0L, pLock1, m_dsbd.dwBufferBytes, NULL );
+    br = waveFile.ReadSample( 0L, pLock1, m_dsbd.dwBufferBytes, nullptr );
     if( !br )
 	{
         return false;
@@ -655,7 +655,7 @@ bool CXBSound::Create( const CHAR* strFileName, DWORD dwFlags )
 //-----------------------------------------------------------------------------
 // Name: Create()
 // Desc: Creates the sound and tells DirectSound where the sound data will be
-//       stored. If pBuffer is NULL, DirectSound handles buffer creation.
+//       stored. If pBuffer is nullptr, DirectSound handles buffer creation.
 //-----------------------------------------------------------------------------
 bool CXBSound::Create( const XBOXADPCMWAVEFORMAT* pwfxFormat, DWORD dwFlags, VOID* pBuffer, DWORD dwBytes )
 {
@@ -673,18 +673,18 @@ bool CXBSound::Create( const XBOXADPCMWAVEFORMAT* pwfxFormat, DWORD dwFlags, VOI
 		m_dsbd.lpwfxFormat	= (LPWAVEFORMATEX)&pwfxFormat->wfx;
 	}
 
-	// If pBuffer is non-NULL, dwBufferBytes will be zero, which informs
+	// If pBuffer is non-nullptr, dwBufferBytes will be zero, which informs
 	// DirectSoundCreateBuffer that we will presently be using SetBufferData().
 	// Otherwise, we set dwBufferBytes to the size of the WAV data, potentially
 	// including alignment bytes.
-	if( pBuffer == NULL )
+	if( pBuffer == nullptr )
 	{
 		m_dsbd.dwBufferBytes = ( 0 == m_WaveFormat.wfx.nBlockAlign ) ? dwBytes : 
 								 dwBytes - ( dwBytes % m_WaveFormat.wfx.nBlockAlign );
 	}
 
 	// If buffer specified, tell DirectSound to use it
-	if( pBuffer != NULL )
+	if( pBuffer != nullptr )
 	{
 		// Store pointer to raw sound data.
 		m_pRawData = pBuffer;
@@ -729,7 +729,7 @@ static int getFreeVoice( void )
 {
 	for( int i = 0; i < NUM_VOICES; ++i )
 	{
-		if( VoiceSimulator[i].p_buffer == NULL )
+		if( VoiceSimulator[i].p_buffer == nullptr )
 		{
 			return i;
 		}
@@ -753,7 +753,7 @@ void InitSoundFX( CSfxManager *p_sfx_manager )
     LPDSEFFECTIMAGEDESC	pDesc;
     DSEFFECTIMAGELOC	EffectLoc;
 
-	Dbg_Assert( pDirectSound == NULL );
+	Dbg_Assert( pDirectSound == nullptr );
 
 	// Set default volume type.
 	if( p_sfx_manager )
@@ -764,14 +764,14 @@ void InitSoundFX( CSfxManager *p_sfx_manager )
 	// Initialize the 'voice' array.
 	for( int i = 0; i < NUM_VOICES; ++i )
 	{
-		VoiceSimulator[i].p_buffer = NULL;
+		VoiceSimulator[i].p_buffer = nullptr;
 	}
 
 	// Create the DirectSound interface.
-	hr = DirectSoundCreate( NULL, &pDirectSound, NULL );
+	hr = DirectSoundCreate( nullptr, &pDirectSound, nullptr );
 
-//	HANDLE hFile = CreateFile( "d:\\data\\sounds\\bin\\dsstdfx.bin", GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL );
-	HANDLE hFile = CreateFile( "d:\\data\\sounds\\bin\\skate5fx.bin", GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL );
+//	HANDLE hFile = CreateFile( "d:\\data\\sounds\\bin\\dsstdfx.bin", GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, nullptr );
+	HANDLE hFile = CreateFile( "d:\\data\\sounds\\bin\\skate5fx.bin", GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, nullptr );
     if( hFile == INVALID_HANDLE_VALUE )
     {
 		Dbg_Assert( 0 );
@@ -779,8 +779,8 @@ void InitSoundFX( CSfxManager *p_sfx_manager )
 	else
 	{
 		// Determine the size of the scratch image by seeking to the end of the file.
-		int size = SetFilePointer( hFile, 0, NULL, FILE_END );
-        SetFilePointer( hFile, 0, NULL, FILE_BEGIN );
+		int size = SetFilePointer( hFile, 0, nullptr, FILE_END );
+        SetFilePointer( hFile, 0, nullptr, FILE_BEGIN );
     
 		// Allocate memory to read the scratch image from disk
         BYTE* p_buffer = new BYTE[size];
@@ -828,7 +828,7 @@ void CleanUpSoundFX( void )
 		PlatformWaveInfo* p_info = &( WaveTable[PERM_WAVE_TABLE_MAX_ENTRIES + i].platformWaveInfo );
 		Dbg_Assert( p_info->p_sound_data );
 		delete p_info->p_sound_data;
-		p_info->p_sound_data = NULL;
+		p_info->p_sound_data = nullptr;
 	}
 	NumWavesInTable = 0;
 }
@@ -894,7 +894,7 @@ bool LoadSoundPlease( const char *sfxName, uint32 checksum, PlatformWaveInfo *pI
 	{
 		OutputDebugString( name_buffer );
 		OutputDebugString( "\n" );
-		pInfo->p_sound_data = NULL;
+		pInfo->p_sound_data = nullptr;
 		pInfo->looping		= false;
 		pInfo->permanent	= false;
 		delete p_sound;
@@ -952,7 +952,7 @@ int	PlaySoundPlease( PlatformWaveInfo *pInfo, sVolume *p_vol, float pitch )
 			// Reset various buffer description values.
 			pInfo->p_sound_data->m_dsbd.dwFlags			= temp_flags;
 			pInfo->p_sound_data->m_dsbd.dwBufferBytes	= buffer_bytes;
-			pInfo->p_sound_data->m_dsbd.lpMixBins		= NULL;
+			pInfo->p_sound_data->m_dsbd.lpMixBins		= nullptr;
 
 			++num_buffers;
 
@@ -1056,7 +1056,7 @@ void SetReverbPlease( float reverbLevel, int reverbMode, bool instant )
 /******************************************************************/
 bool VoiceIsOn( int voice )
 {
-	return( VoiceSimulator[voice].p_buffer != NULL );
+	return( VoiceSimulator[voice].p_buffer != nullptr );
 }
 
 
@@ -1343,7 +1343,7 @@ void PerFrameUpdate( void )
 
 				Dbg_Assert( hr == 0 );
 
-				VoiceSimulator[i].p_buffer = NULL;
+				VoiceSimulator[i].p_buffer = nullptr;
 			}
 			else
 			{

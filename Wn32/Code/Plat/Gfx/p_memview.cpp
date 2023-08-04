@@ -217,10 +217,10 @@ Mem::Allocator::BlockHeader *MemView_FindBlock( int addr)
 #ifdef	__LINKED_LIST_HEAP__
 
 	
-	Mem::Allocator::BlockHeader *pSmallestBlock	= NULL;
+	Mem::Allocator::BlockHeader *pSmallestBlock	= nullptr;
 	uint32 smallest_block_size = 100000000;
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	for (Mem::Heap* heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+	for (Mem::Heap* heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 	{
 		Mem::Allocator::BlockHeader *pBlock = (Mem::Allocator::BlockHeader *) heap->find_block((void*)addr);	
 		if (pBlock)
@@ -234,7 +234,7 @@ Mem::Allocator::BlockHeader *MemView_FindBlock( int addr)
 	}
 	return pSmallestBlock;
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -268,7 +268,7 @@ char * MemView_GetClassName(CCallStack *c)
 		}
 	}
 #endif
-	return NULL;
+	return nullptr;
 }
 
 
@@ -286,7 +286,7 @@ void MemView_DumpBlockInfo(int cursor)
 
 	// find this in the allocators used list
 	// and say if it is free, or not	
-	if( pBlock == NULL )
+	if( pBlock == nullptr )
 	{
 /*		if (cursor > (int)__text_org && cursor < (int)__bss_objend)		// check to see if in code/data
 		{
@@ -590,7 +590,7 @@ void MemView_DumpRefs(int addr)
 #if 0
 	printf ("\n\nDumping references for %p\n",(void*)addr);
 	MemView_DumpBlockInfo(addr);
-	uint32 *p_first = NULL;	
+	uint32 *p_first = nullptr;	
 	int last_addr = 0;
 	int count = 0 ;
 	while (1)

@@ -94,10 +94,10 @@
 //	void			buildMaterials	( NsMaterialMan * pMaterialList, NsTextureMan * pTexMan );
 //
 //	NsVector	  * getVertexPool	( void ) { return m_pVertexPool; }
-//	NsVector	  * getNormalPool	( void ) { return m_flags & (1<<1) ? &m_pVertexPool[1] : NULL; }
-//	unsigned int  * getColorPool	( void ) { return m_flags & (1<<2) ? (unsigned int *)&m_pVertexPool[getStride() * m_numVertex + 1] : NULL; }
-//	float		  * getUVPool		( void ) { return m_flags & (1<<3) ? getColorPool() ? (float *)&getColorPool()[m_numVertex] : (float *)&m_pVertexPool[getStride() * m_numVertex + 1] : NULL; }
-//	unsigned short* getConnectList	( void ) { return m_flags & (1<<3) ? getUVPool() ? (unsigned short *)&getUVPool()[m_numVertex * 2] : getColorPool() ? (unsigned short *)&getColorPool()[m_numVertex] : (unsigned short *)&m_pVertexPool[getStride() * m_numVertex + 1] : NULL; }
+//	NsVector	  * getNormalPool	( void ) { return m_flags & (1<<1) ? &m_pVertexPool[1] : nullptr; }
+//	unsigned int  * getColorPool	( void ) { return m_flags & (1<<2) ? (unsigned int *)&m_pVertexPool[getStride() * m_numVertex + 1] : nullptr; }
+//	float		  * getUVPool		( void ) { return m_flags & (1<<3) ? getColorPool() ? (float *)&getColorPool()[m_numVertex] : (float *)&m_pVertexPool[getStride() * m_numVertex + 1] : nullptr; }
+//	unsigned short* getConnectList	( void ) { return m_flags & (1<<3) ? getUVPool() ? (unsigned short *)&getUVPool()[m_numVertex * 2] : getColorPool() ? (unsigned short *)&getColorPool()[m_numVertex] : (unsigned short *)&m_pVertexPool[getStride() * m_numVertex + 1] : nullptr; }
 //	int				getStride		( void ) { return ( m_flags & (1<<1) ? 2 : 1 ); }
 //};
 //

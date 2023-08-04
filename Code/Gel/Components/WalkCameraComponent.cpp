@@ -420,7 +420,7 @@ CBaseComponent::EMemberFunctionResult CWalkCameraComponent::CallMemberFunction( 
 void CWalkCameraComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CWalkCameraComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CWalkCameraComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 
@@ -433,7 +433,7 @@ void CWalkCameraComponent::GetDebugInfo(Script::CStruct *p_info)
 
 void CWalkCameraComponent::ReadyForActivation ( const SCameraState& state )
 {
-	Dbg_MsgAssert(mp_target, ("Walk camera (%s) has NULL target", Script::FindChecksumName(GetObj()->GetID())));
+	Dbg_MsgAssert(mp_target, ("Walk camera (%s) has nullptr target", Script::FindChecksumName(GetObj()->GetID())));
 	
 	m_last_tripod_pos = state.lastTripodPos;
 	m_last_actual_matrix = state.lastActualMatrix;
@@ -510,9 +510,9 @@ void CWalkCameraComponent::set_target ( CCompositeObject* p_target )
 	}
 	else
 	{
-		mp_target = NULL;
-		mp_target_walk_component = NULL;
-		mp_target_physics_control_component = NULL;
+		mp_target = nullptr;
+		mp_target_walk_component = nullptr;
+		mp_target_physics_control_component = nullptr;
 	}
 }
 

@@ -68,7 +68,7 @@ public:
 	void			DestroyAllNodes( void );  		// ONLY USE FOR INHERITED LISTS
 	bool			IsEmpty( void );
 
-	Node< _T >*		FirstItem();					// get first node, or NULL if none 
+	Node< _T >*		FirstItem();					// get first node, or nullptr if none 
 
 
 };
@@ -267,7 +267,7 @@ Node< _T >*		Head< _T >::GetItem( uint number )
 
 	Dbg_Warning( "Item requested (%d) out of range (%d)", number, CountItems() );
 
-	return NULL;
+	return nullptr;
 }
 
 

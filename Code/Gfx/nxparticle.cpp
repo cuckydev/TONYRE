@@ -130,9 +130,9 @@ void CParticle::set_defaults( void )
 #define py 0x90			//-0x117;		//0xfffffee9;
 #define pz -0x3a0		//0xb96;
 
-	mp_emit_script = NULL;
-	mp_update_script = NULL;
-	mp_params = NULL;
+	mp_emit_script = nullptr;
+	mp_update_script = nullptr;
+	mp_params = nullptr;
 	m_life_set = false;
 	m_end_set = false;
 
@@ -569,7 +569,7 @@ void CParticle::SetActive( bool active )
 bool CParticle::CallMemberFunction( uint32 Checksum, Script::CStruct *pParams, Script::CScript *pScript )
 {
     
-	Dbg_MsgAssert(pScript,("NULL pScript"));
+	Dbg_MsgAssert(pScript,("nullptr pScript"));
 
 	switch(Checksum)
 	{

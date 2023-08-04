@@ -113,7 +113,7 @@ CBaseComponent::EMemberFunctionResult CSkaterStateHistoryComponent::CallMemberFu
 void CSkaterStateHistoryComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterStateHistoryComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterStateHistoryComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 
@@ -142,7 +142,7 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
     GameNet::PlayerInfo* p_player;
 
 	p_player = GameNet::Manager::Instance()->GetPlayerByObjectID(GetObj()->GetID());
-	if( p_player == NULL )
+	if( p_player == nullptr )
 	{
 		return;
 	}
@@ -157,7 +157,7 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
 
 	// If this p_player is bailing or noncollidable (and he's NOT the king) he is exempt from being smacked down
 	// If you're in a slap game, you can always be hit; i.e. you've just been slapped but haven't teleported yet
-    bool can_fall = !p_my_state_component->GetFlag(IS_BAILING) || CFuncs::ScriptInSlapGame(NULL, NULL);
+    bool can_fall = !p_my_state_component->GetFlag(IS_BAILING) || CFuncs::ScriptInSlapGame(nullptr, nullptr);
 	
 	// However, fallen kings are vulnerable
 	if (!can_fall && !p_player->IsKing() && !p_player->HasCTFFlag()) return;
@@ -311,7 +311,7 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
 			msg_desc.m_Length = sizeof(GameNet::MsgByteInfo);
 			p_server->EnqueueMessage(p_other_player->GetConnHandle(), &msg_desc);	
 			
-			if (CFuncs::ScriptInSlapGame(NULL, NULL))
+			if (CFuncs::ScriptInSlapGame(nullptr, nullptr))
 			{
 				Dbg_Assert(p_other_skater->mp_skater_score_component);
 				Mdl::Score* score = p_other_skater->mp_skater_score_component->GetScore();

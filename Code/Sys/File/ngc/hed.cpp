@@ -70,13 +70,13 @@ static void get_checksums( const char * p_name, uint32 * p_dir, uint32 * p_file 
 
 
 
-// Searches the hed file for the filename. If not found, returns NULL.
+// Searches the hed file for the filename. If not found, returns nullptr.
 SHedFile *FindFileInHed(const char *pFilename, SHed *pHed)
 {
-	if ( sLoadingHed ) return NULL;
+	if ( sLoadingHed ) return nullptr;
 
-	Dbg_MsgAssert(pFilename,("NULL pFilename"));
-	Dbg_MsgAssert(pHed,("NULL pHed"));
+	Dbg_MsgAssert(pFilename,("nullptr pFilename"));
+	Dbg_MsgAssert(pHed,("nullptr pHed"));
 
 	uint32 check_dir;
 	uint32 check_file;
@@ -101,15 +101,15 @@ SHedFile *FindFileInHed(const char *pFilename, SHed *pHed)
 		pHd++;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
-// Searches the hed file for the filename with the same checksum. If not found, returns NULL.
+// Searches the hed file for the filename with the same checksum. If not found, returns nullptr.
 SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 {
-	if ( sLoadingHed ) return NULL;
+	if ( sLoadingHed ) return nullptr;
 
-	Dbg_MsgAssert(pHed,("NULL pHed"));
+	Dbg_MsgAssert(pHed,("nullptr pHed"));
 
 	SHed *pHd=pHed;
 	while ( pHd->numFiles != 0xffffffff )
@@ -126,7 +126,7 @@ SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 		pHd++;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //#ifdef __NOPT_CDROM__
@@ -136,7 +136,7 @@ SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 //SHed *LoadHed( const char *filename )
 //{
 //	NsFile file;
-//	SHed *pHed = NULL;
+//	SHed *pHed = nullptr;
 ////	int HedId=-1;
 //	char hedFileName[255];
 //	char uppercaseFilename[ 255 ];
@@ -163,7 +163,7 @@ SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 ////	long HedSize=sceLseek(HedId, 0, SCE_SEEK_END);
 //	long HedSize=file.size();
 //	
-//	Dbg_MsgAssert(pHed==NULL,("pHed not NULL ?"));
+//	Dbg_MsgAssert(pHed==nullptr,("pHed not nullptr ?"));
 //	pHed=(SHed*)Mem::Malloc((HedSize+2047)&~2047);
 //
 ///*
@@ -181,7 +181,7 @@ SHedFile *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed )
 //	file.read( pHed,, HedSize );
 //	file.close();
 //	return ( pHed );
-//	return ( NULL );
+//	return ( nullptr );
 //}
 //#else
 //

@@ -176,7 +176,7 @@ static Mdl::Score* s_get_score_struct( void )
 	{
 		return ( pSkater->GetScoreObject() );
 	}
-	return ( NULL );
+	return ( nullptr );
 }
 
 /******************************************************************/
@@ -221,7 +221,7 @@ bool ScriptCurrentSkaterIsPro(Script::CStruct *pParams, Script::CScript *pScript
 bool ScriptGetGoalsCompleted(Script::CStruct *pParams, Script::CScript *pScript)
 {   
 	Obj::CSkaterCareer* pCareer = Mdl::Skate::Instance()->GetCareer();
-	Dbg_MsgAssert(pCareer,("NULL pCareer"));
+	Dbg_MsgAssert(pCareer,("nullptr pCareer"));
 	
 	int LevelNumber=0;
 	pParams->GetInteger(NONAME,&LevelNumber);
@@ -243,7 +243,7 @@ bool ScriptGetGoalsCompleted(Script::CStruct *pParams, Script::CScript *pScript)
 bool ScriptGetNextLevelRequirements(Script::CStruct *pParams, Script::CScript *pScript)
 {   
 	Obj::CSkaterCareer* pCareer = Mdl::Skate::Instance()->GetCareer();
-	Dbg_MsgAssert(pCareer,("NULL pCareer"));
+	Dbg_MsgAssert(pCareer,("nullptr pCareer"));
 	
 	char pBuf[100];
 	sprintf(pBuf,"---");
@@ -382,7 +382,7 @@ bool ScriptRememberTemporaryAppearance(Script::CStruct *pParams, Script::CScript
 	pParams->GetChecksum( Crc::ConstCRC("name"), &profileName, Script::ASSERT );
 	
 	Gfx::CModelAppearance theAppearance;
-	Gfx::CModelAppearance* pAppearance = NULL;
+	Gfx::CModelAppearance* pAppearance = nullptr;
 	
 	Obj::CPlayerProfileManager* pProfileManager = Mdl::Skate::Instance()->GetPlayerProfileManager();
 
@@ -497,7 +497,7 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 	for ( uint32 i = 0; i < pNodeArray->GetSize(); i++ )
 	{
 		Script::CStruct* pNode = pNodeArray->GetStructure( i );
-		Dbg_MsgAssert( pNode, ( "NULL pNode" ) );
+		Dbg_MsgAssert( pNode, ( "nullptr pNode" ) );
 
 		// The following nodes are capable of being ignored in net games		
 				
@@ -536,7 +536,7 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 					case 0xe47f1b79: // Vehicle
 					case 0xef59c100: // GameObject
 						{
-							const char *pModelName = NULL;
+							const char *pModelName = nullptr;
 	
 							if ( pNode->GetText( 0x286a8d26, &pModelName ) ) // checksum 'model'
 							{
@@ -633,7 +633,7 @@ bool ScriptPreloadPedestrians( Script::CStruct *pParams, Script::CScript *pScrip
 		int texDictOffset = Mdl::Skate::vMAX_SKATERS;
 
         Script::CStruct* pNode = pNodeArray->GetStructure( i );
-		Dbg_MsgAssert( pNode, ( "NULL pNode" ) );
+		Dbg_MsgAssert( pNode, ( "nullptr pNode" ) );
 
 		uint32 ClassChecksum = 0;
 		pNode->GetChecksum( Script::GenerateCRC("Class"), &ClassChecksum );
@@ -683,7 +683,7 @@ bool ScriptPreloadPedestrians( Script::CStruct *pParams, Script::CScript *pScrip
 					Gfx::CModelAppearance theTempAppearance;
 					theTempAppearance.Load( pStruct, false );
 					Gfx::CModelBuilder theBuilder( true, texDictOffset );
-					theBuilder.BuildModel( &theTempAppearance, pDummy, NULL, Script::GenerateCRC("preload_model_from_appearance") );
+					theBuilder.BuildModel( &theTempAppearance, pDummy, nullptr, Script::GenerateCRC("preload_model_from_appearance") );
 					Nx::CEngine::sUninitModel( pDummy );
     			}
 			}
@@ -708,7 +708,7 @@ bool ScriptPreselectRandomPedestrians( Script::CStruct *pParams, Script::CScript
 	uint32 fullPartChecksum;
 	pParams->GetChecksum( Crc::ConstCRC("part"), &fullPartChecksum, Script::ASSERT );
 
-	Script::CArray* pFullPartArray = NULL;
+	Script::CArray* pFullPartArray = nullptr;
 	pFullPartArray = Script::GetArray( fullPartChecksum, Script::ASSERT );
 
 	uint32 levelName = Mdl::Skate::Instance()->m_requested_level;
@@ -795,7 +795,7 @@ bool ScriptPreselectRandomPedestrians( Script::CStruct *pParams, Script::CScript
 	for ( uint32 i = 0; i < pNodeArray->GetSize(); i++ )
 	{
 		Script::CStruct* pNode = pNodeArray->GetStructure( i );
-		Dbg_MsgAssert( pNode, ( "NULL pNode" ) );
+		Dbg_MsgAssert( pNode, ( "nullptr pNode" ) );
 
 		uint32 ClassChecksum = 0;
 		pNode->GetChecksum( Script::GenerateCRC("Class"), &ClassChecksum );
@@ -1381,7 +1381,7 @@ bool ScriptForEachSkaterName( Script::CStruct *pParams, Script::CScript *pScript
 	uint32 scriptToRun;
 	pParams->GetChecksum( Crc::ConstCRC("do"), &scriptToRun, Script::ASSERT );
 
-	Script::CStruct* pSubParams = NULL;
+	Script::CStruct* pSubParams = nullptr;
 	pParams->GetStructure( Crc::ConstCRC("params"), &pSubParams, Script::NO_ASSERT );
 
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=Mdl::Skate::Instance()->GetPlayerProfileManager();
@@ -1420,7 +1420,7 @@ bool ScriptForEachSkaterProfile( Script::CStruct *pParams, Script::CScript *pScr
 	uint32 scriptToRun;
 	pParams->GetChecksum( Crc::ConstCRC("Do"), &scriptToRun, Script::ASSERT );
 
-	Script::CStruct* pSubParams = NULL;
+	Script::CStruct* pSubParams = nullptr;
 	pParams->GetStructure( Crc::ConstCRC("params"), &pSubParams, Script::NO_ASSERT );
 
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=Mdl::Skate::Instance()->GetPlayerProfileManager();
@@ -1490,7 +1490,7 @@ bool ScriptSetSkaterProfileInfoByName( Script::CStruct *pParams, Script::CScript
 	uint32 name;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::ASSERT );
 
-	Script::CStruct* pSubParams = NULL;
+	Script::CStruct* pSubParams = nullptr;
 	pParams->GetStructure( "params", &pSubParams, Script::ASSERT );
 
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=Mdl::Skate::Instance()->GetPlayerProfileManager();
@@ -1755,8 +1755,8 @@ bool ScriptGetSkaterProfileInfo(Script::CStruct *pParams, Script::CScript *pScri
 	Obj::CPlayerProfileManager* pProfileManager = Mdl::Skate::Instance()->GetPlayerProfileManager();
 	Obj::CSkaterProfile* pProfile = pProfileManager->GetProfile( playerNum );
 	
-	Dbg_MsgAssert( pScript, ( "NULL pScript" ) );
-	Dbg_MsgAssert( pScript->GetParams(), ( "NULL pScript params" ) );
+	Dbg_MsgAssert( pScript, ( "nullptr pScript" ) );
+	Dbg_MsgAssert( pScript->GetParams(), ( "nullptr pScript params" ) );
 
 	pScript->GetParams()->AppendStructure( pProfile->GetInfo() );
 	
@@ -1788,7 +1788,7 @@ bool ScriptSetSkaterProfileProperty(Script::CStruct *pParams, Script::CScript *p
 	return pProfile->SetPropertyValue( stat, value );
 
 /*	// If no skater was specified, change the stats of all local skaters
-	if( pScript->mpObject == NULL )
+	if( pScript->mpObject == nullptr )
 	{
 		for( i = 0; i < Mdl::Skate::vMAX_SKATERS; i++ )
 		{
@@ -2319,7 +2319,7 @@ bool ScriptToggleSkaterCamMode(Script::CStruct *pParams, Script::CScript *pScrip
 	{
 		GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 		
-		Obj::CSkater* p_skater = NULL;
+		Obj::CSkater* p_skater = nullptr;
 		
 		if (skater == 0)
 		{
@@ -2363,7 +2363,7 @@ bool ScriptGetSkaterID( Script::CStruct* pParams, Script::CScript* pScript )
 {
 	// in this context, skater really means "viewport"
 	int skaterId;
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetInteger( Crc::ConstCRC("skater"), &skaterId ) )
 		 pSkater = Mdl::Skate::Instance()->GetSkater( skaterId );
 	else	
@@ -2417,7 +2417,7 @@ bool ScriptSetSkaterCamLerpReductionTimer( Script::CStruct *pParams, Script::CSc
 	Dbg_Assert( p_skater );
 
 	Obj::CSkaterCam* p_cam = p_skater->GetSkaterCam();
-	if( p_cam == NULL )
+	if( p_cam == nullptr )
 	{
 		return true;
 	}
@@ -2471,7 +2471,7 @@ bool ScriptPlaySkaterCamAnim( Script::CStruct *pParams, Script::CScript *pScript
  	// in this context, skater really means "viewport"
 	int skaterIndex = 0;
 	uint32 skaterId;
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetChecksum( "skaterId", &skaterId, Script::NO_ASSERT ) )
 	{
 		Obj::CObject* pObj = Obj::ResolveToObject( skaterId);
@@ -2540,7 +2540,7 @@ bool ScriptSetSkaterCamAnimSkippable( Script::CStruct *pParams, Script::CScript 
 	uint32 skaterId;
 	int skaterIndex = 0;
 
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetChecksum( "skaterId", &skaterId, Script::NO_ASSERT ) )
 	{
 		Obj::CObject* pObj = Obj::ResolveToObject( skaterId);
@@ -2581,7 +2581,7 @@ bool ScriptSetSkaterCamAnimShouldPause( Script::CStruct *pParams, Script::CScrip
 {
 	uint32 skaterId;
 	int skaterIndex = 0;
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetChecksum( "skaterId", &skaterId, Script::NO_ASSERT ) )
 	{
 		Obj::CObject* pObj = Obj::ResolveToObject( skaterId);
@@ -2641,7 +2641,7 @@ bool ScriptGetSkaterCamAnimParams( Script::CStruct *pParams, Script::CScript *pS
 	
 	uint32 skaterId;
 	int skaterIndex = 0;
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetChecksum( "skaterId", &skaterId, Script::NO_ASSERT ) )
 	{
 		Obj::CObject* pObj = Obj::ResolveToObject( skaterId);
@@ -2682,7 +2682,7 @@ bool ScriptSkaterCamAnimFinished( Script::CStruct *pParams, Script::CScript *pSc
 	// in this context, skater really means "viewport"
 	uint32 skaterId;
 	int skaterIndex = 0;
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetChecksum( "skaterId", &skaterId, Script::NO_ASSERT ) )
 	{
 		Obj::CObject* pObj = Obj::ResolveToObject( skaterId);
@@ -2720,7 +2720,7 @@ bool ScriptSkaterCamAnimHeld( Script::CStruct *pParams, Script::CScript *pScript
 	// in this context, skater really means "viewport"
 	uint32 skaterId;
 	int skaterIndex = 0;
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetChecksum( "skaterId", &skaterId, Script::NO_ASSERT ) )
 	{
 		Obj::CObject* pObj = Obj::ResolveToObject( skaterId);
@@ -2762,7 +2762,7 @@ bool ScriptKillSkaterCamAnim( Script::CStruct *pParams, Script::CScript *pScript
 	// in this context, skater really means "viewport"
 	uint32 skaterId;
 	int skaterIndex = 0;
-	Obj::CSkater* pSkater = NULL;
+	Obj::CSkater* pSkater = nullptr;
 	if ( pParams->GetChecksum( "skaterId", &skaterId, Script::NO_ASSERT ) )
 	{
 		Obj::CObject* pObj = Obj::ResolveToObject( skaterId);
@@ -3342,7 +3342,7 @@ bool ScriptGetPlayerFacePoints(Script::CStruct *pParams, Script::CScript *pScrip
 	Dbg_MsgAssert( pFaceTexture, ( "Appearance doesn't have a face texture1" ) );
 	Dbg_MsgAssert( pFaceTexture->IsValid(), ( "Face texture has not been initialized with valid texture data" ) );
 
-	Script::CStruct *pFacePointsStruct = NULL;
+	Script::CStruct *pFacePointsStruct = nullptr;
 
 	bool make_new_structure = false;
 	if (!pScript->GetParams()->GetStructure( Crc::ConstCRC("current_face_points"), &pFacePointsStruct ))
@@ -3950,7 +3950,7 @@ bool ScriptProfileEquals(Script::CStruct *pParams, Script::CScript *pScript)
 
 	// otherwise, get the first skater and check him
 	pSkater = Mdl::Skate::Instance()->GetSkater( 0 );
-	if( pSkater == NULL )
+	if( pSkater == nullptr )
 	{
 		return false;
 	}
@@ -4319,7 +4319,7 @@ bool ScriptStartCompetition(Script::CStruct *pParams, Script::CScript *pScript)
 	{
 		Dbg_MsgAssert(0,("\n%s\nStartCompetition missing 'bail' parameter",pScript->GetScriptInfo()));		
 	}
-	Script::CStruct* pExtraParams = NULL;
+	Script::CStruct* pExtraParams = nullptr;
 	pParams->GetStructure( Crc::ConstCRC("extra_params"), &pExtraParams, Script::NO_ASSERT );
 
 	// Need to use SkaterInfoHeap, as new strings can get created, which can fragment memory 									   
@@ -4625,7 +4625,7 @@ bool ScriptIsCurrentHorseSkater(Script::CStruct *pParams, Script::CScript *pScri
 bool ScriptApplyToSkaterProfile(Script::CStruct *pParams, Script::CScript *pScript)
 {   
 	/*
-	Obj::CSkaterProfile* pProfile = NULL;
+	Obj::CSkaterProfile* pProfile = nullptr;
 
 	// look for the specified skater (0 by default)
 	int skater;
@@ -5064,7 +5064,7 @@ bool ScriptLocalSkaterExists( Script::CStruct* pParams, Script::CScript* pScript
 	
     Obj::CSkater *pSkater = Mdl::Skate::Instance()->GetLocalSkater();						   
     
-    return ( pSkater != NULL );
+    return ( pSkater != nullptr );
 }
 
 /******************************************************************/
@@ -5250,7 +5250,7 @@ bool ScriptEditPlayerAppearance(Script::CStruct *pParams, Script::CScript *pScri
 	uint32 target;
 	pParams->GetChecksum(Crc::ConstCRC("target"), &target, Script::ASSERT);
 
-	Script::CStruct* pTargetParams = NULL;
+	Script::CStruct* pTargetParams = nullptr;
 	pParams->GetStructure(Crc::ConstCRC("targetParams"), &pTargetParams, Script::NO_ASSERT);
 
 	// runs an object script on the specified appearance structure
@@ -5530,7 +5530,7 @@ bool ScriptGetStatValue( Script::CStruct* pParams, Script::CScript* pScript )
 	uint32 name;
 	
 	Obj::CPlayerProfileManager* pPlayerProfileManager = Mdl::Skate::Instance()->GetPlayerProfileManager();
-	Obj::CSkaterProfile* pSkaterProfile = NULL;
+	Obj::CSkaterProfile* pSkaterProfile = nullptr;
 	if ( pParams->GetChecksum( Crc::ConstCRC("skater"), &name, Script::NO_ASSERT ) )
 		pSkaterProfile = pPlayerProfileManager->GetProfileTemplate( name );
 	else
@@ -6010,7 +6010,7 @@ static uint32 s_find_trick_in_mapping( Script::CStruct* pMapping, uint32 trick_c
 		return 0;
 	}
 
-	Script::CComponent* p_comp = pMapping->GetNextComponent( NULL );
+	Script::CComponent* p_comp = pMapping->GetNextComponent( nullptr );
 	uint32 rv = 0;
 	while ( p_comp )
 	{
@@ -6036,7 +6036,7 @@ static uint32 s_find_trick_in_mapping( Script::CStruct* pMapping, uint32 trick_c
 
 static uint32 s_find_cat_in_mapping( Script::CStruct* pMapping, int cat_num )
 {
-	Script::CComponent* p_comp = pMapping->GetNextComponent( NULL );
+	Script::CComponent* p_comp = pMapping->GetNextComponent( nullptr );
 	uint32 rv = 0;
 
     while ( p_comp )
@@ -6057,7 +6057,7 @@ static uint32 s_find_cat_in_mapping( Script::CStruct* pMapping, int cat_num )
 // @parm name | trick | trick to look for
 bool ScriptGetKeyComboBoundToTrick( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	uint32 trick_checksum = NULL;
+	uint32 trick_checksum = nullptr;
     int cat_num;
     if (!pParams->GetChecksum( Crc::ConstCRC("trick"), &trick_checksum, Script::NO_ASSERT) )
     {
@@ -6865,7 +6865,7 @@ bool ScriptSetSpecialTrickInfo( Script::CStruct *pParams, Script::CScript *pScri
 
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();
 	Obj::CPlayerProfileManager* pPlayerProfileManager = skate_mod->GetPlayerProfileManager();
-	Obj::CSkaterProfile* pProfile = NULL;
+	Obj::CSkaterProfile* pProfile = nullptr;
 	pProfile = pPlayerProfileManager->GetCurrentProfile();
 
 	Dbg_MsgAssert( pProfile, ( "SetSpecialTrickInfo couldn't get a profile" ) );
@@ -6938,19 +6938,19 @@ bool ScriptInterpolateParameters( Script::CStruct *pParams, Script::CScript *pSc
 {
 	Script::CStruct *p_new_structure=new Script::CStruct;
 	
-	Script::CStruct *p_a=NULL;
+	Script::CStruct *p_a=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("a"),&p_a,Script::ASSERT);
 	
-	Script::CStruct *p_b=NULL;
+	Script::CStruct *p_b=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("b"),&p_b,Script::ASSERT);
 	
 	float proportion=0.0f;
 	pParams->GetFloat(Crc::ConstCRC("Proportion"),&proportion);
 	
-	Script::CArray *p_ignore=NULL;
+	Script::CArray *p_ignore=nullptr;
 	pParams->GetArray(Crc::ConstCRC("Ignore"),&p_ignore);
 	
-	Script::CArray *p_angles_array=NULL;
+	Script::CArray *p_angles_array=nullptr;
 	pParams->GetArray(Crc::ConstCRC("Angles"),&p_angles_array);
 	
 	Script::CComponent *p_comp = p_a->GetNextComponent();
@@ -7208,7 +7208,7 @@ bool ScriptCompositeObjectExists ( Script::CStruct *pParams, Script::CScript *pS
 	uint32 name;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::ASSERT );
 	Obj::CObject* pObj = Obj::ResolveToObject( name );
-	return ( pObj != NULL );
+	return ( pObj != nullptr );
 }
 
 /******************************************************************/
@@ -7395,7 +7395,7 @@ bool ScriptLobbyCheckKeyboard( Script::CStruct *pParams, Script::CScript *pScrip
 			// Enter and space act as "choose" only if you're not currently using the on-screen keyboard
             pParams = new Script::CStruct;
 			pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "keyboard_anchor" ));
-            if( Obj::ScriptObjectExists( pParams, NULL ) == false )
+            if( Obj::ScriptObjectExists( pParams, nullptr ) == false )
 			{
                 Script::RunScript( "lobby_enter_kb_chat" );
                 SIO::KeyboardClear();

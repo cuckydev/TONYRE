@@ -85,8 +85,8 @@ namespace Pcm
 
 uint32 CALLBACK WMAXMediaObjectDataCallback( LPVOID pContext, uint32 offset, uint32 num_bytes, LPVOID *ppData )
 {
-	Dbg_Assert( pContext != NULL );
-	Dbg_Assert( ppData != NULL );
+	Dbg_Assert( pContext != nullptr );
+	Dbg_Assert( ppData != nullptr );
 
 	CWMAFileStream *p_this = (CWMAFileStream*)pContext;
 	Dbg_Assert(( p_this->m_DecoderCreation == 0 ) || ( p_this->m_DecoderCreation == 1 ));
@@ -111,12 +111,12 @@ uint32 CALLBACK WMAXMediaObjectDataCallback( LPVOID pContext, uint32 offset, uin
 //-----------------------------------------------------------------------------
 CWMAFileStream::CWMAFileStream( bool use_3d )
 {
-    m_pSourceFilter		= NULL;
-    m_pRenderFilter		= NULL;
-    m_pvSourceBuffer	= NULL;
-    m_pFileBuffer		= NULL;
+    m_pSourceFilter		= nullptr;
+    m_pRenderFilter		= nullptr;
+    m_pvSourceBuffer	= nullptr;
+    m_pFileBuffer		= nullptr;
 	m_hFile				= INVALID_HANDLE_VALUE;
-	m_hThread			= NULL;
+	m_hThread			= nullptr;
 	m_bUse3D			= use_3d;
 	m_bOkayToPlay		= true;
 
@@ -244,7 +244,7 @@ void CWMAFileStream::AsyncRead( void )
 		}
 		
 		// We still have more data to read. Start another asynchronous read from the file.
-		bool bComplete	= ReadFile( m_hFile, (BYTE*)m_pFileBuffer + ( m_FileBytesRead % ( 8 * 8192 )), BYTES_PER_CALL, NULL, m_pOverlapped );
+		bool bComplete	= ReadFile( m_hFile, (BYTE*)m_pFileBuffer + ( m_FileBytesRead % ( 8 * 8192 )), BYTES_PER_CALL, nullptr, m_pOverlapped );
 		dwLastError		= GetLastError();
 
 		// Deal with hitting EOF (for files that are some exact multiple of 8192 bytes).
@@ -354,7 +354,7 @@ HRESULT CWMAFileStream::PostInitialize( void )
 	}
 	m_pOverlapped->OffsetHigh	= 0;
 
-	bool bComplete = ReadFile( m_hFile, m_pFileBuffer, BYTES_PER_CALL, NULL, m_pOverlapped );
+	bool bComplete = ReadFile( m_hFile, m_pFileBuffer, BYTES_PER_CALL, nullptr, m_pOverlapped );
 	if( !bComplete )
 	{
 		uint32 dwLastError = GetLastError();
@@ -386,7 +386,7 @@ void CWMAFileStream::CreateSourceBuffer( void )
 	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().BottomUpHeap());
 	m_pvSourceBuffer = new BYTE[WMASTRM_SOURCE_PACKET_BYTES * WMASTRM_PACKET_COUNT];
 	Mem::Manager::sHandle().PopContext();
-	Dbg_Assert( m_pvSourceBuffer != NULL );
+	Dbg_Assert( m_pvSourceBuffer != nullptr );
 }
 
 
@@ -446,7 +446,7 @@ HRESULT CWMAFileStream::Process( void )
 	// Has the first block of raw data been read? If so we need to instantiate the playback objects and data buffers.
 	if( m_FirstRead && ( m_FileBytesRead > 1024 ))
 	{
-		if( m_pSourceFilter == NULL )
+		if( m_pSourceFilter == nullptr )
 		{
 			// Create the thread which will create the in-memory decoder. 
 			m_DecoderCreation = 0;
@@ -460,7 +460,7 @@ HRESULT CWMAFileStream::Process( void )
 			{
 				// Signal a failed creation.
 				m_DecoderCreation	= 2;
-				m_pSourceFilter		= NULL;
+				m_pSourceFilter		= nullptr;
 			}
 			else
 			{
@@ -484,7 +484,7 @@ HRESULT CWMAFileStream::Process( void )
 		else if( m_DecoderCreation == 1 )
 		{
 			// Managed to create decoder.
-			Dbg_Assert( m_pSourceFilter != NULL );
+			Dbg_Assert( m_pSourceFilter != nullptr );
 
 			m_FirstRead = false;
 
@@ -580,7 +580,7 @@ HRESULT CWMAFileStream::Process( void )
 			if( FAILED( hr ))
 			{
 				Dbg_Assert( 0 );
-				m_pRenderFilter		= NULL;
+				m_pRenderFilter		= nullptr;
 				m_AwaitingDeletion	= true;
 				return S_OK;
 			}
@@ -711,7 +711,7 @@ HRESULT CWMAFileStream::ProcessSource( uint32 dwPacketIndex )
     XMEDIAPACKET xmp;
     HRESULT      hr;
     
-	if( m_pvSourceBuffer == NULL )
+	if( m_pvSourceBuffer == nullptr )
 	{
 		CreateSourceBuffer();
 	}
@@ -723,7 +723,7 @@ HRESULT CWMAFileStream::ProcessSource( uint32 dwPacketIndex )
     xmp.pdwCompletedSize = &dwSourceUsed;
 
 	// Read from the source.
-	hr = m_pSourceFilter->Process( NULL, &xmp );
+	hr = m_pSourceFilter->Process( nullptr, &xmp );
 	if( FAILED( hr ))
 	{
 		return hr;
@@ -759,7 +759,7 @@ HRESULT CWMAFileStream::ProcessRenderer( uint32 dwPacketIndex )
     XMEDIAPACKET xmp;
     HRESULT      hr;
 
-	Dbg_Assert( m_pvSourceBuffer != NULL );
+	Dbg_Assert( m_pvSourceBuffer != nullptr );
 
 	// There's a full packet's worth of data ready for us to send to the renderer.  We want to track the status
 	// of this packet since the render filter is asychronous and we need to know when the packet is completed.
@@ -774,7 +774,7 @@ HRESULT CWMAFileStream::ProcessRenderer( uint32 dwPacketIndex )
 		m_LastPacket = dwPacketIndex;
 	}
 
-    hr = m_pRenderFilter->Process( &xmp, NULL );
+    hr = m_pRenderFilter->Process( &xmp, nullptr );
 
 	if( m_Completed )
 	{
@@ -1202,7 +1202,7 @@ uint32 WINAPI WMAFileStreamThreadProc( LPVOID lpParameter )
 	{
 		// Signal a failed creation.
 		p_filestream->m_DecoderCreation	= 2;
-		p_filestream->m_pSourceFilter	= NULL;
+		p_filestream->m_pSourceFilter	= nullptr;
 	}
 	else
 	{

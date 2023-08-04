@@ -130,7 +130,7 @@ int	DVDError( void )
 //
 //	// 320x32
 //
-//	NsRender::setBlendMode( NsBlendMode_None, NULL, (unsigned char)0 );
+//	NsRender::setBlendMode( NsBlendMode_None, nullptr, (unsigned char)0 );
 ////	NsPrim::box( 64, 64, 640-64, 64+80, (GXColor){0,32,64,128} );
 ////	NsDebugFont::printf( 80, 80, NsFontEffect_Bold, 16, (GXColor){255,255,255,128}, "DVD Error:\n\n%s\n", error_name[error+1] );
 //
@@ -225,7 +225,7 @@ static void dvd_read_safe( DVDFileInfo* fileInfo, void* addr, int length, int of
 #ifdef DVDETH
 	DVDRead( fileInfo, addr, length, offset );
 #else
-	DVDReadAsync( fileInfo, addr, length, offset, NULL );
+	DVDReadAsync( fileInfo, addr, length, offset, nullptr );
 	DVDWaitAsync();
 #endif
 }
@@ -911,7 +911,7 @@ char * dvd_file_gets( NsFile* p_file, char * s, int n )
 		if ((*cs++ = c) == '\n') break;
 	}
 	*cs = '\0';
-	return (c == EOF && cs == s) ? NULL : s;
+	return (c == EOF && cs == s) ? nullptr : s;
 }
 
 
@@ -937,7 +937,7 @@ int dvd_file_tell( NsFile* p_file )
 /******************************************************************/
 int DVDFileAccess( NsFile* p_file, NsFileAccessType access_type, ... ) 
 {
-	Dbg_MsgAssert( p_file, ("NULL pointer.\n"));
+	Dbg_MsgAssert( p_file, ("nullptr pointer.\n"));
 
 #ifdef __SN_FILE__
 	if ( !sn_init )
@@ -1031,7 +1031,7 @@ int DVDFileAccess( NsFile* p_file, NsFileAccessType access_type, ... )
 				PCread( p_file->m_FileOpen, &ch, 1 ); 
 			}
 			*cs = '\0';
-			return (int)((c == EOF && cs == dest) ? NULL : dest);
+			return (int)((c == EOF && cs == dest) ? nullptr : dest);
 		}
 
 		case FCLOSE:
@@ -1131,7 +1131,7 @@ int DVDFileAccess( NsFile* p_file, NsFileAccessType access_type, ... )
 			}
 			else
 			{
-				p_file->mp_data = NULL;
+				p_file->mp_data = nullptr;
 				p_file->m_size = 0;
 			}
 		}
@@ -1207,7 +1207,7 @@ int DVDFileAccess( NsFile* p_file, NsFileAccessType access_type, ... )
 				p_file->m_offset += 1;
 			}
 			*cs = '\0';
-			return (c == EOF && cs == dest) ? NULL : (int)dest;
+			return (c == EOF && cs == dest) ? nullptr : (int)dest;
 		}
 
 		case FCLOSE:

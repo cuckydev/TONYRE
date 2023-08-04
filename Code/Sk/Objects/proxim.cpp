@@ -32,7 +32,7 @@ void Proxim_Init()
 		Proxim_Cleanup();
 	}
 	skate_mod->mpProximManager = new CProximManager();
-	skate_mod->mpProximManager->m_pFirstNode = NULL;
+	skate_mod->mpProximManager->m_pFirstNode = nullptr;
 }
 
 void Proxim_Cleanup()
@@ -49,7 +49,7 @@ void Proxim_Cleanup()
 		}
 
 		delete skate_mod->mpProximManager;
-		skate_mod->mpProximManager = NULL;
+		skate_mod->mpProximManager = nullptr;
 	}
 }
 
@@ -72,7 +72,7 @@ void Proxim_AddNode(int node,bool active)
 
 	pProximNode->m_active = active;  // created at start or not?
 	
-	pProximNode->mp_sector = NULL;
+	pProximNode->mp_sector = nullptr;
 	pProximNode->m_shape = CProximNode::vSHAPE_SPHERE;  
 
 	// Get pointer to the Proxim data	
@@ -215,7 +215,7 @@ CProximNode * CProximManager::sGetNode(uint32 checksum)
 		pProximNode = pProximNode->m_pNext;
 	}				 
 
-	return NULL;
+	return nullptr;
 }
 
 // Update all the proximity nodes				
@@ -281,7 +281,7 @@ void Proxim_Update ( uint32 trigger_mask, CObject* p_script_target, const Mth::V
 					}
 					else
 					{
-						//Script::SpawnScript(pProximNode->m_script, NULL, NO_NAME, NULL, pProximNode->m_node );
+						//Script::SpawnScript(pProximNode->m_script, nullptr, NO_NAME, nullptr, pProximNode->m_node );
 						Script::RunScript(pProximNode->m_script);
 					}
 
@@ -337,7 +337,7 @@ void Proxim_Update ( uint32 trigger_mask, CObject* p_script_target, const Mth::V
 					}
 					else
 					{
-						//Script::SpawnScript(pProximNode->m_script, NULL, NO_NAME, NULL, pProximNode->m_node );
+						//Script::SpawnScript(pProximNode->m_script, nullptr, NO_NAME, nullptr, pProximNode->m_node );
 						Script::RunScript(pProximNode->m_script);
 					}
 
@@ -522,7 +522,7 @@ void				CProximNode::InitGeometry(Nx::CSector *p_sector)
 /******************************************************************/
 bool				CProximNode::HasGeometry() const
 {
-	return mp_sector != NULL;
+	return mp_sector != nullptr;
 }
 
 /******************************************************************/

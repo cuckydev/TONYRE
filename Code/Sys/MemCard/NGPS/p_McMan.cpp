@@ -142,7 +142,7 @@ Card*	Manager::GetCard( int port, int slot )
 		return card;
 	}
     
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -156,7 +156,7 @@ int		wait_for_async_call_to_finish( Card* card )
 
 	
 
-	sceMcSync( 0, NULL, &ret_val );
+	sceMcSync( 0, nullptr, &ret_val );
 	if( ret_val < 0 )
 	{   
 		switch( ret_val )
@@ -248,7 +248,7 @@ bool Card::DeleteDirectory( const char* dir_name )
 /******************************************************************/
 const char *Card::ConvertDirectory( const char* dir_name )
 {
-	return NULL;
+	return nullptr;
 }	
 
 /******************************************************************/
@@ -260,7 +260,7 @@ bool 	Card::ChangeDirectory( const char* dir_name )
 {
 	int result;
 
-	result = sceMcChdir( m_port, m_slot, dir_name, NULL );
+	result = sceMcChdir( m_port, m_slot, dir_name, nullptr );
 	if( result != 0 )
 	{
 		SetError( vUNKNOWN );
@@ -318,7 +318,7 @@ bool	Card::IsFormatted( void )
 	int formatted;
 	int result;
 
-    result = sceMcGetInfo( m_port, m_slot, NULL, NULL, &formatted );
+    result = sceMcGetInfo( m_port, m_slot, nullptr, nullptr, &formatted );
 	if( result != 0 )
 	{
 		SetError( vUNKNOWN );
@@ -345,7 +345,7 @@ int		Card::GetDeviceType( void )
 	int type;
 	int result;
 
-    result = sceMcGetInfo( m_port, m_slot, &type, NULL, NULL );
+    result = sceMcGetInfo( m_port, m_slot, &type, nullptr, nullptr );
 	if( result != 0 )
 	{
 		SetError( vUNKNOWN );
@@ -386,7 +386,7 @@ int		Card::GetNumFreeClusters( void )
 	int free_clusters;
 	int result;
 
-    result = sceMcGetInfo( m_port, m_slot, NULL, &free_clusters, NULL );
+    result = sceMcGetInfo( m_port, m_slot, nullptr, &free_clusters, nullptr );
 	if( result != 0 )
 	{
 		SetError( vUNKNOWN );
@@ -482,7 +482,7 @@ File*	Card::Open( const char* filename, int mode, int size )
 
 	//Dbg_MsgAssert( strlen( filename ) < 31,( "Filename exceeds max length\n" ));
 
-	file = NULL;
+	file = nullptr;
 	open_mode = 0;
 	if( mode & File::mMODE_READ )
 	{
@@ -501,7 +501,7 @@ File*	Card::Open( const char* filename, int mode, int size )
 	{
 		Dbg_Printf( "Unknown Error\n" );
 		SetError( vUNKNOWN );
-		return NULL;
+		return nullptr;
 	}
     
 	fd = wait_for_async_call_to_finish( this );
@@ -529,7 +529,7 @@ bool	Card::GetFileList( const char* mask, Lst::Head< File > &file_list )
 	
 	int result, i;
 		
-	Dbg_MsgAssert( mask != NULL,( "Mask must be a valid search string. You may use wildcards\n" ));
+	Dbg_MsgAssert( mask != nullptr,( "Mask must be a valid search string. You may use wildcards\n" ));
 
 	Dbg_MsgAssert( (((uint32)file_table)&63)==0, ("file_table not 64 byte aligned"));
 	

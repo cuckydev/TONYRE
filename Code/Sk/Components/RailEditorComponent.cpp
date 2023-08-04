@@ -63,13 +63,13 @@ static Nx::CSector *s_clone_sector(uint32 sector_name)
 	Nx::CScene *p_source_scene=Nx::CEngine::sGetScene("sk5ed");
 	if (!p_source_scene)
 	{
-		return NULL;
+		return nullptr;
 	}
 		
 	Nx::CScene *p_cloned_scene=Ed::CParkManager::sInstance()->GetGenerator()->GetClonedScene();
 	if (!p_cloned_scene)
 	{
-		return NULL;
+		return nullptr;
 	}
 		
 	uint32 new_sector_checksum = p_source_scene->CloneSector(sector_name, p_cloned_scene, false, true);
@@ -129,7 +129,7 @@ static void s_generate_end_vert_positions(Mth::Vector &pos, Mth::Vector &dir,
 // startPos to endPos.
 // This assumes a certain hard-wired vertex ordering, so currently sourceSectorChecksum can only be
 // Sk5Ed_RA_Dynamic or Sk5Ed_RADot_Dynamic
-// If p_lastRailSector is not NULL then it will make the vertices of the start of the rail match up
+// If p_lastRailSector is not nullptr then it will make the vertices of the start of the rail match up
 // with those at the end of p_lastRailSector.
 
 // TODO: Fix bug where end of rail shrinks when rail is very steep.
@@ -194,7 +194,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 	// Get the default coords of the sectors vertices. These will be relative to the sectors origin.
 	Nx::CSector *p_source_sector=Nx::CEngine::sGetSector(sourceSectorChecksum);
 	Nx::CGeom *p_source_geom=p_source_sector->GetGeom();
-	Dbg_MsgAssert(p_source_geom,("NULL p_source_geom ?"));
+	Dbg_MsgAssert(p_source_geom,("nullptr p_source_geom ?"));
 	
 	int num_render_verts=p_source_geom->GetNumRenderVerts();
 	Dbg_MsgAssert(num_render_verts==num_indices*2,("Unexpected extra vertices in rail sector, expected %d, got %d",2*num_indices,num_render_verts));
@@ -223,7 +223,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		
 		// Set the last sector's end verts equal to the just calculated set of coords too.
 		Nx::CGeom *p_last_geom=p_lastRailSector->GetGeom();
-		Dbg_MsgAssert(p_last_geom,("NULL p_last_geom ?"));
+		Dbg_MsgAssert(p_last_geom,("nullptr p_last_geom ?"));
 		
 		int last_num_render_verts=p_last_geom->GetNumRenderVerts();
 		// SPEEDOPT: If necessary, could use a static buffer for the verts
@@ -252,9 +252,9 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 	
 
 	// Write the vertex coords just calculated into the cloned sector.
-	Dbg_MsgAssert(p_clonedSector,("NULL p_clonedSector"));
+	Dbg_MsgAssert(p_clonedSector,("nullptr p_clonedSector"));
 	Nx::CGeom *p_geom=p_clonedSector->GetGeom();
-	Dbg_MsgAssert(p_geom,("NULL p_geom ?"));
+	Dbg_MsgAssert(p_geom,("nullptr p_geom ?"));
 	Dbg_MsgAssert(p_geom->GetNumRenderVerts()==p_source_geom->GetNumRenderVerts(),("Source geom num verts mismatch"));
 	p_geom->SetRenderVerts(p_modified_render_verts);
 
@@ -413,10 +413,10 @@ CEditedRailPoint::CEditedRailPoint()
 	mHasPost=false;
 	mHighlighted=false;
 	mHeightAboveGround=0.0f;
-	mpNext=NULL;
-	mpPrevious=NULL;
-	mpClonedRailSector=NULL;
-	mpPostSector=NULL;
+	mpNext=nullptr;
+	mpPrevious=nullptr;
+	mpClonedRailSector=nullptr;
+	mpPostSector=nullptr;
 }
 
 CEditedRailPoint::~CEditedRailPoint()
@@ -472,18 +472,18 @@ void CEditedRailPoint::UpdateRailGeometry(Mth::Vector& rotateCentre, Mth::Vector
 		
 		s_calculate_rail_sector_vertex_coords(a, b, c,
 											  mpClonedRailSector, Crc::ConstCRC("Sk5Ed_RA_Dynamic"),
-											  join_to_last_sector ? mpNext->mpClonedRailSector:NULL, true);
+											  join_to_last_sector ? mpNext->mpClonedRailSector:nullptr, true);
 	}
 	else
 	{
-		Dbg_MsgAssert(mpNext->mpClonedRailSector==NULL,("Expected mpNext->mpClonedRailSector to be NULL ?"));
+		Dbg_MsgAssert(mpNext->mpClonedRailSector==nullptr,("Expected mpNext->mpClonedRailSector to be nullptr ?"));
 		
 		Mth::Vector dummy;
 		a=s_rotate_and_translate(mpNext->mPos, rotateCentre, newCentre, degrees);
 		b=s_rotate_and_translate(mPos, rotateCentre, newCentre, degrees);
 		s_calculate_rail_sector_vertex_coords(dummy, a, b, 
 											  mpClonedRailSector, Crc::ConstCRC("Sk5Ed_RA_Dynamic"),
-											  NULL, true);
+											  nullptr, true);
 	}											  
 }
 
@@ -514,7 +514,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	// which is in the middle of the post.
 	Nx::CSector *p_source_sector=Nx::CEngine::sGetSector(Crc::ConstCRC("Sk5Ed_RAp_Dynamic"));
 	Nx::CGeom *p_source_geom=p_source_sector->GetGeom();
-	Dbg_MsgAssert(p_source_geom,("NULL p_source_geom ?"));
+	Dbg_MsgAssert(p_source_geom,("nullptr p_source_geom ?"));
 	
 	int num_verts=p_source_geom->GetNumRenderVerts();
 	// SPEEDOPT: If necessary, could use a static buffer for the verts
@@ -637,7 +637,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	}
 	
 	Nx::CGeom *p_geom=mpPostSector->GetGeom();
-	Dbg_MsgAssert(p_geom,("NULL p_geom ?"));
+	Dbg_MsgAssert(p_geom,("nullptr p_geom ?"));
 	Dbg_MsgAssert(p_geom->GetNumRenderVerts()==p_source_geom->GetNumRenderVerts(),("Source geom num verts mismatch"));
 	p_geom->SetRenderVerts(p_verts);
 	Mem::Free(p_verts);	
@@ -650,7 +650,7 @@ void CEditedRailPoint::DestroyRailGeometry()
 		Nx::CScene *p_cloned_scene=Ed::CParkManager::sInstance()->GetGenerator()->GetClonedScene();
 		Dbg_MsgAssert(p_cloned_scene,("Missing cloned scene!"));
 		p_cloned_scene->DeleteSector(mpClonedRailSector);
-		mpClonedRailSector=NULL;
+		mpClonedRailSector=nullptr;
 
 		#ifdef __PLAT_NGC__
 		Nx::CEngine::sFinishRendering();
@@ -671,7 +671,7 @@ void CEditedRailPoint::DestroyPostGeometry()
 		Nx::CScene *p_cloned_scene=Ed::CParkManager::sInstance()->GetGenerator()->GetClonedScene();
 		Dbg_MsgAssert(p_cloned_scene,("Missing cloned scene!"));
 		p_cloned_scene->DeleteSector(mpPostSector);
-		mpPostSector=NULL;
+		mpPostSector=nullptr;
 		
 		#ifdef __PLAT_NGC__
 		Nx::CEngine::sFinishRendering();
@@ -938,7 +938,7 @@ bool CEditedRailPoint::AngleIsOKToGrind()
 
 void CEditedRailPoint::WriteCompressedRailPoint(SCompressedRailPoint *p_dest)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
 	
 	p_dest->mHasPost=mHasPost;
 	
@@ -967,9 +967,9 @@ CEditedRail::CEditedRail()
 {
 	mId=s_rail_unique_id++;
 	
-	mpRailPoints=NULL;
-	mpNext=NULL;
-	mpPrevious=NULL;
+	mpRailPoints=nullptr;
+	mpNext=nullptr;
+	mpPrevious=nullptr;
 	Clear();
 }
 
@@ -987,7 +987,7 @@ void CEditedRail::Clear()
 		delete p_rail_point;
 		p_rail_point=p_next;
 	}	
-	mpRailPoints=NULL;
+	mpRailPoints=nullptr;
 }
 
 // Runs through all the points and adjusts the y coords so that the stored heights match the actual
@@ -1017,7 +1017,7 @@ void CEditedRail::UpdateRailGeometry(Mth::Vector& rotateCentre, Mth::Vector& new
 {
 	// Find the last rail point.
 	CEditedRailPoint *p_rail_point=mpRailPoints;
-	CEditedRailPoint *p_last=NULL;
+	CEditedRailPoint *p_last=nullptr;
 	while (p_rail_point)
 	{
 		p_last=p_rail_point;
@@ -1069,7 +1069,7 @@ CEditedRailPoint *CEditedRail::AddPoint()
 	if (CEditedRailPoint::SGetNumUsedItems()==MAX_EDITED_RAIL_POINTS)
 	{
 		// No space left on the pool to store a new point.
-		return NULL;
+		return nullptr;
 	}
 	
 	CEditedRailPoint *p_new=new CEditedRailPoint;
@@ -1078,7 +1078,7 @@ CEditedRailPoint *CEditedRail::AddPoint()
 	{
 		mpRailPoints->mpPrevious=p_new;
 	}
-	p_new->mpPrevious=NULL;
+	p_new->mpPrevious=nullptr;
 	mpRailPoints=p_new;
 	
 	return p_new;	
@@ -1157,10 +1157,10 @@ int CEditedRail::CountPointsInArea(float x0, float z0, float x1, float z1)
 
 void CEditedRail::DuplicateAndAddPoint(CEditedRailPoint *p_point)
 {
-	Dbg_MsgAssert(p_point,("NULL p_point"));
+	Dbg_MsgAssert(p_point,("nullptr p_point"));
 	
 	CEditedRailPoint *p_new_point=AddPoint();
-	Dbg_MsgAssert(p_new_point,("NULL p_new_point"));
+	Dbg_MsgAssert(p_new_point,("nullptr p_new_point"));
 	
 	p_new_point->mPos=p_point->mPos;
 	p_new_point->mHasPost=p_point->mHasPost;
@@ -1171,7 +1171,7 @@ void CEditedRail::DuplicateAndAddPoint(CEditedRailPoint *p_point)
 CEditedRail *CEditedRail::GenerateDuplicateRails(float x0, float z0, float x1, float z1, CEditedRail *p_head)
 {
 	bool inside=false;
-	CEditedRailPoint *p_first_point_of_new_rail=NULL;
+	CEditedRailPoint *p_first_point_of_new_rail=nullptr;
 	
    	CEditedRailPoint *p_point=mpRailPoints;
 	while (p_point)
@@ -1190,7 +1190,7 @@ CEditedRail *CEditedRail::GenerateDuplicateRails(float x0, float z0, float x1, f
 					p_head=p_new_rail;
 					
 					p_head->DuplicateAndAddPoint(p_first_point_of_new_rail);
-					p_first_point_of_new_rail=NULL;
+					p_first_point_of_new_rail=nullptr;
 				}	
 				p_head->DuplicateAndAddPoint(p_point);
 			}
@@ -1206,7 +1206,7 @@ CEditedRail *CEditedRail::GenerateDuplicateRails(float x0, float z0, float x1, f
 		}
 		else
 		{
-			p_first_point_of_new_rail=NULL;
+			p_first_point_of_new_rail=nullptr;
 			inside=false;	
 		}
 			
@@ -1251,7 +1251,7 @@ CEditedRailPoint *CEditedRail::DeleteRailPoint(CEditedRailPoint *p_point)
 {
 	if (!p_point)
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	// Check that p_point is in the rail ...
@@ -1276,28 +1276,28 @@ CEditedRailPoint *CEditedRail::DeleteRailPoint(CEditedRailPoint *p_point)
 		// space to create one.
 		if (CEditedRail::SGetNumUsedItems()==MAX_EDITED_RAILS)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	
 	// Update this rail if removing its first point.
 	if (p_point == mpRailPoints)
 	{
-		Dbg_MsgAssert(p_point->mpPrevious==NULL,("Expected p_point->mpPrevious==NULL"));
+		Dbg_MsgAssert(p_point->mpPrevious==nullptr,("Expected p_point->mpPrevious==nullptr"));
 		mpRailPoints=p_point->mpNext;
 		if (p_point->mpNext)
 		{
-			p_point->mpNext->mpPrevious=NULL;
+			p_point->mpNext->mpPrevious=nullptr;
 		}
 		delete p_point;
-		return NULL;
+		return nullptr;
 	}
 
-	Dbg_MsgAssert(p_point->mpPrevious,("Expected p_point->mpPrevious not to be NULL"));
+	Dbg_MsgAssert(p_point->mpPrevious,("Expected p_point->mpPrevious not to be nullptr"));
 	// Remove any rail geometry connecting the adjacent point to this one.
 	p_point->mpPrevious->DestroyRailGeometry();
 	// Terminate this rail.
-	p_point->mpPrevious->mpNext=NULL;
+	p_point->mpPrevious->mpNext=nullptr;
 	
 	// Return the new rail fragment.
 	CEditedRailPoint *p_fragment_start=p_point->mpNext;
@@ -1305,7 +1305,7 @@ CEditedRailPoint *CEditedRail::DeleteRailPoint(CEditedRailPoint *p_point)
 	
 	if (p_fragment_start)
 	{
-		p_fragment_start->mpPrevious=NULL;
+		p_fragment_start->mpPrevious=nullptr;
 	}
 	return p_fragment_start;
 }
@@ -1381,7 +1381,7 @@ bool CEditedRail::UpdateRailPointPosition(int rail_point_index, Mth::Vector &pos
 		if (updateSuperSectors)
 		{
 			Nx::CScene *p_cloned_scene=Ed::CParkManager::sInstance()->GetGenerator()->GetClonedScene();
-			Dbg_MsgAssert(p_cloned_scene,("NULL p_cloned_scene ?"));
+			Dbg_MsgAssert(p_cloned_scene,("nullptr p_cloned_scene ?"));
 			p_cloned_scene->UpdateSuperSectors();
 		}
 	}
@@ -1394,7 +1394,7 @@ void CEditedRail::CopyRail(CEditedRail *p_source_rail)
 {
 	Clear();
 	
-	Dbg_MsgAssert(p_source_rail,("NULL p_source_rail"));
+	Dbg_MsgAssert(p_source_rail,("nullptr p_source_rail"));
 	
 	CEditedRailPoint *p_source_point=p_source_rail->mpRailPoints;
 	while (p_source_point)
@@ -1422,7 +1422,7 @@ void CEditedRail::RotateAndTranslate(Mth::Vector& rotateCentre, Mth::Vector& new
 
 SCompressedRailPoint *CEditedRail::WriteCompressedRailPoints(SCompressedRailPoint *p_dest)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
 
 	CEditedRailPoint *p_point=mpRailPoints;
 	// Skip to the end of the list of points so that it can be traversed backwards.
@@ -1494,7 +1494,7 @@ void CEditedRail::SetSectorActiveStatus(bool active)
 void CEditedRail::GetDebugInfo( Script::CStruct* p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
 	p_info->AddChecksum(Crc::ConstCRC("id"),mId);
 	
@@ -1579,11 +1579,11 @@ CRailEditorComponent::CRailEditorComponent() : CBaseComponent()
 	CEditedRailPoint::SCreatePool(MAX_EDITED_RAIL_POINTS, "CEditedRailPoint");
 	CEditedRail::SCreatePool(MAX_EDITED_RAILS, "CEditedRail");
 
-	mp_input_component=NULL;
-	mp_editor_camera_component=NULL;
-	mp_dotted_line_sector=NULL;
+	mp_input_component=nullptr;
+	mp_editor_camera_component=nullptr;
+	mp_dotted_line_sector=nullptr;
 	m_dotted_line_sector_name=0;
-	mp_edited_rails=NULL;
+	mp_edited_rails=nullptr;
 
 	clear_compressed_rails_buffer();
 	Clear();
@@ -1648,7 +1648,7 @@ uint8 *CRailEditorComponent::GetCompressedRailsBuffer()
 
 void CRailEditorComponent::SetCompressedRailsBuffer(uint8 *p_buffer)
 {
-	Dbg_MsgAssert(p_buffer,("NULL p_buffer"));
+	Dbg_MsgAssert(p_buffer,("nullptr p_buffer"));
 	memcpy(mp_compressed_rails_buffer, p_buffer, sizeof(mp_compressed_rails_buffer));
 }
 
@@ -1715,7 +1715,7 @@ void CRailEditorComponent::UpdateRailGeometry()
 	}
 	
 	Nx::CScene *p_cloned_scene=Ed::CParkManager::sInstance()->GetGenerator()->GetClonedScene();
-	Dbg_MsgAssert(p_cloned_scene,("NULL p_cloned_scene ?"));
+	Dbg_MsgAssert(p_cloned_scene,("nullptr p_cloned_scene ?"));
 	p_cloned_scene->UpdateSuperSectors();
 }
 
@@ -1729,7 +1729,7 @@ void CRailEditorComponent::UpdatePostGeometry()
 	}
 	
 	Nx::CScene *p_cloned_scene=Ed::CParkManager::sInstance()->GetGenerator()->GetClonedScene();
-	Dbg_MsgAssert(p_cloned_scene,("NULL p_cloned_scene ?"));
+	Dbg_MsgAssert(p_cloned_scene,("nullptr p_cloned_scene ?"));
 	p_cloned_scene->UpdateSuperSectors();
 }
 
@@ -1775,8 +1775,8 @@ void CRailEditorComponent::UnHighlightAllRails()
 // Returns true if it did create a new rail.
 bool CRailEditorComponent::DeleteRailPoint(CEditedRail *p_rail, CEditedRailPoint *p_point)
 {
-	Dbg_MsgAssert(p_rail,("NULL p_rail"));
-	Dbg_MsgAssert(p_point,("NULL p_point"));
+	Dbg_MsgAssert(p_rail,("nullptr p_rail"));
+	Dbg_MsgAssert(p_point,("nullptr p_point"));
 
 	CEditedRailPoint *p_fragment=p_rail->DeleteRailPoint(p_point);
 	if (p_fragment)
@@ -1946,7 +1946,7 @@ bool CRailEditorComponent::AbleToCopyRails(float x0, float z0, float x1, float z
 
 CEditedRail *CRailEditorComponent::GenerateDuplicateRails(float x0, float z0, float x1, float z1)
 {
-	CEditedRail *p_duplicated_rails=NULL;
+	CEditedRail *p_duplicated_rails=nullptr;
 	
 	CEditedRail *p_rail=mp_edited_rails;
 	while (p_rail)
@@ -2001,7 +2001,7 @@ bool CRailEditorComponent::FindNearestRailPoint(Mth::Vector &pos, Mth::Vector *p
 // For writing to memcard
 void CRailEditorComponent::WriteIntoStructure(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
 	int num_rails=count_rails();
 	
@@ -2050,11 +2050,11 @@ void CRailEditorComponent::WriteIntoStructure(Script::CStruct *p_info)
 // For reading from memcard
 void CRailEditorComponent::ReadFromStructure(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
 	Clear();
 	
-	Script::CArray *p_rails=NULL;
+	Script::CArray *p_rails=nullptr;
 	p_info->GetArray(Crc::ConstCRC("CreatedRails"),&p_rails);
 	if (!p_rails)
 	{
@@ -2066,15 +2066,15 @@ void CRailEditorComponent::ReadFromStructure(Script::CStruct *p_info)
 	for (uint32 i=0; i<p_rails->GetSize(); ++i)
 	{
 		Script::CStruct *p_rail_info=p_rails->GetStructure(i);
-		Dbg_MsgAssert(p_rail_info,("Eh? NULL p_rail_info ?"));
+		Dbg_MsgAssert(p_rail_info,("Eh? nullptr p_rail_info ?"));
 		
 		NewRail();
 		
-		Script::CArray *p_points=NULL;
+		Script::CArray *p_points=nullptr;
 		p_rail_info->GetArray(Crc::ConstCRC("Points"),&p_points,Script::ASSERT);
 		for (uint32 p=0; p<p_points->GetSize(); ++p)
 		{
-			Dbg_MsgAssert(mp_current_rail,("NULL mp_current_rail ?"));
+			Dbg_MsgAssert(mp_current_rail,("nullptr mp_current_rail ?"));
 			CEditedRailPoint *p_new_point=mp_current_rail->AddPoint();
 			
 			Script::CStruct *p_point_info=p_points->GetStructure(p);
@@ -2158,7 +2158,7 @@ void CRailEditorComponent::Hide( bool shouldHide )
 
 void CRailEditorComponent::get_pos_from_camera_component(Mth::Vector *p_pos, float *p_height, float *p_angle)
 {
-	Dbg_MsgAssert(mp_editor_camera_component,("NULL mp_editor_camera_component ?"));
+	Dbg_MsgAssert(mp_editor_camera_component,("nullptr mp_editor_camera_component ?"));
 	*p_pos=mp_editor_camera_component->GetCursorPos();
 	*p_height=mp_editor_camera_component->GetCursorHeight();
 	*p_angle=mp_editor_camera_component->GetCursorOrientation();
@@ -2172,11 +2172,11 @@ void CRailEditorComponent::Finalize()
 {
 	// Get the pointers to the other required components.
 	
-	Dbg_MsgAssert(mp_input_component==NULL,("mp_input_component not NULL ?"));
+	Dbg_MsgAssert(mp_input_component==nullptr,("mp_input_component not nullptr ?"));
 	mp_input_component = GetInputComponentFromObject(GetObj());
 	Dbg_MsgAssert(mp_input_component,("CRailEditorComponent requires parent object to have an input component!"));
 
-	Dbg_MsgAssert(mp_editor_camera_component==NULL,("mp_editor_camera_component not NULL ?"));
+	Dbg_MsgAssert(mp_editor_camera_component==nullptr,("mp_editor_camera_component not nullptr ?"));
 	mp_editor_camera_component = GetEditorCameraComponentFromObject(GetObj());
 	Dbg_MsgAssert(mp_editor_camera_component,("CRailEditorComponent requires parent object to have an EditorCamera component!"));
 }
@@ -2197,42 +2197,42 @@ void CRailEditorComponent::Update()
 	if (control_pad.m_x.GetTriggered())
 	{
 		control_pad.m_x.ClearTrigger();
-		Script::RunScript(Crc::ConstCRC("RailEditorX"),NULL,GetObj());
+		Script::RunScript(Crc::ConstCRC("RailEditorX"),nullptr,GetObj());
 	}	
 
 	#ifdef __PLAT_NGC__
 	if (control_pad.m_square.GetTriggered())
 	{
 		control_pad.m_square.ClearTrigger();
-		Script::RunScript(Crc::ConstCRC("RailEditorTriangle"),NULL,GetObj());
+		Script::RunScript(Crc::ConstCRC("RailEditorTriangle"),nullptr,GetObj());
 	}	
 
 	if (control_pad.m_triangle.GetTriggered())
 	{
 		control_pad.m_triangle.ClearTrigger();
-		Script::RunScript(Crc::ConstCRC("RailEditorSquare"),NULL,GetObj());
+		Script::RunScript(Crc::ConstCRC("RailEditorSquare"),nullptr,GetObj());
 	}	
 	#else
 	if (control_pad.m_triangle.GetTriggered())
 	{
 		control_pad.m_triangle.ClearTrigger();
-		Script::RunScript(Crc::ConstCRC("RailEditorTriangle"),NULL,GetObj());
+		Script::RunScript(Crc::ConstCRC("RailEditorTriangle"),nullptr,GetObj());
 	}	
 
 	if (control_pad.m_square.GetTriggered())
 	{
 		control_pad.m_square.ClearTrigger();
-		Script::RunScript(Crc::ConstCRC("RailEditorSquare"),NULL,GetObj());
+		Script::RunScript(Crc::ConstCRC("RailEditorSquare"),nullptr,GetObj());
 	}	
 	#endif
 	
 	if (control_pad.m_circle.GetTriggered())
 	{
 		control_pad.m_circle.ClearTrigger();
-		Script::RunScript(Crc::ConstCRC("RailEditorCircle"),NULL,GetObj());
+		Script::RunScript(Crc::ConstCRC("RailEditorCircle"),nullptr,GetObj());
 	}	
 
-	Script::RunScript(Crc::ConstCRC("RailEditorEveryFrame"),NULL,GetObj());
+	Script::RunScript(Crc::ConstCRC("RailEditorEveryFrame"),nullptr,GetObj());
 }
 
 void CRailEditorComponent::Clear()
@@ -2244,8 +2244,8 @@ void CRailEditorComponent::Clear()
 		delete p_rail;
 		p_rail=p_next;
 	}
-	mp_edited_rails=NULL;
-	mp_current_rail=NULL;
+	mp_edited_rails=nullptr;
+	mp_current_rail=nullptr;
 	m_mode=0;
 	DeleteDottedLine();
 }	
@@ -2277,7 +2277,7 @@ CEditedRail *CRailEditorComponent::NewRail()
 	CEditedRail *p_new=new CEditedRail;
 	
 	p_new->mpNext=mp_edited_rails;
-	p_new->mpPrevious=NULL;
+	p_new->mpPrevious=nullptr;
 	if (p_new->mpNext)
 	{
 		p_new->mpNext->mpPrevious=p_new;
@@ -2299,7 +2299,7 @@ CEditedRail *CRailEditorComponent::GetRail(uint32 id)
 		}
 		p_rail=p_rail->mpNext;
 	}		
-	return NULL;
+	return nullptr;
 }
 
 void CRailEditorComponent::RemoveEmptyAndSinglePointRails()
@@ -2309,7 +2309,7 @@ void CRailEditorComponent::RemoveEmptyAndSinglePointRails()
 	{
 		CEditedRail *p_next=p_rail->mpNext;
 		
-		if (p_rail->mpRailPoints == NULL || (p_rail->mpRailPoints && p_rail->mpRailPoints->mpNext==NULL))
+		if (p_rail->mpRailPoints == nullptr || (p_rail->mpRailPoints && p_rail->mpRailPoints->mpNext==nullptr))
 		{
 			DeleteRail(p_rail);
 		}	
@@ -2350,8 +2350,8 @@ int CRailEditorComponent::GetTotalRailNodesRequired()
 
 void CRailEditorComponent::SetUpRailNodes(Script::CArray *p_nodeArray, int *p_nodeNum, uint32 firstID)
 {
-	Dbg_MsgAssert(p_nodeArray,("NULL p_nodeArray"));
-	Dbg_MsgAssert(p_nodeNum,("NULL p_nodeNum"));
+	Dbg_MsgAssert(p_nodeArray,("nullptr p_nodeArray"));
+	Dbg_MsgAssert(p_nodeNum,("nullptr p_nodeNum"));
 	
 	int node_index=*p_nodeNum;
 	uint32 rail_point_id=firstID;
@@ -2414,7 +2414,7 @@ void CRailEditorComponent::DeleteDottedLine()
 		Dbg_MsgAssert(p_cloned_scene,("Missing cloned scene!"));
 		p_cloned_scene->DeleteSector(mp_dotted_line_sector);
 		
-		mp_dotted_line_sector=NULL;
+		mp_dotted_line_sector=nullptr;
 		m_dotted_line_sector_name=0;
 
 		#ifdef __PLAT_NGC__
@@ -2467,7 +2467,7 @@ void CRailEditorComponent::DrawDottedLine(Mth::Vector& pos)
 	Mth::Vector dummy;
 	s_calculate_rail_sector_vertex_coords(dummy, p_last_point->mPos, pos, 
 										  mp_dotted_line_sector, m_dotted_line_sector_name,
-										  NULL, false);
+										  nullptr, false);
 
 	if (dotted_line_sector_name==Crc::ConstCRC("Sk5Ed_RADot_Dynamic"))
 	{
@@ -2791,7 +2791,7 @@ CEditedRail *CRailEditorComponent::get_rail_from_cluster_name(uint32 clusterChec
 		p_rail=p_rail->mpNext;
 		++rail_index;
 	}	
-	return NULL;
+	return nullptr;
 }
 
 // Used by graffiti games
@@ -2836,7 +2836,7 @@ void CRailEditorComponent::SetSectorActiveStatus(bool active)
 
 void CRailEditorComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CRailEditorComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CRailEditorComponent::GetDebugInfo"));
 
 	p_info->AddInteger(Crc::ConstCRC("NumFreeRailPoints"),GetNumFreePoints());
 	p_info->AddInteger(Crc::ConstCRC("NumFreeRails"),GetNumFreeRails());
@@ -2849,7 +2849,7 @@ void CRailEditorComponent::GetDebugInfo(Script::CStruct *p_info)
 	}
 	else
 	{
-		p_info->AddChecksum(Crc::ConstCRC("CurrentRail"),Crc::ConstCRC("NULL"));
+		p_info->AddChecksum(Crc::ConstCRC("CurrentRail"),Crc::ConstCRC("nullptr"));
 	}
 		
 	int num_rails=count_rails();

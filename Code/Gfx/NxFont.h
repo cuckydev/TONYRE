@@ -63,7 +63,7 @@ private:
 class CText
 {
 public:
-							CText(CWindow2D *p_window = NULL);
+							CText(CWindow2D *p_window = nullptr);
 	virtual					~CText();
 
 	// If hidden, it won't be drawn that frame

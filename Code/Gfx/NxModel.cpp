@@ -190,7 +190,7 @@ void CModel::plat_set_bounding_sphere( const Mth::Vector& boundingSphere )
 CModel::CModel()
 {
     m_numBones = 0;
-    mp_skeletonMatrices = NULL;
+    mp_skeletonMatrices = nullptr;
 
     SetRenderMode( vNONE );
 
@@ -205,7 +205,7 @@ CModel::CModel()
 	m_shadowEnabled = false;
 	m_doShadowVolume = false;
 
-	mp_model_lights = NULL;
+	mp_model_lights = nullptr;
 
 	m_boundingSphereCached = false;
 }
@@ -304,7 +304,7 @@ bool CModel::Render( Mth::Matrix* pMatrix, bool no_anim, Gfx::CSkeleton* pSkelet
 	else
 	{
 		Dbg_MsgAssert( m_numBones == 0, ( "Trying to update a model with incorrect number of bones (expected %d, found %d)", 0, m_numBones ) );
-		Dbg_Assert( mp_skeletonMatrices == NULL );
+		Dbg_Assert( mp_skeletonMatrices == nullptr );
 	}
 
     switch ( m_renderMode )
@@ -326,7 +326,7 @@ bool CModel::Render( Mth::Matrix* pMatrix, bool no_anim, Gfx::CSkeleton* pSkelet
 					for ( int i = 0; i < numGeoms; i++ )
 					{
 						Dbg_Assert( GetGeomByIndex(i) );
-						GetGeomByIndex(i)->Render( pMatrix, NULL, 0 );
+						GetGeomByIndex(i)->Render( pMatrix, nullptr, 0 );
 					}
 				}
 				else
@@ -352,7 +352,7 @@ bool CModel::Render( Mth::Matrix* pMatrix, bool no_anim, Gfx::CSkeleton* pSkelet
 				for ( int i = 0; i < numGeoms; i++ )
 				{
 					Dbg_Assert( GetGeomByIndex(i) );
-					GetGeomByIndex(i)->Render( pMatrix, NULL, 0 );
+					GetGeomByIndex(i)->Render( pMatrix, nullptr, 0 );
 				}
 			}
         }
@@ -385,7 +385,7 @@ bool CModel::Render( Mth::Matrix* pMatrix, bool no_anim, Gfx::CSkeleton* pSkelet
             theBox.m_min.Set(-10.0f, -10.0f, -10.0f);    
 
             // For now, draw a bounding box
-            Gfx::AddDebugBox( matrix, pos, &theBox, NULL, 1, NULL ); 
+            Gfx::AddDebugBox( matrix, pos, &theBox, nullptr, 1, nullptr ); 
 		}
         break;
         
@@ -451,7 +451,7 @@ bool CModel::AddGeom(uint32 assetName, uint32 geomName, bool supportMultipleMate
 	// note that we're not loading the asset, only getting it
 	Ass::CAssMan * ass_man = Ass::CAssMan::Instance();
 
-	Nx::CMesh* pMesh = NULL;
+	Nx::CMesh* pMesh = nullptr;
 	pMesh = (Nx::CMesh*)ass_man->GetAsset( assetName, false );
 	if( !pMesh )
 	{
@@ -514,7 +514,7 @@ bool CModel::AddGeom(const char* pMeshFileName, uint32 geomName, bool useAssetMa
 	// grabs the data from the asset manager if it's not already loaded
 	Ass::CAssMan * ass_man = Ass::CAssMan::Instance();
 
-	Nx::CMesh* pMesh = NULL;
+	Nx::CMesh* pMesh = nullptr;
 	if ( useAssetManager )
 	{
 		Ass::SSkinAssetLoadContext theContext;
@@ -708,10 +708,10 @@ bool CModel::DestroyModelLights()
 
 	Nx::CLightManager::sFreeModelLights( mp_model_lights );
 
-	mp_model_lights = NULL;
+	mp_model_lights = nullptr;
 	for ( short i = 0; i < m_numGeoms; i++ )
 	{
-		mp_geom[i]->SetModelLights( NULL );
+		mp_geom[i]->SetModelLights( nullptr );
 	}
 
 	return true;
@@ -821,7 +821,7 @@ CGeom* CModel::GetGeom(uint32 geomName)
 		}
 	}
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************/
@@ -857,7 +857,7 @@ bool CModel::ReplaceTexture( uint32 geomName, const char* p_SrcTextureName, cons
 	char* pDstExt = strstr( dest_texture_name, ".png" );
 	if ( pDstExt )
 	{
-		*pDstExt = NULL;
+		*pDstExt = nullptr;
 	}
 
 	int numGeoms = GetNumGeoms();
@@ -1508,7 +1508,7 @@ int CModel::GetNumObjectsInHierarchy()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1529,7 +1529,7 @@ Nx::CHierarchyObject* CModel::GetHierarchy()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 

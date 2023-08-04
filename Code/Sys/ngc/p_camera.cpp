@@ -90,7 +90,7 @@ NsCamera::NsCamera()
 	m_camera.set( 0.0f, 0.0f, 0.0f );
 
 	// No frame.
-	m_pFrame = NULL;
+	m_pFrame = nullptr;
 }
 
 /********************************************************************************

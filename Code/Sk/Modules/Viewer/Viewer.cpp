@@ -80,7 +80,7 @@ int		CViewer::s_view_mode=0;
 // I needed to be able to access this class from cfuncs.cpp, so I added
 // this pointer.  Perhaps when Steve gets back from his surgery, we can
 // decide a more appropriate interface between cfuncs.cpp and viewer.cpp.
-CViewer* CViewer::sp_viewer = NULL;
+CViewer* CViewer::sp_viewer = nullptr;
 
 
 /*****************************************************************************
@@ -434,7 +434,7 @@ Script::CScript *spawn_if_exists(uint32 script)
 	{
 		return  Script::SpawnScript(script);
 	}
-	return NULL;
+	return nullptr;
 }
 
 void        CViewer::s_shift_logic_code ( const Tsk::Task< CViewer >& task )
@@ -452,7 +452,7 @@ void        CViewer::s_shift_logic_code ( const Tsk::Task< CViewer >& task )
 	}
 	else
 	{
-		Script::CScript *p_script=NULL;
+		Script::CScript *p_script=nullptr;
 		if ( mdl.m_shift_commands.TestMask( Inp::Data::mD_TRIANGLE ))
 		{
 			p_script=spawn_if_exists(Crc::ConstCRC("UserSelectTriangle"));
@@ -704,7 +704,7 @@ void CViewer::RemoveViewerObject()
 	{
 		mp_viewerObject->UnloadModel();
 		delete mp_viewerObject;
-		mp_viewerObject = NULL;
+		mp_viewerObject = nullptr;
 	}
 }
 
@@ -785,7 +785,7 @@ void	CViewer::v_stop_cb ( void )
 	if ( mp_viewerObject )
 	{
     	delete mp_viewerObject;
-		mp_viewerObject = NULL;
+		mp_viewerObject = nullptr;
 	}
     
 	mp_input_handler->Remove();
@@ -855,7 +855,7 @@ CViewer::~CViewer( void )
 	delete mp_shift_input_handler;
 
 	Dbg_Assert( sp_viewer );
-	sp_viewer = NULL;
+	sp_viewer = nullptr;
 }
 
 /******************************************************************/

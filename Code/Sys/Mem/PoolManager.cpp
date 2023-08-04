@@ -10,7 +10,7 @@ namespace Mem
 
 Mem::CCompactPool *		PoolManager::sp_pool[PoolManager::vTOTAL_POOLS] =
 {
-	NULL
+	nullptr
 };
 
 
@@ -34,7 +34,7 @@ void PoolManager::SDestroyPool(int poolId)
 	Dbg_MsgAssert(sp_pool[poolId], ("pool %d doesn't exist", poolId));
 	
 	delete sp_pool[poolId];
-	sp_pool[poolId] = NULL;
+	sp_pool[poolId] = nullptr;
 }
 
 

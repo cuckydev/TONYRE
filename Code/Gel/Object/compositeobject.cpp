@@ -24,7 +24,7 @@
   - Bouncy Objects like trash cans
 
  CCompositeObject is derived from CObject, so all CCompositeObjects have
- a mp_script (which might be NULL)
+ a mp_script (which might be nullptr)
  
  A composite object is normally comprised of several components.  These are 
  generally independent things such as:
@@ -81,7 +81,7 @@ CCompositeObject::CCompositeObject()
 	m_matrix.Ident();
 	m_display_matrix.Ident();
 
-	mp_component_list = NULL;
+	mp_component_list = nullptr;
 	m_composite_object_flags.ClearAll();
 
 	SetFlags( GetFlags() | vCOMPOSITE);   // Kind of a temp solution for now
@@ -197,7 +197,7 @@ void CCompositeObject::Update()
 					// probably not a big issue   
 				#else
 					delete mp_script;
-					mp_script = NULL;
+					mp_script = nullptr;
 				#endif
 			}
 		}
@@ -542,7 +542,7 @@ CBaseComponent* CCompositeObject::GetComponent( uint32 id ) const
 		}
 		p_component = p_component->GetNext();
 	}
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -578,7 +578,7 @@ bool 	CCompositeObject::CallMemberFunction( uint32 Checksum, Script::CStruct *pP
 		// @script | CreateComponentFromStructure |
 		case 0x406998a5: // CreateComponentFromStructure
 		{
-			CreateComponentFromStructure( pParams, NULL );
+			CreateComponentFromStructure( pParams, nullptr );
 			return true;
 		}
 		break;
@@ -941,7 +941,7 @@ bool 	CCompositeObject::CallMemberFunction( uint32 Checksum, Script::CStruct *pP
 void CCompositeObject::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CCompositeObject::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CCompositeObject::GetDebugInfo"));
 	
 	int node_index=SkateScript::FindNamedNode(m_id,false); // false means don't assert if not found.
 	if (node_index >= 0 && m_id) // The && m_id is cos FindNamedNode erroneously returns 0 in that case.

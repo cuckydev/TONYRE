@@ -31,7 +31,7 @@
 **								 Private Data								**
 *****************************************************************************/
 
-Nx::CCollCache* CRectFeeler::sp_default_cache = NULL;
+Nx::CCollCache* CRectFeeler::sp_default_cache = nullptr;
 
 /*****************************************************************************
 **							  Public Functions								**
@@ -55,7 +55,7 @@ CRectFeeler::CRectFeeler ( const Mth::Vector& corner, const Mth::Vector& first_e
 
 void CRectFeeler::init (   )
 {
-	mp_cache = NULL;
+	mp_cache = nullptr;
 	m_coll_data.num_surfaces = 0;
 	m_merged_coll_data.num_surfaces = 0;
 	

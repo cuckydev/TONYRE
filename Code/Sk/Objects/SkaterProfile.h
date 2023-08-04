@@ -57,8 +57,8 @@ public:
 	void 						WriteIntoStructure( Script::CStruct* pStuff );
 	void 						ReadFromStructure( uint32 SkaterName, Script::CStruct* pStuff );
 
-	bool						Reset( Script::CStruct* pParams = NULL );						// reset to initial conditions
-    bool						PartialReset( Script::CStruct* pParams = NULL );				// reset non story stuff
+	bool						Reset( Script::CStruct* pParams = nullptr );						// reset to initial conditions
+    bool						PartialReset( Script::CStruct* pParams = nullptr );				// reset non story stuff
 	
 	// for querying whether the profile meets certain criteria (i.e. is vert skater?  is rodney mullen?)
 	bool						ProfileEquals( Script::CStruct* pStructure );

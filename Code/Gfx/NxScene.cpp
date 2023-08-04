@@ -42,7 +42,7 @@ namespace	Nx
 /*                                                                */
 /******************************************************************/
 
-CScene::CScene( int sector_table_size ) : mp_sector_man(NULL)
+CScene::CScene( int sector_table_size ) : mp_sector_man(nullptr)
 {
 	mp_sector_table = new Lst::HashTable< CSector >( sector_table_size );
 
@@ -50,18 +50,18 @@ CScene::CScene( int sector_table_size ) : mp_sector_man(NULL)
 
 	m_scene_filename[0] = '\0';
 	
-	// Initilizing supersector and collision crap to NULL, as 
+	// Initilizing supersector and collision crap to nullptr, as 
 	// we might not have any (like for skys and background stuff)
-	mp_sector_man = NULL;
-	mp_coll_sectors = NULL;
-	mp_coll_sector_data = NULL;
+	mp_sector_man = nullptr;
+	mp_coll_sectors = nullptr;
+	mp_coll_sector_data = nullptr;
 	m_num_coll_sectors = 0;
 
 	// Incremental update
 	m_add_scene_filename[0] = '\0';
-	mp_add_tex_dict = NULL; 
-	mp_add_coll_sectors = NULL;
-	mp_add_coll_sector_data = NULL;
+	mp_add_tex_dict = nullptr; 
+	mp_add_coll_sectors = nullptr;
+	mp_add_coll_sector_data = nullptr;
 	m_num_add_coll_sectors = 0;
 
 	m_using_add_sectors = false;
@@ -332,7 +332,7 @@ uint32 			CScene::CloneSector(uint32 orig_sector_checksum, CScene *p_dest_scene,
 
 uint32 			CScene::CloneSector(CSector *p_orig_sector, CScene *p_dest_scene, bool instance, bool add_to_super_sectors)
 {
-	// Use current scene if dest is NULL
+	// Use current scene if dest is nullptr
 	if (!p_dest_scene)
 	{
 		p_dest_scene = this;
@@ -459,12 +459,12 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 		uint8 *p_base_face_addr = p_base_intensity_addr + p_header->m_total_num_verts;
 		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+3)) & 0xFFFFFFFC);	// Align to 32 bit boundary
 #else
-		uint8 *p_base_intensity_addr = NULL;
+		uint8 *p_base_intensity_addr = nullptr;
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_verts * Nx::CCollObjTriData::GetVertElemSize());
 		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+15)) & 0xFFFFFFF0);	// Align to 128 bit boundary
 #endif // FIXED_POINT_VERTICES
 #else
-		uint8 *p_base_intensity_addr = NULL;
+		uint8 *p_base_intensity_addr = nullptr;
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_faces * Nx::CCollObjTriData::GetVertElemSize());
 		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+3)) & 0xFFFFFFFC);	// Align to 32 bit boundary
 #endif		// __PLAT_NGC__
@@ -576,7 +576,7 @@ bool			CScene::AddCollision(const char *p_name)
 {
 	Mth::CBBox			add_collision_bbox;
 
-	if (mp_coll_sectors == NULL)
+	if (mp_coll_sectors == nullptr)
 	{
 		return false;			// collision not needed
 	}
@@ -1106,8 +1106,8 @@ void CScene::SetActiveInBox(Mth::CBBox &box, bool active, float min_intersect)
 CSector	*			CScene::CreateSector()
 {
 	CSector	*p_sector = plat_create_sector();
-	p_sector->mp_geom = NULL;
-	p_sector->mp_coll_sector = NULL;
+	p_sector->mp_geom = nullptr;
+	p_sector->mp_coll_sector = nullptr;
 	return p_sector;
 }
 
@@ -1246,7 +1246,7 @@ bool			CScene::plat_unload_add_scene()
 CSector*			CScene::plat_create_sector()
 {
 	printf ("STUB: plat_create_sector\n");
-	return NULL;
+	return nullptr;
 }
 
 

@@ -567,13 +567,13 @@ void CSkaterProfile::decompress_trick_mappings( const char* pTrickMappingName )
 
 void CSkaterProfile::WriteIntoStructure( Script::CStruct* pStuff )
 {	
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
 	Script::CStruct *pSkaterInfo=new Script::CStruct;
 
 	pSkaterInfo->AddComponent( Crc::ConstCRC("version_number"), ESYMBOLTYPE_INTEGER, CSkaterProfile::vVERSION_NUMBER );
 	
-	Script::CStruct *pTemp=NULL;
+	Script::CStruct *pTemp=nullptr;
 	
 	if (!IsPro())
 	{
@@ -611,9 +611,9 @@ void CSkaterProfile::ReadFromStructure( uint32 SkaterName, Script::CStruct* pStu
 	// should only get called for pros,
 	// otherwise we need to implement face texture loading
 
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
-	Script::CStruct *pSkaterInfo=NULL;
+	Script::CStruct *pSkaterInfo=nullptr;
 	pStuff->GetStructure(SkaterName,&pSkaterInfo);
 	// If no skater, just return. Could be no skater if a new skater name has been added, but autoloading off
 	// a memory card with no info for that skater, so no assert.
@@ -622,7 +622,7 @@ void CSkaterProfile::ReadFromStructure( uint32 SkaterName, Script::CStruct* pStu
 		return;
 	}	
 		
-	Script::CStruct *pTemp=NULL;
+	Script::CStruct *pTemp=nullptr;
 	
 	// There may not be an Appearance member, eg for the Pros.	
 	if (pSkaterInfo->GetStructure( Crc::ConstCRC("Appearance"), &pTemp ))
@@ -630,7 +630,7 @@ void CSkaterProfile::ReadFromStructure( uint32 SkaterName, Script::CStruct* pStu
 		m_Appearance.Load(pTemp);
 	}	
 		
-	pTemp=NULL;
+	pTemp=nullptr;
 	pSkaterInfo->GetStructure( Crc::ConstCRC("Info"), &pTemp );
 	m_Info.Clear();
 	m_Info.AppendStructure( pTemp);

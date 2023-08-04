@@ -159,7 +159,7 @@ CBaseComponent::EMemberFunctionResult CSkaterRunTimerComponent::CallMemberFuncti
 
 void CSkaterRunTimerComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterRunTimerComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterRunTimerComponent::GetDebugInfo"));
 	
 	static const uint32 states [   ] =
 	{

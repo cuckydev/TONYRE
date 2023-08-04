@@ -85,7 +85,7 @@ void CImposterManager::AddGeomToImposter( uint32 group_checksum, Nx::CGeom *p_ge
 {
 	// See if this imposter group exists already, create it if not.
 	CImposterGroup *p_group = mp_group_table->GetItem( group_checksum );
-	if( p_group == NULL )
+	if( p_group == nullptr )
 	{
 		p_group = plat_create_imposter_group();
 		mp_group_table->PutItem( group_checksum, p_group );

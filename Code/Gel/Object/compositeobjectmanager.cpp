@@ -302,7 +302,7 @@ CBaseComponent*		CCompositeObjectManager::CreateComponent(uint32 id)
 		}
 	}
 	Dbg_MsgAssert(0,("Component %s not registered",Script::FindChecksumName(id)));
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -437,7 +437,7 @@ CBaseComponent* CCompositeObjectManager::GetFirstComponentByType( uint32 id )
 		}
 	}
 	Dbg_MsgAssert( 0, ( "Component %s not registered", Script::FindChecksumName( id )));
-	return NULL;
+	return nullptr;
 }
 
 
@@ -479,7 +479,7 @@ void CCompositeObjectManager::RemoveComponentByType( CBaseComponent *p_component
 			if( mp_components_by_type[i] == p_component )
 			{
 				mp_components_by_type[i] = p_component->GetNextSameType();
-				p_component->SetNextSameType( NULL );
+				p_component->SetNextSameType( nullptr );
 				return;
 			}
 			else
@@ -490,7 +490,7 @@ void CCompositeObjectManager::RemoveComponentByType( CBaseComponent *p_component
 					if( p_loop->GetNextSameType() == p_component )
 					{
 						p_loop->SetNextSameType( p_component->GetNextSameType());
-						p_component->SetNextSameType( NULL );
+						p_component->SetNextSameType( nullptr );
 						return;
 					}
 					p_loop = p_loop->GetNextSameType();

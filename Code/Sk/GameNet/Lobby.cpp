@@ -534,7 +534,7 @@ void LobbyMan::s_player_joined_callback( PEER peer, RoomType roomType, const cha
 	{
 		if( stricmp( player->m_Name, nick ) == 0 )
 		{
-			peerGetPlayerInfoNoWait( peer, nick, NULL, &player->m_Profile );
+			peerGetPlayerInfoNoWait( peer, nick, nullptr, &player->m_Profile );
 			Mem::Manager::sHandle().PopContext();
 			player->m_GotInfo = true;
 			return;	// already have this player
@@ -543,7 +543,7 @@ void LobbyMan::s_player_joined_callback( PEER peer, RoomType roomType, const cha
 
 	player = new LobbyPlayerInfo;
 	strcpy( player->m_Name, nick );
-	peerGetPlayerInfoNoWait( peer, nick, NULL, &player->m_Profile );
+	peerGetPlayerInfoNoWait( peer, nick, nullptr, &player->m_Profile );
 	player->m_GotInfo = true;
 
 	lobby_man->m_players.AddToTail( player );
@@ -575,7 +575,7 @@ void LobbyMan::s_player_info_callback( PEER peer, RoomType roomType, const char 
 	LobbyPlayerInfo* player;
 	LobbyMan* lobby_man = (LobbyMan*) param;
 	
-	if( nick == NULL )
+	if( nick == nullptr )
 	{
 		return;
 	}
@@ -664,7 +664,7 @@ void 	LobbyMan::s_get_room_keys_callback( PEER peer, PEERBool success, RoomType 
 		Lst::Search< LobbyPlayerInfo > sh;
 		LobbyPlayerInfo* player;
 
-		if(( keys[0] != NULL )&& stricmp( keys[0], "b_rating" ) == 0 )
+		if(( keys[0] != nullptr )&& stricmp( keys[0], "b_rating" ) == 0 )
 		{
 			for( player = sh.FirstItem( lobby_man->m_players ); player; player = sh.NextItem())
 			{
@@ -726,7 +726,7 @@ void	LobbyMan::s_enum_players_callback( PEER peer, PEERBool success, RoomType ro
 	player = new LobbyPlayerInfo;
 	strcpy( player->m_Name, nick );
 	//Dbg_Printf( "Before getting player info on %s : %d\n", nick, player->m_Profile );
-	if( peerGetPlayerInfoNoWait( peer, nick, NULL, &player->m_Profile ))
+	if( peerGetPlayerInfoNoWait( peer, nick, nullptr, &player->m_Profile ))
 	{
 		//Dbg_Printf( "***** Got Player Info for %s : %d\n", nick, player->m_Profile );
 	}
@@ -1194,7 +1194,7 @@ void	LobbyMan::s_connect_callback( PEER peer, PEERBool success, void* param )
 		printf( "****** Connect Callback Successful\n" );
 
 		net_man->SetPublicIP( peerGetLocalIP( peer ));
-		CFuncs::ScriptStartLobbyList( NULL, NULL );
+		CFuncs::ScriptStartLobbyList( nullptr, nullptr );
 		//gamenet_man->SetServerListState( vSERVER_LIST_STATE_STARTING_LOBBY_LIST );
 		lobby_man->m_expecting_disconnect = false;
 		s_time_of_connection = Tmr::GetTime();
@@ -1449,7 +1449,7 @@ void	LobbyMan::s_process_gamespy_queries_code( const Tsk::Task< LobbyMan >& task
 	if( s_gamespy_data_type == vGAMESPY_QUERY_DATA )
 	{
 		//Dbg_Printf( "***** Parsing Gamespy Packet Data...\n" ); 
-		//qr_parse_query( NULL, s_gamespy_parse_data, &s_gamespy_sender );
+		//qr_parse_query( nullptr, s_gamespy_parse_data, &s_gamespy_sender );
 		peerParseQuery( man.GetPeer(), s_gamespy_parse_data, s_gamespy_parse_data_len, &s_gamespy_sender );
 		s_gamespy_parse_data[0] = '\0';
 		s_gamespy_parse_data_len = 0;
@@ -1490,7 +1490,7 @@ void	LobbyMan::s_process_gamespy_queries_code( const Tsk::Task< LobbyMan >& task
 		}
 	}
 	
-	//qr_process_queries( NULL );
+	//qr_process_queries( nullptr );
 
 	Mem::Manager::sHandle().PopContext();
 }
@@ -1507,7 +1507,7 @@ LobbyMan::LobbyMan( void )
 {
 	m_in_group_room = false;
 	m_expecting_disconnect = true;
-	m_peer = NULL;
+	m_peer = nullptr;
 
 	m_lobby_logic_task = new Tsk::Task< LobbyMan > ( s_lobby_logic_code, *this );
 	m_nat_negotiate_task = new Tsk::Task< LobbyMan > ( s_nat_negotiate_think_code, *this );
@@ -1682,7 +1682,7 @@ LobbyInfo*	LobbyMan::GetLobbyInfo( int index )
 		index--;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1865,7 +1865,7 @@ void 	LobbyMan::s_nat_negotiate_complete( NegotiateResult result, SOCKET gamesoc
 		NNFreeNegotiateList();
 
 		client = gamenet_man->GetClient( 0 );
-		client->SetForeignPacketHandler( NULL );
+		client->SetForeignPacketHandler( nullptr );
 		gamenet_man->mpLobbyMan->m_nat_negotiate_task->Remove();
 		gamenet_man->mpLobbyMan->m_process_gamespy_queries_task->Remove();
 
@@ -1928,7 +1928,7 @@ bool	LobbyMan::ScriptStartNatNegotiation(Script::CScriptStructure *pParams, Scri
 	LobbyMan* lobby_man;
 	Mlp::Manager* mlp_manager = Mlp::Manager::Instance();
 	Net::Client* client;
-	const char *server_ip = NULL;
+	const char *server_ip = nullptr;
 	int port = 0;
 	NegotiateError err;
     
@@ -2049,7 +2049,7 @@ bool	LobbyMan::ScriptLeaveLobby(Script::CScriptStructure *pParams, Script::CScri
 	lobby_man = gamenet_man->mpLobbyMan;
 	buddy_man = gamenet_man->mpBuddyMan;
 
-	peerLeaveRoom( lobby_man->m_peer, GroupRoom, NULL );
+	peerLeaveRoom( lobby_man->m_peer, GroupRoom, nullptr );
 	lobby_man->m_in_group_room = false;
 
 	if( buddy_man->IsLoggedIn())
@@ -2148,7 +2148,7 @@ bool	LobbyMan::ScriptLobbyDisconnect(Script::CScriptStructure *pParams, Script::
 	}
 	gamenet_man->mpLobbyMan->Shutdown();
 	//peerShutdown( gamenet_man->mpLobbyMan->m_peer );
-	//gamenet_man->mpLobbyMan->m_peer = NULL;
+	//gamenet_man->mpLobbyMan->m_peer = nullptr;
 
 	//Dbg_Printf( "******************************* DISCONNECTED FROM PEER!!!! \n" );
 	Mem::Manager::sHandle().PopContext();
@@ -2342,7 +2342,7 @@ void	LobbyMan::Shutdown( void )
 	{
 		peerShutdown( m_peer );
 	}
-	m_peer = NULL;
+	m_peer = nullptr;
 
 	Mem::Manager::sHandle().PopContext();
 }
@@ -2378,7 +2378,7 @@ char*	LobbyMan::PlayerName( char* lobby_name )
 	char* player_name;
 
 	player_name = strchr( lobby_name, '_' );
-	if( player_name == NULL )
+	if( player_name == nullptr )
 	{
 		return lobby_name;
 	}

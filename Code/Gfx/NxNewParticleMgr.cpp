@@ -68,7 +68,7 @@ CNewParticle*	CNewParticleManager::plat_create_particle( void )
 {
 	Dbg_Assert( 0 );
 	Dbg_Printf( "Stub plat_create_particle\n" );
-	return NULL;
+	return nullptr;
 }
 
 /*****************************************************************************
@@ -108,7 +108,7 @@ CNewParticle*	CNewParticleManager::CreateParticle( CParticleParams* params, bool
 
 			name = params->m_Name;
 			// Ensure a unique name for this system
-			while(( mp_particle_table->GetItem( name, false ) != NULL ))
+			while(( mp_particle_table->GetItem( name, false ) != nullptr ))
 			{
 				name++;
 			}
@@ -127,7 +127,7 @@ CNewParticle*	CNewParticleManager::CreateParticle( CParticleParams* params, bool
 // remove it from the Particle
 void	CNewParticleManager::KillParticle( CNewParticle* p_particle)
 {
-	Dbg_MsgAssert(p_particle,("NULL p_particle passed to KillParticle"));
+	Dbg_MsgAssert(p_particle,("nullptr p_particle passed to KillParticle"));
 	Dbg_MsgAssert(mp_particle_table->GetItem(p_particle->GetName()) == p_particle,("entry in particle table for %s does not match where it came from",Script::FindChecksumName(p_particle->GetName())));	
 	mp_particle_table->FlushItem(p_particle->GetName());	
 }

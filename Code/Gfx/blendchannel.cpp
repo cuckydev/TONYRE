@@ -73,7 +73,7 @@ CBaseAnimController* CBlendChannel::AddController( Script::CStruct* pParams )
 	uint32 type;
 	pParams->GetChecksum( Crc::ConstCRC("type"), &type, Script::ASSERT );
 
-	CBaseAnimController* pController = NULL;
+	CBaseAnimController* pController = nullptr;
 
 	int priority = 500;
 
@@ -187,7 +187,7 @@ void CBlendChannel::remove_controllers()
 	for ( int i = 0; i < m_numControllers; i++ )
 	{
 		delete mp_controllers[i];
-		mp_controllers[i] = NULL;
+		mp_controllers[i] = nullptr;
 	}
 
 	m_numControllers = 0;
@@ -208,7 +208,7 @@ void CBlendChannel::remove_controller( CBaseAnimController* pAnimController )
 		if ( pAnimController == mp_controllers[i] )
 		{
 			delete mp_controllers[i];
-			mp_controllers[i] = NULL;
+			mp_controllers[i] = nullptr;
 
 			// shift the rest of them
 			for ( int j = i; j < m_numControllers - 1; j++ )
@@ -238,7 +238,7 @@ CBaseAnimController* CBlendChannel::get_controller_by_id( uint32 id )
 	}
 
 	// not found
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -407,7 +407,7 @@ void CBlendChannel::InvalidateCache()
 {
 	for ( int i = 0; i < m_numControllers; i++ )
 	{
-		mp_controllers[i]->CallMemberFunction( Crc::ConstCRC("InvalidateCache"), NULL, NULL );
+		mp_controllers[i]->CallMemberFunction( Crc::ConstCRC("InvalidateCache"), nullptr, nullptr );
 	}
 }
 
@@ -466,7 +466,7 @@ void CBlendChannel::PlaySequence( uint32 anim_name, float start_time, float end_
 	
 	m_blendSpeed = speed / 60.0f;
 
-	Script::CStruct* pTempParams = NULL;
+	Script::CStruct* pTempParams = nullptr;
 	 
 	if ( loop_type == Gfx::LOOPING_WOBBLE )
 	{
@@ -521,7 +521,7 @@ void CBlendChannel::PlaySequence( uint32 anim_name, float start_time, float end_
 	pTempParams->AddFloat( Crc::ConstCRC("wobbleTargetAlpha"), 0.0f );
 	for ( int i = 0; i < m_numControllers; i++ )
 	{
-		mp_controllers[i]->CallMemberFunction( Crc::ConstCRC("setWobbleTarget"), pTempParams, NULL );
+		mp_controllers[i]->CallMemberFunction( Crc::ConstCRC("setWobbleTarget"), pTempParams, nullptr );
 	}
 	delete pTempParams;
 
@@ -534,7 +534,7 @@ void CBlendChannel::PlaySequence( uint32 anim_name, float start_time, float end_
 	pTempParams->AddFloat( Crc::ConstCRC("speed"), speed );
 	for ( int i = 0; i < m_numControllers; i++ )
 	{
-		mp_controllers[i]->CallMemberFunction( Crc::ConstCRC("PlaySequence"), pTempParams, NULL );
+		mp_controllers[i]->CallMemberFunction( Crc::ConstCRC("PlaySequence"), pTempParams, nullptr );
 	}
 	delete pTempParams;
 }
@@ -591,7 +591,7 @@ void CBlendChannel::add_custom_keys( uint32 animName )
                 uint32 eventType;
 				pSubStruct->GetChecksum( Crc::ConstCRC("event"), &eventType, Script::ASSERT );
 
-				Script::CStruct* pEventParams = NULL;
+				Script::CStruct* pEventParams = nullptr;
 				pSubStruct->GetStructure( Crc::ConstCRC("params"), &pEventParams, Script::NO_ASSERT );
                 
 				Gfx::CCustomAnimKey* pKey = new Gfx::CEventKey( frame, eventType, pEventParams );

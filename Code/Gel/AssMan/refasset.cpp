@@ -18,8 +18,8 @@ CRefAsset::CRefAsset(CAsset *p_asset)
 {
 
 	mp_asset = p_asset;
-	mp_sibling = NULL;
-	if (p_asset->mp_ref_asset == NULL)
+	mp_sibling = nullptr;
+	if (p_asset->mp_ref_asset == nullptr)
 	{
 		// this is the first reference, so just stick it in mp_ref_asset
 		p_asset->mp_ref_asset = this;		
@@ -32,7 +32,7 @@ CRefAsset::CRefAsset(CAsset *p_asset)
 		p_asset->mp_ref_asset = this;
 		mp_sibling = p_other_ref;
 	}
-	mp_data = NULL;							// Ref Assets explicitly have no data
+	mp_data = nullptr;							// Ref Assets explicitly have no data
 	m_permanent = p_asset->m_permanent;		// inherit the permanence flag
 }
 
@@ -60,14 +60,14 @@ CRefAsset::~CRefAsset()
 			Dbg_MsgAssert(p_prev,("Reference not listed in its parent asset")); 
 			p_prev->mp_sibling = mp_sibling;
 		}	
-		mp_asset = NULL;	
-		mp_sibling = NULL;
+		mp_asset = nullptr;	
+		mp_sibling = nullptr;
 	}					
 	
 
-	Dbg_MsgAssert(mp_asset == NULL,("Destroying ref with non-null asset"));	
-	Dbg_MsgAssert(mp_sibling == NULL,("Destroying ref with non-null sibling"));	
-	Dbg_MsgAssert(mp_data == NULL,("Ref Asset has data!"));
+	Dbg_MsgAssert(mp_asset == nullptr,("Destroying ref with non-null asset"));	
+	Dbg_MsgAssert(mp_sibling == nullptr,("Destroying ref with non-null sibling"));	
+	Dbg_MsgAssert(mp_data == nullptr,("Ref Asset has data!"));
 
 }
 
@@ -101,7 +101,7 @@ int 			CRefAsset::Reload(const char *p_file)
 
 bool			CRefAsset::LoadFinished()
 {
-	Dbg_MsgAssert(GetData(), ("LoadFinished(): Data pointer NULL (load probably was never started)"));
+	Dbg_MsgAssert(GetData(), ("LoadFinished(): Data pointer nullptr (load probably was never started)"));
 
 	return mp_asset->LoadFinished();
 }

@@ -79,7 +79,7 @@ void loadModule(char *moduleName);
 
 #define ZBUF_ADDR(w, h)		( (((w) + 63) / 64) * (((h) + 31) / 32) * 2)
 
-SMovieMem *gpMovieMem = NULL;
+SMovieMem *gpMovieMem = nullptr;
 
 int GetThreadPriority( )
 {
@@ -295,7 +295,7 @@ void PMovies_PlayMovie( const char *pName )
 	}
 
 	Mem::Free( pNonAllignedMovieMem );
-	gpMovieMem = NULL;
+	gpMovieMem = nullptr;
 	
 #if SAVE_SCRATCHPAD
 	// restore scratchpad:
@@ -591,7 +591,7 @@ static bool initAll( const char *bsfilename )
     th_param.gpReg = &_gp;
     th_param.option = 0;
     defaultTh = CreateThread(&th_param);
-    StartThread(defaultTh, NULL);
+    StartThread(defaultTh, nullptr);
     
 	// /////////////////////////////
     // 
@@ -605,7 +605,7 @@ static bool initAll( const char *bsfilename )
     th_param.gpReg = &_gp;
     th_param.option = 0;
     videoDecTh = CreateThread(&th_param);
-    StartThread(videoDecTh, NULL );
+    StartThread(videoDecTh, nullptr );
 
     // /////////////////////////////
     // 

@@ -254,11 +254,11 @@ Manager::Manager( void )
 		
 	for( i = 0; i < vMAX_LOCAL_CLIENTS; i++ )
 	{
-		m_client[i] = NULL;
-		m_match_client = NULL;
+		m_client[i] = nullptr;
+		m_match_client = nullptr;
 	}
 	
-	m_server = NULL;
+	m_server = nullptr;
     
 	m_metrics_on = false;
 	m_scores_on = false;
@@ -552,15 +552,15 @@ void	Manager::s_enter_chat_code( const Tsk::Task< Manager >& task )
 			pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "keyboard_anchor" ));
 			
 			// Enter and space act as "choose" only if you're not currently using the on-screen keyboard
-			if( Obj::ScriptObjectExists( pParams, NULL ) == false )
+			if( Obj::ScriptObjectExists( pParams, nullptr ) == false )
 			{
 				pParams->Clear();
 				pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "current_menu_anchor" ));
-				if( Obj::ScriptObjectExists( pParams, NULL ) == false )
+				if( Obj::ScriptObjectExists( pParams, nullptr ) == false )
 				{
 					pParams->Clear();
 					pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "dialog_box_anchor" ));
-					if( Obj::ScriptObjectExists( pParams, NULL ) == false )
+					if( Obj::ScriptObjectExists( pParams, nullptr ) == false )
 					{
 						Script::RunScript( "enter_kb_chat" );
 						SIO::KeyboardClear();
@@ -699,7 +699,7 @@ void	Manager::s_join_state_code( const Tsk::Task< Manager >& task )
 						skater = skate_mod->GetLocalSkater();
 						Dbg_Assert( skater );
 						skate_mod->remove_skater( skater );
-						man.ObservePlayer( NULL );
+						man.ObservePlayer( nullptr );
 					}
 					break;
 				}
@@ -777,7 +777,7 @@ void	Manager::s_ctf_logic_code( const Tsk::Task< Manager >& task )
 			}
 
 			obj = (Obj::CMovingObject *) Obj::ResolveToObject( obj_id );
-			if( obj == NULL )
+			if( obj == nullptr )
 			{
 				return;
 			}
@@ -851,7 +851,7 @@ void	Manager::s_start_network_game_code( const Tsk::Task< Manager >& task )
 			if( showing_wait_screen == false )
 			{
 				man.CreateNetPanelMessage( true, Script::GenerateCRC("net_message_game_will_start"),
-										   NULL, NULL, NULL, "netexceptionprops" );
+										   nullptr, nullptr, nullptr, "netexceptionprops" );
 				showing_wait_screen = true;
 			}
 		}
@@ -859,7 +859,7 @@ void	Manager::s_start_network_game_code( const Tsk::Task< Manager >& task )
 		return;
 	}
     
-	if( ScriptAllPlayersAreReady( NULL, NULL ) == false )
+	if( ScriptAllPlayersAreReady( nullptr, nullptr ) == false )
 	{
 		return;
 	}
@@ -1154,7 +1154,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 
 		// Mick: moved onto skater info heap, to prevent fragmentation
 		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-		new_player = man.NewPlayer( NULL, new_info->Conn, new_info->Flags );
+		new_player = man.NewPlayer( nullptr, new_info->Conn, new_info->Flags );
 		Mem::Manager::sHandle().PopContext();
 		
 		strcpy( new_player->m_Name, new_info->Name );
@@ -1188,7 +1188,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 				new_player_msg.m_Flags |= PlayerInfo::mOBSERVER;
 			}
 			
-			msg_desc.m_Data = NULL;
+			msg_desc.m_Data = nullptr;
 			msg_desc.m_Length = 0;
 			msg_desc.m_Id = MSG_ID_JOIN_ACCEPTED;
 			msg_desc.m_Priority = Net::HIGHEST_PRIORITY;
@@ -1607,7 +1607,7 @@ void	Manager::s_timeout_connections_code( const Tsk::Task< Manager >& task )
 		if( man.m_client[0] )
 		{   
             server_conn = man.m_client[0]->FirstConnection( &sh );
-			if( server_conn == NULL )
+			if( server_conn == nullptr )
 			{
 				return;
 			}
@@ -2251,7 +2251,7 @@ char*				Manager::GetLevelName( bool get_created_park_name )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -2282,7 +2282,7 @@ char*				Manager::GetGameModeName( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -2307,7 +2307,7 @@ bool				Manager::PlayerCollisionEnabled( void )
 	}                
 
 	// Option is always on in splitscreen games
-	if( CFuncs::ScriptInSplitScreenGame( NULL, NULL ))
+	if( CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ))
 	{
 		return true;
 	}
@@ -2369,7 +2369,7 @@ Net::Server*		Manager::SpawnServer( bool local, bool secure )
 	Net::Manager * net_man = Net::Manager::Instance();
 	Mlp::Manager * mlp_manager = Mlp::Manager::Instance();
 
-	Dbg_MsgAssert( m_server == NULL,( "Failed to spawn new server. Old server still running!\n" ));
+	Dbg_MsgAssert( m_server == nullptr,( "Failed to spawn new server. Old server still running!\n" ));
 
 	flags = Net::App::mBROADCAST |
 			Net::App::mDYNAMIC_RESEND |
@@ -2439,7 +2439,7 @@ Net::Server*		Manager::SpawnServer( bool local, bool secure )
 		m_waiting_for_game_to_start = false;
         	
 		RandomizeSkaterStartingPoints();
-		m_observer_input_handler = NULL;		// record and handle button inputs
+		m_observer_input_handler = nullptr;		// record and handle button inputs
 	}
 	else
 	{
@@ -2465,7 +2465,7 @@ Net::Client*		Manager::SpawnClient( bool broadcast, bool local, bool secure, int
 	Net::Manager * net_man = Net::Manager::Instance();
 	int flags;
 
-	Dbg_MsgAssert( m_client[index] == NULL,( "Failed to spawn new client. Old client still running!\n" ));
+	Dbg_MsgAssert( m_client[index] == nullptr,( "Failed to spawn new client. Old client still running!\n" ));
 
 	flags = 0;
 	if( broadcast )
@@ -2493,7 +2493,7 @@ Net::Client*		Manager::SpawnClient( bool broadcast, bool local, bool secure, int
 	{  
 		m_latest_ready_query = 0;
 		m_proset_flags = 0;
-		m_cam_player = NULL;
+		m_cam_player = nullptr;
 		SetReadyToPlay(false);
 	}
 	else
@@ -2505,7 +2505,7 @@ Net::Client*		Manager::SpawnClient( bool broadcast, bool local, bool secure, int
 		// Here output appropriate error message to the screen
 	}
 
-	m_observer_input_handler = NULL;
+	m_observer_input_handler = nullptr;
 	m_game_over = false;
 	m_game_pending = false;
 	return m_client[index];
@@ -2565,7 +2565,7 @@ void	Manager::JoinServer( bool observe_only, unsigned long ip, unsigned short po
 	Mlp::Manager * mlp_man = Mlp::Manager::Instance();
 	//Net::Manager * net_man = Net::Manager::Instance();
 		
-	Dbg_MsgAssert( m_client[index] != NULL,( "Can't join server : Client has not been spawned\n" ));
+	Dbg_MsgAssert( m_client[index] != nullptr,( "Can't join server : Client has not been spawned\n" ));
 
 #ifndef __PLAT_NGC__
 	//Dbg_Printf( "Joining server at %s %d\n", inet_ntoa( *(struct in_addr*) &ip ), port );
@@ -2887,7 +2887,7 @@ void	Manager::ServerShutdown( void )
 		net_man->DestroyApp( m_server );
 		m_server_add_new_players_task->Remove();
 		m_start_network_game_task->Remove();
-		m_server = NULL;
+		m_server = nullptr;
 	}
 
 	m_flags.ClearMask( mSERVER );
@@ -2928,14 +2928,14 @@ void	  Manager::ClientShutdown( void )
 			}
 
 			net_man->DestroyApp( m_client[i] );
-			m_client[i] = NULL;
+			m_client[i] = nullptr;
 		}
 	}
 
 	if( m_observer_input_handler )
 	{
 		delete m_observer_input_handler;
-		m_observer_input_handler = NULL;
+		m_observer_input_handler = nullptr;
 	}
 
 	m_enter_chat_task->Remove();
@@ -2958,7 +2958,7 @@ void	Manager::MatchClientShutdown( void )
 		Net::Manager * net_man = Net::Manager::Instance();
 
 		net_man->DestroyApp( m_match_client );
-		m_match_client = NULL;
+		m_match_client = nullptr;
 	}
 }
 
@@ -3188,7 +3188,7 @@ PlayerInfo*		Manager::NewPlayer( Obj::CSkater* skater, Net::Conn* conn, int flag
 		}
 		else
 		{
-			m_cam_player = NULL;
+			m_cam_player = nullptr;
 		}
 	}
 	else
@@ -3200,7 +3200,7 @@ PlayerInfo*		Manager::NewPlayer( Obj::CSkater* skater, Net::Conn* conn, int flag
 
 		if( local_player->IsObserving())
 		{
-			if( m_cam_player == NULL )
+			if( m_cam_player == nullptr )
 			{
 				ObservePlayer( new_player );
 			}
@@ -3347,13 +3347,13 @@ void	Manager::ClientAddNewPlayer( NewPlayerInfo* new_player )
     
 	Dbg_Assert( !OnServer());
 
-	skater = NULL;
+	skater = nullptr;
     
 	if( !( new_player->Flags & PlayerInfo::mOBSERVER ))
 	{
 		Obj::CSkaterProfile* pSkaterProfile;
 
-		if ( CFuncs::ScriptInSplitScreenGame( NULL, NULL ) )
+		if ( CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ) )
 		{
 			// in splitscreen games, we have to figure out
 			// which player is currently being added (either 0 or 1)
@@ -3406,7 +3406,7 @@ void	Manager::ClientAddNewPlayer( NewPlayerInfo* new_player )
 	player_info = GetPlayerByObjectID( new_player->ObjID );
 	if( new_player->Flags & PlayerInfo::mJUMPING_IN )
 	{   
-		if( player_info == NULL )
+		if( player_info == nullptr )
 		{
 			player_info = GetLocalPlayer();
 		}
@@ -3414,11 +3414,11 @@ void	Manager::ClientAddNewPlayer( NewPlayerInfo* new_player )
 		if( player_info )
 		{
 			DestroyPlayer( player_info );
-			player_info = NULL;
+			player_info = nullptr;
 		}
 	}
 
-	if( player_info == NULL )
+	if( player_info == nullptr )
 	{
 		int flags;
 
@@ -3582,7 +3582,7 @@ void			Manager::DestroyPlayer( PlayerInfo* player )
 		m_cam_player = GetNextPlayerToObserve();
 		if( player == m_cam_player )
 		{
-			m_cam_player = NULL;
+			m_cam_player = nullptr;
 		}
         
 		local_player = GetLocalPlayer();
@@ -3657,12 +3657,12 @@ PlayerInfo*		Manager::GetNextPlayerToObserve( void )
 
 	
 
-	new_cam_player = NULL;
+	new_cam_player = nullptr;
 	for( new_cam_player = FirstPlayerInfo( sh ); new_cam_player;
 			new_cam_player = NextPlayerInfo( sh ))
 	{
 		// If we had no 'current' target, just return the first player
-		if( m_cam_player == NULL )
+		if( m_cam_player == nullptr )
 		{
 			break;
 		}
@@ -3671,7 +3671,7 @@ PlayerInfo*		Manager::GetNextPlayerToObserve( void )
 		if( new_cam_player == m_cam_player )
 		{
 			new_cam_player = NextPlayerInfo( sh );
-			if( new_cam_player == NULL )
+			if( new_cam_player == nullptr )
 			{
 				// We've reached the end of the list. Return the first one
 				new_cam_player = FirstPlayerInfo( sh );
@@ -3700,12 +3700,12 @@ void		Manager::ObservePlayer( PlayerInfo* player )
 	
 	if (!player || !player->m_Skater)
 	{
-		Dbg_Printf( "Attempting to observe NULL player\n" );
+		Dbg_Printf( "Attempting to observe nullptr player\n" );
 		
-		skater_cam->SetSkater( NULL );
-		walk_cam->SetSkater( NULL );
+		skater_cam->SetSkater( nullptr );
+		walk_cam->SetSkater( nullptr );
 		
-		m_cam_player = NULL;
+		m_cam_player = nullptr;
 		
 		return;
 	}
@@ -3721,7 +3721,7 @@ void		Manager::ObservePlayer( PlayerInfo* player )
 		Dbg_Printf( "Observing player %d\n", player->m_Skater->GetID());
 		skater_cam->SetSkater( player->m_Skater );
 		
-		walk_cam->SetSkater( NULL );
+		walk_cam->SetSkater( nullptr );
 		
 		skater_cam->Suspend( false );
 		walk_cam->Suspend( true );
@@ -3755,7 +3755,7 @@ void		Manager::ObservePlayer( PlayerInfo* player )
 	
 	m_cam_player = player;
 
-	/*if( player == NULL )
+	/*if( player == nullptr )
 	{
 		Mth::Vector rot;
 		Mth::Matrix cam_matrix;
@@ -3782,7 +3782,7 @@ void		Manager::ObservePlayer( PlayerInfo* player )
 
 		local_player->m_cam->SetMatrix( cam_matrix );
 		local_player->m_cam->SetPos( node_pos );
-		local_player->m_cam->SetSkater( NULL );
+		local_player->m_cam->SetSkater( nullptr );
 		return;
 	}
 
@@ -3833,7 +3833,7 @@ void		Manager::ChooseNewServerPlayer( void )
 	Lst::Search< PlayerInfo > sh;
 	Net::MsgDesc msg_desc;
 
-	Dbg_Assert(( GetServerPlayer() == NULL ));	// Shouldn't call this function if one already exists
+	Dbg_Assert(( GetServerPlayer() == nullptr ));	// Shouldn't call this function if one already exists
 	Dbg_Assert( m_server );
 
 	for( player = FirstPlayerInfo( sh ); player; player = NextPlayerInfo( sh ))
@@ -3930,7 +3930,7 @@ void		Manager::EnterObserverMode( void )
 
 
 	skate_mod->remove_skater( local_player->m_Skater );
-	local_player->m_Skater = NULL;
+	local_player->m_Skater = nullptr;
 	//skate_mod->HideSkater( local_player->m_Skater );
 
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap( 0 ));
@@ -4034,7 +4034,7 @@ Obj::CSkater*	Manager::GetSkaterByConnection( Net::Conn* conn )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4055,7 +4055,7 @@ PlayerInfo*		Manager::GetPlayerByConnection( Net::Conn* conn )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4079,7 +4079,7 @@ PlayerInfo*		Manager::GetPlayerByObjectID( unsigned short obj_id )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4189,7 +4189,7 @@ NewPlayerInfo*		Manager::GetNewPlayerInfoByObjectID( unsigned short obj_id )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4249,7 +4249,7 @@ PlayerInfo*			Manager::GetLocalPlayer( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4271,7 +4271,7 @@ PlayerInfo*			Manager::GetServerPlayer( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4293,7 +4293,7 @@ PlayerInfo*			Manager::GetKingOfTheHill( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -4451,7 +4451,7 @@ void	Manager::DropPlayer( PlayerInfo* info, DropReason reason )
 		if(	( reason == vREASON_BANNED ) ||
 			( reason == vREASON_KICKED ))
 		{
-			m_server->SendMessageTo( MSG_ID_KICKED, 0, NULL,
+			m_server->SendMessageTo( MSG_ID_KICKED, 0, nullptr,
 									   info->m_Conn->GetIP(), info->m_Conn->GetPort(), 0 );
 			if( reason == vREASON_BANNED )
 			{
@@ -4464,7 +4464,7 @@ void	Manager::DropPlayer( PlayerInfo* info, DropReason reason )
 		}
 		else if( reason == vREASON_LEFT_OUT )
 		{
-			m_server->SendMessageTo( MSG_ID_LEFT_OUT, 0, NULL,
+			m_server->SendMessageTo( MSG_ID_LEFT_OUT, 0, nullptr,
 									   info->m_Conn->GetIP(), info->m_Conn->GetPort(), 0 );
 #ifdef __PLAT_NGPS__
 			//m_server->WaitForAsyncCallsToFinish();
@@ -4579,7 +4579,7 @@ void	Manager::DropPlayer( PlayerInfo* info, DropReason reason )
 			if( is_server_player )
 			{
 				ChooseNewServerPlayer();
-				if( GetServerPlayer() == NULL )
+				if( GetServerPlayer() == nullptr )
 				{
 					if( ( skate_mod->GetGameMode()->GetNameChecksum() != Script::GenerateCRC( "netlobby" )))
 					{
@@ -4649,7 +4649,7 @@ Prefs::Preferences* Manager::GetTauntPreferences( void )
 const char*			Manager::GetNameFromArrayEntry( char* array_name, uint32 checksum )
 {
 	Script::CArray* pArray;
-	const char* string = NULL;
+	const char* string = nullptr;
 	int i;
 
 	pArray = Script::GetArray( array_name );
@@ -4808,7 +4808,7 @@ void	Manager::UsePreferences( void )
 	const char* viewer_gateway = Script::GetString( "viewer_gateway" );
 	if( viewer_ip && !*viewer_ip )
 	{
-		viewer_ip = NULL;
+		viewer_ip = nullptr;
 	}
 	if( viewer_ip )
 	{
@@ -4869,7 +4869,7 @@ void	Manager::UsePreferences( void )
 #ifdef USE_DNS
 	pStructure = pPreferences->GetPreference( Script::GenerateCRC("auto_dns") );
 	pStructure->GetChecksum( "Checksum", &checksum, true );
-	if( checksum == Script::GenerateCRC( "boolean_true" ) && ( viewer_ip == NULL ))
+	if( checksum == Script::GenerateCRC( "boolean_true" ) && ( viewer_ip == nullptr ))
 	{
 		Dbg_Printf( "****************** Setting DNS to 0.0.0.0 ******** \n" );
 		net_man->SetDNSServer( 0, "" );
@@ -5229,7 +5229,7 @@ void Manager::StartNetworkLobby( void )
     // launches the game for this client
 	// (should really wait until the clients are ready)
 	
-	//Mdl::ScriptRetry( NULL, NULL );
+	//Mdl::ScriptRetry( nullptr, nullptr );
 
 	ResetPlayers();
 
@@ -5311,7 +5311,7 @@ void Manager::StartNetworkGame( void )
 
 	Dbg_MsgAssert( OnServer(),( "Server-only function called on client" ));
 
-	pPreferences = NULL;
+	pPreferences = nullptr;
 	if( InNetGame())
 	{
 		pPreferences = GetNetworkPreferences();
@@ -5426,7 +5426,7 @@ void Manager::StartNetworkGame( void )
 	{
 		player->MarkAsKing( false );
 	}
-	SetCurrentLeader( NULL );
+	SetCurrentLeader( nullptr );
 	SetCurrentLeadingTeam( vNO_TEAM );
 	ClearTriggerEventList();
 	ResetPlayers();
@@ -5510,7 +5510,7 @@ uint32 Manager::GetGameTypeFromPreferences( void )
 
 	Prefs::Preferences* pPreferences;
 	 
-	pPreferences = NULL;
+	pPreferences = nullptr;
 	if( InNetGame())
 	{
 		pPreferences = GetNetworkPreferences();
@@ -6157,8 +6157,8 @@ void	Manager::LaunchQueuedScripts( void )
 
 		next = sh.NextItem();
 	
-		pScript = Script::SpawnScript( queued_script->m_Script, NULL, 0, NULL, 
-									   queued_script->m_Node ); // K: The 0,NULL bit means no callback script specified
+		pScript = Script::SpawnScript( queued_script->m_Script, nullptr, 0, nullptr, 
+									   queued_script->m_Node ); // K: The 0,nullptr bit means no callback script specified
 		#ifdef __NOPT_ASSERT__
 		pScript->SetCommentString("Spawned from Manager::LaunchQueuedScripts");
 		#endif
@@ -6205,7 +6205,7 @@ Obj::CCrown*		Manager::GetCrown( void )
 void			Manager::CleanupObjects( void )
 {
 	// Nullify references to now-dead objects
-	m_crown = NULL;
+	m_crown = nullptr;
 }
 
 /******************************************************************/
@@ -6455,7 +6455,7 @@ bool	Manager::ScriptTookFlag(Script::CScriptStructure *pParams, Script::CScript 
 	pParams->GetInteger( "flag_team", &team );
 	
 	capture_player = gamenet_man->GetPlayerByObjectID( obj_id );
-	if( capture_player == NULL )
+	if( capture_player == nullptr )
 	{
 		return true;
 	}
@@ -6500,7 +6500,7 @@ bool	Manager::ScriptCapturedFlag(Script::CScriptStructure *pParams, Script::CScr
 
 	pParams->GetInteger( "player", &obj_id );
 	capture_player = gamenet_man->GetPlayerByObjectID( obj_id );
-	if(( capture_player == NULL ) || ( capture_player->m_flags.TestMask( PlayerInfo::mRESTARTING )))
+	if(( capture_player == nullptr ) || ( capture_player->m_flags.TestMask( PlayerInfo::mRESTARTING )))
 	{
 		return true;
 	}
@@ -6557,7 +6557,7 @@ bool	Manager::ScriptRetrievedFlag(Script::CScriptStructure *pParams, Script::CSc
 	pParams->GetInteger( "flag_team", &team );
 	
 	retrieve_player = gamenet_man->GetPlayerByObjectID( obj_id );
-	if( retrieve_player == NULL )
+	if( retrieve_player == nullptr )
 	{
 		return true;
 	}
@@ -6599,7 +6599,7 @@ bool	Manager::ScriptHasFlag(Script::CScriptStructure *pParams, Script::CScript *
 	pParams->GetInteger( "player", &obj_id );
 	
 	player = gamenet_man->GetPlayerByObjectID( obj_id );
-	if( player == NULL )
+	if( player == nullptr )
 	{
 		return true;
 	}
@@ -6618,7 +6618,7 @@ bool	Manager::ScriptDisplayFlagBaseWarning(Script::CScriptStructure *pParams, Sc
 
 	if(( Tmr::GetTime() - s_last_show ) > Tmr::Seconds( 3 ))
 	{
-		Script::RunScript( Crc::ConstCRC("display_flag_base_warning"), NULL );
+		Script::RunScript( Crc::ConstCRC("display_flag_base_warning"), nullptr );
 		s_last_show = Tmr::GetTime();
 	}
 
@@ -6781,13 +6781,13 @@ bool Manager::ScriptStartNetworkGame(Script::CStruct *pParams, Script::CScript *
 		if( gamenet_man->GetHostMode() == vHOST_MODE_AUTO_SERVE )
 		{
 			gamenet_man->CreateNetPanelMessage( true, Script::GenerateCRC("net_message_auto_starting_game"),
-											 gamenet_man->GetGameModeName(), NULL, NULL, "netstatusprops", true,
+											 gamenet_man->GetGameModeName(), nullptr, nullptr, "netstatusprops", true,
 												Tmr::Seconds( 3 ));    
 		}
 		else
 		{
 			gamenet_man->CreateNetPanelMessage( true, Script::GenerateCRC("net_message_starting_game"),
-										 gamenet_man->GetGameModeName(), NULL, NULL, "netstatusprops", true,
+										 gamenet_man->GetGameModeName(), nullptr, nullptr, "netstatusprops", true,
 											Tmr::Seconds( 3 ));
 		}
 
@@ -7107,7 +7107,7 @@ bool Manager::ScriptSetNumTeams(Script::CStruct *pParams, Script::CScript *pScri
 		skate_mod->GetGameMode()->SetNumTeams( num_teams );
 		if( skate_mod->GetLocalSkater())
 		{
-			Script::RunScript( "PrepareSkaterForMove", NULL, skate_mod->GetLocalSkater());
+			Script::RunScript( "PrepareSkaterForMove", nullptr, skate_mod->GetLocalSkater());
 			skate_mod->move_to_restart_point( skate_mod->GetLocalSkater());
 		}
 	}
@@ -7117,7 +7117,7 @@ bool Manager::ScriptSetNumTeams(Script::CStruct *pParams, Script::CScript *pScri
 	}
 	
 	server = gamenet_man->GetServer();
-	if( server == NULL )
+	if( server == nullptr )
 	{
 		return true;
 	}
@@ -7183,8 +7183,8 @@ bool Manager::ScriptJoinTeam(Script::CStruct *pParams, Script::CScript *pScript)
 	static Tmr::Time s_last_join_time = 0;
 
 	player = gamenet_man->GetLocalPlayer();
-	if( ( player == NULL ) || 
-		( player->m_Skater == NULL ))
+	if( ( player == nullptr ) || 
+		( player->m_Skater == nullptr ))
 	{
 		return false;
 	}
@@ -7490,7 +7490,7 @@ bool Manager::ScriptCreatePlayerOptions(Script::CScriptStructure *pParams, Scrip
 	const char* name;
 
 	index = 0;
-	name = NULL;
+	name = nullptr;
 	pParams->GetInteger( Script::GenerateCRC("index"), &index );
 	pParams->GetString( Script::GenerateCRC("name"), &name );
 	
@@ -7639,7 +7639,7 @@ bool Manager::ScriptRemovePlayer(Script::CScriptStructure *pParams, Script::CScr
 	const char* name;
 
 	index = 0;
-	name = NULL;
+	name = nullptr;
 	pParams->GetInteger( Script::GenerateCRC("index"), &index );
 	pParams->GetString( Script::GenerateCRC("name"), &name );
 	
@@ -8142,9 +8142,9 @@ bool	Manager::ScriptExitSurveyorMode(Script::CScriptStructure *pParams, Script::
 	Dbg_Printf( "Exiting surveyor mode\n" );
 	gamenet_man->ObservePlayer( local_player );
 	delete local_player->m_observer_logic_task;
-	local_player->m_observer_logic_task = NULL;
+	local_player->m_observer_logic_task = nullptr;
 	delete gamenet_man->m_observer_input_handler;
-	gamenet_man->m_observer_input_handler = NULL;
+	gamenet_man->m_observer_input_handler = nullptr;
 
 	local_player->m_flags.ClearMask( PlayerInfo::mSURVEYING );
 

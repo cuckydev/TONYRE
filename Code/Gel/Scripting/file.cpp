@@ -56,7 +56,7 @@ void restart_dirty_scripts()
 // symbols (scripts, arrays, integers etc) defined within in.
 void LoadQB(const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplicateSymbols)
 {
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 #ifndef __PLAT_NGC__
 	Dbg_MsgAssert(strcmp(p_fileName+strlen(p_fileName)-3,".qb")==0,("File does not have extension .qb. File %s",p_fileName));
 #endif __PLAT_NGC__
@@ -82,7 +82,7 @@ void LoadQBFromMemory(const char* p_fileName, uint8* p_qb, EBoolAssertIfDuplicat
 	// we'd still need a dummy string, which will
 	// be used for printing up Assert messages...
 
-	Dbg_MsgAssert(p_fileName,("NULL p_fileName"));
+	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 #ifndef __PLAT_NGC__
 	Dbg_MsgAssert(strcmp(p_fileName+strlen(p_fileName)-3,".qb")==0,("File does not have extension .qb. File %s",p_fileName));
 #endif __PLAT_NGC__
@@ -128,7 +128,7 @@ void UnloadQB(uint32 fileNameChecksum)
 			// SPEEDOPT Starting again from the start of the list is inefficient though, because
 			// it may have to scan through thousands of symbols just to delete one, and may have to
 			// delete say a hundred. Optimize later. (Seems fast enough at the moment)
-			p_sym=NULL;
+			p_sym=nullptr;
 		}	
 		p_sym=GetNextSymbolTableEntry(p_sym);
 	}

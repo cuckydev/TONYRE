@@ -70,10 +70,10 @@ CStatsManagerComponent::CStatsManagerComponent() : CBaseComponent()
 {
 	SetType( CRC_STATSMANAGER );
     
-    mpSkater= NULL;
-    mpSkaterStateComponent = NULL;
-    mpSkaterPhysicsControlComponent = NULL;
-    mpSkaterCorePhysicsComponent = NULL;
+    mpSkater= nullptr;
+    mpSkaterStateComponent = nullptr;
+    mpSkaterPhysicsControlComponent = nullptr;
+    mpSkaterCorePhysicsComponent = nullptr;
 
     vert_start_pos.Set( 0.0f, 0.0f, 0.0f, 0.0f );
     vert_end_pos.Set( 0.0f, 0.0f, 0.0f, 0.0f );
@@ -107,8 +107,8 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
     showed_info = false;    // need to grab this from memcard eventually
     stat_goals_on = false;
     
-    new_event = NULL;
-    last_event = NULL;
+    new_event = nullptr;
+    last_event = nullptr;
     
     vert_set = 0;
     vert_height = 0;
@@ -167,7 +167,7 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
     Dbg_MsgAssert( p_array->GetType() == ESYMBOLTYPE_STRUCTURE, ( "This function only works on arrays of structures." ) );
 
     int array_size = p_array->GetSize();
-    Script::CStruct* p_struct = NULL;
+    Script::CStruct* p_struct = nullptr;
     
     //for( int index = 0; index < NUM_STATS_GOALS; index++)
     for ( int index = 0; index < array_size; index++ )
@@ -187,7 +187,7 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
         }
         if ( p_struct->ContainsComponentNamed( "value" ) )
         {
-            Script::CArray* value_array = NULL;
+            Script::CArray* value_array = nullptr;
             int value_value;
             p_struct->GetArray( "value", &value_array, Script::ASSERT );
             value_value = value_array->GetInteger(dif_level);
@@ -195,7 +195,7 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
         }
         if ( p_struct->ContainsComponentNamed( "value_string" ) )
         {
-            Script::CArray* value_string_array = NULL;
+            Script::CArray* value_string_array = nullptr;
             const char*  value_vstring;
             p_struct->GetArray( "value_string", &value_string_array, Script::ASSERT );
             value_vstring = value_string_array->GetString(dif_level);
@@ -215,7 +215,7 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
         }
         if ( p_struct->ContainsComponentNamed( "value_trick" ) )
         {
-            Script::CArray* value_trick_array = NULL;
+            Script::CArray* value_trick_array = nullptr;
             uint32  value_vtrick;
             p_struct->GetArray( "value_trick", &value_trick_array, Script::ASSERT );
             value_vtrick = value_trick_array->GetChecksum(dif_level);
@@ -223,7 +223,7 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
         }
         if ( p_struct->ContainsComponentNamed( "value_taps" ) )
         {
-            Script::CArray* value_taps_array = NULL;
+            Script::CArray* value_taps_array = nullptr;
             uint32  value_vtaps;
             p_struct->GetArray( "value_taps", &value_taps_array, Script::ASSERT );
             value_vtaps = value_taps_array->GetInteger(dif_level);
@@ -290,7 +290,7 @@ void CStatsManagerComponent::Update()
 	// **  for example, a physics type component might update the position and orientation
 	// **  and update the internal physics state
 
-    if( mpSkater == NULL )
+    if( mpSkater == nullptr )
 	{
 		return;
 	}
@@ -874,7 +874,7 @@ CBaseComponent::EMemberFunctionResult CStatsManagerComponent::CallMemberFunction
 void CStatsManagerComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CStatsManagerComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CStatsManagerComponent::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)
@@ -898,11 +898,11 @@ void CStatsManagerComponent::SetSkater( CSkater* p_skater )
 {
 	mpSkater = p_skater;
 	
-	if( p_skater == NULL )
+	if( p_skater == nullptr )
 	{
-		mpSkaterStateComponent = NULL;
-        mpSkaterPhysicsControlComponent = NULL;
-		//mpSkaterPhysicsControlComponent = NULL;
+		mpSkaterStateComponent = nullptr;
+        mpSkaterPhysicsControlComponent = nullptr;
+		//mpSkaterPhysicsControlComponent = nullptr;
 	}
 	else
 	{

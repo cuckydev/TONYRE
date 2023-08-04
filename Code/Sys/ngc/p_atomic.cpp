@@ -70,50 +70,50 @@
 //
 //NsAtomic::NsAtomic()
 //{
-//	m_pMaterial	= NULL;
-//	m_pFrame		= NULL;
-//	m_pNext		= NULL;
-//	m_pDoubleData	= NULL;
-//	m_pAccData	= NULL;
+//	m_pMaterial	= nullptr;
+//	m_pFrame		= nullptr;
+//	m_pNext		= nullptr;
+//	m_pDoubleData	= nullptr;
+//	m_pAccData	= nullptr;
 //	m_flags = VISIBLE | COLLIDABLE;
-//	m_pTransformedVertices = NULL;
-//	m_pTransformedVertices2 = NULL;
-//	m_pTransformedVertices3 = NULL;
-//	m_pGeometryArrays = NULL;
+//	m_pTransformedVertices = nullptr;
+//	m_pTransformedVertices2 = nullptr;
+//	m_pTransformedVertices3 = nullptr;
+//	m_pGeometryArrays = nullptr;
 //
-//	m_pSkinBox = NULL;
-//	m_pCAS16 = NULL;
-//	m_pFlipPairs = NULL;
-//	m_pCAS32 = NULL;
-//	m_pPartChecksums = NULL;
-//	m_pBranchNodes = NULL;
-//	m_pLeafNodes = NULL;
-//	m_pTriangleMap = NULL;
+//	m_pSkinBox = nullptr;
+//	m_pCAS16 = nullptr;
+//	m_pFlipPairs = nullptr;
+//	m_pCAS32 = nullptr;
+//	m_pPartChecksums = nullptr;
+//	m_pBranchNodes = nullptr;
+//	m_pLeafNodes = nullptr;
+//	m_pTriangleMap = nullptr;
 //
 //	m_lastTransform = -1;		// Force 1st transform to always happen.
 //}
 //
 //NsAtomic::NsAtomic( NsModel * pModelData, NsTextureMan * pTexMan )
 //{
-//	m_pMaterial	= NULL;
-//	m_pFrame		= NULL;
-//	m_pNext		= NULL;
-//	m_pDoubleData	= NULL;
-//	m_pAccData	= NULL;
+//	m_pMaterial	= nullptr;
+//	m_pFrame		= nullptr;
+//	m_pNext		= nullptr;
+//	m_pDoubleData	= nullptr;
+//	m_pAccData	= nullptr;
 //	m_flags = VISIBLE | COLLIDABLE;
-//	m_pTransformedVertices = NULL;
-//	m_pTransformedVertices2 = NULL;
-//	m_pTransformedVertices3 = NULL;
-//	m_pGeometryArrays = NULL;
+//	m_pTransformedVertices = nullptr;
+//	m_pTransformedVertices2 = nullptr;
+//	m_pTransformedVertices3 = nullptr;
+//	m_pGeometryArrays = nullptr;
 //
-//	m_pSkinBox = NULL;
-//	m_pCAS16 = NULL;
-//	m_pFlipPairs = NULL;
-//	m_pCAS32 = NULL;
-//	m_pPartChecksums = NULL;
-//	m_pBranchNodes = NULL;
-//	m_pLeafNodes = NULL;
-//	m_pTriangleMap = NULL;
+//	m_pSkinBox = nullptr;
+//	m_pCAS16 = nullptr;
+//	m_pFlipPairs = nullptr;
+//	m_pCAS32 = nullptr;
+//	m_pPartChecksums = nullptr;
+//	m_pBranchNodes = nullptr;
+//	m_pLeafNodes = nullptr;
+//	m_pTriangleMap = nullptr;
 //
 //	m_lastTransform = -1;		// Force 1st transform to always happen.
 //	
@@ -248,7 +248,7 @@
 ////	pFrame = new NsFrame;
 //
 //	// Build the display list.
-//	pNextModel = (NsModel *)pModelData->draw( m_pMaterial, NULL, 0, 0 );
+//	pNextModel = (NsModel *)pModelData->draw( m_pMaterial, nullptr, 0, 0 );
 //	m_pTransformedVertices = m_pGeometryArrays = new NsRefTransformedVertices( (NsAnim_PosNormPair *)pModelData->getVertexPool() );
 //
 //	// The display lists no longer own the pools.
@@ -403,7 +403,7 @@
 //				break;
 //			default:
 //				assertf ( false, ( "Illegal triple buffer index.\n" ) );
-//				pPool = NULL;
+//				pPool = nullptr;
 //				break;
 //		}
 //	} else {
@@ -420,7 +420,7 @@
 //	m_pMaterial->draw();
 //
 //	// Draw a cube, too.
-////	NsRender::setBlendMode ( NsBlendMode_None, NULL, (unsigned char)255 );
+////	NsRender::setBlendMode ( NsBlendMode_None, nullptr, (unsigned char)255 );
 ////    MTXScale(s,8,8,8);
 ////    MTXConcat(m,s,m);
 ////    GX::LoadPosMtxImm( m, GX_PNMTX0 );
@@ -460,7 +460,7 @@
 //				break;
 //			default:
 //				assertf ( false, ( "Illegal triple buffer index.\n" ) );
-//				pPool = NULL;
+//				pPool = nullptr;
 //				break;
 //		}
 //
@@ -488,7 +488,7 @@
 //				break;
 //			default:
 //				assertf ( false, ( "Illegal triple buffer index.\n" ) );
-//				pPool = NULL;
+//				pPool = nullptr;
 //				break;
 //		}
 //

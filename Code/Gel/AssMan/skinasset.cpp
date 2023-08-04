@@ -129,7 +129,7 @@ int CSkinAsset::Unload()                     // Unload the asset
 	{
 		Nx::CEngine::sUnloadMesh( (Nx::CMesh*) GetData() );
 
-        SetData(NULL);
+        SetData(nullptr);
 	}
 	
 	return 0;
@@ -142,7 +142,7 @@ int CSkinAsset::Reload(const char *p_file)
 
 bool CSkinAsset::LoadFinished()
 {
-	Dbg_MsgAssert(GetData(), ("LoadFinished(): Data pointer NULL (load probably was never started)"));
+	Dbg_MsgAssert(GetData(), ("LoadFinished(): Data pointer nullptr (load probably was never started)"));
 
 	// Since we don't support async, this is always true
 	return true;

@@ -32,8 +32,8 @@ static uint32 RoundToNearestSectorSize( uint32 size )
 CXboxAsyncFileHandle::CXboxAsyncFileHandle( void )
 {
 	m_num_open_requests		= 0;
-	mp_non_aligned_buffer	= NULL;
-	mp_temp_aligned_buffer	= NULL;
+	mp_non_aligned_buffer	= nullptr;
+	mp_temp_aligned_buffer	= nullptr;
 	mh_file					= INVALID_HANDLE_VALUE;
 }
 
@@ -110,10 +110,10 @@ bool CXboxAsyncFileHandle::plat_open( const char *filename )
 	mh_file = CreateFile(	nameConversionBuffer,							// File name
 							GENERIC_READ,									// Access mode
 							FILE_SHARE_READ,								// Share mode
-							NULL,											// SD
+							nullptr,											// SD
 							OPEN_EXISTING,									// How to create
 							FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING,	// File attributes
-							NULL );											// Handle to template file
+							nullptr );											// Handle to template file
 
 	if( mh_file == INVALID_HANDLE_VALUE )
 	{
@@ -121,7 +121,7 @@ bool CXboxAsyncFileHandle::plat_open( const char *filename )
 	}
 
 	// Immediately obtain the file size.
-	m_file_size = ::GetFileSize( mh_file, NULL );
+	m_file_size = ::GetFileSize( mh_file, nullptr );
 	Dbg_Assert( m_file_size != -1 );
 
 	// Round to nearest sector size, since this will be required for async reads anyway.
@@ -183,8 +183,8 @@ void CXboxAsyncFileHandle::io_callback( EAsyncFunctionType function, int result,
 			if (mp_temp_aligned_buffer)
 			{
 				delete mp_temp_aligned_buffer;
-				mp_non_aligned_buffer = NULL;
-				mp_temp_aligned_buffer = NULL;
+				mp_non_aligned_buffer = nullptr;
+				mp_temp_aligned_buffer = nullptr;
 			}
 		}
 		break;
@@ -291,13 +291,13 @@ bool CXboxAsyncFileHandle::clear_request_id( int request_id )
 void CXboxAsyncFileHandle::plat_init( void )
 {
 	m_num_open_requests		= 0;
-	mp_non_aligned_buffer	= NULL;
-	mp_temp_aligned_buffer	= NULL;
+	mp_non_aligned_buffer	= nullptr;
+	mp_temp_aligned_buffer	= nullptr;
 
 	// Set up the overlapped structure.
 	m_overlapped.Offset		= 0;
 	m_overlapped.OffsetHigh	= 0;
-	m_overlapped.hEvent		= NULL;
+	m_overlapped.hEvent		= nullptr;
 }
 
 
@@ -417,7 +417,7 @@ size_t CXboxAsyncFileHandle::plat_load( void *p_buffer )
 	// Set up the overlapped structure.
 	m_overlapped.Offset		= 0;
 	m_overlapped.OffsetHigh	= 0;
-	m_overlapped.hEvent		= NULL;
+	m_overlapped.hEvent		= nullptr;
 
 	// And do the read.
 	return plat_read( p_buffer, 1, GetFileSize());
@@ -438,7 +438,7 @@ size_t CXboxAsyncFileHandle::plat_read( void *p_buffer, size_t size, size_t coun
 	bool result =  ReadFile(	mh_file,							// Handle to file
 								p_buffer,							// Data buffer
 								total_bytes,						// Number of bytes to read
-								NULL,								// Number of bytes read
+								nullptr,								// Number of bytes read
 								&m_overlapped );					// Overlapped buffer
 
 	// If there was a problem, or the async. operation's still pending... 
@@ -490,7 +490,7 @@ size_t CXboxAsyncFileHandle::plat_write( void *p_buffer, size_t size, size_t cou
 char *CXboxAsyncFileHandle::plat_get_s( char *p_buffer, int maxlen )
 {
 	Dbg_Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -560,7 +560,7 @@ void CAsyncFileLoader::s_plat_cleanup( void )
 		if( s_file_handles[i] )
 		{
 			delete s_file_handles[i];
-			s_file_handles[i] = NULL;
+			s_file_handles[i] = nullptr;
 		}
 	}
 }
@@ -587,10 +587,10 @@ bool CAsyncFileLoader::s_plat_exist( const char *filename )
 	HANDLE h_file = CreateFile( filename,							// File name
 					0,												// Access mode
 					FILE_SHARE_READ,								// Share mode
-					NULL,											// SD
+					nullptr,											// SD
 					OPEN_EXISTING,									// How to create
 					FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING,	// File attributes
-					NULL );											// Handle to template file
+					nullptr );											// Handle to template file
 
 	if( h_file == INVALID_HANDLE_VALUE )
 	{
@@ -616,7 +616,7 @@ CAsyncFileHandle *CAsyncFileLoader::s_plat_open( const char *filename, int prior
 	if( !opened )
 	{
 		delete p_handle;
-		return NULL;
+		return nullptr;
 	}
 
 	return p_handle;

@@ -737,10 +737,10 @@ BOOL VIDSimpleClose(void)
 				{
 				player.open = FALSE;
 				DVDClose(&player.fileHandle);
-				if(player.audioHeaderChunk != NULL)
+				if(player.audioHeaderChunk != nullptr)
 					{
 					(*player.cbFree)(player.audioHeaderChunk);
-					player.audioHeaderChunk = NULL;
+					player.audioHeaderChunk = nullptr;
 					}
 				return TRUE;
 				}
@@ -1410,7 +1410,7 @@ BOOL VIDSimpleInitAudioDecoder(void)
 			
 		// Allocate read buffer
 		audioReadBuffer = player.cbAlloc(audioReadBufferNumSamples * sizeof(s16) * player.audioInfo.pcm16.numChannels);
-		if (audioReadBuffer == NULL)
+		if (audioReadBuffer == nullptr)
 			return TRUE;					// error
 		
 		// Reset ring buffer
@@ -1421,7 +1421,7 @@ BOOL VIDSimpleInitAudioDecoder(void)
 		
 		// Allocate AI playback buffer
 		audioPlayBuffer[0] = player.cbAlloc(2 * sizeof(s16) * VID_AUDIO_AIBUFFERSAMPLES * VID_AUDIO_NUMAIBUFFERS);
-		if (audioPlayBuffer[0] == NULL)
+		if (audioPlayBuffer[0] == nullptr)
 			return TRUE;					// error
 		
 		for(i=1; i<VID_AUDIO_NUMAIBUFFERS; i++)
@@ -1435,7 +1435,7 @@ BOOL VIDSimpleInitAudioDecoder(void)
 		audioPlayBackPossible = FALSE;
 		
 		// We assume to playback all we get by default
-		audioPlayMaskArray = NULL;
+		audioPlayMaskArray = nullptr;
 		audioNumPlayMasks = 0;
 		audioNumActiveVoices = 2;
 		
@@ -1446,10 +1446,10 @@ BOOL VIDSimpleInitAudioDecoder(void)
 		// Init GCN audio system
 		old = OSDisableInterrupts();
 
-		axVoice[0] = AXAcquireVoice(AX_PRIORITY_NODROP,NULL,0);
-		ASSERT(axVoice[0] != NULL);
-		axVoice[1] = AXAcquireVoice(AX_PRIORITY_NODROP,NULL,0);
-		ASSERT(axVoice[1] != NULL);
+		axVoice[0] = AXAcquireVoice(AX_PRIORITY_NODROP,nullptr,0);
+		ASSERT(axVoice[0] != nullptr);
+		axVoice[1] = AXAcquireVoice(AX_PRIORITY_NODROP,nullptr,0);
+		ASSERT(axVoice[1] != nullptr);
 
 		memset(&axMix[0],0,sizeof(axMix[0]));
 		axMix[0].vL = 0x7FFF;
@@ -1532,13 +1532,13 @@ void VIDSimpleExitAudioDecoder(void)
 		// Yes. Unregister callback & stop AI DMA
 		BOOL old = OSDisableInterrupts();
 		
-		AXRegisterCallback(NULL);
+		AXRegisterCallback(nullptr);
 		AXSetVoiceState(axVoice[0],AX_PB_STATE_STOP);
 		AXSetVoiceState(axVoice[1],AX_PB_STATE_STOP);
 		AXFreeVoice(axVoice[0]);
 		AXFreeVoice(axVoice[1]);
 		
-		axVoice[0] = axVoice[1] = NULL;
+		axVoice[0] = axVoice[1] = nullptr;
 		
 		OSRestoreInterrupts(old);
 		
@@ -1867,7 +1867,7 @@ BOOL VIDSimpleAudioDecode(const u8* bitstream, u32 bitstreamLen)
 			{
 			u32 headerSize = ((VidAUDDVAUD*)bitstream)->size;
 			// a channel mask if 0x3 selects the first two channels...
-			if(!VIDAudioDecode(player.decoder, bitstream+headerSize, bitstreamLen-headerSize, 0x3, audioDecode, NULL))
+			if(!VIDAudioDecode(player.decoder, bitstream+headerSize, bitstreamLen-headerSize, 0x3, audioDecode, nullptr))
 				return FALSE;
 			
 			}
@@ -1878,7 +1878,7 @@ BOOL VIDSimpleAudioDecode(const u8* bitstream, u32 bitstreamLen)
 			u32 dataLength = *(const u32 *)bitstream;
 			
 			// We always assume 1 source data pointer
-			if(!audioDecode(1, (const s16**)&data, VIDSimpleAudioSamplesFromBytes(dataLength), NULL))
+			if(!audioDecode(1, (const s16**)&data, VIDSimpleAudioSamplesFromBytes(dataLength), nullptr))
 				return FALSE;
 
 			}
@@ -2151,8 +2151,8 @@ static void AXCallback(void)
 					rightTarget = 2 * (AX_ARAM_RIGHT_CHANNEL + audioPlayBufferWriteIndex * VID_AUDIO_AIBUFFERSAMPLES);
 					
 					// Make sure we get this into ARAM ASAP...
-					ARQPostRequest(&arqRequest[0][i%VID_AUDIO_NUMAIREQUESTS],0,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,leftSource,leftTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),NULL);
-					ARQPostRequest(&arqRequest[1][i%VID_AUDIO_NUMAIREQUESTS],1,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,rightSource,rightTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),NULL);
+					ARQPostRequest(&arqRequest[0][i%VID_AUDIO_NUMAIREQUESTS],0,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,leftSource,leftTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),nullptr);
+					ARQPostRequest(&arqRequest[1][i%VID_AUDIO_NUMAIREQUESTS],1,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,rightSource,rightTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),nullptr);
 					
 					// Advance write index...
 					audioPlayBufferWriteIndex = (u8)((audioPlayBufferWriteIndex + 1) % VID_AUDIO_NUMAIBUFFERS);
@@ -2178,8 +2178,8 @@ static void AXCallback(void)
 				rightTarget = 2 * (AX_ARAM_RIGHT_CHANNEL + audioPlayBufferWriteIndex * VID_AUDIO_AIBUFFERSAMPLES);
 				
 				// Make sure we get this into ARAM ASAP...
-				ARQPostRequest(&arqRequest[0][i%VID_AUDIO_NUMAIREQUESTS],0,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,leftSource,leftTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),NULL);
-				ARQPostRequest(&arqRequest[1][i%VID_AUDIO_NUMAIREQUESTS],1,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,rightSource,rightTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),NULL);
+				ARQPostRequest(&arqRequest[0][i%VID_AUDIO_NUMAIREQUESTS],0,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,leftSource,leftTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),nullptr);
+				ARQPostRequest(&arqRequest[1][i%VID_AUDIO_NUMAIREQUESTS],1,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,rightSource,rightTarget,VID_AUDIO_AIBUFFERSAMPLES * sizeof(s16),nullptr);
 				
 				audioPlayBufferWriteIndex = (u8)((audioPlayBufferWriteIndex + 1) % VID_AUDIO_NUMAIBUFFERS);
 			}
@@ -2336,8 +2336,8 @@ void PMovies_PlayMovie( const char *pName )
 //	_DEMOInit(&demoMode, xfbMode);
 //	
 //	// Init AI interface in case we got audio data
-//	if ( !AICheckInit() ) AIInit(NULL);
-//	if ( !ARCheckInit() ) ARInit(NULL,0);
+//	if ( !AICheckInit() ) AIInit(nullptr);
+//	if ( !ARCheckInit() ) ARInit(nullptr,0);
 //	if ( !ARQCheckInit() ) ARQInit();
 //	AXInit();
 

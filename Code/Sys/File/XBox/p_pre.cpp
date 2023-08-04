@@ -71,7 +71,7 @@ namespace File
 **								 Private Data								**
 *****************************************************************************/
 
-PreMgr *PreMgr::sp_mgr = NULL;
+PreMgr *PreMgr::sp_mgr = nullptr;
 bool    PreMgr::s_lastExecuteSuccess = false; 
 
 /*****************************************************************************
@@ -231,7 +231,7 @@ PreFile::PreFile(uint8 *p_file_buffer)
 
 		pFile->compressedDataSize = compressed_data_size;
 		pFile->pCompressedData = pCompressedData; 
-		pFile->pData = NULL;
+		pFile->pData = nullptr;
 		pFile->sky.POS = 0;
 		pFile->sky.SOF = data_size;
 		}
@@ -251,7 +251,7 @@ PreFile::PreFile(uint8 *p_file_buffer)
 	printf("Done loading PRE\n");
 #	endif
 	
-	mp_activeFile = NULL;
+	mp_activeFile = nullptr;
 }
 
 
@@ -259,7 +259,7 @@ PreFile::PreFile(uint8 *p_file_buffer)
 PreFile::~PreFile()
 {
 	delete mp_buffer;
-	mp_table->HandleCallback(s_delete_file, NULL);
+	mp_table->HandleCallback(s_delete_file, nullptr);
 	mp_table->FlushAllItems();
 
 	delete mp_table;
@@ -271,7 +271,7 @@ bool PreFile::FileExists(const char *pName)
 {
 	
 	_File *pFile = mp_table->GetItem(pName, false);
-	return (pFile != NULL);
+	return (pFile != nullptr);
 }
 
 
@@ -282,7 +282,7 @@ void *PreFile::GetContainedFile(const char *pName)
 
 	_File *pFile = mp_table->GetItem(pName, false);
 	if (!pFile) 
-		return NULL;
+		return nullptr;
 	
 	dumbSkyFile *pHandle = &pFile->sky;
 	// kinda roundabout, but sets mp_activeFile
@@ -323,7 +323,7 @@ uint8 *PreFile::GetContainedFileByHandle(void *pHandle)
 		pFile = mp_table->IterateNext();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -334,16 +334,16 @@ uint8 *PreFile::GetContainedFileByHandle(void *pHandle)
 // using this enables us to actually load network game, where there is 1MB less heap during loading
 //
 // returns a pointer to the file in memory
-// or NULL if the file is not in this pre file.
+// or nullptr if the file is not in this pre file.
 void *PreFile::LoadContainedFile( const char *pName, int *p_size, void *p_dest )
 {
 	// The dest parameter is used only on Ps2.
-	Dbg_Assert( p_dest == NULL );
+	Dbg_Assert( p_dest == nullptr );
 	
 	_File *pFile = mp_table->GetItem( pName, false );
 	if( !pFile ) 
 	{
-		return NULL;
+		return nullptr;
 	}	
 	
 	*p_size = pFile->sky.SOF;
@@ -438,7 +438,7 @@ void PreFile::Close()
 
 	if (mp_activeFile->pData)
 	delete mp_activeFile->pData;
-	mp_activeFile->pData = NULL;
+	mp_activeFile->pData = nullptr;
 }
 
 
@@ -481,10 +481,10 @@ PreMgr::PreMgr()
 	sp_mgr = this;
 
 
-	mp_activeHandle = NULL;
-	mp_activeData = NULL;
+	mp_activeHandle = nullptr;
+	mp_activeData = nullptr;
 
-	mp_activeNonPreHandle = NULL;
+	mp_activeNonPreHandle = nullptr;
 }
 
 
@@ -516,7 +516,7 @@ void *PreMgr::getContainedFile(const char *pName)
 		pCharOut++;		
 	}
 
-	void *pHandle = NULL;
+	void *pHandle = nullptr;
 
 	mp_table->IterateStart();
 	PreFile *pPre = mp_table->IterateNext();
@@ -539,7 +539,7 @@ void *PreMgr::getContainedFile(const char *pName)
 #	ifdef __PLAT_NGPS__
 //	scePrintf("--- %s not found in PRE\n", cleaned_name);
 #	endif
-	return NULL;
+	return nullptr;
 }
 
 
@@ -585,13 +585,13 @@ uint8 *PreMgr::getContainedFileByHandle(void *pHandle)
 	// if we know that the file in question is not in the PRE system,
 	// then it's a regular file, don't waste time looking for it
 	if (mp_activeNonPreHandle == pHandle)
-		return NULL;
+		return nullptr;
 	
 	if (mp_activeHandle == pHandle)
 		// mp_activePre will be unchanged
 		return mp_activeData;
 	
-	uint8 *pData = NULL;
+	uint8 *pData = nullptr;
 	mp_table->IterateStart();
 	PreFile *pPre = mp_table->IterateNext();
 	while(pPre)
@@ -609,7 +609,7 @@ uint8 *PreMgr::getContainedFileByHandle(void *pHandle)
 
 	// obviously this file is not in the PRE system, mark as such
 	mp_activeNonPreHandle = pHandle;
-	return NULL;
+	return nullptr;
 }
 
 // there's a wrapper around this now, so that we can do
@@ -651,7 +651,7 @@ void PreMgr::loadPre(const char *pFilename, bool dont_assert)
 	Tmr::Time basetime = Tmr::ElapsedTime(0);
 
 	int file_size;
-	uint8 *pFile = NULL;
+	uint8 *pFile = nullptr;
 
 	file_size = CanFileBeLoadedQuickly( fullname );
 	if ( file_size )
@@ -792,7 +792,7 @@ void PreMgr::UnloadPre(const char *pFilename, bool dont_assert)
 
 bool PreMgr::sPreEnabled()
 {
-	return sp_mgr != NULL;
+	return sp_mgr != nullptr;
 }
 
 bool PreMgr::sPreExecuteSuccess()
@@ -803,7 +803,7 @@ bool PreMgr::sPreExecuteSuccess()
 #	ifndef __PLAT_NGC__
 bool PreMgr::pre_fexist(const char *name)
 {
-	Dbg_MsgAssert(name,( "requesting file NULL"));	
+	Dbg_MsgAssert(name,( "requesting file nullptr"));	
 	
 	if( sp_mgr->fileExists( name ))
 	{
@@ -826,7 +826,7 @@ bool PreMgr::pre_fexist(const char *name)
 
 void *PreMgr::pre_fopen(const char *name, const char *access)
 {
-	Dbg_MsgAssert(name,( "trying to open file NULL" ));	
+	Dbg_MsgAssert(name,( "trying to open file nullptr" ));	
 
 	char nameConversionBuffer[256];
 
@@ -878,11 +878,11 @@ void *PreMgr::pre_fopen(const char *name, const char *access)
 	if( Pcm::UsingCD())
 	{
 		Dbg_MsgAssert( 0, ( "File access forbidden while PCM audio is in progress." ));
-		return NULL;
+		return nullptr;
 	}
 
 	s_lastExecuteSuccess = false;
-	return NULL;
+	return nullptr;
 
 	//return pHandle;
 }
@@ -968,7 +968,7 @@ char *PreMgr::pre_fgets(char *buffer, int maxLen, void *fptr)
 	Dbg_MsgAssert(!pData,( "can't do string ops on a PRE file"));
 	
 	s_lastExecuteSuccess = false;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1114,7 +1114,7 @@ bool ScriptUnloadPreFile(Script::CStruct *pParams, Script::CScript *pScript)
 void *PreMgr::LoadFile( const char *pName, int *p_size, void *p_dest )
 {
 	// The dest parameter is used only on Ps2.
-	Dbg_Assert( p_dest == NULL );
+	Dbg_Assert( p_dest == nullptr );
 
 	// NOTE: THIS IS JUST CUT AND PASTE FROM Pre::fileExists
 	Dbg_AssertPtr( pName );
@@ -1144,7 +1144,7 @@ void *PreMgr::LoadFile( const char *pName, int *p_size, void *p_dest )
 		}
 		pPre = mp_table->IterateNext();
 	}
-	return NULL;
+	return nullptr;
 
 }
 

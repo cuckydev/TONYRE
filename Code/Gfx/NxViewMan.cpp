@@ -114,7 +114,7 @@ void		CViewportManager::sCleanup( void )
 		if ( sp_viewports[i] )
 		{
 			delete sp_viewports[i];
-			sp_viewports[i] = NULL;
+			sp_viewports[i] = nullptr;
 		}
 	}
 }
@@ -145,7 +145,7 @@ CViewport*	CViewportManager::sGetActiveViewport(int view)
 
 	Dbg_MsgAssert(0, ("Cant find active viewport # %d", view));
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -187,7 +187,7 @@ Gfx::Camera* CViewportManager::sGetCamera(int index)
 
 	if (sp_active_viewport_indexes[index] == -1)
 	{
-		return NULL;
+		return nullptr;
 		//printf ("CAMERA WARNING: - Getting invalid camera %d when in screen mode %d (Returning default camera 0)\n",index,s_screen_mode);  
 		//index = 0;
 	}
@@ -261,7 +261,7 @@ Gfx::Camera* CViewportManager::sGetClosestCamera(const Mth::Vector &pos, float *
 	int i;
 	int numCams = sGetNumActiveCameras( );
 	Gfx::Camera *p_camera;
-	Gfx::Camera *p_closestCamera = NULL;
+	Gfx::Camera *p_closestCamera = nullptr;
 	float closestDist = -1.0f;
 	float tempDist;
 
@@ -280,9 +280,9 @@ Gfx::Camera* CViewportManager::sGetClosestCamera(const Mth::Vector &pos, float *
 	}
 
 	//Dbg_MsgAssert( p_closestCamera,( "No cameras or what?" ));
-	if ( p_closestCamera == NULL )
+	if ( p_closestCamera == nullptr )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( distParam )

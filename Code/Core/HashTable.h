@@ -76,7 +76,7 @@ public:
 	void 							FlushItem(const uint32 &key);
 	// print all instances of an item (debugging)
 	void 							PrintItem(const uint32 &key);
-	// gets a pointer to requested item, returns NULL if item not in table
+	// gets a pointer to requested item, returns nullptr if item not in table
 	_V *							GetItem(const uint32 &key, bool assert_if_clash = true);
 	_V *							GetNextItemWithSameKey(const uint32 &key, _V *p_item);
 	void 							FlushAllItems(void);
@@ -84,7 +84,7 @@ public:
 	int								GetSize(){return m_size;}
 
 	void							IterateStart();
-	_V *							IterateNext(uint32 *pRetKey = NULL);
+	_V *							IterateNext(uint32 *pRetKey = nullptr);
 
 #ifdef __NOPT_ASSERT__
 	void							PrintContents();
@@ -159,7 +159,7 @@ HashTable<_V>::~HashTable()
 	// Remove the table.
 //	Mem::Free(mp_hash_table);
 	delete[] mp_hash_table;
-	mp_hash_table=NULL;
+	mp_hash_table=nullptr;
 }
 
 template<class _V> //inline
@@ -177,12 +177,12 @@ bool HashTable<_V>::PutItem(const uint32 &key, _V *item)
 		Dbg_MsgAssert(!GetItem(key), ("item 0x%x already in hash table", key));
 	}
 
-	// can't add an item of 0,NULL, as that is used to indicate an empty head slot																			   
-	Dbg_MsgAssert(key || item, ("Both key and item are 0 (NULL) in hash table"));
-	// can have a value of NULL either, as the the test below uses  pEntry->mp_value == NULL 
+	// can't add an item of 0,nullptr, as that is used to indicate an empty head slot																			   
+	Dbg_MsgAssert(key || item, ("Both key and item are 0 (nullptr) in hash table"));
+	// can have a value of nullptr either, as the the test below uses  pEntry->mp_value == nullptr 
 	// to indicate an an empty head slot
-	// We could just change it to ( pEntry->mp_value || pEntry->m_key ) if NULL values are desirable
-	Dbg_MsgAssert( item, ("NULL item added to hash table"));
+	// We could just change it to ( pEntry->mp_value || pEntry->m_key ) if nullptr values are desirable
+	Dbg_MsgAssert( item, ("nullptr item added to hash table"));
 
 	HashItem<_V> *pEntry=&mp_hash_table[key&((1<<m_numBits)-1)];
 	if ( pEntry->mp_value )
@@ -232,7 +232,7 @@ _V *HashTable<_V>::GetNextItemWithSameKey(const uint32 &key, _V *p_item)
 	if (!pEntry)
 	{
 		// p_item was not found.
-		return NULL;
+		return nullptr;
 	}	
 
 	// Found p_item, so search the rest of the list for the next element with the same key.
@@ -246,7 +246,7 @@ _V *HashTable<_V>::GetNextItemWithSameKey(const uint32 &key, _V *p_item)
 		pEntry=pEntry->mp_next;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 template<class _V> //inline
@@ -270,7 +270,7 @@ _V *HashTable<_V>::GetItem(const uint32 &key, bool assert_if_clash)
 		pEntry=pEntry->mp_next;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -313,13 +313,13 @@ void HashTable<_V>::FlushItem(const uint32 &key)
 
 	// Jump to the linked list of all entries with similar checksums.	
 	HashItem<_V> *pEntry=&mp_hash_table[key&((1<<m_numBits)-1)];
-	HashItem<_V> *pLast = NULL;
+	HashItem<_V> *pLast = nullptr;
 	
 	// Scan through the small list until the matching entry is found.
 	while (pEntry)
 	{
 		HashItem<_V> *p_next_entry = pEntry->mp_next;
-		if (pEntry->m_key==key && pEntry->mp_value)		// to allow keys of value 0, we have to skip head nodes that are 0,NULL
+		if (pEntry->m_key==key && pEntry->mp_value)		// to allow keys of value 0, we have to skip head nodes that are 0,nullptr
 		{
 			if (pLast)
 			{
@@ -334,9 +334,9 @@ void HashTable<_V>::FlushItem(const uint32 &key)
 			else
 			{
 				// this is a main table entry, it still might be linked to something
-				// clear the entry to 0,NULL (see comment above about keys of value 0)
+				// clear the entry to 0,nullptr (see comment above about keys of value 0)
 				pEntry->m_key = 0;
-				pEntry->mp_value = NULL;
+				pEntry->mp_value = nullptr;
 			}
 			m_size--;
 			return;
@@ -415,7 +415,7 @@ template<class _V> //inline
 void HashTable<_V>::IterateStart()
 {
 	m_iterator_index = -1;
-	mp_iterator_item = NULL;
+	mp_iterator_item = nullptr;
 }
 
 
@@ -433,7 +433,7 @@ _V * HashTable<_V>::IterateNext(uint32 *pRetKey)
 		mp_iterator_item = mp_iterator_item->mp_next;
 	else if (m_iterator_index >= 0)
 		// we've exhausted all the lists
-		return NULL;
+		return nullptr;
 	
 	if (!mp_iterator_item)
 	{
@@ -442,7 +442,7 @@ _V * HashTable<_V>::IterateNext(uint32 *pRetKey)
 		{
 			m_iterator_index++;	
 			if (m_iterator_index >= (int) hashTableSize)
-				return NULL;
+				return nullptr;
 			mp_iterator_item = mp_hash_table + m_iterator_index;
 		} 	// main entry has to contain something, or be part of a list
 		while (!mp_iterator_item->mp_value && !mp_iterator_item->mp_next);
@@ -457,9 +457,9 @@ _V * HashTable<_V>::IterateNext(uint32 *pRetKey)
 	if (!mp_iterator_item)
 	{
 		#ifdef __NOPT_ASSERT__
-		printf("Error!! NULL mp_iterator_item in IterateNext()\n");
+		printf("Error!! nullptr mp_iterator_item in IterateNext()\n");
 		#endif
-		return NULL;
+		return nullptr;
 	}	
 	if (pRetKey)
 		*pRetKey = mp_iterator_item->m_key;
@@ -504,8 +504,8 @@ template<class _V> //inline
 void HashItem<_V>::Init()
 {
 	m_key = 0;
-	mp_value = NULL;
-	mp_next = NULL;
+	mp_value = nullptr;
+	mp_next = nullptr;
 }
 
 } // namespace Lst

@@ -969,7 +969,7 @@ bool CPathOb::TraversePath( const float dist, Mth::Vector *pHeading )
 void CPathOb::GetDebugInfo( Script::CStruct* p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ( "NULL p_info passed to CPathOb::GetDebugInfo" ) );
+	Dbg_MsgAssert( p_info, ( "nullptr p_info passed to CPathOb::GetDebugInfo" ) );
 
 	p_info->AddVector( "m_nav_pos", m_nav_pos );
 	

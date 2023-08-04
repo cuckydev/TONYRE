@@ -84,11 +84,11 @@
 //	unsigned int			getNumCASFlags32	( void ) { return m_numCAS32; }
 //	unsigned int			getNumPartChecksums	( void ) { return m_numPartChecksums; }
 //
-//	NsBBox				  * getSkinBoxes		( void ) { return m_pSkinBox ? m_pSkinBox->m_pSkinBox : NULL; }
-//	unsigned short		  * getCASFlags16		( void ) { return m_pCAS16 ? m_pCAS16->m_pCAS16 : NULL; }
-//	unsigned int		  * getFlipPairs		( void ) { return m_pFlipPairs ? m_pFlipPairs->m_pFlipPairs : NULL; }
-//	unsigned int		  * getCASFlags32		( void ) { return m_pCAS32 ? m_pCAS32->m_pCAS32 : NULL; }
-//	unsigned int		  * getPartChecksums	( void ) { return m_pPartChecksums ? m_pPartChecksums->m_pPartChecksums : NULL; }
+//	NsBBox				  * getSkinBoxes		( void ) { return m_pSkinBox ? m_pSkinBox->m_pSkinBox : nullptr; }
+//	unsigned short		  * getCASFlags16		( void ) { return m_pCAS16 ? m_pCAS16->m_pCAS16 : nullptr; }
+//	unsigned int		  * getFlipPairs		( void ) { return m_pFlipPairs ? m_pFlipPairs->m_pFlipPairs : nullptr; }
+//	unsigned int		  * getCASFlags32		( void ) { return m_pCAS32 ? m_pCAS32->m_pCAS32 : nullptr; }
+//	unsigned int		  * getPartChecksums	( void ) { return m_pPartChecksums ? m_pPartChecksums->m_pPartChecksums : nullptr; }
 //	unsigned short			getCASRemoveFlags16	( void ) { return m_removeCAS16; }
 //	unsigned int			getCASRemoveFlags32	( void ) { return m_removeCAS32; }
 //

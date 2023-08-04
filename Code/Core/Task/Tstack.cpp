@@ -172,7 +172,7 @@ Stack::~Stack ( void )
 
 	remove_dead_entries();
 
-	Dbg_MsgAssert (( m_run == NULL ),( "Task Stack not empty" ));
+	Dbg_MsgAssert (( m_run == nullptr ),( "Task Stack not empty" ));
 }
 
 /******************************************************************/

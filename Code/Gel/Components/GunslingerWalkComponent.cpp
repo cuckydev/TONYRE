@@ -139,9 +139,9 @@ CWalkComponent::CWalkComponent() : CBaseComponent()
 	
 	mp_collision_cache = Nx::CCollCacheManager::sCreateCollCache();
 	
-	mp_input_component = NULL;
-	mp_animation_component = NULL;
-	mp_movable_contact_component = NULL;
+	mp_input_component = nullptr;
+	mp_animation_component = nullptr;
+	mp_movable_contact_component = nullptr;
 
 	m_facing.Set( 0.0f, 0.0f, 0.0f, 0.0f );
 	m_control_direction.Set( 0.0f, 0.0f, 0.0f, 0.0f );
@@ -537,7 +537,7 @@ CBaseComponent::EMemberFunctionResult CWalkComponent::CallMemberFunction( uint32
 
 void CWalkComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CWalkComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CWalkComponent::GetDebugInfo"));
 	
 	switch (m_state)
 	{
@@ -661,7 +661,7 @@ void CWalkComponent::go_on_ground_state( void )
 
 		// Get the control component.
 		CSkaterPhysicsControlComponent*	p_control_component = GetSkaterPhysicsControlComponentFromObject( GetObj());
-		p_control_component->CallMemberFunction( CRCD( 0x14c4f16b, "SkaterPhysicsControl_SwitchWalkingToRiding"), NULL, NULL );
+		p_control_component->CallMemberFunction( CRCD( 0x14c4f16b, "SkaterPhysicsControl_SwitchWalkingToRiding"), nullptr, nullptr );
 
 		// Send the 'Ride' exception.
 		m_frame_event = CRCD( 0x64c2832f, "Ride" );

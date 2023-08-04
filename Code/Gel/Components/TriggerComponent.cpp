@@ -118,7 +118,7 @@ CBaseComponent::EMemberFunctionResult CTriggerComponent::CallMemberFunction( uin
         // @uparmopt [] | array of trigger types
 		case Crc::ConstCRC("TriggerType"):
 		{
-			Script::CArray* pArray = NULL;
+			Script::CArray* pArray = nullptr;
 			pParams->GetArray(NO_NAME, &pArray);
 			if (pArray)
 			{
@@ -151,7 +151,7 @@ CBaseComponent::EMemberFunctionResult CTriggerComponent::CallMemberFunction( uin
 void CTriggerComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CTriggerComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CTriggerComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 
@@ -170,14 +170,14 @@ void CTriggerComponent::CheckFeelerForTrigger ( TriggerEventType type, CLineFeel
 	{
 		CNodeArrayComponent* p_node_array_component = GetNodeArrayComponentFromObject(feeler.GetCallbackObject());
 		
-		TripTrigger(type, feeler.GetNodeChecksum(), p_node_array_component ? p_node_array_component->GetNodeArray() : NULL, feeler.GetCallbackObject());
+		TripTrigger(type, feeler.GetNodeChecksum(), p_node_array_component ? p_node_array_component->GetNodeArray() : nullptr, feeler.GetCallbackObject());
 	}
 	else if (feeler.IsMovableCollision())
 	{
 		if (feeler.GetMovingObject())
 		{
 			CNodeArrayComponent* p_node_array_component = GetNodeArrayComponentFromObject(feeler.GetMovingObject());
-			TripTrigger(type, feeler.GetNodeChecksum(), p_node_array_component ? p_node_array_component->GetNodeArray() : NULL, feeler.GetMovingObject());
+			TripTrigger(type, feeler.GetNodeChecksum(), p_node_array_component ? p_node_array_component->GetNodeArray() : nullptr, feeler.GetMovingObject());
 		}
 	}
 	else
@@ -221,7 +221,7 @@ void CTriggerComponent::CheckFeelerForTrigger ( TriggerEventType type, CRectFeel
 void CTriggerComponent::TripTrigger ( TriggerEventType type, uint32 node_checksum, Script::CArray* p_node_array, CCompositeObject* p_object)
 {
 	int node;
-	Script::CStruct* p_node = NULL;
+	Script::CStruct* p_node = nullptr;
 	
 	// find the triggered node
 	if (!p_node_array)
@@ -246,7 +246,7 @@ void CTriggerComponent::TripTrigger ( TriggerEventType type, uint32 node_checksu
 	Dbg_MsgAssert(node != -1, ("Cannot find node %s", Script::FindChecksumName(node_checksum)));
 	
 	// get the triggered object's trigger script parameters
-	Script::CStruct* p_model_trigger_script_params = NULL;
+	Script::CStruct* p_model_trigger_script_params = nullptr;
 	if (p_object)
 	{
 		Script::CStruct* p_object_node = Script::GetArray(Crc::ConstCRC("NodeArray"))->GetStructure(SkateScript::FindNamedNode(p_object->GetID()));

@@ -239,7 +239,7 @@ Device* Manager::GetDevice( int port, int slot )
         }
     }
     
-    return NULL;
+    return nullptr;
 }
 
 
@@ -264,7 +264,7 @@ Device* Manager::GetDeviceByIndex( int index )
         }
     }
     
-    return NULL;
+    return nullptr;
 }
 
 

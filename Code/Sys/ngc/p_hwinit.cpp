@@ -350,7 +350,7 @@ void reset_callback( void )
     
     Arguments:      mode  : render mode
                             Default render mode will be used when
-                            NULL is given as this argument.
+                            nullptr is given as this argument.
     
     Returns:        None
  *---------------------------------------------------------------------------*/
@@ -454,7 +454,7 @@ void hwInit( GXRenderModeObj *mode )
     Name:           __hwInitRenderMode
     
     Description:    This function sets up rendering mode which configures
-                    GX and VI. If mode == NULL, this function use a default
+                    GX and VI. If mode == nullptr, this function use a default
                     rendering mode according to the TV format.
     
     Arguments:      None
@@ -465,7 +465,7 @@ static void __hwInitRenderMode( GXRenderModeObj* mode )
 {
     // If an application specific render mode is provided,
     // override the default render mode
-    if (mode != NULL) 
+    if (mode != nullptr) 
     {
         rmode = mode;
     }
@@ -601,9 +601,9 @@ static void __hwInitMem( void )
      *  Allocate ARAM buffers                                         *
      *----------------------------------------------------------------*/
 
-    ARInit(NULL, 0);
+    ARInit(nullptr, 0);
 	ARQInit();
-	AIInit( NULL );
+	AIInit( nullptr );
 	AXInit();
 	AXSetMode( AX_MODE_DPL2 );
     AXSetCompressor( AX_COMPRESSOR_OFF );
@@ -1340,7 +1340,7 @@ void hwEnableGPHangWorkaround ( u32 timeoutFrames )
         GPHangWorkaround = FALSE;
         FrameMissThreshold = 0;
         hwSetGPHangMetric( GX_FALSE );
-        VISetPreRetraceCallback( NULL );
+        VISetPreRetraceCallback( nullptr );
     }
 #endif
 }
@@ -1583,7 +1583,7 @@ void hwReInit( GXRenderModeObj *mode )
 {
     // If an application specific render mode is provided,
     // override the default render mode
-    if (mode != NULL) 
+    if (mode != nullptr) 
     {
         rmode = mode;
     }

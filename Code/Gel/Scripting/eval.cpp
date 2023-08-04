@@ -127,7 +127,7 @@ void CExpressionEvaluator::Clear()
 	}	
 	m_got_operators=false;
 		
-	mp_error_string=NULL;
+	mp_error_string=nullptr;
 }
 
 void CExpressionEvaluator::ClearIfNeeded()
@@ -492,7 +492,7 @@ void CExpressionEvaluator::execute_operation()
 			else if (pB->mType==ESYMBOLTYPE_ARRAY)
 			{
 				Script::CArray *p_array=pB->mpArray;
-				Dbg_MsgAssert(p_array,("NULL p_array"));
+				Dbg_MsgAssert(p_array,("nullptr p_array"));
 				
 				if (!(p_array->GetType() == ESYMBOLTYPE_NAME || 
 					  p_array->GetType() == ESYMBOLTYPE_NONE)) // Allowing NONE so that empty arrays work.
@@ -519,7 +519,7 @@ void CExpressionEvaluator::execute_operation()
 				spResult.mpStructure->AppendStructure(pA->mpStructure);
 				
 				Script::CStruct *p_struct=pB->mpStructure;
-				Dbg_MsgAssert(p_struct,("NULL p_struct"));
+				Dbg_MsgAssert(p_struct,("nullptr p_struct"));
 				Script::CComponent *p_comp=p_struct->GetNextComponent();
 				while (p_comp)
 				{
@@ -794,7 +794,7 @@ void CExpressionEvaluator::execute_operation()
 				set_error("Structure dot operator requires 2nd arg to be a name");
 				break;
 			}
-			Dbg_MsgAssert(pA->mpStructure,("NULL pA->mpStructure"));
+			Dbg_MsgAssert(pA->mpStructure,("nullptr pA->mpStructure"));
 			CComponent *p_found=pA->mpStructure->FindNamedComponentRecurse(pB->mChecksum);
 			if (p_found)
 			{
@@ -814,7 +814,7 @@ void CExpressionEvaluator::execute_operation()
 			set_error("Array element operator not supported for this type");
 			break;
 		}
-		Dbg_MsgAssert(pA->mpArray,("NULL pA->mpArray"));
+		Dbg_MsgAssert(pA->mpArray,("nullptr pA->mpArray"));
 		
 		if (pB->mType!=ESYMBOLTYPE_INTEGER)
 		{
@@ -923,7 +923,7 @@ void CExpressionEvaluator::Input(const CComponent *p_value)
 		}
 	}
 		
-	Dbg_MsgAssert(p_value,("NULL p_value"));
+	Dbg_MsgAssert(p_value,("nullptr p_value"));
 	CopyComponent(&mp_value_stack[m_value_stack_top],p_value);
 }
 
@@ -954,7 +954,7 @@ void CExpressionEvaluator::CloseParenthesis()
 
 bool CExpressionEvaluator::GetResult(CComponent *p_result)
 {
-	Dbg_MsgAssert(p_result,("NULL p_result"));
+	Dbg_MsgAssert(p_result,("nullptr p_result"));
 	Dbg_MsgAssert(p_result->mType==ESYMBOLTYPE_NONE,("Non-empty component sent to GetResult, type = %s",GetTypeName(p_result->mType)));
 	Dbg_MsgAssert(p_result->mUnion==0,("CComponent::mUnion not zero, type = %s",GetTypeName(p_result->mType)));
 	

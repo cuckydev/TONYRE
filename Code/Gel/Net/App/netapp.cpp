@@ -403,7 +403,7 @@ void	App::process_sequenced_messages( Conn *conn )
 			if( msg_link->m_SequenceId == conn->m_WaitingForSequenceId[msg_link->m_GroupId] )
 			{				
 				msg_context.m_Conn = conn;
-				msg_context.m_Msg = NULL;
+				msg_context.m_Msg = nullptr;
 				
 				if( msg_link->m_QMsg->m_Data )
 				{
@@ -911,7 +911,7 @@ App::App( int flags )
 	m_double_timestamp = 0;
 	m_flags = flags;
 	m_Timestamp = 0;
-	m_foreign_handler = NULL;
+	m_foreign_handler = nullptr;
 #ifdef	__PLAT_NGPS__											  
 	Dbg_MsgAssert(Mem::SameContext(this,Mem::Manager::sHandle().NetworkHeap()),("Net::App not on network heap"));	
 #endif		//	__PLAT_NGPS__											  
@@ -1002,7 +1002,7 @@ Conn *App::GetConnectionByAddress( int ip, unsigned short port )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1024,7 +1024,7 @@ Conn *App::GetConnectionByHandle( int handle )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1098,7 +1098,7 @@ Conn *App::NewConnection( int ip, unsigned short port, int flags )
 	
 	
 
-	conn = NULL;
+	conn = nullptr;
 
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
 

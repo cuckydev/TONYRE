@@ -56,7 +56,7 @@ CBaseComponent* CSkeletonComponent::s_create()
 
 void CSkeletonComponent::init_skeleton( uint32 skeleton_name )
 {
-	Dbg_MsgAssert( mp_skeleton == NULL, ( "Component already has skeleton." ) );
+	Dbg_MsgAssert( mp_skeleton == nullptr, ( "Component already has skeleton." ) );
     
 	Gfx::CSkeletonData* pSkeletonData = (Gfx::CSkeletonData*)Ass::CAssMan::Instance()->GetAsset( skeleton_name, false );
 
@@ -80,7 +80,7 @@ CSkeletonComponent::CSkeletonComponent() : CBaseComponent()
 {
 	SetType( CRC_SKELETON );
 
-    mp_skeleton = NULL;
+    mp_skeleton = nullptr;
 }
 
 /******************************************************************/

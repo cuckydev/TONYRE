@@ -143,7 +143,7 @@ BOOL AUDSimpleInitAudioDecoder(void)
 
 	// Allocate read buffer
 	audioReadBuffer = audio_player.cbAlloc(audioReadBufferNumSamples * sizeof(s16) * audio_player.audioInfo.vaud.numChannels);
-	if (audioReadBuffer == NULL)
+	if (audioReadBuffer == nullptr)
 		return FALSE;					// error
 	
 	// Reset ring buffer
@@ -154,7 +154,7 @@ BOOL AUDSimpleInitAudioDecoder(void)
 	
 	// Allocate AI playback buffer
 	audioPlayBuffer[0] = audio_player.cbAlloc(2 * sizeof(s16) * AUD_AUDIO_AIBUFFERSAMPLES * AUD_AUDIO_NUMAIBUFFERS);
-	if (audioPlayBuffer[0] == NULL)
+	if (audioPlayBuffer[0] == nullptr)
 		return FALSE;					// error
 	
 	for(i=1; i<AUD_AUDIO_NUMAIBUFFERS; i++)
@@ -167,7 +167,7 @@ BOOL AUDSimpleInitAudioDecoder(void)
 	audioPlayBufferEnabled = FALSE;
 	
 	// We assume to playback all we get by default
-	audioPlayMaskArray = NULL;
+	audioPlayMaskArray = nullptr;
 	audioNumPlayMasks = 0;
 	audioNumActiveVoices = 2;
 	
@@ -178,10 +178,10 @@ BOOL AUDSimpleInitAudioDecoder(void)
 	// Init GCN audio system
 	old = OSDisableInterrupts();
 
-	axVoice[0] = AXAcquireVoice(AX_PRIORITY_NODROP,NULL,0);
-	ASSERT(axVoice[0] != NULL);
-	axVoice[1] = AXAcquireVoice(AX_PRIORITY_NODROP,NULL,0);
-	ASSERT(axVoice[1] != NULL);
+	axVoice[0] = AXAcquireVoice(AX_PRIORITY_NODROP,nullptr,0);
+	ASSERT(axVoice[0] != nullptr);
+	axVoice[1] = AXAcquireVoice(AX_PRIORITY_NODROP,nullptr,0);
+	ASSERT(axVoice[1] != nullptr);
 
 	memset(&axMix[0],0,sizeof(axMix[0]));
 	axMix[0].vL = 0x7FFF;
@@ -261,7 +261,7 @@ void AUDSimpleExitAudioDecoder(void)
 	AXFreeVoice(axVoice[0]);
 	AXFreeVoice(axVoice[1]);
 	
-	axVoice[0] = axVoice[1] = NULL;
+	axVoice[0] = axVoice[1] = nullptr;
 	
 	OSRestoreInterrupts(old);
 
@@ -511,7 +511,7 @@ BOOL AUDSimpleAudioDecode(const u8* bitstream, u32 bitstreamLen)
 	u32 channelSelectMask = audioPlayMaskArray ? audioPlayMaskArray[0] : 0x3;		
 	
 	u32 headerSize = ((VidAUDDVAUD*)bitstream)->size;
-	if(!VAUDDecode(audio_player.decoder, bitstream+headerSize, bitstreamLen-headerSize, channelSelectMask, audioDecode, NULL))
+	if(!VAUDDecode(audio_player.decoder, bitstream+headerSize, bitstreamLen-headerSize, channelSelectMask, audioDecode, nullptr))
 		return FALSE;
 	
 	audioPlayBufferEnabled = TRUE;
@@ -743,8 +743,8 @@ static void AXCallback(void)
 					rightTarget	= 2 * ( AX_ARAM_RIGHT_CHANNEL + audioPlayBufferWriteIndex * AUD_AUDIO_AIBUFFERSAMPLES );
 					
 					// Make sure we get this into ARAM ASAP...
-					ARQPostRequest( &arqRequest[0][i%AUD_NUM_ARQ_REQUESTS], 0, ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH, leftSource, leftTarget, AUD_AUDIO_AIBUFFERSAMPLES * sizeof( s16 ), NULL );
-					ARQPostRequest( &arqRequest[1][i%AUD_NUM_ARQ_REQUESTS], 1, ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH, rightSource, rightTarget, AUD_AUDIO_AIBUFFERSAMPLES * sizeof( s16 ), NULL );
+					ARQPostRequest( &arqRequest[0][i%AUD_NUM_ARQ_REQUESTS], 0, ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH, leftSource, leftTarget, AUD_AUDIO_AIBUFFERSAMPLES * sizeof( s16 ), nullptr );
+					ARQPostRequest( &arqRequest[1][i%AUD_NUM_ARQ_REQUESTS], 1, ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH, rightSource, rightTarget, AUD_AUDIO_AIBUFFERSAMPLES * sizeof( s16 ), nullptr );
 					
 					// Advance write index...
 					audioPlayBufferWriteIndex = (u8)(( audioPlayBufferWriteIndex + 1 ) % AUD_AUDIO_NUMAIBUFFERS );
@@ -774,8 +774,8 @@ static void AXCallback(void)
 				rightTarget = 2 * (AX_ARAM_RIGHT_CHANNEL + audioPlayBufferWriteIndex * AUD_AUDIO_AIBUFFERSAMPLES);
 				
 				// Make sure we get this into ARAM ASAP...
-				ARQPostRequest(&arqRequest[0][i%AUD_NUM_ARQ_REQUESTS],0,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,leftSource,leftTarget,AUD_AUDIO_AIBUFFERSAMPLES * sizeof(s16),NULL);
-				ARQPostRequest(&arqRequest[1][i%AUD_NUM_ARQ_REQUESTS],1,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,rightSource,rightTarget,AUD_AUDIO_AIBUFFERSAMPLES * sizeof(s16),NULL);
+				ARQPostRequest(&arqRequest[0][i%AUD_NUM_ARQ_REQUESTS],0,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,leftSource,leftTarget,AUD_AUDIO_AIBUFFERSAMPLES * sizeof(s16),nullptr);
+				ARQPostRequest(&arqRequest[1][i%AUD_NUM_ARQ_REQUESTS],1,ARQ_TYPE_MRAM_TO_ARAM,ARQ_PRIORITY_HIGH,rightSource,rightTarget,AUD_AUDIO_AIBUFFERSAMPLES * sizeof(s16),nullptr);
 				
 				audioPlayBufferWriteIndex = (u8)((audioPlayBufferWriteIndex + 1) % AUD_AUDIO_NUMAIBUFFERS);
 			}

@@ -200,7 +200,7 @@ void CGapTrick::GetGapTrick()
 void	CGapChecklist::FlushGapChecks()
 {
 	CGapCheck *pOther = (CGapCheck*)m_gapcheck_list.FirstItem();
-	while (pOther != NULL)
+	while (pOther != nullptr)
 	{
 		delete pOther;
 		pOther = (CGapCheck*)m_gapcheck_list.FirstItem();
@@ -218,7 +218,7 @@ void	CGapChecklist::AddGapCheck(const char *p_name, int count, int score)
 	m_valid = true;	 							// the list becomes valid when at least one gapcheck is in it
 	
 	CGapCheck *pOther = (CGapCheck*)m_gapcheck_list.FirstItem();
-	CGapCheck *pAppend = NULL;				// last item we find that is lower than this
+	CGapCheck *pAppend = nullptr;				// last item we find that is lower than this
 	while (pOther)						 		
 	{
 		if (!strcmp(pOther->GetText(),p_name) && pOther->GetScore() == score)   // if it matches an existing gap in both text and score
@@ -395,7 +395,7 @@ void CGapChecklist::AwardPendingGaps()
 			// K: The gap is being awarded, so let the goal manager know that the gap has
 			// just been got in case a create-gap-goal is active.
 			Game::CGoalManager* p_goal_manager = Game::GetGoalManager();
-			Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager ?"));
+			Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager ?"));
 			if (p_goal_manager->CreatedGapGoalIsActive())
 			{
 				// Let the goal manager know that this gap has just been gone through so that
@@ -674,7 +674,7 @@ CGapCheck *CGapChecklist::get_indexed_gapcheck(int gap_index)
 		entry++;
 	}
 	Dbg_MsgAssert(0,("Gap index %ds invalid\n",gap_index));	
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

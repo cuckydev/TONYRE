@@ -56,7 +56,7 @@ int sce_bgm_loop()
 	sceSifInitRpc(0);
 
 	sceSifSetRpcQueue( &qd, GetThreadId() );
-	sceSifRegisterRpc( &sd, EZBGM_DEV, bgmFunc, (void*)gRpcArg, NULL, NULL, &qd );
+	sceSifRegisterRpc( &sd, EZBGM_DEV, bgmFunc, (void*)gRpcArg, nullptr, nullptr, &qd );
 	PRINTF(("goto bgm cmd loop\n"));
 
 	//--- Command-wait loop

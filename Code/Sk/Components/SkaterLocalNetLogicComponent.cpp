@@ -42,8 +42,8 @@ CSkaterLocalNetLogicComponent::CSkaterLocalNetLogicComponent() : CBaseComponent(
 {
 	SetType( CRC_SKATERLOCALNETLOGIC );
 	
-	mp_state_component = NULL;
-	mp_physics_component = NULL;
+	mp_state_component = nullptr;
+	mp_physics_component = nullptr;
 	m_last_update_time = 0;
 	m_last_sent_terrain = -1;
 	m_last_sent_flags = 0;
@@ -110,7 +110,7 @@ void CSkaterLocalNetLogicComponent::Update()
 		//Suspend(true);
 		return;
 	}
-	if( GameNet::Manager::Instance()->GetLocalPlayer() == NULL )
+	if( GameNet::Manager::Instance()->GetLocalPlayer() == nullptr )
 	{
 		return;
 	}
@@ -141,7 +141,7 @@ CBaseComponent::EMemberFunctionResult CSkaterLocalNetLogicComponent::CallMemberF
 void CSkaterLocalNetLogicComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterLocalNetLogicComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterLocalNetLogicComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 
@@ -164,13 +164,13 @@ int	CSkaterLocalNetLogicComponent::sHandleStealMessage( Net::MsgHandlerContext* 
 
 	// For now, just exit out in these cases to avoid a crash
 	Obj::CSkater* pNewSkater = Mdl::Skate::Instance()->GetSkaterById( p_msg->m_NewOwner );
-	if( pNewSkater == NULL )
+	if( pNewSkater == nullptr )
 	{
 		return Net::HANDLER_CONTINUE;
 	}
 
 	Obj::CSkater* pOldSkater = Mdl::Skate::Instance()->GetSkaterById( p_msg->m_OldOwner );
-	if( pOldSkater == NULL )
+	if( pOldSkater == nullptr )
 	{
 		return Net::HANDLER_CONTINUE;
 	}

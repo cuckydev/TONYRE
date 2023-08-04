@@ -87,7 +87,7 @@ static void detachCallback( s32 chan, s32 result )
 	if( p_card && p_card->mp_work_area )
 	{
 //		delete[] p_card->mp_work_area;
-		p_card->mp_work_area	= NULL;
+		p_card->mp_work_area	= nullptr;
 	}
 }
 
@@ -157,7 +157,7 @@ Card* Manager::GetCard( int port, int slot )
 		return card;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -186,7 +186,7 @@ bool Card::MakeDirectory( const char* dir_name )
 //		++dir_name;
 //	}
 //
-//	if( CreateDirectory( cardFilenameBuffer, NULL ))
+//	if( CreateDirectory( cardFilenameBuffer, nullptr ))
 //	{
 //		return true;
 //	}
@@ -210,7 +210,7 @@ bool Card::DeleteDirectory( const char* dir_name )
 /******************************************************************/
 const char *Card::ConvertDirectory( const char* dir_name )
 {
-	return NULL;
+	return nullptr;
 }	
 
 /******************************************************************/
@@ -242,7 +242,7 @@ bool Card::Format( void )
 			if( mp_work_area )
 			{
 	//			delete [] mp_work_area;
-				mp_work_area = NULL;
+				mp_work_area = nullptr;
 			}
 			GetDeviceType();
 			
@@ -379,7 +379,7 @@ int	Card::GetDeviceType( void )
 		case CARD_RESULT_FATAL_ERROR:
 		{
 			// If this card is not mounted, mount it now.
-			if( mp_work_area == NULL )
+			if( mp_work_area == nullptr )
 			{
 				m_broken=false;
 				
@@ -414,7 +414,7 @@ int	Card::GetDeviceType( void )
 					else
 					{
 //						delete [] mp_work_area;
-						mp_work_area = NULL;
+						mp_work_area = nullptr;
 					}
 				}
 				else
@@ -429,7 +429,7 @@ int	Card::GetDeviceType( void )
 						mc_man->SetWrongDevice( true );
 					}	
 //					delete [] mp_work_area;
-					mp_work_area = NULL;
+					mp_work_area = nullptr;
 				}
 			}			
 			else
@@ -626,7 +626,7 @@ File* Card::Open( const char* filename, int mode, int size )
 	}
 
 	delete p_file;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -742,10 +742,10 @@ File::File( int fd, Card* card ) : Lst::Node< File > ( this ), m_fd( fd ), m_car
 {
 	m_need_to_flush=false;
 	m_write_offset=0;
-	mp_write_buffer=NULL;
+	mp_write_buffer=nullptr;
 	
 	m_read_offset=0;
-	mp_read_buffer=NULL;
+	mp_read_buffer=nullptr;
 }
 		
 File::~File()
@@ -755,12 +755,12 @@ File::~File()
 	if (mp_write_buffer)
 	{
 		Mem::Free(mp_write_buffer);
-		mp_write_buffer=NULL;
+		mp_write_buffer=nullptr;
 	}	
 	if (mp_read_buffer)
 	{
 		Mem::Free(mp_read_buffer);
-		mp_read_buffer=NULL;
+		mp_read_buffer=nullptr;
 	}	
 }
 
@@ -776,7 +776,7 @@ int File::Seek( int offset, FilePointerBase base )
 	if (mp_read_buffer)
 	{
 		Mem::Free(mp_read_buffer);
-		mp_read_buffer=NULL;
+		mp_read_buffer=nullptr;
 	}
 		
 	int result = 0;
@@ -828,7 +828,7 @@ bool File::Flush( void )
 	int num_bytes_to_write=m_write_offset%m_card->m_sector_size;
 	Dbg_MsgAssert(num_bytes_to_write,("Got zero num_bytes_to_write in File::Flush"));
 	
-	Dbg_MsgAssert(mp_write_buffer,("NULL mp_write_buffer"));
+	Dbg_MsgAssert(mp_write_buffer,("nullptr mp_write_buffer"));
 	memset(mp_write_buffer+num_bytes_to_write,0,m_card->m_sector_size-num_bytes_to_write);
 	
 	int file_offset=m_write_offset-num_bytes_to_write;
@@ -845,7 +845,7 @@ bool File::Flush( void )
 	if (mp_write_buffer)
 	{
 		Mem::Free(mp_write_buffer);
-		mp_write_buffer=NULL;
+		mp_write_buffer=nullptr;
 	}	
 	
 	return true;
@@ -858,7 +858,7 @@ bool File::Flush( void )
 
 int	File::Write( void* data, int len )
 {
-	Dbg_MsgAssert(data,("NULL data"));
+	Dbg_MsgAssert(data,("nullptr data"));
 	Dbg_Assert( len > 0 );
 	Dbg_Assert( m_card->m_sector_size > 0 );
 
@@ -871,7 +871,7 @@ int	File::Write( void* data, int len )
 		Mem::Manager::sHandle().BottomUpHeap()->PopAlign();
 		Mem::Manager::sHandle().PopContext();
 	}
-	Dbg_MsgAssert(mp_write_buffer,("NULL mp_write_buffer"));
+	Dbg_MsgAssert(mp_write_buffer,("nullptr mp_write_buffer"));
 	
 	// Ensure the buffer address is 32 byte aligned.
 	Dbg_MsgAssert((((unsigned int)mp_write_buffer ) & 31 ) == 0, ( "file write buffer must be 32 byte aligned" ));
@@ -969,7 +969,7 @@ int	File::Read( void* buff, int len )
 		Mem::Manager::sHandle().BottomUpHeap()->PopAlign();
 		Mem::Manager::sHandle().PopContext();
 		
-		Dbg_MsgAssert(mp_read_buffer,("NULL mp_read_buffer"));
+		Dbg_MsgAssert(mp_read_buffer,("nullptr mp_read_buffer"));
 		
 		// Ensure the buffer address is 32 byte aligned.
 		Dbg_MsgAssert((((unsigned int)mp_read_buffer ) & 31 ) == 0, ( "file read buffer must be 32 byte aligned" ));

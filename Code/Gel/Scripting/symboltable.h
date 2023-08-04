@@ -126,7 +126,7 @@ CSymbolTableEntry *Resolve(uint32 checksum);
 CSymbolTableEntry *Resolve(const char *p_name);
 void RemoveSymbol(CSymbolTableEntry *p_sym);
 CSymbolTableEntry *CreateNewSymbolEntry(uint32 checksum);
-CSymbolTableEntry *GetNextSymbolTableEntry(CSymbolTableEntry *p_sym=NULL);
+CSymbolTableEntry *GetNextSymbolTableEntry(CSymbolTableEntry *p_sym=nullptr);
 
 float GetFloat(uint32 checksum, EAssertType assert=NO_ASSERT);
 float GetFloat(const char *p_name, EAssertType assert=NO_ASSERT);

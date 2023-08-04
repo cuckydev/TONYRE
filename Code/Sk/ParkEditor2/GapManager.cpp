@@ -17,15 +17,15 @@ namespace Ed
 
 
 
-CGapManager *CGapManager::sp_instance = NULL;
+CGapManager *CGapManager::sp_instance = nullptr;
 
 
 GapInfo::GapInfo()
 {
-	mp_gapPiece[0] 		= NULL;
-	mp_gapPiece[1] 		= NULL;
-	mp_regularMeta[0] 	= NULL;
-	mp_regularMeta[1] 	= NULL;
+	mp_gapPiece[0] 		= nullptr;
+	mp_gapPiece[1] 		= nullptr;
+	mp_regularMeta[0] 	= nullptr;
+	mp_regularMeta[1] 	= nullptr;
 	
 	m_descriptor.mCancelFlags=0;
 }
@@ -38,7 +38,7 @@ CGapManager::CGapManager(CParkManager *pManager)
 	m_currentId = 2000;
 
 	for (int i = 0; i < vMAX_GAPS; i++)
-		mp_gapInfoTab[i] = NULL;
+		mp_gapInfoTab[i] = nullptr;
 
 	mp_manager = pManager;
 	SetInstance();
@@ -54,7 +54,7 @@ CGapManager::~CGapManager()
 	RemoveAllGaps();
 	// XXX
 	Ryan("leaving ~CGapManager()\n");
-	sp_instance = NULL;
+	sp_instance = nullptr;
 }
 
 CGapManager& CGapManager::operator=( const CGapManager& rhs )
@@ -69,10 +69,10 @@ CGapManager& CGapManager::operator=( const CGapManager& rhs )
 			
 			p_new->m_id[0] = rhs.mp_gapInfoTab[i]->m_id[0];
 			p_new->m_id[1] = rhs.mp_gapInfoTab[i]->m_id[1];
-			p_new->mp_gapPiece[0] = NULL;
-			p_new->mp_gapPiece[1] = NULL;
-			p_new->mp_regularMeta[0] = NULL;
-			p_new->mp_regularMeta[1] = NULL;
+			p_new->mp_gapPiece[0] = nullptr;
+			p_new->mp_gapPiece[1] = nullptr;
+			p_new->mp_regularMeta[0] = nullptr;
+			p_new->mp_regularMeta[1] = nullptr;
 			Dbg_MsgAssert(strlen(rhs.mp_gapInfoTab[i]->mp_text) < 128,("Bad source gap text"));
 			strcpy(p_new->mp_text, rhs.mp_gapInfoTab[i]->mp_text);
 			p_new->m_descriptor = rhs.mp_gapInfoTab[i]->m_descriptor;
@@ -81,13 +81,13 @@ CGapManager& CGapManager::operator=( const CGapManager& rhs )
 		}
 		else
 		{
-			mp_gapInfoTab[i]=NULL;
+			mp_gapInfoTab[i]=nullptr;
 		}	
 		
 		m_startOfGap[i] = rhs.m_startOfGap[i];
 	}
 	
-	mp_manager=NULL;
+	mp_manager=nullptr;
 	
 	return *this;
 }
@@ -250,7 +250,7 @@ void CGapManager::RemoveGap(int tab_index, bool unregisterGapFromGoalEditor)
 			mp_manager->GetGenerator()->DestroyClonedPiece(pRemoveInfo->mp_gapPiece[gp]);
 	}
 
-	// Note: Need to check mp_manager cos it could be NULL in the case of this being
+	// Note: Need to check mp_manager cos it could be nullptr in the case of this being
 	// the CParkEditor's mp_play_mode_gap_manager. (Fixes TT12087)
 	if (unregisterGapFromGoalEditor)
 	{
@@ -266,7 +266,7 @@ void CGapManager::RemoveGap(int tab_index, bool unregisterGapFromGoalEditor)
 	{
 		if (mp_gapInfoTab[i] == pRemoveInfo)
 		{
-			mp_gapInfoTab[i] = NULL;
+			mp_gapInfoTab[i] = nullptr;
 		}
 	}
 	delete pRemoveInfo;
@@ -323,7 +323,7 @@ CGapManager::GapDescriptor *CGapManager::GetGapDescriptor(int tab_index, int *pH
 {
 	
 	if (!mp_gapInfoTab[tab_index])
-		return NULL;
+		return nullptr;
 	
 	*pHalfNum = (m_startOfGap[tab_index]) ? 0 : 1;
 	strcpy(mp_gapInfoTab[tab_index]->m_descriptor.text, mp_gapInfoTab[tab_index]->mp_text);

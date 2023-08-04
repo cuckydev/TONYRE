@@ -180,7 +180,7 @@ protected:
 	CCollStatic *			mp_coll_sector;	// Collision object for the sector
 
 private:
-	CSector *				clone(bool instance, bool add_to_super_sectors, CScene *p_dest_scene = NULL);	// must only be called through CScene
+	CSector *				clone(bool instance, bool add_to_super_sectors, CScene *p_dest_scene = nullptr);	// must only be called through CScene
 
 	// The virtual functions will have a stub implementation
 	// in nxsector.cpp

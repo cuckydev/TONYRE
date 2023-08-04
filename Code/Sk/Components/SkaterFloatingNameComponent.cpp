@@ -187,7 +187,7 @@ CBaseComponent::EMemberFunctionResult CSkaterFloatingNameComponent::CallMemberFu
 void CSkaterFloatingNameComponent::GetDebugInfo ( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterFloatingNameComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterFloatingNameComponent::GetDebugInfo"));
 	
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

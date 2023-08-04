@@ -122,7 +122,7 @@ CBaseComponent::EMemberFunctionResult CSkitchComponent::CallMemberFunction( uint
 void CSkitchComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ( "NULL p_info sent to CSkitchComponent::GetDebugInfo" ));
+	Dbg_MsgAssert( p_info, ( "nullptr p_info sent to CSkitchComponent::GetDebugInfo" ));
 	
 	p_info->AddInteger( "m_skitch_allowed", m_skitch_allowed ? 1 : 0 );
 

@@ -61,7 +61,7 @@ CBaseComponent* CObjectHookManagerComponent::s_create()
 CObjectHookManagerComponent::CObjectHookManagerComponent() : CBaseComponent()
 {
 	SetType( CRC_OBJECTHOOKMANAGER );
-	mp_object_hook_manager = NULL;
+	mp_object_hook_manager = nullptr;
 }
 
 
@@ -183,7 +183,7 @@ CBaseComponent::EMemberFunctionResult CObjectHookManagerComponent::CallMemberFun
 void CObjectHookManagerComponent::GetDebugInfo( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ("NULL p_info sent to CObjectHookManagerComponent::GetDebugInfo" ));
+	Dbg_MsgAssert( p_info, ("nullptr p_info sent to CObjectHookManagerComponent::GetDebugInfo" ));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)

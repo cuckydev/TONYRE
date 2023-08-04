@@ -26,8 +26,8 @@ namespace	Nx
 CSector::CSector()
 {
 	m_flags = mCOLLIDE;
-	mp_geom = NULL;
-	mp_coll_sector = NULL;
+	mp_geom = nullptr;
+	mp_coll_sector = nullptr;
 	m_rot_y = Mth::ROT_0;
 	uint32	light_group = Crc::ConstCRC("outdoor");			 // default to OutDoors
 	SetLightGroup(light_group);
@@ -736,7 +736,7 @@ CSector *	CSector::clone(bool instance, bool add_to_super_sectors, CScene *p_des
 				if (p_new_sector->mp_geom)
 				{
 					// Garrett: Commented assert out because the pointer is now copied in CGeom
-					//Dbg_Assert(p_new_sector->mp_geom->GetCollTriData() == NULL);
+					//Dbg_Assert(p_new_sector->mp_geom->GetCollTriData() == nullptr);
 					p_new_sector->mp_geom->SetCollTriData(p_coll_obj->GetGeometry());
 				}
 
@@ -744,18 +744,18 @@ CSector *	CSector::clone(bool instance, bool add_to_super_sectors, CScene *p_des
 			}
 			else
 			{
-				p_new_sector->mp_coll_sector = NULL;
+				p_new_sector->mp_coll_sector = nullptr;
 				p_new_sector->m_flags &= ~mIN_SUPER_SECTORS;		// Not in there at all
 				if (p_new_sector->mp_geom)
 				{
-					p_new_sector->mp_geom->SetCollTriData(NULL);
+					p_new_sector->mp_geom->SetCollTriData(nullptr);
 				}
 			}
 		}
 		
 		return p_new_sector;
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -911,7 +911,7 @@ bool	CSector::plat_get_shatter() const
 CSector *	CSector::plat_clone(bool instance, CScene *p_dest_scene)
 {
 	printf ("STUB: PlatClone\n");
-	return NULL;
+	return nullptr;
 }
 
 }

@@ -31,7 +31,7 @@ CModelLights::CModelLights()
 		m_diffuse_brightness[i] = 1.0f;
 	}
 
-	mp_pos = NULL;
+	mp_pos = nullptr;
 }
 
 /******************************************************************/

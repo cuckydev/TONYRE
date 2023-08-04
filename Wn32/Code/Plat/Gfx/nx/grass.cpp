@@ -37,8 +37,8 @@ VOID XBUtil_UnswizzleTexture2D( D3DLOCKED_RECT* pLock, const D3DSURFACE_DESC* pD
     BYTE* pSrcBits = new BYTE[ dwTextureSize ];
     memcpy( pSrcBits, pLock->pBits, dwTextureSize );
     
-    XGUnswizzleRect( pSrcBits, pDesc->Width, pDesc->Height, NULL, pLock->pBits, 
-                     0, NULL, dwPixelSize );
+    XGUnswizzleRect( pSrcBits, pDesc->Width, pDesc->Height, nullptr, pLock->pBits, 
+                     0, nullptr, dwPixelSize );
 
     delete [] pSrcBits;
 }*/
@@ -60,9 +60,9 @@ VOID XBUtil_SwizzleTexture2D( D3DLOCKED_RECT* pLock, const D3DSURFACE_DESC* pDes
     BYTE* pSrcBits = new BYTE[ dwTextureSize ];
     memcpy( pSrcBits, pLock->pBits, dwTextureSize );
     
-    XGSwizzleRect( pSrcBits, 0, NULL, pLock->pBits,
+    XGSwizzleRect( pSrcBits, 0, nullptr, pLock->pBits,
                   pDesc->Width, pDesc->Height, 
-                  NULL, dwPixelSize );
+                  nullptr, dwPixelSize );
 
     delete [] pSrcBits;
 }
@@ -96,7 +96,7 @@ HRESULT LoadBumpTextures( void )
 		if( FAILED( hr = D3DDevice_CreateTexture( width,
             height,
             3,
-            NULL,
+            nullptr,
             D3DFMT_V8U8,
             D3DPOOL_MANAGED,
 			&pBumpTextures[i] )))
@@ -106,7 +106,7 @@ HRESULT LoadBumpTextures( void )
         D3DLOCKED_RECT lr; 
         D3DSURFACE_DESC desc;
         pBumpTextures[i]->GetLevelDesc( 0, &desc );
-        pBumpTextures[i]->LockRect( NULL, &lr, NULL, NULL );
+        pBumpTextures[i]->LockRect( nullptr, &lr, nullptr, nullptr );
         XBUtil_UnswizzleTexture2D( &lr, &desc );
 
 		File::Read( lr.pBits, sizeof( WORD ), height * width, fp );
@@ -137,7 +137,7 @@ HRESULT LoadBumpTextures( void )
             height >>= 1;
                         
             pBumpTextures[i]->GetLevelDesc( level, &desc );
-            pBumpTextures[i]->LockRect( level, &lr, NULL,NULL );
+            pBumpTextures[i]->LockRect( level, &lr, nullptr,nullptr );
             XBUtil_UnswizzleTexture2D( &lr, &desc );
 
 			File::Read( lr.pBits, sizeof( WORD ), height * width, fp );
@@ -163,7 +163,7 @@ HRESULT LoadBumpTextures( void )
 		File::Close( fp );
 
 		bumpTextures[i].pD3DTexture = pBumpTextures[i];
-		bumpTextures[i].pD3DPalette	= NULL;
+		bumpTextures[i].pD3DPalette	= nullptr;
 	}
 
 	// Set up the texture container for the bump textures.
@@ -225,9 +225,9 @@ void CreateWaterMaterial( NxWn32::sMaterial *p_material )
 	p_material->mp_wibble_texture_params->m_phase[0]			= 0;
 	p_material->mp_wibble_texture_params->m_num_iterations[0]	= 0;
 	p_material->mp_wibble_texture_params->mp_keyframes[0]		= new NxWn32::sTextureWibbleKeyframe[18];
-	p_material->mp_wibble_texture_params->mp_keyframes[1]		= NULL;
-	p_material->mp_wibble_texture_params->mp_keyframes[2]		= NULL;
-	p_material->mp_wibble_texture_params->mp_keyframes[3]		= NULL;
+	p_material->mp_wibble_texture_params->mp_keyframes[1]		= nullptr;
+	p_material->mp_wibble_texture_params->mp_keyframes[2]		= nullptr;
+	p_material->mp_wibble_texture_params->mp_keyframes[3]		= nullptr;
 
 	for( int f = 0; f < 18; ++f )
 	{
@@ -254,7 +254,7 @@ bool AddWater( Nx::CXboxGeom *p_geom, NxWn32::sMesh *p_mesh )
 	Nx::CTexDict	*p_tex_dict			= p_sky_scene->GetTexDict();
 	Nx::CTexture	*p_texture			= p_tex_dict->GetTexture( 0x96d0bf08UL );
 
-	if( p_texture == NULL )
+	if( p_texture == nullptr )
 		return false;
 
 	Nx::CXboxTexture	*p_xbox_texture = static_cast<Nx::CXboxTexture*>( p_texture );
@@ -333,7 +333,7 @@ bool AddWater( Nx::CXboxGeom *p_geom, NxWn32::sMesh *p_mesh )
 bool AddGrass( Nx::CXboxGeom *p_geom, NxWn32::sMesh *p_mesh )
 {
 	// Need a material to proceed.
-	if( p_mesh->mp_material == NULL )
+	if( p_mesh->mp_material == nullptr )
 		return false;
 
 	if( p_mesh->mp_material->m_flags[0] & MATFLAG_WATER_EFFECT )

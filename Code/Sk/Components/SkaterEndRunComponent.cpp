@@ -148,7 +148,7 @@ CBaseComponent::EMemberFunctionResult CSkaterEndRunComponent::CallMemberFunction
 void CSkaterEndRunComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterEndRunComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterEndRunComponent::GetDebugInfo"));
 	
 	p_info->AddChecksum(Crc::ConstCRC("STARTED_END_OF_RUN"), m_flags.Test(STARTED_END_OF_RUN) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
 	p_info->AddChecksum(Crc::ConstCRC("FINISHED_END_OF_RUN"), m_flags.Test(FINISHED_END_OF_RUN) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
@@ -176,7 +176,7 @@ void CSkaterEndRunComponent::EndRun ( bool force_end )
 			m_flags.Set(IS_ENDING_RUN);
 			if (static_cast< CSkater* >(GetObj())->IsLocalClient())
 			{
-				Script::RunScript(Crc::ConstCRC("ForceEndOfRun"), NULL, GetObj());
+				Script::RunScript(Crc::ConstCRC("ForceEndOfRun"), nullptr, GetObj());
 			}
 		}
 	}

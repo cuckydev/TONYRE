@@ -107,12 +107,12 @@ namespace NxWn32
 
 	void		set_render_state( uint32 type, uint32 state );
 	void		set_blend_mode( uint32 mode );
-	// void		set_texture( uint32 pass, IDirect3DTexture8 *p_texture, IDirect3DPalette8 *p_palette = NULL );
+	// void		set_texture( uint32 pass, IDirect3DTexture8 *p_texture, IDirect3DPalette8 *p_palette = nullptr );
 	
 	void		create_texture_projection_details( sTexture *p_texture, Nx::CXboxModel *p_model, sScene *p_scene );
 	void		destroy_texture_projection_details( sTexture *p_texture );
 	// void		set_texture_projection_camera( sTexture *p_texture, XGVECTOR3 *p_pos, XGVECTOR3 *p_at );
-	// void		calculate_tex_proj_matrix( XGMATRIX *p_tex_view_matrix, XGMATRIX *p_tex_proj_matrix, XGMATRIX *p_tex_transform_matrix, XGMATRIX *p_world_matrix = NULL );
+	// void		calculate_tex_proj_matrix( XGMATRIX *p_tex_view_matrix, XGMATRIX *p_tex_proj_matrix, XGMATRIX *p_tex_transform_matrix, XGMATRIX *p_world_matrix = nullptr );
 	
 	// MSM PERFCHANGE - added scale.
 	void	set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_angle, float aspect_ratio, bool render_at_infinity = false );

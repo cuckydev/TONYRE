@@ -178,8 +178,8 @@ DefineSingletonClass( Skate, "Skate Module" );
 // When going into observer mode the local skater gets destroyed, and is later
 // restored from his profile. The created tricks are not stored in the profile,
 // so we are storing them out seperately.
-static Script::CStruct *spCATData=NULL;
-static Script::CStruct *spStatData=NULL;
+static Script::CStruct *spCATData=nullptr;
+static Script::CStruct *spStatData=nullptr;
 
 /*****************************************************************************
 **							   Private Functions							**
@@ -371,7 +371,7 @@ int				Skate::GetNextUnusedSkaterHeapIndex( bool for_local_skater )
 		taken = false;
 		for( uint i = 0; i < GetNumSkaters(); i++ )
 		{
-			if( m_skaters.GetItem(i) != NULL )
+			if( m_skaters.GetItem(i) != nullptr )
 			{
 				Obj::CSkater *pSkater = m_skaters.GetItem(i)->GetData();
 				if( pSkater->GetHeapIndex() == heap_index )
@@ -394,7 +394,7 @@ int				Skate::GetNextUnusedSkaterHeapIndex( bool for_local_skater )
 
 #ifdef	__NOPT_ASSERT__	
 	Mem::Heap *skater_heap = Mem::Manager::sHandle().SkaterHeap(heap_index);
-	Dbg_MsgAssert( skater_heap != NULL, ( "Invalid skater heap : %d\n", heap_index ));
+	Dbg_MsgAssert( skater_heap != nullptr, ( "Invalid skater heap : %d\n", heap_index ));
 	if (skater_heap->mUsedBlocks.m_count)
 	{
 		printf ("Skater heap has %d used blocks still on it, it should be empty\n",skater_heap->mUsedBlocks.m_count);
@@ -441,7 +441,7 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 	{
 		Gfx::CModelAppearance* pModelAppearance = pSkaterProfile->GetAppearance();
 		Obj::CSkaterProfile* pOriginalProfile;
-		if (CFuncs::ScriptInSplitScreenGame( NULL, NULL ))
+		if (CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ))
 		{
 			// (Mick) Kluge modified for 2 players
 			// get the correct profile
@@ -469,7 +469,7 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 		if( skater )
 		{   
 			// In Split-screen games, we'll have two local skaters
-			if( CFuncs::ScriptInSplitScreenGame( NULL, NULL ))
+			if( CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ))
 			{
 				if( skater->GetID() == (uint32) obj_id )
 				{
@@ -501,11 +501,11 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 // Changing the id means we have to destroy and re-create the particle systems
 // as they are referenced by the id of the skater.					
 					Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(skater->GetHeapIndex()));
-					Script::RunScript( "DestroySkaterParticles", NULL, skater );
+					Script::RunScript( "DestroySkaterParticles", nullptr, skater );
 
 					skater->SetID( obj_id );
 					
-					Script::RunScript( "InitSkaterParticles", NULL, skater );
+					Script::RunScript( "InitSkaterParticles", nullptr, skater );
 					Mem::Manager::sHandle().PopContext();
 ////////////////////////////////////////////////////////////////////////////////////					
 					
@@ -580,7 +580,7 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 	// Initialize the skater's special items
 	if( !skater->IsLocalClient())
 	{
-		Script::RunScript( "ClientSkaterInit", NULL, skater );
+		Script::RunScript( "ClientSkaterInit", nullptr, skater );
 	}
 
     // This bit of code will order our skaters in the linked list according to their object id
@@ -609,7 +609,7 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
             printf("CAT: Restoring Created Tricks\n");
             skater->LoadCATInfo(spCATData);
             delete spCATData;
-    		spCATData=NULL;
+    		spCATData=nullptr;
         }
         
         // restore stat goal data too!
@@ -618,12 +618,12 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
             printf("CAT: Restoring Stat Goal data\n");
             skater->LoadStatGoalInfo(spStatData);
             delete spStatData;
-    		spStatData=NULL;
+    		spStatData=nullptr;
         }
     }
 
     // update trick mappings if this is the second skater in a split screen game
-	if ( skater->GetID() == 0x00000001 && CFuncs::ScriptInSplitScreenGame( NULL, NULL ) )
+	if ( skater->GetID() == 0x00000001 && CFuncs::ScriptInSplitScreenGame( nullptr, nullptr ) )
 	{
 		// Obj::CPlayerProfileManager* pProfileMan = GetPlayerProfileManager();
 		// Obj::CSkaterProfile* pProfile = pProfileMan->GetProfile( 1 );
@@ -853,7 +853,7 @@ void	Skate::remove_skater( Obj::CSkater* skater )
     	{
     		Dbg_Assert( 0 );
             delete spCATData;
-    		spCATData=NULL;
+    		spCATData=nullptr;
     	}
         
         printf("CAT: Storing Created Trick data\n");
@@ -865,7 +865,7 @@ void	Skate::remove_skater( Obj::CSkater* skater )
     	{
     		Dbg_Assert( 0 );
             delete spStatData;
-    		spStatData=NULL;
+    		spStatData=nullptr;
     	}
         
         printf("CAT: Storing Stat Goal data\n");
@@ -1013,7 +1013,7 @@ void Skate::BeepTimer(float time, float beep_time, float beep_speed, const char 
 	{
 		if (time<next_beep_time)
 		{
-			Script::RunScript( p_script_name, NULL, NULL );				
+			Script::RunScript( p_script_name, nullptr, nullptr );				
 			float sub = next_beep_time/beep_speed;
 			if  (sub<0.2f)				// limit the delay between beeps 
 			{
@@ -1144,7 +1144,7 @@ void Skate::DoUpdate()
 				Dbg_MsgAssert(0,("Don't handle %d viewport proxim updating",viewports));
 		}
 	}
-	else if (CFuncs::ScriptIsObserving(NULL, NULL))		// TT12029: Run without object in observer mode
+	else if (CFuncs::ScriptIsObserving(nullptr, nullptr))		// TT12029: Run without object in observer mode
 	{
 		int viewports = Nx::CViewportManager::sGetNumActiveViewports();
 		switch (viewports)
@@ -1152,7 +1152,7 @@ void Skate::DoUpdate()
 			case 1:
 				if (Nx::CViewportManager::sGetActiveCamera(0))
 				{
-					Obj::Proxim_Update(1<<0, NULL, Nx::CViewportManager::sGetActiveCamera(0)->GetPos());
+					Obj::Proxim_Update(1<<0, nullptr, Nx::CViewportManager::sGetActiveCamera(0)->GetPos());
 				}
 				else
 				{
@@ -1180,7 +1180,7 @@ void Skate::DoUpdate()
 	if ( m_levelChanged )
 	{
 #ifdef __DEFERRED_CLEANUP_TEST__
-		CFuncs::ScriptPrintMemInfo( NULL, NULL );
+		CFuncs::ScriptPrintMemInfo( nullptr, nullptr );
 #endif
 		m_levelChanged = false;
 	}
@@ -1572,7 +1572,7 @@ Obj::CSkater* 	Skate::GetLocalSkater( void )
 
 	for( i = 0; i < GetNumSkaters(); i++ )
 	{
-		if( m_skaters.GetItem(i) != NULL )
+		if( m_skaters.GetItem(i) != nullptr )
 		{
 			Obj::CSkater *pSkater = m_skaters.GetItem(i)->GetData();
 			if( pSkater->IsLocalClient())
@@ -1582,7 +1582,7 @@ Obj::CSkater* 	Skate::GetLocalSkater( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1595,7 +1595,7 @@ Obj::CSkater 	*Skate::GetSkater( uint num )
 	
 	if( GetNumSkaters() <= num )
 	{
-		return NULL;
+		return nullptr;
 	}   
 	else 
 	{
@@ -1613,7 +1613,7 @@ Obj::CSkater *Skate::GetSkaterById( uint32 id )
 {
 	for (uint i = 0; i < GetNumSkaters(); i++)
 	{
-		if( m_skaters.GetItem(i) != NULL )
+		if( m_skaters.GetItem(i) != nullptr )
 		{
 			Obj::CSkater *pSkater = m_skaters.GetItem(i)->GetData();
 			if (pSkater->GetID() == id)
@@ -1621,7 +1621,7 @@ Obj::CSkater *Skate::GetSkaterById( uint32 id )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1674,7 +1674,7 @@ float Skate::GetHandicap( int id )
 {
 	Prefs::Preferences* pPreferences = GetSplitScreenPreferences();
 
-	Script::CStruct* pStructure = NULL;
+	Script::CStruct* pStructure = nullptr;
 	
 	switch ( id )
 	{
@@ -2033,7 +2033,7 @@ void Skate::OpenLevel(uint32 level_script)
 			// call, tell the server we're finished loading it and ready to communicate
 			Lst::Search< GameNet::NewPlayerInfo > sh;
 
-			if( gamenet_man->FirstNewPlayerInfo( sh ) == NULL )
+			if( gamenet_man->FirstNewPlayerInfo( sh ) == nullptr )
 			{
 				gamenet_man->RespondToReadyQuery();
 			}
@@ -2165,7 +2165,7 @@ void Skate::ChangeLevel( uint32 level_id )
 	{
 		pTempStructure->AddComponent( NONAME, ESYMBOLTYPE_NAME, (int)Script::GenerateCRC("preserve_skaters") );
 	}
-	CFuncs::ScriptCleanup( pTempStructure, NULL );
+	CFuncs::ScriptCleanup( pTempStructure, nullptr );
 	delete pTempStructure;
 	
 	m_levelChanged = true;
@@ -2191,7 +2191,7 @@ void Skate::ResetLevel()
 	Cleanup();
 
 	// Re-trigger all the objects in the level										  
-	CFuncs::ScriptParseNodeArray(NULL,NULL);
+	CFuncs::ScriptParseNodeArray(nullptr,nullptr);
 	
 	// clear the end run flag
 	ClearEndRun();
@@ -2351,7 +2351,7 @@ void Skate::CheckSkaterCollisions( void )
 	for( i = 0; i < Mdl::Skate::vMAX_SKATERS; i++ )
 	{
 		subject = GetSkater( i );
-		if(	subject == NULL )
+		if(	subject == nullptr )
 		{
 			continue;
 		}
@@ -2372,7 +2372,7 @@ void Skate::CheckSkaterCollisions( void )
 			for( i = 0; i < Mdl::Skate::vMAX_SKATERS; i++ )
 			{
 				subject = GetSkater( i );
-				if(	subject == NULL )
+				if(	subject == nullptr )
 				{
 					continue;
 				}
@@ -2449,7 +2449,7 @@ const char* Skate::GetSkaterDisplayName( int id )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -3131,7 +3131,7 @@ void Skate::UpdateRecords()
    	// find the skater, get the score landed:
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	Obj::CSkater *pSkater = skate_mod->GetLocalSkater(); 
-	if( pSkater == NULL )
+	if( pSkater == nullptr )
 	{
 		return;
 	}          
@@ -3385,7 +3385,7 @@ Prefs::Preferences* GetPreferences( Script::CStruct* pParams, bool assert_on_fai
 
 	return GetPreferences( checksum, assert_on_fail );
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -3416,7 +3416,7 @@ Prefs::Preferences* GetPreferences( uint32 checksum, bool assert_on_fail )
 		Dbg_MsgAssert( 0, ( "Couldn't find preferences for %s", Script::FindChecksumName(checksum) ) );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

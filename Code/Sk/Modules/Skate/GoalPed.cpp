@@ -412,7 +412,7 @@ void CGoalPed::PlayGoalStream( uint32 stream_checksum, bool use_pos_info, uint32
 		pParams->GetChecksum( Crc::ConstCRC("trigger_obj_id"), &trigger_obj_id, Script::ASSERT );
 	}
 	
-	Obj::CCompositeObject* p_pos_obj = NULL;
+	Obj::CCompositeObject* p_pos_obj = nullptr;
 	if ( trigger_obj_id == Crc::ConstCRC("skater") )
 	{		
 		Mdl::Skate* skate_mod = Mdl::Skate::Instance();
@@ -467,7 +467,7 @@ void CGoalPed::PlayGoalStream( uint32 stream_checksum, bool use_pos_info, uint32
 				pTempStruct->AddChecksum( Crc::ConstCRC("id"), Crc::ConstCRC("jawRotation") );
 				
 				// first we want to kill off any old jaw rotation anims that might be playing...
-				// pAnimComponent->CallMemberFunction( Crc::ConstCRC("RemoveAnimController"), pTempStruct, NULL );
+				// pAnimComponent->CallMemberFunction( Crc::ConstCRC("RemoveAnimController"), pTempStruct, nullptr );
 				// Script::RunScript( Crc::ConstCRC("RemoveAnimController"), pTempStruct, p_pos_obj );
 																				  
 				pTempStruct->AddChecksum( Crc::ConstCRC("animName"), stream_checksum );
@@ -476,7 +476,7 @@ void CGoalPed::PlayGoalStream( uint32 stream_checksum, bool use_pos_info, uint32
 				//pTempStruct->AddChecksum( NONAME, Crc::ConstCRC("cycle") );
 				pTempStruct->AddFloat( Crc::ConstCRC("speed"), 1.0f );
 				// printf("adding animcontroller to %s\n", Script::FindChecksumName( trigger_obj_id ) );
-				pAnimComponent->CallMemberFunction( Crc::ConstCRC("AddAnimController"), pTempStruct, NULL );
+				pAnimComponent->CallMemberFunction( Crc::ConstCRC("AddAnimController"), pTempStruct, nullptr );
 				// Script::RunScript( Crc::ConstCRC("AddAnimController"), pTempStruct, p_pos_obj );
 				
 				delete pTempStruct;*/
@@ -644,7 +644,7 @@ void CGoalPed::PlayGoalStartStream( Script::CStruct* pParams )
 	int cam_anim_index = -1;
 	pParams->GetInteger( Crc::ConstCRC("cam_anim_index"), &cam_anim_index, Script::NO_ASSERT );
 
-	const char* p_speaker_name = NULL;
+	const char* p_speaker_name = nullptr;
 	pParams->GetString( Crc::ConstCRC("speaker_name"), &p_speaker_name, Script::NO_ASSERT );
 
 	bool last_anim = pParams->ContainsFlag( CRCD(0xe7f5ff8,"last_anim") );
@@ -700,7 +700,7 @@ void CGoalPed::UnloadLastFam()
 	{		
 		if ( m_lastFamObj )
 		{			
-			Obj::CCompositeObject* p_pos_obj = NULL;
+			Obj::CCompositeObject* p_pos_obj = nullptr;
 			if ( m_lastFamObj == Crc::ConstCRC("skater") )
 			{		
 				// printf("getting skater\n");
@@ -725,7 +725,7 @@ void CGoalPed::UnloadLastFam()
 				// printf("removing animcontroller\n");
 				Obj::CAnimationComponent* pAnimComponent = GetAnimationComponentFromObject( p_pos_obj );
 				Dbg_Assert( pAnimComponent );
-				pAnimComponent->CallMemberFunction( Crc::ConstCRC("RemoveAnimController"), pTempStruct, NULL );				
+				pAnimComponent->CallMemberFunction( Crc::ConstCRC("RemoveAnimController"), pTempStruct, nullptr );				
 			}
 			delete pTempStruct;
 			m_lastFamObj = 0;
@@ -758,7 +758,7 @@ void CGoalPed::StopLastStream()
 	{
 		if ( m_lastFamObj )
 		{			
-			Obj::CCompositeObject* p_pos_obj = NULL;
+			Obj::CCompositeObject* p_pos_obj = nullptr;
 			if ( m_lastFamObj == Crc::ConstCRC("skater") )
 			{		
 				Mdl::Skate* skate_mod = Mdl::Skate::Instance();
@@ -799,7 +799,7 @@ void CGoalPed::PlayGoalWinStream( Script::CStruct* pParams )
 		return;
 
 	// get params
-	const char* p_speaker_name = NULL;
+	const char* p_speaker_name = nullptr;
 	pParams->GetString( Crc::ConstCRC("speaker_name"), &p_speaker_name, Script::NO_ASSERT );
 	// int cam_anim_index = -1;
 	// pParams->GetInteger( Crc::ConstCRC("cam_anim_index"), &cam_anim_index, Script:::NO_ASSERT );
@@ -1045,7 +1045,7 @@ void CGoalPed::DestroyGoalPed()
 	pParams->GetChecksum( Crc::ConstCRC("trigger_obj_id"), &trigger_obj_id );
 	if( trigger_obj_id )
 	{
-		Obj::CCompositeObject* p_pos_obj = NULL;
+		Obj::CCompositeObject* p_pos_obj = nullptr;
 		//p_pos_obj = Obj::CMovingObject::m_hash_table.GetItem( trigger_obj_id );
 		p_pos_obj = (Obj::CCompositeObject*) Obj::CCompositeObjectManager::Instance()->GetObjectByID( trigger_obj_id);
 		
@@ -1092,7 +1092,7 @@ void CGoalPed::Hide( bool hide )
 	pParams->GetChecksum( Crc::ConstCRC("trigger_obj_id"), &trigger_obj_id );
 	if ( trigger_obj_id )
 	{
-		Obj::CCompositeObject* p_pos_obj = NULL;
+		Obj::CCompositeObject* p_pos_obj = nullptr;
 		//p_pos_obj = Obj::CMovingObject::m_hash_table.GetItem( trigger_obj_id );
 		p_pos_obj = (Obj::CCompositeObject*) Obj::CCompositeObjectManager::Instance()->GetObjectByID( trigger_obj_id );
 		

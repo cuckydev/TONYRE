@@ -73,12 +73,12 @@ sFontVert;
 
 
 SFont			*pFontList;
-SFont			*pButtonsFont				= NULL;
-SFont			*SText::spOverrideFont		= NULL;
+SFont			*pButtonsFont				= nullptr;
+SFont			*SText::spOverrideFont		= nullptr;
 
 const uint32	CHARS_PER_BUFFER			= 256;
 static int		font_vertex_offset			= 0;
-static BYTE*	p_locked_font_vertex_buffer	= NULL;
+static BYTE*	p_locked_font_vertex_buffer	= nullptr;
 static BYTE		font_vertex_buffer[CHARS_PER_BUFFER * 4 * sizeof( sFontVert )];
 
 static uint32	swizzle_table[4096];
@@ -403,7 +403,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	if( D3D_OK != D3DDevice_CreateTexture(	Width, Height, 1, 0, D3DFMT_P8, 0, &pFont->pD3DTexture ))
 	{
 		Dbg_Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 	
 	// Read texture bitmap data (into temp buffer so we can then swizzle it).
@@ -423,10 +423,10 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 
 	// Lock the texture so we can swizzle into it directly.
 	D3DLOCKED_RECT locked_rect;
-	if( D3D_OK != pFont->pD3DTexture->LockRect( 0, &locked_rect, NULL, 0 ))
+	if( D3D_OK != pFont->pD3DTexture->LockRect( 0, &locked_rect, nullptr, 0 ))
 	{
 		Dbg_Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 	
 	// Swizzle the texture data.
@@ -439,7 +439,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	if( D3D_OK != D3DDevice_CreatePalette(	D3DPALETTE_256,	&pFont->pD3DPalette ))
 	{
 		Dbg_Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 	
 	// Read clut bitmap data.
@@ -588,7 +588,7 @@ void SFont::QueryString( char *String, float &width, float &height )
 
 	for (pLetter=String;; pLetter++)
 	{
-		pChar = NULL;
+		pChar = nullptr;
 		// may be overridden by the '\b' tag
 		SFont *p_font = this;
 		
@@ -728,7 +728,7 @@ void SText::Draw( void )
 	
 	for( pLetter = mp_string;; pLetter++ )
 	{
-		pChar = NULL;
+		pChar = nullptr;
 		SFont *p_font = mp_font;
 
 		sFontVert* p_vert = ((sFontVert*)p_locked_font_vertex_buffer ) + font_vertex_offset;
@@ -911,7 +911,7 @@ void SText::EndDraw( void )
 		font_vertex_offset = 0;
 
 		// We can now return to using the regular font (no override).
-		spOverrideFont = NULL;
+		spOverrideFont = nullptr;
 	}
 	*/
 }

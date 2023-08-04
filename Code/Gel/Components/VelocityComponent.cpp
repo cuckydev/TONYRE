@@ -186,7 +186,7 @@ CBaseComponent::EMemberFunctionResult CVelocityComponent::CallMemberFunction( ui
 
 void CVelocityComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CVelocityComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CVelocityComponent::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)

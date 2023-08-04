@@ -208,7 +208,7 @@ CBaseComponent::EMemberFunctionResult CVibrationComponent::CallMemberFunction( u
 void CVibrationComponent::GetDebugInfo ( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CVibrationComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CVibrationComponent::GetDebugInfo"));
 	
 	p_info->AddInteger("m_active_state", m_active_state);
 	Script::CArray* p_timers_array = new Script::CArray;

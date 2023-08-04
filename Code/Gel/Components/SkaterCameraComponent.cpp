@@ -91,9 +91,9 @@ CSkaterCameraComponent::CSkaterCameraComponent() : CBaseComponent()
 	mVertAirLerpY		= 1.0f;
 	mGrindLerp			= 0.1f;
 	
-	mpSkater= NULL;
-	mpSkaterStateComponent = NULL;
-	mpSkaterPhysicsControlComponent = NULL;
+	mpSkater= nullptr;
+	mpSkaterStateComponent = nullptr;
+	mpSkaterPhysicsControlComponent = nullptr;
 }
 
 
@@ -258,7 +258,7 @@ void CSkaterCameraComponent::Commit( void )
 
 void CSkaterCameraComponent::ReadyForActivation ( const SCameraState& state )
 {
-	Dbg_MsgAssert(mpSkater, ("Skater camera (%s) has NULL target", Script::FindChecksumName(GetObj()->GetID())));
+	Dbg_MsgAssert(mpSkater, ("Skater camera (%s) has nullptr target", Script::FindChecksumName(GetObj()->GetID())));
 	
 	mLastActualRight = state.lastActualMatrix[X];
 	mLastActualUp = state.lastActualMatrix[Y];
@@ -280,7 +280,7 @@ void CSkaterCameraComponent::ReadyForActivation ( const SCameraState& state )
 
 void CSkaterCameraComponent::Update( void )
 {
-	if( mpSkater == NULL )
+	if( mpSkater == nullptr )
 	{
 		return;
 	}
@@ -946,7 +946,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCameraComponent::CallMemberFunction
 void CSkaterCameraComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterCameraComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterCameraComponent::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)
@@ -1195,7 +1195,7 @@ void CSkaterCameraComponent::SetShake( float duration, float vert_amp, float hor
 /******************************************************************/
 bool CSkaterCameraComponent::UseVertCam( void )
 {   
-	if( mpSkater == NULL )
+	if( mpSkater == nullptr )
 	{
 		return false;
 	}
@@ -1275,7 +1275,7 @@ Mth::Vector CSkaterCameraComponent::GetTripodPos( bool instantly )
 	float		lerp_y;
 	float		delta		= Tmr::FrameLength();
 
-	if( mpSkater == NULL )
+	if( mpSkater == nullptr )
 	{
 		return Mth::Vector( 0.0f, 0.0f, 0.0f );
 	}
@@ -1351,7 +1351,7 @@ Mth::Vector CSkaterCameraComponent::GetTripodPos( bool instantly )
 /******************************************************************/
 void CSkaterCameraComponent::CalculateZoom( float* p_above, float* p_behind )
 {
-	if( mpSkater == NULL )
+	if( mpSkater == nullptr )
 	{
 		return;
 	}
@@ -1498,10 +1498,10 @@ void CSkaterCameraComponent::SetSkater( CSkater* p_skater )
 {
 	mpSkater = p_skater;
 	
-	if( p_skater == NULL )
+	if( p_skater == nullptr )
 	{
-		mpSkaterStateComponent = NULL;
-		mpSkaterPhysicsControlComponent = NULL;
+		mpSkaterStateComponent = nullptr;
+		mpSkaterPhysicsControlComponent = nullptr;
 	}
 	else
 	{

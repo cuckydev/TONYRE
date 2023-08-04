@@ -129,7 +129,7 @@ bool CTrickObject::InitializeTrickObjectColor( int seqIndex )
 
 	// TODO:  Should also screen out if it doesn't have any geometry
 	Nx::CSector *p_sector = Nx::CEngine::sGetSector(m_NameChecksum);				
-	Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",m_NameChecksum,Script::FindChecksumName(m_NameChecksum)));
+	Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",m_NameChecksum,Script::FindChecksumName(m_NameChecksum)));
 	p_sector->ClearColor();
 	if (!Config::CD())
 	{
@@ -150,7 +150,7 @@ bool CTrickObject::InitializeTrickObjectColor( int seqIndex )
 bool CTrickObject::ModulateTrickObjectColor( int seqIndex )
 {
 	Nx::CSector *p_sector = Nx::CEngine::sGetSector(m_NameChecksum);				
-	Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",m_NameChecksum,Script::FindChecksumName(m_NameChecksum)));
+	Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",m_NameChecksum,Script::FindChecksumName(m_NameChecksum)));
 
 	Script::CArray* p_graffiti_col_tab = Script::GetArray( "graffitiColors" );
 	Dbg_MsgAssert( (uint) seqIndex < p_graffiti_col_tab->GetSize(), ( "graffitiColors array too small" ) );
@@ -182,7 +182,7 @@ bool CTrickObject::ModulateTrickObjectColor( int seqIndex )
 bool CTrickObject::ClearTrickObjectColor( int seqIndex )
 {
 	Nx::CSector *p_sector = Nx::CEngine::sGetSector(m_NameChecksum);				
-	Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned NULL (%s)",m_NameChecksum,Script::FindChecksumName(m_NameChecksum)));
+	Dbg_MsgAssert(p_sector,("sGetSector(0x%x) returned nullptr (%s)",m_NameChecksum,Script::FindChecksumName(m_NameChecksum)));
 
 	Script::CArray* p_graffiti_col_tab = Script::GetArray( "graffitiColors" );
 	Dbg_MsgAssert( (uint) seqIndex < p_graffiti_col_tab->GetSize(), ( "graffitiColors array too small" ) );
@@ -341,7 +341,7 @@ CTrickObject* CTrickCluster::find_trick_object( uint32 name_checksum )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -655,7 +655,7 @@ Net::Conn* MyGetAssociatedNetworkConnection( uint32 skater_id )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void MyLogTrickObject( int skater_id, int score, uint32 num_pending_tricks, uint32* p_pending_tricks, bool propagate )
@@ -892,7 +892,7 @@ CTrickCluster* CTrickObjectManager::get_aliased_cluster( uint32 alias_checksum )
 			return m_TrickAliasList[i].mp_TrickCluster;
 		}
 	}
-	return NULL;
+	return nullptr;
 #endif
 	return m_TrickAliasList.GetItem(alias_checksum, false);
 }
@@ -922,7 +922,7 @@ CTrickCluster* CTrickObjectManager::find_trick_cluster( uint32 cluster_checksum 
 			return pCluster;
 		}
 	}
-	return NULL;
+	return nullptr;
 #endif
 	return m_TrickClusterList.GetItem( cluster_checksum, false );	
 }
@@ -1063,7 +1063,7 @@ bool CTrickObjectManager::AddTrickAlias( uint32 alias_checksum, uint32 cluster_c
 
 	pCluster = find_trick_cluster( cluster_checksum );
 
-	if( pCluster == NULL )
+	if( pCluster == nullptr )
 	{
 		Dbg_MsgAssert( 0,( "cluster %s not found", Script::FindChecksumName(cluster_checksum) ));
 	}
@@ -1122,7 +1122,7 @@ bool CTrickObjectManager::DeleteAllTrickObjects( void )
 	m_TrickClusterList.RemoveAllNodes();
 #endif
 
-	m_TrickClusterList.HandleCallback(delete_trick_cluster, NULL);
+	m_TrickClusterList.HandleCallback(delete_trick_cluster, nullptr);
 	m_TrickClusterList.FlushAllItems();
 	m_NumTrickClusters = 0;
 	

@@ -85,7 +85,7 @@ CAnimationComponent::CAnimationComponent() : CBaseComponent()
 
 	m_numProceduralBones = 0;
 
-	mp_proceduralBones = NULL;
+	mp_proceduralBones = nullptr;
 }
 
 /******************************************************************/
@@ -184,7 +184,7 @@ void CAnimationComponent::InitFromStructure( Script::CStruct* pParams )
 	// (the decision to do this should really be coming from a higher-level...)
  	if ( GetObj()->GetID() == 0 )
 	{
-		Dbg_MsgAssert( mp_proceduralBones == NULL, ( "Already has procedural bones!" ) );
+		Dbg_MsgAssert( mp_proceduralBones == nullptr, ( "Already has procedural bones!" ) );
 		mp_proceduralBones = new Gfx::CProceduralBone[vMAXPROCEDURALBONES];
 
 		Script::CStruct* pTempParams = new Script::CStruct;
@@ -616,7 +616,7 @@ void CAnimationComponent::GetDebugInfo( Script::CStruct* p_info )
 
 #ifdef	__DEBUG_CODE__
 
-	Dbg_MsgAssert( p_info, ( "NULL p_info sent to CAnimationComponent::GetDebugInfo" ) );
+	Dbg_MsgAssert( p_info, ( "nullptr p_info sent to CAnimationComponent::GetDebugInfo" ) );
 
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);
@@ -648,7 +648,7 @@ void CAnimationComponent::GetDebugInfo( Script::CStruct* p_info )
 Gfx::CBlendChannel* CAnimationComponent::get_primary_channel()
 {
 	// just grab the first item from the list...
-	Gfx::CBlendChannel* pBlendChannel = NULL;
+	Gfx::CBlendChannel* pBlendChannel = nullptr;
 	pBlendChannel = (Gfx::CBlendChannel*)m_blendChannelList.GetNext();
 	return pBlendChannel;
 }
@@ -709,7 +709,7 @@ void CAnimationComponent::create_new_blend_channel( float blend_period )
 		
 	// degenerate the existing blend channels
 	// make the first channel degenerate
-	Gfx::CBlendChannel* pBlendChannel = m_blendChannelList.CountItems() ? get_primary_channel() : NULL;//	(Gfx::CBlendChannel*)m_blendChannelList.GetItem( 0 );
+	Gfx::CBlendChannel* pBlendChannel = m_blendChannelList.CountItems() ? get_primary_channel() : nullptr;//	(Gfx::CBlendChannel*)m_blendChannelList.GetItem( 0 );
 	if ( pBlendChannel )
 	{
 		if ( pBlendChannel->Degenerate( blend_period ) )
@@ -750,7 +750,7 @@ bool CAnimationComponent::AnimEquals( Script::CStruct *pParams, Script::CScript 
 {	
 	uint32 current_animation=GetCurrentSequence();
 	
-	Script::CComponent *p_comp=NULL;
+	Script::CComponent *p_comp=nullptr;
 	while (true)
 	{
 		p_comp=pParams->GetNextComponent(p_comp);
@@ -763,7 +763,7 @@ bool CAnimationComponent::AnimEquals( Script::CStruct *pParams, Script::CScript 
 		{
 			// It's an unnamed component
 			
-			Script::CArray *p_array=NULL;
+			Script::CArray *p_array=nullptr;
 			if (p_comp->mType==ESYMBOLTYPE_NAME)
 			{
 				// It's an unnamed name. Maybe it's the name of a global array ...
@@ -1262,7 +1262,7 @@ void CAnimationComponent::SetWobbleTarget( float alpha, bool propagate )
 
 		pTempParams->AddFloat( Crc::ConstCRC("wobbletargetalpha"), alpha );
 
-		get_primary_channel()->CallMemberFunction( Crc::ConstCRC("setwobbletarget"), pTempParams, NULL );
+		get_primary_channel()->CallMemberFunction( Crc::ConstCRC("setwobbletarget"), pTempParams, nullptr );
 
 		delete pTempParams;
 	}
@@ -1431,7 +1431,7 @@ void CAnimationComponent::SetWobbleDetails( const Gfx::SWobbleDetails& wobble_de
 		pTempParams->AddFloat( Crc::ConstCRC("wobbleK2"), wobble_details.wobbleK2 );
 		pTempParams->AddFloat( Crc::ConstCRC("spazFactor"), wobble_details.spazFactor );
 
- 		get_primary_channel()->CallMemberFunction( Crc::ConstCRC("setwobbledetails"), pTempParams, NULL );
+ 		get_primary_channel()->CallMemberFunction( Crc::ConstCRC("setwobbledetails"), pTempParams, nullptr );
 
 		delete pTempParams;
 	}
@@ -1940,7 +1940,7 @@ void blend( Gfx::CPose* pPoseList, float* blendVal, int numBones, Gfx::CPose* pR
 void CAnimationComponent::get_blend_channel( int blendChannel, Gfx::CPose* pResultPose, float* pBlendVal )
 {
 	float blendVal = 0.0f;
-	Gfx::CBlendChannel* pBlendChannel = NULL;
+	Gfx::CBlendChannel* pBlendChannel = nullptr;
 	if ( 1 || ShouldBlend() )
 	{
 		Dbg_MsgAssert( blendChannel >= 0 && blendChannel < (int)m_blendChannelList.CountItems(), ( "out of range blend channel %d (0-%d)", blendChannel, m_blendChannelList.CountItems() ) ); 
@@ -1970,7 +1970,7 @@ void CAnimationComponent::get_blend_channel( int blendChannel, Gfx::CPose* pResu
 		return;
 	}
 
-	Gfx::CSkeleton* pSkeleton = NULL;
+	Gfx::CSkeleton* pSkeleton = nullptr;
 
 	Dbg_Assert(mp_skeleton_component);
 	pSkeleton = mp_skeleton_component->GetSkeleton();
@@ -2061,7 +2061,7 @@ void CAnimationComponent::update_skeleton()
 {
 	if ( has_anims() )
 	{
-		Gfx::CSkeleton* pSkeleton = NULL;
+		Gfx::CSkeleton* pSkeleton = nullptr;
 		
 		Dbg_Assert(mp_skeleton_component);
 		pSkeleton = mp_skeleton_component->GetSkeleton();
@@ -2303,7 +2303,7 @@ Gfx::CProceduralBone* CAnimationComponent::GetProceduralBoneByName( uint32 boneN
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

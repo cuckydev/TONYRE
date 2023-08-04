@@ -43,9 +43,9 @@ CPs2AsyncFileHandle::CPs2AsyncFileHandle()
 {
 	m_file_handle_index = -1;
 	m_num_open_requests = 0;
-	mp_non_aligned_buffer = NULL;
-	mp_temp_aligned_buffer = NULL;
-	mp_temp_aligned_buffer_base = NULL;
+	mp_non_aligned_buffer = nullptr;
+	mp_temp_aligned_buffer = nullptr;
+	mp_temp_aligned_buffer_base = nullptr;
 }
 
 /******************************************************************/
@@ -110,9 +110,9 @@ void				CPs2AsyncFileHandle::io_callback(EAsyncFunctionType function, int result
 			if (mp_temp_aligned_buffer)
 			{
 				CPs2AsyncFileLoader::sIAddBufferToFreeList(mp_temp_aligned_buffer_base);
-				mp_non_aligned_buffer = NULL;
-				mp_temp_aligned_buffer = NULL;
-				mp_temp_aligned_buffer_base = NULL;
+				mp_non_aligned_buffer = nullptr;
+				mp_temp_aligned_buffer = nullptr;
+				mp_temp_aligned_buffer_base = nullptr;
 			}
 		}
 		break;
@@ -196,7 +196,7 @@ bool				CPs2AsyncFileHandle::add_request_id(int request_id, EAsyncFunctionType f
 	}
 	else
 	{
-		m_open_requests[m_num_open_requests].mp_buffer = NULL;
+		m_open_requests[m_num_open_requests].mp_buffer = nullptr;
 		m_open_requests[m_num_open_requests].m_buffer_size = 0;
 	}
 
@@ -250,7 +250,7 @@ const CPs2AsyncFileHandle::SRequest *	CPs2AsyncFileHandle::get_request(int reque
 
 	// Request not found
 	Dbg_MsgAssert(0, ("Can't find request %d on %x", request_id, this));
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -292,9 +292,9 @@ void				CPs2AsyncFileHandle::plat_init()
 {
 	m_file_handle_index = -1;
 	m_num_open_requests = 0;
-	mp_non_aligned_buffer = NULL;
-	mp_temp_aligned_buffer = NULL;
-	mp_temp_aligned_buffer_base = NULL;
+	mp_non_aligned_buffer = nullptr;
+	mp_temp_aligned_buffer = nullptr;
+	mp_temp_aligned_buffer_base = nullptr;
 }
 
 volatile bool		CPs2AsyncFileHandle::plat_is_done()
@@ -569,7 +569,7 @@ char *				CPs2AsyncFileHandle::plat_get_s(char *p_buffer, int maxlen)
 {
 	//Dbg_MsgAssert(m_file_handle_index != -1, ("Invalid IOP file handle index: %d", m_file_handle_index));
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -613,7 +613,7 @@ bool				CPs2AsyncFileHandle::plat_open(const char *filename)
 	m_position = 0;
 
 	// Now send the packet
-	const char *p_continued_filename = NULL;
+	const char *p_continued_filename = nullptr;
 	SFileIORequestPacket open_packet __attribute__ ((aligned(16)));
 
 	open_packet.m_request.m_command											= FILEIO_OPEN;
@@ -809,7 +809,7 @@ CAsyncFileHandle *	CPs2AsyncFileLoader::sRawOpen( unsigned int lsn, bool blockin
 		{
 			//Dbg_MsgAssert(0, ("Error opening Async file %s", filename));
 			s_free_file_handle(p_file_handle);
-			return NULL;
+			return nullptr;
 		}
 
 		return p_file_handle;
@@ -817,7 +817,7 @@ CAsyncFileHandle *	CPs2AsyncFileLoader::sRawOpen( unsigned int lsn, bool blockin
 	else
 	{
 		Dbg_MsgAssert(0, ("Out of Async handles"));
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -844,7 +844,7 @@ uint8 *				CPs2AsyncFileLoader::sGetBuffer( uint size )
 
 	//Dbg_Message("***** Getting async buffer of size %d", size);
 
-	volatile uint8 *p_buffer = NULL;
+	volatile uint8 *p_buffer = nullptr;
 	// Make sure interrupts are off
 	DI();
 	for (int i = 0; i < BUFFER_LIST_SIZE; i++)
@@ -954,7 +954,7 @@ void				CPs2AsyncFileLoader::sDeallocateFreeListBuffers( )
 	for (int i = 0; i < s_free_buffer_list_size; i++)
 	{
 		delete [] s_free_buffer_list[i];
-		s_free_buffer_list[i] = NULL;
+		s_free_buffer_list[i] = nullptr;
 	}
 	s_free_buffer_list_size = 0;
 
@@ -1036,7 +1036,7 @@ CFileIOManager::SOpenRequest *		CFileIOManager::s_find_request(int request_id)
 		p_request = &(s_open_requests[index]);
 	} while (p_request != p_start_request);
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1052,7 +1052,7 @@ void				CFileIOManager::sInit()
 
 	ShowAsyncInfo( "Setting up Sif Cmd with FileIO IRX...\n" );
 	sceSifSetCmdBuffer(&s_cmdbuffer[0], FILEIO_NUM_COMMAND_HANDLERS);
-	sceSifAddCmdHandler(FILEIO_RESULT_COMMAND, s_result_callback, NULL);
+	sceSifAddCmdHandler(FILEIO_RESULT_COMMAND, s_result_callback, nullptr);
 
 	EI();
 
@@ -1200,7 +1200,7 @@ void				CAsyncFileLoader::s_plat_init()
 	init_packet.m_request.m_param.m_init.m_memory_dest	= DEFAULT_MEMORY_TYPE;
 	init_packet.m_request.m_param.m_init.m_init_cd_device = Config::CD();
 
-	int req_id = CFileIOManager::sSendCommand(&init_packet, NULL, true);
+	int req_id = CFileIOManager::sSendCommand(&init_packet, nullptr, true);
 
 	Dbg_Message("Sending first init command to fileio.irx: waiting for completion");
 
@@ -1224,7 +1224,7 @@ void				CAsyncFileLoader::s_plat_cleanup()
 		{
 			delete s_file_handles[i];
 
-			s_file_handles[i] = NULL;
+			s_file_handles[i] = nullptr;
 		}
 	}
 }

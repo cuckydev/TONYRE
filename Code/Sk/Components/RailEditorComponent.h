@@ -119,15 +119,15 @@ public:
 
 
 	// The rail geometry joining the last point to this point.
-	// If this is the first point of the rail, mpClonedRailSector will be NULL.
+	// If this is the first point of the rail, mpClonedRailSector will be nullptr.
 	Nx::CSector *mpClonedRailSector;	
 
-	// The post geometry joining this point to the ground. May be NULL, since the user chooses
+	// The post geometry joining this point to the ground. May be nullptr, since the user chooses
 	// whether they want a post.
-	// Also, mpPostSector may be NULL even when mHasPost is true, because we don't always want 
+	// Also, mpPostSector may be nullptr even when mHasPost is true, because we don't always want 
 	// the geometry for the rail to exist.
 	// For example, when loading a park off the memory card in the skateshop it will set the mPos
-	// and mHasPost members, but the sector pointers will remain NULL until it is time to build the park.
+	// and mHasPost members, but the sector pointers will remain nullptr until it is time to build the park.
 	Nx::CSector *mpPostSector;
 };
 

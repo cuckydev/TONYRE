@@ -61,7 +61,7 @@ namespace Tsk
 **								 Public Data								**
 *****************************************************************************/
 
-List*	TSK_BkGndTasks = NULL;
+List*	TSK_BkGndTasks = nullptr;
 
 /*****************************************************************************
 **							  Private Prototypes							**

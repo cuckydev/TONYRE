@@ -197,7 +197,7 @@ void pre_main( void )
 
 #ifdef __PLAT_NGPS__
 	printf ("calling Mike test\n");
-//	maintest(0, NULL); // the Mike code.....
+//	maintest(0, nullptr); // the Mike code.....
 	printf ("DONE calling Mike test\n");
 #endif		// __PLAT_NGPS__
 
@@ -489,7 +489,7 @@ int main ( sint argc, char** argv )
 		snDebugInit();
 		sceSifInitRpc(0);
 		// Load the SNProfil module
-		if(sceSifLoadModule("host0:/usr/local/sce/iop/modules/SNProfil.irx", 0, NULL) < 0)
+		if(sceSifLoadModule("host0:/usr/local/sce/iop/modules/SNProfil.irx", 0, nullptr) < 0)
 		{
 			printf("Can't load SNProfil module, but don't worry, that's just for programmers...\n However, you could get the latest version of usr if you want it\n");
 	//		exit(-1);

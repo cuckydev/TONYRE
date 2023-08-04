@@ -137,7 +137,7 @@ CSimpleShadow::CSimpleShadow()
 	m_type=vSIMPLE_SHADOW;
 	m_scale=1.0f;
 	m_offset=1.0f;	
-	mp_model=NULL;
+	mp_model=nullptr;
 	/*
 	mp_poly=Nx::CEngine::sCreateTextured3dPoly();
 	Dbg_MsgAssert(mp_poly,("Could not create textured 3d poly for shadow"));
@@ -148,14 +148,14 @@ CSimpleShadow::CSimpleShadow()
 CSimpleShadow::~CSimpleShadow()
 {
 	/*
-	Dbg_MsgAssert(mp_poly,("NULL mp_poly ?"));
+	Dbg_MsgAssert(mp_poly,("nullptr mp_poly ?"));
 	Nx::CEngine::sDestroyTextured3dPoly(mp_poly);
 	*/
 	
 	if (mp_model)
 	{
 		Nx::CEngine::sUninitModel(mp_model);
-		mp_model=NULL;
+		mp_model=nullptr;
 	}	
 }
 
@@ -164,12 +164,12 @@ void CSimpleShadow::SetModel(const char *p_model_name)
 	if (mp_model)
 	{
 		Nx::CEngine::sUninitModel(mp_model);
-		mp_model=NULL;
+		mp_model=nullptr;
 	}	
 
 	mp_model=Nx::CEngine::sInitModel();
 	
-	Dbg_MsgAssert(p_model_name,("NULL p_model_name"));
+	Dbg_MsgAssert(p_model_name,("nullptr p_model_name"));
 	
 	// TODO: Change to use a geom file instead for PS2, more efficient than mdl ...
 	mp_model->AddGeom(Gfx::GetModelFileName(p_model_name, ".mdl").getString(), 0, true);
@@ -178,7 +178,7 @@ void CSimpleShadow::SetModel(const char *p_model_name)
 void CSimpleShadow::UpdatePosition(Mth::Vector& parentPos, Mth::Matrix& parentMatrix, Mth::Vector normal)
 {
 	/*
-	Dbg_MsgAssert(mp_poly,("NULL mp_poly ?"));
+	Dbg_MsgAssert(mp_poly,("nullptr mp_poly ?"));
 	float w=Script::GetFloat("shadowwidth");
 	mp_poly->SetPos(pos,w,w,normal);
 	*/
@@ -194,16 +194,16 @@ void CSimpleShadow::UpdatePosition(Mth::Vector& parentPos, Mth::Matrix& parentMa
 	// Change requested by LF/Andre:  use the passed normal
 	display_matrix.SetPos(parentPos+normal*m_offset);  //WAS: parentPos+parentMatrix[Y]*m_offset
  	
-	//Dbg_MsgAssert(mp_model,("NULL mp_model"));
+	//Dbg_MsgAssert(mp_model,("nullptr mp_model"));
 	if (mp_model)
 	{
-		mp_model->Render(&display_matrix,true,NULL);
+		mp_model->Render(&display_matrix,true,nullptr);
 	}	
 }
 
 void CSimpleShadow::Hide()
 {
-	//Dbg_MsgAssert(mp_model,("NULL mp_model"));
+	//Dbg_MsgAssert(mp_model,("nullptr mp_model"));
 	if (mp_model)
 	{
 		mp_model->SetActive(false);
@@ -212,7 +212,7 @@ void CSimpleShadow::Hide()
 
 void CSimpleShadow::UnHide()
 {
-	//Dbg_MsgAssert(mp_model,("NULL mp_model"));
+	//Dbg_MsgAssert(mp_model,("nullptr mp_model"));
 	if (mp_model)
 	{
 		mp_model->SetActive(true);

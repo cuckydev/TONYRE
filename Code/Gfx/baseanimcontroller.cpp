@@ -111,7 +111,7 @@ Gfx::CSkeleton* CBaseAnimController::GetSkeleton()
 		return pSkeletonComponent->GetSkeleton();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

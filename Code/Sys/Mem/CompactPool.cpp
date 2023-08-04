@@ -52,7 +52,7 @@ CCompactPool::CCompactPool(int item_size, int desired_num_items, char *name)
 		if (i < m_totalItems - 1)
 			*((uint32 **) pItem) = (uint32 *) (pItem + m_itemSize);
 		else
-			*((uint32 **) pItem) = NULL;
+			*((uint32 **) pItem) = nullptr;
 		pItem += m_itemSize;
 	}
 
@@ -90,7 +90,7 @@ CCompactPool::~CCompactPool()
 #ifdef __REALLY_DEBUG_COMPACTPOOL__
 	Ryan("Freeing pool %s, max items used in this pool: %d\n", m_name, m_maxUsedItems);
 	delete [] mp_used_marker_tab;
-	mp_used_marker_tab = NULL;
+	mp_used_marker_tab = nullptr;
 	m_maxUsedItems = 0;
 #endif
 }
@@ -142,7 +142,7 @@ void * CCompactPool::Allocate()
 
 	Dbg_MsgAssert(0, ("Out of %ss (%d max) in their Compact Pool", m_name, m_totalItems));
 	
-	return NULL;
+	return nullptr;
 }
 
 

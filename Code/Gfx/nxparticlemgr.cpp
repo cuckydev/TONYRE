@@ -41,7 +41,7 @@ void render_particles( void )
 
 CParticle* get_particle( uint32 checksum )
 {
-	CParticle *p_particle = NULL;
+	CParticle *p_particle = nullptr;
 	if( CEngine::sGetParticleTable() )
 	{
 		p_particle = CEngine::sGetParticleTable()->GetItem( checksum );

@@ -188,7 +188,7 @@ public:
 	static void					sInit();
 
 	// IOP command functions
-	static int					sSendCommand(SFileIORequestPacket *p_packet, CPs2AsyncFileHandle *p_file = NULL, bool wait_for_send = false,
+	static int					sSendCommand(SFileIORequestPacket *p_packet, CPs2AsyncFileHandle *p_file = nullptr, bool wait_for_send = false,
 											 int continuation_request = -1);
 	static void					sWaitSendCompletion(int request_id);
 	static void					sWaitRequestCompletion(int request_id);

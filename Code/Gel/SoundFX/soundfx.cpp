@@ -54,7 +54,7 @@
 void ObjectSoundInfo::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to ObjectSoundInfo::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to ObjectSoundInfo::GetDebugInfo"));
 	
 	p_info->AddChecksum("checksum",checksum);
 	p_info->AddFloat("dropoffDist",dropoffDist);
@@ -146,7 +146,7 @@ struct PositionalSoundEntry
 #define POSITIONAL_SOUND_FLAG_OCCUPIED	( 1 << 0 )
 #define POSITIONAL_SOUND_FLAG_DOPPLER	( 1 << 1 )
 
-static PositionalSoundEntry				*GpPositionalSounds = NULL;
+static PositionalSoundEntry				*GpPositionalSounds = nullptr;
 static PositionalSoundEntry				PositionalSounds[MAX_POSITIONAL_SOUNDS];
 
 int										NumWavesInTable		= 0;
@@ -360,7 +360,7 @@ void CSfxManager::CleanUp( void )
 	if( NoSoundPlease())
 		return;
 
-	GpPositionalSounds	= NULL;
+	GpPositionalSounds	= nullptr;
 	NumPositionalSounds	= 0;
 	for( int i = 0; i < MAX_POSITIONAL_SOUNDS; i++ )
 	{
@@ -383,7 +383,7 @@ void CSfxManager::CleanUp( void )
 
 bool CSfxManager::IDAvailable(uint32 id)
 {
-	// return !SoundIsPlaying(id, NULL);
+	// return !SoundIsPlaying(id, nullptr);
 	return false;
 }
 
@@ -475,7 +475,7 @@ void CSfxManager::StopAllSounds( void )
 		return;
 	
 	StopAllSoundFX();
-	GpPositionalSounds	= NULL;
+	GpPositionalSounds	= nullptr;
 	NumPositionalSounds	= 0;
 	for( int i = 0; i < MAX_POSITIONAL_SOUNDS; i++ )
 	{
@@ -510,7 +510,7 @@ WaveTableEntry * CSfxManager::GetWaveTableIndex( uint32 checksum )
 {
 	/*
 	if( NoSoundPlease())
-		return NULL;
+		return nullptr;
 
 	// Check through list of perm sounds.
 	for( int i = 0; i < NumWavesInPermTable; i++ )
@@ -528,7 +528,7 @@ WaveTableEntry * CSfxManager::GetWaveTableIndex( uint32 checksum )
 
 	// Not found.
 	*/
-	return NULL;	
+	return nullptr;	
 }
 
 
@@ -611,7 +611,7 @@ bool CSfxManager::AdjustObjectSound( Obj::CSoundComponent *pObj, VoiceInfo *pVoi
 	}
 
 	Mth::Vector dropoff_pos;
-	Mth::Vector *p_dropoff_pos = NULL;
+	Mth::Vector *p_dropoff_pos = nullptr;
 	if (pObj->GetClosestDropoffPos(pCamera, dropoff_pos))
 	{
 		p_dropoff_pos = &dropoff_pos;
@@ -872,7 +872,7 @@ void CSfxManager::AddPositionalSoundToUpdateList( uint32 uniqueID, uint32 soundC
 				GpPositionalSounds->pPrev = pEntry;
 			}
 			pEntry->pNext = GpPositionalSounds;
-			pEntry->pPrev = NULL;
+			pEntry->pPrev = nullptr;
 			GpPositionalSounds = pEntry;
 			pEntry->uniqueID = uniqueID;
 			pEntry->checksum = soundChecksum;
@@ -911,10 +911,10 @@ bool CSfxManager::LoadSound( const char *sfxName,  int flags, float dropoff, flo
 	}
 	
 	uint32			checksum	= Script::GenerateCRC( pNameMinusPath );
-	WaveTableEntry	*pWaveEntry	= NULL;
+	WaveTableEntry	*pWaveEntry	= nullptr;
 	
 	// See if the sound is already loaded.
-	if( NULL != GetWaveTableIndex( checksum ))
+	if( nullptr != GetWaveTableIndex( checksum ))
 	{
 		if( !Config::CD())
 		{
@@ -1030,7 +1030,7 @@ uint32 CSfxManager::PlaySfx( uint32 checksum, sVolume *p_vol, float pitch, uint3
 	Dbg_Assert( p_vol );
 	
 	WaveTableEntry *waveTableIndex = GetWaveTableIndex( checksum );
-	if( waveTableIndex == NULL )
+	if( waveTableIndex == nullptr )
 	{
 		//Dbg_MsgAssert( 0,( "Couldn't find sound %s", Script::FindChecksumName( checksum )));
 		Dbg_Message("******** NON-FATAL ERROR: Couldn't find sound %s", Script::FindChecksumName( checksum ));
@@ -1168,7 +1168,7 @@ bool CSfxManager::SetSoundParams( uint32 uniqueID, sVolume *p_vol, float pitch )
 	{
 		WaveTableEntry *waveTableIndex = VoiceInfoTable[ whichVoice ].waveIndex;
 	
-		if( waveTableIndex == NULL )
+		if( waveTableIndex == nullptr )
 		{
 			Dbg_MsgAssert(0, ( "Can't find wave table entry for sound %s", Script::FindChecksumName( uniqueID ) ) );
 			return false;
@@ -1337,7 +1337,7 @@ float CSfxManager::GetDropoffDist( uint32 soundChecksum )
 		return DefaultDropoffDist;
 
 	WaveTableEntry *waveIndex = GetWaveTableIndex( soundChecksum );
-	if( waveIndex == NULL )
+	if( waveIndex == nullptr )
 	{
 		return 0;
 	}
@@ -1398,7 +1398,7 @@ bool CSfxManager::UpdateLoopingSound( uint32 soundID, sVolume *p_vol, float pitc
 			
 			WaveTableEntry *waveTableIndex = VoiceInfoTable[ whichVoice ].waveIndex;
 		
-			if( waveTableIndex == NULL )
+			if( waveTableIndex == nullptr )
 			{
 				Dbg_Message( "WARNING:  Positional/looping sound error." );
 				return false;
@@ -1795,14 +1795,14 @@ ObjectSoundInfo *CSfxManager::GetObjectSoundProperties( Obj::CSoundComponent *pO
 			int voiceIndex;
 			if( !SoundIsPlaying( pEntry->uniqueID, &voiceIndex ))
 			{
-				return NULL;
+				return nullptr;
 			}
 			return &VoiceInfoTable[ voiceIndex ].info;
 		}
 		pEntry = pEntry->pNext;
 	}
 	*/
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1819,13 +1819,13 @@ uint32 CSfxManager::PlaySoundWithPos( uint32 soundChecksum, SoundUpdateInfo *pUp
 		return 0;
 
 	WaveTableEntry *waveTableIndex = GetWaveTableIndex( soundChecksum );
-	if( waveTableIndex == NULL )
+	if( waveTableIndex == nullptr )
 	{
 		Dbg_MsgAssert( 0, ( "Asking to play sound that hasn't been loaded %s.", Script::FindChecksumName( soundChecksum )));
 		return 0;
 	}
 	
-	Dbg_MsgAssert( pObj,( "pObj should be non-NULL" ));
+	Dbg_MsgAssert( pObj,( "pObj should be non-nullptr" ));
 
 	sVolume vol;
 
@@ -1840,7 +1840,7 @@ uint32 CSfxManager::PlaySoundWithPos( uint32 soundChecksum, SoundUpdateInfo *pUp
 	if( pCamera )
 	{
 		Mth::Vector dropoff_pos;
-		Mth::Vector *p_dropoff_pos = NULL;
+		Mth::Vector *p_dropoff_pos = nullptr;
 		if (pObj->GetClosestDropoffPos(pCamera, dropoff_pos))
 		{
 			p_dropoff_pos = &dropoff_pos;

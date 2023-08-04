@@ -56,7 +56,7 @@ int CCutsceneAsset::Unload()
 	if ( pData )
 	{
         delete pData;
-        SetData(NULL);
+        SetData(nullptr);
 	}
 	
 	return 0;
@@ -73,7 +73,7 @@ int CCutsceneAsset::Reload(const char* p_file)
 	
 	Unload();
 
-	return ( Load( p_file, false, 0, NULL, NULL ) == 0 );
+	return ( Load( p_file, false, 0, nullptr, nullptr ) == 0 );
 }
 
 /******************************************************************/
@@ -84,7 +84,7 @@ int CCutsceneAsset::Reload(const char* p_file)
 bool CCutsceneAsset::LoadFinished()
 {
 	Obj::CCutsceneData* p_cutsceneData = (Obj::CCutsceneData*)GetData();
-	Dbg_MsgAssert( p_cutsceneData, ( "LoadFinished(): Data pointer NULL (load probably was never started)" ) );
+	Dbg_MsgAssert( p_cutsceneData, ( "LoadFinished(): Data pointer nullptr (load probably was never started)" ) );
 	return p_cutsceneData->LoadFinished();
 }
 

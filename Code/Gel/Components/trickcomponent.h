@@ -189,10 +189,10 @@ public:
 	void ClearTricksFrom(uint32 ArrayChecksum);
 
 	bool TrickIsDefined(Script::CStruct *pTrick);
-	bool RunTrick(Script::CStruct *pTrick, uint32 optionalFlag=0, Script::CStruct *pExtraParams=NULL);
+	bool RunTrick(Script::CStruct *pTrick, uint32 optionalFlag=0, Script::CStruct *pExtraParams=nullptr);
 
 	// Called by the DoNextTrick script command.
-	void TriggerNextQueuedTrick(uint32 scriptToRunFirst=0, Script::CStruct *p_scriptToRunFirstParams=NULL, Script::CStruct* pExtraParams=NULL);
+	void TriggerNextQueuedTrick(uint32 scriptToRunFirst=0, Script::CStruct *p_scriptToRunFirstParams=nullptr, Script::CStruct* pExtraParams=nullptr);
 	
 	int mNumQueueTricksArrays;
 	// Storing array checksums rather than pointers to the arrays, in case they get reloaded.
@@ -228,7 +228,7 @@ public:
 	// A special one entry 'queue' for manual tricks.
 	STrick mManualTrick;
 	// Called by the DoNextManualTrick script command.
-	void TriggerAnyManualTrick(Script::CStruct *pExtraParams=NULL);
+	void TriggerAnyManualTrick(Script::CStruct *pExtraParams=nullptr);
 	
 	// Checks a single array to see if any trick needs to be put in the manual queue.
 	// Called from MaybeQueueManualTrick()
@@ -359,7 +359,7 @@ public:
 
 inline Mdl::Score* CTrickComponent::GetScoreObject()
 {
-	Dbg_MsgAssert(mp_score,("NULL pScore"));
+	Dbg_MsgAssert(mp_score,("nullptr pScore"));
 	return mp_score;
 }	
 

@@ -136,13 +136,13 @@ if( !( _c ))													\
 
 // Mick:  If we have assertions, but are not in DEBUG mode
 // then we don not have the Dbg_signature thing
-// so we just pass NULL to assert()
+// so we just pass nullptr to assert()
 
 #define Dbg_Assert(_c)  										\
 																\
 if ( !(_c))														\
 {																\
-	Dbg::Assert ( __FILE__, __LINE__, NULL );					\
+	Dbg::Assert ( __FILE__, __LINE__, nullptr );					\
 	Dbg_Break;													\
 }
 
@@ -194,7 +194,7 @@ if( !( _c ))													\
 
 #define Dbg_AssertPtr(_p)											\
 {																	\
-	if ((_p) == NULL )												\
+	if ((_p) == nullptr )												\
 	{																\
 		Dbg::Assert ( __FILE__,	__LINE__,							\
 					 Dbg_signature, Dbg::msg_null_pointer );		\
@@ -215,7 +215,7 @@ if( !( _c ))													\
 
 #define Dbg_AssertPtr(_p)											\
 {																	\
-	if ((_p) == NULL )												\
+	if ((_p) == nullptr )												\
 	{																\
 		Dbg::Assert ( __FILE__,	__LINE__,							\
 					Dbg::msg_null_pointer );						\
@@ -228,7 +228,7 @@ if( !( _c ))													\
 
 #define Dbg_AssertPtr(_p)											\
 {																	\
-	if ((_p) == NULL )												\
+	if ((_p) == nullptr )												\
 	{																\
 		Dbg::Assert ( __FILE__,	__LINE__, Dbg::msg_null_pointer );	\
 		Dbg_Break;													\

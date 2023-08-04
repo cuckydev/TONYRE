@@ -71,7 +71,7 @@ CParticleComponent::CParticleComponent() : CBaseComponent()
     SetType( CRC_PARTICLE );
 
 	m_update_script = 0;
-	mp_particle = NULL;
+	mp_particle = nullptr;
 	m_system_lifetime = 0;
 	m_birth_time = Tmr::GetTime();
 }
@@ -354,7 +354,7 @@ void CParticleComponent::Update()
 		// **  and update the internal physics state 
 		if( m_update_script )
 		{
-			Script::RunScript( m_update_script, NULL, GetObj() );
+			Script::RunScript( m_update_script, nullptr, GetObj() );
 		}
 	
 		if( m_system_lifetime > 0 )
@@ -613,7 +613,7 @@ void CParticleComponent::GetDebugInfo(Script::CStruct *p_info)
 	Script::CArray* array;
 	Nx::CParticleParams* part;
 
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CParticleComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CParticleComponent::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)

@@ -198,7 +198,7 @@ void CBouncyComponent::InitFromStructure( Script::CStruct* pParams )
 		if (((CMovingObject*)(GetObj()))->GetCollisionObject())
 		{
 			Nx::CCollObjTriData *p_tri_data=((CMovingObject*)(GetObj()))->GetCollisionObject()->GetGeometry();
-			Dbg_MsgAssert(p_tri_data,("NULL p_tri_data"));
+			Dbg_MsgAssert(p_tri_data,("nullptr p_tri_data"));
 			Mth::CBBox bbox=p_tri_data->GetBBox();
 			m_bounce_collision_radius=Mth::Distance(bbox.GetMax(),bbox.GetMin())/2.0f;
 			m_skater_collision_radius_squared=m_bounce_collision_radius*m_bounce_collision_radius;
@@ -217,7 +217,7 @@ void CBouncyComponent::InitFromStructure( Script::CStruct* pParams )
 
 	// We need to copy in any script struct parameters, as they might have generated temporarily
 	pParams->GetChecksum(Crc::ConstCRC("CollideScript"),&m_collide_script);
-	Script::CStruct * p_collide_script_params = NULL;
+	Script::CStruct * p_collide_script_params = nullptr;
 	pParams->GetStructure(Crc::ConstCRC("CollideScriptParams"),&p_collide_script_params);		
 	if (p_collide_script_params)
 	{
@@ -226,7 +226,7 @@ void CBouncyComponent::InitFromStructure( Script::CStruct* pParams )
 	}
 	
 	pParams->GetChecksum(Crc::ConstCRC("BounceScript"),&m_bounce_script);
-	Script::CStruct * p_bounce_script_params = NULL;
+	Script::CStruct * p_bounce_script_params = nullptr;
 	pParams->GetStructure(Crc::ConstCRC("BounceScriptParams"),&p_bounce_script_params);		
 	if (p_bounce_script_params)
 	{
@@ -286,7 +286,7 @@ void CBouncyComponent::Update()
 						#ifdef __NOPT_ASSERT__
 						p_script->SetCommentString("CBouncyComponent collide script");
 						#endif
-						Dbg_MsgAssert(p_script,("NULL p_script"));
+						Dbg_MsgAssert(p_script,("nullptr p_script"));
 						p_script->mpObject=GetObj();;
 						p_script->Update();
 					}
@@ -530,7 +530,7 @@ void CBouncyComponent::do_bounce( void )
 				if (m_bounce_script)
 				{
 					Script::CScript *p_script=Script::SpawnScript(m_bounce_script,mp_bounce_script_params);
-					Dbg_MsgAssert(p_script,("NULL p_script"));
+					Dbg_MsgAssert(p_script,("nullptr p_script"));
 					#ifdef __NOPT_ASSERT__
 					p_script->SetCommentString("CBouncyComponent bounce script");
 					#endif
@@ -719,7 +719,7 @@ void CBouncyComponent::bounce_from_object_vel( const Mth::Vector &vel, const Mth
 void CBouncyComponent::GetDebugInfo( Script::CStruct* p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CBouncyComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CBouncyComponent::GetDebugInfo"));
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);	  
 

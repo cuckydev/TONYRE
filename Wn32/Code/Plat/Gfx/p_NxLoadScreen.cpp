@@ -56,7 +56,7 @@ void CALLBACK loadingBarTimerCallback( UINT uTimerID, UINT uMsg, DWORD_PTR dwUse
 		IDirect3DSurface8	*p_buffer;
 		D3DLOCKED_RECT		locked_rect;
 		NxWn32::EngineGlobals.p_Device->GetBackBuffer( -1, D3DBACKBUFFER_TYPE_MONO, &p_buffer );
-		p_buffer->LockRect( &locked_rect, NULL, D3DLOCK_TILED );
+		p_buffer->LockRect( &locked_rect, nullptr, D3DLOCK_TILED );
 		uint32 *p_screen = (uint32*)locked_rect.pBits;
 
 		// ----------------------------------
@@ -151,7 +151,7 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 	{
 		if( blank )
 		{
-			D3DDevice_Clear( 0, NULL, D3DCLEAR_TARGET, 0x00000000UL, 1.0f, 0 );
+			D3DDevice_Clear( 0, nullptr, D3DCLEAR_TARGET, 0x00000000UL, 1.0f, 0 );
 			D3DDevice_Swap( D3DSWAP_DEFAULT );
 		}
 		else
@@ -236,7 +236,7 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 			NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_DIFFUSE );
 
 			// Select the texture (flush first, since the screen texture is linear).
-			NxWn32::set_texture( 0, NULL );
+			NxWn32::set_texture( 0, nullptr );
 			NxWn32::set_texture( 0, sp_load_screen_texture->GetEngineTexture()->pD3DTexture, sp_load_screen_texture->GetEngineTexture()->pD3DPalette );
 
 			// Setup up the vertices.
@@ -304,10 +304,10 @@ void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool bl
 
 			// Done with texture
 			delete sp_load_screen_texture;
-			sp_load_screen_texture = NULL;
+			sp_load_screen_texture = nullptr;
 
 			// Reflush linear texture out.
-			NxWn32::set_texture( 0, NULL );
+			NxWn32::set_texture( 0, nullptr );
 
 			// Restore the stage zero minfilter.
 			D3DDevice_SetTextureStageState( 0, D3DTSS_MINFILTER, stage_zero_minfilter );
@@ -349,13 +349,13 @@ void CLoadScreen::s_plat_clear()
 	if( sp_load_screen_sprite )
 	{
 		CEngine::sDestroySprite(sp_load_screen_sprite);
-		sp_load_screen_sprite = NULL;
+		sp_load_screen_sprite = nullptr;
 	}
 
 	if( sp_load_screen_texture )
 	{
 		delete sp_load_screen_texture;
-		sp_load_screen_texture = NULL;
+		sp_load_screen_texture = nullptr;
 	}
 }
 

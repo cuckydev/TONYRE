@@ -10,7 +10,7 @@ namespace Obj
 
 CRefCounted::CRefCounted()
 {
-	mp_smart_ptr_list = NULL;
+	mp_smart_ptr_list = nullptr;
 }
 
 
@@ -24,7 +24,7 @@ CRefCounted::~CRefCounted()
 		CSmtPtr<CRefCounted> *p_next = p_smt->mp_next_ptr;
 		Dbg_Assert(p_smt->mp_object);
 		Dbg_Assert(p_smt->mp_object == this);
-		*p_smt = NULL;
+		*p_smt = nullptr;
 		p_smt = p_next;
 	}
 }
@@ -68,8 +68,8 @@ void CRefCounted::RemoveSmartPointer(CSmtPtr<CRefCounted> *pSmtPtr)
 		pSmtPtr->mp_next_ptr->mp_prev_ptr = pSmtPtr->mp_prev_ptr;
 	}
 
-	pSmtPtr->mp_prev_ptr = NULL;
-	pSmtPtr->mp_next_ptr = NULL;
+	pSmtPtr->mp_prev_ptr = nullptr;
+	pSmtPtr->mp_next_ptr = nullptr;
 	
 	//debug_validate_smart_pointers();
 }

@@ -125,7 +125,7 @@ void CreatePed(CGeneralManager* p_obj_man, Script::CStruct* pNodeData)
 
 	// now that the skeleton has been updated at least once,
 	// we can turn off the extra bones that don't animate:	
-	Script::RunScript( Crc::ConstCRC("ped_disable_bones"), NULL, pPed );
+	Script::RunScript( Crc::ConstCRC("ped_disable_bones"), nullptr, pPed );
 	pPed->SetProfileColor(0xc000c0);				// magenta = ped
 
 	

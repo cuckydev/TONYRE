@@ -112,14 +112,14 @@ CTrickComponent::CTrickComponent() : CBaseComponent()
 {
 	SetType( CRC_TRICK );
 	
-	mpTrickMappings=NULL;
-	mp_score=NULL;
-	mp_input_component=NULL;
-	mp_skater_balance_trick_component=NULL;
-	mp_skater_core_physics_component=NULL;
-	mp_skater_flip_and_rotate_component=NULL;
-	mp_skater_state_component=NULL;
-    mp_stats_manager_component=NULL;
+	mpTrickMappings=nullptr;
+	mp_score=nullptr;
+	mp_input_component=nullptr;
+	mp_skater_balance_trick_component=nullptr;
+	mp_skater_core_physics_component=nullptr;
+	mp_skater_flip_and_rotate_component=nullptr;
+	mp_skater_state_component=nullptr;
+    mp_stats_manager_component=nullptr;
 				 
 	Clear();
 }
@@ -212,7 +212,7 @@ void CTrickComponent::Clear()
 
 Script::CStruct *CTrickComponent::get_trigger_structure(Script::CStruct *p_struct)
 {
-	Script::CStruct *p_trigger=NULL;
+	Script::CStruct *p_trigger=nullptr;
 	if (Config::GetHardware()==Config::HARDWARE_XBOX)
 	{
 		if (!p_struct->GetStructure(Crc::ConstCRC("XBox_Trigger"),&p_trigger))
@@ -241,7 +241,7 @@ Script::CStruct *CTrickComponent::get_trigger_structure(Script::CStruct *p_struc
 // The Alt_Trigger is the same for all three platforms.
 Script::CStruct *CTrickComponent::get_alternate_trigger_structure(Script::CStruct *p_struct)
 {
-	Script::CStruct *p_trigger=NULL;
+	Script::CStruct *p_trigger=nullptr;
 	// Note: Not passing Script::ASSERT as in get_trigger_structure above, because the Alt_Trigger is optional.
 	p_struct->GetStructure(Crc::ConstCRC("Alt_Trigger"),&p_trigger);
 	
@@ -491,8 +491,8 @@ bool CTrickComponent::BothTriggeredNothingInBetween(uint32 Button1, uint32 Butto
 // Reads the button names and time duration out of a 'Trigger' structure.
 uint32 CTrickComponent::get_buttons_and_duration(Script::CComponent *p_comp, int num_buttons, uint32 *p_button_names)
 {
-	Dbg_MsgAssert(p_comp,("NULL p_comp"));
-	Dbg_MsgAssert(p_button_names,("NULL p_button_names"));
+	Dbg_MsgAssert(p_comp,("nullptr p_comp"));
+	Dbg_MsgAssert(p_button_names,("nullptr p_button_names"));
 	Dbg_MsgAssert(num_buttons<=MAX_TRICK_BUTTONS,("Bad num_buttons"));
 	
 	for (int i=0; i<num_buttons; ++i)
@@ -530,7 +530,7 @@ uint32 CTrickComponent::get_buttons_and_duration(Script::CComponent *p_comp, int
 
 void CTrickComponent::record_last_tricks_buttons(uint32 *p_button_names)	
 {
-	Dbg_MsgAssert(p_button_names,("NULL p_button_names"));
+	Dbg_MsgAssert(p_button_names,("nullptr p_button_names"));
 	
 	// Remember what buttons were used by the last trick that got triggered.
 	// They are stored so that the extra-trick trigger can use one of the parent trick's buttons,
@@ -585,13 +585,13 @@ void CTrickComponent::ButtonRecord(uint Button, bool Pressed)
 	if (Pressed)
 	{
 		SButtonEvent *pEvent=AddEvent(EVENT_BUTTON_PRESSED);
-		Dbg_MsgAssert(pEvent,("NULL pEvent ?"));
+		Dbg_MsgAssert(pEvent,("nullptr pEvent ?"));
 		pEvent->ButtonNameChecksum=ButtonChecksum;
 	}
 	else
 	{
 		SButtonEvent *pEvent=AddEvent(EVENT_BUTTON_RELEASED);
-		Dbg_MsgAssert(pEvent,("NULL pEvent ?"));
+		Dbg_MsgAssert(pEvent,("nullptr pEvent ?"));
 		pEvent->ButtonNameChecksum=ButtonChecksum;
 	}
 }
@@ -615,7 +615,7 @@ bool CTrickComponent::QueryEvents(Script::CStruct *pQuery, uint32 UsedMask, uint
 	}
 		
 	//Script::PrintContents(pQuery);	
-    Script::CComponent *pComp=pQuery->GetNextComponent(NULL);
+    Script::CComponent *pComp=pQuery->GetNextComponent(nullptr);
 	if (!pComp)
 	{
 		return false;
@@ -1830,7 +1830,7 @@ void CTrickComponent::ClearTricksFrom(uint32 ArrayChecksum)
 bool CTrickComponent::TrickIsDefined(Script::CStruct *pTrick)
 {
 	
-	Dbg_MsgAssert(pTrick,("NULL pTrick"));
+	Dbg_MsgAssert(pTrick,("nullptr pTrick"));
 	
 	uint32 ScriptChecksum=0;
 	if (pTrick->GetChecksum(0xa6d2d890/* Scr */,&ScriptChecksum))
@@ -1841,7 +1841,7 @@ bool CTrickComponent::TrickIsDefined(Script::CStruct *pTrick)
 	{
 		return true;
 	}
-	Script::CArray *p_template_array=NULL;
+	Script::CArray *p_template_array=nullptr;
 	if (pTrick->GetArray(0x689fe07c/* Template */,&p_template_array))
 	{
 		return true;
@@ -1853,7 +1853,7 @@ bool CTrickComponent::TrickIsDefined(Script::CStruct *pTrick)
 	if (pTrick->GetChecksum(0xa92a2280/* TrickSlot */,&TrickSlotChecksum))
 	{
 		// Look up this slot in the trick mappings ...
-		Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings ?"));
+		Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings ?"));
 		uint32 TrickChecksum=0;
 		mpTrickMappings->GetChecksum(TrickSlotChecksum,&TrickChecksum);
 	
@@ -1881,7 +1881,7 @@ bool CTrickComponent::TrickIsDefined(Script::CStruct *pTrick)
 
 bool CTrickComponent::RunTrick(Script::CStruct *pTrick, uint32 optionalFlag, Script::CStruct* pExtraParams)
 {
-	Dbg_MsgAssert(pTrick,("NULL pTrick"));
+	Dbg_MsgAssert(pTrick,("nullptr pTrick"));
 	
     uint32 ScriptChecksum=0;
     pTrick->GetChecksum(Crc::ConstCRC("Scr"),&ScriptChecksum);
@@ -1927,14 +1927,14 @@ bool CTrickComponent::RunTrick(Script::CStruct *pTrick, uint32 optionalFlag, Scr
 		mDoNotIgnoreMask=0;
 		
 		// Change the skater script to be the trick script.
-		Script::CStruct *pScriptParams=NULL;
+		Script::CStruct *pScriptParams=nullptr;
 		pTrick->GetStructure(Crc::ConstCRC("Params"),&pScriptParams);
 	
 		// Run the script.
 		mp_skater_flip_and_rotate_component->DoAnyFlipRotateOrBoardRotateAfters(); // <- See huge comment above definition of this function.
 		
 		CCompositeObject *p_object=GetObj();
-		Dbg_MsgAssert(p_object,("Trick component has NULL object ?"));
+		Dbg_MsgAssert(p_object,("Trick component has nullptr object ?"));
 		p_object->SwitchScript(ScriptChecksum,pScriptParams);
 
 		// If a flag value was passed in, insert it into the script's parameters.
@@ -1945,7 +1945,7 @@ bool CTrickComponent::RunTrick(Script::CStruct *pTrick, uint32 optionalFlag, Scr
 			// This is because pScriptParams could be pointing into some global structure, and
 			// that should be kept read-only.
 			Script::CStruct *p_script_params=p_object->GetScript()->GetParams();
-			Dbg_MsgAssert(p_script_params,("NULL p_script_params"));
+			Dbg_MsgAssert(p_script_params,("nullptr p_script_params"));
 			p_script_params->AddChecksum(NONAME,optionalFlag);
 		}
 		
@@ -2022,11 +2022,11 @@ void CTrickComponent::TriggerNextQueuedTrick(uint32 scriptToRunFirst, Script::CS
 				
 			// Get the trick array that the trick belongs to.
 			Script::CArray *pArray=Script::GetArray(ArrayChecksum);
-			Dbg_MsgAssert(pArray,("NULL pArray ?"));
+			Dbg_MsgAssert(pArray,("nullptr pArray ?"));
 			
 			// Get the structure defining the trick.
 			Script::CStruct *pTrickStruct=pArray->GetStructure(Index);
-			Dbg_MsgAssert(pTrickStruct,("NULL pTrickStruct ???"));
+			Dbg_MsgAssert(pTrickStruct,("nullptr pTrickStruct ???"));
 			
 			// Try running the trick the old way, which is where the trick script is
 			// specified directly in the structure. 
@@ -2042,7 +2042,7 @@ void CTrickComponent::TriggerNextQueuedTrick(uint32 scriptToRunFirst, Script::CS
 				if (TrickSlotChecksum)
 				{
 					// Look up this slot in the trick mappings ...
-					Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings ?"));
+					Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings ?"));
 				
 					// Maybe it is a create-a-trick, in which case it is referred to by an
 					// integer index value.
@@ -2057,7 +2057,7 @@ void CTrickComponent::TriggerNextQueuedTrick(uint32 scriptToRunFirst, Script::CS
 						p_params->AppendStructure(pExtraParams);
 						
 						CCompositeObject *p_object=GetObj();
-						Dbg_MsgAssert(p_object,("Trick component has NULL object ?"));
+						Dbg_MsgAssert(p_object,("Trick component has nullptr object ?"));
 						p_object->SwitchScript(Crc::ConstCRC("CreateATrick"),p_params);
 						delete p_params;
 							
@@ -2112,7 +2112,7 @@ void CTrickComponent::MaybeAddTrick(uint32 ArrayChecksum, bool UseSpecialTrickTe
 	// The array is stored by checksum in case it gets reloaded.
 	Script::CArray *pArray=Script::GetArray(ArrayChecksum);
 		
-	// The above would have asserted if the array wasn't found, but check pArray isn't NULL anyway.
+	// The above would have asserted if the array wasn't found, but check pArray isn't nullptr anyway.
 	if (pArray)
 	{
 		// Scan through the array checking each trick's trigger condition.
@@ -2120,7 +2120,7 @@ void CTrickComponent::MaybeAddTrick(uint32 ArrayChecksum, bool UseSpecialTrickTe
 		for (int i=0; i<Size; ++i)
 		{
 			Script::CStruct *pStruct=pArray->GetStructure(i);
-			Dbg_MsgAssert(pStruct,("NULL pStruct ???"));
+			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
 			// pStruct is the structure defining the trick.
 			
 			if (TrickIsDefined(pStruct))
@@ -2130,7 +2130,7 @@ void CTrickComponent::MaybeAddTrick(uint32 ArrayChecksum, bool UseSpecialTrickTe
 				// An alternate trigger may also be specified. This will also trigger the trick.
 				Script::CStruct *p_alternate_trigger=get_alternate_trigger_structure(pStruct);
 			
-				// p_trigger could be NULL, but OK cos QueryEvents will return false in that case.
+				// p_trigger could be nullptr, but OK cos QueryEvents will return false in that case.
 				// The DoNotIgnoreMask specifies additional used-events that should not be ignored.
 				uint32 ignore_mask=(~USED_BY_MANUAL_TRICK) & (~DoNotIgnoreMask);
 				
@@ -2172,7 +2172,7 @@ void CTrickComponent::AddTricksToQueue()
 void CTrickComponent::TriggerAnyManualTrick(Script::CStruct *pExtraParams)
 {
 	uint32 scriptToRunFirst=0;
-	Script::CStruct *pScriptToRunFirstParams=NULL;
+	Script::CStruct *pScriptToRunFirstParams=nullptr;
 	pExtraParams->GetChecksum(Crc::ConstCRC("ScriptToRunFirst"),&scriptToRunFirst);
 	pExtraParams->GetStructure(Crc::ConstCRC("Params"),&pScriptToRunFirstParams);
 
@@ -2203,7 +2203,7 @@ void CTrickComponent::TriggerAnyManualTrick(Script::CStruct *pExtraParams)
 		{
 			// Get the structure defining the trick.
 			Script::CStruct *pStruct=pArray->GetStructure(mManualTrick.Index);
-			Dbg_MsgAssert(pStruct,("NULL pStruct ???"));
+			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
 			
 
 			// Get the checksum of the slot if there is one ...
@@ -2213,7 +2213,7 @@ void CTrickComponent::TriggerAnyManualTrick(Script::CStruct *pExtraParams)
 			if (TrickSlotChecksum)
 			{
 				// Look up this slot in the trick mappings ...
-				Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings ?"));
+				Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings ?"));
 				uint32 TrickChecksum=0;
 				mpTrickMappings->GetChecksum(TrickSlotChecksum,&TrickChecksum);
 				
@@ -2241,11 +2241,11 @@ void CTrickComponent::TriggerAnyManualTrick(Script::CStruct *pExtraParams)
 				mUseSpecialTrickText=mManualTrick.UseSpecialTrickText;
 			
 				// Change the skater script to be the trick script.
-				Script::CStruct *pScriptParams=NULL;
+				Script::CStruct *pScriptParams=nullptr;
 				pStruct->GetStructure(Crc::ConstCRC("Params"),&pScriptParams);
 				
 				CCompositeObject *p_object=GetObj();
-				Dbg_MsgAssert(p_object,("Trick component has NULL object ?"));
+				Dbg_MsgAssert(p_object,("Trick component has nullptr object ?"));
 
 				if (pExtraParams)
 				{
@@ -2283,7 +2283,7 @@ void CTrickComponent::CheckManualTrickArray(uint32 ArrayChecksum, uint32 IgnoreM
 	// The array is stored by checksum in case it gets reloaded.
 	Script::CArray *pArray=Script::GetArray(ArrayChecksum);
 		
-	// The above would have asserted if the array wasn't found, but check pArray isn't NULL anyway.
+	// The above would have asserted if the array wasn't found, but check pArray isn't nullptr anyway.
 	if (pArray)
 	{
 		// Scan through the array checking each trick.
@@ -2291,7 +2291,7 @@ void CTrickComponent::CheckManualTrickArray(uint32 ArrayChecksum, uint32 IgnoreM
 		for (int t=0; t<Size; ++t)
 		{
 			Script::CStruct *pStruct=pArray->GetStructure(t);
-			Dbg_MsgAssert(pStruct,("NULL pStruct ???"));
+			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
 			// pStruct is the structure defining the trick.
 			
 			if (TrickIsDefined(pStruct))
@@ -2302,7 +2302,7 @@ void CTrickComponent::CheckManualTrickArray(uint32 ArrayChecksum, uint32 IgnoreM
 				Script::CStruct *p_alternate_trigger=get_alternate_trigger_structure(pStruct);
 				
 				
-				// p_trigger could be NULL, but OK cos QueryEvents will return false in that case.
+				// p_trigger could be nullptr, but OK cos QueryEvents will return false in that case.
 				if (QueryEvents(p_trigger,USED_BY_MANUAL_TRICK,IgnoreMask) ||
 					QueryEvents(p_alternate_trigger,USED_BY_MANUAL_TRICK,IgnoreMask))
 				{
@@ -2379,7 +2379,7 @@ bool CTrickComponent::TriggerAnyExtraTrick(uint32 ArrayChecksum, uint32 Excluded
 	Dbg_MsgAssert(ArrayChecksum,("Zero ArrayChecksum sent to TriggerAnyExtraTrick"));
 	Script::CArray *pArray=Script::GetArray(ArrayChecksum);
 	
-	// The above would have asserted if the array wasn't found, but check pArray isn't NULL anyway.
+	// The above would have asserted if the array wasn't found, but check pArray isn't nullptr anyway.
 	if (pArray)
 	{
 		// Scan through the array checking each trick.
@@ -2392,7 +2392,7 @@ bool CTrickComponent::TriggerAnyExtraTrick(uint32 ArrayChecksum, uint32 Excluded
 			if (!(ExcludedTricks & (1<<i)))
 			{
 				Script::CStruct *pTrickStruct=pArray->GetStructure(i);
-				Dbg_MsgAssert(pTrickStruct,("NULL pTrickStruct ???"));
+				Dbg_MsgAssert(pTrickStruct,("nullptr pTrickStruct ???"));
 				// pTrickStruct is the structure defining the trick.
 				
 				if (TrickIsDefined(pTrickStruct))
@@ -2402,7 +2402,7 @@ bool CTrickComponent::TriggerAnyExtraTrick(uint32 ArrayChecksum, uint32 Excluded
 					// An alternate trigger may also be specified. This will also trigger the trick.
 					Script::CStruct *p_alternate_trigger=get_alternate_trigger_structure(pTrickStruct);
 					
-					// p_trigger could be NULL, but OK cos QueryEvents will return false in that case.
+					// p_trigger could be nullptr, but OK cos QueryEvents will return false in that case.
 					
 					// The USED_BY_EXTRA_TRICK flags value means flag any button events used as being
 					// used by the extra tricks.
@@ -2427,7 +2427,7 @@ bool CTrickComponent::TriggerAnyExtraTrick(uint32 ArrayChecksum, uint32 Excluded
 							if (TrickSlotChecksum)
 							{
 								// Look up this slot in the trick mappings ...
-								Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings ?"));
+								Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings ?"));
 								uint32 TrickChecksum=0;
 								mpTrickMappings->GetChecksum(TrickSlotChecksum,&TrickChecksum);
 					
@@ -2534,8 +2534,8 @@ void CTrickComponent::TriggerAnyExtraTricks()
 void CTrickComponent::SetExtraTricks(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	
-	Dbg_MsgAssert(pParams,("NULL pParams"));
-	Dbg_MsgAssert(pScript,("NULL pScript"));
+	Dbg_MsgAssert(pParams,("nullptr pParams"));
+	Dbg_MsgAssert(pScript,("nullptr pScript"));
 	
 	mGotExtraTricks=true;
 	
@@ -2561,7 +2561,7 @@ void CTrickComponent::SetExtraTricks(Script::CStruct *pParams, Script::CScript *
 	else
 	{
 		// Otherwise, assume all the un-named names in the parameter list are the trick arrays required.
-		Script::CComponent *pComp=NULL;
+		Script::CComponent *pComp=nullptr;
 		while (true)
 		{
 			pComp=pParams->GetNextComponent(pComp);
@@ -2593,14 +2593,14 @@ void CTrickComponent::SetExtraTricks(Script::CStruct *pParams, Script::CScript *
 	
 	// Exclude any 'Ignore' tricks specified. May be just one, may be an array of them.
 	const char *pExtraTrickToIgnore="";
-	Script::CArray *pArrayOfTricksToIgnore=NULL;
+	Script::CArray *pArrayOfTricksToIgnore=nullptr;
 	if (pParams->GetLocalText(Crc::ConstCRC("Ignore"),&pExtraTrickToIgnore))
 	{
 		ExcludeExtraTricks(pExtraTrickToIgnore);
 	}	
 	else if (pParams->GetArray(Crc::ConstCRC("Ignore"),&pArrayOfTricksToIgnore))
 	{
-		Dbg_MsgAssert(pArrayOfTricksToIgnore,("Eh ? NULL pArrayOfTricksToIgnore ??"));
+		Dbg_MsgAssert(pArrayOfTricksToIgnore,("Eh ? nullptr pArrayOfTricksToIgnore ??"));
 		int Size=pArrayOfTricksToIgnore->GetSize();
 		for (int i=0; i<Size; ++i)
 		{
@@ -2651,15 +2651,15 @@ bool CTrickComponent::TriggerAnyExtraGrindTrick(bool Right, bool Parallel, bool 
 		{
 			// Get the structure defining the trick.
 			Script::CStruct *pStruct=pArray->GetStructure(mExtraGrindTrick.Index);
-			Dbg_MsgAssert(pStruct,("NULL pStruct ???"));
+			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
 			
-			Script::CArray *pScriptArray=NULL;
+			Script::CArray *pScriptArray=nullptr;
 			pStruct->GetArray(Crc::ConstCRC("Scripts"),&pScriptArray);
 			
 			// The scripts array can alternatively be specified using a template array and a prefix.
-			Script::CArray *p_template_array=NULL;
+			Script::CArray *p_template_array=nullptr;
 			pStruct->GetArray(Crc::ConstCRC("Template"),&p_template_array);
-			const char *p_prefix=NULL;
+			const char *p_prefix=nullptr;
 			pStruct->GetString(Crc::ConstCRC("Prefix"),&p_prefix);
 			
 			if (!(pScriptArray || p_template_array))
@@ -2670,7 +2670,7 @@ bool CTrickComponent::TriggerAnyExtraGrindTrick(bool Right, bool Parallel, bool 
 				if (TrickSlotChecksum)
 				{
 					// Look up this slot in the trick mappings ...
-					Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings ?"));
+					Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings ?"));
 					uint32 TrickChecksum=0;
 					mpTrickMappings->GetChecksum(TrickSlotChecksum,&TrickChecksum);
 				
@@ -2722,7 +2722,7 @@ bool CTrickComponent::TriggerAnyExtraGrindTrick(bool Right, bool Parallel, bool 
 				script_checksum=Script::GenerateCRC(p_temp);
 			}
 				
-			Script::CStruct *pParams=NULL;
+			Script::CStruct *pParams=nullptr;
 			pStruct->GetStructure(Crc::ConstCRC("Params"),&pParams);
 			
 
@@ -2768,7 +2768,7 @@ void CTrickComponent::MaybeQueueExtraGrindTrick(uint32 ArrayChecksum, bool UseSp
 	// The array is stored by checksum in case it gets reloaded.
 	Script::CArray *pArray=Script::GetArray(ArrayChecksum);
 		
-	// The above would have asserted if the array wasn't found, but check pArray isn't NULL anyway.
+	// The above would have asserted if the array wasn't found, but check pArray isn't nullptr anyway.
 	if (pArray)
 	{
 		// Scan through the array checking each trick.
@@ -2776,7 +2776,7 @@ void CTrickComponent::MaybeQueueExtraGrindTrick(uint32 ArrayChecksum, bool UseSp
 		for (int t=0; t<Size; ++t)
 		{
 			Script::CStruct *pStruct=pArray->GetStructure(t);
-			Dbg_MsgAssert(pStruct,("NULL pStruct ???"));
+			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
 			// pStruct is the structure defining the trick.
 			
 			if (TrickIsDefined(pStruct))
@@ -2786,7 +2786,7 @@ void CTrickComponent::MaybeQueueExtraGrindTrick(uint32 ArrayChecksum, bool UseSp
 				// An alternate trigger may also be specified. This will also trigger the trick.
 				Script::CStruct *p_alternate_trigger=get_alternate_trigger_structure(pStruct);
 				
-				// p_trigger could be NULL, but OK cos QueryEvents will return false in that case.
+				// p_trigger could be nullptr, but OK cos QueryEvents will return false in that case.
 				if (QueryEvents(p_trigger,USED_BY_EXTRA_GRIND_TRICK,~USED_BY_MANUAL_TRICK) ||
 					QueryEvents(p_alternate_trigger,USED_BY_EXTRA_GRIND_TRICK,~USED_BY_MANUAL_TRICK))
 				{
@@ -2852,14 +2852,14 @@ bool CTrickComponent::IsExcluded(Script::CStruct *pTrick, const char *pIgnoreNam
 {
 	
 	
-	Dbg_MsgAssert(pTrick,("NULL pTrick"));
+	Dbg_MsgAssert(pTrick,("nullptr pTrick"));
 	
 	// See if it has a trick slot.
 	uint32 TrickSlotChecksum=0;
 	if (pTrick->GetChecksum(0xa92a2280/*TrickSlot*/,&TrickSlotChecksum))
 	{
 		// Look up this slot in the trick mappings ...
-		Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings ?"));
+		Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings ?"));
 		uint32 TrickChecksum=0;
 		mpTrickMappings->GetChecksum(TrickSlotChecksum,&TrickChecksum);
 							
@@ -2874,16 +2874,16 @@ bool CTrickComponent::IsExcluded(Script::CStruct *pTrick, const char *pIgnoreNam
 		}
 	}
 
-	Script::CStruct *pParams=NULL;
-	Dbg_MsgAssert(pTrick,("Eh ?  NULL pTrick"));
+	Script::CStruct *pParams=nullptr;
+	Dbg_MsgAssert(pTrick,("Eh ?  nullptr pTrick"));
 	pTrick->GetStructure(Crc::ConstCRC("Params"),&pParams);
 	if (pParams)
 	{
-		const char *pName=NULL;
+		const char *pName=nullptr;
 		pParams->GetLocalText(Crc::ConstCRC("Name"),&pName);
 		if (pName)
 		{
-			Dbg_MsgAssert(pIgnoreName,("NULL pIgnoreName"));
+			Dbg_MsgAssert(pIgnoreName,("nullptr pIgnoreName"));
 			// Compare pName and pIgnoreName.
 			// If they match, return true so that the trick gets excluded.
 			if (stricmp(pName,pIgnoreName)==0)
@@ -3143,7 +3143,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 		// any of those buttons are held it will return true.
 		case 0xeda2772e: // Held
 		{
-			Script::CArray *p_array=NULL;
+			Script::CArray *p_array=nullptr;
 			if (pParams->GetArray(Crc::ConstCRC("Buttons"),&p_array))
 			{
 				// If an array of buttons is specified, check each of them.
@@ -3192,7 +3192,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 		case 0x09d58f25: // DoNextTrick
 		{
 			uint32 scriptToRunFirst=0;
-			Script::CStruct *pScriptToRunFirstParams=NULL;
+			Script::CStruct *pScriptToRunFirstParams=nullptr;
 			pParams->GetChecksum(Crc::ConstCRC("ScriptToRunFirst"),&scriptToRunFirst);
 			pParams->GetStructure(Crc::ConstCRC("Params"),&pScriptToRunFirstParams);
 			TriggerNextQueuedTrick(scriptToRunFirst, pScriptToRunFirstParams);
@@ -3204,7 +3204,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 		case 0xcb30572d: // ClearTricksFrom
 		{
 			// Run through all the parameters.
-			Script::CComponent *pComp=NULL;
+			Script::CComponent *pComp=nullptr;
 			while (true)
 			{
 				pComp=pParams->GetNextComponent(pComp);
@@ -3230,7 +3230,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 		{
 			mNumQueueTricksArrays=0;
 
-			Script::CComponent *pComp=NULL;
+			Script::CComponent *pComp=nullptr;
 			while (true)
 			{
 				pComp=pParams->GetNextComponent(pComp);
@@ -3294,7 +3294,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 		{
 			mNumManualTrickArrays=0;
 
-			Script::CComponent *pComp=NULL;
+			Script::CComponent *pComp=nullptr;
 			while (true)
 			{
 				pComp=pParams->GetNextComponent(pComp);
@@ -3338,7 +3338,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 		{
 			mNumExtraGrindTrickArrays=0;
 
-			Script::CComponent *pComp=NULL;
+			Script::CComponent *pComp=nullptr;
 			while (true)
 			{
 				pComp=pParams->GetNextComponent(pComp);
@@ -3371,7 +3371,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
         // @parmopt int | OlderThan | 0 | used in conjuction with optional buttons array
 		case 0x86928082: // ClearEventBuffer	
 		{
-			Script::CArray *pButtonArray=NULL;
+			Script::CArray *pButtonArray=nullptr;
 			if (pParams->GetArray(Crc::ConstCRC("Buttons"),&pButtonArray))
 			{
 				int OlderThan=0;
@@ -3487,7 +3487,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 			uint32 Trick=0;
 			pParams->GetChecksum(Crc::ConstCRC("Trick"),&Trick);
 			
-			Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings"));
+			Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings"));
 			// This will just replace the slot if it exists already.
 			mpTrickMappings->AddComponent(Slot,(uint8)ESYMBOLTYPE_NAME,Trick);
 			break;
@@ -3500,14 +3500,14 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 			// the checksum is unnamed, because by convention an unnamed checksum that resolves to a structure
 			// effectively makes that structure part of the params, & the name of the structure is just considered
 			// an intermediate thing which is not part of the params.
-			Script::CComponent *pComp=pParams->GetNextComponent(NULL);
+			Script::CComponent *pComp=pParams->GetNextComponent(nullptr);
 			if (pComp && pComp->mNameChecksum==0 && pComp->mType==ESYMBOLTYPE_NAME)
 			{
 				Script::CStruct *pNewTrickMappings=Script::GetStructure(pComp->mChecksum);
 				if (pNewTrickMappings)
 				{
 					// Found the new structure, so load it in to mpTrickMappings.
-					Dbg_MsgAssert(mpTrickMappings,("NULL mpTrickMappings"));
+					Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings"));
 					mpTrickMappings->Clear();
 					mpTrickMappings->AppendStructure(pNewTrickMappings);
 				}
@@ -3545,7 +3545,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
         // @uparmopt "string" | trick name
 		case 0x4b2ee2bc: // SetTrickName
 		{
-			const char *pName=NULL;
+			const char *pName=nullptr;
 			pParams->GetString(NO_NAME,&pName);
 			// Make it accept regular strings too, because trick names probably won't get translated.
 			if (pName)
@@ -3869,7 +3869,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 void CTrickComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CTrickComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CTrickComponent::GetDebugInfo"));
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);	  
 
@@ -4048,11 +4048,11 @@ bool ScriptDoNextTrick( Script::CStruct *pParams, Script::CScript *pScript )
 	Dbg_MsgAssert(p_trick, ("Can't run DoNextTrick with no object"));
 		
 	uint32 scriptToRunFirst=0;
-	Script::CStruct *pScriptToRunFirstParams=NULL;
+	Script::CStruct *pScriptToRunFirstParams=nullptr;
 	pParams->GetChecksum(Crc::ConstCRC("ScriptToRunFirst"),&scriptToRunFirst);
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pScriptToRunFirstParams);
 	
-	Script::CStruct *pExtraTrickParams=NULL;
+	Script::CStruct *pExtraTrickParams=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("TrickParams"),&pExtraTrickParams);
 	if (pExtraTrickParams)
 	{

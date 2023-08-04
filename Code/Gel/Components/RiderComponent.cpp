@@ -49,10 +49,10 @@ CRiderComponent::CRiderComponent() : CBaseComponent()
 	
 	mp_collision_cache = Nx::CCollCacheManager::sCreateCollCache();
 	
-	mp_input_component				= NULL;
-	mp_animation_component			= NULL;
-	mp_movable_contact_component	= NULL;
-	mp_horse_component				= NULL;
+	mp_input_component				= nullptr;
+	mp_animation_component			= nullptr;
+	mp_movable_contact_component	= nullptr;
+	mp_horse_component				= nullptr;
 }
 
 /******************************************************************/
@@ -118,7 +118,7 @@ void CRiderComponent::RefreshFromStructure( Script::CStruct* pParams )
 /******************************************************************/
 void CRiderComponent::Update()
 {
-	if( mp_horse_component == NULL )
+	if( mp_horse_component == nullptr )
 	{
 		return;
 	}
@@ -442,7 +442,7 @@ CBaseComponent::EMemberFunctionResult CRiderComponent::CallMemberFunction( uint3
 /******************************************************************/
 void CRiderComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CRiderComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CRiderComponent::GetDebugInfo"));
 	
 	switch (m_state)
 	{
@@ -491,7 +491,7 @@ bool CRiderComponent::ReadyRiderState( bool to_ground_state )
 	MARK;
 	
 	// Firstly ensure that there is a valid horse nearby.
-	mp_horse_component						= NULL;
+	mp_horse_component						= nullptr;
 
 	Obj::CHorseComponent* p_horse_component = static_cast<Obj::CHorseComponent*>( Obj::CCompositeObjectManager::Instance()->GetFirstComponentByType( CRC_HORSE ));
 	while( p_horse_component )
@@ -507,7 +507,7 @@ bool CRiderComponent::ReadyRiderState( bool to_ground_state )
 		p_horse_component					= static_cast<Obj::CHorseComponent*>( p_horse_component->GetNextSameType());
 	}
 
-	if( mp_horse_component == NULL )
+	if( mp_horse_component == nullptr )
 	{
 		// Don't want to proceed.
 		return false;
@@ -592,7 +592,7 @@ void CRiderComponent::go_on_horse_state( void )
 
 		// Get the control component.
 		CSkaterPhysicsControlComponent*	p_control_component = GetSkaterPhysicsControlComponentFromObject( GetObj());
-		p_control_component->CallMemberFunction( CRCD( 0x82604c1e, "SkaterPhysicsControl_SwitchRidingToWalking"), NULL, NULL );
+		p_control_component->CallMemberFunction( CRCD( 0x82604c1e, "SkaterPhysicsControl_SwitchRidingToWalking"), nullptr, nullptr );
 
 		mp_horse_component->AcceptRiderDismount( GetObj());
 
@@ -612,7 +612,7 @@ void CRiderComponent::go_on_horse_state( void )
 		{
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Jump"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 		case CRCC( 0xa337737a, "Horse_Airidle" ):
@@ -620,14 +620,14 @@ void CRiderComponent::go_on_horse_state( void )
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Airidle"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
 			p_temp_struct->AddChecksum( (uint32)0, 0x4f792e6c/*"Cycle"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 		case CRCC( 0x5540d14, "Horse_Land" ):
 		{
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Land"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 		case Crc::ConstCRC("Horse_Walk"):
@@ -635,7 +635,7 @@ void CRiderComponent::go_on_horse_state( void )
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Walk"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
 			p_temp_struct->AddChecksum( (uint32)0, 0x4f792e6c/*"Cycle"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 		case Crc::ConstCRC("Horse_Trot"):
@@ -643,7 +643,7 @@ void CRiderComponent::go_on_horse_state( void )
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Trot"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
 			p_temp_struct->AddChecksum( (uint32)0, 0x4f792e6c/*"Cycle"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 		case Crc::ConstCRC("Horse_Canter"):
@@ -651,7 +651,7 @@ void CRiderComponent::go_on_horse_state( void )
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Canter"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
 			p_temp_struct->AddChecksum( (uint32)0, 0x4f792e6c/*"Cycle"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 		case Crc::ConstCRC("Horse_Gallop"):
@@ -659,7 +659,7 @@ void CRiderComponent::go_on_horse_state( void )
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Gallop"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
 			p_temp_struct->AddChecksum( (uint32)0, 0x4f792e6c/*"Cycle"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 		case Crc::ConstCRC("Horse_StandIdle"):
@@ -668,7 +668,7 @@ void CRiderComponent::go_on_horse_state( void )
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_StandIdle"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
 			p_temp_struct->AddChecksum( (uint32)0, 0x4f792e6c/*"Cycle"*/);
-			p_anim_component->PlayAnim( p_temp_struct, NULL, 0.3f );
+			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
 	}

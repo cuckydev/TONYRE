@@ -231,7 +231,7 @@ CBaseComponent::EMemberFunctionResult CCameraLookAroundComponent::CallMemberFunc
 void CCameraLookAroundComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CCameraLookAroundComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CCameraLookAroundComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

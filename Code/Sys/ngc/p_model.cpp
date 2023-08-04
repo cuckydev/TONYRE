@@ -131,7 +131,7 @@
 //		pML->m_type			= pMaterial->type;
 //		pML->m_flags		= pMaterial->flags;
 //		pML->m_priority		= pMaterial->priority;
-//		pML->m_pWibbleData	= NULL;
+//		pML->m_pWibbleData	= nullptr;
 //		
 //		NsMaterialInfo* pLastMaterial = pMaterial;
 //		pMaterial++;
@@ -160,7 +160,7 @@
 //			pML->m_pWibbleData = new NsWibbleSequence[8];
 //			for ( int kk = 0; kk < 8; kk++ ) {
 //				pML->m_pWibbleData[kk].numKeys = *p32++;
-//				pML->m_pWibbleData[kk].pKeys = NULL;
+//				pML->m_pWibbleData[kk].pKeys = nullptr;
 //				if ( pML->m_pWibbleData[kk].numKeys ) {
 //					pML->m_pWibbleData[kk].pKeys = new NsWibbleKey[pML->m_pWibbleData[kk].numKeys];
 //					memcpy( pML->m_pWibbleData[kk].pKeys, p32, sizeof( NsWibbleKey ) * pML->m_pWibbleData[kk].numKeys );
@@ -190,14 +190,14 @@
 ////	for ( lp = 0; lp < ( numMaterials - 1 ); lp++ ) {
 ////		SortedMaterialList[lp]->pNextSorted = SortedMaterialList[lp+1];
 ////	}																   
-////		SortedMaterialList[numMaterials-1]->pNextSorted = NULL;
+////		SortedMaterialList[numMaterials-1]->pNextSorted = nullptr;
 ///*
 //	// Set up the linked list.
 //	pHead = &pMaterialList[0];
 //	for ( lp = 0; lp < ( numMaterials - 1 ); lp++ ) {
 //		pMaterialList[lp].pNextSorted = &pMaterialList[lp+1];
 //	}
-//	pMaterialList[numMaterials-1].pNextSorted = NULL;
+//	pMaterialList[numMaterials-1].pNextSorted = nullptr;
 //*/
 ////	OSFree ( SortedMaterialList );
 //}
@@ -246,8 +246,8 @@
 //
 //	NsMaterial	  * pMat;
 //
-//	NsDL		  * pDL = NULL;		// To fix warning
-//	NsDL		  * pParentDL = NULL;
+//	NsDL		  * pDL = nullptr;		// To fix warning
+//	NsDL		  * pParentDL = nullptr;
 //	char		  * p8;
 //	char		  * pPoolStart;
 //	int				stride;
@@ -295,13 +295,13 @@
 //		switch ( geomflags & ( rpWORLDPRELIT | rpWORLDTEXTURED | rpWORLDTEXTURED2 | rpWORLDNORMALS ) ) {
 //			case rpWORLDPRELIT:
 //				pColor	= (unsigned int *)&pVertex[pGeom->numVertices*3];
-//				pUV		= NULL;
-//				pNormal	= NULL;
+//				pUV		= nullptr;
+//				pNormal	= nullptr;
 //				pConnect= (unsigned short *)&pColor[pGeom->numVertices];
 //				break;
 //			case rpWORLDPRELIT |						rpWORLDNORMALS:
 //				pColor	= (unsigned int *)&pVertex[pGeom->numVertices*3];
-//				pUV		= NULL;
+//				pUV		= nullptr;
 //				pNormal = (float *)&pColor[pGeom->numVertices];
 //				pConnect= (unsigned short *)&pNormal[pGeom->numVertices*3];
 //				break;
@@ -309,7 +309,7 @@
 //			case rpWORLDPRELIT |	rpWORLDTEXTURED2:
 //				pColor	= (unsigned int *)&pVertex[pGeom->numVertices*3];
 //				pUV		= (float *)&pColor[pGeom->numVertices];
-//				pNormal	= NULL;
+//				pNormal	= nullptr;
 //				pConnect= (unsigned short *)&pUV[pGeom->numVertices*2];
 //				break;
 //			case rpWORLDPRELIT |	rpWORLDTEXTURED |	rpWORLDNORMALS:
@@ -320,35 +320,35 @@
 //				pConnect= (unsigned short *)&pNormal[pGeom->numVertices*3];
 //				break;
 //			case 0:
-//				pColor	= NULL;
-//				pUV		= NULL;
-//				pNormal	= NULL;
+//				pColor	= nullptr;
+//				pUV		= nullptr;
+//				pNormal	= nullptr;
 //				pConnect= (unsigned short *)&pVertex[pGeom->numVertices*3];
 //				break;
 //			case										rpWORLDNORMALS:
-//				pColor	= NULL;
-//				pUV		= NULL;
+//				pColor	= nullptr;
+//				pUV		= nullptr;
 //				pNormal	= (float *)&pVertex[pGeom->numVertices*3];
 //				pConnect= (unsigned short *)&pNormal[pGeom->numVertices*3];
 //				break;
 //			case 					rpWORLDTEXTURED:
 //			case 					rpWORLDTEXTURED2:
-//				pColor	= NULL;
+//				pColor	= nullptr;
 //				pUV		= (float *)&pVertex[pGeom->numVertices*3];
-//				pNormal	= NULL;
+//				pNormal	= nullptr;
 //				pConnect= (unsigned short *)&pUV[pGeom->numVertices*2];
 //				break;
 //			case 					rpWORLDTEXTURED |	rpWORLDNORMALS:
 //			case 					rpWORLDTEXTURED2 |	rpWORLDNORMALS:
-//				pColor	= NULL;
+//				pColor	= nullptr;
 //				pUV		= (float *)&pVertex[pGeom->numVertices*3];
 //				pNormal	= (float *)&pUV[pGeom->numVertices*2];
 //				pConnect= (unsigned short *)&pNormal[pGeom->numVertices*3];
 //				break;
 //			default:
-//				pColor	= NULL;
-//				pUV		= NULL;
-//				pNormal	= NULL;
+//				pColor	= nullptr;
+//				pUV		= nullptr;
+//				pNormal	= nullptr;
 //				pConnect= (unsigned short *)&pVertex[pGeom->numVertices*3];
 //				break;
 //		}
@@ -361,7 +361,7 @@
 //		if ( stripNormals ) {
 //			if ( geomflags & rpWORLDNORMALS ) {
 //				geomflags &= ~rpWORLDNORMALS;
-//				pNormal	= NULL;
+//				pNormal	= nullptr;
 //			}
 //		}
 //
@@ -639,9 +639,9 @@
 //					// hash table. If not, link it to the head DL.
 //					if ( mesh == 0 ) {
 //						// Hook into skate3...
-//						//if ( addToHashTable ) Bsp::AddToHashTable( pDL, NULL );
+//						//if ( addToHashTable ) Bsp::AddToHashTable( pDL, nullptr );
 //						pDL->m_pParent = pDL;
-////						pDL->m_pChild = NULL;
+////						pDL->m_pChild = nullptr;
 //						pParentDL = pDL;
 //					} else {
 //						// Hook this to the parent DL.
@@ -676,7 +676,7 @@
 //
 //		// Copy wibble data.
 //		unsigned char * pWibble = (unsigned char *)&pPartChecksums[m_pSkinData->numPartChecksums];
-//		pParentDL->m_pWibbleData = NULL;
+//		pParentDL->m_pWibbleData = nullptr;
 //		if ( pGeom->wibbleDataFollows ) {
 //			pParentDL->m_pWibbleData = new unsigned char[pParentDL->m_numVertex * 6];
 //			memcpy( pParentDL->m_pWibbleData, pParentDL->getColorPool(), pParentDL->m_numVertex * 4 );

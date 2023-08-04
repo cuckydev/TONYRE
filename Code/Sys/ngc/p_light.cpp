@@ -38,7 +38,7 @@
 //	assertp(( type == NSLIGHT_AMBIENT ) || ( type == NSLIGHT_DIRECTIONAL ));
 //
 //	m_Type		= type;
-//	m_pFrame	= NULL;
+//	m_pFrame	= nullptr;
 //	m_Color.r	= 0;
 //	m_Color.g	= 0;
 //	m_Color.b	= 0;

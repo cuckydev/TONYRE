@@ -116,11 +116,11 @@ CObject::CObject() :
 	m_id = CBaseManager::vNO_OBJECT_ID;	
 	m_type = CBaseManager::vNO_OBJECT_TYPE;	
 #ifndef	__SCRIPT_EVENT_TABLE__		
-	mp_event_handler_table = NULL;
+	mp_event_handler_table = nullptr;
 #endif	
-	mp_tags = NULL;
-	mp_script = NULL;
-	mp_manager = NULL;
+	mp_tags = nullptr;
+	mp_script = nullptr;
+	mp_manager = nullptr;
 	m_object_flags = 0;
 	
 	m_ref_count = 0;
@@ -145,11 +145,11 @@ CObject::CObject( CBaseManager* p_obj_manager )
 	m_type = CBaseManager::vNO_OBJECT_TYPE;	
 	p_obj_manager->RegisterObject( *this );	// add to manager's object list
 #ifndef	__SCRIPT_EVENT_TABLE__		
-	mp_event_handler_table = NULL;
+	mp_event_handler_table = nullptr;
 #endif	
-	mp_tags = NULL;
-	mp_script = NULL;
-	mp_manager = NULL;
+	mp_tags = nullptr;
+	mp_script = nullptr;
+	mp_manager = nullptr;
 	m_object_flags = 0;
 	
 	m_ref_count = 0;
@@ -209,7 +209,7 @@ CObject::~CObject()
 	if (mp_script)
 	{
 		delete mp_script;
-		mp_script = NULL;
+		mp_script = nullptr;
 	}
 	
 	// Stop any scripts that have this object as their parent.
@@ -498,7 +498,7 @@ void CObject::RemoveTagsFromScript(Script::CArray *pNameArray)
 	if (mp_tags->IsEmpty())
 	{
 		delete mp_tags;
-		mp_tags = NULL;
+		mp_tags = nullptr;
 	}
 }
 
@@ -570,7 +570,7 @@ void CObject::SetProperties(Script::CStruct *pProps)
 bool CObject::CallMemberFunction( uint32 Checksum, Script::CScriptStructure *pParams, Script::CScript *pScript )
 {
     
-	Dbg_MsgAssert(pScript,("NULL pScript"));
+	Dbg_MsgAssert(pScript,("nullptr pScript"));
 
 	switch(Checksum)
 	{
@@ -756,7 +756,7 @@ bool CObject::CallMemberFunction( uint32 Checksum, Script::CScriptStructure *pPa
 				// keep the same ID as the parent if not specified...
 				Id = Script::FindSpawnedScriptID(pScript);
 				pParams->GetChecksum("Id",&Id);
-				Script::CScriptStructure *pScriptParams = NULL;
+				Script::CScriptStructure *pScriptParams = nullptr;
 				pParams->GetStructure( "Params", &pScriptParams );
 				#ifdef __NOPT_ASSERT__	
 				Script::CScript *p_script=SpawnScriptPlease( scriptChecksum, pScriptParams, Id, pParams->ContainsFlag(Crc::ConstCRC("PauseWithObject")) );
@@ -779,7 +779,7 @@ bool CObject::CallMemberFunction( uint32 Checksum, Script::CScriptStructure *pPa
 			uint32 scriptChecksum;
 			if ( pParams->GetChecksum( NONAME, &scriptChecksum ) )
 			{
-				Script::CScriptStructure *pScriptParams = NULL;
+				Script::CScriptStructure *pScriptParams = nullptr;
 				pParams->GetStructure( "Params", &pScriptParams );
 				SwitchScript( scriptChecksum, pScriptParams );
 			}
@@ -877,7 +877,7 @@ uint32 CObject::GetFlags( Script::CScriptStructure *pParams, Script::CScript *pS
 	int Flag = 0;
 
 	// Scan through any array of flags specified.
-	Script::CArray *pArray=NULL;
+	Script::CArray *pArray=nullptr;
 	pParams->GetArray(NONAME,&pArray);
 	if (pArray)
 	{
@@ -919,7 +919,7 @@ bool CObject::PassTargetedEvent(CEvent *pEvent, bool broadcast)
 		mp_event_handler_table->pass_event(pEvent, this, broadcast);
 #endif
 
-	return (p != NULL);
+	return (p != nullptr);
 }
 
 
@@ -952,7 +952,7 @@ void CObject::MarkAsDead( void )
 		mp_script->Block( );
 	}
 
-	// The following line will set the mp_object of any referring scripts to NULL
+	// The following line will set the mp_object of any referring scripts to nullptr
 	Script::StopAllScriptsUsingThisObject(this);  // Mick: we don't want any other scripts to continue running on a dead object 	
 	
 	Dbg_MsgAssert( mp_manager,( "No object manager associated with this object..." ));
@@ -993,7 +993,7 @@ void CObject::AllocateScriptIfNeeded()
 	{
 		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 		mp_script = new Script::CScript();
-		mp_script->SetScript(Crc::ConstCRC("empty_script"),NULL,this);
+		mp_script->SetScript(Crc::ConstCRC("empty_script"),nullptr,this);
 		Mem::Manager::sHandle().PopContext();
 	}
 }
@@ -1034,7 +1034,7 @@ Script::CScript *CObject::SpawnScriptPlease( uint32 scriptChecksum, Script::CScr
 {
 	
 	Script::CScript *pScript;
-	pScript = Script::SpawnScript( scriptChecksum, pParams, 0, NULL, -1, Id, false, false, false, pause_with_object ); // K: The 0,NULL means no callback specified.
+	pScript = Script::SpawnScript( scriptChecksum, pParams, 0, nullptr, -1, Id, false, false, false, pause_with_object ); // K: The 0,nullptr means no callback specified.
 	pScript->mpObject = this;
 	return pScript;
 }
@@ -1055,11 +1055,11 @@ void CObject::SpawnAndRunScript ( uint32 ScriptChecksum, int node, bool net_scri
 		// Currently p_params is only used to store the contents of any ModelTriggerScriptParams
 		// that may be specified in an object's node and which are required to be passed on to
 		// any TriggerScript in it's local node array. (Used by a goal in London)
-		// (Note: The NULL below means a NULL p_object)
-		Script::SendSpawnScript( ScriptChecksum, NULL, node, permanent );
+		// (Note: The nullptr below means a nullptr p_object)
+		Script::SendSpawnScript( ScriptChecksum, nullptr, node, permanent );
 	}
 
-	Script::CScript* pScript = Script::SpawnScript( ScriptChecksum, p_params, 0, NULL, node );
+	Script::CScript* pScript = Script::SpawnScript( ScriptChecksum, p_params, 0, nullptr, node );
 	
 	#ifdef __NOPT_ASSERT__
 	pScript->SetCommentString( "Spawned by CObject::SpawnAndRun(...)" );
@@ -1124,7 +1124,7 @@ void			CObject::GetDebugInfo(Script::CStruct *p_info)
 #ifdef	__DEBUG_CODE__
 		// CObject stuff
 	Script::CStruct *p_scripts=new Script::CStruct;
-	Script::CScript *p_script=Script::GetNextScript(NULL);
+	Script::CScript *p_script=Script::GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->mpObject==this)
@@ -1164,7 +1164,7 @@ void			CObject::GetDebugInfo(Script::CStruct *p_info)
 	}
 	else
 	{
-		p_info->AddChecksum("mp_tags",Crc::ConstCRC("NULL"));
+		p_info->AddChecksum("mp_tags",Crc::ConstCRC("nullptr"));
 	}
 	
 #ifndef	__SCRIPT_EVENT_TABLE__		

@@ -128,7 +128,7 @@ void DeallocatePools()
 // Adds all the c-functions listed in the passed array to the symbol table.
 void RegisterCFunctions(SCFunction *p_cFunctions, uint32 numFunctions)
 {
-	Dbg_MsgAssert(p_cFunctions,("NULL p_cFunctions"));
+	Dbg_MsgAssert(p_cFunctions,("nullptr p_cFunctions"));
 	
 	for (uint32 i=0; i<numFunctions; ++i)
 	{
@@ -139,7 +139,7 @@ void RegisterCFunctions(SCFunction *p_cFunctions, uint32 numFunctions)
 		// Check that there is no symbol already with this name.
 		#ifdef __NOPT_ASSERT__
 		CSymbolTableEntry *p_existing_entry=LookUpSymbol(name_checksum);
-		Dbg_MsgAssert(p_existing_entry==NULL,(
+		Dbg_MsgAssert(p_existing_entry==nullptr,(
 					  "The C-function named '%s' is already defined in the file %s where it has type '%s'",
 					  p_cFunctions[i].mpName,
 					  p_existing_entry->mType==ESYMBOLTYPE_CFUNCTION || p_existing_entry->mType==ESYMBOLTYPE_MEMBERFUNCTION ? "ftables.cpp":FindChecksumName(p_existing_entry->mSourceFileNameChecksum),
@@ -147,7 +147,7 @@ void RegisterCFunctions(SCFunction *p_cFunctions, uint32 numFunctions)
 		#endif		
 		
 		CSymbolTableEntry *p_new=CreateNewSymbolEntry(name_checksum);
-		Dbg_MsgAssert(p_new,("NULL p_new ??"));
+		Dbg_MsgAssert(p_new,("nullptr p_new ??"));
 	
 		p_new->mType=ESYMBOLTYPE_CFUNCTION;
 		p_new->mpCFunction=p_cFunctions[i].mpFunction;
@@ -159,7 +159,7 @@ void RegisterCFunctions(SCFunction *p_cFunctions, uint32 numFunctions)
 // Adds all the member functions listed in the passed array to the symbol table.
 void RegisterMemberFunctions(const char **pp_memberFunctions, uint32 numFunctions)
 {
-	Dbg_MsgAssert(pp_memberFunctions,("NULL pp_memberFunctions"));
+	Dbg_MsgAssert(pp_memberFunctions,("nullptr pp_memberFunctions"));
 	
 	for (uint32 i=0; i<numFunctions; ++i)
 	{
@@ -169,7 +169,7 @@ void RegisterMemberFunctions(const char **pp_memberFunctions, uint32 numFunction
 		// Check that there is no symbol already with this name.
 		#ifdef __NOPT_ASSERT__
 		CSymbolTableEntry *p_existing_entry=LookUpSymbol(name_checksum);
-		Dbg_MsgAssert(p_existing_entry==NULL,(
+		Dbg_MsgAssert(p_existing_entry==nullptr,(
 					  "The member function named '%s' is already defined in the file %s where it has type '%s'",
 					  pp_memberFunctions[i],
 					  p_existing_entry->mType==ESYMBOLTYPE_CFUNCTION || p_existing_entry->mType==ESYMBOLTYPE_MEMBERFUNCTION ? "ftables.cpp":FindChecksumName(p_existing_entry->mSourceFileNameChecksum),
@@ -177,7 +177,7 @@ void RegisterMemberFunctions(const char **pp_memberFunctions, uint32 numFunction
 		#endif
 		
 		CSymbolTableEntry *p_new=CreateNewSymbolEntry(name_checksum);
-		Dbg_MsgAssert(p_new,("NULL p_new ??"));
+		Dbg_MsgAssert(p_new,("nullptr p_new ??"));
 	
 		p_new->mType=ESYMBOLTYPE_MEMBERFUNCTION;
 		// No need to set the value to anything, since the name of the symbol specifies the member function.

@@ -86,7 +86,7 @@ struct SDebuggeryLine{
 *****************************************************************************/
 
 #ifndef __PLAT_NGC__
-SDebuggeryLine *DebuggeryLineArray = NULL;		//[ DEBUGGERY_LINE_ARRAY_SIZE ];
+SDebuggeryLine *DebuggeryLineArray = nullptr;		//[ DEBUGGERY_LINE_ARRAY_SIZE ];
 #endif		// __PLAT_NGC__
 
 #ifdef	__DEBUG_CODE__
@@ -297,7 +297,7 @@ void DebuggeryLines_Draw( void )
 	
 	if( index > 0 )
 	{
-		NxWn32::set_texture( 0, NULL );
+		NxWn32::set_texture( 0, nullptr );
 		NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_DIFFUSE );
 		NxWn32::set_vertex_shader( D3DFVF_XYZ | D3DFVF_DIFFUSE );
 		NxWn32::set_pixel_shader( 0 );

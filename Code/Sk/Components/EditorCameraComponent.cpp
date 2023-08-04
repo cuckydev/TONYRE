@@ -279,8 +279,8 @@ CEditorCameraComponent::CEditorCameraComponent() : CBaseComponent()
 	m_cursor_height=0.0f;
 	m_min_height=0.0f;
 	
-	mp_shadow=NULL;
-	mp_input_component=NULL;
+	mp_shadow=nullptr;
+	mp_input_component=nullptr;
 	
 	m_simple_collision=false;
 	m_allow_movement_through_walls=false;
@@ -375,7 +375,7 @@ void CEditorCameraComponent::delete_shadow()
 	if (mp_shadow)
 	{
 		delete mp_shadow;
-		mp_shadow=NULL;
+		mp_shadow=nullptr;
 	}	
 }
 
@@ -413,7 +413,7 @@ void CEditorCameraComponent::update_shadow()
 void CEditorCameraComponent::Finalize()
 {
 	// Get the pointers to the other required components.
-	Dbg_MsgAssert(mp_input_component==NULL,("mp_input_component not NULL ?"));
+	Dbg_MsgAssert(mp_input_component==nullptr,("mp_input_component not nullptr ?"));
 	mp_input_component = GetInputComponentFromObject(GetObj());
 	Dbg_MsgAssert(mp_input_component,("CEditorCameraComponent requires parent object to have an input component!"));
 }
@@ -429,7 +429,7 @@ void CEditorCameraComponent::Finalize()
 // with the task manger.
 void CEditorCameraComponent::Update()
 {
-	Dbg_MsgAssert(mp_input_component,("NULL mp_input_component"));
+	Dbg_MsgAssert(mp_input_component,("nullptr mp_input_component"));
 	
 	// TODO: When in park editor, use different values here, cos they'll need to be
 	// tweaked according to the shell geometry.
@@ -873,7 +873,7 @@ CBaseComponent::EMemberFunctionResult CEditorCameraComponent::CallMemberFunction
 void CEditorCameraComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CEditorCameraComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CEditorCameraComponent::GetDebugInfo"));
 	
 	p_info->AddInteger("m_active",m_active);
 	p_info->AddVector("m_camera_focus_pos",m_camera_focus_pos.GetX(),m_camera_focus_pos.GetY(),m_camera_focus_pos.GetZ());

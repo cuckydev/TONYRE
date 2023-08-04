@@ -151,7 +151,7 @@ Manager::Manager( void )
 	
 	
 	m_current_id = 0;
-	mp_process_man = NULL;
+	mp_process_man = nullptr;
 	
 #	if defined ( __PLAT_XBOX__ )
 	// Just grab 33mb of main memory.
@@ -199,12 +199,12 @@ Manager::Manager( void )
 			 codesize + datasize );
 			 
 	m_pushed_context_count = 0;
-	mp_internet_region = NULL;
-	mp_net_misc_region = NULL;
+	mp_internet_region = nullptr;
+	mp_net_misc_region = nullptr;
 
-	mp_cutscene_region = NULL;
-	mp_cutscene_bottom_heap = NULL;
-	mp_cutscene_top_heap = NULL;
+	mp_cutscene_region = nullptr;
+	mp_cutscene_bottom_heap = nullptr;
+	mp_cutscene_top_heap = nullptr;
 
 #ifdef __PLAT_NGPS__
 	// Create a semaphore to prevent threads from re-entering push/pop memory contexts
@@ -390,7 +390,7 @@ void	Manager::Delete( void* pAddr )
 	WaitSemaMaybe( s_context_semaphore );
 #endif // __PLAT_NGPS__
 
-	if( pAddr != NULL )
+	if( pAddr != nullptr )
 	{
 		Allocator::s_free( pAddr );
 
@@ -419,7 +419,7 @@ void	Manager::Delete( void* pAddr )
 
 bool	Manager::Valid( void* pAddr )
 {
-	if( pAddr != NULL )
+	if( pAddr != nullptr )
 	{
 		return Allocator::s_valid( pAddr );
 	}
@@ -437,7 +437,7 @@ bool	Manager::Valid( void* pAddr )
 
 size_t	Manager::GetAllocSize( void* pAddr )
 {
-	if( pAddr != NULL )
+	if( pAddr != nullptr )
 	{
 		return Allocator::s_get_alloc_size( pAddr );
 	}
@@ -499,7 +499,7 @@ void Manager::PopContext( void )
 	}
 	else
 	{
-		mp_context = NULL;	 // stack has now been emptied
+		mp_context = nullptr;	 // stack has now been emptied
 	}
 
 #ifdef __PLAT_NGPS__
@@ -628,7 +628,7 @@ const char* Manager::GetHeapName( uint32 whichHeap )
 
 Heap* Manager::GetHeap( uint32 whichHeap )
 {
-	Heap* pHeap = NULL;
+	Heap* pHeap = nullptr;
 
 	// first look through the named heaps...
 	CNamedHeapInfo* pInfo = find_named_heap_info( whichHeap );
@@ -763,7 +763,7 @@ Mem::Heap *		Manager::FirstHeap()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -776,7 +776,7 @@ Mem::Heap *		Manager::NextHeap(Mem::Heap * pHeap)
 			return m_heap_list[i+1];
 		}
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 #ifdef	DEBUG_ADJUSTMENT
@@ -862,17 +862,17 @@ void Manager::InitOtherHeaps()
 	// clear other temp heaps to null
 	for (int heap = NUM_PERM_SKATER_HEAPS; heap < NUM_SKATER_HEAPS; heap++)
 	{
-		mp_skater_region[heap] = NULL;			
-		mp_skater_heap[heap] = NULL;	  
+		mp_skater_region[heap] = nullptr;			
+		mp_skater_heap[heap] = nullptr;	  
 
-		mp_skater_geom_region[heap] = NULL;
-		mp_skater_geom_heap[heap] = NULL;
+		mp_skater_geom_region[heap] = nullptr;
+		mp_skater_geom_heap[heap] = nullptr;
 	}
 }
 
 void Manager::InitNetMiscHeap()
 {
-	if( mp_net_misc_region == NULL )
+	if( mp_net_misc_region == nullptr )
 	{
 
 		//#ifndef	__NOPT_ASSERT__
@@ -905,13 +905,13 @@ void Manager::DeleteNetMiscHeap()
 	{
 		RemoveHeap( mp_net_misc_heap );
 		delete mp_net_misc_region;
-		mp_net_misc_region = NULL;
+		mp_net_misc_region = nullptr;
 	}
 }
 
 void Manager::InitInternetHeap()
 {
-	if( mp_internet_region == NULL )
+	if( mp_internet_region == nullptr )
 	{
 
 		//#ifndef	__NOPT_ASSERT__
@@ -946,7 +946,7 @@ void Manager::DeleteInternetHeap()
 		RemoveHeap( mp_internet_top_heap );
 		RemoveHeap( mp_internet_bottom_heap );
 		delete mp_internet_region;
-		mp_internet_region = NULL;
+		mp_internet_region = nullptr;
 	}
 }
 
@@ -954,17 +954,17 @@ void Manager::InitCutsceneHeap( int heap_size )
 {
 	// Note that it will create the cutscene heap on the current mem context...
 
-	if ( mp_cutscene_region == NULL )
+	if ( mp_cutscene_region == nullptr )
 	{
 		// put it on the top-down heap, because it's used only temporarily
 //		sHandle().PushContext( sHandle().mp_top_heap );
 		
 		mp_cutscene_region = new Mem::AllocRegion( heap_size );
 
-		Dbg_MsgAssert( mp_cutscene_bottom_heap == NULL, ( "CutsceneBottomUpHeap already exists" ) );
+		Dbg_MsgAssert( mp_cutscene_bottom_heap == nullptr, ( "CutsceneBottomUpHeap already exists" ) );
 		mp_cutscene_bottom_heap = CreateHeap( mp_cutscene_region, Mem::Allocator::vBOTTOM_UP, "CutsceneBottomUp" );
 		
-		Dbg_MsgAssert( mp_cutscene_top_heap == NULL, ( "CutsceneTopDownHeap already exists" ) );
+		Dbg_MsgAssert( mp_cutscene_top_heap == nullptr, ( "CutsceneTopDownHeap already exists" ) );
 		mp_cutscene_top_heap = CreateHeap( mp_cutscene_region, Mem::Allocator::vTOP_DOWN, "CutsceneTopDown" );
 
 //		sHandle().PopContext();
@@ -976,20 +976,20 @@ void Manager::DeleteCutsceneHeap()
 	if ( mp_cutscene_region )
 	{
 		RemoveHeap( mp_cutscene_bottom_heap );
-		mp_cutscene_bottom_heap = NULL;
+		mp_cutscene_bottom_heap = nullptr;
 		
 		RemoveHeap( mp_cutscene_top_heap );
-		mp_cutscene_top_heap = NULL;
+		mp_cutscene_top_heap = nullptr;
 
 		delete mp_cutscene_region;
-		mp_cutscene_region = NULL;
+		mp_cutscene_region = nullptr;
 	}
 }
 
 
 void Manager::InitDebugHeap()
 {
-	if (mp_debug_region == NULL)
+	if (mp_debug_region == nullptr)
 	{
 		mp_debug_region = new ((void *)s_debug_region_buffer) Region(nAlignUp(_debug_heap_start), nAlignDown(_debug_heap_start + DEBUG_HEAP_SIZE));
 		mp_debug_heap = CreateHeap(mp_debug_region, Mem::Allocator::vBOTTOM_UP, "debug");
@@ -1040,8 +1040,8 @@ void Manager::DeleteSkaterHeaps()
 			printf ("DELETING SKATER HEAP %d\n",i);
 			RemoveHeap(mp_skater_heap[i]);
 			delete mp_skater_region[i];
-			mp_skater_heap[i] = NULL;
-			mp_skater_region[i] = NULL;
+			mp_skater_heap[i] = nullptr;
+			mp_skater_region[i] = nullptr;
 		}
 
 		if (mp_skater_geom_region[i])
@@ -1049,8 +1049,8 @@ void Manager::DeleteSkaterHeaps()
 			printf ("DELETING SKATER GEOM HEAP %d\n",i);
 			RemoveHeap(mp_skater_geom_heap[i]);
 			delete mp_skater_geom_region[i];
-			mp_skater_geom_heap[i] = NULL;
-			mp_skater_geom_region[i] = NULL;
+			mp_skater_geom_heap[i] = nullptr;
+			mp_skater_geom_region[i] = nullptr;
 		}
 	}
 }
@@ -1137,7 +1137,7 @@ void Manager::sCloseDown( void )
 		sHandle().PopContext();
 
 		sHandle().~Manager();
-		sp_instance = NULL;
+		sp_instance = nullptr;
 	}
 	else
 	{
@@ -1157,7 +1157,7 @@ void Manager::RegisterPcsMemMan( Pcs::Manager* pReg )
 {
 	
 
-	Dbg_Assert( mp_process_man == NULL );	// should not initialize twice.
+	Dbg_Assert( mp_process_man == nullptr );	// should not initialize twice.
 
 	mp_process_man = pReg;
 }
@@ -1177,7 +1177,7 @@ CNamedHeapInfo* Manager::find_named_heap_info( uint32 name )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1195,7 +1195,7 @@ Heap* Manager::NamedHeap( uint32 name, bool assertOnFail )
 	}
 		
 	Dbg_MsgAssert( !assertOnFail, ( "Couldn't find named heap %08x", name ) );
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -1205,7 +1205,7 @@ Heap* Manager::NamedHeap( uint32 name, bool assertOnFail )
 
 void Manager::InitNamedHeap( uint32 name, uint32 size, const char* pHeapName )
 {
-	CNamedHeapInfo* pNamedHeapInfo = NULL;
+	CNamedHeapInfo* pNamedHeapInfo = nullptr;
 
 	for ( int i = 0; i < NUM_NAMED_HEAPS; i++ )
 	{
@@ -1252,8 +1252,8 @@ bool Manager::DeleteNamedHeap( uint32 name, bool assertOnFail )
 		Dbg_Assert( pInfo->mp_heap );
 		RemoveHeap( pInfo->mp_heap );
 		delete pInfo->mp_region;
-		pInfo->mp_region = NULL;
-		pInfo->mp_heap = NULL;
+		pInfo->mp_region = nullptr;
+		pInfo->mp_heap = nullptr;
 		pInfo->m_name = 0;
 		pInfo->m_used = false;
 		return true;
@@ -1342,7 +1342,7 @@ void*	Realloc( void* mem, size_t newSize )
 {
 	/* should really add resize functions to do this more efficiently */
 
-	void* ptr = NULL;
+	void* ptr = nullptr;
 
 	if ( newSize )
 	{   
@@ -1422,7 +1422,7 @@ static		CMemProfile	*			s_profile_stack[MAX_LEVELS];		// stack of pushed profile
 	
 static		int						s_profile_count = 0;
 	
-static		CMemProfile*			sp_current_profile = NULL;							// current entry in profile list (will need to pop back....
+static		CMemProfile*			sp_current_profile = nullptr;							// current entry in profile list (will need to pop back....
 static		int						s_profile_stack_depth = 0;						// depth in stack (index into m_profile_stack[])
 static		int						s_next_profile = 0;								// index into array
 
@@ -1544,8 +1544,8 @@ void	PopMemProfile()
 		
 		if ( ! s_profile_stack_depth)
 		{
-			// nothing left on stack, so set current profile to NULL
-			sp_current_profile = NULL;
+			// nothing left on stack, so set current profile to nullptr
+			sp_current_profile = nullptr;
 			// update the count of valid profiles
 			s_profile_count = s_next_profile;
 		}
@@ -1679,7 +1679,7 @@ void	FreeMemProfile(Allocator::BlockHeader* p_block)
 			}
 			p_profile->m_blocks--;
 			p_profile->m_size -= p_block->mSize;
-			p_profile = NULL;
+			p_profile = nullptr;
 		}
 	}
 }

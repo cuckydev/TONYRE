@@ -119,7 +119,7 @@ float	gSfxVolume = 100.0f;
 
 float 	GetPitchValue( VagHeader *VagHdr );
 int 	convertEnd( int inp );
-bool	PS2Sfx_LoadVAG( PlatformWaveInfo *pInfo, const char *filename, bool loadPerm, float *samplePitch = NULL );
+bool	PS2Sfx_LoadVAG( PlatformWaveInfo *pInfo, const char *filename, bool loadPerm, float *samplePitch = nullptr );
 int		GetCore( int whichVoice );
 
 int		PS2Sfx_PlaySfx( PlatformWaveInfo *pInfo, int voiceNumber, float volL = 100.0f, float volR = 100.0f, float pitch = 100.0f );
@@ -323,7 +323,7 @@ bool PS2Sfx_LoadVAG( PlatformWaveInfo *pInfo, const char *filename, bool loadPer
 	// gNonAllignedIopBuffer, used by streams and music etc. They have no need of it at this point.
 	//IOPbuffer = ( unsigned int )sceSifAllocIopHeap( size );
 	Dbg_MsgAssert(size<TOTAL_IOP_BUFFER_SIZE_NEEDED + ALLIGN_REQUIREMENT,("Oops! Vag '%s' too big for iop buffer",filename));
-	Dbg_MsgAssert(Pcm::gNonAllignedIopBuffer,("NULL gNonAllignedIopBuffer"));
+	Dbg_MsgAssert(Pcm::gNonAllignedIopBuffer,("nullptr gNonAllignedIopBuffer"));
 	IOPbuffer=Pcm::gNonAllignedIopBuffer;
 	
 	Dbg_MsgAssert( !( IOPbuffer & 3 ),( "This address should be four byte alligned." ));
@@ -1149,7 +1149,7 @@ void			CSpuManager::sInit()
 		s_sd_remote_commands[i].m_request.m_ee_dma_id = 0;
 	}
 
-	sceSifAddCmdHandler(SOUND_RESULT_COMMAND, s_result_callback, NULL );
+	sceSifAddCmdHandler(SOUND_RESULT_COMMAND, s_result_callback, nullptr );
 }
 
 /******************************************************************/

@@ -31,7 +31,7 @@ int isStrFileInit = 0;
 int strFileOpen(StrFile *file, char *filename, int pIopBuff )
 {
     int ret;
-    char *body = NULL;
+    char *body = nullptr;
     char fn[256];
     char devname[64];
 

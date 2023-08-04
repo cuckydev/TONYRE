@@ -434,7 +434,7 @@ void Device::Acquire( void )
 		if( m_data.m_port < 4 )
 		{
 			// Acquire device handle.
-//			m_data.m_handle = XInputOpen( XDEVICE_TYPE_GAMEPAD, m_data.m_port, XDEVICE_NO_SLOT, NULL );
+//			m_data.m_handle = XInputOpen( XDEVICE_TYPE_GAMEPAD, m_data.m_port, XDEVICE_NO_SLOT, nullptr );
 //
 //			if( m_data.m_handle )
 			{

@@ -16,11 +16,11 @@
 namespace File
 {
 
-// Searches the hed file for the filename. If not found, returns NULL.
+// Searches the hed file for the filename. If not found, returns nullptr.
 SHed *FindFileInHed(const char *pFilename, SHed *pHed)
 {
-	Dbg_MsgAssert(pFilename,("NULL pFilename"));
-	Dbg_MsgAssert(pHed,("NULL pHed"));
+	Dbg_MsgAssert(pFilename,("nullptr pFilename"));
+	Dbg_MsgAssert(pHed,("nullptr pHed"));
 	
 	#define FILENAME_BUF_SIZE 200
 	char pBuf[FILENAME_BUF_SIZE];
@@ -66,13 +66,13 @@ SHed *FindFileInHed(const char *pFilename, SHed *pHed)
 		Len=(Len+3)&~3;
 		pHd=(SHed*)(pHd->pFilename+Len);
 	}
-	return NULL;	
+	return nullptr;	
 }
 
-// Searches the hed file for the filename with the same checksum. If not found, returns NULL.
+// Searches the hed file for the filename with the same checksum. If not found, returns nullptr.
 SHed *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed, bool stripPath )
 {
-	Dbg_MsgAssert(pHed,("NULL pHed"));
+	Dbg_MsgAssert(pHed,("nullptr pHed"));
 	
 	// Search the hed until the file is found, or not.
 	SHed *pHd=pHed;
@@ -103,7 +103,7 @@ SHed *FindFileInHedUsingChecksum( uint32 checksum, SHed *pHed, bool stripPath )
 		Len=(Len+3)&~3;
 		pHd=(SHed*)(pHd->pFilename+Len);
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 
@@ -117,7 +117,7 @@ SHed *LoadHed( const char *filename )
 	if ( !fp )
 	{
 		Dbg_MsgAssert( 0,( "Couldn't find hed file %s", tempFileName ));
-		return NULL;
+		return nullptr;
 	}
 	int fileSize = File::GetFileSize( fp );
 	File::Seek( fp, 0, SEEK_SET );

@@ -183,7 +183,7 @@ int BgmInit( int ch, int useCD )
 		gThid = makeMyThread();
 		Dbg_Printf("PCM Audio Streamer: create thread ID= %d, ", gThid );
 		/* Activate thread  */
-		StartThread( gThid, (u_long)NULL );
+		StartThread( gThid, (u_long)nullptr );
 	}
 
 	if ( !gBuffSpu[ ch ] )
@@ -191,11 +191,11 @@ int BgmInit( int ch, int useCD )
 		gAllockedSize[ch] = useCD ? BUFFER_SIZE_FOR_CD_FILE : BUFFER_SIZE_FOR_HOST_FILE;
 		if ( useCD )
 		{
-			gBuffSpu[ ch ] = ( int )gCDBuffSpu[ ch ]; //(int)AllocSysMemory( 0, gAllockedSize[ ch ], NULL );
+			gBuffSpu[ ch ] = ( int )gCDBuffSpu[ ch ]; //(int)AllocSysMemory( 0, gAllockedSize[ ch ], nullptr );
 		}
 		else
 		{
-			gBuffSpu[ ch ] = ( int )AllocSysMemory( 0, gAllockedSize[ ch ], NULL );
+			gBuffSpu[ ch ] = ( int )AllocSysMemory( 0, gAllockedSize[ ch ], nullptr );
 		}
 		Dbg_Printf(" PCM spu buffer mem: 0x%x - 0x%x\n", gBuffSpu[ch], gBuffSpu[ch]+gAllockedSize[ ch ] );
 	}
@@ -538,7 +538,7 @@ int BgmPreLoad( int ch, int status )
 void _BgmPause(int ch, int status)
 {
 	Dbg_Printf( "stopping spu block trans in _BgmPause\n" );
-	sceSdBlockTrans( ch, SD_TRANS_MODE_STOP, NULL, 0 );
+	sceSdBlockTrans( ch, SD_TRANS_MODE_STOP, nullptr, 0 );
 	gBgmMode[ch] &= BGM_MASK_STATUS; // Switch to PAUSE mode
 	gBgmMode[ch] |= BGM_MODE_PAUSE;
 	return;
@@ -547,7 +547,7 @@ void _BgmPause(int ch, int status)
 void _BgmStopAndUnload(int ch, int status)
 {
 	Dbg_Printf( "stopping block trans from _BgmStopAndUnload\n" );
-	sceSdBlockTrans( ch, SD_TRANS_MODE_STOP, NULL, 0 );
+	sceSdBlockTrans( ch, SD_TRANS_MODE_STOP, nullptr, 0 );
 	gBgmMode[ch] &= BGM_MASK_STATUS; // Switch to IDLE mode
 	Dbg_Printf( "bgm close from _BgmStopAndUnload\n" );
 	_BgmClose( ch, status );

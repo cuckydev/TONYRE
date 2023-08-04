@@ -102,11 +102,11 @@ bool	Server::init( void )
 
 	m_Dispatcher.AddHandler( MSG_ID_CONNECTION_REQ, handle_connection_request, 
 							 mHANDLE_FOREIGN | mHANDLE_LATE, 
-							 NULL, 
+							 nullptr, 
 							 HIGHEST_PRIORITY );
 	m_Dispatcher.AddHandler( MSG_ID_TIMESTAMP, handle_timestamp, mHANDLE_LATE | mHANDLE_FOREIGN );
 	m_Dispatcher.AddHandler( MSG_ID_DISCONN_REQ, handle_disconn_req,mHANDLE_LATE,
-								NULL, HIGHEST_PRIORITY );
+								nullptr, HIGHEST_PRIORITY );
 
 	return true;
 }

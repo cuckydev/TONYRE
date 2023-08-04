@@ -78,10 +78,10 @@ CPiece::CPiece()
 {
 	m_flags = EFlags(0);
 
-	//mp_sector = NULL;
+	//mp_sector = nullptr;
 	m_sector_checksum = 0;
 	
-	mp_next_in_list = NULL;
+	mp_next_in_list = nullptr;
 }
 
 
@@ -116,7 +116,7 @@ void CPiece::GetCellDims(GridDims *pDims)
 
 CSourcePiece *CPiece::CastToCSourcePiece()
 {
-	Dbg_MsgAssert(this == NULL || (m_flags & mSOURCE_PIECE), ("not a source piece!"));
+	Dbg_MsgAssert(this == nullptr || (m_flags & mSOURCE_PIECE), ("not a source piece!"));
 	return (CSourcePiece *) this;
 }
 
@@ -125,7 +125,7 @@ CSourcePiece *CPiece::CastToCSourcePiece()
 
 CClonedPiece *CPiece::CastToCClonedPiece()
 {
-	Dbg_MsgAssert(this == NULL || (m_flags & mCLONED_PIECE), ("not a cloned piece!"));
+	Dbg_MsgAssert(this == nullptr || (m_flags & mCLONED_PIECE), ("not a cloned piece!"));
 	return (CClonedPiece *) this;
 }
 
@@ -191,7 +191,7 @@ CClonedPiece::CClonedPiece()
 {
 	m_id = 0;
 	set_flag(CPiece::mCLONED_PIECE);
-	mp_source_piece = NULL;
+	mp_source_piece = nullptr;
 }
 
 
@@ -381,18 +381,18 @@ Mth::Vector	CClonedPiece::GetDims()
 CParkGenerator::CParkGenerator()
 {
 	m_flags = EFlags(0);
-	mp_cloned_piece_list = NULL;
-	mp_source_piece_list = NULL;
+	mp_cloned_piece_list = nullptr;
+	mp_source_piece_list = nullptr;
 
-	mp_cloned_scene = NULL;
-	mp_source_scene = NULL;
+	mp_cloned_scene = nullptr;
+	mp_source_scene = nullptr;
 	m_num_cloned_pieces = 0;
 	m_num_source_pieces = 0;
 
 	m_next_id = 32;
 
-	mp_mem_region = NULL;
-	mp_mem_heap = NULL;
+	mp_mem_region = nullptr;
+	mp_mem_heap = nullptr;
 
 	m_mem_usage_info.mMainHeapFree = 0;
 	m_mem_usage_info.mMainHeapUsed = 0;
@@ -672,7 +672,7 @@ CSourcePiece *CParkGenerator::GetMasterPiece(uint32 pieceType, bool assert)
 	else
 		printf("couldn't not find master piece %s\n", Script::FindChecksumName(pieceType));
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -950,12 +950,12 @@ void CParkGenerator::InitializeMasterPieces(int parkW, int parkH, int parkL, int
 	memcpy( p_scene, p_source_scene->GetEngineScene(), sizeof( NxNgc::sScene ) );
 	p_scene->m_num_meshes			= 0;		// No meshes as yet.
 	p_scene->m_num_filled_meshes	= 0;
-	p_scene->mpp_mesh_list			= NULL;
+	p_scene->mpp_mesh_list			= nullptr;
 
-	p_scene->mp_hierarchyObjects	= NULL;
+	p_scene->mp_hierarchyObjects	= nullptr;
 	p_scene->m_numHierarchyObjects	= 0;
 
-	p_scene->mp_hierarchyObjects	= NULL;
+	p_scene->mp_hierarchyObjects	= nullptr;
 	p_scene->m_numHierarchyObjects	= 0;
 
 	// Make it renderable, and make sure it doesn't try to double-delete the scene data.
@@ -984,7 +984,7 @@ void CParkGenerator::DeleteSourceAndClonedPieces()
 		delete p_piece;
 		p_piece = p_next;
 	}
-	mp_source_piece_list = NULL;
+	mp_source_piece_list = nullptr;
 	m_num_source_pieces=0;
 
 	printf("After deleting CParkGenerator::mp_source_piece_list ...\n");	
@@ -999,7 +999,7 @@ void CParkGenerator::DeleteSourceAndClonedPieces()
 		p_piece = p_next;
 	}
 	m_num_cloned_pieces=0;
-	mp_cloned_piece_list=NULL;
+	mp_cloned_piece_list=nullptr;
 	
 	printf("After deleting CParkGenerator::mp_cloned_piece_list ...\n");	
 	printf("Num CMapListNode's = %d\n",Ed::CMapListNode::SGetNumUsedItems());
@@ -1024,7 +1024,7 @@ void CParkGenerator::UnloadMasterPieces()
 		delete p_piece;
 		p_piece = p_next;
 	}
-	mp_source_piece_list = NULL;
+	mp_source_piece_list = nullptr;
 	m_num_source_pieces--;
 	//m_num_source_pieces=0;
 	
@@ -1032,8 +1032,8 @@ void CParkGenerator::UnloadMasterPieces()
 	
 	Mem::Manager::sHandle().RemoveHeap(mp_mem_heap);
 	delete mp_mem_region;
-	mp_mem_heap = NULL;
-	mp_mem_region = NULL;
+	mp_mem_heap = nullptr;
+	mp_mem_region = nullptr;
 }
 
 /*
@@ -1043,8 +1043,8 @@ void CParkGenerator::DeleteParkEditorHeap()
 	{
 		Mem::Manager::sHandle().RemoveHeap(mp_mem_heap);
 		delete mp_mem_region;
-		mp_mem_heap = NULL;
-		mp_mem_region = NULL;
+		mp_mem_heap = nullptr;
+		mp_mem_region = nullptr;
 	}	
 }
 */
@@ -1337,7 +1337,7 @@ void CParkGenerator::GenerateNodeInfo(CMapListNode * p_concrete_metapiece_list)
 	printf("Calling CreateNodeNameHashTable()\n");
 	SkateScript::CreateNodeNameHashTable();
 	printf("Calling ScriptParseNodeArray()\n");
-	CFuncs::ScriptParseNodeArray(NULL, NULL);
+	CFuncs::ScriptParseNodeArray(nullptr, nullptr);
 
 //	m_node_array_is_set_up = true;
 
@@ -1633,7 +1633,7 @@ void CParkGenerator::destroy_piece_impl(CClonedPiece *pPiece, EDestroyType destr
 	{
 		// remove from list	first
 		CPiece *p_entry = mp_cloned_piece_list;
-		CPiece *p_prev = NULL;
+		CPiece *p_prev = nullptr;
 		while(p_entry)
 		{
 			if (p_entry == pPiece)
@@ -1733,7 +1733,7 @@ void CParkGenerator::ReadInRailInfo()
 		pStruct->GetChecksum(crc_class, &m_temp_node_tab[index].classCrc);
 		m_temp_node_tab[index].cluster = 0;
 		pStruct->GetChecksum(crc_cluster, &m_temp_node_tab[index].cluster);
-		m_temp_node_tab[index].pLinkArray = NULL;
+		m_temp_node_tab[index].pLinkArray = nullptr;
 		pStruct->GetArray(crc_links, &m_temp_node_tab[index].pLinkArray);
 	}
 
@@ -2310,10 +2310,10 @@ void CParkGenerator::set_up_rail_nodes(Script::CArray *pNodeArray, int *pNodeNum
 			pNode->AddComponent(crc_cluster, ESYMBOLTYPE_NAME, (int) pPoint->m_objectId ^ 0xffffffff);
 		}
 		
-		if (pPoint->GetNext() != NULL || pString->m_isLoop)
+		if (pPoint->GetNext() != nullptr || pString->m_isLoop)
 		{
 			int link_num = *pNodeNum + 1;
-			if (pPoint->GetNext() == NULL && pString->m_isLoop)
+			if (pPoint->GetNext() == nullptr && pString->m_isLoop)
 				link_num = first_node_in_loop;
 			
 			Script::CArray *pLinks = new Script::CArray();
@@ -2583,7 +2583,7 @@ void CParkGenerator::set_up_restart_nodes(Script::CArray *pNodeArray, int *pNode
 	
 					Script::CScriptStructure *pNode = pNodeArray->GetStructure(*pNodeNum);
 
-					const	char *color = NULL;					
+					const	char *color = nullptr;					
 					if (m_restart_tab[i].type == vRED_FLAG) color = "red";
 					if (m_restart_tab[i].type == vGREEN_FLAG) color = "green";
 					if (m_restart_tab[i].type == vBLUE_FLAG) color = "blue";

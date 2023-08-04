@@ -94,7 +94,7 @@ namespace File
 **								 Private Data								**
 *****************************************************************************/
 
-PreMgr *PreMgr::sp_mgr = NULL;
+PreMgr *PreMgr::sp_mgr = nullptr;
 bool    PreMgr::s_lastExecuteSuccess = false; 
 
 /*****************************************************************************
@@ -355,7 +355,7 @@ PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
 			
 			pFile->compressedDataSize = compressed_data_size;
 			pFile->pCompressedData = pCompressedData; 
-			pFile->pData = NULL;
+			pFile->pData = nullptr;
 			pFile->m_position = 0;
 			pFile->m_filesize = data_size;
 		}
@@ -375,7 +375,7 @@ PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
 	printf("Done loading PRE\n");
 #	endif
 	
-	mp_activeFile = NULL;
+	mp_activeFile = nullptr;
 	m_numOpenAsyncFiles = 0;
 }
 
@@ -388,7 +388,7 @@ PreFile::~PreFile()
 #else
 	delete mp_buffer;
 #endif		// __PRE_ARAM__
-	mp_table->HandleCallback(s_delete_file, NULL);
+	mp_table->HandleCallback(s_delete_file, nullptr);
 	mp_table->FlushAllItems();
 
 	delete mp_table;
@@ -401,7 +401,7 @@ bool PreFile::FileExists(const char *pName)
 {
 	
 	_File *pFile = mp_table->GetItem(pName, false);
-	return (pFile != NULL);
+	return (pFile != nullptr);
 }
 
 // returns handle pointer
@@ -410,7 +410,7 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 	
 	_File *pFile = mp_table->GetItem(pName, false);
 	if (!pFile) 
-		return NULL;
+		return nullptr;
 	
 	PreFile::FileHandle *pHandle = pFile;
 	//// kinda roundabout, but sets mp_activeFile
@@ -469,8 +469,8 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 // using this enables us to actually load network game, where there is 1MB less heap during loading
 //
 // returns a pointer to the file in memory
-// or NULL if the file is not in this pre file.
-// optional parameter p_dest, if set to anything other then NULL, then load file to this destination
+// or nullptr if the file is not in this pre file.
+// optional parameter p_dest, if set to anything other then nullptr, then load file to this destination
 void *PreFile::LoadContainedFile(const char *pName,int *p_size, void *p_dest)
 {
 
@@ -479,12 +479,12 @@ void *PreFile::LoadContainedFile(const char *pName,int *p_size, void *p_dest)
 	_File *pFile = mp_table->GetItem(pName, false);
 	if (!pFile) 
 	{
-		return NULL;
+		return nullptr;
 	}	
 	
 	*p_size = pFile->m_filesize;
 
-	// If destination was passed as NULL, then allocate memory	
+	// If destination was passed as nullptr, then allocate memory	
 	if (!p_dest)
 	{
 		p_dest = Mem::Malloc(pFile->m_filesize);		
@@ -538,7 +538,7 @@ uint8 *PreFile::GetContainedFileByHandle(PreFile::FileHandle *pHandle)
 		pFile = mp_table->IterateNext();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -621,7 +621,7 @@ void PreFile::Close(bool async)
 
 	if (mp_activeFile->pData)
 		delete mp_activeFile->pData;
-	mp_activeFile->pData = NULL;
+	mp_activeFile->pData = nullptr;
 
 	if (async)
 	{
@@ -670,10 +670,10 @@ PreMgr::PreMgr()
 	sp_mgr = this;
 
 
-	mp_activeHandle = NULL;
-	mp_activeData = NULL;
+	mp_activeHandle = nullptr;
+	mp_activeData = nullptr;
 
-	mp_activeNonPreHandle = NULL;
+	mp_activeNonPreHandle = nullptr;
 
 	m_num_pending_pre_files = 0;
 }
@@ -707,7 +707,7 @@ PreFile::FileHandle *PreMgr::getContainedFile(const char *pName)
 		pCharOut++;		
 	}
 
-	PreFile::FileHandle *pHandle = NULL;
+	PreFile::FileHandle *pHandle = nullptr;
 
 	mp_table->IterateStart();
 	PreFile *pPre = mp_table->IterateNext();
@@ -730,7 +730,7 @@ PreFile::FileHandle *PreMgr::getContainedFile(const char *pName)
 #	ifdef __PLAT_NGPS__
 	scePrintf("--- %s not found in PRE\n", cleaned_name);
 #	endif
-	return NULL;
+	return nullptr;
 }
 
 // returns true if the file exists in any of the pre files
@@ -774,13 +774,13 @@ uint8 *PreMgr::getContainedFileByHandle(PreFile::FileHandle *pHandle)
 	// if we know that the file in question is not in the PRE system,
 	// then it's a regular file, don't waste time looking for it
 	if (mp_activeNonPreHandle == pHandle)
-		return NULL;
+		return nullptr;
 	
 	if (mp_activeHandle == pHandle)
 		// mp_activePre will be unchanged
 		return mp_activeData;
 	
-	uint8 *pData = NULL;
+	uint8 *pData = nullptr;
 	mp_table->IterateStart();
 	PreFile *pPre = mp_table->IterateNext();
 	while(pPre)
@@ -798,7 +798,7 @@ uint8 *PreMgr::getContainedFileByHandle(PreFile::FileHandle *pHandle)
 
 	// obviously this file is not in the PRE system, mark as such
 	mp_activeNonPreHandle = pHandle;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -854,7 +854,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 #endif
 
 	int file_size;
-	uint8 *pFile = NULL;
+	uint8 *pFile = nullptr;
 
 	// Try loading asynchronously
 	if (async)
@@ -1186,7 +1186,7 @@ void PreMgr::WaitAllLoadPre()
 
 bool PreMgr::sPreEnabled()
 {
-	return sp_mgr != NULL;
+	return sp_mgr != nullptr;
 }
 
 bool PreMgr::sPreExecuteSuccess()
@@ -1197,7 +1197,7 @@ bool PreMgr::sPreExecuteSuccess()
 bool PreMgr::pre_fexist(const char *name)
 {
 	
-	Dbg_MsgAssert(name,( "requesting file NULL"));	
+	Dbg_MsgAssert(name,( "requesting file nullptr"));	
 	
 	if (sp_mgr->fileExists(name)) 
 	{
@@ -1220,7 +1220,7 @@ bool PreMgr::pre_fexist(const char *name)
 
 PreFile::FileHandle *PreMgr::pre_fopen(const char *name, const char *access, bool async)
 {
-	Dbg_MsgAssert(name,( "trying to open file NULL"));	
+	Dbg_MsgAssert(name,( "trying to open file nullptr"));	
 
 	PreFile::FileHandle *pHandle = sp_mgr->getContainedFile(name);
 	if (pHandle)
@@ -1262,11 +1262,11 @@ PreFile::FileHandle *PreMgr::pre_fopen(const char *name, const char *access, boo
 //	if ( Pcm::UsingCD( ) )
 //	{
 //		Dbg_MsgAssert( 0,( "File access forbidden while PCM audio is in progress." ));
-//		return NULL;
+//		return nullptr;
 //	}
 
 	s_lastExecuteSuccess = false;
-	return NULL;
+	return nullptr;
 
 	//return pHandle;
 }
@@ -1352,7 +1352,7 @@ char *PreMgr::pre_fgets(char *buffer, int maxLen, PreFile::FileHandle *fptr)
 	Dbg_MsgAssert(!pData,( "can't do string ops on a PRE file"));
 	
 	s_lastExecuteSuccess = false;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1607,7 +1607,7 @@ void * PreMgr::LoadFile(const char *pName, int *p_size, void *p_dest)
 		}
 		pPre = mp_table->IterateNext();
 	}
-	return NULL;
+	return nullptr;
 
 }
 

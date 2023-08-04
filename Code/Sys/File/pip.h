@@ -26,7 +26,7 @@ uint32	GetFileSize(const char *p_fileName);
 void	Unload(uint32 fileNameCRC);
 uint32	GetFileSize(uint32 fileNameCRC);
 
-const char *GetNextLoadedPre(const char *p_pre_name=NULL);
+const char *GetNextLoadedPre(const char *p_pre_name=nullptr);
 bool PreFileIsInUse(const char *p_pre_name);
 
 bool ScriptLoadPipPre(Script::CStruct *pParams, Script::CScript *pScript);

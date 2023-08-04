@@ -22,7 +22,7 @@ namespace NxWn32
 /*                                                                */
 /******************************************************************/
 
-SDraw2D *SDraw2D::sp_2D_draw_list = NULL;
+SDraw2D *SDraw2D::sp_2D_draw_list = nullptr;
 
 
 /******************************************************************/
@@ -35,7 +35,7 @@ SDraw2D::SDraw2D( float pri, bool hide )
 	m_pri		= pri;
 	m_zvalue	= 0.0f;
 
-	mp_next = NULL;
+	mp_next = nullptr;
 
 	// add to draw list
 	if( !m_hidden )
@@ -133,9 +133,9 @@ void SDraw2D::DrawAll( void )
 	set_render_state( RS_ALPHACUTOFF, 1 );
 
 	set_render_state( RS_ZWRITEENABLE,	0 );
-	set_texture( 1, NULL );
-	set_texture( 2, NULL );
-	set_texture( 3, NULL );
+	set_texture( 1, nullptr );
+	set_texture( 2, nullptr );
+	set_texture( 3, nullptr );
 
 	if( EngineGlobals.color_sign[0] != ( D3DTSIGN_RUNSIGNED | D3DTSIGN_GUNSIGNED | D3DTSIGN_BUNSIGNED ))
 	{
@@ -251,7 +251,7 @@ sSpriteVert;
 /******************************************************************/
 sSprite::sSprite( float pri ) : SDraw2D( pri, true )
 {
-	mp_texture = NULL;
+	mp_texture = nullptr;
 }
 
 
@@ -283,7 +283,7 @@ void sSprite::BeginDraw( void )
 	else
 	{
 		set_pixel_shader( PixelShader5 );
-		set_texture( 0, NULL );
+		set_texture( 0, nullptr );
 	}
 	*/
 }

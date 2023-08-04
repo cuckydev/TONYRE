@@ -864,7 +864,7 @@ bool CCollObj::sRectangleTriangleCollision(const Mth::Rectangle *rect, const Mth
 /*                                                                */
 /******************************************************************/
 
-CCollObj::CCollObj() : m_Flags(0), mp_coll_tri_data(NULL)
+CCollObj::CCollObj() : m_Flags(0), mp_coll_tri_data(nullptr)
 {
 }
 
@@ -913,7 +913,7 @@ void		CCollObj::SetMovingObject(Obj::CCompositeObject *p_movable_object)
 
 Obj::CCompositeObject * CCollObj::GetMovingObject() const
 {
-	return NULL;
+	return nullptr;
 }
 
 /*****************************************************************************
@@ -953,7 +953,7 @@ bool					CCollObj::sFindRectangleStaticCollision ( Mth::Rectangle& rect, S2DColl
 #endif
 	}
 	
-	CCollStatic** p_coll_obj_list = NULL;
+	CCollStatic** p_coll_obj_list = nullptr;
 	if (!use_cache)
 	{
 		SSec::Manager* ss_man = Nx::CEngine::sGetNearestSuperSectorManager(rect.m_corner);
@@ -1034,7 +1034,7 @@ bool					CCollObj::sFindNearestStaticCollision( Mth::Line &is, CollData *p_data,
 	}
 
 	// Check to see if we can use the cache
-	bool use_cache = p_cache != NULL;
+	bool use_cache = p_cache != nullptr;
 	if (use_cache)
 	{
 		use_cache = p_cache->Contains(line_bbox);
@@ -1054,14 +1054,14 @@ bool					CCollObj::sFindNearestStaticCollision( Mth::Line &is, CollData *p_data,
 	}
 
 	// initialize starting "max" distance to be max collision distance
-	CCollStatic** p_coll_obj_list = NULL;
+	CCollStatic** p_coll_obj_list = nullptr;
 	if (!use_cache)
 	{
 		SSec::Manager *ss_man;
 
 		ss_man = Nx::CEngine::sGetNearestSuperSectorManager(is);
 		if (!ss_man)
-			return NULL;
+			return nullptr;
 
 		p_coll_obj_list = ss_man->GetIntersectingCollSectors( is );
 	}
@@ -1206,7 +1206,7 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 
     Dbg_Assert(p_data);
 
-	Obj::CCompositeObject *p_collision_obj = NULL;
+	Obj::CCompositeObject *p_collision_obj = nullptr;
 
 	p_data->callback = (void (*)( CollData*)) p_callback;
 
@@ -1233,7 +1233,7 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 	line_bbox.AddPoint(is.m_end);
 
 	// Check to see if we can use the cache
-	bool use_cache = p_cache != NULL;
+	bool use_cache = p_cache != nullptr;
 	if (use_cache)
 	{
 		use_cache = p_cache->Contains(line_bbox);
@@ -1306,7 +1306,7 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 				}
 
 				// the callback object is only valid for the duration of a possible callback											 
-				p_data->mp_callback_object = NULL;
+				p_data->mp_callback_object = nullptr;
 			}
 			p_coll_node++;
 		}
@@ -1343,7 +1343,7 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 						Dbg_Assert(p_collision_obj);
 					}
 					// the callback object is only valid for the duration of a possible callback											 
-					p_data->mp_callback_object = NULL;
+					p_data->mp_callback_object = nullptr;
 				}
 			
 			}
@@ -1461,12 +1461,12 @@ CCollObj *	CCollObj::sCreateMovableCollision(CollType type, Nx::CCollObjTriData 
 
 			p_collision = p_coll_multi;
 		} else {
-			p_collision = NULL;
+			p_collision = nullptr;
 		}
 		break;
 
 	default:
-		p_collision = NULL;						// default to no collision
+		p_collision = nullptr;						// default to no collision
 		break;
 	}
 
@@ -1489,7 +1489,7 @@ CCollMulti::CCollMulti()
 {
 	mp_collision_list = new Lst::Head< CCollObj >;
 	m_movement_changed = true;
-	mp_movable_object = NULL;
+	mp_movable_object = nullptr;
 }
 
 /******************************************************************/
@@ -1606,7 +1606,7 @@ Obj::CCompositeObject * CCollMulti::GetMovingObject() const
 CCollObj * 	CCollMulti::Clone(bool instance)
 {
 	Dbg_MsgAssert(!instance, ("CCollMulti::Clone() with instances not implemented yet"));
-	Dbg_Assert(mp_coll_tri_data == NULL);
+	Dbg_Assert(mp_coll_tri_data == nullptr);
 
 	CCollMulti *m_new_coll = new CCollMulti(*this);
 
@@ -1685,7 +1685,7 @@ Mth::CBBox *CCollMulti::get_bbox()
 	{
 		return &m_world_bbox;
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1791,7 +1791,7 @@ CCollMovable::CCollMovable() :
 	m_world_pos(0, 0, 0, 1),
 	m_orient(0, 0, 0),
 	m_orient_transpose(0, 0, 0),
-	mp_movable_object(NULL)
+	mp_movable_object(nullptr)
 {
 }
 
@@ -1972,7 +1972,7 @@ CCollObj * 	CCollMovBBox::Clone(bool instance)
 
 	m_new_coll->m_Flags |=  mSD_CLONE;
 
-	m_new_coll->mp_coll_tri_data = NULL;		// We don't need to clone the data since we have the bbox
+	m_new_coll->mp_coll_tri_data = nullptr;		// We don't need to clone the data since we have the bbox
 
 	return m_new_coll;
 }
@@ -2146,7 +2146,7 @@ CCollObj * 	CCollStaticTri::Clone(bool instance)
 	CCollObjTriData *p_new_tri_data = mp_coll_tri_data->Clone(instance, true);
 	if (!p_new_tri_data)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CCollStaticTri *p_new_coll = new CCollStaticTri(*this);

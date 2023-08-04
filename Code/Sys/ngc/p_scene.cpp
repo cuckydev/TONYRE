@@ -70,13 +70,13 @@
 //{
 //	m_view.identity();
 //
-//	m_pMaterial		= NULL;
-//	m_pCameraData	= NULL;
-//	m_pClumpHead	= NULL;
-//	m_SSMan			= NULL;
-//	m_pTexMan		= NULL;
+//	m_pMaterial		= nullptr;
+//	m_pCameraData	= nullptr;
+//	m_pClumpHead	= nullptr;
+//	m_SSMan			= nullptr;
+//	m_pTexMan		= nullptr;
 //	m_numParticles	= 0;
-//	m_pParticleData	= NULL;
+//	m_pParticleData	= nullptr;
 //	m_pCollision	= new NsCollision;
 //}
 //
@@ -119,7 +119,7 @@
 //		memcpy ( m_pParticleData, p32, sizeof( NsParticle ) * m_numParticles );
 //		p32 += (sizeof( NsParticle ) * m_numParticles) / 4;
 //	} else {
-//		m_pParticleData = NULL;
+//		m_pParticleData = nullptr;
 //	}
 //
 //	// Copy camera data.
@@ -207,8 +207,8 @@
 //		if ( pSearchClump == pClumpToRemove ) {
 //			// Link over this clump.
 //			*ppLastClump = pSearchClump->m_pNext;
-//			// Set world to NULL.
-//			pSearchClump->m_pWorld = NULL;
+//			// Set world to nullptr.
+//			pSearchClump->m_pWorld = nullptr;
 //			break;
 //		}
 //		// No match, point up the last clump pointer to pointer.

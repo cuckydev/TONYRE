@@ -71,8 +71,8 @@ CBaseComponent* CStreamComponent::s_create()
 CStreamComponent::CStreamComponent() : CBaseComponent()
 {
 	SetType( CRC_STREAM );
-	mp_emitter = NULL;
-	mp_proxim_node = NULL;
+	mp_emitter = nullptr;
+	mp_proxim_node = nullptr;
 }
 
 /******************************************************************/
@@ -207,7 +207,7 @@ CBaseComponent::EMemberFunctionResult CStreamComponent::CallMemberFunction( uint
 void CStreamComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to C......Component::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to C......Component::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)
@@ -318,7 +318,7 @@ bool CStreamComponent::PlayStream( Script::CScriptStructure *pParams, Script::CS
 	}
 	else
 	{
-		mp_emitter = NULL;
+		mp_emitter = nullptr;
 	}
 	if ( pParams->GetChecksum( NONAME, &streamChecksum ) )
 	{

@@ -35,8 +35,8 @@ static char *sAddToSpecialStringHeap(const char *p_string);
 static bool s_use_permanent_string_heap=false;
 
 // The permanent string buffer.
-static char *sp_permanent_string_heap=NULL;
-static char *sp_permanent_string_heap_top=NULL;
+static char *sp_permanent_string_heap=nullptr;
+static char *sp_permanent_string_heap_top=nullptr;
 static uint32 s_permanent_string_heap_size=0;
 
 // Array of string checksums to allow quick checking to see if a particular string
@@ -48,7 +48,7 @@ struct SSpecialStringChecksum
 	uint32 mChecksum;
 	char *mpString;
 };
-static SSpecialStringChecksum *sp_permanent_string_checksums=NULL;
+static SSpecialStringChecksum *sp_permanent_string_checksums=nullptr;
 static uint32 s_num_permanent_string_checksums=0;
 static uint32 s_max_permanent_string_checksums=0;
 
@@ -62,12 +62,12 @@ void AllocatePermanentStringHeap(uint32 maxSize, uint32 maxStrings)
 	s_max_permanent_string_checksums=maxStrings;
 	
 	// Allocate the string buffer.
-	Dbg_MsgAssert(sp_permanent_string_heap==NULL,("sp_permanent_string_heap not NULL ???"));
+	Dbg_MsgAssert(sp_permanent_string_heap==nullptr,("sp_permanent_string_heap not nullptr ???"));
 	sp_permanent_string_heap=(char*)Mem::Malloc(s_permanent_string_heap_size);
 	sp_permanent_string_heap_top=sp_permanent_string_heap;
 	
 	// Allocate the array of checksums.
-	Dbg_MsgAssert(sp_permanent_string_checksums==NULL,("sp_permanent_string_checksums not NULL ???"));
+	Dbg_MsgAssert(sp_permanent_string_checksums==nullptr,("sp_permanent_string_checksums not nullptr ???"));
 	sp_permanent_string_checksums=(SSpecialStringChecksum*)Mem::Malloc(s_max_permanent_string_checksums*sizeof(SSpecialStringChecksum));
 	s_num_permanent_string_checksums=0;
 }
@@ -75,17 +75,17 @@ void AllocatePermanentStringHeap(uint32 maxSize, uint32 maxStrings)
 void DeallocatePermanentStringHeap()
 {
 	// Deallocate the string buffer.
-	Dbg_MsgAssert(sp_permanent_string_heap,("NULL sp_permanent_string_heap ?"));
+	Dbg_MsgAssert(sp_permanent_string_heap,("nullptr sp_permanent_string_heap ?"));
 	Mem::Free(sp_permanent_string_heap);
-	sp_permanent_string_heap=NULL;
-	sp_permanent_string_heap_top=NULL;
+	sp_permanent_string_heap=nullptr;
+	sp_permanent_string_heap_top=nullptr;
 	s_permanent_string_heap_size=0;
 	
 	// Deallocate the array of checksums.
 	// MEMOPT: TODO: Destroy this when UseRegularStringHeap is called too, to free up memory ?
-	Dbg_MsgAssert(sp_permanent_string_checksums,("NULL sp_permanent_string_checksums ?"));
+	Dbg_MsgAssert(sp_permanent_string_checksums,("nullptr sp_permanent_string_checksums ?"));
 	Mem::Free(sp_permanent_string_checksums);
-	sp_permanent_string_checksums=NULL;
+	sp_permanent_string_checksums=nullptr;
 	s_num_permanent_string_checksums=0;
 	s_max_permanent_string_checksums=0;
 }
@@ -95,7 +95,7 @@ void DeallocatePermanentStringHeap()
 // If the string is already found in the heap, it won't add it again.
 static char *sAddToSpecialStringHeap(const char *p_string)
 {
-	Dbg_MsgAssert(p_string,("NULL p_string"));
+	Dbg_MsgAssert(p_string,("nullptr p_string"));
 
 	// Check to see if it already exists in the special string heap ...
 
@@ -108,7 +108,7 @@ static char *sAddToSpecialStringHeap(const char *p_string)
 	uint32 len=strlen(p_string);
 	uint32 checksum=Crc::GenerateCRCCaseSensitive(p_string,len);
 	
-	Dbg_MsgAssert(sp_permanent_string_checksums,("NULL sp_permanent_string_checksums ??"));
+	Dbg_MsgAssert(sp_permanent_string_checksums,("nullptr sp_permanent_string_checksums ??"));
 	SSpecialStringChecksum *p_ch=sp_permanent_string_checksums;
 	for (uint32 i=0; i<s_num_permanent_string_checksums; ++i)
 	{
@@ -119,10 +119,10 @@ static char *sAddToSpecialStringHeap(const char *p_string)
 		++p_ch;
 	}		
 
-	char *p_heap_string=NULL;
+	char *p_heap_string=nullptr;
 	
 	// Not found, so add to the pile of strings.
-	Dbg_MsgAssert(sp_permanent_string_heap,("NULL sp_permanent_string_heap ??"));
+	Dbg_MsgAssert(sp_permanent_string_heap,("nullptr sp_permanent_string_heap ??"));
 	
 	Dbg_MsgAssert(s_permanent_string_heap_size-(sp_permanent_string_heap_top-sp_permanent_string_heap)>=len+1,("Out of special string heap"));
 	p_heap_string=sp_permanent_string_heap_top;
@@ -157,7 +157,7 @@ void UseRegularStringHeap()
 	if (sp_permanent_string_checksums)
 	{
 		Mem::Free(sp_permanent_string_checksums);
-		sp_permanent_string_checksums=NULL;
+		sp_permanent_string_checksums=nullptr;
 	}	
 }
 
@@ -168,7 +168,7 @@ void UseRegularStringHeap()
 // Mem::Free on it.
 char *CreateString(const char *p_string)
 {
-	Dbg_MsgAssert(p_string,("NULL p_string"));
+	Dbg_MsgAssert(p_string,("nullptr p_string"));
 	
 	if (s_use_permanent_string_heap)
 	{
@@ -188,10 +188,10 @@ char *CreateString(const char *p_string)
 
 void DeleteString(char *p_string)
 {
-	Dbg_MsgAssert(p_string,("NULL p_string"));
+	Dbg_MsgAssert(p_string,("nullptr p_string"));
 
 	// Check whether the string is in the permanent-string buffer.
-	Dbg_MsgAssert(sp_permanent_string_heap,("NULL sp_permanent_string_heap ?"));
+	Dbg_MsgAssert(sp_permanent_string_heap,("nullptr sp_permanent_string_heap ?"));
 	if (p_string>=sp_permanent_string_heap && p_string<sp_permanent_string_heap+s_permanent_string_heap_size)
 	{
 		// It is in the permanent-string buffer, so nothing to do.
@@ -217,7 +217,7 @@ const char *FindPermanentStringWithChecksum(uint32 ch)
 		}
 		p_string=p_string+strlen(p_string)+1; // +1 for the terminating 0
 	}
-	return NULL;
+	return nullptr;
 }
 #endif
 */
@@ -232,7 +232,7 @@ static char sp_script_string[MAX_SCRIPT_STRING][SCRIPT_STRING_LENGTH]={{0}};
 void SetScriptString(uint32 n, const char *p_string)
 {
 	Dbg_MsgAssert(n<MAX_SCRIPT_STRING,("Bad index of %d sent to SetScriptString, MAX_SCRIPT_STRING=%d",n,MAX_SCRIPT_STRING));
-	Dbg_MsgAssert(p_string,("NULL p_string"));
+	Dbg_MsgAssert(p_string,("nullptr p_string"));
 	
 	sprintf (sp_script_string[n],p_string);	
 	Dbg_MsgAssert(strlen(sp_script_string[n])<SCRIPT_STRING_LENGTH,("Script String %d too big\n%s",n,sp_script_string[n]));

@@ -119,7 +119,7 @@ DynamicTable<_V>::DynamicTable(int size, int grow_increment)
 	mpp_table = (_V**) Mem::Malloc(sizeof(_V *) * m_size);
 	//mpp_table = new _V*[m_size];
 	for (int i = 0; i < m_size; i++)
-		mpp_table[i] = NULL;
+		mpp_table[i] = nullptr;
 	
 	m_entriesFilled = 0;
 }
@@ -139,7 +139,7 @@ template<class _V>
 void DynamicTable<_V>::Add(_V* pItem)
 {
 	
-	Dbg_MsgAssert(pItem,( "can't add NULL item to table"));
+	Dbg_MsgAssert(pItem,( "can't add nullptr item to table"));
 
 	// do we need to create a new table?
 	if (m_size <= m_entriesFilled)
@@ -154,7 +154,7 @@ void DynamicTable<_V>::Add(_V* pItem)
 		for (i = 0; i < m_size; i++)
 			ppTemp[i] = mpp_table[i];
 		for (i = m_size; i < new_size; i++)
-			ppTemp[i] = NULL;
+			ppTemp[i] = nullptr;
 
 		Mem::Free(mpp_table);
 		//delete [] mpp_table;
@@ -204,7 +204,7 @@ void DynamicTable<_V>::Remove(int index)
 	{
 		mpp_table[i] = mpp_table[i+1];
 	}
-	mpp_table[m_entriesFilled-1] = NULL;
+	mpp_table[m_entriesFilled-1] = nullptr;
 	m_entriesFilled--;
 }
 
@@ -226,7 +226,7 @@ _V &DynamicTable<_V>::operator[](int index)
 {
 	
 	Dbg_MsgAssert(index >= 0 && index < m_entriesFilled,( "index %d out of bounds in DynamicTable", index));
-	Dbg_MsgAssert(mpp_table[index],( "table entry is NULL"));
+	Dbg_MsgAssert(mpp_table[index],( "table entry is nullptr"));
 	Dbg_AssertPtr(mpp_table[index]);
 
 	return *mpp_table[index];

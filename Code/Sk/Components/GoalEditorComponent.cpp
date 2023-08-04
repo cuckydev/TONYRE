@@ -70,7 +70,7 @@ static uint32 s_get_current_level()
 	
 static const char *s_generate_letter_model_filename(uint32 goalType, int letterIndex)
 {
-	const char *p_model_file_name=NULL;
+	const char *p_model_file_name=nullptr;
 	switch (goalType)
 	{
 		case 0x54166acd: // Skate
@@ -201,7 +201,7 @@ static uint32 s_generate_node_name_checksum(int goalIndex, int positionIndex)
 
 static const Script::CStruct *s_get_default_goal_params(uint32 goalType)
 {
-	Script::CStruct *p_default_params=NULL;
+	Script::CStruct *p_default_params=nullptr;
 	
 	switch (goalType)
 	{
@@ -233,7 +233,7 @@ static const Script::CStruct *s_get_default_goal_params(uint32 goalType)
 
 static const Script::CStruct *s_get_extra_goal_params(uint32 goalType)
 {
-	Script::CStruct *p_extra_params=NULL;
+	Script::CStruct *p_extra_params=nullptr;
 	
 	switch (goalType)
 	{
@@ -283,7 +283,7 @@ void InsertGoalEditorNodes()
 		p_node_array->Resize(p_node_array->GetSize() + MAX_POSITIONS_PER_GOAL*MAX_GOALS_PER_LEVEL);
 	}	
 	
-	Script::CStruct *p_new_node=NULL;
+	Script::CStruct *p_new_node=nullptr;
 	for (int g=0; g<MAX_GOALS_PER_LEVEL; ++g)
 	{
 		p_new_node=new Script::CStruct;
@@ -428,7 +428,7 @@ void CEditGoal::RefreshPositionsUsingCollisionCheck()
 
 void CEditGoal::add_goal_params(Script::CStruct *p_params)
 {
-	Dbg_MsgAssert(p_params,("NULL p_params"));
+	Dbg_MsgAssert(p_params,("nullptr p_params"));
 
 	p_params->AppendStructure(s_get_default_goal_params(m_goal_type));
 	p_params->AppendStructure(s_get_extra_goal_params(m_goal_type));
@@ -671,7 +671,7 @@ bool CEditGoal::position_ok_to_place(const Mth::Vector& pos, float height)
 // And used by GetDebugInfo for sending stuff to the script debugger.
 void CEditGoal::WriteIntoStructure(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
 	p_info->AddChecksum(NONAME,Crc::ConstCRC("edited_goal"));
 	
@@ -711,7 +711,7 @@ void CEditGoal::WriteIntoStructure(Script::CStruct *p_info)
 
 void CEditGoal::ReadFromStructure(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
 	Clear();
 	m_used=true;
@@ -756,7 +756,7 @@ void CEditGoal::ReadFromStructure(Script::CStruct *p_info)
 	strcpy(mp_ped_name,p_string);
 	
 	
-	Script::CArray *p_position_array=NULL;
+	Script::CArray *p_position_array=nullptr;
 	if (p_info->GetArray(Crc::ConstCRC("node_positions"),&p_position_array))
 	{
 		Dbg_MsgAssert(p_position_array->GetSize()==m_num_positions_required,("Bad node_positions size for goal '%s'",mp_goal_name));
@@ -891,7 +891,7 @@ SPreDefinedKeyComboSet *CEditGoal::GetKeyComboSet(int setIndex)
 			return &mp_combo_sets[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // Used when generating the goal_tetris_key_combos array from the mp_combo_sets array,
@@ -913,7 +913,7 @@ void CEditGoal::generate_key_combos_array(Script::CStruct *p_info)
 	for (int i=0; i<m_num_combo_sets; ++i)
 	{
 		Script::CStruct *p_struct=p_predefined_key_combos->GetStructure(mp_combo_sets[i].mSetIndex);
-		Script::CArray *p_key_combos=NULL;
+		Script::CArray *p_key_combos=nullptr;
 		p_struct->GetArray(Crc::ConstCRC("key_combos"),&p_key_combos);
 		Dbg_MsgAssert(p_key_combos,("Missing key_combos array in element %d of array cag_skatetris_key_combos",i));
 		size+=p_key_combos->GetSize();
@@ -928,7 +928,7 @@ void CEditGoal::generate_key_combos_array(Script::CStruct *p_info)
 	for (int i=0; i<m_num_combo_sets; ++i)
 	{
 		Script::CStruct *p_struct=p_predefined_key_combos->GetStructure(mp_combo_sets[i].mSetIndex);
-		Script::CArray *p_key_combos=NULL;
+		Script::CArray *p_key_combos=nullptr;
 		p_struct->GetArray(Crc::ConstCRC("key_combos"),&p_key_combos);
 		Dbg_MsgAssert(p_key_combos,("Missing key_combos array in element %d of array cag_skatetris_key_combos",i));
 		
@@ -1004,7 +1004,7 @@ void CEditGoal::write_combo_sets(Script::CStruct *p_info)
 
 void CEditGoal::read_combo_sets(Script::CStruct *p_info)
 {
-	Script::CArray *p_array=NULL;
+	Script::CArray *p_array=nullptr;
 	if (!p_info->GetArray(CRCD(0x490f171,"combo_sets"),&p_array))
 	{
 		return;
@@ -1109,7 +1109,7 @@ void CEditGoal::WriteGoalSpecificParams(Script::CStruct *p_info, EWriteDest dest
 			p_info->AddInteger(Crc::ConstCRC("score"),m_score);
 			if (dest==WRITING_TO_GOAL_MANAGER)
 			{
-				const char *p_text=NULL;
+				const char *p_text=nullptr;
 				if (m_goal_type==Crc::ConstCRC("HighCombo"))
 				{
 					p_text=Script::GetString(Crc::ConstCRC("edited_high_combo_goal_text"));
@@ -1210,14 +1210,14 @@ void CEditGoal::ReadGoalSpecificParams(Script::CStruct *p_params)
 			
 		case 0x61c5d092: // Gap
 		{
-			const char *p_trick_name=NULL;
+			const char *p_trick_name=nullptr;
 			if (p_params->GetString(Crc::ConstCRC("required_trick_name"),&p_trick_name))
 			{
 				Dbg_MsgAssert(strlen(p_trick_name)<=MAX_GAP_TRICK_NAME_CHARS,("trick_name '%s' too long",p_trick_name));
 				strcpy(mp_trick_name,p_trick_name);
 			}
 			
-			Script::CArray *p_gaps=NULL;
+			Script::CArray *p_gaps=nullptr;
 			p_params->GetArray(Crc::ConstCRC("Gaps"),&p_gaps);
 			if (p_gaps)
 			{
@@ -1489,28 +1489,28 @@ void CEditGoal::SetType(uint32 type)
 
 void CEditGoal::SetGoalDescription(const char *p_text)
 {
-	Dbg_MsgAssert(p_text,("NULL p_text ?"));
+	Dbg_MsgAssert(p_text,("nullptr p_text ?"));
 	Dbg_MsgAssert(strlen(p_text)<GOAL_DESCRIPTION_BUFFER_SIZE,("Goal description too long!"));
 	strcpy(mp_goal_description,p_text);
 }
 
 void CEditGoal::SetWinMessage(const char *p_text)
 {
-	Dbg_MsgAssert(p_text,("NULL p_text ?"));
+	Dbg_MsgAssert(p_text,("nullptr p_text ?"));
 	Dbg_MsgAssert(strlen(p_text)<GOAL_WIN_MESSAGE_BUFFER_SIZE,("Win message too long!"));
 	strcpy(mp_win_message,p_text);
 }
 
 void CEditGoal::SetGoalName(const char *p_name)
 {
-	Dbg_MsgAssert(p_name,("NULL p_name ?"));
+	Dbg_MsgAssert(p_name,("nullptr p_name ?"));
 	Dbg_MsgAssert(strlen(p_name)<GOAL_NAME_BUFFER_SIZE,("Goal name too long!"));
 	strcpy(mp_goal_name,p_name);
 }
 
 void CEditGoal::SetPedName(const char *p_name)
 {
-	Dbg_MsgAssert(p_name,("NULL p_name ?"));
+	Dbg_MsgAssert(p_name,("nullptr p_name ?"));
 	Dbg_MsgAssert(strlen(p_name)<PED_NAME_BUFFER_SIZE,("Goal name too long!"));
 	strcpy(mp_ped_name,p_name);
 }
@@ -1547,7 +1547,7 @@ void CEditGoal::AddGoalToGoalManager(bool markUnbeaten)
 	add_goal_params(p_params);
 	
 	Game::CGoalManager* p_goal_manager = Game::GetGoalManager();
-	Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager ?"));
+	Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager ?"));
 	p_goal_manager->AddGoal(GetId(),p_params);
 
 	Game::CGoal *p_goal=p_goal_manager->GetGoal(GetId());
@@ -1720,8 +1720,8 @@ CGoalEditorComponent::CGoalEditorComponent() : CBaseComponent()
 	
 	ClearAllExceptParkGoals();
 	ClearOnlyParkGoals();
-	mp_input_component=NULL;
-	mp_editor_camera_component=NULL;
+	mp_input_component=nullptr;
+	mp_editor_camera_component=nullptr;
 }
 
 /******************************************************************/
@@ -1737,7 +1737,7 @@ CGoalEditorComponent::~CGoalEditorComponent()
 // For writing to memcard
 void CGoalEditorComponent::WriteIntoStructure(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 		
 	int goal_count=0;
 	for (int i=0; i<MAX_GOALS_TOTAL; ++i)
@@ -1774,7 +1774,7 @@ void CGoalEditorComponent::WriteIntoStructure(Script::CStruct *p_info)
 // across the network for network goal attack games.
 void CGoalEditorComponent::WriteIntoStructure(uint32 levelScript, Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
 	int num_goals=CountGoalsForLevel(levelScript);
 			
@@ -1799,7 +1799,7 @@ void CGoalEditorComponent::WriteIntoStructure(uint32 levelScript, Script::CStruc
 // Used when sending goal info across the network for network goal attack games.
 uint32 CGoalEditorComponent::WriteToBuffer(uint32 levelScript, uint8 *p_buffer, uint32 bufferSize)
 {
-	Dbg_MsgAssert(p_buffer,("NULL p_buffer"));
+	Dbg_MsgAssert(p_buffer,("nullptr p_buffer"));
 	
 	// Warning! It's feasible that we could run out of memory here ... 
 	// The structure could contain around 6K of stuff.	
@@ -1813,7 +1813,7 @@ uint32 CGoalEditorComponent::WriteToBuffer(uint32 levelScript, uint8 *p_buffer, 
 
 uint8 *CGoalEditorComponent::ReadFromBuffer(uint32 levelScript, uint8 *p_buffer)
 {
-	Dbg_MsgAssert(p_buffer,("NULL p_buffer"));
+	Dbg_MsgAssert(p_buffer,("nullptr p_buffer"));
 
 	levelScript=s_convert_level(levelScript);
 	
@@ -1829,9 +1829,9 @@ uint8 *CGoalEditorComponent::ReadFromBuffer(uint32 levelScript, uint8 *p_buffer)
 		}
 	}	
 	// Clear this just in case it was one of those that got cleared.
-	mp_current_goal=NULL;
+	mp_current_goal=nullptr;
 	
-	Script::CArray *p_goals_array=NULL;
+	Script::CArray *p_goals_array=nullptr;
 	p_struct->GetArray(Crc::ConstCRC("Goals"),&p_goals_array,Script::ASSERT);
 
 	uint32 array_index=0;
@@ -1858,7 +1858,7 @@ uint8 *CGoalEditorComponent::ReadFromBuffer(uint32 levelScript, uint8 *p_buffer)
 // For reading from memcard
 void CGoalEditorComponent::ReadFromStructure(Script::CStruct *p_info, EBoolLoadingParkGoals loadingParkGoals)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info"));
+	Dbg_MsgAssert(p_info,("nullptr p_info"));
 
 	if (loadingParkGoals)
 	{
@@ -1869,7 +1869,7 @@ void CGoalEditorComponent::ReadFromStructure(Script::CStruct *p_info, EBoolLoadi
 		ClearAllExceptParkGoals();
 	}
 	
-	Script::CArray *p_goals_array=NULL;
+	Script::CArray *p_goals_array=nullptr;
 	p_info->GetArray(Crc::ConstCRC("Goals"),&p_goals_array);
 	if (!p_goals_array)
 	{
@@ -1896,7 +1896,7 @@ void CGoalEditorComponent::ReadFromStructure(Script::CStruct *p_info, EBoolLoadi
 		}	
 	}
 	
-	mp_current_goal=NULL;	
+	mp_current_goal=nullptr;	
 }
 
 /******************************************************************/
@@ -1963,15 +1963,15 @@ void CGoalEditorComponent::refresh_cursor_object()
 {
 	const char *p_model_filename="";
 
-	Dbg_MsgAssert(mp_current_goal,("NULL mp_current_goal"));
+	Dbg_MsgAssert(mp_current_goal,("nullptr mp_current_goal"));
 	switch (mp_current_goal->GetPositionType())
 	{
 		case CGoalPos::RESTART:
-			Dbg_MsgAssert(mp_current_goal,("NULL mp_current_goal?"));
+			Dbg_MsgAssert(mp_current_goal,("nullptr mp_current_goal?"));
 			p_model_filename="gameobjects\\p1_cursor\\p1_cursor.mdl";
 			break;
 		case CGoalPos::LETTER:
-			Dbg_MsgAssert(mp_current_goal,("NULL mp_current_goal?"));
+			Dbg_MsgAssert(mp_current_goal,("nullptr mp_current_goal?"));
 			p_model_filename=s_generate_letter_model_filename(mp_current_goal->GetType(),
 															  mp_current_goal->GetCurrentLetterIndex());
 			break;
@@ -2000,7 +2000,7 @@ void CGoalEditorComponent::refresh_cursor_object()
 
 void CGoalEditorComponent::get_pos_from_camera_component(Mth::Vector *p_pos, float *p_height, float *p_angle)
 {
-	Dbg_MsgAssert(mp_editor_camera_component,("NULL mp_editor_camera_component ?"));
+	Dbg_MsgAssert(mp_editor_camera_component,("nullptr mp_editor_camera_component ?"));
 	*p_pos=mp_editor_camera_component->GetCursorPos();
 	*p_height=mp_editor_camera_component->GetCursorHeight();
 	*p_angle=mp_editor_camera_component->GetCursorOrientation();
@@ -2008,7 +2008,7 @@ void CGoalEditorComponent::get_pos_from_camera_component(Mth::Vector *p_pos, flo
 
 void CGoalEditorComponent::update_cursor_collision_type()
 {
-	Dbg_MsgAssert(mp_editor_camera_component,("NULL mp_editor_camera_component ?"));
+	Dbg_MsgAssert(mp_editor_camera_component,("nullptr mp_editor_camera_component ?"));
 	
 	// Restart positions are not allowed to go over kill polys, otherwise the skater will
 	// die straight away.
@@ -2039,7 +2039,7 @@ CEditGoal *CGoalEditorComponent::find_goal(const char *p_name)
 {
 	uint32 current_level=s_get_current_level();
 
-	Dbg_MsgAssert(p_name,("NULL p_name ?"));
+	Dbg_MsgAssert(p_name,("nullptr p_name ?"));
 	for (int i=0; i<MAX_GOALS_TOTAL; ++i)
 	{
 		if (mp_goals[i].Used() && 
@@ -2049,7 +2049,7 @@ CEditGoal *CGoalEditorComponent::find_goal(const char *p_name)
 			return &mp_goals[i];
 		}
 	}
-	return NULL;		
+	return nullptr;		
 }
 
 CEditGoal *CGoalEditorComponent::find_goal(uint32 id)
@@ -2065,7 +2065,7 @@ CEditGoal *CGoalEditorComponent::find_goal(uint32 id)
 			return &mp_goals[i];
 		}
 	}
-	return NULL;		
+	return nullptr;		
 }
 
 CEditGoal *CGoalEditorComponent::find_goal(Script::CStruct *p_params)
@@ -2076,7 +2076,7 @@ CEditGoal *CGoalEditorComponent::find_goal(Script::CStruct *p_params)
 		return find_goal(id);
 	}
 	
-	const char *p_name=NULL;
+	const char *p_name=nullptr;
 	if (p_params->GetString(Crc::ConstCRC("goal_name"),&p_name))
 	{
 		return find_goal(p_name);
@@ -2098,7 +2098,7 @@ CEditGoal *CGoalEditorComponent::find_goal(Script::CStruct *p_params)
 				return &mp_goals[i];
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 	
 	return mp_current_goal;	
@@ -2132,8 +2132,8 @@ int CGoalEditorComponent::CountGoalsForLevel(uint32 level)
 	
 void CGoalEditorComponent::update_camera_pos()
 {
-	Dbg_MsgAssert(mp_editor_camera_component,("NULL mp_editor_camera_component"));
-	Dbg_MsgAssert(mp_current_goal,("NULL mp_current_goal"));
+	Dbg_MsgAssert(mp_editor_camera_component,("nullptr mp_editor_camera_component"));
+	Dbg_MsgAssert(mp_current_goal,("nullptr mp_current_goal"));
 	
 	Mth::Vector pos(0.0f,0.0f,0.0f);
 	float height=0.0f;
@@ -2163,12 +2163,12 @@ void CGoalEditorComponent::update_cursor_position()
 
 void CGoalEditorComponent::remove_goal(CEditGoal *p_goal)
 {
-	Dbg_MsgAssert(p_goal,("NULL p_goal"));
+	Dbg_MsgAssert(p_goal,("nullptr p_goal"));
 	
 	if (p_goal->Used())
 	{
 		Game::CGoalManager* p_goal_manager = Game::GetGoalManager();
-		Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager ?"));
+		Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager ?"));
 		
 		if (p_goal_manager->GoalExists(p_goal->GetId()))
 		{
@@ -2179,11 +2179,11 @@ void CGoalEditorComponent::remove_goal(CEditGoal *p_goal)
 	
 	if (mp_current_goal==p_goal)
 	{
-		mp_current_goal=NULL;
+		mp_current_goal=nullptr;
 	}
 	if (GetNumGoals()==0)
 	{
-		Dbg_MsgAssert(mp_current_goal==NULL,("mp_current_goal not NULL ?"));
+		Dbg_MsgAssert(mp_current_goal==nullptr,("mp_current_goal not nullptr ?"));
 	}	
 }
 
@@ -2221,11 +2221,11 @@ void CGoalEditorComponent::Finalize()
 {
 	// Get the pointers to the other required components.
 	
-	Dbg_MsgAssert(mp_input_component==NULL,("mp_input_component not NULL ?"));
+	Dbg_MsgAssert(mp_input_component==nullptr,("mp_input_component not nullptr ?"));
 	mp_input_component = GetInputComponentFromObject(GetObj());
 	Dbg_MsgAssert(mp_input_component,("CGoalEditorComponent requires parent object to have an input component!"));
 
-	Dbg_MsgAssert(mp_editor_camera_component==NULL,("mp_editor_camera_component not NULL ?"));
+	Dbg_MsgAssert(mp_editor_camera_component==nullptr,("mp_editor_camera_component not nullptr ?"));
 	mp_editor_camera_component = GetEditorCameraComponentFromObject(GetObj());
 	Dbg_MsgAssert(mp_editor_camera_component,("CGoalEditorComponent requires parent object to have an EditorCamera component!"));
 }
@@ -2260,26 +2260,26 @@ void CGoalEditorComponent::Update()
 			{
 				// Can't place restart positions too close to another goal's ped position, or
 				// ped positions too close to another goal's restart position.
-				Script::RunScript(Crc::ConstCRC("goal_editor_play_placement_fail_sound"),NULL,GetObj());
+				Script::RunScript(Crc::ConstCRC("goal_editor_play_placement_fail_sound"),nullptr,GetObj());
 			}
 			else
 			{
 				if (mp_current_goal->SetPosition(cursor_pos,cursor_height,cursor_angle))
 				{
-					Script::RunScript(Crc::ConstCRC("goal_editor_play_placement_success_sound"),NULL,GetObj());
+					Script::RunScript(Crc::ConstCRC("goal_editor_play_placement_success_sound"),nullptr,GetObj());
 					// Once a position is set, the cursor model will need to change for the next position.
 					refresh_cursor_object();
 					update_camera_pos();
 				}
 				else
 				{
-					Script::RunScript(Crc::ConstCRC("goal_editor_play_placement_fail_sound"),NULL,GetObj());
+					Script::RunScript(Crc::ConstCRC("goal_editor_play_placement_fail_sound"),nullptr,GetObj());
 				}
 			}	
 			
 			if (mp_current_goal->PlacedLastPosition())
 			{
-				Script::RunScript(Crc::ConstCRC("goal_editor_finished_placing_letters"),NULL,GetObj());
+				Script::RunScript(Crc::ConstCRC("goal_editor_finished_placing_letters"),nullptr,GetObj());
 			}
 		}	
 	
@@ -2292,7 +2292,7 @@ void CGoalEditorComponent::Update()
 			float cursor_angle=0.0f;
 			get_pos_from_camera_component(&cursor_pos,&cursor_height,&cursor_angle);
 	
-			Dbg_MsgAssert(mp_current_goal,("NULL mp_current_goal"));
+			Dbg_MsgAssert(mp_current_goal,("nullptr mp_current_goal"));
 			if ((mp_current_goal->GetPositionType() == CGoalPos::RESTART && 
 				too_close_to_another_goal_position(cursor_pos,cursor_height,mp_current_goal->GetLevel(),0)) || // 0 = ped
 				(mp_current_goal->GetPositionType() == CGoalPos::PED && 
@@ -2300,19 +2300,19 @@ void CGoalEditorComponent::Update()
 			{
 				// Can't place restart positions too close to another goal's ped position, or
 				// ped positions too close to another goal's restart position.
-				Script::RunScript(Crc::ConstCRC("goal_editor_play_backup_fail_sound"),NULL,GetObj());
+				Script::RunScript(Crc::ConstCRC("goal_editor_play_backup_fail_sound"),nullptr,GetObj());
 			}
 			else
 			{
 				if (mp_current_goal->BackUp(cursor_pos,cursor_height,cursor_angle))
 				{
-					Script::RunScript(Crc::ConstCRC("goal_editor_play_backup_success_sound"),NULL,GetObj());
+					Script::RunScript(Crc::ConstCRC("goal_editor_play_backup_success_sound"),nullptr,GetObj());
 					refresh_cursor_object();
 					update_camera_pos();
 				}	
 				else
 				{
-					Script::RunScript(Crc::ConstCRC("goal_editor_play_backup_fail_sound"),NULL,GetObj());
+					Script::RunScript(Crc::ConstCRC("goal_editor_play_backup_fail_sound"),nullptr,GetObj());
 				}			
 			}	
 		}	
@@ -2331,7 +2331,7 @@ void CGoalEditorComponent::ClearAllExceptParkGoals()
 		}	
 	}
 	
-	mp_current_goal=NULL;
+	mp_current_goal=nullptr;
 }	
 
 void CGoalEditorComponent::ClearOnlyParkGoals()
@@ -2344,7 +2344,7 @@ void CGoalEditorComponent::ClearOnlyParkGoals()
 		}	
 	}	
 	
-	mp_current_goal=NULL;
+	mp_current_goal=nullptr;
 }
 
 void CGoalEditorComponent::CleanOutUnfinishedGoals()
@@ -2409,7 +2409,7 @@ void CGoalEditorComponent::NewGoal()
 
 void CGoalEditorComponent::SetGoalType(uint32 type)
 {
-	Dbg_MsgAssert(mp_current_goal,("NULL mp_current_goal"));
+	Dbg_MsgAssert(mp_current_goal,("nullptr mp_current_goal"));
 	mp_current_goal->SetType(type);
 }
 	
@@ -2620,7 +2620,7 @@ CBaseComponent::EMemberFunctionResult CGoalEditorComponent::CallMemberFunction( 
 			uint32 type=0;
 			pParams->GetChecksum("type",&type);
 			
-			mp_current_goal=NULL;
+			mp_current_goal=nullptr;
 			
 			for (int i=0; i<MAX_GOALS_TOTAL; ++i)
 			{
@@ -2649,7 +2649,7 @@ CBaseComponent::EMemberFunctionResult CGoalEditorComponent::CallMemberFunction( 
 		case 0x259c59dd: // NewEditorGoal
 		{
 			NewGoal();
-			Dbg_MsgAssert(mp_current_goal,("NULL mp_current_goal ?"));
+			Dbg_MsgAssert(mp_current_goal,("nullptr mp_current_goal ?"));
 			//printf("Max skate goal size = %d\n",mp_current_goal->GetSkateGoalMaxSize());
 			
 			pScript->GetParams()->AddChecksum("goal_id",mp_current_goal->GetId());
@@ -2988,7 +2988,7 @@ CBaseComponent::EMemberFunctionResult CGoalEditorComponent::CallMemberFunction( 
 void CGoalEditorComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CGoalEditorComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CGoalEditorComponent::GetDebugInfo"));
 
 	int num_goals=GetNumGoals();
 	p_info->AddInteger("NumGoals",num_goals);

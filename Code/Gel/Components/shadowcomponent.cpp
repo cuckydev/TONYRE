@@ -49,7 +49,7 @@ CShadowComponent::CShadowComponent() : CBaseComponent()
 	SetType( CRC_SHADOW );
 
 	// no shadow object
-	mp_shadow = NULL;					
+	mp_shadow = nullptr;					
 	m_shadowNormal.Set(0.0f,1.0f,0.0f);
 	m_shadowType = Crc::ConstCRC("none");
 	m_shadowPos.Set(0,0,0);
@@ -65,7 +65,7 @@ CShadowComponent::~CShadowComponent()
 	if ( mp_shadow )
 	{
 		delete mp_shadow;
-		mp_shadow = NULL;
+		mp_shadow = nullptr;
 	}
 }
 
@@ -126,7 +126,7 @@ void CShadowComponent::InitFromStructure( Script::CStruct* pParams )
 				const char *p_shadow_model_name = "Ped_Shadow";
 				pParams->GetString( Crc::ConstCRC("ShadowModel"), &p_shadow_model_name, Script::NO_ASSERT );
 						
-				Dbg_MsgAssert( mp_shadow, ("NULL mp_shadow") );
+				Dbg_MsgAssert( mp_shadow, ("nullptr mp_shadow") );
 				Gfx::CSimpleShadow* pSimpleShadow = (Gfx::CSimpleShadow*)mp_shadow;
 				pSimpleShadow->SetScale( scale );
 				pSimpleShadow->SetModel( p_shadow_model_name );
@@ -173,7 +173,7 @@ void CShadowComponent::update_shadow()
 //		Dbg_MsgAssert(mp_shadow->GetShadowType()!=Gfx::vDETAILED_SHADOW,("Tried to update a detailed shadow in MovingObj_Update, will need to change code to send a higher-up position"));
 
 		
-		Nx::CModel* pModel = NULL;
+		Nx::CModel* pModel = nullptr;
 		if ( mp_model_component )
 		{
 			pModel = mp_model_component->GetModel();
@@ -372,7 +372,7 @@ void CShadowComponent::SwitchOnShadow( Gfx::EShadowType mode )
 // Note we can't use mp_model_component here, as SwitchOnShaodow is called
 // from InitFromStructure, which is obviously called before Finalize(); 
 	CModelComponent* pModelComponent = GetModelComponentFromObject( GetObj() );
-	Nx::CModel* pModel = NULL;
+	Nx::CModel* pModel = nullptr;
 	if ( pModelComponent )
 	{
 		pModel = pModelComponent->GetModel();
@@ -383,7 +383,7 @@ void CShadowComponent::SwitchOnShadow( Gfx::EShadowType mode )
 	{
 		case Gfx::vDETAILED_SHADOW:
 		{
-			Dbg_MsgAssert( mp_shadow == NULL, ("mp_shadow not NULL?") );
+			Dbg_MsgAssert( mp_shadow == nullptr, ("mp_shadow not nullptr?") );
 			Dbg_MsgAssert( pModel, ("adding detailed shadow to something with no model?") );
 			mp_shadow = new Gfx::CDetailedShadow( pModel );
 		}
@@ -391,7 +391,7 @@ void CShadowComponent::SwitchOnShadow( Gfx::EShadowType mode )
 
 		case Gfx::vSIMPLE_SHADOW:
 		{
-			Dbg_MsgAssert( mp_shadow == NULL, ("mp_shadow not NULL?") );
+			Dbg_MsgAssert( mp_shadow == nullptr, ("mp_shadow not nullptr?") );
 			Dbg_MsgAssert( pModel, ("adding simple shadow to something with no model?") );
 			
 			Gfx::CSimpleShadow* pSimpleShadow = new Gfx::CSimpleShadow;
@@ -426,7 +426,7 @@ void CShadowComponent::SwitchOffShadow()
 		}
 
 		delete mp_shadow;
-		mp_shadow = NULL;
+		mp_shadow = nullptr;
 	}	
 }
 
@@ -516,7 +516,7 @@ void CShadowComponent::SwitchOnSkaterShadow()
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(pSkater->GetHeapIndex()));
 
 	// In Splitscreen games, shadow type for local player is optional
-	if (CFuncs::ScriptInSplitScreenGame(NULL, NULL))
+	if (CFuncs::ScriptInSplitScreenGame(nullptr, nullptr))
 	{
 		mode = Mdl::Skate::Instance()->GetShadowMode();
 	}

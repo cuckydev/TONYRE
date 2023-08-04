@@ -141,7 +141,7 @@ CBaseComponent::EMemberFunctionResult CFloatingLabelComponent::CallMemberFunctio
 void CFloatingLabelComponent::GetDebugInfo ( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CFloatingLabelComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CFloatingLabelComponent::GetDebugInfo"));
 	
 	p_info->AddString(Crc::ConstCRC("m_string"), m_string);
 	p_info->AddInteger(Crc::ConstCRC("m_color_index"), m_color_index);

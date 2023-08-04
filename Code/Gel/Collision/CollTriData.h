@@ -391,7 +391,7 @@ private:
 	CCollBSPNode *		create_bsp_leaf(FaceIndex *p_face_indexes, uint num_faces);
 	bool				calc_split_faces(uint axis, float axis_distance, FaceIndex *p_face_indexes,
 										 uint num_faces, uint & less_faces, uint & greater_faces, 
-										 FaceIndex *p_less_face_indexes = NULL, FaceIndex *p_greater_face_indexes = NULL);
+										 FaceIndex *p_less_face_indexes = nullptr, FaceIndex *p_greater_face_indexes = nullptr);
 
 	void				find_faces(CCollBSPNode *p_bsp_node, const Mth::CBBox & bbox);		// recursively search for faces
 

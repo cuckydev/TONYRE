@@ -82,7 +82,7 @@ class  CCompetition  : public Spt::Class
 	
 	
 public:	
-	CCompetition( Script::CStruct* pParams = NULL );
+	CCompetition( Script::CStruct* pParams = nullptr );
 	~CCompetition();
 	
 	void						StartCompetition(float bronze = 90.0f, float silver = 93.0f, float gold = 95.0f, float bonze_score=20000, float silver_score=40000,float gold_score = 60000,float bail = 1.0f);

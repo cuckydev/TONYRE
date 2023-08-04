@@ -96,7 +96,7 @@ CBaseComponent::EMemberFunctionResult CSetDisplayMatrixComponent::CallMemberFunc
 
 void CSetDisplayMatrixComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSetDisplayMatrixComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSetDisplayMatrixComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 }

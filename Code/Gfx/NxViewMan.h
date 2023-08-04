@@ -61,7 +61,7 @@ public:
 	static void					sSetCameraAllScreenModes(int index, Gfx::Camera* pCamera);
 
 	static Gfx::Camera*			sGetActiveCamera(int cam = 0);
-	static Gfx::Camera*			sGetClosestCamera(const Mth::Vector &pos, float *distParam = NULL);
+	static Gfx::Camera*			sGetClosestCamera(const Mth::Vector &pos, float *distParam = nullptr);
 	static int					sGetNumActiveCameras();
 
 	static bool					sMarkCameraForDeletion(Gfx::Camera *pCamera);
@@ -90,7 +90,7 @@ public:
 	static	float				sGet2DIn3DSpaceMinScale();
 
 protected:
-	static CViewport *			s_create_viewport(const Mth::Rect* rect, Gfx::Camera* cam = NULL);
+	static CViewport *			s_create_viewport(const Mth::Rect* rect, Gfx::Camera* cam = nullptr);
 
 private:
 	// The platform dependent calls

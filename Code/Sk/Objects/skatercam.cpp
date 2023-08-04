@@ -243,7 +243,7 @@ CSkaterCam::~CSkaterCam( void )
 	if( mpCopy )
 	{
 		Mem::Free( mpCopy );
-		mpCopy = NULL;
+		mpCopy = nullptr;
 	}
 	#endif
 

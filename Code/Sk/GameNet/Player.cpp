@@ -508,13 +508,13 @@ PlayerInfo::PlayerInfo( int flags )
 	}
 
 	m_flags = flags;
-	m_observer_logic_task = NULL;
+	m_observer_logic_task = nullptr;
 	m_jump_in_frame = 0;
 	m_last_object_update_id = vMAX_PLAYERS - 1;
-	m_face_data = NULL;
+	m_face_data = nullptr;
 
-	m_Skater = NULL;
-	mp_SkaterProfile = NULL;
+	m_Skater = nullptr;
+	mp_SkaterProfile = nullptr;
 	m_last_bail_time = 0;
 	m_last_hit_time = 0;
 	m_Team = vTEAM_RED;
@@ -543,7 +543,7 @@ PlayerInfo::~PlayerInfo( void )
 	if( m_face_data )
 	{
 		delete [] m_face_data;
-		m_face_data = NULL;
+		m_face_data = nullptr;
 	}
 }
 
@@ -575,9 +575,9 @@ void	PlayerInfo::SetFaceData( uint8* face_data, int size )
 {
 	uint8 player_id;
 
-	Dbg_Assert( m_face_data == NULL );
-	Dbg_Assert( face_data != NULL );
-	Dbg_Assert( m_Skater != NULL );
+	Dbg_Assert( m_face_data == nullptr );
+	Dbg_Assert( face_data != nullptr );
+	Dbg_Assert( m_Skater != nullptr );
 
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetMiscHeap());
 
@@ -808,7 +808,7 @@ void	PlayerInfo::MarkAsFullyIn( void )
 
 				// If we don't currently have a player acting as the host
 				// make this new player the host
-				if( player == NULL )
+				if( player == nullptr )
 				{
 					gamenet_man->ChooseNewServerPlayer();
 				}
@@ -1157,7 +1157,7 @@ void	PlayerInfo::MarkAsKing( bool mark )
 				delete pParams;
 				
 				/*gamenet_man->CreateNetPanelMessage( false, Script::GenerateCRC("net_message_new_king_you"),
-													NULL, NULL, m_Skater );*/
+													nullptr, nullptr, m_Skater );*/
 				Script::RunScript( "NewKingYou" );
 				
 			}
@@ -1173,7 +1173,7 @@ void	PlayerInfo::MarkAsKing( bool mark )
 				pParams->AddString( "String0", m_Name );
 				Script::RunScript( "NewKingOther", pParams );
 				/*gamenet_man->CreateNetPanelMessage( false, Script::GenerateCRC( "net_message_new_king_other"),
-													m_Name, NULL );*/
+													m_Name, nullptr );*/
 				delete pParams;
 
 				
@@ -1204,7 +1204,7 @@ void	PlayerInfo::MarkAsKing( bool mark )
 					pParams->AddString( "String0", (char*)m_Skater->GetDisplayName());
 					Script::RunScript( "NewKingOther", pParams );
 					/*gamenet_man->CreateNetPanelMessage( false, Script::GenerateCRC("net_message_new_king_other"),
-														(char*)m_Skater->GetDisplayName(), NULL, other_player->m_Skater );*/
+														(char*)m_Skater->GetDisplayName(), nullptr, other_player->m_Skater );*/
 					delete pParams;
 				}
 			}

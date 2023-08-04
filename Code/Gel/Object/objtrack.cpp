@@ -33,7 +33,7 @@ CEventLog::CEventLog()
 	m_next_entry = 0;
 	m_wrapped = false;
 	
-	mp_event_type_hash_table = NULL;
+	mp_event_type_hash_table = nullptr;
 	m_event_depth = 0;
 	m_num_new_entries = 0;
 }
@@ -379,7 +379,7 @@ CTracker::CTracker()
 	
 	m_id_seed = 0;
 
-	mp_event_listener_list = NULL;
+	mp_event_listener_list = nullptr;
 	m_block_event_launching = false;
 	m_event_recurse_depth = 0;
 
@@ -405,7 +405,7 @@ CTracker::~CTracker()
 
 
 /*
-	Returns a pointer to the CObject whose ID matches the one given, returns NULL if not found.
+	Returns a pointer to the CObject whose ID matches the one given, returns nullptr if not found.
 	Will return the object if it has an alias, which is used in the front end for stuff like "MainMenu"
 	But is also now used for "Skater" and "Skater2"
 */
@@ -565,7 +565,7 @@ bool CTracker::LaunchEvent(uint32 type, uint32 target, uint32 source, Script::CS
 				// We also use a list of smart pointers to the mp_reference in a script, so if one event handler deletes
 				// another object (and hence its script)
 				// then we can safely ignore that object (since it no longer exists)
-				// as the pointer will be set to NULL.			
+				// as the pointer will be set to nullptr.			
 				
 				Script::CScript ** pp_scripts = new Script::CScript*[scripts];
 				CSmtPtr<CRefCounted> * pp_refs = new CSmtPtr<CRefCounted>[scripts];
@@ -617,7 +617,7 @@ bool CTracker::LaunchEvent(uint32 type, uint32 target, uint32 source, Script::CS
 				// that will receive this. Otherwise chaos ensues, as objects change their event handlers based on events. 
 				// We use a list of smart pointers, so if one object handler deletes another object
 				// then we can safely ignore that object (since it no longer exists)
-				// as the pointer will be set to NULL.			
+				// as the pointer will be set to nullptr.			
 				CObjectPtr * pp_objects = new CObjectPtr[objects];
 				Lst::Node< Obj::CObject >*p_node = p_event_list->FirstItem();
 				int n=0;
@@ -646,7 +646,7 @@ bool CTracker::LaunchEvent(uint32 type, uint32 target, uint32 source, Script::CS
 		
 		
 		// try event on all registered listeners
-		forward_event_to_listeners(&event, NULL);
+		forward_event_to_listeners(&event, nullptr);
 	
 		// if event has a specific target, then send to that CObject
 		if (event.m_target_id != CEvent::vSYSTEM_EVENT && !event.WasHandled())
@@ -783,7 +783,7 @@ void CTracker::UnregisterEventListener(CEventListener *pListener)
 {
 	Dbg_MsgAssert(pListener->m_registered, ("listener not registered"));
 
-	CEventListener *p_prev = NULL;
+	CEventListener *p_prev = nullptr;
 	CEventListener *p_current = mp_event_listener_list;
 	while(p_current)
 	{
@@ -914,7 +914,7 @@ void		CEventReceiverList::UnregisterEventReceiverObject(Script::CScript *p_scrip
 {
 	// Get the node from the list
 
-	Lst::Node<Script::CScript>* p_node = NULL;
+	Lst::Node<Script::CScript>* p_node = nullptr;
 	Lst::Node<Script::CScript> * p_search = m_objects.FirstItem();
 	while (p_search)
 	{
@@ -941,7 +941,7 @@ void		CEventReceiverList::UnregisterEventReceiverObject(CObject *p_obj)
 {
 	// Get the node from the list
 
-	Lst::Node<Obj::CObject>* p_node = NULL;
+	Lst::Node<Obj::CObject>* p_node = nullptr;
 	Lst::Node<Obj::CObject> * p_search = m_objects.FirstItem();
 	while (p_search)
 	{
@@ -1069,7 +1069,7 @@ bool ScriptLaunchEvent(Script::CStruct *pParams, Script::CScript *pScript)
 			source = CEvent::vSYSTEM_EVENT;
 	}	
 		
-	Script::CStruct *pData = NULL;
+	Script::CStruct *pData = nullptr;
 	pParams->GetStructure(Crc::ConstCRC("data"), &pData);
 	
 	bool broadcast = pParams->ContainsFlag(Crc::ConstCRC("broadcast"));
@@ -1142,7 +1142,7 @@ bool ScriptObjectExists(Script::CStruct *pParams, Script::CScript *pScript)
 	uint32 id = p_manager->ResolveComplexID(pParams, Crc::ConstCRC("id"));
 	
 	CTracker* p_tracker = CTracker::Instance();
-	return (p_tracker->GetObj(id) != NULL);
+	return (p_tracker->GetObj(id) != nullptr);
 }
 
 

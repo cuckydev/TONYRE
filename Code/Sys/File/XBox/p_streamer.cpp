@@ -28,7 +28,7 @@ VOID Check_DMA_Alignment( HANDLE hFile, VOID* pBuffer, DWORD dwOffset, DWORD dwN
     BY_HANDLE_FILE_INFORMATION Info;
     GetFileInformationByHandle( hFile, &Info );
     DWORD dwDVDSerialNumber;
-    GetVolumeInformation( "D:\\", NULL, 0, &dwDVDSerialNumber, NULL, NULL, NULL, 0 );
+    GetVolumeInformation( "D:\\", nullptr, 0, &dwDVDSerialNumber, nullptr, nullptr, nullptr, 0 );
 
     // assert proper file offset and read/write size
     if( Info.dwVolumeSerialNumber == dwDVDSerialNumber )
@@ -50,18 +50,18 @@ VOID Check_DMA_Alignment( HANDLE hFile, VOID* pBuffer, DWORD dwOffset, DWORD dwN
 // Desc: Constructor
 //-----------------------------------------------------------------------------
 CLevelLoader::CLevelLoader()
-:   m_pSysMemData( NULL ),
+:   m_pSysMemData( nullptr ),
     m_dwSysMemSize( 0 ),
-    m_pLevels( NULL ),
+    m_pLevels( nullptr ),
     m_dwNumLevels( 0 ),
-    m_pCurrentLevel( NULL ),
+    m_pCurrentLevel( nullptr ),
     m_IOState( Idle ),
-    m_pSysMemBuffer( NULL ),
-    m_pFileSig( NULL ),
+    m_pSysMemBuffer( nullptr ),
+    m_pFileSig( nullptr ),
     m_hSignature( INVALID_HANDLE_VALUE )
 {
     // create file sig buffer
-    Dbg_Assert( m_pFileSig == NULL );
+    Dbg_Assert( m_pFileSig == nullptr );
     Dbg_Assert( XCALCSIG_SIGNATURE_SIZE + sizeof(SIG_MAGIC) <= HD_SECTOR_SIZE );
 	m_pFileSig = new BYTE[HD_SECTOR_SIZE];
 }
@@ -79,8 +79,8 @@ CLevelLoader::~CLevelLoader()
 
     // These should be already be cleaned up.
     Dbg_Assert( m_hSignature == INVALID_HANDLE_VALUE );
-    Dbg_Assert( m_pSysMemBuffer == NULL );
-    Dbg_Assert( m_pFileSig == NULL );
+    Dbg_Assert( m_pSysMemBuffer == nullptr );
+    Dbg_Assert( m_pFileSig == nullptr );
 
     // Close all handles.
     for( UINT i = 0; i < m_dwNumLevels; i++ )
@@ -91,11 +91,11 @@ CLevelLoader::~CLevelLoader()
     }
 
 	// We don't own this memory, so don't delete it.
-    m_pSysMemData = NULL;
+    m_pSysMemData = nullptr;
 
 	// Free the level state array.
 	delete [] m_pLevels;
-	m_pLevels = NULL;
+	m_pLevels = nullptr;
 }
 
 
@@ -107,10 +107,10 @@ CLevelLoader::~CLevelLoader()
 HRESULT CLevelLoader::Initialize( SLevelDesc* pDescs, DWORD dwNumLevels, BYTE* pSysMemData, DWORD dwSysMemSize, BOOL *p_signal )
 {
 	// Make sure relevant data directories are on the HD utility section.
-	CreateDirectory( "Z:\\data", NULL );
-	CreateDirectory( "Z:\\data\\pre", NULL );
-	CreateDirectory( "Z:\\data\\music", NULL );
-	CreateDirectory( "Z:\\data\\music\\wma", NULL );
+	CreateDirectory( "Z:\\data", nullptr );
+	CreateDirectory( "Z:\\data\\pre", nullptr );
+	CreateDirectory( "Z:\\data\\music", nullptr );
+	CreateDirectory( "Z:\\data\\music\\wma", nullptr );
 
 	// Copy signal.
 	m_pOkayToUseUtilityDrive = p_signal;
@@ -197,14 +197,14 @@ HRESULT CLevelLoader::OpenLevel( SLevelState* pLevel, DWORD dwFlags )
         sprintf( szBuffer, "D:\\data\\%s", pLevel->Desc.szName );
 
         // Open DVD file for reading.
-		pLevel->hDVDFile = CreateFile( szBuffer, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, dwFlags, NULL );
+		pLevel->hDVDFile = CreateFile( szBuffer, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, dwFlags, nullptr );
 
 		if( pLevel->hDVDFile == INVALID_HANDLE_VALUE )
 			return EndOpenLevel( pLevel, BadOpen );
 
 		// Get size of file on DVD. NOTE: This size is used to help detect corrupt cached levels. If a cached level
 		// is not the same size as its DVD counterpart, the cached level is considered corrupt.
-        pLevel->dwDVDFileSize = ::GetFileSize( pLevel->hDVDFile, NULL );
+        pLevel->dwDVDFileSize = ::GetFileSize( pLevel->hDVDFile, nullptr );
 
 		// NOTE: Both files stored on the utility drive (signature file and level) are pre-sized. This prevents the files from
 		// becoming fragmented in the FATX.  Also, Overlapped reads/writes to the hard disk are synchronous if the file system
@@ -222,23 +222,23 @@ HRESULT CLevelLoader::OpenLevel( SLevelState* pLevel, DWORD dwFlags )
                                        FILE_SHARE_READ |
                                        FILE_SHARE_WRITE |
                                        FILE_SHARE_DELETE,
-                                       NULL,
+                                       nullptr,
                                        OPEN_ALWAYS,
                                        dwFlags,
-                                       NULL );
+                                       nullptr );
         if( pLevel->hSigFile == INVALID_HANDLE_VALUE )
             return EndOpenLevel( pLevel, BadOpen );
         
 		// Cache is corrupted if sig file is not the right size. NOTE: The sig file is HD_SECTOR_SIZE in size. The actual
 		// signature calculated by XCalculateSignature* is much smaller that HD_SECTOR_SIZE, but we must write at least
 		// HD_SECTOR_SIZE to use DMA on the hard disk.
-		pLevel->bIsCacheCorrupted = pLevel->bIsPreCached && ::GetFileSize( pLevel->hSigFile, NULL ) != HD_SECTOR_SIZE;
+		pLevel->bIsCacheCorrupted = pLevel->bIsPreCached && ::GetFileSize( pLevel->hSigFile, nullptr ) != HD_SECTOR_SIZE;
         
 		// If the sig file is corrupted or not saved, resize it.
         if( !pLevel->bIsPreCached || pLevel->bIsCacheCorrupted )
         {
 			// Set file size for faster write.
-            SetFilePointer( pLevel->hSigFile, HD_SECTOR_SIZE, NULL, FILE_BEGIN );
+            SetFilePointer( pLevel->hSigFile, HD_SECTOR_SIZE, nullptr, FILE_BEGIN );
 			SetEndOfFile( pLevel->hSigFile );
             
 			// Clear Sig magic number.
@@ -265,22 +265,22 @@ HRESULT CLevelLoader::OpenLevel( SLevelState* pLevel, DWORD dwFlags )
                                       FILE_SHARE_READ |
                                       FILE_SHARE_WRITE |
                                       FILE_SHARE_DELETE,
-                                      NULL,
+                                      nullptr,
                                       OPEN_ALWAYS,
                                       dwFlags,
-                                      NULL );
+                                      nullptr );
 
         if( pLevel->hHDFile == INVALID_HANDLE_VALUE )
             return EndOpenLevel( pLevel, BadOpen );
         
 		// Cache is corrupted if cache file is not the right size
-		pLevel->bIsCacheCorrupted = pLevel->bIsPreCached && (( ::GetFileSize( pLevel->hHDFile, NULL ) != pLevel->dwDVDFileSize ) || pLevel->bIsCacheCorrupted );
+		pLevel->bIsCacheCorrupted = pLevel->bIsPreCached && (( ::GetFileSize( pLevel->hHDFile, nullptr ) != pLevel->dwDVDFileSize ) || pLevel->bIsCacheCorrupted );
 
         // If the cache file is corrupted or not saved, resize it.
         if( !pLevel->bIsPreCached || pLevel->bIsCacheCorrupted )
         {
             // Set file size for faster write.
-			DWORD rv = SetFilePointer( pLevel->hHDFile, pLevel->dwDVDFileSize, NULL, FILE_BEGIN );
+			DWORD rv = SetFilePointer( pLevel->hHDFile, pLevel->dwDVDFileSize, nullptr, FILE_BEGIN );
 			if( rv == INVALID_SET_FILE_POINTER )
 			{
 				DWORD last_error = GetLastError();
@@ -439,7 +439,7 @@ HRESULT CLevelLoader::StreamCurrentLevel()
 				
 				if( bytes_remaining <= 0 )
 				{
-					DWORD rv = SetFilePointer( m_pCurrentLevel->hHDFile, m_pCurrentLevel->dwDVDFileSize, NULL, FILE_BEGIN );
+					DWORD rv = SetFilePointer( m_pCurrentLevel->hHDFile, m_pCurrentLevel->dwDVDFileSize, nullptr, FILE_BEGIN );
 					if( rv == INVALID_SET_FILE_POINTER )
 					{
 						DWORD last_error = GetLastError();
@@ -537,7 +537,7 @@ HRESULT CLevelLoader::EndStreamLevel( FileIOStatus Status )
         // close the signature if needed
         if( m_hSignature != INVALID_HANDLE_VALUE )
         {
-            XCalculateSignatureEnd( m_hSignature, NULL );
+            XCalculateSignatureEnd( m_hSignature, nullptr );
             m_hSignature = INVALID_HANDLE_VALUE;
         }
     }
@@ -596,7 +596,7 @@ VOID CLevelLoader::ResetStreaming()
     Dbg_Assert( m_hSignature != INVALID_HANDLE_VALUE );
 
     // create file sig buffer
-//    Dbg_Assert( m_pFileSig == NULL );
+//    Dbg_Assert( m_pFileSig == nullptr );
 //    Dbg_Assert( XCALCSIG_SIGNATURE_SIZE + sizeof(SIG_MAGIC) <= HD_SECTOR_SIZE );
 //    m_pFileSig = new BYTE[HD_SECTOR_SIZE];
 }
@@ -668,10 +668,10 @@ DWORD WINAPI IOProc( LPVOID lpParameter )
 CThreadedLevelLoader::CThreadedLevelLoader() : m_bKillThread( FALSE )
 {
     // Create event that is used to block the thread when it is not being used for IO.
-    m_hEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+    m_hEvent = CreateEvent( nullptr, FALSE, FALSE, nullptr );
 
     // Create IO thread.
-    m_hThread =  CreateThread( NULL, 0, IOProc, this, 0, NULL);     
+    m_hThread =  CreateThread( nullptr, 0, IOProc, this, 0, nullptr);     
 
 	SetCurrentFile( INVALID_HANDLE_VALUE );
 }
@@ -716,7 +716,7 @@ HRESULT CThreadedLevelLoader::DoIO( IOType Type, VOID* pBuffer, DWORD dwNumBytes
 {
     // Check DMA alignment
 #	ifdef _DEBUG
-    Check_DMA_Alignment( m_hFile, pBuffer, SetFilePointer( m_hFile, 0, NULL, FILE_CURRENT ), dwNumBytes );
+    Check_DMA_Alignment( m_hFile, pBuffer, SetFilePointer( m_hFile, 0, nullptr, FILE_CURRENT ), dwNumBytes );
 #	endif
 
     // Do IO
@@ -724,15 +724,15 @@ HRESULT CThreadedLevelLoader::DoIO( IOType Type, VOID* pBuffer, DWORD dwNumBytes
     BOOL bSuccess;
     if(Type == Read)
     {
-        bSuccess = ::ReadFile( m_hFile, pBuffer, dwNumBytes, &dwNumBytesIO, NULL );
+        bSuccess = ::ReadFile( m_hFile, pBuffer, dwNumBytes, &dwNumBytesIO, nullptr );
     }
     else
-        bSuccess = ::WriteFile( m_hFile, pBuffer, dwNumBytes, &dwNumBytesIO, NULL );
+        bSuccess = ::WriteFile( m_hFile, pBuffer, dwNumBytes, &dwNumBytesIO, nullptr );
 
 	// If IO is successful and we have the number of expected bytes, return success.
     // NOTE: If the file size is X*SECTORSIZE + Y where Y is less than SECTORSIZE, we still request SECTORSIZE bytes when reading Y
     // in order to get DMA. The file system will return success, and the number of bytes read/written is Y.
-    if( !bSuccess || ( dwNumBytesIO != dwNumBytes && SetFilePointer( m_hFile, 0, NULL, FILE_CURRENT ) != GetFileSize( m_hFile, NULL )))
+    if( !bSuccess || ( dwNumBytesIO != dwNumBytes && SetFilePointer( m_hFile, 0, nullptr, FILE_CURRENT ) != GetFileSize( m_hFile, nullptr )))
 //	if( !bSuccess )
         return E_FAIL;
         
@@ -750,7 +750,7 @@ VOID CThreadedLevelLoader::SetCurrentFile( HANDLE hFile, BOOL to_start )
 	if(( hFile != INVALID_HANDLE_VALUE ) && to_start )
 	{
 		// Reset file pointer to beginning.
-		SetFilePointer( hFile, 0, NULL, FILE_BEGIN );
+		SetFilePointer( hFile, 0, nullptr, FILE_BEGIN );
 	}
     m_hFile = hFile;
 }

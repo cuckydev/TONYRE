@@ -54,8 +54,8 @@ CBaseComponent *	CSoundComponent::s_create()
 CSoundComponent::CSoundComponent() : CBaseComponent()
 {
 	SetType(CRC_SOUND);
-	mp_emitter = NULL;
-	mp_proxim_node = NULL;
+	mp_emitter = nullptr;
+	mp_proxim_node = nullptr;
 	m_pos.Set();
 	m_old_pos.Set();
 }
@@ -210,7 +210,7 @@ CBaseComponent::EMemberFunctionResult CSoundComponent::CallMemberFunction( uint3
 void CSoundComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSoundComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSoundComponent::GetDebugInfo"));
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);	  
 	
@@ -318,7 +318,7 @@ void CSoundComponent::PlayScriptedSound( Script::CScriptStructure *pParams )
 	}
 	else
 	{
-		mp_emitter = NULL;
+		mp_emitter = nullptr;
 	}
 
 	if ( !soundChecksum )
@@ -421,7 +421,7 @@ ObjectSoundInfo *CSoundComponent::GetLoopingSoundInfo( uint32 soundChecksum )
 		if ( mSoundInfo[ i ].checksum == soundChecksum )
 			return &mSoundInfo[ i ];
 	}
-	return ( NULL );
+	return ( nullptr );
 }
 
 void CSoundComponent::UpdateMutedSounds( void )

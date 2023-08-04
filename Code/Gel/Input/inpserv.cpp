@@ -414,10 +414,10 @@ Server::Server( void )
 //    
     
 	
-	m_data_in = NULL;
-	m_data_out = NULL;
-	m_data_in_end = NULL;
-	m_data_out_end = NULL;
+	m_data_in = nullptr;
+	m_data_out = nullptr;
+	m_data_in_end = nullptr;
+	m_data_out_end = nullptr;
 }
 
 /******************************************************************/

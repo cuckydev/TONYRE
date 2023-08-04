@@ -85,7 +85,7 @@ void CCollisionComponent::InitFromStructure( Script::CStruct* pParams )
 			uint32 name;
 			pParams->GetChecksum(Crc::ConstCRC("name"), &name, Script::ASSERT);
 			Nx::CSector *p_sector = Nx::CEngine::sGetSector(name);
-			Dbg_MsgAssert( p_sector, ( "WARNING: sGetSector(0x%x) returned NULL (%s)\n", name, Script::FindChecksumName(name) ) );
+			Dbg_MsgAssert( p_sector, ( "WARNING: sGetSector(0x%x) returned nullptr (%s)\n", name, Script::FindChecksumName(name) ) );
 			Nx::CCollObjTriData *p_coll_tri_data = p_sector->GetCollSector()->GetGeometry();
 			InitCollision(col_type, p_coll_tri_data);   
 		}
@@ -125,7 +125,7 @@ void CCollisionComponent::InitCollision( Nx::CollType type, Nx::CCollObjTriData 
 		}
 		else
 		{
-			mp_collision = Nx::CCollObj::sCreateMovableCollision(type, NULL, 0, GetObj());
+			mp_collision = Nx::CCollObj::sCreateMovableCollision(type, nullptr, 0, GetObj());
 		}
 	}
 }
@@ -181,8 +181,8 @@ void CCollisionComponent::Update()
 	{
 		// GJ TODO:  Somehow remove the collision object's dependency on the model!
 
-		Nx::CModel*	p_model = NULL;
-		Nx::CHierarchyObject* p_hierarchy = NULL;
+		Nx::CModel*	p_model = nullptr;
+		Nx::CHierarchyObject* p_hierarchy = nullptr;
 		Obj::CModelComponent* p_model_component = GetModelComponentFromObject( GetObj() );
 		if ( p_model_component )
 		{

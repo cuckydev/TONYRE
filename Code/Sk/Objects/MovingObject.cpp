@@ -151,7 +151,7 @@ void CMovingObject::MovingObjectInit( Script::CStruct* pNodeData, CGeneralManage
 	uint32 AIScriptChecksum=0;
 	if ( pNodeData->GetChecksum(Crc::ConstCRC("TriggerScript"),&AIScriptChecksum) )
 	{
-		Script::CScriptStructure *pScriptParams=NULL;
+		Script::CScriptStructure *pScriptParams=nullptr;
 		pNodeData->GetStructure(Crc::ConstCRC("Params"),&pScriptParams);
 		SwitchScript( AIScriptChecksum, pScriptParams );
 	}
@@ -174,7 +174,7 @@ Gfx::CSkeleton* CMovingObject::GetSkeleton()
 		return p_skeleton_component->GetSkeleton();
 	}
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************/
@@ -190,7 +190,7 @@ Nx::CModel* CMovingObject::GetModel()
         return p_model_component->GetModel();
     }
     
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -239,7 +239,7 @@ bool CMovingObject::LookAtObject_Init( Script::CStruct* pParams, Script::CScript
 		CCompositeObject* pNext;
 		CCompositeObject* pObj;
 		Lst::Search< CObject >	sh;
-		Dbg_MsgAssert(mp_manager,("NULL mp_Manager in MovingObject"));
+		Dbg_MsgAssert(mp_manager,("nullptr mp_Manager in MovingObject"));
 		pNext = (Obj::CCompositeObject*) sh.FirstItem( mp_manager->GetRefObjectList() );
 		while ( pNext )
 		{
@@ -274,8 +274,8 @@ bool CMovingObject::ObjectFromNodeWithinRange( int nodeIndex, int radiusSqr, Sit
 	CMovingObject* pNext;
 	CMovingObject* pObj;
 	Lst::Search< CObject >	sh;
-//	Dbg_MsgAssert(mp_manager,("NULL mp_Manager in MovingObject. Node Checksum = 0x%x (%s)",GetID(),Script::FindChecksumName(GetID())));
-	Dbg_MsgAssert(mp_manager,("NULL mp_Manager in MovingObject. Node Checksum = 0x%x (%s)",GetID(),Script::FindChecksumName(GetID())));
+//	Dbg_MsgAssert(mp_manager,("nullptr mp_Manager in MovingObject. Node Checksum = 0x%x (%s)",GetID(),Script::FindChecksumName(GetID())));
+	Dbg_MsgAssert(mp_manager,("nullptr mp_Manager in MovingObject. Node Checksum = 0x%x (%s)",GetID(),Script::FindChecksumName(GetID())));
 	pNext = (Obj::CMovingObject *) sh.FirstItem( mp_manager->GetRefObjectList() );
 	while ( pNext )
 	{
@@ -481,8 +481,8 @@ bool CMovingObject::ObjInSiteBox( CMovingObject* pObj, SiteBox* pBox )
 
 void CMovingObject::FillInSiteBox(SiteBox* p_siteBox, Script::CStruct* pParams)
 {
-	Dbg_MsgAssert(p_siteBox,("NULL p_siteBox"));
-	Dbg_MsgAssert(pParams,("NULL pParams"));
+	Dbg_MsgAssert(p_siteBox,("nullptr p_siteBox"));
+	Dbg_MsgAssert(pParams,("nullptr pParams"));
 	
 	p_siteBox->initialized = false;
 	p_siteBox->angle = 0;
@@ -601,7 +601,7 @@ bool CMovingObject::ObjTypeInRange( Script::CStruct* pParams, Script::CScript* p
 			return false;
 			break;
 	}
-	Dbg_MsgAssert(mp_manager,("NULL mp_Manager in MovingObject"));
+	Dbg_MsgAssert(mp_manager,("nullptr mp_Manager in MovingObject"));
 	pObj = (Obj::CMovingObject *) objSearch.FindFirstObjectOfType( mp_manager->GetRefObjectList(), type );
 	while ( pObj )
 	{
@@ -644,7 +644,7 @@ bool CMovingObject::ObjectWithinRange( Script::CStruct* pParams, Script::CScript
 		radiusSqr *= radiusSqr;
 	}
 
-	Script::CArray* pArray=NULL;
+	Script::CArray* pArray=nullptr;
 	uint32 typeChecksum;
 	if ( pParams->GetChecksum( 0x7321a8d6, &typeChecksum ) ) // "type"
 	{
@@ -840,12 +840,12 @@ CCompositeObject* CMovingObject::GetClosestObjectOfType( int type )
 	{
 		if ( !( pObj = (CCompositeObject*) objSearch.FindNextObjectOfType( ) ) )
 		{
-			return ( NULL );
+			return ( nullptr );
 		}
 	}
 	if ( !( pObj ) )
 	{
-		return ( NULL );
+		return ( nullptr );
 	}
 	float closestDist = FEET_TO_INCHES( 666.0f * 666.0f );
 	float dist;

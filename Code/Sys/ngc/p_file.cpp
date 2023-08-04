@@ -11,7 +11,7 @@ NsFile::NsFile()
 	m_sizeCached = 0;
 	m_numCacheBytes = 0;
 	m_seekOffset = 0;
-	m_preHandle = NULL;
+	m_preHandle = nullptr;
 	m_unique_tag = 0x1234ABCD;
 }
 
@@ -120,6 +120,6 @@ void * NsFile::load ( const char * pFilename )
 		return pDest;
 	}
 	else {
-		return NULL;
+		return nullptr;
 	}
 }

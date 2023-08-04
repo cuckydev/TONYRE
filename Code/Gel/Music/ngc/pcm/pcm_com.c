@@ -255,7 +255,7 @@ int AdpcmInit( int pIopBuf )
 		param.option = 0;
 		gThid = CreateThread (&param);
 		printf( "EzADPCM: create thread ID= %d\n", gThid );
-		StartThread (gThid, (u_long) NULL);
+		StartThread (gThid, (u_long) nullptr);
     }
 	
 /*
@@ -1641,7 +1641,7 @@ int sce_adpcm_loop( void )
 
     sceSifInitRpc (0);
     sceSifSetRpcQueue (&qd, GetThreadId ());
-    sceSifRegisterRpc (&sd, EzADPCM_DEV, dispatch, (void*)rpc_arg, NULL, NULL, &qd);
+    sceSifRegisterRpc (&sd, EzADPCM_DEV, dispatch, (void*)rpc_arg, nullptr, nullptr, &qd);
     //Dbug_Printf(("goto adpcm cmd loop\n"));
     
     sceSifRpcLoop (&qd);

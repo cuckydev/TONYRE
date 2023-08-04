@@ -55,7 +55,7 @@ void DumpLastStructs()
 // Deletes any entity pointed to by p_comp, so that p_comp can safely be deleted afterwards.
 void CleanUpComponent(CComponent *p_comp)
 {
-	Dbg_MsgAssert(p_comp,("NULL p_comp"));
+	Dbg_MsgAssert(p_comp,("nullptr p_comp"));
 	
 	switch (p_comp->mType)
 	{
@@ -111,8 +111,8 @@ void CleanUpComponent(CComponent *p_comp)
 // Eg, if p_source contains an array, a new array will be created for p_dest.
 void CopyComponent(CComponent *p_dest, const CComponent *p_source)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
-	Dbg_MsgAssert(p_source,("NULL p_source"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
+	Dbg_MsgAssert(p_source,("nullptr p_source"));
 
 	// Make sure p_dest is cleaned up first.	
 	if (p_dest->mUnion) // This 'if' is just a small speed optimization to avoid an unnecessay call
@@ -135,24 +135,24 @@ void CopyComponent(CComponent *p_dest, const CComponent *p_source)
 		break;
 		
     case ESYMBOLTYPE_STRING:
-		Dbg_MsgAssert(p_source->mpString,("NULL p_source->mpString ?"));
+		Dbg_MsgAssert(p_source->mpString,("nullptr p_source->mpString ?"));
 		p_dest->mpString=CreateString(p_source->mpString);
 		break;
 		
     case ESYMBOLTYPE_LOCALSTRING:
-		Dbg_MsgAssert(p_source->mpLocalString,("NULL p_source->mpLocalString ?"));
+		Dbg_MsgAssert(p_source->mpLocalString,("nullptr p_source->mpLocalString ?"));
 		p_dest->mpLocalString=CreateString(p_source->mpLocalString);
 		break;
 		
     case ESYMBOLTYPE_PAIR:
-		Dbg_MsgAssert(p_source->mpPair,("NULL p_source->mpPair ?"));
+		Dbg_MsgAssert(p_source->mpPair,("nullptr p_source->mpPair ?"));
 		p_dest->mpPair=new CPair;
 		p_dest->mpPair->mX=p_source->mpPair->mX;
 		p_dest->mpPair->mY=p_source->mpPair->mY;
 		break;
 		
     case ESYMBOLTYPE_VECTOR:
-		Dbg_MsgAssert(p_source->mpVector,("NULL p_source->mpVector ?"));
+		Dbg_MsgAssert(p_source->mpVector,("nullptr p_source->mpVector ?"));
 		p_dest->mpVector=new CVector;
 		p_dest->mpVector->mX=p_source->mpVector->mX;
 		p_dest->mpVector->mY=p_source->mpVector->mY;
@@ -160,20 +160,20 @@ void CopyComponent(CComponent *p_dest, const CComponent *p_source)
 		break;
 		
     case ESYMBOLTYPE_STRUCTURE:
-		Dbg_MsgAssert(p_source->mpStructure,("NULL p_source->mpStructure ?"));
+		Dbg_MsgAssert(p_source->mpStructure,("nullptr p_source->mpStructure ?"));
 		p_dest->mpStructure=new CStruct;
 		*p_dest->mpStructure=*p_source->mpStructure;
 		break;
 		
     case ESYMBOLTYPE_ARRAY:
-		Dbg_MsgAssert(p_source->mpArray,("NULL p_source->mpArray ?"));
+		Dbg_MsgAssert(p_source->mpArray,("nullptr p_source->mpArray ?"));
 		p_dest->mpArray=new CArray;
 		CopyArray(p_dest->mpArray,p_source->mpArray);
 		break;
 
 	case ESYMBOLTYPE_QSCRIPT:
 	{
-		Dbg_MsgAssert(p_source->mpScript,("NULL p_source->mpScript ?"));
+		Dbg_MsgAssert(p_source->mpScript,("nullptr p_source->mpScript ?"));
 		
 		// Allocate a buffer off the script heap
 		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
@@ -204,14 +204,14 @@ void CopyComponent(CComponent *p_dest, const CComponent *p_source)
 // necessary to call Clear again after calling this.
 void CleanUpArray(CArray *p_array)
 {
-	Dbg_MsgAssert(p_array,("NULL p_array"));
+	Dbg_MsgAssert(p_array,("nullptr p_array"));
 	
 	ESymbolType type=p_array->GetType();
 	uint32 size=p_array->GetSize();
 	uint32 *p_array_data=p_array->GetArrayPointer();
 	if (size)
 	{
-		Dbg_MsgAssert(p_array_data,("NULL p_array_data ?"));
+		Dbg_MsgAssert(p_array_data,("nullptr p_array_data ?"));
 	}	
 	
 	switch (type)
@@ -232,7 +232,7 @@ void CleanUpArray(CArray *p_array)
 				if (*pp_string)
 				{
 					DeleteString(*pp_string);
-					*pp_string=NULL;
+					*pp_string=nullptr;
 				}
 				++pp_string;	
 			}
@@ -247,7 +247,7 @@ void CleanUpArray(CArray *p_array)
 				if (*pp_pair)
 				{
 					delete *pp_pair;
-					*pp_pair=NULL;
+					*pp_pair=nullptr;
 				}
 				++pp_pair;	
 			}
@@ -262,7 +262,7 @@ void CleanUpArray(CArray *p_array)
 				if (*pp_vector)
 				{
 					delete *pp_vector;
-					*pp_vector=NULL;
+					*pp_vector=nullptr;
 				}
 				++pp_vector;	
 			}
@@ -277,7 +277,7 @@ void CleanUpArray(CArray *p_array)
 				if (*pp_structure)
 				{
 					delete *pp_structure;
-					*pp_structure=NULL;
+					*pp_structure=nullptr;
 				}
 				++pp_structure;	
 			}
@@ -293,7 +293,7 @@ void CleanUpArray(CArray *p_array)
 				{
 					CleanUpArray(*pp_array);
 					delete *pp_array;
-					*pp_array=NULL;
+					*pp_array=nullptr;
 				}
 				++pp_array;	
 			}
@@ -313,8 +313,8 @@ void CleanUpArray(CArray *p_array)
 // created for p_dest. So p_source can safely be deleted afterwards.
 void CopyArray(CArray *p_dest, const CArray *p_source)
 {
-	Dbg_MsgAssert(p_source,("NULL p_source ?"));
-	Dbg_MsgAssert(p_dest,("NULL p_dest ?"));
+	Dbg_MsgAssert(p_source,("nullptr p_source ?"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest ?"));
 	
 	// Make sure that p_dest is cleaned up first.
 	CleanUpArray(p_dest);
@@ -331,10 +331,10 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 	}
 		
 	uint32 *p_source_array=p_source->GetArrayPointer();
-	Dbg_MsgAssert(p_source_array,("NULL p_source_array ?"));
+	Dbg_MsgAssert(p_source_array,("nullptr p_source_array ?"));
 	
 	uint32 *p_dest_array=p_dest->GetArrayPointer();
-	Dbg_MsgAssert(p_dest_array,("NULL p_dest_array ?"));
+	Dbg_MsgAssert(p_dest_array,("nullptr p_dest_array ?"));
 			
 	switch (type)
 	{
@@ -462,10 +462,10 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 // Initialises all the members.
 void CStruct::init()
 {
-	mp_components=NULL;
+	mp_components=nullptr;
 	
 	#ifdef __NOPT_ASSERT__ 
-	mp_parent_script=NULL;
+	mp_parent_script=nullptr;
 	#endif
 	
 #ifdef	__DEBUG_STRUCT_ALLOCS
@@ -473,7 +473,7 @@ void CStruct::init()
 	{
 		for (int i=0;i<MAX_LAST;i++)
 		{
-			last[i] = NULL;
+			last[i] = nullptr;
 		}
 		head = 0;
 		init_last = 0;
@@ -543,7 +543,7 @@ CStruct& CStruct::operator=( const CStruct& rhs )
 }
 
 // This will merge the contents of the rhs into this structure.
-// Functionally the same as the old AppendStructure function, except AppendStructure would accept a NULL pointer.
+// Functionally the same as the old AppendStructure function, except AppendStructure would accept a nullptr pointer.
 CStruct& CStruct::operator+=( const CStruct& rhs )
 {
 	CComponent *p_source_component=rhs.mp_components;
@@ -573,7 +573,7 @@ void CStruct::AppendStructure(const CStruct *p_struct)
 // even though many may have the same name.
 void CStruct::AppendComponentPointer(CComponent *p_comp)
 {
-	CComponent *p_last=NULL;
+	CComponent *p_last=nullptr;
 	CComponent *p_scan=mp_components;
 	
 	// Find p_last, the last component in the list.
@@ -592,7 +592,7 @@ void CStruct::AppendComponentPointer(CComponent *p_comp)
 	{
 		mp_components=p_comp;
 	}	
-	p_comp->mpNext=NULL;
+	p_comp->mpNext=nullptr;
 }
 
 CStruct::~CStruct()
@@ -616,7 +616,7 @@ CStruct::~CStruct()
 				last[i] = last[head];
 			}
 			// and clear the head, which now contains the entry we deleted
-			last[head] = NULL;
+			last[head] = nullptr;
 			// and we don't need to iterate no more
 			break;
 		}
@@ -637,12 +637,12 @@ void CStruct::Clear()
 		delete p_comp;
 		p_comp=p_next;
 	}
-	mp_components=NULL;
+	mp_components=nullptr;
 }
 
 void CStruct::RemoveComponent(uint32 nameChecksum)
 {
-	CComponent *p_last=NULL;
+	CComponent *p_last=nullptr;
 	CComponent *p_comp=mp_components;
 	while (p_comp)
 	{
@@ -687,7 +687,7 @@ void CStruct::RemoveComponent(const char *p_name)
 // Used by eval.cpp when subtracting a structure from another structure.
 void CStruct::RemoveComponentWithType(uint32 nameChecksum, uint8 type)
 {
-	CComponent *p_last=NULL;
+	CComponent *p_last=nullptr;
 	CComponent *p_comp=mp_components;
 	while (p_comp)
 	{
@@ -734,7 +734,7 @@ void CStruct::RemoveComponentWithType(const char *p_name, uint8 type)
 // too, and so on recursively? (probably not, since global structures should remain constant)
 void CStruct::RemoveFlag(uint32 checksum)
 {
-	CComponent *p_last=NULL;
+	CComponent *p_last=nullptr;
 	CComponent *p_comp=mp_components;
 	while (p_comp)
 	{
@@ -783,14 +783,14 @@ void CStruct::RemoveFlag(const char *p_name)
 // Returns true if the structure contains no components.
 bool CStruct::IsEmpty() const
 {
-	return mp_components==NULL;
+	return mp_components==nullptr;
 }
 
 // Searches for a component with the given name, but will also recurse into substructures.
 // Used when resolving the <ParamName> syntax.
 CComponent *CStruct::FindNamedComponentRecurse(uint32 nameChecksum) const
 {
-	CComponent *p_found=NULL;
+	CComponent *p_found=nullptr;
 	
     CComponent *p_comp=mp_components;
     while (p_comp)
@@ -804,7 +804,7 @@ CComponent *CStruct::FindNamedComponentRecurse(uint32 nameChecksum) const
             CSymbolTableEntry *p_entry=Resolve(p_comp->mChecksum);
             if (p_entry && p_entry->mType==ESYMBOLTYPE_STRUCTURE)
             {
-                Dbg_MsgAssert(p_entry->mpStructure,("NULL p_entry->mpStructure"));
+                Dbg_MsgAssert(p_entry->mpStructure,("nullptr p_entry->mpStructure"));
                 CComponent *p_new_found=p_entry->mpStructure->FindNamedComponentRecurse(nameChecksum);
 				if (p_new_found)
 				{
@@ -818,12 +818,12 @@ CComponent *CStruct::FindNamedComponentRecurse(uint32 nameChecksum) const
     return p_found;
 }
 
-// If passed NULL this will return the first (leftmost) component.
-// If passed non-NULL it return the next component (to the right) 
-// Returns NULL if the passed component is the last component.
+// If passed nullptr this will return the first (leftmost) component.
+// If passed non-nullptr it return the next component (to the right) 
+// Returns nullptr if the passed component is the last component.
 CComponent *CStruct::GetNextComponent(CComponent *p_comp) const
 {
-	if (p_comp==NULL)
+	if (p_comp==nullptr)
 	{
 		return mp_components;
 	}
@@ -846,7 +846,7 @@ CComponent *CStruct::GetNextComponent(CComponent *p_comp) const
 void CStruct::ExpandInto(CStruct *p_dest, int recursionCount) const
 {
 	Dbg_MsgAssert(recursionCount<=20,("Possible infinite recursion of CStruct::ExpandInto! More than 20 recursions have occurred."));
-	Dbg_MsgAssert(p_dest,("NULL p_dest sent to ExpandInto"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest sent to ExpandInto"));
 	
 	CComponent *p_comp=mp_components;
 	while (p_comp)
@@ -862,7 +862,7 @@ void CStruct::ExpandInto(CStruct *p_dest, int recursionCount) const
 				CSymbolTableEntry *p_global=Resolve(p_comp->mChecksum);
 				if (p_global && p_global->mType==ESYMBOLTYPE_STRUCTURE)
 				{
-					Dbg_MsgAssert(p_global->mpStructure,("NULL p_global->mpStructure"));
+					Dbg_MsgAssert(p_global->mpStructure,("nullptr p_global->mpStructure"));
 					p_global->mpStructure->ExpandInto(p_dest,recursionCount+1);
 					added_structure=true;
 				}	
@@ -895,7 +895,7 @@ void CStruct::ExpandInto(CStruct *p_dest, int recursionCount) const
 //
 void CStruct::AddComponent(CComponent *p_comp)
 {
-	Dbg_MsgAssert(p_comp,("NULL p_comp"));
+	Dbg_MsgAssert(p_comp,("nullptr p_comp"));
 
 	// Unnamed structure components are not allowed, because to support them would require 
 	// modifying the search_for function. No need, since when structures are created from lists
@@ -905,7 +905,7 @@ void CStruct::AddComponent(CComponent *p_comp)
 
 	Dbg_MsgAssert(p_comp->mType!=ESYMBOLTYPE_NONE,("Tried to add a structure component with no type, name='%s' ...",FindChecksumName(p_comp->mNameChecksum)));
 	
-	CComponent *p_last=NULL;
+	CComponent *p_last=nullptr;
 	CComponent *p_scan=mp_components;
     bool remove=false;
 	
@@ -978,7 +978,7 @@ void CStruct::AddComponent(CComponent *p_comp)
 		}	
 	}	
 	
-	// Now, p_last points to the last component in the list, and may be NULL.
+	// Now, p_last points to the last component in the list, and may be nullptr.
 	// Tag p_comp onto the end of the list.
 	if (p_last)
 	{
@@ -988,7 +988,7 @@ void CStruct::AddComponent(CComponent *p_comp)
 	{
 		mp_components=p_comp;
 	}	
-	p_comp->mpNext=NULL;
+	p_comp->mpNext=nullptr;
 }
 
 #ifdef __NOPT_ASSERT__ 
@@ -1173,7 +1173,7 @@ void CStruct::AddArrayPointer(const char *p_name, CArray *p_array)
 // Creates a new structure & copies in the contents of the passed structure.
 void CStruct::AddStructure(uint32 nameChecksum, const CStruct *p_structure)
 {
-	Dbg_MsgAssert(p_structure,("NULL p_structure"));
+	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
 	
 	CComponent *p_new=new CComponent;
 	
@@ -1197,7 +1197,7 @@ void CStruct::AddStructure(const char *p_name, const CStruct *p_structure)
 // Used parse.cpp, when creating the structure for holding function params.
 void CStruct::AddStructurePointer(uint32 nameChecksum, CStruct *p_structure)
 {
-	Dbg_MsgAssert(p_structure,("NULL p_structure"));
+	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
 	
 	CComponent *p_new=new CComponent;
 	
@@ -1228,7 +1228,7 @@ void CStruct::AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, uint32
 	Mem::Manager::sHandle().PopContext();
 	
 	// Copy the script into the new buffer.
-	Dbg_MsgAssert(p_scriptTokens,("NULL p_scriptTokens"));
+	Dbg_MsgAssert(p_scriptTokens,("nullptr p_scriptTokens"));
 	const uint8 *p_source=p_scriptTokens;
 	uint8 *p_dest=p_new_script;
 	for (uint32 i=0; i<size; ++i)
@@ -1258,7 +1258,7 @@ void CStruct::AddScript(const char *p_name, const uint8 *p_scriptTokens, uint32 
 void CStruct::AddComponent(uint32 nameChecksum, ESymbolType type, const char *p_string)
 {
     Dbg_MsgAssert(type==ESYMBOLTYPE_LOCALSTRING || type==ESYMBOLTYPE_STRING,("Bad type sent to AddComponent"));
-    Dbg_MsgAssert(p_string,("NULL p_string"));
+    Dbg_MsgAssert(p_string,("nullptr p_string"));
 
 	if (type==ESYMBOLTYPE_STRING)
 	{
@@ -1349,7 +1349,7 @@ bool CStruct::search_for(uint32 nameChecksum, ESymbolType type, SWhatever *p_val
 	++s_num_search_for_recursions;
 	#endif
 	
-	Dbg_MsgAssert(p_value,("NULL p_value"));
+	Dbg_MsgAssert(p_value,("nullptr p_value"));
 	
 	bool found=false;
 	
@@ -1414,7 +1414,7 @@ bool CStruct::search_for(uint32 nameChecksum, ESymbolType type, SWhatever *p_val
 					if (p_global->mType==ESYMBOLTYPE_STRUCTURE)
 					{
 						// It is a structure. So search it for the required component also.
-						Dbg_MsgAssert(p_global->mpStructure,("NULL p_global->mpStructure ?"));
+						Dbg_MsgAssert(p_global->mpStructure,("nullptr p_global->mpStructure ?"));
 						SWhatever value;
 						if (p_global->mpStructure->search_for(nameChecksum,type,&value))
 						{
@@ -1441,7 +1441,7 @@ bool CStruct::search_for(uint32 nameChecksum, ESymbolType type, SWhatever *p_val
 
 bool CStruct::GetString(uint32 nameChecksum, const char **pp_text, EAssertType assert) const
 {
-	Dbg_MsgAssert(pp_text,("NULL pp_text"));
+	Dbg_MsgAssert(pp_text,("nullptr pp_text"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_STRING,&value))
@@ -1479,7 +1479,7 @@ bool CStruct::GetLocalString(const char *p_paramName, const char **pp_text, EAss
 
 bool CStruct::GetInteger(uint32 nameChecksum, int *p_integerValue, EAssertType assert) const
 {
-	Dbg_MsgAssert(p_integerValue,("NULL p_integerValue"));
+	Dbg_MsgAssert(p_integerValue,("nullptr p_integerValue"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_INTEGER,&value))
@@ -1502,7 +1502,7 @@ bool CStruct::GetInteger(const char *p_paramName, int *p_integerValue, EAssertTy
 
 bool CStruct::GetFloat(uint32 nameChecksum, float *p_floatValue, EAssertType assert) const
 {
-	Dbg_MsgAssert(p_floatValue,("NULL p_floatValue"));
+	Dbg_MsgAssert(p_floatValue,("nullptr p_floatValue"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_FLOAT,&value))
@@ -1534,12 +1534,12 @@ bool CStruct::GetFloat(const char *p_paramName, float *p_floatValue, EAssertType
 
 bool CStruct::GetVector(uint32 nameChecksum, Mth::Vector *p_vector, EAssertType assert) const
 {
-	Dbg_MsgAssert(p_vector,("NULL p_vector"));
+	Dbg_MsgAssert(p_vector,("nullptr p_vector"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_VECTOR,&value))
 	{
-		Dbg_MsgAssert(value.mpVector,("NULL value.mpVector"));
+		Dbg_MsgAssert(value.mpVector,("nullptr value.mpVector"));
 		p_vector->Set(value.mpVector->mX,value.mpVector->mY,value.mpVector->mZ);
 		return true;
 	}
@@ -1558,13 +1558,13 @@ bool CStruct::GetVector(const char *p_paramName, Mth::Vector *p_vector, EAssertT
 
 bool CStruct::GetPair(uint32 nameChecksum, float *p_x, float *p_y,	EAssertType assert) const
 {
-	Dbg_MsgAssert(p_x,("NULL p_x"));
-	Dbg_MsgAssert(p_y,("NULL p_y"));
+	Dbg_MsgAssert(p_x,("nullptr p_x"));
+	Dbg_MsgAssert(p_y,("nullptr p_y"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_PAIR,&value))
 	{
-		Dbg_MsgAssert(value.mpPair,("NULL value.mpPair"));
+		Dbg_MsgAssert(value.mpPair,("nullptr value.mpPair"));
 		*p_x=value.mpPair->mX;
 		*p_y=value.mpPair->mY;
 		return true;
@@ -1584,12 +1584,12 @@ bool CStruct::GetPair(const char *p_paramName, float *p_x, float *p_y, EAssertTy
 
 bool CStruct::GetStructure(uint32 nameChecksum, CStruct **pp_structure,	EAssertType assert) const
 {
-	Dbg_MsgAssert(pp_structure,("NULL pp_structure"));
+	Dbg_MsgAssert(pp_structure,("nullptr pp_structure"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_STRUCTURE,&value))
 	{
-		Dbg_MsgAssert(value.mpStructure,("NULL value.mpStructure"));
+		Dbg_MsgAssert(value.mpStructure,("nullptr value.mpStructure"));
 		*pp_structure=value.mpStructure;
 		return true;
 	}
@@ -1608,12 +1608,12 @@ bool CStruct::GetStructure(const char *p_paramName, CStruct **pp_structure,	EAss
 
 bool CStruct::GetArray(uint32 nameChecksum, CArray **pp_array, EAssertType assert) const
 {
-	Dbg_MsgAssert(pp_array,("NULL pp_array"));
+	Dbg_MsgAssert(pp_array,("nullptr pp_array"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_ARRAY,&value))
 	{
-		Dbg_MsgAssert(value.mpArray,("NULL value.mpArray"));
+		Dbg_MsgAssert(value.mpArray,("nullptr value.mpArray"));
 		*pp_array=value.mpArray;
 		return true;
 	}
@@ -1632,12 +1632,12 @@ bool CStruct::GetArray(const char *p_paramName, CArray **pp_array, EAssertType a
 
 bool CStruct::GetScript(uint32 nameChecksum, SStructScript *p_structScript, EAssertType assert) const
 {
-	Dbg_MsgAssert(p_structScript,("NULL p_structScript"));
+	Dbg_MsgAssert(p_structScript,("nullptr p_structScript"));
 	
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_QSCRIPT,&value))
 	{
-		Dbg_MsgAssert(value.mpScript,("NULL value.mpScript"));
+		Dbg_MsgAssert(value.mpScript,("nullptr value.mpScript"));
 		p_structScript->mNameChecksum=nameChecksum;
 		p_structScript->mpScriptTokens=value.mpScript;
 		return true;
@@ -1657,7 +1657,7 @@ bool CStruct::GetScript(const char *p_paramName, SStructScript *p_structScript, 
 
 bool CStruct::GetChecksum(uint32 nameChecksum, uint32 *p_checksum, EAssertType assert) const
 {
-	Dbg_MsgAssert(p_checksum,("NULL p_checksum"));
+	Dbg_MsgAssert(p_checksum,("nullptr p_checksum"));
 
 	// Does not use the search_for function, because GetChecksum needs to ignore unnamed names
 	// that resolve to structures.
@@ -1694,7 +1694,7 @@ bool CStruct::GetChecksum(uint32 nameChecksum, uint32 *p_checksum, EAssertType a
 			if (p_entry && p_entry->mType==ESYMBOLTYPE_STRUCTURE)
 			{
 				// It is a structure, so search that.
-                Dbg_MsgAssert(p_entry->mpStructure,("NULL p_entry->mpStructure"));
+                Dbg_MsgAssert(p_entry->mpStructure,("nullptr p_entry->mpStructure"));
 				// Note: Must not assert if not found, cos could be found later.
                 if (p_entry->mpStructure->GetChecksum(nameChecksum,p_checksum)) 
 				{
@@ -1723,17 +1723,17 @@ bool CStruct::GetChecksum(const char *p_paramName, uint32 *p_checksum, EAssertTy
 // calculates the checksum of that.
 bool CStruct::GetChecksumOrStringChecksum(uint32 nameChecksum, uint32 *p_checksum, EAssertType assert) const
 {
-	Dbg_MsgAssert(p_checksum,("NULL p_checksum"));
+	Dbg_MsgAssert(p_checksum,("nullptr p_checksum"));
 	
 	if (GetChecksum(nameChecksum,p_checksum,assert))
 	{
 		return true;
 	}
 	
-	const char *p_string=NULL;
+	const char *p_string=nullptr;
 	if (GetString(nameChecksum,&p_string,assert))
 	{
-		Dbg_MsgAssert(p_string,("NULL p_string ?"));
+		Dbg_MsgAssert(p_string,("nullptr p_string ?"));
 		*p_checksum=Crc::GenerateCRCFromString(p_string);
 		return true;
 	}
@@ -1802,7 +1802,7 @@ bool CStruct::ContainsComponentNamed(uint32 checksum) const
 					if (p_global->mType==ESYMBOLTYPE_STRUCTURE)
 					{
 						// It is a structure, so call this function on that.
-						Dbg_MsgAssert(p_global->mpStructure,("NULL p_global->mpStructure"));
+						Dbg_MsgAssert(p_global->mpStructure,("nullptr p_global->mpStructure"));
 						if (p_global->mpStructure->ContainsComponentNamed(checksum))
 						{
 							Dbg_MsgAssert(s_num_contains_component_named_recursions,("Eh ?"));
@@ -1875,7 +1875,7 @@ bool CStruct::ContainsFlag(uint32 checksum) const
 				if (p_global->mType==ESYMBOLTYPE_STRUCTURE)
 				{
 					// It is a structure so check that structure to see if it contains the flag.
-					Dbg_MsgAssert(p_global->mpStructure,("NULL p_global->mpStructure"));
+					Dbg_MsgAssert(p_global->mpStructure,("nullptr p_global->mpStructure"));
 					if (p_global->mpStructure->ContainsFlag(checksum))
 					{
 						Dbg_MsgAssert(s_num_contains_flag_recursions,("Eh ?"));
@@ -1918,7 +1918,7 @@ bool CStruct::References(CStruct *p_struct)
     {
         if (p_comp->mType==ESYMBOLTYPE_STRUCTURE)
 		{
-			Dbg_MsgAssert(p_comp->mpStructure,("NULL p_comp->mpStructure"));
+			Dbg_MsgAssert(p_comp->mpStructure,("nullptr p_comp->mpStructure"));
 			if (p_comp->mpStructure->References(p_struct))
 			{
 				return true;
@@ -1991,7 +1991,7 @@ bool CStruct::GetPair(uint32 nameChecksum, CPair *p_pair, bool assert) const
 	float x=0.0f;
 	float y=0.0f;
 	bool ret_val=GetPair(nameChecksum,&x,&y,assert?ASSERT:NO_ASSERT);
-	Dbg_MsgAssert(p_pair,("NULL p_pair"));
+	Dbg_MsgAssert(p_pair,("nullptr p_pair"));
 	p_pair->mX=x;
 	p_pair->mY=y;
 	return ret_val;
@@ -2002,7 +2002,7 @@ bool CStruct::GetPair(const char *p_paramName, CPair *p_pair, bool assert) const
 	float x=0.0f;
 	float y=0.0f;
 	bool ret_val=GetPair(p_paramName,&x,&y,assert?ASSERT:NO_ASSERT);
-	Dbg_MsgAssert(p_pair,("NULL p_pair"));
+	Dbg_MsgAssert(p_pair,("nullptr p_pair"));
 	p_pair->mX=x;
 	p_pair->mY=y;
 	return ret_val;

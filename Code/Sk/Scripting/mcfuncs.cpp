@@ -271,7 +271,7 @@ static uint32 sGetFixedFileSize(uint32 fileType);
 // When transferring data between the online vault and the mem card, this structure temporarily holds
 // the data. The LoadFromMemoryCard and SaveToMemoryCard commands can be made to load to/from this structure
 // instead, so that data can be transferred without loading it into the game.
-static Script::CStruct *spVaultData=NULL;
+static Script::CStruct *spVaultData=nullptr;
 static uint32 sVaultDataType=0;
 
 // Steve's code calls this after downloading the binary data from the vault.
@@ -280,7 +280,7 @@ void SetVaultData(uint8 *p_data, uint32 type)
 	if (spVaultData)
 	{
 		delete spVaultData;
-		spVaultData=NULL;
+		spVaultData=nullptr;
 	}
 	
 	spVaultData=new Script::CStruct;
@@ -307,7 +307,7 @@ void SetVaultData(uint8 *p_data, uint32 type)
 // 8th letter in the string will actually always be a. So the last letter is used to indicate the file type.
 static const char *s_generate_ascii_checksum(char *p_dest, const char *p_string, uint32 fileType)
 {
-	Dbg_MsgAssert(p_dest,("NULL p_dest"));
+	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
 	
 	uint32 Checksum=Script::GenerateCRC(p_string);
 	for (int i=0; i<8; ++i)
@@ -484,7 +484,7 @@ static void s_insert_global_info(CStruct *p_struct)
 	// Attach the split screen preferences.
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	Prefs::Preferences *pPreferences = pSkate->GetSplitScreenPreferences();
-	Dbg_MsgAssert(pPreferences,("NULL split screen pPreferences"));
+	Dbg_MsgAssert(pPreferences,("nullptr split screen pPreferences"));
 	
 	// Create a new structure, append the data contained in the preferences, then insert the pointer to the
 	// new structure into pOptions.
@@ -556,7 +556,7 @@ static void s_insert_global_info(CStruct *p_struct)
 	// Insert the taunt stuff
 	GameNet::Manager * pGamenet = GameNet::Manager::Instance();
 	pPreferences=pGamenet->GetTauntPreferences();
-	Dbg_MsgAssert(pPreferences,("NULL taunt pPreferences"));
+	Dbg_MsgAssert(pPreferences,("nullptr taunt pPreferences"));
 	pOptions->AddStructure(Crc::ConstCRC("Taunts"),pPreferences->GetRoot());
 
 	// Now insert the pointer to the newly constucted pOptions into the mem card structure.
@@ -567,13 +567,13 @@ static void s_insert_global_info(CStruct *p_struct)
 
 	// Add the game records.		  
 	Records::CGameRecords *pGameRecords=pSkate->GetGameRecords();
-	Dbg_MsgAssert(pGameRecords,("NULL pGameRecords"));
+	Dbg_MsgAssert(pGameRecords,("nullptr pGameRecords"));
 	pGameRecords->WriteIntoStructure(p_struct);
 	
 	// Wack in the pro skater profile info
 	Script::CStruct *p_pros=new Script::CStruct;
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=pSkate->GetPlayerProfileManager();
-	Dbg_MsgAssert(pPlayerProfileManager,("NULL pPlayerProfileManager"));
+	Dbg_MsgAssert(pPlayerProfileManager,("nullptr pPlayerProfileManager"));
 	pPlayerProfileManager->AddAllProProfileInfo(p_pros);
 	p_struct->AddStructurePointer(Crc::ConstCRC("Pros"),p_pros);
 	
@@ -586,10 +586,10 @@ static void s_insert_story_info(CStruct *p_struct)
 {
 	// Save the goal manager parameters.
 	Game::CGoalManager* p_goal_manager=Game::GetGoalManager();
-	Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager"));
+	Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager"));
 	
 	CStruct *p_goal_manager_params=p_goal_manager->GetGoalManagerParams();
-	Dbg_MsgAssert(p_goal_manager_params,("NULL p_goal_manager_params"));
+	Dbg_MsgAssert(p_goal_manager_params,("nullptr p_goal_manager_params"));
 	p_struct->AddStructure(Crc::ConstCRC("GoalManagerParams"),p_goal_manager_params);
 }
 
@@ -611,7 +611,7 @@ static void s_insert_custom_skater_info(CStruct *p_struct)
 {
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=pSkate->GetPlayerProfileManager();
-	Dbg_MsgAssert(pPlayerProfileManager,("NULL pPlayerProfileManager"));
+	Dbg_MsgAssert(pPlayerProfileManager,("nullptr pPlayerProfileManager"));
 	
 	pPlayerProfileManager->AddCASProfileInfo(p_struct);
 }
@@ -628,13 +628,13 @@ static void s_insert_game_save_info(uint32 fileType, CStruct *p_struct)
 	// This is because all new CStructs (and CComponents) allocated here will be coming
 	// off a special pool, to avoid overflowing the regular pool.
 	
-	Dbg_MsgAssert(p_struct,("NULL p_struct"));
+	Dbg_MsgAssert(p_struct,("nullptr p_struct"));
 
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	#ifdef	__NOPT_ASSERT__
 	#if 0 		// Actually remove it fully, as the code that uses it had been temp stubbed out,a nd we don't want to confuse the non final build into thinking it's there
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=pSkate->GetPlayerProfileManager();
-	Dbg_MsgAssert(pPlayerProfileManager,("NULL pPlayerProfileManager"));
+	Dbg_MsgAssert(pPlayerProfileManager,("nullptr pPlayerProfileManager"));
 	#endif
 	#endif
 	
@@ -752,7 +752,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 	// This is because all new CStructs (and CComponents) allocated here will be coming
 	// off a special pool, to avoid overflowing the regular pool.
 	
-	Dbg_MsgAssert(p_summaryInfo,("NULL p_summaryInfo"));
+	Dbg_MsgAssert(p_summaryInfo,("nullptr p_summaryInfo"));
 
 	if (p_mainData)
 	{
@@ -763,13 +763,13 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 		{
 			case 0xb010f357: // OptionsAndPros
 			{
-				Script::CStruct *p_story=NULL;
+				Script::CStruct *p_story=nullptr;
 				p_mainData->GetStructure(Crc::ConstCRC("Story"),&p_story,Script::ASSERT);
 				
-				Script::CStruct *p_goal_manager_params=NULL;
+				Script::CStruct *p_goal_manager_params=nullptr;
 				p_story->GetStructure(Crc::ConstCRC("GoalManagerParams"),&p_goal_manager_params,Script::ASSERT);
 
-				CStruct *p_more_goal_manager_params=NULL;
+				CStruct *p_more_goal_manager_params=nullptr;
 				p_goal_manager_params->GetStructure(Crc::ConstCRC("GoalManager_Params"),&p_more_goal_manager_params,Script::ASSERT);
 				
 				int chapter=0;
@@ -777,11 +777,11 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 				p_summaryInfo->AddInteger(Crc::ConstCRC("CurrentChapter"),chapter);
 				
 				// is_male is used by the script upload_content in net.q
-				Script::CStruct *p_custom_skater=NULL;
+				Script::CStruct *p_custom_skater=nullptr;
 				p_mainData->GetStructure(Crc::ConstCRC("CustomSkater"),&p_custom_skater,Script::ASSERT);
-				Script::CStruct *p_custom=NULL;
+				Script::CStruct *p_custom=nullptr;
 				p_custom_skater->GetStructure(CRCD(0xa7be964,"Custom"),&p_custom,Script::ASSERT);
-				Script::CStruct *p_info=NULL;
+				Script::CStruct *p_info=nullptr;
 				p_custom->GetStructure(Crc::ConstCRC("Info"),&p_info,Script::ASSERT);
                 int is_male=0;
 				p_info->GetInteger(Crc::ConstCRC("is_male"),&is_male);
@@ -806,7 +806,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 			
             case 0x61a1bc57: // Cat
             {
-                Script::CStruct *p_data=NULL;
+                Script::CStruct *p_data=nullptr;
 				p_mainData->GetStructure(Crc::ConstCRC("other_params"),&p_data,Script::ASSERT);
                 
                 const char *p_name="";
@@ -825,8 +825,8 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 			{
 				int num_edited_goals=0;
 				
-				Script::CArray *p_goals=NULL;
-				Script::CStruct *p_goals_struct=NULL;
+				Script::CArray *p_goals=nullptr;
+				Script::CStruct *p_goals_struct=nullptr;
 				p_mainData->GetStructure(Crc::ConstCRC("Park_editor_goals"),&p_goals_struct);
 				if (p_goals_struct)
 				{
@@ -842,7 +842,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 				p_mainData->GetInteger(Crc::ConstCRC("MaxPlayers"),&max_players);
 				p_summaryInfo->AddInteger(Crc::ConstCRC("MaxPlayers"),max_players);
 				
-				Script::CArray *p_map=NULL;
+				Script::CArray *p_map=nullptr;
 				p_mainData->GetArray(Crc::ConstCRC("Park_editor_map"),&p_map,Script::ASSERT);
 				
 				// Used by the script upload_content in net.q
@@ -866,7 +866,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 			{
 				int num_edited_goals=0;
 				
-				Script::CArray *p_goals=NULL;
+				Script::CArray *p_goals=nullptr;
 				p_mainData->GetArray(Crc::ConstCRC("Goals"),&p_goals);
 				if (p_goals)
 				{
@@ -892,13 +892,13 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 			case 0xb010f357: // OptionsAndPros
 			{
 				Game::CGoalManager* p_goal_manager=Game::GetGoalManager();
-				Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager"));
+				Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager"));
 				
 				CStruct *p_goal_manager_params=p_goal_manager->GetGoalManagerParams();
-				Dbg_MsgAssert(p_goal_manager_params,("NULL p_goal_manager_params"));
+				Dbg_MsgAssert(p_goal_manager_params,("nullptr p_goal_manager_params"));
 	
 				// Grab the summary info.
-				CStruct *p_more_goal_manager_params=NULL;
+				CStruct *p_more_goal_manager_params=nullptr;
 				p_goal_manager_params->GetStructure(Crc::ConstCRC("GoalManager_Params"),&p_more_goal_manager_params);
 				Dbg_MsgAssert(p_more_goal_manager_params,("No GoalManager_Params structure ??"));
 				
@@ -915,7 +915,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 				CStruct *p_net_stuff=pPreferences->GetRoot();
 				
 				// Grab the summary info.
-				CStruct *p_foo=NULL;
+				CStruct *p_foo=nullptr;
 				p_net_stuff->GetStructure("network_id",&p_foo);
 				Dbg_MsgAssert(p_foo,("No network_id structure ?"));
 				
@@ -1003,25 +1003,25 @@ static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script)
 {
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	
-	Script::CStruct *pOptions=NULL;
+	Script::CStruct *pOptions=nullptr;
 	p_globalInfo->GetStructure(Crc::ConstCRC("Options"),&pOptions);
 	Dbg_MsgAssert(pOptions,("p_globalInfo is missing Options structure"));
 	
 	// Extract the split screen preferences
-	Script::CStruct *pTemp=NULL;
+	Script::CStruct *pTemp=nullptr;
 	pOptions->GetStructure(Crc::ConstCRC("SplitScreenPreferences"),&pTemp);
 	
 	Prefs::Preferences *pPreferences = pSkate->GetSplitScreenPreferences();
-	Dbg_MsgAssert(pPreferences,("NULL split screen pPreferences"));
+	Dbg_MsgAssert(pPreferences,("nullptr split screen pPreferences"));
 	pPreferences->SetRoot(pTemp);
 
 	// Get the taunt preferences
-	pTemp=NULL;
+	pTemp=nullptr;
 	pOptions->GetStructure(Crc::ConstCRC("Taunts"),&pTemp);
 	
 	GameNet::Manager * pGamenet = GameNet::Manager::Instance();
 	pPreferences=pGamenet->GetTauntPreferences();
-	Dbg_MsgAssert(pPreferences,("NULL taunt pPreferences"));
+	Dbg_MsgAssert(pPreferences,("nullptr taunt pPreferences"));
 	pPreferences->SetRoot(pTemp);
 
 	
@@ -1084,13 +1084,13 @@ static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script)
 	}	
 
 	// Extract the controller preferences
-	Script::CArray *pControllerPrefs=NULL;
+	Script::CArray *pControllerPrefs=nullptr;
 	if (pOptions->GetArray(Crc::ConstCRC("ControllerPreferences"),&pControllerPrefs))
 	{
 		for (int i=0; i<Mdl::Skate::vMAX_SKATERS; ++i)
 		{
 			Script::CStruct *pPrefs=pControllerPrefs->GetStructure(i);
-			Dbg_MsgAssert(pPrefs,("NULL pPrefs?"));
+			Dbg_MsgAssert(pPrefs,("nullptr pPrefs?"));
 
 			pSkate->SetVibration(i,pPrefs->ContainsFlag(Crc::ConstCRC("VibrationOn")));
 			pSkate->SetAutoKick(i,pPrefs->ContainsFlag(Crc::ConstCRC("AutoKickOn")));
@@ -1100,11 +1100,11 @@ static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script)
 	
 	// Extract the game records.		  
 	Records::CGameRecords *pGameRecords=pSkate->GetGameRecords();
-	Dbg_MsgAssert(pGameRecords,("NULL pGameRecords"));
+	Dbg_MsgAssert(pGameRecords,("nullptr pGameRecords"));
 	pGameRecords->ReadFromStructure(p_globalInfo);
 	
 	// Extract the pro & cas skater profile info
-	Script::CStruct *p_pros=NULL;
+	Script::CStruct *p_pros=nullptr;
 	p_globalInfo->GetStructure(Crc::ConstCRC("Pros"),&p_pros,Script::ASSERT);
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=pSkate->GetPlayerProfileManager();
 	pPlayerProfileManager->LoadAllProProfileInfo(p_pros);
@@ -1117,7 +1117,7 @@ static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script)
 	// last level that was being played when saved.
 	uint32 last_level_load_script=0;
 	uint32 last_game_mode=0;
-	CStruct *p_career=NULL;
+	CStruct *p_career=nullptr;
 	int current_theme=0;
 	p_globalInfo->GetStructure(Crc::ConstCRC("Career"),&p_career);
 	if (p_career)
@@ -1157,17 +1157,17 @@ static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script)
 static void s_read_story_info(CStruct *p_storyInfo)
 {
 	// Load in the goal manager parameters.
-	CStruct *p_loaded_goal_manager_params=NULL;
+	CStruct *p_loaded_goal_manager_params=nullptr;
 	p_storyInfo->GetStructure(Crc::ConstCRC("GoalManagerParams"),&p_loaded_goal_manager_params);
 	Dbg_MsgAssert(p_loaded_goal_manager_params,("No goal manager params on mem card"));
 	
 	Game::CGoalManager* p_goal_manager=Game::GetGoalManager();
-	Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager"));
+	Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager"));
 	
 	p_goal_manager->ResetCareer();
 	
 	CStruct *p_goal_manager_params=p_goal_manager->GetGoalManagerParams();
-	Dbg_MsgAssert(p_goal_manager_params,("NULL p_goal_manager_params"));
+	Dbg_MsgAssert(p_goal_manager_params,("nullptr p_goal_manager_params"));
 	
 	p_goal_manager_params->Clear();
 	p_goal_manager_params->AppendStructure(p_loaded_goal_manager_params);
@@ -1218,8 +1218,8 @@ uint32 s_apply_flags=0;
 bool s_did_apply_custom_skater_info=false;
 static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p_script)
 {
-	Dbg_MsgAssert(p_struct,("NULL p_struct"));
-	Dbg_MsgAssert(p_script,("NULL p_script"));
+	Dbg_MsgAssert(p_struct,("nullptr p_struct"));
+	Dbg_MsgAssert(p_script,("nullptr p_script"));
 	
 	s_did_apply_custom_skater_info=false;
 	
@@ -1232,7 +1232,7 @@ static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p
             if (s_apply_flags & (1<<APPLY_GLOBAL_INFO))
 			{
                 printf("APPLY_GLOBAL_INFO\n");
-                Script::CStruct *p_global_info=NULL;
+                Script::CStruct *p_global_info=nullptr;
 				p_struct->GetStructure(Crc::ConstCRC("GlobalInfo"),&p_global_info,Script::ASSERT);
 				s_read_global_info(p_global_info, p_script);
 			}
@@ -1243,7 +1243,7 @@ static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p
                 // so that the proper difficulty is set
                 // when the stat goals get loaded
                 printf("APPLY_STORY\n");
-                Script::CStruct *p_story_info=NULL;
+                Script::CStruct *p_story_info=nullptr;
 				p_struct->GetStructure(Crc::ConstCRC("Story"),&p_story_info,Script::ASSERT);
 				s_read_story_info(p_story_info);
 			}
@@ -1251,7 +1251,7 @@ static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p
             if (s_apply_flags & (1<<APPLY_CUSTOM_SKATER))
 			{
 				printf("APPLY_CUSTOM_SKATER\n");
-                Script::CStruct *p_custom_skater_info=NULL;
+                Script::CStruct *p_custom_skater_info=nullptr;
 				p_struct->GetStructure(Crc::ConstCRC("CustomSkater"),&p_custom_skater_info,Script::ASSERT);
 				s_read_custom_skater_info(p_custom_skater_info);
 				s_did_apply_custom_skater_info=true;
@@ -1260,9 +1260,9 @@ static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p
 			if (s_apply_flags & (1<<APPLY_STORY_SKATER))
 			{
 				printf("APPLY_STORY_SKATER\n");
-                Script::CStruct *p_story_skater_info=NULL;
+                Script::CStruct *p_story_skater_info=nullptr;
 				p_struct->GetStructure(CRCD(0xdf2f448,"StorySkater"),&p_story_skater_info,Script::ASSERT);
-                Script::CStruct *p_custom_skater_info=NULL;
+                Script::CStruct *p_custom_skater_info=nullptr;
 				p_struct->GetStructure(Crc::ConstCRC("CustomSkater"),&p_custom_skater_info,Script::ASSERT);
 				s_read_story_skater_info(p_story_skater_info,p_custom_skater_info);
 			}
@@ -1278,7 +1278,7 @@ static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p
 			// Extract the network preferences
 			GameNet::Manager * pGamenet = GameNet::Manager::Instance();
 			Prefs::Preferences *pPreferences=pGamenet->GetNetworkPreferences();
-			Dbg_MsgAssert(pPreferences,("NULL network pPreferences"));
+			Dbg_MsgAssert(pPreferences,("nullptr network pPreferences"));
 			pPreferences->SetRoot(p_struct);
 			break;
 		}
@@ -1607,7 +1607,7 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 										char *p_card_file_name,
 										bool *p_insufficientSpace)
 {
-	Dbg_MsgAssert(p_card_file_name,("NULL p_card_file_name"));
+	Dbg_MsgAssert(p_card_file_name,("nullptr p_card_file_name"));
 	p_card_file_name[0]=0;
 	
 	// Generate the directory name
@@ -1721,7 +1721,7 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 
 	// Now load the .ico file into memory
 	uint32	FileSize	= 0;
-	char*	pIco		= NULL;
+	char*	pIco		= nullptr;
 
 	File::StopStreaming();
 		
@@ -1786,7 +1786,7 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 
 static void s_generate_card_directory_name(uint32 fileType, const char *p_name, char *p_card_directory_name)
 {
-	Dbg_MsgAssert(p_card_directory_name,("NULL p_card_directory_name"));
+	Dbg_MsgAssert(p_card_directory_name,("nullptr p_card_directory_name"));
 	
 	char p_ascii_checksum[20];
 	s_generate_ascii_checksum(p_ascii_checksum,p_name,fileType);
@@ -1810,7 +1810,7 @@ static bool s_make_ps2_dir_and_icons(	Mc::Card *p_card,
 	char p_directory_name[MAX_CARD_FILE_NAME_CHARS+1];
 	s_generate_card_directory_name(fileType,p_name,p_directory_name);
 	
-	Dbg_MsgAssert(p_card_file_name,("NULL p_card_file_name"));
+	Dbg_MsgAssert(p_card_file_name,("nullptr p_card_file_name"));
 	sprintf(p_card_file_name,"%s%s",p_directory_name,p_directory_name);
 	Dbg_MsgAssert(strlen(p_card_file_name)<MAX_CARD_FILE_NAME_CHARS+1,("Oops"));
 	
@@ -1820,7 +1820,7 @@ static bool s_make_ps2_dir_and_icons(	Mc::Card *p_card,
 	sprintf(p_icon_sys,"%s/icon.sys",p_directory_name);
 	Dbg_MsgAssert(strlen(p_icon_sys)<MAX_CARD_FILE_NAME_CHARS+1,("Oops"));
 	
-	Dbg_MsgAssert(p_card,("NULL p_card"));
+	Dbg_MsgAssert(p_card,("nullptr p_card"));
 	Mc::File* pFile=p_card->Open( p_icon_sys, Mc::File::mMODE_READ );
 	if (pFile)
 	{
@@ -1828,7 +1828,7 @@ static bool s_make_ps2_dir_and_icons(	Mc::Card *p_card,
 		pFile->Flush();
 		pFile->Close();
 		delete pFile;
-		pFile=NULL;
+		pFile=nullptr;
 		return true;
 	}
 	
@@ -2027,7 +2027,7 @@ static bool s_make_ps2_dir_and_icons(	Mc::Card *p_card,
 	
 	// Now load the .ico file into memory
 	uint32 FileSize=0;
-	char *pIco=NULL;
+	char *pIco=nullptr;
 
 	File::StopStreaming();
 		
@@ -2157,10 +2157,10 @@ static bool s_insert_ngc_icon(	SMcFileHeader *p_fileHeader,
 								const char *p_name)
 {
 
-	Dbg_MsgAssert(p_fileHeader,("NULL p_fileHeader"));
-	Dbg_MsgAssert(p_card,("NULL p_card"));
-	Dbg_MsgAssert(p_file,("NULL p_file"));
-	Dbg_MsgAssert(p_name,("NULL p_name"));
+	Dbg_MsgAssert(p_fileHeader,("nullptr p_fileHeader"));
+	Dbg_MsgAssert(p_card,("nullptr p_card"));
+	Dbg_MsgAssert(p_file,("nullptr p_file"));
+	Dbg_MsgAssert(p_name,("nullptr p_name"));
 	
 	uint8 *p_buffer=p_fileHeader->mpIconData;
 	
@@ -2350,7 +2350,7 @@ static bool s_first_date_is_more_recent(Script::CStruct *p_a, Script::CStruct *p
 	int minutes_a=0;
 	int seconds_a=0;
 	
-	Dbg_MsgAssert(p_a,("NULL p_a"));
+	Dbg_MsgAssert(p_a,("nullptr p_a"));
 	p_a->GetInteger(Crc::ConstCRC("Year"),&year_a);
 	p_a->GetInteger(Crc::ConstCRC("Month"),&month_a);
 	p_a->GetInteger(Crc::ConstCRC("Day"),&day_a);
@@ -2365,7 +2365,7 @@ static bool s_first_date_is_more_recent(Script::CStruct *p_a, Script::CStruct *p
 	int minutes_b=0;
 	int seconds_b=0;
 	
-	Dbg_MsgAssert(p_b,("NULL p_b"));
+	Dbg_MsgAssert(p_b,("nullptr p_b"));
 	p_b->GetInteger(Crc::ConstCRC("Year"),&year_b);
 	p_b->GetInteger(Crc::ConstCRC("Month"),&month_b);
 	p_b->GetInteger(Crc::ConstCRC("Day"),&day_b);
@@ -2441,7 +2441,7 @@ bool ScriptGetMostRecentSave(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	pScript->GetParams()->RemoveComponent("MostRecentSave");
 	
-	CArray *p_array=NULL;
+	CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 	
 	if (!p_array)
@@ -2452,7 +2452,7 @@ bool ScriptGetMostRecentSave(Script::CStruct *pParams, Script::CScript *pScript)
 	uint32 file_type=0;
 	pParams->GetChecksum(NONAME,&file_type);
 
-	CStruct *p_most_recent=NULL;
+	CStruct *p_most_recent=nullptr;
 	for (uint32 i=0; i<p_array->GetSize(); ++i)
 	{
 		CStruct *p_struct=p_array->GetStructure(i);
@@ -2570,7 +2570,7 @@ bool ScriptMemCardFileExists(Script::CStruct *pParams, Script::CScript *pScript)
 		return false;
 	}
 		
-	const char *p_name=NULL;
+	const char *p_name=nullptr;
 	pParams->GetText("Name",&p_name);
 	
 	uint32 file_type=0;
@@ -2584,8 +2584,8 @@ bool ScriptMemCardFileExists(Script::CStruct *pParams, Script::CScript *pScript)
 	char p_card_file_name[MAX_CARD_FILE_NAME_CHARS+1];
 	p_card_file_name[0]=0;
 
-	const char *p_xbox_directory_name=NULL;
-	const char *p_xbox_converted_directory_name=NULL;
+	const char *p_xbox_directory_name=nullptr;
+	const char *p_xbox_converted_directory_name=nullptr;
 	
 	switch (Config::GetHardware())
 	{
@@ -2637,7 +2637,7 @@ bool ScriptMemCardFileExists(Script::CStruct *pParams, Script::CScript *pScript)
 	if (Config::GetHardware()==Config::HARDWARE_XBOX)
 	{
 		// Better delete the directory we just created ...
-		Dbg_MsgAssert(p_xbox_directory_name,("NULL p_xbox_directory_name ?"));
+		Dbg_MsgAssert(p_xbox_directory_name,("nullptr p_xbox_directory_name ?"));
 		p_card->DeleteDirectory(p_xbox_directory_name);
 	}
 	return false;		
@@ -2676,9 +2676,9 @@ bool ScriptDeleteMemCardFile(Script::CStruct *pParams, Script::CScript *pScript)
 		
 	bool delete_succeeded=true;
 	
-	const char *p_xbox_directory_name=NULL;
+	const char *p_xbox_directory_name=nullptr;
 	pParams->GetString("XBoxDirectoryName",&p_xbox_directory_name);
-	const char *p_full_file_name=NULL;
+	const char *p_full_file_name=nullptr;
 	pParams->GetString("CardFileName",&p_full_file_name);
 	uint32 file_type=0;
 	pParams->GetChecksum("Type",&file_type);
@@ -2913,13 +2913,13 @@ bool ScriptCardIsInSlot(Script::CStruct *pParams, Script::CScript *pScript)
 	else
 	{
 		#ifdef __PLAT_NGC__
-		// On the NGC, p_card will also be NULL if the card is in the slot, but is broken.
+		// On the NGC, p_card will also be nullptr if the card is in the slot, but is broken.
 		if (mc_man->GotFatalError())
 		{
 			return true;
 		}	
 		
-		// On the NGC, p_card will also be NULL if something is in the slot,
+		// On the NGC, p_card will also be nullptr if something is in the slot,
 		// but gives a 'wrong device' error
 		if (mc_man->GotWrongDevice())
 		{
@@ -2992,11 +2992,11 @@ bool ScriptGetSummaryInfo(Script::CStruct *pParams, Script::CScript *pScript)
 			// In other places SSwitchToNextPool() will be called before calling s_generate_summary_info,
 			// and we don't want the structure created by LevelUnload() to come off the special memcard pool.
 			Game::CGoalManager* p_goal_manager=Game::GetGoalManager();
-			Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager"));
+			Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager"));
 			p_goal_manager->LevelUnload();
 		}
 		
-		s_generate_summary_info(pScript->GetParams(), file_type, NULL);
+		s_generate_summary_info(pScript->GetParams(), file_type, nullptr);
 	}
 		
 	return true;
@@ -3063,7 +3063,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 		// On the GameCube, the temp mem card pools only exist for the duration of this function,
 		// because they use space normally used for rendering, hence cannot exist during the mem card scripts
 		// which may execute over many frames.
-		ScriptCreateTemporaryMemCardPools(NULL,NULL);
+		ScriptCreateTemporaryMemCardPools(nullptr,nullptr);
 	}
 		
 	if ( Config::GetHardware() != Config::HARDWARE_XBOX)
@@ -3099,7 +3099,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 		// It is best for the special pools to be kept empty outside of GetMemCardSpaceRequired
 		// or SaveToMemoryCard, otherwise saving the game could run out of pool space.
 		Game::CGoalManager* p_goal_manager=Game::GetGoalManager();
-		Dbg_MsgAssert(p_goal_manager,("NULL p_goal_manager"));
+		Dbg_MsgAssert(p_goal_manager,("nullptr p_goal_manager"));
 		p_goal_manager->LevelUnload();
 	}
 
@@ -3168,19 +3168,19 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	#endif
 
 
-	Mc::File* pFile=NULL;
-	uint8 *pTemp=NULL;
-	uint8 *p_pad=NULL;
+	Mc::File* pFile=nullptr;
+	uint8 *pTemp=nullptr;
+	uint8 *p_pad=nullptr;
 	uint32 pad_size=0;
 	bool SavedOK=false;
 
 	uint32 CardBytesWritten=0;
-	uint8 *p_dest=NULL;
-	SMcFileHeader *p_file_header=NULL;
+	uint8 *p_dest=nullptr;
+	SMcFileHeader *p_file_header=nullptr;
 	uint32 BytesWritten=0;
 	
-	Mc::Manager * mc_man=NULL;
-	Mc::Card* p_card=NULL;
+	Mc::Manager * mc_man=nullptr;
+	Mc::Card* p_card=nullptr;
 	
 	// fixed_size is the hard-wired file size as defined in memcard.q, rounded up to
 	// the platform's block size. A file of exactly this size will be opened for writing.
@@ -3382,7 +3382,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	}
 	if (pad_size)
 	{
-		Dbg_MsgAssert(p_pad,("NULL p_pad ?"));
+		Dbg_MsgAssert(p_pad,("nullptr p_pad ?"));
 		if (XCalculateSignatureUpdate(h_signature,(const BYTE *)(p_pad),pad_size) != ERROR_SUCCESS)
 		{
 			Dbg_MsgAssert(0,("XCalculateSignatureUpdate failed!"));
@@ -3505,7 +3505,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 		// But the bug will manifest itself when saving the replay data, so need to fix it ...
 		if (pad_size)
 		{
-			Dbg_MsgAssert(p_pad,("NULL p_pad ?"));			
+			Dbg_MsgAssert(p_pad,("nullptr p_pad ?"));			
 			CardBytesWritten=pFile->Write( p_pad, pad_size );
 			//printf("Wrote %d bytes\n",CardBytesWritten);
 			
@@ -3563,7 +3563,7 @@ ERROR:
 
 	if (Config::GetHardware() == Config::HARDWARE_NGC)
 	{
-		ScriptRemoveTemporaryMemCardPools(NULL,NULL);
+		ScriptRemoveTemporaryMemCardPools(nullptr,nullptr);
 	}
 		
 	return SavedOK;
@@ -3639,10 +3639,10 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 	const char *p_name="";
 	uint32 file_type=0;
 	
-	Mc::File* p_file=NULL;
+	Mc::File* p_file=nullptr;
 	int file_size=0;
-	uint8 *p_temp=NULL;
-	uint8 *p_stuff=NULL;
+	uint8 *p_temp=nullptr;
+	uint8 *p_stuff=nullptr;
 	SMcFileHeader *p_file_header;
 	bool loaded_ok=false;
 	uint32 calculated_checksum=0;
@@ -3658,8 +3658,8 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 	XCALCSIG_SIGNATURE stored_signature;
 	XCALCSIG_SIGNATURE calculated_signature;
 	HANDLE h_signature;
-	BYTE *p_a=NULL;
-	BYTE *p_b=NULL;
+	BYTE *p_a=nullptr;
+	BYTE *p_b=nullptr;
 	#endif	
 	
 	// Get the card.
@@ -3873,7 +3873,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 			// If the file was loaded for upload to the net, then do not process the data
 			// but just store it away so that the GetMemCardDataForUpload command can retrieve
 			// it a bit later.
-			Dbg_MsgAssert(spVaultData==NULL,("\n%s\nLoadFromMemoryCard expected the vault data to be cleared at this point ?",pScript->GetScriptInfo()));
+			Dbg_MsgAssert(spVaultData==nullptr,("\n%s\nLoadFromMemoryCard expected the vault data to be cleared at this point ?",pScript->GetScriptInfo()));
 			spVaultData=new Script::CStruct;
 			spVaultData->AppendStructure(pMemCardStuff);
 			sVaultDataType=file_type;
@@ -3959,7 +3959,7 @@ bool ScriptClearMemCardDataForUpload(Script::CStruct *pParams, Script::CScript *
 	if (spVaultData)
 	{
 		delete spVaultData;
-		spVaultData=NULL;
+		spVaultData=nullptr;
 	}	
 	sVaultDataType=0;
 	return true;
@@ -3991,8 +3991,8 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 	uint32 ch=0;	
 	bool loaded_ok=false;
 	int bytes_read=0;
-	Mc::File* p_file=NULL;
-	uint8 *p_chunk=NULL;
+	Mc::File* p_file=nullptr;
+	uint8 *p_chunk=nullptr;
 	int num_chunks=0;
 	int offset=0;
 	
@@ -4735,8 +4735,8 @@ bool ScriptSwitchToRegularPools(Script::CStruct *pParams, Script::CScript *pScri
 bool SaveDataFile(const char *p_name, uint8 *p_data, uint32 size)
 {
 	#ifndef __PLAT_WN32__
-	Dbg_MsgAssert(p_name,("NULL p_name"));
-	Dbg_MsgAssert(p_data,("NULL p_data"));
+	Dbg_MsgAssert(p_name,("nullptr p_name"));
+	Dbg_MsgAssert(p_data,("nullptr p_data"));
 
 	switch (Config::GetHardware())
 	{
@@ -4755,7 +4755,7 @@ bool SaveDataFile(const char *p_name, uint8 *p_data, uint32 size)
 		Pcm::PauseStream(true);
 	}
 	
-	Mc::File* pFile=NULL;
+	Mc::File* pFile=nullptr;
 	char p_card_file_name[MAX_CARD_FILE_NAME_CHARS+1];
 	const char *p_header=Config::GetMemCardHeader();
 	char p_ascii_checksum[20];
@@ -4788,7 +4788,7 @@ bool SaveDataFile(const char *p_name, uint8 *p_data, uint32 size)
 			pFile->Flush();
 			pFile->Close();
 			delete pFile;
-			pFile=NULL;
+			pFile=nullptr;
 		}
 		else
 		{
@@ -4857,8 +4857,8 @@ ERROR:
 // Load len bytes of any old data file to mem card to p_data
 bool LoadDataFile(const char *p_name, uint8 *p_data, uint32 size)
 {
-	Dbg_MsgAssert(p_name,("NULL p_name"));
-	Dbg_MsgAssert(p_data,("NULL p_data"));
+	Dbg_MsgAssert(p_name,("nullptr p_name"));
+	Dbg_MsgAssert(p_data,("nullptr p_data"));
 
 	switch (Config::GetHardware())
 	{
@@ -4877,7 +4877,7 @@ bool LoadDataFile(const char *p_name, uint8 *p_data, uint32 size)
 		Pcm::PauseStream(true);
 	}
 	
-	Mc::File* pFile=NULL;
+	Mc::File* pFile=nullptr;
 	char p_card_file_name[MAX_CARD_FILE_NAME_CHARS+1];
 	const char *p_header=Config::GetMemCardHeader();
 	char p_ascii_checksum[20];

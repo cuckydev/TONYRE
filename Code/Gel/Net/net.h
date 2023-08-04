@@ -550,7 +550,7 @@ class MsgHandler : public Lst::Node< MsgHandler >
 
 public:
 	MsgHandler( MsgHandlerCode *code, int flags = 0, 
-						void *data = NULL, int pri = NORMAL_PRIORITY );
+						void *data = nullptr, int pri = NORMAL_PRIORITY );
 
 private:
 	MsgHandlerCode	*m_code;
@@ -801,7 +801,7 @@ public:
 	Dispatcher( App* app ) 
 		: m_app( app ) {}
 	MsgHandler*	AddHandler( unsigned char net_msg_id, MsgHandlerCode *code, int flags = 0, 
-						void *data = NULL, int pri = NORMAL_PRIORITY );
+						void *data = nullptr, int pri = NORMAL_PRIORITY );
 	void		Init( void );
 	void		Deinit( void );
 	int			DispatchMsgHandlers( Conn *conn, int flags );

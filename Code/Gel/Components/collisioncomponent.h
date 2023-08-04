@@ -54,7 +54,7 @@ public:
 	Nx::CCollObj*					GetCollision() const;
 
 protected:
-	virtual void					InitCollision( Nx::CollType type, Nx::CCollObjTriData *p_coll_tri_data = NULL );
+	virtual void					InitCollision( Nx::CollType type, Nx::CCollObjTriData *p_coll_tri_data = nullptr );
 	Nx::CCollObj*					mp_collision;
 };
 

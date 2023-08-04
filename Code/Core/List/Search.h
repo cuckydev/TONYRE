@@ -84,7 +84,7 @@ private:
 
 template <class _T> inline 
 Search<_T>::Search ( void )
-: node ( NULL )
+: node ( nullptr )
 {
 	
 }
@@ -150,7 +150,7 @@ _T*	Search<_T>::NextItem ( void )
 
 	if ( !node )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Dbg_AssertType ( node, Node<_T> );
@@ -174,7 +174,7 @@ _T*	Search<_T>::PrevItem ( void )
 
 	if ( !node )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Dbg_AssertType ( node, Node<_T> );

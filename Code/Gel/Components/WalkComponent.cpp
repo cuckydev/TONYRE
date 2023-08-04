@@ -99,14 +99,14 @@ CWalkComponent::CWalkComponent() : CBaseComponent()
 	
 	mp_collision_cache = Nx::CCollCacheManager::sCreateCollCache();
 	
-	mp_input_component = NULL;
-	mp_animation_component = NULL;
-	mp_model_component = NULL;
-	mp_trigger_component = NULL;
-	mp_physics_control_component = NULL;
-	mp_movable_contact_component = NULL;
-	mp_state_component = NULL;
-	mp_core_physics_component = NULL;
+	mp_input_component = nullptr;
+	mp_animation_component = nullptr;
+	mp_model_component = nullptr;
+	mp_trigger_component = nullptr;
+	mp_physics_control_component = nullptr;
+	mp_movable_contact_component = nullptr;
+	mp_state_component = nullptr;
+	mp_core_physics_component = nullptr;
 	
 	m_control_direction.Set();
 	m_in_air_drift_vel.Set();
@@ -491,7 +491,7 @@ CBaseComponent::EMemberFunctionResult CWalkComponent::CallMemberFunction( uint32
 void CWalkComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CWalkComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CWalkComponent::GetDebugInfo"));
 	
 	switch (m_state)
 	{
@@ -2646,12 +2646,12 @@ bool CWalkComponent::maybe_stick_to_rail (   )
 		m_pos,
 		&m_special_transition_data.rail_data.rail_pos,
 		&m_special_transition_data.rail_data.p_node,
-		NULL,
+		nullptr,
 		1.0f
 	))
 	{
 		m_special_transition_data.rail_data.p_rail_man = Mdl::Skate::Instance()->GetRailManager();
-		m_special_transition_data.rail_data.p_movable_contact = NULL;
+		m_special_transition_data.rail_data.p_movable_contact = nullptr;
 	}
 	else
 	{
@@ -2676,7 +2676,7 @@ bool CWalkComponent::maybe_stick_to_rail (   )
 				obj_frame_pos,
 				&m_special_transition_data.rail_data.rail_pos,
 				&m_special_transition_data.rail_data.p_node,
-				NULL,
+				nullptr,
 				1.0f
 			))
 			{
@@ -3240,7 +3240,7 @@ void CWalkComponent::update_anim_speeds (   )
 				{
 					Script::CStruct* pParams = new Script::CStruct;
 					pParams->AddFloat(Crc::ConstCRC("Speed"), m_anim_effective_speed / m_anim_standard_speed);
-					mp_animation_component->CallMemberFunction(Crc::ConstCRC("SetPartialAnimSpeed"), pParams, NULL);
+					mp_animation_component->CallMemberFunction(Crc::ConstCRC("SetPartialAnimSpeed"), pParams, nullptr);
 					delete pParams;
 				}
 			}
@@ -3252,7 +3252,7 @@ void CWalkComponent::update_anim_speeds (   )
 			
 			Script::CStruct* pParams = new Script::CStruct;
 			pParams->AddFloat(Crc::ConstCRC("Speed"), new_anim_speed);
-			mp_animation_component->CallMemberFunction(Crc::ConstCRC("SetPartialAnimSpeed"), pParams, NULL);
+			mp_animation_component->CallMemberFunction(Crc::ConstCRC("SetPartialAnimSpeed"), pParams, nullptr);
 			delete pParams;
 			
 			mp_animation_component->SetAnimSpeed(new_anim_speed, false, false);
@@ -3265,7 +3265,7 @@ void CWalkComponent::update_anim_speeds (   )
 			
 			Script::CStruct* pParams = new Script::CStruct;
 			pParams->AddFloat(Crc::ConstCRC("Speed"), new_anim_speed);
-			mp_animation_component->CallMemberFunction(Crc::ConstCRC("SetPartialAnimSpeed"), pParams, NULL);
+			mp_animation_component->CallMemberFunction(Crc::ConstCRC("SetPartialAnimSpeed"), pParams, nullptr);
 			delete pParams;
 			
 			// Only ladder animation speed changes are sent to the server in net games.

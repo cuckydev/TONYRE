@@ -45,7 +45,7 @@ sTexture::~sTexture()
 		{
 			if( EngineGlobals.p_texture[p] == pD3DTexture )
 			{
-				set_texture( p, NULL );
+				set_texture( p, nullptr );
 			}
 		}
 	}
@@ -217,7 +217,7 @@ sTexture *LoadTexture( const char *p_filename )
 			// Create palette if required.
 			if( header.clut_bit_depth == 0 )
 			{
-				p_texture->pD3DPalette = NULL;
+				p_texture->pD3DPalette = nullptr;
 			}
 			else
 			{
@@ -282,7 +282,7 @@ sTexture *LoadTexture( const char *p_filename )
 	
 			// Lock the texture so we can read data into it directly.
 			D3DLOCKED_RECT locked_rect;
-			if( D3D_OK != p_texture->pD3DTexture->LockRect( 0, &locked_rect, NULL, 0 ))
+			if( D3D_OK != p_texture->pD3DTexture->LockRect( 0, &locked_rect, nullptr, 0 ))
 			{
 				Dbg_Assert( 0 );
 			}
@@ -303,7 +303,7 @@ sTexture *LoadTexture( const char *p_filename )
 		}
 	}
 	*/
-	return NULL;
+	return nullptr;
 }
 
 

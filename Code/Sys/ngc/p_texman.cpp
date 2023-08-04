@@ -217,7 +217,7 @@
 //	for ( lp = 0; lp < source.m_tableSize; lp++ ) {
 //		if ( source.m_pHashTable[lp] ) {
 //			add( source.m_pHashTable[lp] );
-//			source.m_pHashTable[lp] = NULL;
+//			source.m_pHashTable[lp] = nullptr;
 //		}
 //	}
 //
@@ -367,7 +367,7 @@
 //			if ( m_pHashTable[hashSearch]->m_id == hashID ) {
 //				// Found the matching item.
 //				delete m_pHashTable[hashSearch];
-//				m_pHashTable[hashSearch] = NULL;
+//				m_pHashTable[hashSearch] = nullptr;
 //				break;
 //			}
 //		}
@@ -426,7 +426,7 @@
 // *	Inputs:																		*
 // *				pName	The name of the texture to retrieve.					*
 // *	Output:																		*
-// *				A pointer to the requested texture. NULL if not found.			*
+// *				A pointer to the requested texture. nullptr if not found.			*
 // *	Description:																*
 // *				Retrieves the specified texture from the texture manager.		*
 // *																				*
@@ -441,9 +441,9 @@
 //	hashID = Script::GenerateCRC ( pName );
 //	hashValue = hashID % m_tableSize;
 //	hashSearch = hashValue;
-//	pHeader = NULL;
+//	pHeader = nullptr;
 //	
-//	if ( !m_tableSize || !m_pHashTable ) return NULL;
+//	if ( !m_tableSize || !m_pHashTable ) return nullptr;
 //
 //	do {
 //		// See if this hash slot matches.
@@ -498,9 +498,9 @@
 //{
 //	int lp;
 //
-//	// NULL the hashtable out.
+//	// nullptr the hashtable out.
 //	for ( lp = 0; lp < (int)m_tableSize; lp++ ) {
-//		m_pHashTable[lp] = NULL;
+//		m_pHashTable[lp] = nullptr;
 //	}
 //	// Set number of textures to 0.
 //	m_allocatedCount = 0;

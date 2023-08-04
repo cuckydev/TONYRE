@@ -37,9 +37,9 @@ CSkaterBalanceTrickComponent::CSkaterBalanceTrickComponent() : CBaseComponent()
 {
 	SetType( CRC_SKATERBALANCETRICK );
 	
-	mp_animation_component = NULL;
+	mp_animation_component = nullptr;
 	
-	mpBalanceParams = NULL;
+	mpBalanceParams = nullptr;
 }
 
 /******************************************************************/
@@ -148,9 +148,9 @@ CBaseComponent::EMemberFunctionResult CSkaterBalanceTrickComponent::CallMemberFu
 			if (mpBalanceParams)
 			{
 				delete mpBalanceParams;
-				mpBalanceParams = NULL;
+				mpBalanceParams = nullptr;
 			}
-			Script::CStruct* p_balance_params = NULL;
+			Script::CStruct* p_balance_params = nullptr;
 			if (pParams->GetStructure(Crc::ConstCRC("BalanceParams"), &p_balance_params))
 			{
 				set_balance_trick_params(p_balance_params);
@@ -280,7 +280,7 @@ CBaseComponent::EMemberFunctionResult CSkaterBalanceTrickComponent::CallMemberFu
 						break;
 						
 					default:
-						pBalance = NULL;
+						pBalance = nullptr;
 						Dbg_Assert(false);
 				}
 	
@@ -345,7 +345,7 @@ CBaseComponent::EMemberFunctionResult CSkaterBalanceTrickComponent::CallMemberFu
 void CSkaterBalanceTrickComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterBalanceTrickComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterBalanceTrickComponent::GetDebugInfo"));
 	
 	p_info->AddChecksum("mDoingBalanceTrick", mDoingBalanceTrick ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
 	p_info->AddChecksum("mBalanceTrickType", mBalanceTrickType);
@@ -493,7 +493,7 @@ void CSkaterBalanceTrickComponent::ClearBalanceParameters (   )
 	if (mpBalanceParams)
 	{
 		delete mpBalanceParams;
-		mpBalanceParams = NULL;
+		mpBalanceParams = nullptr;
 	}
 }
 
@@ -531,7 +531,7 @@ void CSkaterBalanceTrickComponent::set_wobble_params ( Script::CStruct *pParams 
 
 	// Extract all the wobble details and stick them in WobbleDetails, then send that to SetWobbleDetails
 	
-	Script::CStruct* pStat = NULL;
+	Script::CStruct* pStat = nullptr;
 	Gfx::SWobbleDetails theWobbleDetails;
 
 	pParams->GetStructure(Crc::ConstCRC("WobbleAmpA"), &pStat, Script::ASSERT);

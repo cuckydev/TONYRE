@@ -803,7 +803,7 @@ bool CBonedAnimFrameData::plat_dma_to_aram( int qbytes, int tbytes, uint32 flags
 //				NsDMA::toARAM( address+32, mp_partialAnimData, size );
 //				mp_partialAnimData = (char*)address;
 //			}
-			mp_partialAnimData = NULL;
+			mp_partialAnimData = nullptr;
 
 			// DMA per-bone frame count data.
 			void * ptr;
@@ -892,7 +892,7 @@ bool CBonedAnimFrameData::plat_dma_to_aram( int qbytes, int tbytes, uint32 flags
 //				NsDMA::toARAM( address+32, mp_partialAnimData, size );
 //				mp_partialAnimData = (char*)address;
 //			}
-			mp_partialAnimData = NULL;
+			mp_partialAnimData = nullptr;
 
 			// DMA per-bone frame count data.
 			void * ptr;
@@ -992,11 +992,11 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	if ( m_flags & nxBONEDANIMFLAGS_OBJECTANIMDATA )
 	{
 		Dbg_MsgAssert( 0, ( "Wasn't expecting object anims to be compressed" ) );
-		mp_boneNames = NULL;
+		mp_boneNames = nullptr;
 	}
 	else
 	{
-		mp_boneNames = NULL;
+		mp_boneNames = nullptr;
 	}
 	
 	if ( m_flags & nxBONEDANIMFLAGS_PARTIALANIM )
@@ -1032,7 +1032,7 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 		pData += tAllocSize;
 	}
 	
-	Dbg_Assert( mp_perBoneFrames == NULL );
+	Dbg_Assert( mp_perBoneFrames == nullptr );
 	Dbg_Assert( mp_qFrames );
 	Dbg_Assert( mp_tFrames );
     
@@ -1050,7 +1050,7 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	// create an array of pointers to the custom keys
 	if ( !pThePlatformHeader->numCustomAnimKeys )
 	{
-		mpp_customAnimKeyList = NULL;
+		mpp_customAnimKeyList = nullptr;
 	}
 	else
 	{
@@ -1076,7 +1076,7 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	{
 		delete mp_fileBuffer;
 	}
-	mp_fileBuffer = NULL;
+	mp_fileBuffer = nullptr;
 #endif
 	return true;
 }
@@ -1111,7 +1111,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	}
 	else
 	{
-		mp_boneNames = NULL;
+		mp_boneNames = nullptr;
 	}
 
 	if ( m_flags & nxBONEDANIMFLAGS_PARTIALANIM )
@@ -1198,7 +1198,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	// create an array of pointers to the custom keys
 	if ( !pThePlatformHeader->numCustomAnimKeys )
 	{
-		mpp_customAnimKeyList = NULL;
+		mpp_customAnimKeyList = nullptr;
 	}
 	else
 	{
@@ -1224,7 +1224,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	{
 		delete mp_fileBuffer;
 	}
-	mp_fileBuffer = NULL;
+	mp_fileBuffer = nullptr;
 #endif
 
 	return true;
@@ -1304,28 +1304,28 @@ CBonedAnimFrameData::CBonedAnimFrameData()
 	m_duration = 0.0f;
 	m_numBones = 0;
 
-	mp_fileBuffer = NULL;
-	mp_fileHandle = NULL;
+	mp_fileBuffer = nullptr;
+	mp_fileHandle = nullptr;
 	m_dataLoaded = false;
 
-	mp_qFrames = NULL;	
-	mp_tFrames = NULL;
+	mp_qFrames = nullptr;	
+	mp_tFrames = nullptr;
 
-	mp_perBoneFrames = NULL;
-	mp_boneNames = NULL;
+	mp_perBoneFrames = nullptr;
+	mp_boneNames = nullptr;
 
-	mp_perBoneQFrameSize = NULL;
-	mp_perBoneTFrameSize = NULL;
+	mp_perBoneQFrameSize = nullptr;
+	mp_perBoneTFrameSize = nullptr;
 
 	m_printDebugInfo = false;
 
 	m_num_customKeys = 0;
 
-	mpp_customAnimKeyList = NULL;
+	mpp_customAnimKeyList = nullptr;
 	m_fileNameCRC = 0;
 	m_pipped = false;
 
-	mp_partialAnimData = NULL;
+	mp_partialAnimData = nullptr;
 }
 
 /******************************************************************/
@@ -1517,7 +1517,7 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 			if ( !File::Read( mp_fileBuffer, 1, file_size, pStream ) )
 			{
 				Mem::Free(mp_fileBuffer);
-				mp_fileBuffer = NULL;
+				mp_fileBuffer = nullptr;
 				File::Close( pStream );
 
 				Dbg_MsgAssert( assertOnFail, ("Load of %s failed - bad format?", p_fileName) );
@@ -1567,16 +1567,16 @@ bool CBonedAnimFrameData::PostLoad(bool assertOnFail, int file_size, bool delete
 		if (mp_fileHandle->WaitForIO() != file_size)
 		{
 			Mem::Free(mp_fileBuffer);
-			mp_fileBuffer = NULL;
+			mp_fileBuffer = nullptr;
 			File::CAsyncFileLoader::sClose( mp_fileHandle );
-			mp_fileHandle = NULL;
+			mp_fileHandle = nullptr;
 
 			Dbg_MsgAssert( assertOnFail, ("PostLoad of anim file failed - bad format?") );
 			return false;
 		}
 #endif
 		File::CAsyncFileLoader::sClose( mp_fileHandle );
-		mp_fileHandle = NULL;
+		mp_fileHandle = nullptr;
 	}
 
 	uint8 *pFileData = (uint8 *) mp_fileBuffer;
@@ -1626,7 +1626,7 @@ bool CBonedAnimFrameData::PostLoad(bool assertOnFail, int file_size, bool delete
 	{
 	// Done with temp buffer (since it's pipped, don't delete the file buffer)
 //	Mem::Free(mp_fileBuffer);
-//	mp_fileBuffer = NULL;
+//	mp_fileBuffer = nullptr;
 	}
 	m_dataLoaded = success;
 
@@ -1710,14 +1710,14 @@ bool CBonedAnimFrameData::GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth
 	float qTimeStamp = time * 60.0f;
 	float tTimeStamp = time * 60.0f;
 	
-	CHiResAnimQKey* pStartQFrame = NULL;
-	CHiResAnimQKey* pEndQFrame = NULL;
+	CHiResAnimQKey* pStartQFrame = nullptr;
+	CHiResAnimQKey* pEndQFrame = nullptr;
 
-	CHiResAnimTKey* pStartTFrame = NULL;
-	CHiResAnimTKey* pEndTFrame = NULL;
+	CHiResAnimTKey* pStartTFrame = nullptr;
+	CHiResAnimTKey* pEndTFrame = nullptr;
 
-	CHiResAnimQKey* pCurrentQFrame = NULL;
-	CHiResAnimTKey* pCurrentTFrame = NULL;
+	CHiResAnimQKey* pCurrentQFrame = nullptr;
+	CHiResAnimTKey* pCurrentTFrame = nullptr;
 	
 #ifdef __ARAM__
 //	pStartQFrame = p_hqqq;
@@ -2346,14 +2346,14 @@ bool CBonedAnimFrameData::GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vect
 	float qTimeStamp = time * 60.0f;
 	float tTimeStamp = time * 60.0f;
 	
-	CStandardAnimQKey* pStartQFrame = NULL;
-	CStandardAnimQKey* pEndQFrame = NULL;
+	CStandardAnimQKey* pStartQFrame = nullptr;
+	CStandardAnimQKey* pEndQFrame = nullptr;
 
-	CStandardAnimTKey* pStartTFrame = NULL;
-	CStandardAnimTKey* pEndTFrame = NULL;
+	CStandardAnimTKey* pStartTFrame = nullptr;
+	CStandardAnimTKey* pEndTFrame = nullptr;
 
-	CStandardAnimQKey* pCurrentQFrame = NULL;
-	CStandardAnimTKey* pCurrentTFrame = NULL;
+	CStandardAnimQKey* pCurrentQFrame = nullptr;
+	CStandardAnimTKey* pCurrentTFrame = nullptr;
 	
 #ifdef __ARAM__
 //	pStartQFrame = p_sqqq;

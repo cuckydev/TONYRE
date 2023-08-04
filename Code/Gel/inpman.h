@@ -518,7 +518,7 @@ void *		Handler< _T >::GetCode( void ) const
 {
 	
 
-	return NULL;	
+	return nullptr;	
 }
 
 /******************************************************************/

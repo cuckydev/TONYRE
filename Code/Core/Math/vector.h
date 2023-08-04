@@ -165,7 +165,7 @@ public:
 			float			GetY		( void ) const;
 			float			GetZ		( void ) const;
 			float 			GetW		( void ) const;
-			float			GetMaxAxis	( int *whichAxis = NULL );
+			float			GetMaxAxis	( int *whichAxis = nullptr );
 
 			void			DegreesToRadians( void );
 			void			RadiansToDegrees( void );

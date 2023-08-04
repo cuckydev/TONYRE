@@ -102,7 +102,7 @@ public:
 protected:
 	int								m_interleave;	// Mick: counter for interleaving animation at a distance
 public:  // just for now	
-	bool							should_animate( float *p_dist = NULL );
+	bool							should_animate( float *p_dist = nullptr );
 };
 
 

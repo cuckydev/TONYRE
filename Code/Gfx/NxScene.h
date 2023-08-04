@@ -62,10 +62,10 @@ public:
 	// the replace will hide the old one.
 	CSector *					ReplaceSector(CSector *pSector);			// returns old sector, if any
 
-	// Cloning copies a sector, puts it in hash table, and returns its checksum (p_dest_scene of NULL uses current scene)
-	uint32						CloneSector(uint32 orig_sector_checksum, CScene *p_dest_scene = NULL,
+	// Cloning copies a sector, puts it in hash table, and returns its checksum (p_dest_scene of nullptr uses current scene)
+	uint32						CloneSector(uint32 orig_sector_checksum, CScene *p_dest_scene = nullptr,
 											bool instance = false, bool add_to_super_sectors = true);
-	uint32						CloneSector(CSector *p_orig_sector, CScene *p_dest_scene = NULL,
+	uint32						CloneSector(CSector *p_orig_sector, CScene *p_dest_scene = nullptr,
 											bool instance = false, bool add_to_super_sectors = true);
 
 	// creates an empty sector
@@ -77,7 +77,7 @@ public:
 	bool						DeleteSector(CSector *p_sector);
 
 	// Updates the SuperSectors with any clone or quickupdate changes
-	void						UpdateSuperSectors(Lst::Head<CSector> *p_additional_remove_list = NULL);
+	void						UpdateSuperSectors(Lst::Head<CSector> *p_additional_remove_list = nullptr);
 	void						ClearSuperSectors();						// note ALL sectors must already be marked for deletion
 
 	// allow access to the collision sectors												  

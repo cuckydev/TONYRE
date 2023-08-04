@@ -325,7 +325,7 @@ void CCar::debug_wheels()
 		theBox.m_min.Set(-10.0f, -10.0f, -10.0f);    
 
 		// For now, draw a bounding box
-		Gfx::AddDebugBox( wsMatrix, pos, &theBox, NULL, 1, NULL ); 
+		Gfx::AddDebugBox( wsMatrix, pos, &theBox, nullptr, 1, nullptr ); 
 	}
 }
 #endif
@@ -353,11 +353,11 @@ void CCar::InitCar( CGeneralManager* p_obj_man, Script::CStruct* pNodeData )
 	{
 //		m_model_restoration_info.mSkeletonName=skeletonName;
 		// component-based
-		Dbg_MsgAssert( GetSkeletonComponent() == NULL, ( "Skeleton component already exists" ) );
+		Dbg_MsgAssert( GetSkeletonComponent() == nullptr, ( "Skeleton component already exists" ) );
 		Script::CStruct* pSkeletonStruct = new Script::CStruct;
 		pSkeletonStruct->AddChecksum( Crc::ConstCRC("component"), CRC_SKELETON );
 		pSkeletonStruct->AddChecksum( Crc::ConstCRC("skeleton"), skeletonName );
-		this->CreateComponentFromStructure(pSkeletonStruct, NULL);
+		this->CreateComponentFromStructure(pSkeletonStruct, nullptr);
 		delete pSkeletonStruct;
 
 #ifdef	__NOPT_ASSERT__
@@ -415,11 +415,11 @@ void CCar::InitCar( CGeneralManager* p_obj_man, Script::CStruct* pNodeData )
 		// GJ:  collision component should be added after the model component,
 		// because we want the same m_pos/m_matrix that is used for displaying
 		// the model
-		Dbg_MsgAssert( GetCollisionComponent() == NULL, ( "Collision component already exists" ) );
+		Dbg_MsgAssert( GetCollisionComponent() == nullptr, ( "Collision component already exists" ) );
 		Script::CStruct* pCollisionStruct = new Script::CStruct;
 		pCollisionStruct->AddChecksum( Crc::ConstCRC("component"), CRC_COLLISION );
 		pCollisionStruct->AddChecksum( Crc::ConstCRC("collisionMode"), Crc::ConstCRC("geometry") );
-		this->CreateComponentFromStructure(pCollisionStruct, NULL);
+		this->CreateComponentFromStructure(pCollisionStruct, nullptr);
 		delete pCollisionStruct;
 	}
 

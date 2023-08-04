@@ -96,7 +96,7 @@ public:
 	float				GetDistToWaypoint( void );
 			   
 	// Returns 'true' when path has been traversed (end of path!)
-    bool				TraversePath( const float deltaDist, Mth::Vector *pHeading = NULL );
+    bool				TraversePath( const float deltaDist, Mth::Vector *pHeading = nullptr );
 	
 	void				SetHeading( Mth::Vector *p_heading );
 

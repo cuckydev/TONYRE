@@ -358,7 +358,7 @@ Node< _T >*		Node< _T >::GetNext( void ) const
 	
 	if ( next->is_head() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return next;
@@ -376,7 +376,7 @@ Node< _T >*		Node< _T >::GetPrev( void ) const
 
 	if ( prev->is_head() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return prev;
@@ -413,7 +413,7 @@ Node< _T >*		Node< _T >::LoopNext( void ) const
 	
 		if ( next_node->is_head() )
 		{
-			return NULL;				// list is empty
+			return nullptr;				// list is empty
 		}
 	}
 
@@ -438,7 +438,7 @@ Node< _T >*		Node< _T >::LoopPrev( void ) const
 	
 		if ( prev_node->is_head() )
 		{
-			return NULL;				// list is empty
+			return nullptr;				// list is empty
 		}
 	}
 

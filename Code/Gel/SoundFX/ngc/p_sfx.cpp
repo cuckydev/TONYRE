@@ -109,7 +109,7 @@ struct VoiceEntry
 *****************************************************************************/
 
 // Because we don't use voices in the same way as on PS2, this array simulates
-// the system. An entry with a NULL pointer means no sound is playing on that
+// the system. An entry with a nullptr pointer means no sound is playing on that
 // 'voice', a valid pointer indicates a sound is playing on that 'voice', and
 // provides details of the playback.
 static VoiceEntry		VoiceSimulator[NUM_VOICES];
@@ -148,13 +148,13 @@ void AXUserCBack( void )
 {
 	for( int i = 0; i < NUM_VOICES; ++i )
 	{
-		if( VoiceSimulator[i].p_axvpb != NULL )
+		if( VoiceSimulator[i].p_axvpb != nullptr )
 		{
 			if( VoiceSimulator[i].p_axvpb->pb.state == AX_PB_STATE_STOP )
 			{
 				// Playback on this voice has ended, so free up the voice.
 				AXFreeVoice( VoiceSimulator[i].p_axvpb );
-				VoiceSimulator[i].p_axvpb = NULL;
+				VoiceSimulator[i].p_axvpb = nullptr;
 //				OSReport( "voice %d stopped %d\n", i, OSGetTick() );
 			}
 		}
@@ -173,12 +173,12 @@ static void ax_voice_reacquisition_callback( void* p )
 
 	for( int i = 0; i < NUM_VOICES; ++i )
 	{
-		if( VoiceSimulator[i].p_axvpb != NULL )
+		if( VoiceSimulator[i].p_axvpb != nullptr )
 		{
 			if( (void*)( VoiceSimulator[i].p_axvpb ) == p )
 			{
 				OSReport( "Voice was voice %d\n", i );
-				VoiceSimulator[i].p_axvpb = NULL;
+				VoiceSimulator[i].p_axvpb = nullptr;
 			}
 		}
 	}
@@ -194,7 +194,7 @@ static int getFreeVoice( void )
 {
 	for( int i = 0; i < NUM_VOICES; ++i )
 	{
-		if( VoiceSimulator[i].p_axvpb == NULL )
+		if( VoiceSimulator[i].p_axvpb == nullptr )
 		{
 			return i;
 		}
@@ -376,14 +376,14 @@ void InitSoundFX( CSfxManager *p_manager )
 	// Initialize the 'voice' array.
 	for( int i = 0; i < NUM_VOICES; ++i )
 	{
-		VoiceSimulator[i].p_axvpb = NULL;
+		VoiceSimulator[i].p_axvpb = nullptr;
 	}
 
 	// See whether the unit is in mono or stereo mode.
 	isStereo = !( OSGetSoundMode() == OS_SOUND_MODE_MONO );
 
 	// Initialize Audio Interface API.
-//	AIInit( NULL );
+//	AIInit( nullptr );
 
 	// Initialize the AX library, and boot the DSP.
 //	AXInit();
@@ -419,7 +419,7 @@ void ReInitSoundFX( void )
 	// Initialize the 'voice' array.
 	for( int i = 0; i < NUM_VOICES; ++i )
 	{
-		VoiceSimulator[i].p_axvpb = NULL;
+		VoiceSimulator[i].p_axvpb = nullptr;
 	}
 
 	// Flush pending ARQ transfers and wait for DMA to finish.
@@ -432,7 +432,7 @@ void ReInitSoundFX( void )
 	ARReset();
 
 	// Initialize Audio Interface API.
-	AIInit( NULL );
+	AIInit( nullptr );
 
 	// Initialize the AX library, and boot the DSP.
 	AXInit();
@@ -454,7 +454,7 @@ void ReInitSoundFX( void )
 /******************************************************************/
 bool VoiceIsOn( int whichVoice )
 {
-	if( VoiceSimulator[whichVoice].p_axvpb != NULL )
+	if( VoiceSimulator[whichVoice].p_axvpb != nullptr )
 	{
 		// Check it hasn't already been stopped since then it will be dealt with by the 5ms callback.
 //		if( VoiceSimulator[whichVoice].p_axvpb->pb.state != AX_PB_STATE_STOP )
@@ -539,7 +539,7 @@ bool LoadSoundPlease( const char *sfxName, uint32 checksum, PlatformWaveInfo *pI
 //int PlaySoundPlease( PlatformWaveInfo *pInfo, float volL, float volR, float pitch )
 int PlaySoundPlease( PlatformWaveInfo *pInfo, sVolume *p_vol, float pitch )
 {
-	//Dbg_Assert( pInfo->headerAddress != NULL );
+	//Dbg_Assert( pInfo->headerAddress != nullptr );
 	
 //	Spt::SingletonPtr< Sfx::CSfxManager > sfx_manager;
 //	if ( sfx_manager->GetMainVolume() < 1.0f ) return -1;
@@ -560,7 +560,7 @@ int PlaySoundPlease( PlatformWaveInfo *pInfo, sVolume *p_vol, float pitch )
 		return -1;
 	}
 	AXVPB*		p_axvpb		= AXAcquireVoice( ( p_header->loop_flag ) ? AX_PRIORITY_NODROP : AX_PRIORITY_LOWEST, ax_voice_reacquisition_callback, 0 );
-	if( p_axvpb == NULL )
+	if( p_axvpb == nullptr )
 	{
 		// No voice available.
 		return -1;
@@ -711,7 +711,7 @@ void PauseSoundsPlease( void )
 		{
 //			SetVoiceParameters( i, 0.0f, 0.0f );
 //			SetVoiceParameters( i, &silent_vol );
-			SetVoiceParameters( i, NULL );
+			SetVoiceParameters( i, nullptr );
 		}
 	}
 }
@@ -732,7 +732,7 @@ void CleanUpSoundFX( void )
 	{
 		Dbg_Assert( tempSoundHeaders[i] );
 		Mem::Free( tempSoundHeaders[i] );
-		tempSoundHeaders[i] = NULL;
+		tempSoundHeaders[i] = nullptr;
 	}
 	numTempSoundHeaders = 0;
 }
@@ -797,7 +797,7 @@ int ReverbModes[ ] =
 
 // Internal function prototypes:
 
-static bool	loadGamecubeDSP( PlatformWaveInfo *pInfo, const char *filename, bool loadPerm, float *samplePitch = NULL );
+static bool	loadGamecubeDSP( PlatformWaveInfo *pInfo, const char *filename, bool loadPerm, float *samplePitch = nullptr );
 
 int		PS2Sfx_PlaySfx( PlatformWaveInfo *pInfo, int voiceNumber, float volL = 100.0f, float volR = 100.0f, float pitch = 100.0f );
 void	PS2Sfx_StopSound( int voiceNumber );

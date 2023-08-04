@@ -23,7 +23,7 @@ CWindow2D::CWindow2D(int x, int y, int width, int height) :
 	m_ypos(y),
 	m_width(width),
 	m_height(height),
-	mp_next(NULL)
+	mp_next(nullptr)
 {
 }
 
@@ -75,7 +75,7 @@ void			CWindow2D::plat_update_engine()
 ///////////////////////////////////////////////////////////////////////////////
 // CWindow2DManager
 
-CWindow2D *			CWindow2DManager::sp_window_list = NULL;
+CWindow2D *			CWindow2DManager::sp_window_list = nullptr;
 
 /******************************************************************/
 /*                                                                */

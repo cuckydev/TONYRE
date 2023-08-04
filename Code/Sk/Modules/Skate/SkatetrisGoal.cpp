@@ -347,7 +347,7 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 			Front::CScreenElementManager* p_screen_elem_man = Front::CScreenElementManager::Instance();
 			
 			// grab list of valid key combos
-			Script::CArray* p_keyCombos = NULL;
+			Script::CArray* p_keyCombos = nullptr;
 			mp_params->GetArray( Crc::ConstCRC("goal_tetris_key_combos"), &p_keyCombos, Script::NO_ASSERT );
 
 			uint32 key_combo = 0;
@@ -378,12 +378,12 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 			// check the type of the structure...this will tell us if this is a standard
 			// skatetris goal (array of key combos), or a special one (array of structures
 			// containing the name and text of the trick).
-			const char* p_key_combo_text = NULL;
+			const char* p_key_combo_text = nullptr;
 			int num_taps = 1;
 			if ( !p_keyCombos )
 			{
 				// check for a trick array
-				Script::CArray* p_tetris_tricks = NULL;
+				Script::CArray* p_tetris_tricks = nullptr;
 				mp_params->GetArray( Crc::ConstCRC("goal_tetris_tricks"), &p_tetris_tricks, Script::ASSERT );
 				
 				// grab a random trick
@@ -478,7 +478,7 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 				Obj::CSkaterProfile* p_SkaterProfile = skate_mod->GetCurrentProfile();
 				Script::CStruct* p_trickMappings = p_SkaterProfile->GetTrickMapping( Crc::ConstCRC("trick_mapping") );
 		
-				const char* p_text = NULL;
+				const char* p_text = nullptr;
 				
 				// if it's not a regular assignment, grab cat info
 				if ( !p_trickMappings->GetChecksum( key_combo, &trick_name_checksum, Script::NO_ASSERT ) )
@@ -500,7 +500,7 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 	
 				if ( !p_text )
 				{
-					Script::CStruct* p_trick_structure = NULL;
+					Script::CStruct* p_trick_structure = nullptr;
 					p_trick_structure = Script::GetStructure( trick_name_checksum, Script::NO_ASSERT );
 					if ( !p_trick_structure )
 					{
@@ -664,7 +664,7 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 					{
 						Front::CScreenElement* p_trick = p_screen_elem_man->GetElement( m_tetrisTricks[j].screenElementId , Front::CScreenElementManager::ASSERT );
 						script = Crc::ConstCRC("goal_tetris_turn_trick_red");
-						Script::CScript* p_trick_script = Script::SpawnScript( script, NULL );
+						Script::CScript* p_trick_script = Script::SpawnScript( script, nullptr );
 						#ifdef __NOPT_ASSERT__
 						p_trick_script->SetCommentString("Spawned from CSkatetrisGoal::AddTetrisTrick()");
 						#endif
@@ -887,7 +887,7 @@ void CSkatetrisGoal::RemoveTrick( int index )
 			{
 				Front::CScreenElement* p_trick = p_screen_elem_man->GetElement( m_tetrisTricks[j].screenElementId , Front::CScreenElementManager::ASSERT );
 				script = Crc::ConstCRC("goal_tetris_turn_trick_white");
-				Script::CScript* p_trick_script = Script::SpawnScript( script, NULL );
+				Script::CScript* p_trick_script = Script::SpawnScript( script, nullptr );
 				#ifdef __NOPT_ASSERT__
 				p_trick_script->SetCommentString("Spawned from CSkatetrisGoal::RemoveTrick()");
 				#endif
@@ -1090,7 +1090,7 @@ void CSkatetrisGoal::ClearAllTricks()
 
 	// clear all the screen elements
 	Front::CScreenElementManager* p_screen_elem_man = Front::CScreenElementManager::Instance();
-	Script::CScript* pScript = NULL;
+	Script::CScript* pScript = nullptr;
 	p_screen_elem_man->DestroyElement( Crc::ConstCRC("tetris_tricks_menu"), Front::CScreenElementManager::RECURSE, Front::CScreenElementManager::PRESERVE_PARENT, pScript);
 }
 

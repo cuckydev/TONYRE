@@ -53,8 +53,8 @@ CSkaterGapComponent::CSkaterGapComponent() : CBaseComponent()
 {
 	SetType( CRC_SKATERGAP );
 	
-	mp_core_physics_component = NULL;
-	mp_balance_trick_component = NULL;
+	mp_core_physics_component = nullptr;
+	mp_balance_trick_component = nullptr;
 }
 
 /******************************************************************/
@@ -305,7 +305,7 @@ CBaseComponent::EMemberFunctionResult CSkaterGapComponent::CallMemberFunction( u
 void CSkaterGapComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterGapComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterGapComponent::GetDebugInfo"));
 	
 	static const uint32 p_gap_flag_checksums [   ]
 	= {
@@ -647,7 +647,7 @@ void CSkaterGapComponent::start_gap ( Script::CStruct *pParams, Script::CScript*
 
 	
 	pGap->m_flags = 0;
-	Script::CArray* pArray = NULL;			
+	Script::CArray* pArray = nullptr;			
 	pParams->GetArray(Crc::ConstCRC("flags"), &pArray);
 	if (pArray)
 	{
@@ -732,7 +732,7 @@ void CSkaterGapComponent::start_gap_trick ( Script::CStruct *pParams, Script::CS
 	pParams->GetChecksum(Crc::ConstCRC("GapId"), &gap_id);
 	pGapTrick->m_id = gap_id;
 
-	const char *p_trickString = NULL;
+	const char *p_trickString = nullptr;
 	pParams->GetString(Crc::ConstCRC("TrickText"), &p_trickString);
 	pGapTrick->m_trickString = p_trickString;
 	
@@ -887,7 +887,7 @@ void CSkaterGapComponent::end_gap ( Script::CStruct *pParams, Script::CScript* p
 		}	  			  
 		
 		// handle for continue script parameter
-		Script::CStruct * p_continue = NULL;
+		Script::CStruct * p_continue = nullptr;
 		if (pParams->GetStructure(Crc::ConstCRC("continue"), &p_continue))
 		{
 			start_gap(p_continue, pScript);

@@ -36,7 +36,7 @@ namespace Thread {
 		void*		m_pRpcData;			// ptr to rpc specific data.
 	};
 
-	//inline void				StartThread( HTHREAD hthr, void* arg = NULL )  { ::StartThread( ((PerThreadStruct*)hthr)->m_osId, arg ); }
+	//inline void				StartThread( HTHREAD hthr, void* arg = nullptr )  { ::StartThread( ((PerThreadStruct*)hthr)->m_osId, arg ); }
 	// So you must set up the stack, and the perthreadstruct.
 	HTHREAD CreateThread( PerThreadStruct* pPTS );
 

@@ -73,7 +73,7 @@ namespace Obj
 
 CMovieDetails::CMovieDetails() : Lst::Node<CMovieDetails>( this )
 {
-	mp_exitParams = NULL;
+	mp_exitParams = nullptr;
 
 	// defaults to not skippable
 	m_skippable = false;
@@ -125,7 +125,7 @@ void CMovieDetails::SetParams( Script::CStruct* pParams )
 
 	if ( pParams->GetChecksum( Crc::ConstCRC("exitScript"), &m_exitScript, Script::NO_ASSERT ) )
 	{
-		Script::CStruct* pSubParams = NULL;
+		Script::CStruct* pSubParams = nullptr;
 		if ( pParams->GetStructure( Crc::ConstCRC("exitParams"), &pSubParams, Script::NO_ASSERT ) )
 		{
 			mp_exitParams->AppendStructure( pSubParams );
@@ -170,7 +170,7 @@ void CMovieDetails::Cleanup()
 	{
 //		Dbg_Message( "Running exit script (%s)\n", Script::FindChecksumName(m_exitScript) );
 
-//		Script::RunScript( m_exitScript, mp_exitParams, NULL );
+//		Script::RunScript( m_exitScript, mp_exitParams, nullptr );
 	}
 }
 
@@ -258,7 +258,7 @@ CObjectAnimDetails::CObjectAnimDetails() : CMovieDetails()
 {
 //	Gfx::CBonedAnimFrameData*	mp_frameData;
 	
-	mp_frameData = NULL;
+	mp_frameData = nullptr;
 }
 
 /******************************************************************/
@@ -351,7 +351,7 @@ void CObjectAnimDetails::set_frame_data( Gfx::CBonedAnimFrameData* pFrameData, G
 
 void CObjectAnimDetails::set_movie_length( float duration )
 {
-	mp_frameData = NULL;
+	mp_frameData = nullptr;
 
 	m_animController.PlaySequence( 0, 0.0f, duration, Gfx::LOOPING_HOLD, 0.0f, 1.0f );
 }
@@ -526,7 +526,7 @@ bool CObjectAnimDetails::OverridesCamera()
 
 CSkaterCamDetails::CSkaterCamDetails() : CMovieDetails()
 {
-	mp_frameData = NULL;
+	mp_frameData = nullptr;
 	
 	// defaults to no target
 	m_hasTarget = false;
@@ -669,7 +669,7 @@ void CSkaterCamDetails::set_frame_data( Gfx::CBonedAnimFrameData* pFrameData, Gf
 
 void CSkaterCamDetails::set_movie_length( float duration )
 {
-	mp_frameData = NULL;
+	mp_frameData = nullptr;
 
 	m_animController.PlaySequence( 0, 0.0f, duration, Gfx::LOOPING_HOLD, 0.0f, 1.0f );
 }

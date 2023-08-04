@@ -151,7 +151,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 	// don't add non-minigames in free skate
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	bool free_skate = skate_mod->GetGameMode()->IsTrue( Crc::ConstCRC("is_freeskate") );
-	if ( !CFuncs::ScriptInMultiplayerGame( NULL, NULL ) && free_skate && !pParams->ContainsFlag( Crc::ConstCRC("minigame") ) )
+	if ( !CFuncs::ScriptInMultiplayerGame( nullptr, nullptr ) && free_skate && !pParams->ContainsFlag( Crc::ConstCRC("minigame") ) )
 		return false;
 
 	if ( skate_mod->GetGameMode()->IsTrue( CRCD( 0x353961d7, "is_creategoals" ) ) && !pParams->ContainsFlag( CRCD( 0x981d3ad0, "edited_goal" ) ) )
@@ -163,10 +163,10 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 	pParams->AddChecksum( Crc::ConstCRC("goal_id"), goalId );
 	
 	// figure the type
-	CGoal* pGoal = NULL;
+	CGoal* pGoal = nullptr;
 	if ( pParams->ContainsFlag( Crc::ConstCRC("career_only") ) )
 	{   
-		if( CFuncs::ScriptInMultiplayerGame( NULL, NULL ))
+		if( CFuncs::ScriptInMultiplayerGame( nullptr, nullptr ))
 		{
 			return false;
 		}
@@ -249,7 +249,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 		pGoal->AddChild( childId );
 	}
 	
-	if ( CFuncs::ScriptInMultiplayerGame( NULL, NULL ))
+	if ( CFuncs::ScriptInMultiplayerGame( nullptr, nullptr ))
 	{
 		// SKATE SPECIFIC
 		pGoal->GetParams()->AddString( Crc::ConstCRC("pro"), "NetJudge" );
@@ -286,7 +286,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 		// END SKATE SPECIFIC
 	}
 
-	return ( pGoal != NULL );
+	return ( pGoal != nullptr );
 }
 
 /******************************************************************/
@@ -313,7 +313,7 @@ CGoal* CGoalManager::GetGoal( Script::CStruct* pParams, bool assert )
 	uint32 goalId = GetGoalIdFromParams( pParams, assert );
 	if ( goalId )
 		return GetGoal( goalId, assert );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -324,7 +324,7 @@ CGoal* CGoalManager::GetGoal( Script::CStruct* pParams, bool assert )
 
 CGoal*	CGoalManager::GetGoalByIndex( int index )
 {
-	return m_goalList.GetItemByIndex( index, NULL );
+	return m_goalList.GetItemByIndex( index, nullptr );
 }
 
 /******************************************************************/
@@ -414,7 +414,7 @@ bool CGoalManager::DeactivateGoal( uint32 goalId )
 
  	// TODO:  Maybe add an "AssertOnFail" flag
 
-	return ( pGoal != NULL );
+	return ( pGoal != nullptr );
 }
 
 /******************************************************************/
@@ -502,7 +502,7 @@ bool CGoalManager::WinGoal( uint32 goalId )
 	}
 	*/
 
-	return ( pGoal != NULL );
+	return ( pGoal != nullptr );
 }
 
 /******************************************************************/
@@ -521,7 +521,7 @@ bool CGoalManager::LoseGoal( uint32 goalId )
 		pGoal->Lose();
 	}
 
-	return ( pGoal != NULL );
+	return ( pGoal != nullptr );
 }
 
 /******************************************************************/
@@ -542,7 +542,7 @@ bool CGoalManager::EditGoal( uint32 goalId, Script::CStruct* pParams )
 	
 	// TODO:  Maybe add an "AssertOnFail" flag
 
-	return ( pGoal != NULL );
+	return ( pGoal != nullptr );
 }
 
 /******************************************************************/
@@ -571,7 +571,7 @@ bool CGoalManager::SetGoalTimer( uint32 goalId, int time )
 	
 	// TODO:  Maybe add an "AssertOnFail" flag
 
-	return ( pGoal != NULL );
+	return ( pGoal != nullptr );
 }
 
 /******************************************************************/
@@ -1249,7 +1249,7 @@ bool CGoalManager::CreatedGapGoalIsActive()
 		if (p_goal->IsActive())
 		{
 			Script::CStruct *p_params=p_goal->GetParams();
-			Script::CArray *p_dummy=NULL;
+			Script::CArray *p_dummy=nullptr;
 			if (p_params->GetArray(Crc::ConstCRC("required_gaps"),&p_dummy))
 			{
 				return true;
@@ -1741,7 +1741,7 @@ void CGoalManager::LevelUnload()
 
 void CGoalManager::LevelLoad()
 {
-    Script::CComponent* p_comp = NULL;
+    Script::CComponent* p_comp = nullptr;
     p_comp = mp_goalFlags->GetNextComponent( p_comp );
 
     while ( p_comp )
@@ -1914,8 +1914,8 @@ int CGoalManager::NumGoalsBeatenInLevel( int levelNum, bool count_pro_specific_c
     LevelUnload();
     
     int numbeat = 0;
-    Script::CComponent* p_comp = mp_goalFlags->GetNextComponent( NULL );
-    Script::CComponent* p_next = NULL;
+    Script::CComponent* p_comp = mp_goalFlags->GetNextComponent( nullptr );
+    Script::CComponent* p_next = nullptr;
     while ( p_comp )
     {
         // printf("checking p_comp\n");
@@ -2126,7 +2126,7 @@ void CGoalManager::PlayGoalStream( Script::CStruct* pParams )
 	}
 
 	// check for type
-	const char* type = NULL;
+	const char* type = nullptr;
 	if ( pParams->GetString( Crc::ConstCRC("type"), &type, Script::NO_ASSERT ) )
 	{		
 		pGoal->mp_goalPed->PlayGoalStream( type, pParams );
@@ -2251,7 +2251,7 @@ void CGoalManager::UnBeatAllGoals()
 
 	if ( GetNumActiveGoals() == 0 )
 	{
-		if( CFuncs::ScriptInMultiplayerGame( NULL, NULL ) == false )
+		if( CFuncs::ScriptInMultiplayerGame( nullptr, nullptr ) == false )
 		{
 			Script::RunScript( Crc::ConstCRC("GoalManager_ShowGoalPoints") );
 		}
@@ -2337,7 +2337,7 @@ void CGoalManager::AddViewGoalsList()
 		Dbg_Assert( pGoal );
 		Script::CStruct* pGoalParams = pGoal->GetParams();
 
-		const char* p_view_goals_text = NULL;
+		const char* p_view_goals_text = nullptr;
 		pGoal->GetViewGoalsText( &p_view_goals_text );
 		
 		// skip goals without an associated text (eg, minigames)
@@ -2467,7 +2467,7 @@ void CGoalManager::AddGoalChoices( bool selected_only )
 		CGoal* pGoal = m_goalList.GetItemByIndex( i, (int*)&key );
 		Dbg_Assert( pGoal );
 
-		const char* p_view_goals_text = NULL;
+		const char* p_view_goals_text = nullptr;
 		pGoal->ReplaceTrickText();
 		pGoal->GetViewGoalsText( &p_view_goals_text );
 		
@@ -2492,7 +2492,7 @@ void CGoalManager::AddGoalChoices( bool selected_only )
 			continue;
 		}
 
-		if( GameNet::Manager::ScriptIsHost( NULL, NULL ))
+		if( GameNet::Manager::ScriptIsHost( nullptr, nullptr ))
 		{
 			// if( pGoal->HasSeenGoal() == false )
 			// {
@@ -2587,7 +2587,7 @@ CGoal* CGoalManager::IsInCompetition()
 			return pGoal;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -5456,7 +5456,7 @@ bool ScriptGetGoalAnimations( Script::CStruct* pParams, Script::CScript* pScript
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
-	const char* type = NULL;
+	const char* type = nullptr;
 	pParams->GetString( Crc::ConstCRC("type"), &type, Script::NO_ASSERT );
 
 	CGoalManager* pGoalManager = GetGoalManager();
@@ -6396,7 +6396,7 @@ bool ScriptAnnounceGoalStarted( Script::CStruct* pParams, Script::CScript* pScri
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
 	CGoal* pGoal = pGoalManager->GetGoal( goalId );
-	Dbg_Assert( pGoal != NULL );
+	Dbg_Assert( pGoal != nullptr );
 
 	if( pGoal->IsNetGoal())
 	{
@@ -6958,7 +6958,7 @@ bool ScriptGetTeam( Script::CStruct* pParams, Script::CScript* pScript )
 	pScript->GetParams()->AddStructure( Crc::ConstCRC("team"), pTeam );
 	
 	// throw in the number of team members
-    Script::CComponent* p_comp = NULL;
+    Script::CComponent* p_comp = nullptr;
     p_comp = pTeam->GetNextComponent( p_comp );
 
     int total = 0;

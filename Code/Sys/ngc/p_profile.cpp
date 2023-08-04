@@ -57,7 +57,7 @@ NsProfile::NsProfile ( char * pName )
 {
 	OSInitStopwatch ( &m_watch, pName );
 	m_accumulated = 0;
-	m_pHistoryBuffer = NULL;
+	m_pHistoryBuffer = nullptr;
 }
 
 NsProfile::NsProfile()

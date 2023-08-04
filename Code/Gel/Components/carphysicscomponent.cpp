@@ -133,14 +133,14 @@ void CCarPhysicsComponent::init_car_skeleton()
 {	
 	// Does some sanity checks
 	Obj::CSkeletonComponent* pSkeletonComponent = (Obj::CSkeletonComponent*)(GetObj()->GetComponent( CRC_SKELETON ));
-	Gfx::CSkeleton* pSkeleton = NULL;
+	Gfx::CSkeleton* pSkeleton = nullptr;
 	if ( pSkeletonComponent )
 	{
 		pSkeleton = pSkeletonComponent->GetSkeleton();
 	}
 	
 	Obj::CModelComponent* pModelComponent = (Obj::CModelComponent*)(GetObj()->GetComponent( CRC_MODEL ));
-	Nx::CModel* pModel = NULL;
+	Nx::CModel* pModel = nullptr;
 	if ( pModelComponent )
 	{
 		pModel = pModelComponent->GetModel();

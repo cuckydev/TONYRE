@@ -49,7 +49,7 @@ CMesh::CMesh()
 	m_CASRemovalMask = 0;
 
 	// In case it isn't loaded below the p-line
-	mp_hierarchyObjects = NULL;
+	mp_hierarchyObjects = nullptr;
 	m_numHierarchyObjects = 0;
 }
 
@@ -119,7 +119,7 @@ bool			CMesh::LoadCollision(const char *p_name)
 		uint8 *p_base_face_addr = p_base_intensity_addr + p_header->m_total_num_verts;
 		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+3)) & 0xFFFFFFFC);	// Align to 32 bit boundary
 #else
-		uint8 *p_base_intensity_addr = NULL;
+		uint8 *p_base_intensity_addr = nullptr;
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_verts * Nx::CCollObjTriData::GetVertElemSize());
 		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+15)) & 0xFFFFFFF0);	// Align to 128 bit boundary
 #endif // FIXED_POINT_VERTICES
@@ -145,9 +145,9 @@ bool			CMesh::LoadCollision(const char *p_name)
 		{
 #ifdef __PLAT_NGC__
 			CScene * p_scene = static_cast<CScene*>( (static_cast<CNgcMesh*>( this ))->GetScene() );
-			mp_coll_objects[oidx].InitCollObjTriData(p_scene, p_base_vert_addr, NULL, p_base_face_addr, p_base_node_addr, p_base_face_idx_addr);
+			mp_coll_objects[oidx].InitCollObjTriData(p_scene, p_base_vert_addr, nullptr, p_base_face_addr, p_base_node_addr, p_base_face_idx_addr);
 #else
-			mp_coll_objects[oidx].InitCollObjTriData(NULL, p_base_vert_addr, p_base_intensity_addr, p_base_face_addr,
+			mp_coll_objects[oidx].InitCollObjTriData(nullptr, p_base_vert_addr, p_base_intensity_addr, p_base_face_addr,
 													 p_base_node_addr, p_base_face_idx_addr);
 #endif		// __PLAT_NGC__
 			mp_coll_objects[oidx].InitBSPTree();

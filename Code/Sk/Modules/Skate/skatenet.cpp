@@ -172,7 +172,7 @@ bool		Skate::should_send_update( GameNet::PlayerInfo* send_player, Obj::CObject*
 	
 	// Dont send a client updates on his own skater. He is up to date.
 	skater_player = gamenet_man->GetPlayerByObjectID( object->GetID() );
-	if(	( skater_player == NULL ) ||
+	if(	( skater_player == nullptr ) ||
 		( skater_player == send_player ))
 	{
 		return false;
@@ -739,7 +739,7 @@ int	Skate::handle_score_request( Net::MsgHandlerContext* context )
     
 	msg = (GameNet::MsgEmbedded* ) context->m_Msg;
 	player = gamenet_man->GetPlayerByConnection( context->m_Conn );
-	if( player == NULL )
+	if( player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -779,7 +779,7 @@ int Skate::handle_combo_report( Net::MsgHandlerContext* context )
 	skate_mod = (Skate*) context->m_Data;
 
 	player = gamenet_man->GetPlayerByConnection( context->m_Conn );
-	if( player == NULL )
+	if( player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -830,7 +830,7 @@ int Skate::handle_landed_trick( Net::MsgHandlerContext* context )
 	skate_mod = (Skate*) context->m_Data;
 
 	player = gamenet_man->GetPlayerByConnection( context->m_Conn );
-	if( player == NULL )
+	if( player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -886,7 +886,7 @@ int Skate::handle_enter_vehicle_server( Net::MsgHandlerContext* context )
 	skate_mod = (Skate*) context->m_Data;
 
 	player = gamenet_man->GetPlayerByConnection( context->m_Conn );
-	if( player == NULL )
+	if( player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -911,7 +911,7 @@ int	Skate::handle_msg_relay( Net::MsgHandlerContext* context )
 	orig_player = gamenet_man->GetPlayerByConnection( context->m_Conn );
 
 	// Make sure this is from a current player
-	if( orig_player == NULL )
+	if( orig_player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -976,13 +976,13 @@ int	Skate::handle_selective_msg_relay( Net::MsgHandlerContext* context )
 	orig_player = gamenet_man->GetPlayerByConnection( context->m_Conn );
 
 	// Make sure this is from a current player
-	if( orig_player == NULL )
+	if( orig_player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
 
 	orig_skater = orig_player->m_Skater;
-	if( orig_skater == NULL )
+	if( orig_skater == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -1043,7 +1043,7 @@ int	Skate::handle_script_relay( Net::MsgHandlerContext* context )
 	orig_player = gamenet_man->GetPlayerByConnection( context->m_Conn );
 
 	// Make sure this is from a current player
-	if( orig_player == NULL )
+	if( orig_player == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -1145,7 +1145,7 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
     player = gamenet_man->GetPlayerByConnection( context->m_Conn );
 
 	// Ignore late/foreign updates and update from non-ready/non-existent clients
-	if( ( player == NULL ) || 
+	if( ( player == nullptr ) || 
 		( player->m_Conn->TestStatus( Net::Conn::mSTATUS_READY ) == false ) ||
         ( context->m_PacketFlags & ( Net::mHANDLE_LATE | Net::mHANDLE_FOREIGN )))
 	{
@@ -1211,14 +1211,14 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 	}
 
 	skater = player->m_Skater;
-	if( skater == NULL )
+	if( skater == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
 	
 	index = skater->GetStateHistory()->GetNumPosUpdates() % Obj::CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
 	latest_state = &skater->GetStateHistory()->GetPosHistory()[index];
-	previous_state = NULL;
+	previous_state = nullptr;
     
 	if( skater->GetStateHistory()->GetNumPosUpdates() > 0 )
 	{
@@ -1428,7 +1428,7 @@ int Skate::handle_spawn_run_script( Net::MsgHandlerContext* context )
 	{
 		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjID );
 	
-		pScript = Script::SpawnScript( msg->m_ScriptName, NULL, 0, NULL, msg->m_Node ); // K: The 0,NULL bit means no callback script specified
+		pScript = Script::SpawnScript( msg->m_ScriptName, nullptr, 0, nullptr, msg->m_Node ); // K: The 0,nullptr bit means no callback script specified
 		#ifdef __NOPT_ASSERT__
 		pScript->SetCommentString("Spawned from Skate::handle_spawn_run_script");
 		#endif
@@ -1588,7 +1588,7 @@ int	Skate::handle_projectile( Net::MsgHandlerContext* context )
 
 	msg = (GameNet::MsgProjectile*) context->m_Msg;
 	skater = mod->GetSkaterById( msg->m_Id );
-	if( skater == NULL )
+	if( skater == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -1644,7 +1644,7 @@ int	Skate::handle_enter_vehicle_client( Net::MsgHandlerContext* context )
 
 	msg = (GameNet::MsgEnterVehicle*) context->m_Msg;
 	skater = mod->GetSkaterById( msg->m_Id );
-	if( skater == NULL )
+	if( skater == nullptr )
 	{
 		return Net::HANDLER_MSG_DONE;
 	}
@@ -1666,7 +1666,7 @@ int	Skate::handle_cheat_list( Net::MsgHandlerContext* context )
 	int i;
 
 	Dbg_Printf( "**** HANDLING CHEAT LIST\n" );
-	CFuncs::ScriptClearCheats( NULL, NULL );
+	CFuncs::ScriptClearCheats( nullptr, nullptr );
 
 	msg = (GameNet::MsgEnabledCheats*) context->m_Msg;
 	for( i = 0; i < msg->m_NumCheats; i++ )
@@ -1771,7 +1771,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 			float blend_period;
 
 			skater = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater != NULL,( "Got anim for non-CSkater" ));
+			Dbg_MsgAssert( skater != nullptr,( "Got anim for non-CSkater" ));
 			
 			blend_period = (float) anim_msg.m_BlendPeriod / 4096.0f;
 
@@ -1783,7 +1783,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 
 				anim_player = gamenet_man->GetPlayerByObjectID( obj->GetID() );
 				observed_player = gamenet_man->GetCurrentlyObservedPlayer();
-				if(( observed_player == NULL ) || ( anim_player != observed_player ))
+				if(( observed_player == nullptr ) || ( anim_player != observed_player ))
 				{
 					blend_period = 0.0f;
 				}
@@ -1816,7 +1816,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		if( obj )
 		{   
 			skater = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater != NULL,( "Got anim for non-CSkater" ));
+			Dbg_MsgAssert( skater != nullptr,( "Got anim for non-CSkater" ));
 
 			if( skater )
 			{
@@ -1839,7 +1839,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater != NULL,( "Got anim for non-CSkater" ));
+			Dbg_MsgAssert( skater != nullptr,( "Got anim for non-CSkater" ));
 
 			if( skater )
 			{
@@ -1864,7 +1864,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater != NULL,( "Got anim for non-CSkater" ));
+			Dbg_MsgAssert( skater != nullptr,( "Got anim for non-CSkater" ));
 
 			if( skater )
 			{
@@ -1894,7 +1894,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater != NULL,( "Got anim for non-CSkater" ));
+			Dbg_MsgAssert( skater != nullptr,( "Got anim for non-CSkater" ));
 
 			if( skater )
 			{
@@ -1920,7 +1920,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater != NULL,( "Got anim for non-CSkater" ));
+			Dbg_MsgAssert( skater != nullptr,( "Got anim for non-CSkater" ));
 
 			if( skater )
 			{
@@ -1946,7 +1946,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater != NULL,( "Got anim for non-CSkater" ));
+			Dbg_MsgAssert( skater != nullptr,( "Got anim for non-CSkater" ));
 
 			if( skater )
 			{
@@ -2111,7 +2111,7 @@ int Skate::handle_flip_anim( Net::MsgHandlerContext* context )
 		Obj::CMovingObject* moving_obj;
 	 
 		moving_obj = static_cast< Obj::CMovingObject *> ( obj );
-		Dbg_MsgAssert( moving_obj != NULL,( "Got object update for non-CMovingObj\n" ));
+		Dbg_MsgAssert( moving_obj != nullptr,( "Got object update for non-CMovingObj\n" ));
 		
 		if( moving_obj )
 		{
@@ -2324,13 +2324,13 @@ int Skate::handle_face_data( Net::MsgHandlerContext* context )
 	if( gamenet_man->OnServer())
 	{
 		sender = gamenet_man->GetPlayerByConnection( context->m_Conn );
-		if( sender == NULL )
+		if( sender == nullptr )
 		{
 			return Net::HANDLER_MSG_DONE;
 		}
 		
 		skater = sender->m_Skater;
-		if( skater == NULL ) 
+		if( skater == nullptr ) 
 		{
 			return Net::HANDLER_MSG_DONE;
 		}
@@ -2341,13 +2341,13 @@ int Skate::handle_face_data( Net::MsgHandlerContext* context )
 		face_data_length -= sizeof( char );
 
 		sender = gamenet_man->GetPlayerByObjectID( skater_id );
-		if( sender == NULL )
+		if( sender == nullptr )
 		{
 			return Net::HANDLER_MSG_DONE;
 		}
 		
 		skater = sender->m_Skater;
-		if( skater == NULL ) 
+		if( skater == nullptr ) 
 		{
 			return Net::HANDLER_MSG_DONE;
 		}
@@ -2468,7 +2468,7 @@ int Skate::handle_obs_init_graffiti_state( Net::MsgHandlerContext* context )
 	//
 	// This was never defined, so I commented it out. I just apply it immediately and this
 	// seems to work for now
-	//Script::SpawnScript( "deferred_observer_trick_modulation", pStructure, 0, NULL );
+	//Script::SpawnScript( "deferred_observer_trick_modulation", pStructure, 0, nullptr );
 
 	// pop heap
 	Mem::Manager::sHandle().PopContext();
@@ -2514,7 +2514,7 @@ int	Skate::handle_score_update( Net::MsgHandlerContext* context )
 			Obj::CSkater* skater_obj;
 			
 			skater_obj = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater_obj != NULL,( "Got score update for non-CSkater\n" ));
+			Dbg_MsgAssert( skater_obj != nullptr,( "Got score update for non-CSkater\n" ));
 
 			if(	( mod->GetGameMode()->IsTrue( "should_modulate_color" )) ||
 				( mod->GetGameMode()->ShouldTrackTrickScore() == false ))
@@ -2609,7 +2609,7 @@ int	Skate::handle_score_update( Net::MsgHandlerContext* context )
 				// only print the message if you're competing against someone
 				if(( my_player->m_Skater ) && ( my_player->m_Team == leading_team ))
 				{   
-					Script::RunScript( "NewScoreLeaderYourTeam", NULL, my_player->m_Skater );
+					Script::RunScript( "NewScoreLeaderYourTeam", nullptr, my_player->m_Skater );
 				}
 				else
 				{   
@@ -2633,7 +2633,7 @@ int	Skate::handle_score_update( Net::MsgHandlerContext* context )
 		int score, highest_score, num_players;
 
 		// Do the logic that figures out if there's a new winner and provides feedback
-		leader = NULL;
+		leader = nullptr;
 		highest_score = 0;
 		num_players = 0;
 		for( player = gamenet_man->FirstPlayerInfo( sh ); player;
@@ -2657,7 +2657,7 @@ int	Skate::handle_score_update( Net::MsgHandlerContext* context )
 			else if( score == highest_score )
 			{
 				// A tie doesn't result in the panel message
-				leader = NULL;
+				leader = nullptr;
 			}
 			num_players++;
 		}
@@ -2688,7 +2688,7 @@ int	Skate::handle_score_update( Net::MsgHandlerContext* context )
 				// only print the message if you're competing against someone
 				if( leader->IsLocalPlayer())
 				{   
-					Script::RunScript( Crc::ConstCRC("NewScoreLeaderYou"), NULL, leader->m_Skater );
+					Script::RunScript( Crc::ConstCRC("NewScoreLeaderYou"), nullptr, leader->m_Skater );
 				}
 				else
 				{   
@@ -2728,7 +2728,7 @@ int	Skate::handle_sparks( Net::MsgHandlerContext* context )
 		Obj::CSkater* skater_obj;
 		
 		skater_obj = static_cast< Obj::CSkater *> ( obj );
-		Dbg_MsgAssert( skater_obj != NULL,( "Got sparks message for non-CSkater\n" ));
+		Dbg_MsgAssert( skater_obj != nullptr,( "Got sparks message for non-CSkater\n" ));
 		
 		if( skater_obj )
 		{   
@@ -2770,7 +2770,7 @@ int	Skate::handle_blood( Net::MsgHandlerContext* context )
 		Obj::CSkater* skater_obj;
 
 		skater_obj = static_cast< Obj::CSkater *> ( obj );
-		Dbg_MsgAssert( skater_obj != NULL,( "Got blood message for non-CSkater\n" ));
+		Dbg_MsgAssert( skater_obj != nullptr,( "Got blood message for non-CSkater\n" ));
 		if( skater_obj )
 		{   
 			switch( context->m_MsgId )
@@ -2869,7 +2869,7 @@ int	Skate::handle_start_info( Net::MsgHandlerContext* context )
 	Script::CScriptStructure* pTempStructure = new Script::CScriptStructure;
 	pTempStructure->Clear();
 	pTempStructure->AddComponent( Script::GenerateCRC("level"), ESYMBOLTYPE_NAME, (int)msg->m_LevelId );					
-	Script::RunScript( "request_level", pTempStructure, NULL );
+	Script::RunScript( "request_level", pTempStructure, nullptr );
 	delete pTempStructure;
 
 	Script::RunScript( "leave_front_end" );
@@ -2986,7 +2986,7 @@ int	Skate::handle_start_info( Net::MsgHandlerContext* context )
 	if( ( gamenet_man->InNetGame()) &&
 		( gamenet_man->GetJoinMode() == GameNet::vJOIN_MODE_PLAY ))
 	{
-		if( !CFuncs::ScriptIsObserving( NULL, NULL ))
+		if( !CFuncs::ScriptIsObserving( nullptr, nullptr ))
 		{
 			gamenet_man->SendFaceDataToServer();
 		}
@@ -3112,13 +3112,13 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
 		// Make sure that we actually have this object in our list of objects
 		// Also, reject late/foreign object update messages. We still needed to do all the stream
 		// parsing though because we need to return the length of the message to the dispatcher
-		if( ( obj != NULL ) &&
+		if( ( obj != nullptr ) &&
 			(( context->m_PacketFlags & ( Net::mHANDLE_LATE | Net::mHANDLE_FOREIGN )) == 0 ))
 		{
 			Obj::CSkater* skater_obj;
 			 
 			skater_obj = static_cast< Obj::CSkater *> ( obj );
-			Dbg_MsgAssert( skater_obj != NULL,( "Got object update for non-CSkater\n" ));
+			Dbg_MsgAssert( skater_obj != nullptr,( "Got object update for non-CSkater\n" ));
 												   
 			if( skater_obj )
 			{
@@ -3275,7 +3275,7 @@ void Skate::StartServer( void )
 
 	net_game = false;
 	// prevents fragmentation
-	//CFuncs::ScriptCleanup( NULL, NULL );
+	//CFuncs::ScriptCleanup( nullptr, nullptr );
 	if( gamenet_man->InNetMode())
 	{	
 		net_game = true;
@@ -3283,7 +3283,7 @@ void Skate::StartServer( void )
 	}
 	
 	server = gamenet_man->SpawnServer( !net_game, true );
-	if( server == NULL )
+	if( server == nullptr )
 	{
 		return;
 	}

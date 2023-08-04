@@ -77,8 +77,8 @@ void CFollowOb::GetNewPathPointFromObjectBeingFollowed()
 
 void CFollowOb::CalculatePositionAndOrientation(Mth::Vector *p_pos, Mth::Matrix *p_orientation)
 {
-	Dbg_MsgAssert(p_pos,("NULL p_pos"));
-	Dbg_MsgAssert(p_orientation,("NULL p_orientation"));
+	Dbg_MsgAssert(p_pos,("nullptr p_pos"));
+	Dbg_MsgAssert(p_orientation,("nullptr p_orientation"));
 	
 	if (m_num_path_points<1)
 	{

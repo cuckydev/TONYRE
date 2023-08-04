@@ -212,14 +212,14 @@ void	AuthMan::logon( void )
     // Initiate the login process. XOnlineTaskContinue() is used to poll
     // the status of the login.
     HRESULT hr = XOnlineLogon( user_list, mp_services, vNUM_SERVICES, 
-                               NULL, &mh_online_task );
+                               nullptr, &mh_online_task );
 
-    if( FAILED(hr) || mh_online_task == NULL )
+    if( FAILED(hr) || mh_online_task == nullptr )
     {
-		if( mh_online_task != NULL )
+		if( mh_online_task != nullptr )
 		{
 			hr = XOnlineTaskClose( mh_online_task );
-			mh_online_task = NULL;
+			mh_online_task = nullptr;
 		}        
         m_state = vSTATE_ERROR;
 		m_next_state = vSTATE_WAIT;
@@ -314,7 +314,7 @@ void	AuthMan::check_logon_progress( void )
 		// Check for service errors
 		for( i = 0; i < vNUM_SERVICES; ++i )
 		{
-			if( FAILED( hrService = XOnlineGetServiceInfo( mp_services[i], NULL) ))
+			if( FAILED( hrService = XOnlineGetServiceInfo( mp_services[i], nullptr) ))
 			{
 				success = FALSE;
 				service_err = TRUE;
@@ -368,7 +368,7 @@ void	AuthMan::check_logon_progress( void )
 			}
 
 			XOnlineNotificationSetState( m_chosen_account, player_state,
-                                         XNKID(), 0, NULL );			
+                                         XNKID(), 0, nullptr );			
 		}
 	}
 #	endif
@@ -484,7 +484,7 @@ void	AuthMan::SignOut( void )
 {
 #	if 0
 	XOnlineTaskClose( mh_online_task );
-	mh_online_task = NULL;
+	mh_online_task = nullptr;
 	m_signed_in = false;
 #	endif
 }
@@ -681,9 +681,9 @@ bool	PinEntry::Complete( void )
 void	PinEntry::EndInput( void )
 {
 	delete mp_pin_entry_logic_task;
-	mp_pin_entry_logic_task = NULL;
+	mp_pin_entry_logic_task = nullptr;
 	delete mp_pin_entry_input_handler;
-	mp_pin_entry_input_handler = NULL;
+	mp_pin_entry_input_handler = nullptr;
 
 //	XOnlinePINEndInput( m_pin_input );
 }
@@ -696,7 +696,7 @@ void	PinEntry::EndInput( void )
 BYTE*	PinEntry::GetPin( void )
 {
 //	return m_pin;
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

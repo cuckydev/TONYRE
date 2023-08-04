@@ -203,7 +203,7 @@ CBaseComponent::EMemberFunctionResult CLockObjComponent::CallMemberFunction( uin
 void CLockObjComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CLockObjComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CLockObjComponent::GetDebugInfo"));
 	// we call the base component's GetDebugInfo, so we can add info from the common base component										 
 	CBaseComponent::GetDebugInfo(p_info);	  
 	
@@ -230,7 +230,7 @@ void CLockObjComponent::GetDebugInfo(Script::CStruct *p_info)
 
 CCompositeObject* CLockObjComponent::get_locked_to_object()
 {
-	CCompositeObject* p_obj=NULL;
+	CCompositeObject* p_obj=nullptr;
 	if (m_locked_to_object_id!=CBaseManager::vNO_OBJECT_ID)
 	{
 		p_obj=(CCompositeObject*)Obj::ResolveToObject(m_locked_to_object_id);
@@ -272,7 +272,7 @@ void CLockObjComponent::LockToObject( void )
 	
 	if ( m_locked_to_object_bone_name )
 	{
-		Gfx::CSkeleton* pSkeleton = NULL;
+		Gfx::CSkeleton* pSkeleton = nullptr;
 		if ( p_obj->GetComponent(CRC_SKELETON) )
 		{
 			pSkeleton = GetSkeletonComponentFromObject(p_obj)->GetSkeleton();
@@ -377,7 +377,7 @@ void CLockObjComponent::LockToObject( void )
 	// (suggestion for THPS5...  have a render task
 	// that sends all the matrices to the model after
 	// the object update task has finished...)
-	Nx::CModel* pModel = NULL;
+	Nx::CModel* pModel = nullptr;
 	if ( GetObj()->GetComponent( CRC_MODEL ) )
 	{
 		pModel = ((Obj::CModelComponent*)GetObj()->GetComponent(CRC_MODEL))->GetModel();
@@ -385,7 +385,7 @@ void CLockObjComponent::LockToObject( void )
 	
 	if ( pModel )
 	{
-		Gfx::CSkeleton* pSkeleton = NULL;
+		Gfx::CSkeleton* pSkeleton = nullptr;
 		if ( GetObj()->GetComponent( CRC_SKELETON ) )
 		{
 			pSkeleton = ((Obj::CSkeletonComponent*)GetObj()->GetComponent(CRC_SKELETON))->GetSkeleton();

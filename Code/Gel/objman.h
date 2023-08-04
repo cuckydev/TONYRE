@@ -140,9 +140,9 @@ public :
 								CGeneralManager ( void );
 								~CGeneralManager ( void );
 
-	void						ProcessAllObjects ( Callback* process, void* data = NULL );
+	void						ProcessAllObjects ( Callback* process, void* data = nullptr );
 	void						ProcessAllObjectsOfType ( sint type, Callback* process, 
-														  void* data = NULL );
+														  void* data = nullptr );
 
 	void						DestroyAllObjects ( void );
 	void						DestroyAllObjectsOfType ( sint type );
@@ -270,7 +270,7 @@ inline	void		CGeneralManager::UnlockAllObjects ( void )
 {
    	
 
-	ProcessAllObjects ( SetLockOff, NULL );
+	ProcessAllObjects ( SetLockOff, nullptr );
 }
 
 /******************************************************************/

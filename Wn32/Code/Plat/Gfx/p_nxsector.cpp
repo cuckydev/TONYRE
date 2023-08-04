@@ -17,7 +17,7 @@ namespace Nx
 /*                                                                */
 /******************************************************************/
 
-//CXboxSector::CXboxSector() : mp_init_mesh_list( NULL ), m_mesh_array( NULL ), m_visible( 0xDEADBEEF )
+//CXboxSector::CXboxSector() : mp_init_mesh_list( nullptr ), m_mesh_array( nullptr ), m_visible( 0xDEADBEEF )
 CXboxSector::CXboxSector()
 {
 	m_pos_offset.Set( 0.0f, 0.0f, 0.0f );
@@ -98,21 +98,21 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	MemoryRead( p_vertex_positions, sizeof( float ) * 3, num_vertices, p_data );
 	
 	// Grab a buffer for the raw vertex data normal stream (if present), and read it.
-	float* p_vertex_normals = ( m_flags & 0x04 ) ? new float[num_vertices * 3] : NULL;
+	float* p_vertex_normals = ( m_flags & 0x04 ) ? new float[num_vertices * 3] : nullptr;
 	if( p_vertex_normals )
 	{
 		MemoryRead( p_vertex_normals, sizeof( float ) * 3, num_vertices, p_data );
 	}
 
 	// Grab a buffer for the raw vertex data weights stream (if present), and read it.
-	uint32* p_vertex_weights = ( m_flags & 0x10 ) ? new uint32[num_vertices] : NULL;
+	uint32* p_vertex_weights = ( m_flags & 0x10 ) ? new uint32[num_vertices] : nullptr;
 	if( p_vertex_weights )
 	{
 		MemoryRead( p_vertex_weights, sizeof( uint32 ), num_vertices, p_data );
 	}
 	
 	// Grab a buffer for the raw vertex data bone indices stream (if present), and read it.
-	uint16* p_vertex_bone_indices = ( m_flags & 0x10 ) ? new uint16[num_vertices * 4] : NULL;
+	uint16* p_vertex_bone_indices = ( m_flags & 0x10 ) ? new uint16[num_vertices * 4] : nullptr;
 	if( p_vertex_bone_indices )
 	{
 		MemoryRead( p_vertex_bone_indices, sizeof( uint16 ) * 4, num_vertices, p_data );
@@ -120,7 +120,7 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 
 	// Grab a buffer for the raw vertex texture coordinate stream (if present), and read it.
 	int		num_tc_sets			= 0;
-	float*	p_vertex_tex_coords	= NULL;
+	float*	p_vertex_tex_coords	= nullptr;
 	if( m_flags & 0x01 )
 	{
 		MemoryRead( &num_tc_sets, sizeof( int ), 1, p_data );
@@ -133,14 +133,14 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	}
 	
 	// Grab a buffer for the raw vertex colors stream (if present), and read it.
-	DWORD* p_vertex_colors = ( m_flags & 0x02 ) ? new DWORD[num_vertices] : NULL;
+	DWORD* p_vertex_colors = ( m_flags & 0x02 ) ? new DWORD[num_vertices] : nullptr;
 	if( p_vertex_colors )
 	{
 		MemoryRead( p_vertex_colors, sizeof( DWORD ), num_vertices, p_data );
 	}
 
 	// Grab a buffer for the vertex color wibble stream (if present), and read it.
-	char* p_vc_wibble_indices = ( m_flags & 0x800 ) ? new char[num_vertices] : NULL;
+	char* p_vc_wibble_indices = ( m_flags & 0x800 ) ? new char[num_vertices] : nullptr;
 	if( p_vc_wibble_indices )
 	{
 		MemoryRead( p_vc_wibble_indices, sizeof( char ), num_vertices, p_data );
@@ -185,7 +185,7 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		MemoryRead( &num_lod_index_levels, sizeof( unsigned int ), 1, p_data );
 
 		// Can have up to 8 levels of LOD indices.
-		uint16*	p_indices[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+		uint16*	p_indices[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 		int		num_indices[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		for( unsigned int lod_level = 0; lod_level < num_lod_index_levels; ++lod_level )
@@ -217,7 +217,7 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 							p_geom->mp_scene->GetEngineScene(),
 							p_vertex_bone_indices,
 							p_vertex_weights,
-							( flags & 0x800 ) ? p_vc_wibble_indices : NULL );
+							( flags & 0x800 ) ? p_vc_wibble_indices : nullptr );
 		
 		// Set the bounding data (sphere and box) for the mesh.
 		p_mesh->SetBoundingData( cen, rad, inf, sup );
@@ -348,21 +348,21 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	File::Read( p_vertex_positions, sizeof( float ) * 3, num_vertices, p_file );
 	
 	// Grab a buffer for the raw vertex data normal stream (if present), and read it.
-	float* p_vertex_normals = ( m_flags & 0x04 ) ? new float[num_vertices * 3] : NULL;
+	float* p_vertex_normals = ( m_flags & 0x04 ) ? new float[num_vertices * 3] : nullptr;
 	if( p_vertex_normals )
 	{
 		File::Read( p_vertex_normals, sizeof( float ) * 3, num_vertices, p_file );
 	}
 
 	// Grab a buffer for the raw vertex data weights stream (if present), and read it.
-	uint32* p_vertex_weights = ( m_flags & 0x10 ) ? new uint32[num_vertices] : NULL;
+	uint32* p_vertex_weights = ( m_flags & 0x10 ) ? new uint32[num_vertices] : nullptr;
 	if( p_vertex_weights )
 	{
 		File::Read( p_vertex_weights, sizeof( uint32 ), num_vertices, p_file );
 	}
 	
 	// Grab a buffer for the raw vertex data bone indices stream (if present), and read it.
-	uint16* p_vertex_bone_indices = ( m_flags & 0x10 ) ? new uint16[num_vertices * 4] : NULL;
+	uint16* p_vertex_bone_indices = ( m_flags & 0x10 ) ? new uint16[num_vertices * 4] : nullptr;
 	if( p_vertex_bone_indices )
 	{
 		File::Read( p_vertex_bone_indices, sizeof( uint16 ) * 4, num_vertices, p_file );
@@ -370,7 +370,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 
 	// Grab a buffer for the raw vertex texture coordinate stream (if present), and read it.
 	int		num_tc_sets			= 0;
-	float*	p_vertex_tex_coords	= NULL;
+	float*	p_vertex_tex_coords	= nullptr;
 	if( m_flags & 0x01 )
 	{
 		File::Read( &num_tc_sets, sizeof( int ), 1, p_file );
@@ -383,14 +383,14 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	}
 	
 	// Grab a buffer for the raw vertex colors stream (if present), and read it.
-	DWORD* p_vertex_colors = ( m_flags & 0x02 ) ? new DWORD[num_vertices] : NULL;
+	DWORD* p_vertex_colors = ( m_flags & 0x02 ) ? new DWORD[num_vertices] : nullptr;
 	if( p_vertex_colors )
 	{
 		File::Read( p_vertex_colors, sizeof( DWORD ), num_vertices, p_file );
 	}
 
 	// Grab a buffer for the vertex color wibble stream (if present), and read it.
-	char* p_vc_wibble_indices = ( m_flags & 0x800 ) ? new char[num_vertices] : NULL;
+	char* p_vc_wibble_indices = ( m_flags & 0x800 ) ? new char[num_vertices] : nullptr;
 	if( p_vc_wibble_indices )
 	{
 		File::Read( p_vc_wibble_indices, sizeof( char ), num_vertices, p_file );
@@ -432,7 +432,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		File::Read( &num_lod_index_levels, sizeof( unsigned int ), 1, p_file );
 
 		// Can have up to 8 levels of LOD indices.
-		uint16*	p_indices[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+		uint16*	p_indices[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 		int		num_indices[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		for( unsigned int lod_level = 0; lod_level < num_lod_index_levels; ++lod_level )
@@ -453,7 +453,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		// Set up the mesh.
 		p_mesh->Initialize(	num_vertices,
 							p_vertex_positions,
-							( m_flags & 0x00800000UL ) ? NULL : p_vertex_normals,		// No normals allowed for billboards.
+							( m_flags & 0x00800000UL ) ? nullptr : p_vertex_normals,		// No normals allowed for billboards.
 							p_vertex_tex_coords,
 							num_tc_sets,
 							p_vertex_colors,
@@ -464,7 +464,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 							p_geom->mp_scene->GetEngineScene(),
 							p_vertex_bone_indices,
 							p_vertex_weights,
-							( flags & 0x800 ) ? p_vc_wibble_indices : NULL );
+							( flags & 0x800 ) ? p_vc_wibble_indices : nullptr );
 		
 		// Set the bounding data (sphere and box) for the mesh.
 		p_mesh->SetBoundingData( cen, rad, inf, sup );
@@ -508,7 +508,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 
 	// Test code for creating imposters.
 #	if 0
-	if( p_vertex_weights == NULL )
+	if( p_vertex_weights == nullptr )
 	{
 		char *p_ok_sectors[] = {	"NJ_Houses_North_09",
 									"NJ_Houses_North_10" };
@@ -642,7 +642,7 @@ void CXboxSector::plat_set_active( bool on )
 void CXboxSector::plat_set_color( Image::RGBA rgba )
 {
 /*
-	if( m_mesh_array == NULL )
+	if( m_mesh_array == nullptr )
 	{
 		return;
 	}
@@ -667,7 +667,7 @@ void CXboxSector::plat_set_color( Image::RGBA rgba )
 void CXboxSector::plat_clear_color( void )
 {
 /*
-	if( m_mesh_array == NULL )
+	if( m_mesh_array == nullptr )
 	{
 		return;
 	}

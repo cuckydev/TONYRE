@@ -714,7 +714,7 @@ void CSkaterCareer::WriteIntoStructure(Script::CScriptStructure *pIn)
 					 
 
 	// Thrust the new structure into the passed structure.
-	Dbg_MsgAssert(pIn,("NULL pIn"));
+	Dbg_MsgAssert(pIn,("nullptr pIn"));
 	pIn->AddComponent(Script::GenerateCRC("Career"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pTemp);
 	
 	// Note: The above arrays and structure are not deleted here, because pointers to them have
@@ -726,18 +726,18 @@ void CSkaterCareer::WriteIntoStructure(Script::CScriptStructure *pIn)
 void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 {
 	
-	Dbg_MsgAssert(pIn,("NULL pIn"));
+	Dbg_MsgAssert(pIn,("nullptr pIn"));
 
-	Script::CScriptStructure *pCareer=NULL;
+	Script::CScriptStructure *pCareer=nullptr;
 	pIn->GetStructure("Career",&pCareer);
 	Dbg_MsgAssert(pCareer,("Missing Career structure in structure passed to CSkaterCareer::ReadFromStructure"));
 	
-	Script::CArray *pGoalFlags=NULL;
+	Script::CArray *pGoalFlags=nullptr;
 	pCareer->GetArray("GoalFlags",&pGoalFlags);
 	Dbg_MsgAssert(pGoalFlags,("Missing GoalFlags array in Career structure"));
 	Dbg_MsgAssert(pGoalFlags->GetSize()==8*vMAX_CAREER_LEVELS,("Bad size of %d for goal flags array, expected %d",pGoalFlags->GetSize(),vMAX_CAREER_LEVELS));
 
-	Script::CArray *pLevelFlags=NULL;
+	Script::CArray *pLevelFlags=nullptr;
 	pCareer->GetArray("LevelFlags",&pLevelFlags);
 	Dbg_MsgAssert(pLevelFlags,("Missing LevelFlags array in Career structure"));
 	Dbg_MsgAssert(pLevelFlags->GetSize()==8*vMAX_CAREER_LEVELS,("Bad size of %d for level flags array, expected %d",pGoalFlags->GetSize(),vMAX_CAREER_LEVELS));
@@ -756,7 +756,7 @@ void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 		}
 	}	
 	
-	Script::CArray *pGlobalFlags=NULL;
+	Script::CArray *pGlobalFlags=nullptr;
 	pCareer->GetArray("GlobalFlags",&pGlobalFlags);
 	Dbg_MsgAssert(pGlobalFlags,("Missing GlobalFlags array in Career structure"));
 	Dbg_MsgAssert(pGlobalFlags->GetSize()==vMAX_GLOBAL_FLAGS,("Bad size of %d for global flags array, expected %d",pGlobalFlags->GetSize(),vMAX_GLOBAL_FLAGS));
@@ -765,7 +765,7 @@ void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 		m_global_flags[i]=pGlobalFlags->GetInteger(i);
 	}
 	
-	Script::CArray *pGapChecklists = NULL;
+	Script::CArray *pGapChecklists = nullptr;
 	pCareer->GetArray("GapChecklists",&pGapChecklists);	
 	//Dbg_MsgAssert(pGapChecklists,("Missing Gap checklist in Career structure"));
 	Dbg_MsgAssert(pGapChecklists->GetSize()==vMAX_CAREER_LEVELS,("Bad size of %d for gap checklist array, expected %d",pGapChecklists->GetSize()==vMAX_CAREER_LEVELS));
@@ -782,7 +782,7 @@ void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 			p_gap_struct->GetInteger("valid",&valid,true);
 			if (valid)
 			{
-				Script::CArray *p_gaps=NULL;
+				Script::CArray *p_gaps=nullptr;
 				p_gap_struct->GetArray(Crc::ConstCRC("Gaps"),&p_gaps);
 				Dbg_MsgAssert(p_gaps,("Missing gaps array"));
 				
@@ -791,7 +791,7 @@ void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 				{
 					Script::CStruct *p_struct=p_gaps->GetStructure(gap);
 					
-					const char *p_name = NULL;
+					const char *p_name = nullptr;
 					int count = 0;
 					int score = 0;
 					p_struct->GetString(Crc::ConstCRC("GapName"),&p_name);
@@ -815,7 +815,7 @@ void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 		}
 	}
 
-	Script::CArray* pVisitedLevels = NULL;
+	Script::CArray* pVisitedLevels = nullptr;
 	pCareer->GetArray( "VisitedLevels", &pVisitedLevels, Script::NO_ASSERT );
 	if ( pVisitedLevels )
 	{

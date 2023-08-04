@@ -184,7 +184,7 @@ const char *Card::GetPersonalizedName()
 			for (int i=0; i<len; ++i)
 			{
 				// Force any special characters (arrows or button icons) to be displayed
-				// as the xbox NULL character by changing them to an invalid character.
+				// as the xbox nullptr character by changing them to an invalid character.
 				switch (mp_personalized_name[i])
 				{
 				case '¡': case '¢': case '£': case '¤':
@@ -402,7 +402,7 @@ const char *Card::ConvertDirectory( const char* dir_name )
 		return output_dir;
 	}
 
-	return NULL;
+	return nullptr;
 }	
 
 // Skate3 code, disabled for now.
@@ -665,7 +665,7 @@ int	Card::GetNumFreeClusters( void )
 		ULARGE_INTEGER	uliTotal;
 
 		p_drive[0] = m_mounted_drive_letter;
-		BOOL br		= GetDiskFreeSpaceEx( p_drive, &uliFreeAvail, &uliTotal, NULL );
+		BOOL br		= GetDiskFreeSpaceEx( p_drive, &uliFreeAvail, &uliTotal, nullptr );
 		if( br )
 		{
 			// Each increment of HighPart represents 2^32 bytes, which is (2^32)/16384=262144 blocks.
@@ -724,7 +724,7 @@ File* Card::Open( const char* filename, int mode, int size )
 
 	m_last_error=0;
 	
-	File*	p_file		= NULL;
+	File*	p_file		= nullptr;
 	HANDLE	handle;
 
 	// Seems incoming filenames are of the form /foo/bar etc.
@@ -786,17 +786,17 @@ File* Card::Open( const char* filename, int mode, int size )
 		default:
 		{
 			Dbg_Assert( 0 );
-			return NULL;
+			return nullptr;
 		}
 	}
 
 	handle = CreateFile(	cardFilenameBuffer,							// file name
 							dwDesiredAccess,							// access mode
 							0,											// share mode
-							NULL,										// security attributes
+							nullptr,										// security attributes
 							dwCreationDisposition,						// how to create
 							FILE_ATTRIBUTE_NORMAL,						// file attributes and flags
-							NULL );				                        // handle to template file
+							nullptr );				                        // handle to template file
 
 	if( handle != INVALID_HANDLE_VALUE )
 	{
@@ -821,7 +821,7 @@ File* Card::Open( const char* filename, int mode, int size )
 		}
 	}	
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -916,7 +916,7 @@ int File::Seek( int offset, FilePointerBase base )
 
 	DWORD result = SetFilePointer(	(HANDLE)m_fd,		// handle to file
 									offset,				// bytes to move pointer
-									NULL,				// high-order bytes to move pointer
+									nullptr,				// high-order bytes to move pointer
 									dwMoveMethod );		// starting point
 
 	return result;
@@ -958,7 +958,7 @@ int	File::Write( void* data, int len )
 							data,				// data buffer
 							len,				// number of bytes to write
 							&bytes_written,		// number of bytes written
-							NULL );				// overlapped buffer
+							nullptr );				// overlapped buffer
 							
 //	Skate3 code, disabled for now.
 #	if 0
@@ -996,7 +996,7 @@ int	File::Read( void* buff, int len )
 						buff,					// data buffer
 						len,					// number of bytes to read
 						&bytes_read,			// number of bytes read
-						NULL );					// overlapped buffer
+						nullptr );					// overlapped buffer
 	if( rv )
 	{
 		return (int)bytes_read;

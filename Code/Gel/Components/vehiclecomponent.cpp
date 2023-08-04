@@ -99,7 +99,7 @@ CVehicleComponent::CVehicleComponent() : CBaseComponent()
 {
 	SetType( CRC_VEHICLE );
 	
-	mp_input_component = NULL;
+	mp_input_component = nullptr;
 	
 	m_draw_debug_lines = 0;
 	
@@ -109,7 +109,7 @@ CVehicleComponent::CVehicleComponent() : CBaseComponent()
 	
 	m_skater_pos.Set();
 	
-	mp_wheels = NULL;
+	mp_wheels = nullptr;
 	
 	m_sound_setup_checksum = Crc::ConstCRC("Default");
 	
@@ -340,7 +340,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 	// an array of wheel structures
 	if (pParams->ContainsComponentNamed(Crc::ConstCRC("wheels")))
 	{
-		Script::CArray* p_wheels_array = NULL;
+		Script::CArray* p_wheels_array = nullptr;
 		pParams->GetArray(Crc::ConstCRC("wheels"), &p_wheels_array, Script::ASSERT);
 		
 		Dbg_MsgAssert(!mp_wheels || m_num_wheels == p_wheels_array->GetSize(), ("Changed number of wheels"));
@@ -354,7 +354,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 			
 		for (int n = m_num_wheels; n--; )
 		{
-			Script::CStruct* p_wheel_struct = NULL;
+			Script::CStruct* p_wheel_struct = nullptr;
 			p_wheel_struct = p_wheels_array->GetStructure(n);
 			
 			// see update_wheel_from_structure() for documentation on wheel parameters
@@ -926,7 +926,7 @@ CBaseComponent::EMemberFunctionResult CVehicleComponent::CallMemberFunction( uin
 void CVehicleComponent::GetDebugInfo ( Script::CStruct *p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info, ("NULL p_info sent to CVehicleComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info, ("nullptr p_info sent to CVehicleComponent::GetDebugInfo"));
 	
 	p_info->AddVector("m_pos", m_pos);
 	p_info->AddVector("m_mom", m_mom);

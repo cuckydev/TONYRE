@@ -104,7 +104,7 @@ void dump_heap( void )
 	sprintf(&gMemStatus[64*1], "--------------- ------ ------ ------ ------                    \n");
 	Mem::Heap* heap;
 	int line = 2;
-	for (heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+	for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 	{		
 			Mem::Region* region = heap->ParentRegion();			
 			sprintf( &gMemStatus[64*line], "%12s: %5dK %5dK %5dK   %5d \n",
@@ -296,14 +296,14 @@ void	Heap::free ( BlockHeader* pFreeBlock )
 	if ( ((uint)pFreeBlock + BlockHeader::sSize) == REPORT_ON)
 	{
 		printf ("Freeing 0x%x",REPORT_ON);
-		DumpUnwindStack(20,NULL);
+		DumpUnwindStack(20,nullptr);
 	}
 	#endif
 	#endif
 			  
 			  
-	BlockHeader*	p_before = NULL;
-	BlockHeader*	p_2before = NULL;
+	BlockHeader*	p_before = nullptr;
+	BlockHeader*	p_2before = nullptr;
 	BlockHeader*	p_after = mp_context->mp_free_list;
 
 
@@ -333,8 +333,8 @@ void	Heap::free ( BlockHeader* pFreeBlock )
 		mp_context->mp_used_list = pFreeBlock->mp_next_used;
 	}
 
-	pFreeBlock->mp_prev_used = NULL;
-	pFreeBlock->mp_next_used = NULL;
+	pFreeBlock->mp_prev_used = nullptr;
+	pFreeBlock->mp_next_used = nullptr;
 
 #endif
 
@@ -426,11 +426,11 @@ void	Heap::free ( BlockHeader* pFreeBlock )
 	{
 		if( p_before )
 		{
-			p_before->mpNext = NULL;
+			p_before->mpNext = nullptr;
 		}
 		else
 		{
-			mp_context->mp_free_list = NULL;
+			mp_context->mp_free_list = nullptr;
 		}
 
 
@@ -469,7 +469,7 @@ void	Heap::free ( BlockHeader* pFreeBlock )
 	if (heap->mFreeMem.m_count > 3200*1000)
 	{
 		printf ("\nBottomUp Fragmentation %7dK, in %5d Blocks\n",heap->mFreeMem.m_count / 1024, heap->mFreeBlocks.m_count);
-		DumpUnwindStack(20,NULL);
+		DumpUnwindStack(20,nullptr);
 		MemView_DumpFragments(heap);		
 		Dbg_MsgAssert(0,("Frag"));
 	}
@@ -528,7 +528,7 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 	{
 		static int zeros=0;
 		printf("(%d) Trying to allocate Zero bytes\n", zeros++);
-		DumpUnwindStack(20,NULL);
+		DumpUnwindStack(20,nullptr);
 	}
 	*/	
 	
@@ -538,9 +538,9 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 #endif		// DUMP_HEAP == 1
 
 	BlockHeader* p_header = mp_context->mp_free_list;
-	BlockHeader* p_freeblock = NULL;
-	BlockHeader* p_last = NULL;
-	BlockHeader* p_prev = NULL;
+	BlockHeader* p_freeblock = nullptr;
+	BlockHeader* p_last = nullptr;
+	BlockHeader* p_prev = nullptr;
 
 //	printf ("Trying to allocate %d bytes, current free list = %p\n",size,p_header);							 
 							 
@@ -569,7 +569,7 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 		if ( p_header->mSize >= size )
 #endif
 		{
-			if (( p_freeblock == NULL ) || ( p_freeblock->mSize > p_header->mSize ))
+			if (( p_freeblock == nullptr ) || ( p_freeblock->mSize > p_header->mSize ))
 			{
 				p_prev = p_last;
 				p_freeblock = p_header;
@@ -681,9 +681,9 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 		}
 		else
 		{
-			p_freeblock->mp_next_used = NULL;	 	
+			p_freeblock->mp_next_used = nullptr;	 	
 		}	
-		p_freeblock->mp_prev_used = NULL;	
+		p_freeblock->mp_prev_used = nullptr;	
 
 #ifdef	__PLAT_NGPS__
 #ifndef	__PURE_HEAP__		
@@ -700,7 +700,7 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 		if ( ((uint)p_freeblock + BlockHeader::sSize) == REPORT_ON)
 		{
 			printf ("allocating 0x%x",REPORT_ON);
-			DumpUnwindStack(20,NULL);
+			DumpUnwindStack(20,nullptr);
 		}
 		#endif
 		#endif
@@ -749,7 +749,7 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 		printf("Name            Used  Frag  Free   Blocks\n");
 		printf("--------------- ----- ----- ------ ------\n");
 		Mem::Heap* heap;
-		for (heap = mem_man.FirstHeap(); heap != NULL; heap = mem_man.NextHeap(heap))
+		for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 		{		
 				Mem::Region* region = heap->ParentRegion();			
 				printf( "%12s: %6dK %6dK %6dK   %6d \n",
@@ -765,10 +765,10 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 #endif		// __PLAT_NGC__ 
 
 #ifndef __PLAT_WN32__
-	CFuncs::ScriptDumpHeaps(NULL,NULL);
+	CFuncs::ScriptDumpHeaps(nullptr,nullptr);
 #endif
 
-	return NULL;
+	return nullptr;
 
 }
 
@@ -793,7 +793,7 @@ void* Heap::reallocate_down( size_t newSize, void *pOld )
 	// If it is, then it will merge the two blocks together.
 	// If it is not, it will assert.
 	
-	Dbg_MsgAssert(pOld,("NULL pOld sent to reallocate_down !"));
+	Dbg_MsgAssert(pOld,("nullptr pOld sent to reallocate_down !"));
 	BlockHeader* p_old_block = BlockHeader::sRead( pOld ); 
 	
 #ifdef __EFFICIENT__
@@ -852,8 +852,8 @@ void* Heap::reallocate_down( size_t newSize, void *pOld )
 		mp_context->mp_used_list = p_old_block->mp_next_used;
 	}
 
-	p_old_block->mp_prev_used = NULL;
-	p_old_block->mp_next_used = NULL;
+	p_old_block->mp_prev_used = nullptr;
+	p_old_block->mp_next_used = nullptr;
 #endif
 // Free both blocks, so we can just add one later
 	FreeMemProfile(p_old_block);
@@ -905,7 +905,7 @@ void *Heap::reallocate_up( size_t newSize, void *pOld )
 	// If it is, then it will merge the two blocks together.
 	// If it is not, it will assert.
 	
-	Dbg_MsgAssert(pOld,("NULL pOld sent to reallocate_up !"));
+	Dbg_MsgAssert(pOld,("nullptr pOld sent to reallocate_up !"));
 	BlockHeader* p_old_block = BlockHeader::sRead( pOld ); 
 	
 #ifdef __EFFICIENT__
@@ -938,7 +938,7 @@ void *Heap::reallocate_up( size_t newSize, void *pOld )
 	{
 		// It isn't!
 		free(p_new_block);
-		return NULL;
+		return nullptr;
 	}	
 	
 	// Got this far, so the new block is right above the old.
@@ -972,8 +972,8 @@ void *Heap::reallocate_up( size_t newSize, void *pOld )
 		mp_context->mp_used_list = p_new_block->mp_next_used;
 	}
 
-	p_new_block->mp_prev_used = NULL;
-	p_new_block->mp_next_used = NULL;
+	p_new_block->mp_prev_used = nullptr;
+	p_new_block->mp_next_used = nullptr;
 #endif
 	FreeMemProfile(p_old_block);
 	FreeMemProfile(p_new_block);
@@ -1025,7 +1025,7 @@ void *Heap::reallocate_shrink( size_t newSize, void *pOld )
 	// It creates the new free block by first creating a new used block, then freeing that.
 	// That way, all the merging of free blocks will be taken care of.
 		
-	Dbg_MsgAssert(pOld,("NULL pOld sent to reallocate_up !"));
+	Dbg_MsgAssert(pOld,("nullptr pOld sent to reallocate_up !"));
 	BlockHeader* p_old_block = BlockHeader::sRead( pOld ); 
 
 
@@ -1089,9 +1089,9 @@ void *Heap::reallocate_shrink( size_t newSize, void *pOld )
 	}
 	else
 	{
-		p_new_block->mp_next_used = NULL;	 	
+		p_new_block->mp_next_used = nullptr;	 	
 	}	
-	p_new_block->mp_prev_used = NULL;	
+	p_new_block->mp_prev_used = nullptr;	
 
 #ifdef	__PLAT_NGPS__
 #ifndef	__PURE_HEAP__		

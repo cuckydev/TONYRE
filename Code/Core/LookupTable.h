@@ -86,10 +86,10 @@ public:
 
 	// if any item exists with the same key, replace it
 	bool PutItem(const int &key, _V *item);
-	// gets a pointer to requested item, returns NULL if item not in table
+	// gets a pointer to requested item, returns nullptr if item not in table
 	_V *GetItem(const int &key);
-	// gets a pointer to requested item, returns NULL if item not in table
-	_V *GetItemByIndex(const int &index, int *pKey = NULL);
+	// gets a pointer to requested item, returns nullptr if item not in table
+	_V *GetItemByIndex(const int &index, int *pKey = nullptr);
 	int getSize() {return m_size;}
 
     // removes item from table, calls its destructor if requested
@@ -100,8 +100,8 @@ private:
 	int 				m_size;
 	LookupItem<_V> *	mp_list;		  // first item in list
 	LookupItem<_V> *	mp_last;		  // last item in list
-	LookupItem<_V> *    mp_current;		  // Pointer to current item in this table, NULL if invalid
-	int					m_currentIndex;	  // the index of this item. Only valid if mp_current is not NULL 
+	LookupItem<_V> *    mp_current;		  // Pointer to current item in this table, nullptr if invalid
+	int					m_currentIndex;	  // the index of this item. Only valid if mp_current is not nullptr 
 };
 
 
@@ -161,8 +161,8 @@ private:
 template<class _V> //inline
 LookupItem<_V>::LookupItem()
 {
-    mp_value = NULL;
-	mp_next = NULL;
+    mp_value = nullptr;
+	mp_next = nullptr;
 }
 
 
@@ -171,8 +171,8 @@ template<class _V> //inline
 LookupTable<_V>::LookupTable(int size=0) 
 {
     m_size = 0;
-	mp_list = NULL;
-	mp_current = NULL;	   			// initialized invalid, so we don't try to use it
+	mp_list = nullptr;
+	mp_current = nullptr;	   			// initialized invalid, so we don't try to use it
 }
 
 	
@@ -206,7 +206,7 @@ bool LookupTable<_V>::PutItem(const int &key, _V *item)
 		mp_last->mp_next = pItem;
 	mp_last = pItem;	
 	m_size++;
-	mp_current = NULL;						// no longer valid
+	mp_current = nullptr;						// no longer valid
 	
 	return true;
 }
@@ -219,7 +219,7 @@ _V *LookupTable<_V>::GetItem(const int &key)
     
     
 	LookupItem<_V> *pItem = mp_list;
-	mp_current = NULL;				  			// set invalid now, so if not found, then it will be correctly invalid  	
+	mp_current = nullptr;				  			// set invalid now, so if not found, then it will be correctly invalid  	
 	m_currentIndex = 0;							// index should be 0, for the first item
 	while(pItem)
 	{
@@ -232,11 +232,11 @@ _V *LookupTable<_V>::GetItem(const int &key)
 		pItem = pItem->mp_next;
 	}
     
-	//printf("returning NULL from GetItem()\n");
+	//printf("returning nullptr from GetItem()\n");
 	
 	// warning should be given by calling function, if necessary
     //Dbg_Warning("Item not found in lookup table");
-    return NULL;
+    return nullptr;
 }
 
 
@@ -272,7 +272,7 @@ _V *LookupTable<_V>::GetItemByIndex(const int &index, int *pKey)
 		else
 		{
 			// otherwise, we need to start again, so invalidate mp_current
-			mp_current = NULL;
+			mp_current = nullptr;
 		}
 	}
 
@@ -304,10 +304,10 @@ void LookupTable<_V>::FlushItem(const int &key)
 {
     
 
-	mp_current = NULL;			   					// No longer valid
+	mp_current = nullptr;			   					// No longer valid
     
 	LookupItem<_V> *pItem = mp_list;
-	LookupItem<_V> *prev = NULL; 
+	LookupItem<_V> *prev = nullptr; 
 	while(pItem)
 	{
 		if (pItem->m_key == key)
@@ -344,8 +344,8 @@ void LookupTable<_V>::flushAllItems()
 		delete pItem;
 		pItem = pNext;
 	}
-	mp_list = NULL;
-	mp_current = NULL;	
+	mp_list = nullptr;
+	mp_current = nullptr;	
 	m_size = 0;
 }
 

@@ -181,7 +181,7 @@ CBaseComponent::EMemberFunctionResult CWeaponComponent::CallMemberFunction( uint
 void CWeaponComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CWeaponComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CWeaponComponent::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)
@@ -397,7 +397,7 @@ CCompositeObject* CWeaponComponent::GetCurrentTarget( Mth::Vector& start_pos, Mt
 	}
 
 	// Only targets within the allowed angle will be considered.
-							mp_current_target	= NULL;
+							mp_current_target	= nullptr;
 	float					best_dp				= SPIN_MODULATION_ANGLE;
 	Mth::Vector				best_pos;
 
@@ -469,7 +469,7 @@ CCompositeObject* CWeaponComponent::GetCurrentTarget( Mth::Vector& start_pos, Mt
 		}
 		else
 		{
-			mp_current_target = NULL;
+			mp_current_target = nullptr;
 		}
 	}
 

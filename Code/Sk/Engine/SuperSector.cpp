@@ -100,8 +100,8 @@ Sector::Sector( void )
 
 	m_NumSectors = 0;
 	m_NumCollSectors = 0;
-	m_SectorList = NULL;
-	m_CollSectorList = NULL;
+	m_SectorList = nullptr;
+	m_CollSectorList = nullptr;
 }
 
 /******************************************************************/
@@ -140,8 +140,8 @@ bool	Sector::remove_collision(Nx::CCollStatic *p_coll)
 				m_CollSectorList[copy_idx - 1] = m_CollSectorList[copy_idx];
 			}
 
-			// And put a NULL on the last one (in case it isn't there, yet)
-			m_CollSectorList[m_NumCollSectors - 1] = NULL;
+			// And put a nullptr on the last one (in case it isn't there, yet)
+			m_CollSectorList[m_NumCollSectors - 1] = nullptr;
 
 			return true;
 		}
@@ -486,7 +486,7 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 				}
 				else
 				{
-					p_super_sector->m_CollSectorList = NULL;
+					p_super_sector->m_CollSectorList = nullptr;
 					Mem::Free(pp_old);
 				}
 			}
@@ -565,7 +565,7 @@ void	Manager::ClearCollisionSuperSectors()
 			if( p_super_sector->m_CollSectorList )
 			{   
 				Mem::Free(p_super_sector->m_CollSectorList);
-				p_super_sector->m_CollSectorList = NULL;
+				p_super_sector->m_CollSectorList = nullptr;
 			}
 
 			p_super_sector->m_NumCollSectors = 0;
@@ -656,7 +656,7 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::CBBox& bbox )
 		}
 	}
 	
-	QualCollSectors[qual_sector_idx] = NULL;
+	QualCollSectors[qual_sector_idx] = nullptr;
 	
 	return static_cast< Nx::CCollStatic** >(QualCollSectors);
 }
@@ -796,7 +796,7 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 			}
 
 		}
-		*pp_qual = NULL;
+		*pp_qual = nullptr;
 		return (Nx::CCollStatic**)QualCollSectors;
 	}
 	
@@ -845,7 +845,7 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 	
 	//printf ("(%d,%d) to (%d, %d), checked %d, returning %d\n",start_x_box,start_z_box,end_x_box,end_z_box,checked, passed);                              
 
-	QualCollSectors[qual_sector_idx] = NULL;
+	QualCollSectors[qual_sector_idx] = nullptr;
 	return (Nx::CCollStatic**)QualCollSectors;
 }
 
@@ -859,7 +859,7 @@ Nx::CSector**	Manager::GetIntersectingWorldSectors( Mth::Line &line )
 
 
 	Dbg_MsgAssert(0,("GetIntersectingWorldSectors is an old function"));	
-	return NULL;
+	return nullptr;
 }
 
 

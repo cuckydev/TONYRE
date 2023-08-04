@@ -18,7 +18,7 @@ class CFontManager
 {
 public:
 	static void					sLoadFont(const char *pName, int charSpacing = 0, 
-										  int spaceSpacing = 0, Image::RGBA *pColorTab = NULL,
+										  int spaceSpacing = 0, Image::RGBA *pColorTab = nullptr,
 										  bool isButtonFont = false);
 	static void					sUnloadFont(const char *pName);
 	static Nx::CFont *			sGetFont(const char *pName);
@@ -42,7 +42,7 @@ private:
 			vMAX_NAME_SIZE = 24
 		};
 
-								FontEntry() : mp_font(NULL) { }
+								FontEntry() : mp_font(nullptr) { }
 
 		char					mName[vMAX_NAME_SIZE];
 		Nx::CFont *				mp_font;

@@ -45,7 +45,7 @@ struct SStructScript
 	// will make its own copy of the script data.
 	uint8 *mpScriptTokens;
 	
-	SStructScript() {mNameChecksum=NO_NAME; mpScriptTokens=NULL;}
+	SStructScript() {mNameChecksum=NO_NAME; mpScriptTokens=nullptr;}
 };
 
 class CStruct : public Mem::CPoolable<CStruct>
@@ -54,7 +54,7 @@ class CStruct : public Mem::CPoolable<CStruct>
 	CComponent *mp_components;
     
 	#ifdef __NOPT_ASSERT__ 
-	// The script that created this structure. Only valid (non NULL) if this is 
+	// The script that created this structure. Only valid (non nullptr) if this is 
 	// a mpFunctionParams structure created by a script.
 	// Needed so that if the Get... functions assert they can print info about 
 	// the parent script, eg the line number of the error.
@@ -253,10 +253,10 @@ public:
 	// Used when resolving the <ParamName> syntax.
 	CComponent *FindNamedComponentRecurse(uint32 nameChecksum) const;
 	
-	// If passed NULL this will return the first (leftmost) component.
-	// If passed non-NULL it return the next component (to the right) 
-	// Returns NULL if the passed component is the last component.
-	CComponent *GetNextComponent(CComponent *p_comp=NULL) const;
+	// If passed nullptr this will return the first (leftmost) component.
+	// If passed non-nullptr it return the next component (to the right) 
+	// Returns nullptr if the passed component is the last component.
+	CComponent *GetNextComponent(CComponent *p_comp=nullptr) const;
 
 	// Returns true if this structure contains p_struct as a substructure anywhere.
 	// This is used in CScript::set_script, to determine whether clearing a structure

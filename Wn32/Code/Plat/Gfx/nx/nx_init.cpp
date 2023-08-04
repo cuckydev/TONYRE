@@ -62,7 +62,7 @@ void InitialiseRenderstates( void )
 	{
 		EngineGlobals.uv_addressing[stage]		= 0x00000000UL;
 		EngineGlobals.mip_map_lod_bias[stage]	= 0x00000000UL;
-		EngineGlobals.p_texture[stage]			= NULL;
+		EngineGlobals.p_texture[stage]			= nullptr;
 		EngineGlobals.min_mag_filter[stage]		= 0x00010000UL;
 		EngineGlobals.color_sign[stage]			= 0x00000000UL;
 
@@ -325,7 +325,7 @@ void InitialiseEngine( void )
 	
 	if( D3D_OK != Direct3D_CreateDevice(	D3DADAPTER_DEFAULT,
 											D3DDEVTYPE_HAL,
-											NULL,
+											nullptr,
 											D3DCREATE_HARDWARE_VERTEXPROCESSING,	// Note: may want to consider adding the PUREDEVICE flag here also.
 											&params,
 											&EngineGlobals.p_Device ))
@@ -413,7 +413,7 @@ void FatalFileError( uint32 error )
 	}
 
 	// Ensure the graphics device has been initialised at this point.
-	if( EngineGlobals.p_Device == NULL )
+	if( EngineGlobals.p_Device == nullptr )
 	{
 		InitialiseEngine();
 	}
@@ -453,11 +453,11 @@ void FatalFileError( uint32 error )
 	error_text.m_xscale		= 0.8f;
 	error_text.m_yscale		= 1.0f;
 	error_text.m_rgba		= 0x80808080;
-	error_text.mp_next		= NULL;
+	error_text.mp_next		= nullptr;
 
-	set_texture( 1, NULL );
-	set_texture( 2, NULL );
-	set_texture( 3, NULL );
+	set_texture( 1, nullptr );
+	set_texture( 2, nullptr );
+	set_texture( 3, nullptr );
 
 	// Want an infinite loop here.
 	while( true )
@@ -465,10 +465,10 @@ void FatalFileError( uint32 error )
 		D3DDevice_Swap( D3DSWAP_DEFAULT );
 
 		// Now that the swap instruction has been pushed, clear the buffer for next frame.
-		D3DDevice_Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x00000000, 1.0f, 0 );
+		D3DDevice_Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x00000000, 1.0f, 0 );
 
 		set_blend_mode( vBLEND_MODE_BLEND );
-		set_texture( 0, NULL );
+		set_texture( 0, nullptr );
 
 		set_render_state( RS_UVADDRESSMODE0,	0x00010001UL );
 		set_render_state( RS_ZBIAS,				0 );

@@ -89,8 +89,8 @@ union InstanceNodeBlock
 **								 Private Data								**
 *****************************************************************************/
 
-static ClassNodeBlock*		spClassNodeFreeList = NULL;
-static InstanceNodeBlock*	spInstanceNodeFreeList = NULL;
+static ClassNodeBlock*		spClassNodeFreeList = nullptr;
+static InstanceNodeBlock*	spInstanceNodeFreeList = nullptr;
 
 
 /*****************************************************************************
@@ -319,7 +319,7 @@ void	default_trap( char* message )
 {
 //	uint*	ptr = reinterpret_cast< uint* >( 0x00000001 );
 //
-//	*ptr = NULL;
+//	*ptr = nullptr;
 
 	snPause();
 }

@@ -91,8 +91,8 @@ public:
 
 	CNamedHeapInfo()
 	{
-		mp_region = NULL;
-		mp_heap = NULL;
+		mp_region = nullptr;
+		mp_heap = nullptr;
 		m_name = 0;
 		m_used = false;
 	}
@@ -119,11 +119,11 @@ public:
 	void						PushContext( Allocator* alloc );
 	void						PopContext( void );
 
-	void*						New( size_t size, bool assert_on_fail = true, Allocator* pAlloc = NULL );
+	void*						New( size_t size, bool assert_on_fail = true, Allocator* pAlloc = nullptr );
 	int							Available();
-	void*						ReallocateDown( size_t newSize, void *pOld, Allocator* pAlloc = NULL );
-	void*						ReallocateUp( size_t newSize, void *pOld, Allocator* pAlloc = NULL );
-	void*						ReallocateShrink( size_t newSize, void *pOld, Allocator* pAlloc = NULL );
+	void*						ReallocateDown( size_t newSize, void *pOld, Allocator* pAlloc = nullptr );
+	void*						ReallocateUp( size_t newSize, void *pOld, Allocator* pAlloc = nullptr );
+	void*						ReallocateShrink( size_t newSize, void *pOld, Allocator* pAlloc = nullptr );
 	void						Delete( void* pAddr );
 	bool						Valid( void* pAddr );
 	size_t						GetAllocSize( void* pAddr );
@@ -322,7 +322,7 @@ void*	Calloc( size_t numObj, size_t sizeObj );
 
 void	PushMemProfile(char *p_type);
 void	PopMemProfile();
-void	DumpMemProfile(int level, char *p_type=NULL);
+void	DumpMemProfile(int level, char *p_type=nullptr);
 void	AllocMemProfile(Allocator::BlockHeader* p_block);
 void	FreeMemProfile(Allocator::BlockHeader* p_block);
 

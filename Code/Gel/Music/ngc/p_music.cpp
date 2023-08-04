@@ -60,15 +60,15 @@ extern AudSimplePlayer audio_player;
 //extern bool g_in_cutscene;
 
 // Info about last 8 reads.
-static DVDFileInfo* last_fileInfo[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-static void * last_addr[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }; 
+static DVDFileInfo* last_fileInfo[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+static void * last_addr[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr }; 
 static s32 last_length[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 static s32 last_offset[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 // Callback will happen 8 frames later.
-DVDCallback last_callback[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };  
+DVDCallback last_callback[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };  
 s32 last_callback_length[8] = { 0, 0, 0, 0, 0, 0, 0, 0 }; 
-DVDFileInfo* last_callback_fileInfo[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+DVDFileInfo* last_callback_fileInfo[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 int last_callback_counter[8] = { -1, -1, -1, -1, -1, -1, -1, -1 }; 
 
 namespace Pcm
@@ -162,7 +162,7 @@ struct sDSPADPCM
 FileStreamInfo		gStreamInfo[NUM_STREAMS];
 int					gPcmStatus					= 0;
 unsigned int		gStreamVolume				= 100;
-File::SHed*			gpStreamHed					= NULL;
+File::SHed*			gpStreamHed					= nullptr;
 int					stream_base[3];
 int					stream_size[3];
 static char			stream_0_mem[STREAM_BUFFER_SIZE + STREAM_BUFFER_HEADER_SIZE] __attribute__((aligned( 32 )));	// Must be 32 for DVD.
@@ -528,7 +528,7 @@ static void s_start_voice_callback( u32 pointerToARQRequest )
 	}
 
 	// Deal with the voice already having been deleted.
-	if( gStreamInfo[stream].p_voice == NULL )
+	if( gStreamInfo[stream].p_voice == nullptr )
 	{
 		return;
 	}
@@ -538,7 +538,7 @@ static void s_start_voice_callback( u32 pointerToARQRequest )
 	gStreamInfo[stream].paused				= streamsPaused;
 	if( !streamsPaused && !gStreamInfo[stream].preloadActive )
 	{
-		if( gStreamInfo[stream].p_voice == NULL )
+		if( gStreamInfo[stream].p_voice == nullptr )
 		{
 			Dbg_Assert( 0 );
 			return;			
@@ -603,7 +603,7 @@ static void s_dvd_callback( s32 result, DVDFileInfo* fileInfo )
 			// This should be the case.
 			AXFreeVoice( gStreamInfo[stream].p_voice );
 		}
-		gStreamInfo[stream].p_voice			= NULL;
+		gStreamInfo[stream].p_voice			= nullptr;
 		gStreamInfo[stream].preloadActive	= false;
 		gStreamInfo[stream].currentFileInfo	= ( gStreamInfo[stream].currentFileInfo + 1 ) & 0x07;
 		OSRestoreInterrupts( enabled );
@@ -615,7 +615,7 @@ static void s_dvd_callback( s32 result, DVDFileInfo* fileInfo )
 
 	// Check if has already been stopped.
 	AXVPB* p_axvpb = gStreamInfo[stream].p_voice;
-	if( p_axvpb == NULL )
+	if( p_axvpb == nullptr )
 	{
 		return;
 	}
@@ -793,7 +793,7 @@ static void s_dvd_callback( s32 result, DVDFileInfo* fileInfo )
 							(u32)( stream_mem_buffer[stream] ),						// Source address.
 							stream_base[stream] + gStreamInfo[stream].offsetInARAM,	// Destination address.
 							STREAM_BUFFER_SIZE,										// Transfer length (bytes). Must be multiple of 4.
-							NULL );													// DMA complete callback function.
+							nullptr );													// DMA complete callback function.
 
 			// Increment the ARAM offset and wrap when appropriate.
 			gStreamInfo[stream].offsetInARAM += STREAM_BUFFER_SIZE;
@@ -1527,7 +1527,7 @@ int PCMAudio_Update( void )
 				// Playback on this voice has ended, so free up the voice.
 				int enabled = OSDisableInterrupts();
 				AXFreeVoice( gStreamInfo[i].p_voice );
-				gStreamInfo[i].p_voice = NULL;
+				gStreamInfo[i].p_voice = nullptr;
 				gStreamInfo[i].currentFileInfo = ( gStreamInfo[i].currentFileInfo + 1 ) & 0x07;
 				OSRestoreInterrupts( enabled );
 
@@ -1578,12 +1578,12 @@ uint32 PCMAudio_FindNameFromChecksum( uint32 checksum, int ch )
 	else
 	{
 		// Don't use the music hed file.
-		return NULL;
+		return nullptr;
 	}
 
 	if( !pHed )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	File::SHedFile* pHedFile = File::FindFileInHedUsingChecksum( checksum, pHed );
@@ -1591,7 +1591,7 @@ uint32 PCMAudio_FindNameFromChecksum( uint32 checksum, int ch )
 	{
 		return pHedFile->Checksum;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1778,7 +1778,7 @@ void PCMAudio_StopStream( int whichStream, bool waitPlease )
 	{
 		int enabled = OSDisableInterrupts();
 		AXFreeVoice( gStreamInfo[whichStream].p_voice );
-		gStreamInfo[whichStream].p_voice			= NULL;
+		gStreamInfo[whichStream].p_voice			= nullptr;
 		gStreamInfo[whichStream].currentFileInfo	= ( gStreamInfo[whichStream].currentFileInfo + 1 ) & 0x07;
 		OSRestoreInterrupts( enabled );
 
@@ -2098,7 +2098,7 @@ bool PCMAudio_LoadStreamHeader( const char *nameOfFile )
 	if( gpStreamHed )
 	{
 		Mem::Free( gpStreamHed );
-		gpStreamHed = NULL;
+		gpStreamHed = nullptr;
 	}
 
 	gpStreamHed = File::LoadHed( nameOfFile );

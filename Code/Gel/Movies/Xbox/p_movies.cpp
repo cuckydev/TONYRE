@@ -81,7 +81,7 @@ float	textureWidth				= 640.0f;
 float	textureHeight				= 480.0f;
 float	playbackWidthScale			= 1.0f;
 float	playbackHeightScale			= 1.0f;
-HBINK	playbackBinkHandle			= NULL;
+HBINK	playbackBinkHandle			= nullptr;
 
 DWORD	cullMode;
 DWORD	multisampleAntialias;
@@ -132,7 +132,7 @@ LPDIRECT3DTEXTURE8 openPlaybackImage( uint32 width, uint32 height )
 		return p_texture_surface;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -153,7 +153,7 @@ void closePlaybackImage( LPDIRECT3DTEXTURE8 p_image )
 		Dbg_Assert( refcount == 0 );
 	}
 
-	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, nullptr );
 }
 
 
@@ -190,7 +190,7 @@ static void decompressFrame( HBINK bink, LPDIRECT3DTEXTURE8 p_image, bool copy_a
 // Blit a 3D image onto the render target.
 void blitImage( LPDIRECT3DTEXTURE8 p_image, float x_offset, float y_offset, float x_scale, float y_scale, float alpha_level )
 {
-	if( p_image == NULL )
+	if( p_image == nullptr )
 	{
 		return;
 	}
@@ -205,7 +205,7 @@ void blitImage( LPDIRECT3DTEXTURE8 p_image, float x_offset, float y_offset, floa
 	NxWn32::set_pixel_shader( PixelShader4 );
 
 	// Select the texture.
-	NxWn32::set_texture( 0, NULL );
+	NxWn32::set_texture( 0, nullptr );
 	NxWn32::set_texture( 0, p_image );
 
 	// Setup up the vertices.
@@ -266,12 +266,12 @@ static void showFrame( HBINK bink, LPDIRECT3DTEXTURE8 p_image )
 
 static bool sDebounceCheck(uint16 *p_debounceFlags, uint8 *p_data, uint16 mask)
 {
-	if (p_data==NULL)
+	if (p_data==nullptr)
 	{
 		return false;
 	}
 		
-	Dbg_MsgAssert(p_debounceFlags,("NULL p_debounceFlags"));
+	Dbg_MsgAssert(p_debounceFlags,("nullptr p_debounceFlags"));
 	
 	uint16 data=(p_data[2]<<8)|p_data[3];
 	if ((data & mask)==0)
@@ -327,7 +327,7 @@ void PMovies_PlayMovie( const char* pName )
 	Pcm::StopStreams();
 	
 	playbackBinkHandle = BinkOpen( name_conversion_buffer, 0 );
-	if( playbackBinkHandle == NULL )
+	if( playbackBinkHandle == nullptr )
 	{
 		// Movie not there, just quit.
 		return;
@@ -447,7 +447,7 @@ void PMovies_PlayMovie( const char* pName )
 
 	closePlaybackImage( p_image );
 	BinkClose( playbackBinkHandle );
-	playbackBinkHandle = NULL;
+	playbackBinkHandle = nullptr;
 
 	// Switch the presentation interval bacl to what it was.
 	D3DDevice_SetRenderState( D3DRS_PRESENTATIONINTERVAL, presentation_interval );

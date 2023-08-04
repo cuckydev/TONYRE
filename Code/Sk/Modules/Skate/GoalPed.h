@@ -25,7 +25,7 @@ public:
 	
 	void		 		GetPlayerFirstName( char* p_first_name, int buffer_size );
 	const char*			GetProFirstName();
-	bool				GetStreamChecksum( uint32* p_streamChecksum, int cam_anim_index = -1, bool success = false, const char* p_speaker_name = NULL, bool last_anim = false);
+	bool				GetStreamChecksum( uint32* p_streamChecksum, int cam_anim_index = -1, bool success = false, const char* p_speaker_name = nullptr, bool last_anim = false);
 	void				LoadFam( uint32 stream_checksum, uint32 reference_checksum );
 	void				UnloadLastFam();
 	void				StopLastStream();

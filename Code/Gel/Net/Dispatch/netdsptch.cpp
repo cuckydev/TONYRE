@@ -158,7 +158,7 @@ int	Dispatcher::DispatchMsgHandlers( Conn *conn, int flags )
 	int result;
 	char *data;
 
-	Dbg_Assert( conn != NULL );	
+	Dbg_Assert( conn != nullptr );	
 
 	msg_context.m_Conn = conn;
 	msg_context.m_App = conn->m_app;

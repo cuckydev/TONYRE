@@ -57,13 +57,13 @@ CSkaterNonLocalNetLogicComponent::CSkaterNonLocalNetLogicComponent() : CBaseComp
 {
 	SetType( CRC_SKATERNONLOCALNETLOGIC );
 	
-	mp_state_history_component = NULL;
-	mp_state_component = NULL;
-	mp_endrun_component = NULL;
-	mp_animation_component = NULL;
-	mp_model_component = NULL;
-	mp_flip_and_rotate_component = NULL;
-	mp_shadow_component = NULL;
+	mp_state_history_component = nullptr;
+	mp_state_component = nullptr;
+	mp_endrun_component = nullptr;
+	mp_animation_component = nullptr;
+	mp_model_component = nullptr;
+	mp_flip_and_rotate_component = nullptr;
+	mp_shadow_component = nullptr;
 	m_last_pos_index = 0;
 	m_interp_pos = Mth::Vector( 0, 0, 0 );
 	m_old_interp_pos = Mth::Vector( 0, 0, 0 );
@@ -248,7 +248,7 @@ CBaseComponent::EMemberFunctionResult CSkaterNonLocalNetLogicComponent::CallMemb
 
 void CSkaterNonLocalNetLogicComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterNonLocalNetLogicComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterNonLocalNetLogicComponent::GetDebugInfo"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 }
@@ -422,14 +422,14 @@ CRailNode*	CSkaterNonLocalNetLogicComponent::travel_on_rail( CRailNode* start_no
 
 	const CRailNode* pStart = start_node;
 	const CRailNode* pEnd = pStart->GetNextLink();
-	if( pEnd == NULL )
+	if( pEnd == nullptr )
 	{
 		Dbg_MsgAssert(pEnd,("NonLocal Skater on Rail node (%d) with no next link\n",start_node->GetNode()));
-		return NULL;
+		return nullptr;
 	}
 	
 	//const CRailNode* pFrom = pStart;
-	const CRailNode* pOnto = NULL;
+	const CRailNode* pOnto = nullptr;
 	
 	Mth::Vector	dir = p_rail_man->GetPos(pEnd) - p_rail_man->GetPos(pStart);
 	float segment_length = dir.Length();
@@ -658,7 +658,7 @@ CRailNode*	CSkaterNonLocalNetLogicComponent::travel_on_rail( CRailNode* start_no
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return start_node;
@@ -796,7 +796,7 @@ void CSkaterNonLocalNetLogicComponent::extrapolate_rail_position( void )
 			}
 			
 			// If we grinded off a rail, use standard extrapolation instead.
-			if( start_node == NULL )
+			if( start_node == nullptr )
 			{
 				GetObj()->m_pos = m_interp_pos;
 				extrapolate_position();
@@ -1130,7 +1130,7 @@ void CSkaterNonLocalNetLogicComponent::interpolate_client_position (   )
 					GameNet::PlayerInfo* player;
                     
 					GetSkater()->AddToCurrentWorld();
-					Script::RunScript( "NetIdle", NULL, GetObj() );
+					Script::RunScript( "NetIdle", nullptr, GetObj() );
 					//Hide( false );
 					player = gamenet_man->GetPlayerByObjectID( GetObj()->GetID() );
 					Dbg_Assert( player );

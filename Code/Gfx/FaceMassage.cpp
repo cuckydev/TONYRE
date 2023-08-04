@@ -72,7 +72,7 @@ void SetDefaultFacePoints(SFacePoints* pFacePoints)
 // copy over default face points
 SFacePoints		CFaceTexMassager::s_model_face_points = s_default_face_points;
 
-CTexture *		CFaceTexMassager::sp_face_texture_overlay = NULL;
+CTexture *		CFaceTexMassager::sp_face_texture_overlay = nullptr;
 
 /******************************************************************/
 /*                                                                */
@@ -379,10 +379,10 @@ bool GetFacePointsStruct(SFacePoints &face_points, Script::CStruct *p_struct)
 {
 	Dbg_Assert(p_struct);
 
-	Script::CArray *p_left_eye = NULL;
-	Script::CArray *p_right_eye = NULL;
-	Script::CArray *p_nose = NULL;
-	Script::CArray *p_lips = NULL;
+	Script::CArray *p_left_eye = nullptr;
+	Script::CArray *p_right_eye = nullptr;
+	Script::CArray *p_nose = nullptr;
+	Script::CArray *p_lips = nullptr;
 
 	// Left eye
 	p_struct->GetArray( Crc::ConstCRC("left_eye"), &p_left_eye );
@@ -463,7 +463,7 @@ bool ScriptSetModelFaceTexturePoints(Script::CStruct *pParams, Script::CScript *
 {
 	SFacePoints face_points;
 
-	Script::CStruct *pFacePointsStruct = NULL;
+	Script::CStruct *pFacePointsStruct = nullptr;
 	pParams->GetStructure("face_points", &pFacePointsStruct);
 
 	if (pFacePointsStruct)
@@ -519,7 +519,7 @@ bool ScriptMassageFaceTexture(Script::CStruct *pParams, Script::CScript *pScript
 		bool palette_gen = true;
 		SFacePoints face_points;
 
-		Script::CStruct *pFacePointsStruct = NULL;
+		Script::CStruct *pFacePointsStruct = nullptr;
 		pParams->GetStructure(Crc::ConstCRC("face_points"), &pFacePointsStruct);
 
 		if (pParams->ContainsFlag(Crc::ConstCRC("no_palette_gen")))
@@ -560,7 +560,7 @@ bool ScriptAdjustFaceTextureToModel(Script::CStruct *pParams, Script::CScript *p
 	{
 		SFacePoints face_points;
 
-		Script::CStruct *pFacePointsStruct = NULL;
+		Script::CStruct *pFacePointsStruct = nullptr;
 		pParams->GetStructure(Crc::ConstCRC("face_points"), &pFacePointsStruct);
 
 		if (pFacePointsStruct)
@@ -596,7 +596,7 @@ bool ScriptAdjustFaceTextureColors(Script::CStruct *pParams, Script::CScript *pS
 	{
 		SFacePoints face_points;
 
-		Script::CStruct *pFacePointsStruct = NULL;
+		Script::CStruct *pFacePointsStruct = nullptr;
 		pParams->GetStructure(Crc::ConstCRC("face_points"), &pFacePointsStruct);
 
 		if (pFacePointsStruct)

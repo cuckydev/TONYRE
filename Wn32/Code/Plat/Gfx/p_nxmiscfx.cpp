@@ -356,7 +356,7 @@ void plat_screen_flash_render( sScreenFlashDetails *p_details )
 	}
 	else	
 	{
-		NxWn32::set_texture( 0, NULL );
+		NxWn32::set_texture( 0, nullptr );
 	}
 	
 	NxWn32::set_blend_mode( NxWn32::vBLEND_MODE_BLEND );
@@ -640,8 +640,8 @@ bool plat_texture_splat( Nx::CSector **pp_sectors, Nx::CCollStatic **pp_collisio
 	
 	// Pointer to the mesh we will be modifying. (Don't want to set the pointer up until we know for
 	// sure that we will be adding some polys).
-	sXboxSplatInstanceDetails	*p_details		= NULL;
-	sXboxSplatVert				*p_target_verts	= NULL;
+	sXboxSplatInstanceDetails	*p_details		= nullptr;
+	sXboxSplatVert				*p_target_verts	= nullptr;
 
 	Nx::CSector *p_sector;
 
@@ -732,7 +732,7 @@ bool plat_texture_splat( Nx::CSector **pp_sectors, Nx::CCollStatic **pp_collisio
 						
 						// Get a pointer to the mesh used for rendering texture splats with the given texture.
 						// (Note this will create a new instance to handle texture splats of this texture if one does not already exist).
-						if( p_target_verts == NULL )
+						if( p_target_verts == nullptr )
 						{
 							CXboxTexture *p_xbox_texture	= static_cast<CXboxTexture*>( p_texture );
 							p_details						= getDetailsForTextureSplat( p_xbox_texture->GetEngineTexture());

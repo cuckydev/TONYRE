@@ -105,8 +105,8 @@ Signature*		current_sig;
 *****************************************************************************/
 
 #ifdef	__NOPT_DEBUG__
-Project*		RegisteredProjects = NULL;
-Module*			RegisteredModules = NULL;
+Project*		RegisteredProjects = nullptr;
+Module*			RegisteredModules = nullptr;
 #endif
 /*****************************************************************************
 **							  Private Prototypes							**

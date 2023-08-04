@@ -445,8 +445,8 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 // script
 
-	void	JumpToScript(uint32 ScriptChecksum, Script::CStruct *pParams=NULL);
-	void	JumpToScript(const char *pScriptName, Script::CStruct *pParams=NULL);
+	void	JumpToScript(uint32 ScriptChecksum, Script::CStruct *pParams=nullptr);
+	void	JumpToScript(const char *pScriptName, Script::CStruct *pParams=nullptr);
 
 protected :
 	

@@ -215,7 +215,7 @@ protected:
 public:	
 	void 				AllocateScriptIfNeeded();
 	
-	void 				debug_validate_smart_pointers(CSmtPtr<CObject> *pPtrToCheckForInclusion = NULL);
+	void 				debug_validate_smart_pointers(CSmtPtr<CObject> *pPtrToCheckForInclusion = nullptr);
 	void				MarkAsDead( void );			// Safe kill called from within the object's logic
 
 	CBaseManager *			GetManager() const	{return mp_manager;}	// just for exception component stuff
@@ -268,13 +268,13 @@ public:
 	// parent objects' scripts
 	void				SwitchScript( uint32 scriptChecksum, Script::CStruct *pParams );
 	Script::CScript*	SpawnScriptPlease( uint32 scriptChecksum, Script::CStruct *pParams, int Id = 0, bool pause_with_object = false );
-	void				SpawnAndRunScript( uint32 ScriptChecksum, int node = -1, bool net_script = false, bool permanent = false, Script::CStruct *p_params = NULL );
-	void				SpawnAndRunScript( const char *pScriptName, int node = -1, bool net_script = false, bool permanent = false, Script::CStruct *p_params = NULL );
+	void				SpawnAndRunScript( uint32 ScriptChecksum, int node = -1, bool net_script = false, bool permanent = false, Script::CStruct *p_params = nullptr );
+	void				SpawnAndRunScript( const char *pScriptName, int node = -1, bool net_script = false, bool permanent = false, Script::CStruct *p_params = nullptr );
 
 	void				CallScript( uint32 ScriptChecksum, Script::CStruct *pParams );
 
-	void 				SelfEvent(uint32 event, Script::CStruct *pData = NULL);
-	void				BroadcastEvent(uint32 event, Script::CStruct *pData = NULL, float radius = 0.0f);
+	void 				SelfEvent(uint32 event, Script::CStruct *pData = nullptr);
+	void				BroadcastEvent(uint32 event, Script::CStruct *pData = nullptr, float radius = 0.0f);
 	
 protected:
 	Lst::Node< CObject >	m_node;
@@ -302,8 +302,8 @@ private:
 **							   Public Prototypes							**
 *****************************************************************************/
 
-void		DestroyIfUnlocked ( CObject* obj, void* data = NULL );
-void		SetLockOff ( CObject* obj, void* data = NULL );
+void		DestroyIfUnlocked ( CObject* obj, void* data = nullptr );
+void		SetLockOff ( CObject* obj, void* data = nullptr );
 CObject *	ResolveToObject(uint32 id);
 
 /*****************************************************************************

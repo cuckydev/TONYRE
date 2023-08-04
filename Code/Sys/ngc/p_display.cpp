@@ -211,7 +211,7 @@ typedef struct Queue_
  * Local variables.																*
  ********************************************************************************/
 
-void	(*pIconCallback)( void )	= NULL;
+void	(*pIconCallback)( void )	= nullptr;
 
 static NsDisplay_Queue	RenderQ;				// Queue for frames in FIFO
 static NsDisplay_Queue	DoneQ;					// Queue for frames finished already
@@ -262,8 +262,8 @@ static NsDisplay_QItem	queue_front			( NsDisplay_Queue *q );
 static GXBool			queue_empty			( NsDisplay_Queue *q );
 static u32				queue_length		( NsDisplay_Queue *q );
 
-static NsDisplay_StartRenderingCallback	startCB = NULL;
-static NsDisplay_EndRenderingCallback	endCB = NULL;
+static NsDisplay_StartRenderingCallback	startCB = nullptr;
+static NsDisplay_EndRenderingCallback	endCB = nullptr;
 
 
 /********************************************************************************
@@ -576,7 +576,7 @@ void NsDisplay::init( void )
 	Dbg_MsgAssert ( initCount == 0, ( "Display module can only be instanced once.\nThis is the 2nd instance of this class.\n" ) );
 	initCount++;
 
-	hwInit(NULL);		// Init the OS, game pad, graphics and  video.
+	hwInit(nullptr);		// Init the OS, game pad, graphics and  video.
 
 
 
@@ -767,7 +767,7 @@ void NsDisplay::end ( bool clear )
 
     // Create new render queue item
     qitm.writePtr = tmp_write;
-    qitm.dataPtr = NULL;        // pointer to frame-related user data
+    qitm.dataPtr = nullptr;        // pointer to frame-related user data
     qitm.copyXFB = copyXFB;
     
     // Technically, you can work this such that you don't
@@ -873,7 +873,7 @@ void NsDisplay::setBackgroundColor ( GXColor color )
  *	Method:																		*
  *				setRenderStartCallback											*
  *	Inputs:																		*
- *				pCB	The callback to set - NULL means no callback.				*
+ *				pCB	The callback to set - nullptr means no callback.				*
  *	Output:																		*
  *				<none>															*
  *	Description:																*
@@ -894,7 +894,7 @@ void NsDisplay::setRenderStartCallback ( NsDisplay_StartRenderingCallback pCB )
  *	Method:																		*
  *				setRenderEndCallback											*
  *	Inputs:																		*
- *				pCB	The callback to set - NULL means no callback.				*
+ *				pCB	The callback to set - nullptr means no callback.				*
  *	Output:																		*
  *				<none>															*
  *	Description:																*
@@ -942,7 +942,7 @@ void NsDisplay::flush ( void )
 //
 //		// Create new render queue item
 //		qitm.writePtr = tmp_write;
-//		qitm.dataPtr = NULL;        // pointer to frame-related user data
+//		qitm.dataPtr = nullptr;        // pointer to frame-related user data
 //		qitm.copyXFB = copyXFB;
 //
 //		// Technically, you can work this such that you don't
@@ -1142,7 +1142,7 @@ void NsDisplay::doReset( bool hard_reset, bool forceMenu )
 	_color( (GXColor){0,128,0,255} );
 	Pcm::PCMAudio_StopMusic( true );
 //#ifndef DVDETH
-//	DTKFlushTracks( NULL );
+//	DTKFlushTracks( nullptr );
 //#endif		// DVDETH
 
 	_color( (GXColor){0,0,128,255} );
@@ -1728,8 +1728,8 @@ bool ScriptNgc_Message(Script::CScriptStructure *pParams, Script::CScript *pScri
 {
 	NxNgc::SText message;
 	Nx::CFont * p_cfont;
-	const char * p_font_name = NULL;
-	const char * p_text = NULL;
+	const char * p_font_name = nullptr;
+	const char * p_text = nullptr;
 
 	if ( !pParams->GetString( "font", &p_font_name ) ) return false;
 	if ( !pParams->GetString( "text", &p_text ) ) return false;
@@ -1813,7 +1813,7 @@ bool ScriptNgc_Menu(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
 	NxNgc::SText message;
 	Nx::CFont * p_cfont;
-	const char * p_font_name = NULL;
+	const char * p_font_name = nullptr;
 	int items = 0;
 	const char * p_item;
 	char buf[32];
@@ -1845,7 +1845,7 @@ bool ScriptNgc_Menu(Script::CScriptStructure *pParams, Script::CScript *pScript)
 
 		for ( int lp = 0; lp < items; lp++ )
 		{
-			p_item = NULL;
+			p_item = nullptr;
 			sprintf( buf, "item%d", lp );
 			pParams->GetString( buf, &p_item );
 
@@ -1892,7 +1892,7 @@ bool ScriptNgc_Set480P(Script::CScriptStructure *pParams, Script::CScript *pScri
 {
 	OSSetProgressiveMode(1);
 	NxNgc::EngineGlobals.use_480p = true;
-	hwReInit( NULL );
+	hwReInit( nullptr );
 
 	// Must display screen saying that progressive mode has been set.
 	for ( int lp = 0; lp < 240; lp++ )
@@ -1939,7 +1939,7 @@ bool ScriptNgc_Set60Hz(Script::CScriptStructure *pParams, Script::CScript *pScri
 {
 	OSSetEuRgb60Mode(1);
 	NxNgc::EngineGlobals.use_60hz = true;
-	hwReInit( NULL );
+	hwReInit( nullptr );
 
 	hwGXInit();
     VIConfigure(rmode);

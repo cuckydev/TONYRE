@@ -81,7 +81,7 @@ int CSkeletonAsset::Unload()                     // Unload the asset
 	if ( pData )
 	{
         delete pData;
-        SetData(NULL);
+        SetData(nullptr);
 	}
 	return 0;
 }
@@ -103,7 +103,7 @@ int CSkeletonAsset::Reload( const char *p_file )
 	
 bool CSkeletonAsset::LoadFinished()
 {
-	Dbg_MsgAssert( GetData(), ( "LoadFinished(): Data pointer NULL (load probably was never started)" ) );
+	Dbg_MsgAssert( GetData(), ( "LoadFinished(): Data pointer nullptr (load probably was never started)" ) );
 
 	// Since we don't support async, this is always true
 	return true;

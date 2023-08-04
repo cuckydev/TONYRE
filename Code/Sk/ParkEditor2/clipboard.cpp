@@ -55,13 +55,13 @@ static void s_rotate_map_vector(int *p_x, int *p_z, Mth::ERot90 rotation)
 
 CClipboardEntry::CClipboardEntry()
 {
-	mpMeta=NULL;
-	mpConcreteMeta=NULL;
+	mpMeta=nullptr;
+	mpConcreteMeta=nullptr;
 	mX=mY=mZ=0;
 	mWidth=0;
 	mLength=0;
 	m_rot=Mth::ROT_0;
-	mpNext=NULL;
+	mpNext=nullptr;
 }
 
 CClipboardEntry::~CClipboardEntry()
@@ -75,7 +75,7 @@ void CClipboardEntry::DestroyMeta()
 	{
 		mpConcreteMeta->MarkUnlocked();
 		CParkManager::sInstance()->DestroyConcreteMeta(mpConcreteMeta, CParkManager::mDONT_DESTROY_PIECES_ABOVE);
-		mpConcreteMeta=NULL;
+		mpConcreteMeta=nullptr;
 	}
 }
 
@@ -300,7 +300,7 @@ void CClipboardEntry::ShowMeta(uint8 centre_x, int raiseAmount, uint8 centre_z, 
 	// Create the concrete meta if it does not exist already.
 	if (!mpConcreteMeta)
 	{
-		Dbg_MsgAssert(mpMeta,("NULL mpMeta ?"));
+		Dbg_MsgAssert(mpMeta,("nullptr mpMeta ?"));
 		mpConcreteMeta=CParkManager::sInstance()->CreateConcreteMeta(mpMeta,true);
 		mpConcreteMeta->MarkLocked();
 	}	
@@ -338,8 +338,8 @@ bool CClipboardEntry::CreateGapFillerPieces()
 	//printf("y=%d Meta=%s\n",mY,Script::FindChecksumName(mpMeta->GetNameChecksum()));
 
 	bool ran_out_of_memory=false;
-	CClipboardEntry *p_new_list=NULL;
-	CClipboardEntry *p_last_in_list=NULL;
+	CClipboardEntry *p_new_list=nullptr;
+	CClipboardEntry *p_last_in_list=nullptr;
 	for (int y=mY; y>0; --y)
 	{
 		if (Mem::CPoolable<CClipboardEntry>::SGetNumUsedItems()==
@@ -394,15 +394,15 @@ bool CClipboardEntry::CreateGapFillerPieces()
 	
 CClipboard::CClipboard()
 {
-	mp_entries=NULL;
+	mp_entries=nullptr;
 	m_min_x=m_min_z=255;
 	m_max_x=m_max_z=0;
 	
-	mpNext=NULL;
+	mpNext=nullptr;
 	m_area.SetXYZ(0,0,0);
 	m_area.SetWHL(0,0,0);
 	
-	mp_rails=NULL;
+	mp_rails=nullptr;
 }
 
 CClipboard::~CClipboard()
@@ -419,7 +419,7 @@ void CClipboard::delete_entries()
 		delete p_entry;
 		p_entry=p_next;
 	}	
-	mp_entries=NULL;
+	mp_entries=nullptr;
 	
 	m_min_x=m_min_z=255;
 	m_max_x=m_max_z=0;
@@ -441,7 +441,7 @@ void CClipboard::delete_entries()
 		delete p_rail;
 		p_rail=p_next;
 	}
-	mp_rails=NULL;
+	mp_rails=nullptr;
 }
 
 void CClipboard::update_extents(uint8 x, uint8 z)
@@ -467,7 +467,7 @@ void CClipboard::update_extents(uint8 x, uint8 z)
 // Returns false if it fails due to running out of space on the CClipboardEntry pool
 bool CClipboard::AddMeta(CConcreteMetaPiece *p_meta, int raiseAmount)
 {
-	Dbg_MsgAssert(p_meta,("NULL p_meta"));
+	Dbg_MsgAssert(p_meta,("nullptr p_meta"));
 
 	GridDims dims=p_meta->GetArea();
 	dims.SetXYZ(dims.GetX(),dims.GetY()+raiseAmount,dims.GetZ());
@@ -566,7 +566,7 @@ bool CClipboard::AddHeight(int x, int y, int z)
 	p_entry=mp_entries;
 	while (p_entry)
 	{
-		if (p_entry->mpMeta==NULL &&
+		if (p_entry->mpMeta==nullptr &&
 			p_entry->mX <= x && x < p_entry->mX+p_entry->mWidth &&
 			p_entry->mZ <= z && z < p_entry->mZ+p_entry->mLength)
 		{
@@ -588,7 +588,7 @@ bool CClipboard::AddHeight(int x, int y, int z)
 
 	CClipboardEntry *p_new_entry=new CClipboardEntry;
 
-	p_new_entry->mpMeta = NULL;
+	p_new_entry->mpMeta = nullptr;
 
 	p_new_entry->mX=x;
 	p_new_entry->mY=y;
@@ -711,7 +711,7 @@ bool CClipboard::CopySelectionToClipboard(GridDims area)
 	}
 
 
-	Dbg_MsgAssert(mp_rails==NULL,("Expected mp_rails=NULL"));
+	Dbg_MsgAssert(mp_rails==nullptr,("Expected mp_rails=nullptr"));
 	Mth::Vector corner_pos;
 	Mth::Vector area_dims;
 	corner_pos=Ed::CParkManager::Instance()->GridCoordinatesToWorld(area,&area_dims);

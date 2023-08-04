@@ -88,7 +88,7 @@ namespace File
 #define IOP_TO_EE_BUFFER_ALLIGNMENT				64
 
 // Static globals:
-static void				*gFilesysIOPStreamBuffer = NULL;
+static void				*gFilesysIOPStreamBuffer = nullptr;
 //static char				*gIOPToEEBuffer;
 	   unsigned int		gWadLSN = 0;          // Made global for p_AsyncFilesystem
 static bool				gQuickFileSystemInitialzed = false;
@@ -174,7 +174,7 @@ skyFile* lock_skyfile( void )
 
 	// if we get here, that means that all the sky files were locked
 	Dbg_MsgAssert( 0, ( "Trying to open too many files simultaneously (max=%d)", max_open_files ) );
-	return NULL;
+	return nullptr;
 }
 
 void unlock_skyfile( skyFile* pSkyFile )
@@ -206,7 +206,7 @@ static	int32			s_open_files = 0;
 
 // The header file (SKATE4.hed) used for looking up where files are within
 // SKATE4.wad
-SHed *gpHed=NULL;		// Made global for p_AsyncFilesystem
+SHed *gpHed=nullptr;		// Made global for p_AsyncFilesystem
 static int WadId=-1;
 
 /*****************************************************************************
@@ -536,21 +536,21 @@ static void* cdFopen(const char *fname, const char *access)
 	SHedFile *pHd=FindFileInHed(fname, gpHed);
 	if (!pHd)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	skyFile *fp = lock_skyfile();
 
 	if (!fp)
 	{
-		return (NULL);
+		return (nullptr);
 	}
 
 	int mode = skyTransMode(access);
 	if (!mode)
 	{
 		unlock_skyfile( fp );
-		return (NULL);
+		return (nullptr);
 	}
 
 	fp->pFilename=fname;
@@ -559,7 +559,7 @@ static void* cdFopen(const char *fname, const char *access)
 	fp->POS=0;
 	fp->gdfs=0;
 #if ASYNC_HOST_FILESYS
-	fp->p_async_file = NULL;
+	fp->p_async_file = nullptr;
 #endif
 	/* Initialise the buffer to show nothing buffered */
 	fp->bufferPos = READBUFFERSIZE;
@@ -788,7 +788,7 @@ static char * cdFgets(char *buffer, int maxLen, void *fptr)
 {
 	
 	Dbg_MsgAssert(0,("fgets not done yet"));
-	return NULL;
+	return nullptr;
 }
 
 static int cdFputs( const char *buffer, void *fptr)
@@ -840,13 +840,13 @@ static void* skyFopen(const char *fname, const char *access)
 
 	if (!fp)
 	{
-		return (NULL);
+		return (nullptr);
 	}
 
 	mode = skyTransMode(access);
 	if (!mode)
 	{
-		return (NULL);
+		return (nullptr);
 	}
 
 #if ASYNC_HOST_FILESYS
@@ -855,7 +855,7 @@ static void* skyFopen(const char *fname, const char *access)
 	if (!fp->p_async_file)
 	{
 		unlock_skyfile( fp );
-		return (NULL);
+		return (nullptr);
 	}
 
 	// Get file size (will come up with better way)
@@ -899,7 +899,7 @@ static void* skyFopen(const char *fname, const char *access)
 	if (fp->gdfs < 0)
 	{
 		unlock_skyfile( fp );
-		return (NULL);
+		return (nullptr);
 	}
 
 	/* We seek to the end of the file to get size */
@@ -908,7 +908,7 @@ static void* skyFopen(const char *fname, const char *access)
 	{
 		sceClose(fp->gdfs);
 		unlock_skyfile( fp );
-		return (NULL);
+		return (nullptr);
 	}
 	/* SCE_CREAT & !SCE_TRUNC mean seek to end of file */
 	if (!((mode & SCE_CREAT) && !(mode & SCE_TRUNC)))
@@ -920,7 +920,7 @@ static void* skyFopen(const char *fname, const char *access)
 			sceClose(fp->gdfs);
 			unlock_skyfile( fp );
 			
-			return (NULL);
+			return (nullptr);
 		}
 	}
 #endif
@@ -951,7 +951,7 @@ static int skyFclose( void* fptr )
 	{
 #if ASYNC_HOST_FILESYS
 		CAsyncFileLoader::sClose(fp->p_async_file);
-		fp->p_async_file = NULL;
+		fp->p_async_file = nullptr;
 #else
 		sceClose( fp->gdfs );
 #endif
@@ -1204,7 +1204,7 @@ static char * skyFgets(char *buffer, int maxLen, void *fptr)
 
 	if (numBytesRead == 0)
 	{
-		return (NULL);
+		return (nullptr);
 	}
 
 	while (i < numBytesRead)
@@ -1240,7 +1240,7 @@ static char * skyFgets(char *buffer, int maxLen, void *fptr)
 	}
 
 	/*
-	 * Don't return NULL because we could have read maxLen bytes
+	 * Don't return nullptr because we could have read maxLen bytes
 	 * without finding a \n
 	 */
 	return (buffer);
@@ -1318,7 +1318,7 @@ static int skyFflush( void* )
 long GetFileSize(void *pFP)
 {
 	
-	Dbg_MsgAssert(pFP,("NULL pFP sent to GetFileSize"));
+	Dbg_MsgAssert(pFP,("nullptr pFP sent to GetFileSize"));
 
 #if ASYNC_HOST_FILESYS
 	skyFile      *fp = (skyFile *)pFP;
@@ -1341,7 +1341,7 @@ long GetFileSize(void *pFP)
 long GetFilePosition(void *pFP)
 {
 	
-	Dbg_MsgAssert(pFP,("NULL pFP sent to GetFilePosition"));
+	Dbg_MsgAssert(pFP,("nullptr pFP sent to GetFilePosition"));
 
     if (PreMgr::sPreEnabled())
     {
@@ -1355,7 +1355,7 @@ long GetFilePosition(void *pFP)
 
 float GetPercentageRead(void *pFP)
 {
-	Dbg_MsgAssert(pFP,("NULL pFP sent to GetPercentageRead"));
+	Dbg_MsgAssert(pFP,("nullptr pFP sent to GetPercentageRead"));
 
 
     if (PreMgr::sPreEnabled())
@@ -1514,9 +1514,9 @@ void UninstallFileSystem( void )
 	if (Config::CD())
 	{
 		// Free the hed file buffer.
-		Dbg_MsgAssert(gpHed,("NULL gpHed ?"));
+		Dbg_MsgAssert(gpHed,("nullptr gpHed ?"));
 		Mem::Free(gpHed);
-		gpHed=NULL;
+		gpHed=nullptr;
 		
 		Dbg_MsgAssert(WadId>=0,("Bad WadId"));
 		sceClose(WadId);

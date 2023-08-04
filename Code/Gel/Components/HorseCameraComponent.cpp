@@ -264,7 +264,7 @@ CBaseComponent::EMemberFunctionResult CHorseCameraComponent::CallMemberFunction(
 /******************************************************************/
 void CHorseCameraComponent::GetDebugInfo(Script::CStruct *p_info)
 {
-	Dbg_MsgAssert(p_info,("NULL p_info sent to C......Component::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to C......Component::GetDebugInfo"));
 	
 	p_info->AddChecksum("mp_subject", mp_subject->GetID());
 

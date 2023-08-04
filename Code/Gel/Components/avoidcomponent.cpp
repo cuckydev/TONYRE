@@ -673,7 +673,7 @@ CBaseComponent::EMemberFunctionResult CAvoidComponent::CallMemberFunction( uint3
 void CAvoidComponent::GetDebugInfo( Script::CStruct* p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to C......Component::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to C......Component::GetDebugInfo"));
 
 	// Add any script components to the p_info structure,
 	// and they will be displayed in the script debugger (qdebug.exe)

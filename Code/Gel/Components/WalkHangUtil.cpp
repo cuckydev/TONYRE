@@ -1187,7 +1187,7 @@ bool CWalkComponent::find_next_rail ( float& along_rail_factor, const CRailNode*
 	
 	Dbg_Assert(along_rail_factor < 0.0f || along_rail_factor > 1.0f);
 	
-	const CRailNode* next_rail_node = NULL;
+	const CRailNode* next_rail_node = nullptr;
 	if (along_rail_factor < 0.0f)
 	{
 		// look for a connection

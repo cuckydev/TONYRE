@@ -132,12 +132,12 @@ void			Manager::process_handlers( const Tsk::Task< Manager >& task )
 		if( ( manager.m_server[i].m_data_in ) &&
 			( manager.m_server[i].m_data_in >= manager.m_server[i].m_data_in_end ))
 		{
-			manager.m_server[i].m_data_in = NULL;
+			manager.m_server[i].m_data_in = nullptr;
 		}
 		if( ( manager.m_server[i].m_data_out ) &&
 			( manager.m_server[i].m_data_out >= manager.m_server[i].m_data_out_end ))
 		{
-			manager.m_server[i].m_data_out = NULL;
+			manager.m_server[i].m_data_out = nullptr;
 		}
 		
         manager.m_server[i].service_handlers();

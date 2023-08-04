@@ -250,9 +250,9 @@ float CAnimChannel::GetCurrentAnimTime( void )
 
 void CAnimChannel::GetAnimTimes(float *pStart, float *pCurrent, float *pEnd)
 {
-  	Dbg_MsgAssert( pStart, ("NULL pStart") );
-	Dbg_MsgAssert( pCurrent, ("NULL pCurrent") );
-	Dbg_MsgAssert( pEnd, ("NULL pEnd") );
+  	Dbg_MsgAssert( pStart, ("nullptr pStart") );
+	Dbg_MsgAssert( pCurrent, ("nullptr pCurrent") );
+	Dbg_MsgAssert( pEnd, ("nullptr pEnd") );
 
 	*pCurrent = m_currentTime;
 	
@@ -418,7 +418,7 @@ void CAnimChannel::PlaySequence( uint32 anim_name, float start_time, float end_t
 void CAnimChannel::GetDebugInfo( Script::CStruct* p_info )
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert( p_info, ( "NULL p_info sent to CAnimChannel::GetDebugInfo" ) );
+	Dbg_MsgAssert( p_info, ( "nullptr p_info sent to CAnimChannel::GetDebugInfo" ) );
 
 	// put the name first
 	p_info->AddChecksum( "m_animName", m_animName );

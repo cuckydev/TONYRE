@@ -36,7 +36,7 @@ CSkaterRotateComponent::CSkaterRotateComponent() : CBaseComponent()
 {
 	SetType( CRC_SKATERROTATE );
 	
-	mp_core_physics_component = NULL;
+	mp_core_physics_component = nullptr;
 }
 
 /******************************************************************/
@@ -250,7 +250,7 @@ CBaseComponent::EMemberFunctionResult CSkaterRotateComponent::CallMemberFunction
 void CSkaterRotateComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-	Dbg_MsgAssert(p_info,("NULL p_info sent to CSkaterRotateComponent::GetDebugInfo"));
+	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterRotateComponent::GetDebugInfo"));
 	
 	Script::CArray* p_rotations_array = new Script::CArray;
 	p_rotations_array->SetSizeAndType(3, ESYMBOLTYPE_STRUCTURE);

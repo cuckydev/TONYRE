@@ -12,8 +12,8 @@
 namespace NxWn32
 {
 
-static Mth::Matrix	*pLastBoneTransforms	= NULL;
-CInstance			*pFirstInstance			= NULL;
+static Mth::Matrix	*pLastBoneTransforms	= nullptr;
+CInstance			*pFirstInstance			= nullptr;
 
 
 /******************************************************************/
@@ -28,9 +28,9 @@ static int sort_by_bone_transform( const void *p1, const void *p2 )
 	Mth::Matrix *p_mat1			= p_mesh1->GetBoneTransforms();
 	Mth::Matrix *p_mat2			= p_mesh2->GetBoneTransforms();
 	
-	if(( p_mat1 == NULL ) || ( p_mesh1->GetScene()->m_numHierarchyObjects > 0 ))
+	if(( p_mat1 == nullptr ) || ( p_mesh1->GetScene()->m_numHierarchyObjects > 0 ))
 	{
-		if(( p_mat2 == NULL ) || ( p_mesh2->GetScene()->m_numHierarchyObjects > 0 ))
+		if(( p_mat2 == nullptr ) || ( p_mesh2->GetScene()->m_numHierarchyObjects > 0 ))
 		{
 			int num_st1 = p_mesh1->GetScene()->m_num_semitransparent_mesh_entries;
 			int num_st2 = p_mesh2->GetScene()->m_num_semitransparent_mesh_entries;
@@ -55,7 +55,7 @@ static int sort_by_bone_transform( const void *p1, const void *p2 )
 		}
 		return 1;
 	}
-	else if(( p_mat2 == NULL ) || ( p_mesh2->GetScene()->m_numHierarchyObjects > 0 ))
+	else if(( p_mat2 == nullptr ) || ( p_mesh2->GetScene()->m_numHierarchyObjects > 0 ))
 	{
 		return -1;
 	}
@@ -84,8 +84,8 @@ static int sort_by_bone_transform( const void *p1, const void *p2 )
 void render_instance( CInstance* p_instance, uint32 flags )
 {
 /*
-	// Seed the static pointer off to NULL, otherwise if there is only one object with bone transforms, it will never update.
-	pLastBoneTransforms = NULL;
+	// Seed the static pointer off to nullptr, otherwise if there is only one object with bone transforms, it will never update.
+	pLastBoneTransforms = nullptr;
 
 	if( p_instance->GetActive())
 	{
@@ -107,7 +107,7 @@ void render_instance( CInstance* p_instance, uint32 flags )
 
 		if( render )
 		{
-			if( p_instance->GetBoneTransforms() != NULL )
+			if( p_instance->GetBoneTransforms() != nullptr )
 			{
 				startup_weighted_mesh_vertex_shader();
 				p_instance->Render( vRENDER_OPAQUE | vRENDER_SEMITRANSPARENT );
@@ -121,7 +121,7 @@ void render_instance( CInstance* p_instance, uint32 flags )
 
 		// Restore world transform to identity.
 		D3DDevice_SetTransform( D3DTS_WORLD, &EngineGlobals.world_matrix );
-		set_frustum_bbox_transform( NULL );
+		set_frustum_bbox_transform( nullptr );
 	}
 */
 }
@@ -141,8 +141,8 @@ void render_instances( uint32 flags )
 	Mth::Matrix t;
 	t.Identity();
 	
-	// Seed the static pointer off to NULL, otherwise if there is only one object with bone transforms, it will never update.
-	pLastBoneTransforms = NULL;
+	// Seed the static pointer off to nullptr, otherwise if there is only one object with bone transforms, it will never update.
+	pLastBoneTransforms = nullptr;
 	
 	// First go through and build a list of the visible instances.
 	CInstance *p_instance = pFirstInstance;
@@ -191,7 +191,7 @@ void render_instances( uint32 flags )
 		startup_weighted_mesh_vertex_shader();
 		for( ; i < current_index; ++i )
 		{
-			if(( p_instances[i]->GetBoneTransforms() == NULL ) || ( p_instances[i]->GetScene()->m_numHierarchyObjects > 0 ))
+			if(( p_instances[i]->GetBoneTransforms() == nullptr ) || ( p_instances[i]->GetScene()->m_numHierarchyObjects > 0 ))
 				break;
 
 			if(( flags & vRENDER_OPAQUE ) || (( flags & vRENDER_SEMITRANSPARENT ) && ( flags & vRENDER_INSTANCE_PRE_WORLD_SEMITRANSPARENT )))
@@ -235,7 +235,7 @@ void render_instances( uint32 flags )
 
 	// Restore world transform to identity.
 	D3DDevice_SetTransform( D3DTS_WORLD, &EngineGlobals.world_matrix );
-	set_frustum_bbox_transform( NULL );
+	set_frustum_bbox_transform( nullptr );
 	*/
 }
 
@@ -252,7 +252,7 @@ CInstance::CInstance( sScene *pScene, Mth::Matrix &transform, int numBones, Mth:
 	mp_bone_transforms	= pBoneTransforms;
 	m_num_bones			= numBones;
 	mp_scene			= pScene;
-	mp_model			= NULL;
+	mp_model			= nullptr;
 	m_active			= true;
 	m_flags				= 0;
 
@@ -262,7 +262,7 @@ CInstance::CInstance( sScene *pScene, Mth::Matrix &transform, int numBones, Mth:
 	// Check to see whether this instance is allowed to be lit or not (for non-skinned instances).
 	// Currently, we assume that instances with a model containing valid normals requires lighting, except in the
 	// situation where that model contains a mesh specifically flagged not to be lit.
-	if(( pBoneTransforms == NULL ) || ( GetScene()->m_numHierarchyObjects > 0 ))
+	if(( pBoneTransforms == nullptr ) || ( GetScene()->m_numHierarchyObjects > 0 ))
 	{
 		for( int m = 0; m < pScene->m_num_mesh_entries; ++m )
 		{
@@ -291,7 +291,7 @@ CInstance::~CInstance()
 		if( mp_scene )
 		{
 			delete mp_scene;
-			mp_scene = NULL;
+			mp_scene = nullptr;
 		}
 	}
 	
@@ -349,10 +349,10 @@ void CInstance::Render( uint32 flags )
 		0.0f, 0.0f					// Theta, Phi
 	};
 
-	if(( GetBoneTransforms() == NULL ) || ( GetScene()->m_numHierarchyObjects > 0 ))
+	if(( GetBoneTransforms() == nullptr ) || ( GetScene()->m_numHierarchyObjects > 0 ))
 	{
 		// Is a non-skinned object.
-		pLastBoneTransforms = NULL;
+		pLastBoneTransforms = nullptr;
 		
 		// Do the lighting setup here.
 		if((( m_flags & CInstance::INSTANCE_FLAG_LIGHTING_ALLOWED ) == 0 ) || ( GetScene()->m_flags & SCENE_FLAG_RENDERING_SHADOW ))
@@ -361,7 +361,7 @@ void CInstance::Render( uint32 flags )
 		}
 		else
 		{
-			Nx::CModelLights *p_lights = GetModel() ? GetModel()->GetModelLights() : NULL;
+			Nx::CModelLights *p_lights = GetModel() ? GetModel()->GetModelLights() : nullptr;
 			if( p_lights )
 			{
 				// Obtain position from the transform, for calculating Scene Lighting.
@@ -444,7 +444,7 @@ void CInstance::Render( uint32 flags )
 			// Do the lighting setup here (if not rendering shadow, which requires no lighting).
 			if(( GetScene()->m_flags & SCENE_FLAG_RENDERING_SHADOW ) == 0 )
 			{
-				Nx::CModelLights *p_lights = GetModel() ? GetModel()->GetModelLights() : NULL;
+				Nx::CModelLights *p_lights = GetModel() ? GetModel()->GetModelLights() : nullptr;
 				if( p_lights )
 				{
 					p_lights->UpdateEngine( GetTransform()->GetPos(), true );
@@ -625,14 +625,14 @@ void CInstance::Render( uint32 flags )
 
 						// Set the material properties used for shadow modulation.
 						set_blend_mode( vBLEND_MODE_MODULATE_COLOR );
-						set_texture( 0, NULL );
-						set_texture( 1, NULL );
-						set_texture( 2, NULL );
+						set_texture( 0, nullptr );
+						set_texture( 1, nullptr );
+						set_texture( 2, nullptr );
 						EngineGlobals.material_override = 1;
 
 						// Set texture stage 3 to use the shadow buffer.
 						EngineGlobals.texture_stage_override |= ( 1 << 3 );
-						set_texture( 3, NULL );
+						set_texture( 3, nullptr );
 						set_texture( 3, p_details->p_texture->pD3DTexture );
 						set_render_state( RS_UVADDRESSMODE0 + 3, 0x00020002UL );
 						D3DDevice_SetTextureStageState( 3, D3DTSS_BORDERCOLOR, 0x00000000UL );
@@ -676,7 +676,7 @@ void CInstance::Render( uint32 flags )
 		EngineGlobals.pixel_shader_override		= 0;
 		EngineGlobals.material_override			= 0;
 		EngineGlobals.texture_stage_override	&= ~( 1 << 3 );
-		set_texture( 3, NULL );
+		set_texture( 3, nullptr );
 
 //		shutdown_weighted_mesh_vertex_shader();
 	}

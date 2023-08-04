@@ -115,7 +115,7 @@ namespace Nx
 		if (!p_file)
 		{
 			Dbg_MsgAssert(p_file, ("Couldn't open scene file %s\n", p_name));
-			return NULL;
+			return nullptr;
 		}
 
 		// Version numbers.
@@ -227,7 +227,7 @@ namespace Nx
 	CTexDict* CEngine::s_plat_load_textures( const char* p_name )
 	{
 		// NxWn32::LoadTextureFile( p_name );
-		return NULL;
+		return nullptr;
 	}
 	*/
 

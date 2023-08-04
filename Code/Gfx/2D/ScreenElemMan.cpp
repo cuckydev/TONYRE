@@ -39,21 +39,21 @@ DefineSingletonClass(CScreenElementManager, "Screen Element Manager");
 
 CScreenElementManager::CScreenElementManager()
 {
-	mp_root_element = NULL;
-	mp_resolve_temp = NULL;
+	mp_root_element = nullptr;
+	mp_resolve_temp = nullptr;
 
 	// register event listener
-	RegisterWithTracker(NULL);
+	RegisterWithTracker(nullptr);
 
 	for (int i = 0; i < NUM_FOCUS_LISTS; i++)
 	{
-		mp_focus_list[i] = NULL;
+		mp_focus_list[i] = nullptr;
 		m_focus_list_changed[i] = false;
 	}
 	for (int i = 0; i < NUM_FOCUS_NODES; i++)
 	{
-		m_focus_node_pool[i].mpElement = NULL;
-		m_focus_node_pool[i].mpNextNode = NULL;
+		m_focus_node_pool[i].mpElement = nullptr;
+		m_focus_node_pool[i].mpNextNode = nullptr;
 	}
 
 	m_num_pad_event_types = 0;
@@ -77,7 +77,7 @@ CScreenElementManager::~CScreenElementManager()
 */
 CScreenElementPtr CScreenElementManager::CreateElement(uint32 type, uint32 id, Script::CScriptStructure *pProps)
 {
-	CScreenElementPtr p_new_element = NULL;
+	CScreenElementPtr p_new_element = nullptr;
 	
 	uint32 heap_crc;
 	int heap_num = 0;
@@ -231,7 +231,7 @@ void CScreenElementManager::DestroyElement(uint32 id, ERecurse recurse, EPreserv
 
 
 /*
-	Passing in pParent = NULL will give the child no parent
+	Passing in pParent = nullptr will give the child no parent
 */
 void CScreenElementManager::SetParent(const CScreenElementPtr &pParent, const CScreenElementPtr &pChild, CScreenElement::EPosRecalc recalculatePosition)
 {
@@ -271,7 +271,7 @@ CScreenElementPtr CScreenElementManager::GetElement(uint32 id, EAssert assert)
 		return p_element;
 	}
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -292,7 +292,7 @@ CScreenElementPtr CScreenElementManager::GetElement(Script::CStruct *pStructCont
 	{
 		return GetElement(id, assert);
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -508,7 +508,7 @@ void CScreenElementManager::pass_event_to_listener(Obj::CEvent *pEvent)
 				
 				if ( !p_node->mProcessed && !p_node->mTempOutOfFocus && !p_node->mpElement->EventsBlocked() )
 				{
-					Dbg_MsgAssert(p_node->mpElement,("Node in focus list has NULL mpElement, entry = %d", (int) (p_node - m_focus_node_pool)));
+					Dbg_MsgAssert(p_node->mpElement,("Node in focus list has nullptr mpElement, entry = %d", (int) (p_node - m_focus_node_pool)));
 					//Ryan("   sending pad event %d to %s\n", controller, Script::FindChecksumName(p_node->mpElement->GetID()));
 					if (p_tracker->LaunchEvent(pEvent->GetType(), p_node->mpElement->GetID(), pEvent->GetSource(), pEvent->GetData()))
 					{
@@ -540,7 +540,7 @@ void CScreenElementManager::pass_event_to_listener(Obj::CEvent *pEvent)
 
 bool CScreenElementManager::IsComplexID(Script::CStruct *pStructContainingId, char *pIdSubStructName)
 {
-	Script::CStruct *p_recurse_struct = NULL;	
+	Script::CStruct *p_recurse_struct = nullptr;	
 	return pStructContainingId->GetStructure(pIdSubStructName, &p_recurse_struct);
 }
 
@@ -569,11 +569,11 @@ bool CScreenElementManager::IsComplexID(Script::CStruct *pStructContainingId, ch
 */
 uint32 CScreenElementManager::ResolveComplexID(Script::CStruct *pStructContainingId, uint32 IdSubStructName)
 {
-	// mp_resolve_temp will be NULL when we enter this function at the beginning of a recursion chain,
-	// non-NULL when inside the chain. In the latter case, it points to the element closest to 
+	// mp_resolve_temp will be nullptr when we enter this function at the beginning of a recursion chain,
+	// non-nullptr when inside the chain. In the latter case, it points to the element closest to 
 	// desired one (so far)
 
-	Script::CStruct *p_recurse_struct = NULL;	
+	Script::CStruct *p_recurse_struct = nullptr;	
 	uint32 id = 0;
 	int index = -1;
 	if (pStructContainingId->GetStructure(IdSubStructName, &p_recurse_struct))
@@ -623,7 +623,7 @@ uint32 CScreenElementManager::ResolveComplexID(Script::CStruct *pStructContainin
 		}
 		// we can expect to recurse further
 		uint32 result_id = ResolveComplexID(p_recurse_struct, Crc::ConstCRC("child"));
-		mp_resolve_temp = NULL;
+		mp_resolve_temp = nullptr;
 
 		return result_id;
 	}
@@ -649,7 +649,7 @@ uint32 CScreenElementManager::ResolveComplexID(Script::CStruct *pStructContainin
 				id = p_aliased_obj->GetID();
 		}
 		
-		mp_resolve_temp = NULL;
+		mp_resolve_temp = nullptr;
 		return id;
 	}
 	else if (pStructContainingId->GetInteger(IdSubStructName, &index))
@@ -659,14 +659,14 @@ uint32 CScreenElementManager::ResolveComplexID(Script::CStruct *pStructContainin
 		
 		Dbg_MsgAssert(mp_resolve_temp, ("can't map child %d to anything, no parent", index));
 		CScreenElementPtr p_child = mp_resolve_temp->GetChildByIndex(index);
-		mp_resolve_temp = NULL;
+		mp_resolve_temp = nullptr;
 		if (p_child) 		
 			return p_child->GetID();
 		else
 			return 0;
 	}
 	
-	mp_resolve_temp = NULL;
+	mp_resolve_temp = nullptr;
 	return 0;	
 }
 
@@ -705,7 +705,7 @@ void CScreenElementManager::UnregisterObject ( Obj::CObject& obj )
 	// see if unregister element is root element
 	if (p_unregister_element && mp_root_element == p_unregister_element)
 	{
-		mp_root_element = NULL;
+		mp_root_element = nullptr;
 		
 		// find a new parentless element to be root element
 		Lst::Node<Obj::CObject> *p_node = m_object_list.FirstItem();
@@ -764,7 +764,7 @@ void CScreenElementManager::destroy_element_recursive(EPreserveParent preserve_p
 			// must disassociate script from element being destroyed
 			pCallingScript->DisassociateWithObject(pElement);
 			
-		SetParent(NULL, pElement);
+		SetParent(nullptr, pElement);
 		UnregisterObject(*pElement);
 		#ifdef	__NOPT_ASSERT__	
 		// Mick:  screen elements are deleted directly, so LockAssert is not applicable.
@@ -792,7 +792,7 @@ CScreenElementPtr CScreenElementManager::get_element_by_local_id(const CScreenEl
 		}
 		p_child = p_child->GetNextSibling();
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -803,7 +803,7 @@ void CScreenElementManager::mark_element_in_focus(const CScreenElementPtr &pElem
 	Dbg_Assert(controller >= 0 && controller <= 1);
 	Dbg_Assert(pElement);
 	
-	FocusNode *p_prev_node = NULL;
+	FocusNode *p_prev_node = nullptr;
 	// If in the list for the same controller, then exit function.
 	// If in the list for another controller, assert
 	for (int c = 0; c < NUM_FOCUS_LISTS; c++)
@@ -831,7 +831,7 @@ void CScreenElementManager::mark_element_in_focus(const CScreenElementPtr &pElem
 	}
 	
 	// Time to make a new focus node
-	// p_prev_node will point to last element in list, or NULL if no list
+	// p_prev_node will point to last element in list, or nullptr if no list
 	
 	for (int i = 0; i < NUM_FOCUS_NODES; i++)
 	{
@@ -841,7 +841,7 @@ void CScreenElementManager::mark_element_in_focus(const CScreenElementPtr &pElem
 			
 			m_focus_node_pool[i].mpElement = pElement;
 			m_focus_node_pool[i].mId = pElement->GetID();
-			m_focus_node_pool[i].mpNextNode = NULL;
+			m_focus_node_pool[i].mpNextNode = nullptr;
 			m_focus_node_pool[i].mTempOutOfFocus = false;
 			// put in list -- at end of list
 			if (p_prev_node)
@@ -866,7 +866,7 @@ void CScreenElementManager::mark_element_out_of_focus(const CScreenElementPtr &p
 	{
 		// remove from list all elements that are descendents of pElement, and possibly pElement itself
 
-		FocusNode *p_prev_node = NULL;
+		FocusNode *p_prev_node = nullptr;
 		FocusNode *p_node = mp_focus_list[c];
 		while(p_node)
 		{
@@ -904,7 +904,7 @@ void CScreenElementManager::mark_element_out_of_focus(const CScreenElementPtr &p
 						mp_focus_list[c] = p_next_node;
 					//Ryan("TTT element %s marked OUT OF focus, %d\n", Script::FindChecksumName(p_node->mpElement->GetID()), (int) c);
 					// remove from pool
-					p_node->mpElement = NULL;
+					p_node->mpElement = nullptr;
 					m_focus_list_changed[c] = true;
 
 					p_node = p_prev_node;
@@ -1045,10 +1045,10 @@ bool ScriptRunScriptOnScreenElement(Script::CScriptStructure *pParams, Script::C
 	uint32 callback = 0;
 	pParams->GetChecksum(Crc::ConstCRC("callback"), &callback);
     
-    Script::CStruct *p_ScriptParams = NULL;
+    Script::CStruct *p_ScriptParams = nullptr;
     pParams->GetStructure(Crc::ConstCRC("params"), &p_ScriptParams);
 
-    Script::CStruct *p_CallbackParams = NULL;
+    Script::CStruct *p_CallbackParams = nullptr;
     pParams->GetStructure(Crc::ConstCRC("callback_params"), &p_CallbackParams);
 
 	// K: If script is actually a member function, then call it, for Gary bless him.
@@ -1056,7 +1056,7 @@ bool ScriptRunScriptOnScreenElement(Script::CScriptStructure *pParams, Script::C
     Script::CSymbolTableEntry *p_entry=Script::Resolve(script);
     if (p_entry && p_entry->mType==ESYMBOLTYPE_MEMBERFUNCTION)
     {
-		Dbg_MsgAssert(p_elem,("NULL p_elem"));
+		Dbg_MsgAssert(p_elem,("nullptr p_elem"));
 		p_elem->CallMemberFunction(script,p_ScriptParams,pScript);
 	}	
 	else
@@ -1068,7 +1068,7 @@ bool ScriptRunScriptOnScreenElement(Script::CScriptStructure *pParams, Script::C
 		#endif
 		
 		// K: This 'if' is now required because if script is actually a cfunc, SpawnScript will have run it,
-		// then returned NULL cos it did not need to create a script.
+		// then returned nullptr cos it did not need to create a script.
 		if (p_new_script)
 		{
 			p_new_script->mpObject = p_elem;
@@ -1100,7 +1100,7 @@ bool ScriptSetScreenElementProps(Script::CScriptStructure *pParams, Script::CScr
 /*
 CScreenElementPtr KlaabuBaabu()
 {
-	return NULL;
+	return nullptr;
 }
 */
 
@@ -1386,7 +1386,7 @@ bool ScriptScreenElementExists(Script::CScriptStructure *pParams, Script::CScrip
 bool ScriptGetScreenElementProps( Script::CScriptStructure *pParams, Script::CScript *pScript )
 {
 	CScreenElementManager* pManager = CScreenElementManager::Instance();	  
-	CScreenElementPtr p_elem = NULL;
+	CScreenElementPtr p_elem = nullptr;
 	uint32 id = pManager->ResolveComplexID(pParams, Crc::ConstCRC("id"));
 	if ( id )
 	{

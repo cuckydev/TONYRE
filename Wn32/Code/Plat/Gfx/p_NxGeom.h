@@ -93,7 +93,7 @@ private:						// It's all private, as it is machine specific
 	virtual bool					plat_set_material_color( uint32 mat_name_checksum, int pass, Image::RGBA rgba );
 	virtual bool					plat_allocate_uv_matrix_params( uint32 mat_checksum, int pass );
 
-	virtual CXboxGeom*				plat_clone( bool instance, CScene *p_dest_scene = NULL );
+	virtual CXboxGeom*				plat_clone( bool instance, CScene *p_dest_scene = nullptr );
 	virtual CXboxGeom*				plat_clone( bool instance, CModel *p_dest_model );
 
 public:

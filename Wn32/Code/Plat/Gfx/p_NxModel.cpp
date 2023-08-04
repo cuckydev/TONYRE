@@ -20,7 +20,7 @@
 #include <gel/assman/skinasset.h>
 
 int			test_num_bones			= 0;
-Mth::Matrix	*p_test_bone_matrices	= NULL;
+Mth::Matrix	*p_test_bone_matrices	= nullptr;
 Mth::Matrix	test_root_matrix;
 
 namespace Nx
@@ -92,10 +92,10 @@ bool CXboxModel::plat_load_mesh( CMesh* pMesh )
 /*
 bool CXboxModel::plat_unload_mesh( void )
 {
-	if ( mp_instance != NULL )
+	if ( mp_instance != nullptr )
 	{
 		delete mp_instance;
-		mp_instance = NULL;
+		mp_instance = nullptr;
 	}
 
 	return true;
@@ -217,7 +217,7 @@ bool CXboxModel::plat_render( Mth::Matrix *pRootMatrix, Mth::Matrix *pBoneMatric
 /******************************************************************/
 CXboxModel::CXboxModel()
 {
-	mp_instance = NULL;
+	mp_instance = nullptr;
 }
 
 
@@ -234,7 +234,7 @@ CXboxModel::~CXboxModel()
 	if( mp_instance && mp_instance->GetBoneTransforms())
 	{
 		delete mp_instance->GetBoneTransforms();
-		mp_instance->SetBoneTransforms( NULL );
+		mp_instance->SetBoneTransforms( nullptr );
 	}
 }
 

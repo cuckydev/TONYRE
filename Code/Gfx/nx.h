@@ -103,7 +103,7 @@ public:
 	static 	CScene *  			sGetMainScene();							// get first non-sky scene
 	static 	CScene *  			sGetSkyScene();								// get first sky scene
 
-	static CSprite *			sCreateSprite(CWindow2D *p_window = NULL);
+	static CSprite *			sCreateSprite(CWindow2D *p_window = nullptr);
 	static bool					sDestroySprite(CSprite *p_sprite);
 								
 	static CTextured3dPoly *	sCreateTextured3dPoly();
@@ -111,7 +111,7 @@ public:
 	
 											  
 	static CTexture *			sCreateRenderTargetTexture( int width, int height, int depth, int z_depth );
-	static void					sProjectTextureIntoScene( Nx::CTexture *p_texture, Nx::CModel *p_model, Nx::CScene *p_scene = NULL);
+	static void					sProjectTextureIntoScene( Nx::CTexture *p_texture, Nx::CModel *p_model, Nx::CScene *p_scene = nullptr);
 	static void					sSetProjectionTextureCamera( Nx::CTexture *p_texture, Gfx::Camera *p_camera );
 	static void					sStopProjectionTexture( Nx::CTexture *p_texture );
 
