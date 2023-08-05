@@ -30,7 +30,7 @@
 **								   Defines									**
 *****************************************************************************/
 
-#define ZERO_CLASS_MEM	TRUE
+#define ZERO_CLASS_MEM
  
 namespace Mem
 {
@@ -53,6 +53,15 @@ class Class
 		void*			operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true );
 		void*			operator new( size_t size, void* pLocation );
 		void*			operator new[]( size_t size, void* pLocation );
+
+		void			operator delete( void* pMem ) { delete pMem; }
+		void			operator delete[]( void* pMem ) { delete[] pMem; }
+		void			operator delete( void* pMem, bool assert_on_fail ) { delete pMem; }
+		void			operator delete[]( void* pMem, bool assert_on_fail ) { delete[] pMem; }
+		void			operator delete( void* pMem, Mem::Allocator* pAlloc, bool assert_on_fail ) { delete pMem; }
+		void			operator delete[]( void* pMem, Mem::Allocator* pAlloc, bool assert_on_fail) { delete[] pMem; }
+		void			operator delete( void* pMem, void* pLocation ) { delete pMem; }
+		void			operator delete[]( void* pMem, void* pLocation ) { delete[] pMem; }
 	
 	#endif // ZERO_CLASS_MEM
 };

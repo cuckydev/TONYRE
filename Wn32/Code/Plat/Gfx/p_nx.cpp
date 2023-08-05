@@ -90,6 +90,20 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_render_world(void)
 	{
+		// Draw scenes
+		for (int i = 0; i < MAX_LOADED_SCENES; i++)
+		{
+			if (sp_loaded_scenes[i])
+			{
+				CXboxScene *pXboxScene = static_cast<CXboxScene *>(sp_loaded_scenes[i]);
+				if (!pXboxScene->IsSky())
+				{
+					// Build relevant occlusion poly list, now that the camera is set.
+					
+				}
+			}
+		}
+
 		// Draw 2D sprites
 		NxWn32::SDraw2D::DrawAll();
 	}
@@ -415,6 +429,7 @@ namespace Nx
 	/******************************************************************/
 	bool CEngine::s_plat_destroy_sprite(CSprite *p_sprite)
 	{
+		delete p_sprite;
 		return true;
 	}
 

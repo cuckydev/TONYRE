@@ -135,11 +135,6 @@ void* 	Class::operator new( size_t size )
 	return p_ret;
 }
 
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
 void* 	Class::operator new[] ( size_t size )
 {
 	void*		p_ret = Mem::Manager::sHandle().New( size );
@@ -153,11 +148,6 @@ void* 	Class::operator new[] ( size_t size )
 	check_address( p_ret, size );
 	return p_ret;
 }
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
 
 void* 	Class::operator new( size_t size, bool assert_on_fail )
 {
@@ -173,11 +163,6 @@ void* 	Class::operator new( size_t size, bool assert_on_fail )
 	return p_ret;
 }
 
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
 void* 	Class::operator new[] ( size_t size, bool assert_on_fail )
 {
 	void*	p_ret = Mem::Manager::sHandle().New( size, assert_on_fail );
@@ -191,11 +176,6 @@ void* 	Class::operator new[] ( size_t size, bool assert_on_fail )
 	check_address( p_ret, size );
 	return p_ret;
 }
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
 
 void*	Class::operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail )
 {
@@ -211,11 +191,6 @@ void*	Class::operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_f
 	return p_ret;
 }
 
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
 void*	Class::operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail )
 {       
 	void*	p_ret = Mem::Manager::sHandle().New( size, assert_on_fail, pAlloc );
@@ -229,11 +204,6 @@ void*	Class::operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on
 	return p_ret;
 }
 
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
 void* 	Class::operator new( size_t size, void* pLocation )
 {
 
@@ -246,11 +216,6 @@ void* 	Class::operator new( size_t size, void* pLocation )
 	return pLocation;
 }
 
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
 void* 	Class::operator new[]( size_t size, void* pLocation )
 {
 
@@ -262,6 +227,8 @@ void* 	Class::operator new[]( size_t size, void* pLocation )
 	
 	return pLocation;
 }
+
+
 
 /******************************************************************/
 /*                                                                */

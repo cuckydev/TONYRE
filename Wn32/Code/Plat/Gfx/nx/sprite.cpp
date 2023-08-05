@@ -399,8 +399,6 @@ void sSprite::Draw( void )
 	float b = ((m_rgba >> 16) & 0xFF) / 128.0f;
 	float a = ((m_rgba >> 24) & 0xFF) / 128.0f;
 
-	// r = g = b = a = 1.0f;
-
 	// Get points
 	Mth::Vector p0(x0, y0, 0.0f, 0.0f);
 	Mth::Vector p1(x1, y0, 0.0f, 0.0f);
