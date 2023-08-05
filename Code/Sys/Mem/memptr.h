@@ -130,8 +130,7 @@ public :
 /******************************************************************/
 
 template < class _T > inline   
-PtrToConst< _T >::PtrToConst( const _T* ptr ) 
-: m_const_ptr ( ptr )
+PtrToConst< _T >::PtrToConst( const _T* ptr ) : m_const_ptr ( ptr )
 {
 	
 }
@@ -154,8 +153,7 @@ PtrToConst< _T >::~PtrToConst( void )
 /******************************************************************/
 	
 template < class _T > template < class _NewT > inline
-PtrToConst< _T >::PtrToConst( const PtrToConst< _NewT >& rhs )
-: m_const_ptr ( rhs.Addr() )
+PtrToConst< _T >::PtrToConst( const PtrToConst< _NewT >& rhs ) : m_const_ptr ( rhs.Addr() )
 {
 }
 
@@ -165,7 +163,7 @@ PtrToConst< _T >::PtrToConst( const PtrToConst< _NewT >& rhs )
 /******************************************************************/
 
 template < class _T > template < class _NewT > inline
-PtrToConst< _T >&		PtrToConst< _T >::operator = ( const PtrToConst< _NewT >& rhs ) 
+PtrToConst< _T > &PtrToConst< _T >::operator = ( const PtrToConst< _NewT >& rhs ) 
 {
 	m_const_ptr = rhs.Addr();
 	return *this;	
@@ -385,8 +383,7 @@ const PtrToConst< _T > operator- ( const PtrToConst< _T >& lhs, int rhs )
 /******************************************************************/
 
 template < class _T > inline   
-Ptr< _T >::Ptr( const _T* ptr )
-: PtrToConst< _T >( ptr )
+Ptr< _T >::Ptr( const _T* ptr ) : PtrToConst< _T >( ptr )
 {
 	
 }
@@ -419,7 +416,7 @@ Ptr< _T >::Ptr( const Ptr< _NewT >& rhs ) : PtrToConst< _T >( rhs )
 /******************************************************************/
 
 template < class _T > template < class _NewT > inline
-Ptr< _T >&		Ptr< _T >::operator= ( const Ptr< _NewT >& rhs ) 
+Ptr< _T > &Ptr< _T >::operator= ( const Ptr< _NewT >& rhs ) 
 {
 	m_const_ptr = rhs.Addr();
 	return *this;	
@@ -431,7 +428,7 @@ Ptr< _T >&		Ptr< _T >::operator= ( const Ptr< _NewT >& rhs )
 /******************************************************************/
 
 template < class _T > inline
-Ptr< _T >&		Ptr< _T >::operator= ( const _T* ptr ) 
+Ptr< _T > &Ptr< _T >::operator= ( const _T* ptr ) 
 {
 	
 
@@ -446,7 +443,7 @@ Ptr< _T >&		Ptr< _T >::operator= ( const _T* ptr )
 /******************************************************************/
 
 template < class _T > inline
-_T&		Ptr< _T >::operator * ( void ) const 
+_T &Ptr< _T >::operator * ( void ) const 
 {
 	
 
@@ -461,7 +458,7 @@ _T&		Ptr< _T >::operator * ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-_T*		Ptr< _T >::operator -> ( void ) const 
+_T *Ptr< _T >::operator -> ( void ) const 
 {
 	
 	
@@ -476,7 +473,7 @@ _T*		Ptr< _T >::operator -> ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-_T*		Ptr< _T >::Addr ( void ) const 
+_T *Ptr< _T >::Addr ( void ) const 
 {
 	
 
