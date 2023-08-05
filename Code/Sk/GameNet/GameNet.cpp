@@ -575,7 +575,7 @@ void	Manager::s_enter_chat_code( const Tsk::Task< Manager >& task )
 				Script::CStruct* pParams;
 
 				pParams = new Script::CStruct;
-				pParams->AddChecksum( Crc::ConstCRC("string_id"), CRCD(0xe5fd359,"props_string"));
+				pParams->AddChecksum( Crc::ConstCRC("string_id"), Crc::ConstCRC("props_string"));
 				Script::RunScript( "SendTauntMessage", pParams );
 				delete pParams;
 
@@ -1816,7 +1816,7 @@ bool				Manager::InNetGame( void )
 	// Mick:  Pretend we are in a net game when we are actually in
 	// regular single player
 	// This allows designer to test net games without starting a server
-	if (Script::GetInt(CRCD(0xcbc1a46,"fake_net")))
+	if (Script::GetInt(Crc::ConstCRC("fake_net")))
 	{
 		return true;
 	}
@@ -2296,8 +2296,8 @@ bool				Manager::PlayerCollisionEnabled( void )
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	 
 	if(	( GameIsOver()) ||
-		( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0x34861a16, "freeskate" )) ||
-		( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0x9d65d0e7, "horse" )))
+		( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "freeskate" )) ||
+		( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "horse" )))
 	{
 		// Allow collision in lobbies now, if the option is on
 		if( skate_mod->GetGameMode()->GetNameChecksum() != Crc::ConstCRC("netlobby"))
@@ -2313,16 +2313,16 @@ bool				Manager::PlayerCollisionEnabled( void )
 	}
 
 	// If this option is on, we definitely collide
-	collision_pref = m_network_preferences.GetPreferenceChecksum( CRCD( 0x43ee978, "player_collision"), CRCD( 0x21902065, "checksum" ));
-	if( collision_pref == CRCD( 0xf81bc89b, "boolean_true" ))
+	collision_pref = m_network_preferences.GetPreferenceChecksum( Crc::ConstCRC( "player_collision"), Crc::ConstCRC( "checksum" ));
+	if( collision_pref == Crc::ConstCRC( "boolean_true" ))
 	{
 		return true;
 	}
 
 	// Even if it's turned off, we might still enable collision because player collision is the basis
 	// of some game modes
-	if( ( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0xf9d5d933, "netslap" )) ||
-		( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0xca1f360f, "slap" )))
+	if( ( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netslap" )) ||
+		( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "slap" )))
 	{
 		return true;
 	}
@@ -2341,7 +2341,7 @@ bool	Manager::ShouldDisplayTeamScores( void )
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	 
 	// Always just show players in lobbies
-	if( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0x1c471c60, "netlobby" ))
+	if( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netlobby" ))
 	{
 		return false;
 	}
@@ -2352,8 +2352,8 @@ bool	Manager::ShouldDisplayTeamScores( void )
 	}                
 
 	// If this option is on, we definitely collide
-	collision_pref = m_network_preferences.GetPreferenceChecksum( CRCD( 0x92a6a8c8, "score_display"), CRCD( 0x21902065, "checksum") );
-	return ( collision_pref == CRCD( 0xd071112f, "score_teams" ));
+	collision_pref = m_network_preferences.GetPreferenceChecksum( Crc::ConstCRC( "score_display"), Crc::ConstCRC( "checksum") );
+	return ( collision_pref == Crc::ConstCRC( "score_teams" ));
 }
 
 /******************************************************************/
@@ -5634,7 +5634,7 @@ bool	Manager::ShouldDrawPlayerNames( void )
 	uint32 checksum = 0;
 		
 	pPreferences = GetNetworkPreferences();
-	pStructure = pPreferences->GetPreference( CRCD(0xf7dd263,"show_names") );
+	pStructure = pPreferences->GetPreference( Crc::ConstCRC("show_names") );
 	pStructure->GetChecksum( Crc::ConstCRC("checksum"), &checksum, false );
 	return( checksum == Crc::ConstCRC("boolean_true") );
 }
@@ -8203,7 +8203,7 @@ bool		Manager::UsingCreatedGoals( void )
 {
 	/*uint32 goals_pref;
 
-	goals_pref = m_network_preferences.GetPreferenceChecksum( Crc::ConstCRC("goals"), CRCD( 0x21902065, "checksum" ));
+	goals_pref = m_network_preferences.GetPreferenceChecksum( Crc::ConstCRC("goals"), Crc::ConstCRC( "checksum" ));
 	if( goals_pref == Crc::ConstCRC("goals_created"))
 	{
 		return true;

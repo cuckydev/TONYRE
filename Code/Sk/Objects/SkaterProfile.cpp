@@ -244,7 +244,7 @@ bool CSkaterProfile::PartialReset(Script::CStruct* pParams)
         m_Info.AddInteger("is_pro", num );
         pParams->GetInteger( Crc::ConstCRC("is_male"), &num, Script::ASSERT );
         m_Info.AddInteger("is_male", num );
-        pParams->GetInteger( CRCD(0x9f350e5,"is_head_locked"), &num, Script::ASSERT );
+        pParams->GetInteger( Crc::ConstCRC("is_head_locked"), &num, Script::ASSERT );
         m_Info.AddInteger("is_head_locked", num );
         pParams->GetInteger( Crc::ConstCRC("is_locked"), &num, Script::ASSERT );
         m_Info.AddInteger("is_locked", num );

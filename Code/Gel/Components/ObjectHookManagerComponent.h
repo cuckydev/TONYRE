@@ -15,7 +15,7 @@
 #include <sk/objects/objecthook.h>	
 
 // Just thinking about it - a generic way of accessing the component				 
-#define		CRC_OBJECTHOOKMANAGER							CRCD( 0x27443708, "ObjectHookManager" )
+#define		CRC_OBJECTHOOKMANAGER							Crc::ConstCRC( "ObjectHookManager" )
 #define		GetObjectHookManagerComponent()					((Obj::CObjectHookManagerComponent*)GetComponent( CRC_OBJECTHOOKMANAGER ))
 #define		GetObjectHookManagerComponentFromObject( pObj )	((Obj::CObjectHookManagerComponent*)(pObj)->GetComponent( CRC_OBJECTHOOKMANAGER ))
 

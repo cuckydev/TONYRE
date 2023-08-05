@@ -578,7 +578,7 @@ bool CObject::CallMemberFunction( uint32 Checksum, Script::CScriptStructure *pPa
 			CopyTagsToScriptStruct(pScript->GetParams());
 			break;
 
-		case CRCC( 0xa58079eb, "SetTags" ):
+		case Crc::ConstCRC( "SetTags" ):
 			SetTagsFromScript( pParams );
 			break;
 			 

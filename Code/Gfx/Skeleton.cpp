@@ -1458,7 +1458,7 @@ void CSkeletonData::InitialiseBoneSkipList( const char* p_fileName )
 	}
 
 	// First, get a pointer to the script global SkipBoneLODInfo.
-	Script::CStruct *p_all_lod_info = Script::GetStructure( CRCD( 0x7da53781, "BoneSkipLODInfo" ));
+	Script::CStruct *p_all_lod_info = Script::GetStructure( Crc::ConstCRC( "BoneSkipLODInfo" ));
 	if( p_all_lod_info )
 	{
 		Script::CArray *p_skeleton_lod_info = nullptr;

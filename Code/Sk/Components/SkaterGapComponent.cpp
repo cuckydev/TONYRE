@@ -251,7 +251,7 @@ CBaseComponent::EMemberFunctionResult CSkaterGapComponent::CallMemberFunction( u
         // at any point in the skater's logic where he can land
         // a trick combo. So if you just stick a "StartGapTrick"
         // in your gap script, then it will automatically work
-		case CRCC(0x196772b, "ClearGapTricks"):
+		case Crc::ConstCRC( "ClearGapTricks"):
 			clear_gap_tricks(pParams);
 			break;
 		

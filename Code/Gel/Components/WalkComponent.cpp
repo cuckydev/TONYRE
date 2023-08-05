@@ -367,7 +367,7 @@ CBaseComponent::EMemberFunctionResult CWalkComponent::CallMemberFunction( uint32
 			}
 			else if (m_anim_effective_speed < s_get_param(Crc::ConstCRC("max_fast_walk_speed")))
 			{
-				checksum = CRCD(0x131f2a2, "WALK_FAST");
+				checksum = Crc::ConstCRC( "WALK_FAST");
 			}
 			else if (m_anim_effective_speed < s_get_param(Crc::ConstCRC("max_slow_run_speed")))
 			{
@@ -377,7 +377,7 @@ CBaseComponent::EMemberFunctionResult CWalkComponent::CallMemberFunction( uint32
 			{
 				checksum = Crc::ConstCRC("RUN_FAST");
 			}
-			pScript->GetParams()->AddChecksum(CRCD(0x92c388f, "SpeedScale"), checksum);
+			pScript->GetParams()->AddChecksum(Crc::ConstCRC( "SpeedScale"), checksum);
 			
 			break;
 		}
@@ -968,7 +968,7 @@ void CWalkComponent::calculate_horizontal_speed_and_facing ( float &horizontal_s
 				{
 					// if moving fast enough to require a skidding stop
 					special_acceleration = true;
-					horizontal_speed -= s_get_param(CRCD(0x9661ed7, "skid_accel")) * m_frame_length;
+					horizontal_speed -= s_get_param(Crc::ConstCRC( "skid_accel")) * m_frame_length;
 					horizontal_speed = Mth::ClampMin(horizontal_speed, 0.0f);
 					m_frame_event = Crc::ConstCRC("Skid");
 				}
@@ -1012,7 +1012,7 @@ void CWalkComponent::calculate_horizontal_speed_and_facing ( float &horizontal_s
 				}
 				else
 				{
-					decel_factor = s_get_param(CRCD(0xa2aa811, "low_speed_decel_factor"));
+					decel_factor = s_get_param(Crc::ConstCRC( "low_speed_decel_factor"));
 				}
 			}
 		}
@@ -1233,7 +1233,7 @@ bool  CWalkComponent::adjust_horizonal_vel_for_environment (   )
 			if (Mth::DotProduct(mp_contacts[n].normal, mp_contacts[m].normal) <= 0.0f)
 			{
 				m_horizontal_vel.Set();
-				m_anim_effective_speed = Mth::Min(s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+				m_anim_effective_speed = Mth::Min(s_get_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 				m_drop_rotation_rate = true;
 				return true;
 			}
@@ -1265,7 +1265,7 @@ bool  CWalkComponent::adjust_horizonal_vel_for_environment (   )
 		if (Mth::DotProduct(adjusted_vel, m_horizontal_vel) <= 0.0f)
 		{
 			m_horizontal_vel.Set();
-			m_anim_effective_speed = Mth::Min(s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+			m_anim_effective_speed = Mth::Min(s_get_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 			m_drop_rotation_rate = true;
 			return true;
 		}
@@ -1288,10 +1288,10 @@ bool  CWalkComponent::adjust_horizonal_vel_for_environment (   )
 	m_horizontal_vel = adjusted_vel;
 	
 	float final_horiz_vel = m_horizontal_vel.Length();
-	if (m_anim_effective_speed > s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")))
+	if (m_anim_effective_speed > s_get_param(Crc::ConstCRC( "min_anim_run_speed")))
 	{
 		m_anim_effective_speed = final_horiz_vel;
-		m_anim_effective_speed = Mth::Max(s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+		m_anim_effective_speed = Mth::Max(s_get_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 	}
 	
 	return true;
@@ -1311,7 +1311,7 @@ void CWalkComponent::adjust_facing_for_adjusted_horizontal_vel (   )
 	
 	float horizontal_speed = m_horizontal_vel.Length();
 	
-	if (horizontal_speed < s_get_param(CRCD(0x515a933, "wall_turn_speed_threshold"))) return;
+	if (horizontal_speed < s_get_param(Crc::ConstCRC( "wall_turn_speed_threshold"))) return;
 	
 	// the new facing is in the direction of our adjusted velocity
 	Mth::Vector new_facing = m_horizontal_vel;
@@ -1705,7 +1705,7 @@ void CWalkComponent::adjust_jump_for_ceiling_obstructions (   )
 	feeler.m_end[Y] += s_get_param(Crc::ConstCRC("jump_obstruction_check_height"));
 	if (feeler.GetCollision(false))
 	{
-		float jump_obstruction_check_back = s_get_param(CRCD(0x6ebbab7, "jump_obstruction_check_back"));
+		float jump_obstruction_check_back = s_get_param(Crc::ConstCRC( "jump_obstruction_check_back"));
 		float obstruction_height = feeler.GetPoint()[Y] - feeler.m_start[Y];
 
 		feeler.m_start -= m_facing * jump_obstruction_check_back;
@@ -2062,7 +2062,7 @@ void CWalkComponent::maybe_wallplant (   )
 	// not when you're too near the ground
 	if (mp_state_component->m_height < Script::GetFloat(Crc::ConstCRC("Physics_Min_Wallplant_Height"))) return;
 
-	// if (Tmr::ElapsedTime(m_state_timestamp) < s_get_param(CRCD(0x2a2d65c, "min_air_before_wallplant"))) return;
+	// if (Tmr::ElapsedTime(m_state_timestamp) < s_get_param(Crc::ConstCRC( "min_air_before_wallplant"))) return;
 	
 	// last wallplant must not have been too recently
 	if (Tmr::ElapsedTime(mp_core_physics_component->m_last_wallplant_time_stamp) < Script::GetFloat(Crc::ConstCRC("Physics_Disallow_Rewallplant_Duration"))) return;
@@ -2236,7 +2236,7 @@ void CWalkComponent::lerp_upright (   )
 	
 	if (m_rotate_upright_timer == 0.0f)
 	{
-		m_upward = Mth::Lerp(m_upward, Mth::Vector(0.0f, 1.0f, 0.0f), s_get_param(CRCD(0xf22c135, "lerp_upright_rate")) * Tmr::FrameLength());
+		m_upward = Mth::Lerp(m_upward, Mth::Vector(0.0f, 1.0f, 0.0f), s_get_param(Crc::ConstCRC( "lerp_upright_rate")) * Tmr::FrameLength());
 		m_upward.Normalize();
 	}
 }
@@ -3261,7 +3261,7 @@ void CWalkComponent::update_anim_speeds (   )
 					
 		case LADDERMOVE:
 		{
-			float new_anim_speed = m_anim_effective_speed / s_get_param(CRCD(0xab2db54, "ladder_move_speed"));
+			float new_anim_speed = m_anim_effective_speed / s_get_param(Crc::ConstCRC( "ladder_move_speed"));
 			
 			Script::CStruct* pParams = new Script::CStruct;
 			pParams->AddFloat(Crc::ConstCRC("Speed"), new_anim_speed);

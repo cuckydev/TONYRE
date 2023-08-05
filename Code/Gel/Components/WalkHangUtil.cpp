@@ -76,7 +76,7 @@ bool CWalkComponent::maybe_hop_to_hang (   )
 	}
 	else
 	{
-		float max_hop_to_movable_hang_vel_sqr = s_get_param(CRCD(0x511cb4, "max_hop_to_movable_hang_vel"));
+		float max_hop_to_movable_hang_vel_sqr = s_get_param(Crc::ConstCRC( "max_hop_to_movable_hang_vel"));
 		max_hop_to_movable_hang_vel_sqr *= max_hop_to_movable_hang_vel_sqr;
 		
 		// check moving objects for appropriate rails
@@ -171,7 +171,7 @@ bool CWalkComponent::maybe_drop_to_hang (   )
 	if (mp_core_physics_component->GetFlag(IS_BAILING)) return false;
 	
 	// only drop to hang when moving slowly
-	if (m_horizontal_vel.LengthSqr() > Mth::Sqr(s_get_param(CRCD(0x1d1e6af, "drop_to_hang_speed_factor")) * get_run_speed())) return false;
+	if (m_horizontal_vel.LengthSqr() > Mth::Sqr(s_get_param(Crc::ConstCRC( "drop_to_hang_speed_factor")) * get_run_speed())) return false;
 	
 	// clean vector
 	m_frame_start_pos[W] = 1.0f;
@@ -511,7 +511,7 @@ bool CWalkComponent::investigate_hang_rail_vicinity ( CFeeler& feeler, const Mth
 	// run a feeler up/down at the preliminary hang point to find the true top of the ledge
 	feeler.SetLine(preliminary_hang_point, preliminary_hang_point);
 	feeler.m_start[Y] += s_get_param(Crc::ConstCRC("ledge_top_feeler_up"));
-	feeler.m_end[Y] -= s_get_param(CRCD(0xf5f39a8, "ledge_top_feeler_down"));
+	feeler.m_end[Y] -= s_get_param(Crc::ConstCRC( "ledge_top_feeler_down"));
 	if (feeler.GetCollision())
 	{
 		// found a ledge top
@@ -744,7 +744,7 @@ void CWalkComponent::go_hang_state (   )
 	}
 	
 	#ifdef __USER_DAN__
-	if (Script::GetInteger(CRCD(0x1a5eab7, "rail_highlights")))
+	if (Script::GetInteger(Crc::ConstCRC( "rail_highlights")))
 	{
 		Gfx::AddDebugLine(mp_rail_manager->GetPos(mp_rail_start), mp_rail_manager->GetPos(mp_rail_end), MAKE_RGB(Mth::Rnd(256), Mth::Rnd(256), Mth::Rnd(256)), 0, 1);
 		Gfx::AddDebugLine(mp_rail_manager->GetPos(mp_rail_start) + Mth::Vector(1.0f, 0.0f, 0.0f), mp_rail_manager->GetPos(mp_rail_end) + Mth::Vector(1.0f, 0.0f, 0.0f), MAKE_RGB(Mth::Rnd(256), Mth::Rnd(256), Mth::Rnd(256)), 0, 1);

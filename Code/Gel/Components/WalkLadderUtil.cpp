@@ -39,7 +39,7 @@ bool CWalkComponent::maybe_climb_up_ladder ( bool user_requested )
 	// Check for appropriate rails.
     if (!Mdl::Skate::Instance()->GetRailManager()->CheckForLadderRail(
         m_pos,
-        user_requested ? s_get_param(CRCD(0xeecd255, "button_horiz_snap_distance")) : s_get_param(Crc::ConstCRC("max_horiz_snap_distance")),
+        user_requested ? s_get_param(Crc::ConstCRC( "button_horiz_snap_distance")) : s_get_param(Crc::ConstCRC("max_horiz_snap_distance")),
         s_get_param(Crc::ConstCRC("max_vert_snap_distance")),
 		true,
         this,
@@ -380,7 +380,7 @@ void CWalkComponent::ladder_movement (   )
 	// movement up and down the ladder
 	
 	// the desired speed; this will be used to scale the animation speed
-	m_anim_effective_speed = s_get_param(CRCD(0xab2db54, "ladder_move_speed")) * m_control_magnitude * cosf(mp_input_component->GetControlPad().m_leftAngle);
+	m_anim_effective_speed = s_get_param(Crc::ConstCRC( "ladder_move_speed")) * m_control_magnitude * cosf(mp_input_component->GetControlPad().m_leftAngle);
 	
 	// the movement this frame
 	float movement = m_anim_effective_speed * m_frame_length;

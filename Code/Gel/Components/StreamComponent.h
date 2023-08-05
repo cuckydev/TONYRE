@@ -13,7 +13,7 @@
 
 #include <gel/object/basecomponent.h>
 
-#define		CRC_STREAM CRCD(0xf1641e3,"stream")
+#define		CRC_STREAM Crc::ConstCRC("stream")
 #define		GetStreamComponent() ((Obj::CStreamComponent*)GetComponent(CRC_STREAM))
 #define		GetStreamComponentFromObject(pObj) ((Obj::CStreamComponent*)(pObj)->GetComponent(CRC_STREAM))
 

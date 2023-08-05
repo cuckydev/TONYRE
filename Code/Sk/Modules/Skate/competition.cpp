@@ -545,7 +545,7 @@ void CCompetition::EndRun(int score)
 			// add a flag to the top judges
 			if ( IsTopJudge( i ) )
 			{
-				p_temp->AddChecksum( NONAME, CRCD( 0x7b1b959f, "top_judge" ) );
+				p_temp->AddChecksum( NONAME, Crc::ConstCRC( "top_judge" ) );
 			}
 
 			p_run_scores_array->SetStructure( i, p_temp );
@@ -663,7 +663,7 @@ void CCompetition::SetupJudgeText()
 
 			if ( m_leader_board[i].m_player_number == 0 )
 			{
-				p_leader_board_entry->AddChecksum( NONAME, CRCD( 0x67e6859a, "player" ) );
+				p_leader_board_entry->AddChecksum( NONAME, Crc::ConstCRC( "player" ) );
 			}
 
 			p_score_array->SetStructure( i, p_leader_board_entry );

@@ -313,7 +313,7 @@ void CHorseComponent::Update( void )
 			break;
 					
 		case LADDERMOVE:
-			mp_animation_component->SetAnimSpeed(m_anim_effective_speed / s_get_param(CRCD(0xab2db54, "ladder_move_speed")), false, false);
+			mp_animation_component->SetAnimSpeed(m_anim_effective_speed / s_get_param(Crc::ConstCRC( "ladder_move_speed")), false, false);
 			break;
 	
 		default:
@@ -385,13 +385,13 @@ CBaseComponent::EMemberFunctionResult CHorseComponent::CallMemberFunction( uint3
 	switch ( Checksum )
 	{
 		// @script | Walk_Ground |
-		case CRCC( 0x893213e5, "Walk_Ground" ):
+		case Crc::ConstCRC( "Walk_Ground" ):
 		{
 			return m_state == WALKING_GROUND ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 			break;
 		}
 	
-		case CRCC( 0x88bd4924, "Horse_GetSpeedScale" ):
+		case Crc::ConstCRC( "Horse_GetSpeedScale" ):
 		{
 			uint32 checksum;
 			if( m_anim_effective_speed < s_get_param( Crc::ConstCRC("max_slow_walk_speed")))
@@ -410,15 +410,15 @@ CBaseComponent::EMemberFunctionResult CHorseComponent::CallMemberFunction( uint3
 			{
 				checksum = Crc::ConstCRC("HORSE_GALLOP");
 			}
-			pScript->GetParams()->AddChecksum( CRCD( 0x92c388f, "SpeedScale" ), checksum );
+			pScript->GetParams()->AddChecksum( Crc::ConstCRC( "SpeedScale" ), checksum );
 			break;
 		}
 
 		// @script | Horse_Jump |
-		case CRCC( 0xae7deda, "Horse_Jump" ):
+		case Crc::ConstCRC( "Horse_Jump" ):
 		{
 			// Jump strength scales with the length the jump button has been held.
-			jump( Mth::Lerp( s_get_param( CRCD( 0x246d0bf3, "min_jump_factor" )), 1.0f,	Mth::ClampMax( mp_input_component->GetControlPad().m_x.GetPressedTime() / s_get_param( CRCD( 0x12333ebd, "hold_time_for_max_jump" )), 1.0f )));
+			jump( Mth::Lerp( s_get_param( Crc::ConstCRC( "min_jump_factor" )), 1.0f,	Mth::ClampMax( mp_input_component->GetControlPad().m_x.GetPressedTime() / s_get_param( Crc::ConstCRC( "hold_time_for_max_jump" )), 1.0f )));
 			break;
 		}
 
@@ -538,7 +538,7 @@ bool CHorseComponent::AcceptRiderMount( CCompositeObject* p_rider )
 	}
 
 	// Also want to set the horse camera as active.
-	Script::RunScript( CRCD( 0xb08469a2, "MountHorse" ));
+	Script::RunScript( Crc::ConstCRC( "MountHorse" ));
 
 	mp_rider = p_rider;
 
@@ -575,7 +575,7 @@ bool CHorseComponent::AcceptRiderDismount( CCompositeObject* p_rider )
 	}
 
 	// Also want to set the horse camera as inactive.
-	Script::RunScript( CRCD( 0x400b95f5, "DismountHorse" ));
+	Script::RunScript( Crc::ConstCRC( "DismountHorse" ));
 
 	mp_rider = nullptr;
 	return true;
@@ -641,7 +641,7 @@ void CHorseComponent::jump( float strength )
 	m_primary_air_direction = m_facing;
 	
 	// Called by script from outside of the component update, so m_vertical_vel is not used.
-	GetObj()->GetVel()[Y] = strength * s_get_param( CRCD( 0x63d62a21, "jump_velocity" ));
+	GetObj()->GetVel()[Y] = strength * s_get_param( Crc::ConstCRC( "jump_velocity" ));
 	
 	leave_movable_contact_for_air( GetObj()->GetVel(), GetObj()->GetVel()[Y] );
 	
@@ -686,11 +686,11 @@ float CHorseComponent::calculate_desired_speed( void )
 	{
 		// Stick is in non-zero position, so adjust target speed.
 		// We may want two sets of these, one for speeding up, one for slowing down.
-		float speed_ka = 1.0f; /* Script::GetFloat( CRCD( 0xcac0c1d4, "GunslingerLookaroundTiltKa" ), Script::ASSERT ); */
-		float speed_ea = 2.0f; /* Script::GetFloat( CRCD( 0x5443ec5a, "GunslingerLookaroundTiltEa" ), Script::ASSERT ); */
+		float speed_ka = 1.0f; /* Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltKa" ), Script::ASSERT ); */
+		float speed_ea = 2.0f; /* Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltEa" ), Script::ASSERT ); */
 
-		float speed_ks = 1.0f; /* Script::GetFloat( CRCD( 0x3979b09c, "GunslingerLookaroundTiltKs" ), Script::ASSERT ); */
-		float speed_es = 1.0f; /* Script::GetFloat( CRCD( 0xa7fa9d12, "GunslingerLookaroundTiltEs" ), Script::ASSERT ); */
+		float speed_ks = 1.0f; /* Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltKs" ), Script::ASSERT ); */
+		float speed_es = 1.0f; /* Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltEs" ), Script::ASSERT ); */
 
 		float target = m_control_direction[X] * m_control_magnitude;
 
@@ -717,7 +717,7 @@ float CHorseComponent::calculate_desired_speed( void )
 		m_target_speed = ( m_target_speed < 0.0f ) ? 0.0f : (( m_target_speed > 1.0f ) ? 1.0f : m_target_speed );
 	}
 
-	return s_get_param( CRCD( 0xcc461b87, "run_speed" )) * m_target_speed;
+	return s_get_param( Crc::ConstCRC( "run_speed" )) * m_target_speed;
 
 /*
 	{
@@ -727,12 +727,12 @@ float CHorseComponent::calculate_desired_speed( void )
 		if( velocity_magnitude <= walk_point )
 		{
 			m_run_toggle = false;
-			return Mth::LinearMap( 0.0f, s_get_param( CRCD( 0x79d182ad, "walk_speed" )), velocity_magnitude, 0.3f, walk_point );
+			return Mth::LinearMap( 0.0f, s_get_param( Crc::ConstCRC( "walk_speed" )), velocity_magnitude, 0.3f, walk_point );
 		}
 		else
 		{
 			m_run_toggle = true;
-			return Mth::LinearMap( s_get_param( CRCD( 0x79d182ad, "walk_speed" )), s_get_param( CRCD( 0xcc461b87, "run_speed" )), velocity_magnitude, walk_point, 1.0f );
+			return Mth::LinearMap( s_get_param( Crc::ConstCRC( "walk_speed" )), s_get_param( Crc::ConstCRC( "run_speed" )), velocity_magnitude, walk_point, 1.0f );
 		}
 	}
 */
@@ -797,14 +797,14 @@ void CHorseComponent::calculate_horizontal_speed_and_facing( float &horizontal_s
 	
 	// HorseComponent version.
 	// The required rate of turn depends on the x axis component of the control direction.
-//	if( horizontal_speed < s_get_param( CRCD( 0x52582d5b, "max_rotate_in_place_speed" )))
+//	if( horizontal_speed < s_get_param( Crc::ConstCRC( "max_rotate_in_place_speed" )))
 	if( 1 )
 	{
 		// Low speed rotate to desired orientation with no speed change.
-		m_delta_angle = Mth::DegToRad( s_get_param( CRCD( 0xb557804b, "rotate_in_place_rate" ))) * -m_control_direction[Z] * m_control_magnitude * m_frame_length;
+		m_delta_angle = Mth::DegToRad( s_get_param( Crc::ConstCRC( "rotate_in_place_rate" ))) * -m_control_direction[Z] * m_control_magnitude * m_frame_length;
 		if( !m_run_toggle )
 		{
-			m_delta_angle *= s_get_param( CRCD( 0x7b446c98, "walk_rotate_factor" ));
+			m_delta_angle *= s_get_param( Crc::ConstCRC( "walk_rotate_factor" ));
 		}
 			
 		if( m_delta_angle != 0.0f )
@@ -826,7 +826,7 @@ void CHorseComponent::calculate_horizontal_speed_and_facing( float &horizontal_s
 //			special_acceleration = true;
 			
 			// setup the event
-			m_frame_event = ( m_delta_angle < 0.0f ) ? CRCD( 0xf28adbfc, "RotateLeft" ) : CRCD( 0x912220f8, "RotateRight" );
+			m_frame_event = ( m_delta_angle < 0.0f ) ? Crc::ConstCRC( "RotateLeft" ) : Crc::ConstCRC( "RotateRight" );
 		}
 	}
 	
@@ -1027,7 +1027,7 @@ bool CHorseComponent::adjust_horizontal_vel_for_environment( bool wall_push_acti
 			if (Mth::DotProduct(mp_contacts[n].normal, mp_contacts[m].normal) <= 0.0f)
 			{
 				m_horizontal_vel.Set();
-				m_anim_effective_speed = Mth::Min(s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+				m_anim_effective_speed = Mth::Min(s_get_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 				return true;
 			}
 		}
@@ -1058,7 +1058,7 @@ bool CHorseComponent::adjust_horizontal_vel_for_environment( bool wall_push_acti
 		if (Mth::DotProduct(adjusted_vel, m_horizontal_vel) <= 0.0f)
 		{
 			m_horizontal_vel.Set();
-			m_anim_effective_speed = Mth::Min(s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+			m_anim_effective_speed = Mth::Min(s_get_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 			return true;
 		}
 	}
@@ -1078,10 +1078,10 @@ bool CHorseComponent::adjust_horizontal_vel_for_environment( bool wall_push_acti
 	m_horizontal_vel = adjusted_vel;
 	
 	float final_horiz_vel = m_horizontal_vel.Length();
-	if (m_anim_effective_speed > s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")))
+	if (m_anim_effective_speed > s_get_param(Crc::ConstCRC( "min_anim_run_speed")))
 	{
 		m_anim_effective_speed = final_horiz_vel;
-		m_anim_effective_speed = Mth::Max(s_get_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+		m_anim_effective_speed = Mth::Max(s_get_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 	}
 	
 	return true;
@@ -1108,18 +1108,18 @@ void CHorseComponent::adjust_facing_for_adjusted_horizontal_vel( void  )
 	
 	// Smoothly transition between no wall turning to full wall turning.
 	float turn_ratio;
-	if( horizontal_speed > s_get_param( CRCD( 0xe6c1cd0d, "max_wall_turn_speed_threshold" )))
+	if( horizontal_speed > s_get_param( Crc::ConstCRC( "max_wall_turn_speed_threshold" )))
 	{
-		turn_ratio = s_get_param( CRCD( 0x7a583b9b, "wall_turn_factor" )) * m_frame_length;
+		turn_ratio = s_get_param( Crc::ConstCRC( "wall_turn_factor" )) * m_frame_length;
 	}
 	else
 	{
 		turn_ratio = Mth::LinearMap(	0.0f,
-										s_get_param( CRCD( 0x7a583b9b, "wall_turn_factor")) * m_frame_length,
+										s_get_param( Crc::ConstCRC( "wall_turn_factor")) * m_frame_length,
 										horizontal_speed,
-//										s_get_param( CRCD( 0x0515a933, "wall_turn_speed_threshold")),
+//										s_get_param( Crc::ConstCRC( "wall_turn_speed_threshold")),
 										0.0f,
-										s_get_param( CRCD( 0xe6c1cd0d, "max_wall_turn_speed_threshold" )));
+										s_get_param( Crc::ConstCRC( "max_wall_turn_speed_threshold" )));
 	}
 	
 	// Exponentially approach new facing.
@@ -1483,7 +1483,7 @@ void CHorseComponent::lerp_upright( void )
 //		return;
 //	}
 	
-//	m_upward = Mth::Lerp(m_upward, Mth::Vector(0.0f, 1.0f, 0.0f), s_get_param(CRCD(0xf22c135, "lerp_upright_rate")) * Tmr::FrameLength());
+//	m_upward = Mth::Lerp(m_upward, Mth::Vector(0.0f, 1.0f, 0.0f), s_get_param(Crc::ConstCRC( "lerp_upright_rate")) * Tmr::FrameLength());
 //	m_upward.Normalize();
 
 	m_upward = m_ground_normal;

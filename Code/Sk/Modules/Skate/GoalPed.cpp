@@ -636,7 +636,7 @@ void CGoalPed::PlayGoalStartStream( Script::CStruct* pParams )
 	Script::CStruct* pGoalParams = GetGoalParams();
 	
 	// K: Added this to prevent an assert when created-goal peds try to play a non-existent stream.
-	if ( pGoalParams->ContainsFlag( CRCD( 0x102a8591, "no_stream" ) ) )
+	if ( pGoalParams->ContainsFlag( Crc::ConstCRC( "no_stream" ) ) )
 	{
 		return;
 	}	
@@ -647,7 +647,7 @@ void CGoalPed::PlayGoalStartStream( Script::CStruct* pParams )
 	const char* p_speaker_name = nullptr;
 	pParams->GetString( Crc::ConstCRC("speaker_name"), &p_speaker_name, Script::NO_ASSERT );
 
-	bool last_anim = pParams->ContainsFlag( CRCD(0xe7f5ff8,"last_anim") );
+	bool last_anim = pParams->ContainsFlag( Crc::ConstCRC("last_anim") );
 	bool should_load_fam = false;
 	uint32 stream_checksum;
 	if ( GetStreamChecksum( &stream_checksum, cam_anim_index, false, p_speaker_name, last_anim ) )
@@ -741,7 +741,7 @@ void CGoalPed::UnloadLastFam()
 			// printf("unloading fam\n");
 			ass_man->DestroyReferences( pAsset );
 			ass_man->UnloadAsset( pAsset );
-			Script::RunScript( CRCD( 0xb3dce47f, "invalidate_anim_cache" ) );
+			Script::RunScript( Crc::ConstCRC( "invalidate_anim_cache" ) );
 		}
 		m_lastFam = 0;
 	}
@@ -803,7 +803,7 @@ void CGoalPed::PlayGoalWinStream( Script::CStruct* pParams )
 	pParams->GetString( Crc::ConstCRC("speaker_name"), &p_speaker_name, Script::NO_ASSERT );
 	// int cam_anim_index = -1;
 	// pParams->GetInteger( Crc::ConstCRC("cam_anim_index"), &cam_anim_index, Script:::NO_ASSERT );
-	// bool last_anim = pParams->ContainsFlag( CRCD(0xe7f5ff8,"last_anim") );
+	// bool last_anim = pParams->ContainsFlag( Crc::ConstCRC("last_anim") );
 
 	uint32 stream_checksum;
 	bool should_load_fam = false;
@@ -1082,7 +1082,7 @@ void CGoalPed::Hide( bool hide )
 	// get params
 	Script::CStruct* pParams = GetGoalParams();
 	
-	if ( pParams->ContainsFlag( CRCD( 0x3d1cab0b, "null_goal" ) ) )
+	if ( pParams->ContainsFlag( Crc::ConstCRC( "null_goal" ) ) )
 	{
 		return;
 	}

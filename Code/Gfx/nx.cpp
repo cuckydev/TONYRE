@@ -1257,7 +1257,7 @@ void	CEngine::sGetMetrics(Script::CStruct * p_info)
 	{
 		Script::CStruct *p_sky = new Script::CStruct();
 		sGetSkyScene()->GetMetrics(p_sky);
-		p_info->AddStructurePointer(CRCD(0x2c5ea34,"SkyScene"),p_sky);
+		p_info->AddStructurePointer(Crc::ConstCRC("SkyScene"),p_sky);
 	}
 
 	#ifdef	__PLAT_NGPS__

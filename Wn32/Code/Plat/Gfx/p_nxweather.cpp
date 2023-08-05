@@ -67,9 +67,9 @@ CXboxWeather::CXboxWeather()
 	mp_rain_texture			= NULL;
 
 	/*
-	m_rain_blend			= NxXbox::GetBlendMode( CRCD( 0xa86285a1, "fixadd" )) | 0x80000000UL;
-	m_splash_blend			= NxXbox::GetBlendMode( CRCD( 0xa86285a1, "fixadd" )) | 0x80000000UL;
-	m_snow_blend			= NxXbox::GetBlendMode( CRCD( 0xa86285a1, "fixadd" )) | 0x80000000UL;
+	m_rain_blend			= NxXbox::GetBlendMode( Crc::ConstCRC( "fixadd" )) | 0x80000000UL;
+	m_splash_blend			= NxXbox::GetBlendMode( Crc::ConstCRC( "fixadd" )) | 0x80000000UL;
+	m_snow_blend			= NxXbox::GetBlendMode( Crc::ConstCRC( "fixadd" )) | 0x80000000UL;
 	*/
 
 	m_rain_rate				= 0.0f;
@@ -300,7 +300,7 @@ void CXboxWeather::plat_update_grid( void )
 	mp_rain_texture = NULL;
 
 	// Set Rain Texture.
-	p_texture		= Nx::CTexDictManager::sp_particle_tex_dict->GetTexture( CRCD( 0x45c7eb0f,"splash" ));
+	p_texture		= Nx::CTexDictManager::sp_particle_tex_dict->GetTexture( Crc::ConstCRC("splash" ));
 	p_xbox_texture	= static_cast<Nx::CXboxTexture*>( p_texture );
 	if( p_xbox_texture )
 	{
@@ -308,7 +308,7 @@ void CXboxWeather::plat_update_grid( void )
 	}
 
 	// Set Snow Texture.
-	p_texture = Nx::CTexDictManager::sp_particle_tex_dict->GetTexture( CRCD( 0xc97c5a4c,"snow" ));
+	p_texture = Nx::CTexDictManager::sp_particle_tex_dict->GetTexture( Crc::ConstCRC("snow" ));
 	p_xbox_texture = static_cast<Nx::CXboxTexture*>( p_texture );
 	if( p_xbox_texture )
 	{

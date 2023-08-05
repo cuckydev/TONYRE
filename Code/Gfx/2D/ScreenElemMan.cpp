@@ -401,9 +401,9 @@ void CScreenElementManager::pass_event_to_listener(Obj::CEvent *pEvent)
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();
 	if ( !skate_mod->IsMultiplayerGame() )
 	{
-		if ( skate_mod->m_requested_level != CRCD( 0x9f2bafb7, "load_skateshop" ) )
+		if ( skate_mod->m_requested_level != Crc::ConstCRC( "load_skateshop" ) )
 		{
-			CScreenElementPtr p_element = GetElement( CRCD(0x21f1f4a,"startup_menu"), CScreenElementManager::DONT_ASSERT);
+			CScreenElementPtr p_element = GetElement( Crc::ConstCRC("startup_menu"), CScreenElementManager::DONT_ASSERT);
 			if ( !p_element )
 			{
 				int device_num;
@@ -1201,12 +1201,12 @@ bool ScriptTextElementConcatenate(Script::CScriptStructure *pParams, Script::CSc
 	pParams->GetString( NONAME, &p_concat_string, Script::ASSERT );
 
 	uint32 type = p_elem->GetType();
-	if ( type == CRCD( 0x40d92263, "TextBlockElement" ) )
+	if ( type == Crc::ConstCRC( "TextBlockElement" ) )
 	{
 		CTextBlockElement* pTextBlockElement = (CTextBlockElement*)p_elem.Convert();
-		return pTextBlockElement->Concatenate( p_concat_string, pParams->ContainsFlag( CRCD( 0x27e7a420, "enforce_max_width" ) ), pParams->ContainsFlag( Crc::ConstCRC("last_line") ) );
+		return pTextBlockElement->Concatenate( p_concat_string, pParams->ContainsFlag( Crc::ConstCRC( "enforce_max_width" ) ), pParams->ContainsFlag( Crc::ConstCRC("last_line") ) );
 	}
-	else if ( type == CRCD( 0x5200dfb6, "TextElement" ) )
+	else if ( type == Crc::ConstCRC( "TextElement" ) )
 	{
 		CTextElement* pTextElement = (CTextElement*)p_elem.Convert();
 		return pTextElement->Concatenate( p_concat_string );
@@ -1229,13 +1229,13 @@ bool ScriptTextElementBackspace(Script::CScriptStructure *pParams, Script::CScri
 	uint32 type = p_elem->GetType();
 	switch ( type )
 	{
-		case CRCC( 0x5200dfb6, "TextElement" ):
+		case Crc::ConstCRC( "TextElement" ):
 		{
 			CTextElement* p_text_element = (CTextElement*)p_elem.Convert();
 			return p_text_element->Backspace();
 			break;
 		}
-		case CRCC( 0x40d92263, "TextBlockElement" ):
+		case Crc::ConstCRC( "TextBlockElement" ):
 		{
 			CTextBlockElement* p_text_block_element = (CTextBlockElement*)p_elem.Convert();
 			return p_text_block_element->Backspace();
@@ -1259,7 +1259,7 @@ bool ScriptGetTextElementString(Script::CScriptStructure *pParams, Script::CScri
 	bool found_text = false;
 	switch ( (uint32)p_elem->GetType() )
 	{
-		case CRCC( 0x5200dfb6, "TextElement" ):
+		case Crc::ConstCRC( "TextElement" ):
 		{
 			CTextElement* p_text_element = (CTextElement*)p_elem.Convert();
 			char *p_text = p_text_element->GetText();
@@ -1270,7 +1270,7 @@ bool ScriptGetTextElementString(Script::CScriptStructure *pParams, Script::CScri
 			}
 			break;
 		}
-		case CRCC( 0x40d92263, "TextBlockElement" ):
+		case Crc::ConstCRC( "TextBlockElement" ):
 		{
 			CTextBlockElement* p_text_block_element = (CTextBlockElement*)p_elem.Convert();
 			char text[Front::MAX_EDITABLE_TEXT_BLOCK_LENGTH];
@@ -1300,13 +1300,13 @@ bool ScriptGetTextElementLength(Script::CScriptStructure *pParams, Script::CScri
 	int length = 0;
 	switch ( type )
 	{
-		case CRCC( 0x5200dfb6, "TextElement" ):
+		case Crc::ConstCRC( "TextElement" ):
 		{
 			CTextElement* p_text_element = (CTextElement*) p_elem.Convert();
 			length = p_text_element->GetLength();
 			break;
 		}
-		case CRCC( 0x40d92263, "TextBlockElement" ):
+		case Crc::ConstCRC( "TextBlockElement" ):
 		{
 			CTextBlockElement* p_text_block_element = (CTextBlockElement*) p_elem.Convert();
 			length = p_text_block_element->GetLength();
@@ -1345,7 +1345,7 @@ bool ScriptMenuSelectedIndexIs(Script::CScriptStructure *pParams, Script::CScrip
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement(pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT);
 
-	Dbg_MsgAssert( (uint32) p_elem->GetType() == CRCD( 0x130ef802, "vmenu" ), ( "Screen element has wrong type." ) );
+	Dbg_MsgAssert( (uint32) p_elem->GetType() == Crc::ConstCRC( "vmenu" ), ( "Screen element has wrong type." ) );
 
 	CBaseMenu* p_menu = (CBaseMenu*)p_elem.Convert();
 

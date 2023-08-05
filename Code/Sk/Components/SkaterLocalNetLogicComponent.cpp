@@ -182,7 +182,7 @@ int	CSkaterLocalNetLogicComponent::sHandleStealMessage( Net::MsgHandlerContext* 
 		Script::CStruct* pTempStructure = new Script::CStruct;
 		pTempStructure->Clear();
 		pTempStructure->AddComponent( Crc::ConstCRC("String0"), ESYMBOLTYPE_STRING, pOldSkater->GetDisplayName() );
-		Script::RunScript( CRCD(0xb3ff911, "GraffitiStealYou"), pTempStructure, pCurrSkater );
+		Script::RunScript( Crc::ConstCRC( "GraffitiStealYou"), pTempStructure, pCurrSkater );
 		delete pTempStructure;
 	}
 	else if ( pCurrSkater->GetID() == (uint32)p_msg->m_OldOwner )

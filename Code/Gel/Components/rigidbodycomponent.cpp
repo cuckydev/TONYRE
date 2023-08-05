@@ -148,7 +148,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 	m_orientation.Normalize();
 	m_orientation.GetMatrix(m_matrix);
 	
-	pParams->GetVector(CRCD(0xc4c809e, "vel"), &m_vel);
+	pParams->GetVector(Crc::ConstCRC( "vel"), &m_vel);
 	
 	pParams->GetVector(Crc::ConstCRC("rotvel"), &m_rotvel);
 
@@ -197,10 +197,10 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 	pParams->GetChecksum(Crc::ConstCRC("SettleScript"), &m_script_names.settle);
 	pParams->GetChecksum(Crc::ConstCRC("StuckScript"), &m_script_names.stuck);
 	
-	if (pParams->ContainsComponentNamed(CRCD(0xdd85bda, "CallbackParams")))
+	if (pParams->ContainsComponentNamed(Crc::ConstCRC( "CallbackParams")))
 	{
 		Script::CStruct* p_struct;
-		pParams->GetStructure(CRCD(0xdd85bda, "CallbackParams"), &p_struct, Script::ASSERT);
+		pParams->GetStructure(Crc::ConstCRC( "CallbackParams"), &p_struct, Script::ASSERT);
 		
 		mp_script_params = new Script::CStruct;
 		*mp_script_params += *p_struct;
@@ -283,8 +283,8 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 			float half_height = 42.0f;
 			float half_depth = 32.0f;
 			
-			pParams->GetFloat(CRCD(0xab21af0,"height"), &half_height);
-			pParams->GetFloat(CRCD(0x55ce396,"depth"), &half_depth);
+			pParams->GetFloat(Crc::ConstCRC("height"), &half_height);
+			pParams->GetFloat(Crc::ConstCRC("depth"), &half_depth);
 			half_height /= 2.0f;
 			half_depth /= 2.0f;
 			
@@ -306,7 +306,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 			
 			pParams->GetFloat(Crc::ConstCRC("top_radius"), &top_radius);
 			pParams->GetFloat(Crc::ConstCRC("bottom_radius"), &bottom_radius);
-			pParams->GetFloat(CRCD(0xab21af0,"height"), &half_height);
+			pParams->GetFloat(Crc::ConstCRC("height"), &half_height);
 			pParams->GetInteger(Crc::ConstCRC("edges"), &edges);
 			half_height /= 2.0f;
 			
@@ -603,7 +603,7 @@ CBaseComponent::EMemberFunctionResult CRigidBodyComponent::CallMemberFunction( u
 		case Crc::ConstCRC("RigidBody_IgnoreSkater"):
 		{
 			pParams->GetFloat(NO_NAME, &m_ignore_skater_countdown, Script::ASSERT);
-			if (pParams->ContainsFlag(CRCD(0x19176c5, "frames")) || pParams->ContainsFlag(Crc::ConstCRC("frame")))
+			if (pParams->ContainsFlag(Crc::ConstCRC( "frames")) || pParams->ContainsFlag(Crc::ConstCRC("frame")))
 			{
 				m_ignore_skater_countdown *= (1.0f / 60.0f);
 			}
@@ -624,7 +624,7 @@ CBaseComponent::EMemberFunctionResult CRigidBodyComponent::CallMemberFunction( u
 		case Crc::ConstCRC("RigidBody_Kick"):
 		{
 			Mth::Vector v;
-			if (pParams->GetVector(CRCD(0xc4c809e, "vel"), &v))
+			if (pParams->GetVector(Crc::ConstCRC( "vel"), &v))
 			{
 				GetObj()->SetVel(m_vel += v);
 			}
@@ -646,7 +646,7 @@ CBaseComponent::EMemberFunctionResult CRigidBodyComponent::CallMemberFunction( u
 			break;
 			
 		// @script : RigidBody_DisablePlayerCollision
-		case CRCC(0xa2bbb3a, "RigidBody_DisablePlayerCollision"):
+		case Crc::ConstCRC( "RigidBody_DisablePlayerCollision"):
 			m_flags.Set(PLAYER_COLLISION_DISABLED);
 			break;
 		
@@ -772,8 +772,8 @@ void CRigidBodyComponent::GetDebugInfo(Script::CStruct *p_info)
 		p_info->AddStructure("CallbackParams", mp_script_params);
 	}
 
-	p_info->AddChecksum("DieUponSettling", m_flags.Test(DIE_UPON_SLEEP) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum("PlayerCollisionDisabled", m_flags.Test(PLAYER_COLLISION_DISABLED) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum("DieUponSettling", m_flags.Test(DIE_UPON_SLEEP) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum("PlayerCollisionDisabled", m_flags.Test(PLAYER_COLLISION_DISABLED) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	
 	if (m_sound_setup.bounce_sound)
 	{

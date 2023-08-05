@@ -119,13 +119,13 @@ CGoal::CGoal( Script::CStruct* pParams ) : Lst::Node<CGoal>( this )
     
 	CreateGoalFlags( pParams );
 
-	if ( pParams->ContainsFlag( CRCD( 0x4ab5f14, "single_timer" ) ) )
+	if ( pParams->ContainsFlag( Crc::ConstCRC( "single_timer" ) ) )
 	{
 		// Dbg_MsgAssert( mp_children->m_relative, ( "single_timer flag used on a goal without children" ) );
 		m_inherited_flags |= GOAL_INHERITED_FLAGS_ONE_TIMER;
 	}
 
-	if ( pParams->ContainsFlag( CRCD( 0xc6b4258f, "retry_stage" ) ) )
+	if ( pParams->ContainsFlag( Crc::ConstCRC( "retry_stage" ) ) )
 	{
 		m_inherited_flags |= GOAL_INHERITED_FLAGS_RETRY_STAGE;
 	}
@@ -164,7 +164,7 @@ void CGoal::Init()
 
 	// make sure there's a goal description so that the intro cam anims can
 	// be killed and Gary will be happy
-	Dbg_MsgAssert( mp_params->ContainsComponentNamed( CRCD(0xc5d7e6b,"goal_description") ), ( "No goal description defined for %s\n", Script::FindChecksumName( GetGoalId() ) ) );
+	Dbg_MsgAssert( mp_params->ContainsComponentNamed( Crc::ConstCRC("goal_description") ), ( "No goal description defined for %s\n", Script::FindChecksumName( GetGoalId() ) ) );
 	
 	RunCallbackScript( vINIT );
 	ReplaceTrickText();
@@ -357,7 +357,7 @@ void CGoal::Uninit( bool propogate, int recurse_level )
 	
 /*	
 	Script::RunScript( Script::GenerateCRC( "goal_kill_proset_geom" ), mp_params );
-	mp_params->GetChecksum( CRCD( 0x2d7e03d, "trigger_obj_id" ), &trigger_obj_id );
+	mp_params->GetChecksum( Crc::ConstCRC( "trigger_obj_id" ), &trigger_obj_id );
 	if ( trigger_obj_id )
 	{
 		Obj::CMovingObject* p_pos_obj = nullptr;
@@ -658,7 +658,7 @@ bool CGoal::Deactivate( bool force, bool affect_tree )
 
         RunCallbackScript( vDEACTIVATE );
 
-		if (!mp_params->ContainsFlag( CRCD( 0x38221df4, "quick_start" ) ))
+		if (!mp_params->ContainsFlag( Crc::ConstCRC( "quick_start" ) ))
 		{
 			// If not retrying, then remove the testing_goal flag
 			// The presence of the testing_goal flag prevents the goal from being marked as
@@ -666,8 +666,8 @@ bool CGoal::Deactivate( bool force, bool affect_tree )
 			mp_params->RemoveFlag(Crc::ConstCRC("testing_goal"));
 		}	
 		
-		if ( !mp_params->ContainsFlag( CRCD( 0xc309cad1, "just_won_goal" ) )
-			 && !mp_params->ContainsFlag( CRCD( 0x38221df4, "quick_start" ) ) )
+		if ( !mp_params->ContainsFlag( Crc::ConstCRC( "just_won_goal" ) )
+			 && !mp_params->ContainsFlag( Crc::ConstCRC( "quick_start" ) ) )
 		{
 			Script::RunScript(Crc::ConstCRC("ready_skater_for_early_end_current_goal"), mp_params);
 			
@@ -721,7 +721,7 @@ bool CGoal::Win( void )
 	// see if it's a leaf node
 	if ( mp_children->m_relative == 0 )
 	{
-		mp_params->AddChecksum( NONAME, CRCD( 0xc309cad1, "just_won_goal" ) );			
+		mp_params->AddChecksum( NONAME, Crc::ConstCRC( "just_won_goal" ) );			
 
 		GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 		
@@ -833,7 +833,7 @@ bool CGoal::Win( void )
 			Uninit();
 		}
 				
-		mp_params->RemoveFlag( CRCD( 0xc309cad1, "just_won_goal" ) );
+		mp_params->RemoveFlag( Crc::ConstCRC( "just_won_goal" ) );
 	
 		return true;
 	}
@@ -1054,7 +1054,7 @@ bool CGoal::AllSkatersAtEndOfRun()
 		Obj::CSkaterEndRunComponent* p_skater_endrun_component = GetSkaterEndRunComponentFromObject(p_Skater);
 		Dbg_Assert( p_skater_endrun_component );
 
-		if( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0x9d65d0e7, "horse" ))
+		if( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "horse" ))
 		{
 			if( p_Skater->IsPaused() || p_Skater->IsHidden())
 			{
@@ -1130,7 +1130,7 @@ bool CGoal::Update( void )
 
 		if ( ShouldRequireCombo() )
 		{
-			if ( !mp_params->ContainsFlag( CRCD( 0x7100155d, "combo_started" ) ) )
+			if ( !mp_params->ContainsFlag( Crc::ConstCRC( "combo_started" ) ) )
 			{
 				Mdl::Skate *skate_mod =  Mdl::Skate::Instance();
 				Obj::CSkater* pSkater = skate_mod->GetLocalSkater();
@@ -1382,7 +1382,7 @@ void CGoal::ResetGoalFlags()
 		p_comp = p_next;
 	}
 	m_flagsSet = 0;
-	mp_params->AddInteger( CRCD( 0xcf6cd3c1, "num_flags_set" ), 0 );
+	mp_params->AddInteger( Crc::ConstCRC( "num_flags_set" ), 0 );
 }
 
 
@@ -1499,7 +1499,7 @@ bool CGoal::NextTourSpot()
 
 		// send a flag if this is the first spot
 		if ( m_flagsSet == 0 )
-			p_waypoint->AddChecksum( NONAME, CRCD( 0xb13f3ab8, "first_spot" ) );
+			p_waypoint->AddChecksum( NONAME, Crc::ConstCRC( "first_spot" ) );
 
 		// send a flag if this is a restart
 		if ( mp_params->ContainsFlag( Crc::ConstCRC("quick_start") ) )
@@ -1581,13 +1581,13 @@ void CGoal::InitTrickObjects()
 void CGoal::GotTrickObject( uint32 clusterId )
 {
 	// do we care?
-	if ( mp_params->ContainsFlag( CRCD( 0xf268c278, "SkateTheLine" ) ) )
+	if ( mp_params->ContainsFlag( Crc::ConstCRC( "SkateTheLine" ) ) )
 	{
 		// we do
 		uint32 current;
 		mp_params->GetChecksum( Crc::ConstCRC("current_cluster"), &current, Script::ASSERT );
 		if ( current == clusterId )
-			Script::RunScript( CRCD( 0x62b12a8e, "Goal_SkateTheLine_got_node" ), mp_params );
+			Script::RunScript( Crc::ConstCRC( "Goal_SkateTheLine_got_node" ), mp_params );
 	}
 }
 
@@ -1695,7 +1695,7 @@ bool CGoal::CheckSpecialGoal()
 	// if it's a grind, we need to check for the FS and BS version too
 	uint32 trick_type;
 	mp_params->GetChecksum( Crc::ConstCRC("trick_type"), &trick_type, Script::ASSERT );
-	if ( trick_type == CRCD( 0x255ed86f, "grind" ) )
+	if ( trick_type == Crc::ConstCRC( "grind" ) )
 	{
 		char test_trick[128];
 		// frontside
@@ -1833,7 +1833,7 @@ void CGoal::NoValidKeyCombos()
 {
 	Script::CStruct* p_temp_params = new Script::CStruct();
 	p_temp_params->AddChecksum( Crc::ConstCRC("goal_id"), GetGoalId() );
-	Script::RunScript( CRCD( 0xf3c20af5, "goal_no_valid_key_combos" ), p_temp_params );
+	Script::RunScript( Crc::ConstCRC( "goal_no_valid_key_combos" ), p_temp_params );
 	delete p_temp_params;
 }
 
@@ -1888,7 +1888,7 @@ bool CGoal::HasWonGoal()
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();	
 	if ( gamenet_man->InNetGame() && 
-		 ( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0xec200eaa, "netgoalattack" )) ||
+		 ( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netgoalattack" )) ||
 		 ( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC("netlobby")))
 	{
 		return m_netIsBeat;
@@ -2022,7 +2022,7 @@ void CGoal::MarkBeaten()
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();
 	
-	if( gamenet_man->InNetGame()  && skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0xec200eaa, "netgoalattack" ) )
+	if( gamenet_man->InNetGame()  && skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netgoalattack" ) )
 	{
 		m_netIsBeat = true;
 	}
@@ -2341,7 +2341,7 @@ bool CGoal::CheckDistanceRecord()
 	
 void CGoal::SetQuickStartFlag()
 {
-	mp_params->AddChecksum( NONAME, CRCD( 0x38221df4, "quick_start" ) );
+	mp_params->AddChecksum( NONAME, Crc::ConstCRC( "quick_start" ) );
 }
 
 /******************************************************************/
@@ -2372,7 +2372,7 @@ bool CGoal::IsProGoal()
 
 bool CGoal::IsNetGoal()
 {
-	return ( mp_params->ContainsComponentNamed( CRCD(0xd15ea00,"net") ) );
+	return ( mp_params->ContainsComponentNamed( Crc::ConstCRC("net") ) );
 }
 
 /******************************************************************/
@@ -2494,13 +2494,13 @@ void CGoal::ClearEndRun( Script::CScript* pScript )
 // I'm not sure if it still needs to be cleared here any more
 // as it should have been executed immediately
 // I'm removing this line for now, as the ExceptionComponent has gone  
-//		GetExceptionComponentFromObject(p_skater)->ClearException( CRCD( 0x822e13a9, "RunHasEnded" ));
-		p_skater->CallMemberFunction( CRCD( 0x4c58771e, "EndOfRunDone" ), nullptr, pScript );
+//		GetExceptionComponentFromObject(p_skater)->ClearException( Crc::ConstCRC( "RunHasEnded" ));
+		p_skater->CallMemberFunction( Crc::ConstCRC( "EndOfRunDone" ), nullptr, pScript );
 		p_skater_endrun_component->ClearStartedEndOfRunFlag();
 		break;
 	case vGOALENDOFRUN:
-//		GetExceptionComponentFromObject(p_skater)->ClearException( CRCD( 0xab676175, "GoalHasEnded" ) );
-		p_skater->CallMemberFunction( CRCD( 0x69a9e37f, "Goal_EndOfRunDone" ), nullptr, pScript );
+//		GetExceptionComponentFromObject(p_skater)->ClearException( Crc::ConstCRC( "GoalHasEnded" ) );
+		p_skater->CallMemberFunction( Crc::ConstCRC( "Goal_EndOfRunDone" ), nullptr, pScript );
 		p_skater_endrun_component->ClearStartedGoalEndOfRunFlag();
 		break;
 	default:
@@ -2592,7 +2592,7 @@ bool CGoal::AddTempSpecialTrick()
 	if ( is_cat )
 	{
 		int tempTrickName;
-		mp_params->GetInteger( CRCD(0xb502200,"premade_cat_index"), &tempTrickName, Script::ASSERT );
+		mp_params->GetInteger( Crc::ConstCRC("premade_cat_index"), &tempTrickName, Script::ASSERT );
 		trickName = (uint32)tempTrickName;
 	}
 	else
@@ -2621,18 +2621,18 @@ bool CGoal::AddTempSpecialTrick()
 	Script::CStruct* p_keyBindings = nullptr;
 	switch ( trickType )
 	{
-		case CRCC( 0x61a1bc57, "cat" ):
-		case CRCC( 0x439f4704, "air" ):
-			p_keyBindings = Script::GetStructure( CRCD( 0x4764231d, "goal_special_tricks_air" ), Script::ASSERT );
+		case Crc::ConstCRC( "cat" ):
+		case Crc::ConstCRC( "air" ):
+			p_keyBindings = Script::GetStructure( Crc::ConstCRC( "goal_special_tricks_air" ), Script::ASSERT );
 			break;
-		case CRCC( 0xa549b57b, "lip" ):
-			p_keyBindings = Script::GetStructure( CRCD( 0xa1b2d162, "goal_special_tricks_lip" ), Script::ASSERT );
+		case Crc::ConstCRC( "lip" ):
+			p_keyBindings = Script::GetStructure( Crc::ConstCRC( "goal_special_tricks_lip" ), Script::ASSERT );
 			break;
-		case CRCC( 0x255ed86f, "grind" ):
-			p_keyBindings = Script::GetStructure( CRCD( 0xf481d0cd, "goal_special_tricks_grind" ), Script::ASSERT );
+		case Crc::ConstCRC( "grind" ):
+			p_keyBindings = Script::GetStructure( Crc::ConstCRC( "goal_special_tricks_grind" ), Script::ASSERT );
 			break;
-		case CRCC( 0xef24413b, "manual" ):
-			p_keyBindings = Script::GetStructure( CRCD( 0xd72d5cf7, "goal_special_tricks_manual" ), Script::ASSERT );
+		case Crc::ConstCRC( "manual" ):
+			p_keyBindings = Script::GetStructure( Crc::ConstCRC( "goal_special_tricks_manual" ), Script::ASSERT );
 			break;
 		default:
 			Dbg_MsgAssert( p_keyBindings, ( "AddTempSpecialTrick got weird trick type\n" ) );
@@ -2702,7 +2702,7 @@ bool CGoal::AddTempSpecialTrick()
 		}
 
 		// make a note of this so we can remove it later
-		mp_params->AddInteger( CRCD( 0xbc678826, "should_remove_trick" ), 1 );
+		mp_params->AddInteger( Crc::ConstCRC( "should_remove_trick" ), 1 );
 	}
 
 	// testing
@@ -2747,14 +2747,14 @@ void CGoal::RemoveTempSpecialTrick()
 		if ( mp_params->ContainsFlag( Crc::ConstCRC("create_a_trick") ) )
 		{
 			// int premade_cat_index;
-			// mp_params->GetInteger( CRCD(0xb502200,"premade_cat_index"), &premade_cat_index, Script::ASSERT );
+			// mp_params->GetInteger( Crc::ConstCRC("premade_cat_index"), &premade_cat_index, Script::ASSERT );
 			// trickName = (uint32)premade_cat_index;
 			
 			// temp cat tricks are always on 0
 			trickName = 0;
 		}
 		else
-			mp_params->GetChecksum( CRCD( 0xef6fb249, "trick_name" ), &trickName, Script::ASSERT );
+			mp_params->GetChecksum( Crc::ConstCRC( "trick_name" ), &trickName, Script::ASSERT );
 
 		// int numTricks = p_SkaterProfile->GetNumSpecialTrickSlots();
 		// just look through all tricks
@@ -2766,10 +2766,10 @@ void CGoal::RemoveTempSpecialTrick()
 			{
 				// printf("Removing special trick\n");
 				Obj::SSpecialTrickInfo new_info;
-				new_info.m_TrickName = CRCD( 0xf60c9090, "unassigned" );
-				new_info.m_TrickSlot = CRCD( 0xf60c9090, "unassigned" );
+				new_info.m_TrickName = Crc::ConstCRC( "unassigned" );
+				new_info.m_TrickSlot = Crc::ConstCRC( "unassigned" );
 				pSkaterProfile->SetSpecialTrickInfo( i, new_info );
-				mp_params->AddInteger( CRCD( 0xbc678826, "should_remove_trick" ), 0 );
+				mp_params->AddInteger( Crc::ConstCRC( "should_remove_trick" ), 0 );
 				break;
 			}
 		}
@@ -2856,7 +2856,7 @@ void CGoal::LoadSaveData( Script::CStruct *pFlags )
 	
 	// check for a completion record
 	int record = 0;
-	pFlags->GetInteger( CRCD( 0xc22a2b72, "win_record" ), &record, Script::ASSERT );
+	pFlags->GetInteger( Crc::ConstCRC( "win_record" ), &record, Script::ASSERT );
 	mp_params->AddInteger( "win_record", record );
 	uint32 record_type;
 	if ( mp_params->GetChecksum( "record_type", &record_type, Script::NO_ASSERT ) )
@@ -3009,7 +3009,7 @@ bool fill_trick_and_key_combo_arrays( Script::CArray* p_key_combos, Script::CArr
 				Game::CCreateATrick* pCreatedTrick = pSkater->m_created_trick[cat_trick_index];
 				Dbg_Assert( pCreatedTrick );
 				// Script::PrintContents( pCreatedTrick->mp_other_params );
-				pCreatedTrick->mp_other_params->GetString( CRCD( 0xa1dc81f9, "name" ), &p_trick_name, Script::ASSERT );
+				pCreatedTrick->mp_other_params->GetString( Crc::ConstCRC( "name" ), &p_trick_name, Script::ASSERT );
 			}
 		}
 		else
@@ -3163,7 +3163,7 @@ bool CGoal::ReplaceTrickText()
 	int premade_cat_index = -1;
 	if ( mp_params->ContainsFlag( Crc::ConstCRC("create_a_trick") ) )
 	{
-		mp_params->GetInteger( CRCD(0xb502200,"premade_cat_index"), &premade_cat_index, Script::ASSERT );
+		mp_params->GetInteger( Crc::ConstCRC("premade_cat_index"), &premade_cat_index, Script::ASSERT );
 	}
 
 	// get the new string arrays
@@ -3335,13 +3335,13 @@ void CGoal::GetRewardsStructure( Script::CStruct *p_structure, bool give_cash )
 	if ( !mp_params->ContainsFlag( Crc::ConstCRC("edited_goal") ) )
 		pGoalManager->AddGoalPoint();
 
-	p_structure->AddChecksum( NONAME, CRCD( 0xc7fef529, "awarded_goal_point" ) );
+	p_structure->AddChecksum( NONAME, Crc::ConstCRC( "awarded_goal_point" ) );
 
 	// No rewards in net games, only fanfare
 	if( gamenet_man->InNetGame() == false )
 	{
 		// special case for special trick goal
-		if ( mp_params->ContainsFlag( "reward_trickslot" ) && !mp_params->ContainsFlag( CRCD( 0x8e6014f6, "create_a_trick" ) ) )
+		if ( mp_params->ContainsFlag( "reward_trickslot" ) && !mp_params->ContainsFlag( Crc::ConstCRC( "create_a_trick" ) ) )
 		{
 			// printf("found trickslot flag\n");
 			Mdl::Skate* skate_mod = Mdl::Skate::Instance();
@@ -3356,8 +3356,8 @@ void CGoal::GetRewardsStructure( Script::CStruct *p_structure, bool give_cash )
 				{
 					// printf("was going to remove the special trick, but don't!\n");
 					mp_params->AddInteger( "should_remove_trick", 0 );
-					// p_reward_params->AddChecksum( NONAME, CRCD( 0x65ca5ffc, "already_added_trickslot" ) );
-					mp_params->AddChecksum( NONAME, CRCD( 0x65ca5ffc, "already_added_trickslot" ) );
+					// p_reward_params->AddChecksum( NONAME, Crc::ConstCRC( "already_added_trickslot" ) );
+					mp_params->AddChecksum( NONAME, Crc::ConstCRC( "already_added_trickslot" ) );
 					mp_params->AddInteger( Crc::ConstCRC("just_added_trickslot"), 1 );
 				}					
 			}
@@ -3479,7 +3479,7 @@ bool CGoal::IsHorseGoal()
 
 bool CGoal::IsFindGapsGoal()
 {
-    return ( mp_params->ContainsFlag( CRCD( 0xc5ec08e6, "findGaps" ) ) );
+    return ( mp_params->ContainsFlag( Crc::ConstCRC( "findGaps" ) ) );
 }
 
 
@@ -3501,7 +3501,7 @@ bool CGoal::ShouldRequireCombo()
 void CGoal::AppendDifficultyLevelParams()
 {
 	Script::CArray* pLevelParams;
-	if ( mp_params->GetArray( CRCD( 0x85104ab3, "difficulty_level_params" ), &pLevelParams, Script::NO_ASSERT ) )
+	if ( mp_params->GetArray( Crc::ConstCRC( "difficulty_level_params" ), &pLevelParams, Script::NO_ASSERT ) )
 	{
 		CGoalManager* pGoalManager = GetGoalManager();
 		Dbg_Assert( pGoalManager );

@@ -13,7 +13,7 @@
 
 #include <gel/object/basecomponent.h>
 
-#define		CRC_WEAPON CRCD( 0x96cc5819, "Weapon" )
+#define		CRC_WEAPON Crc::ConstCRC( "Weapon" )
 
 #define		GetWeaponComponent()				((Obj::CWeaponComponent*)GetComponent(CRC_WEAPON))
 #define		GetWeaponComponentFromObject(pObj)	((Obj::CWeaponComponent*)(pObj)->GetComponent(CRC_WEAPON))

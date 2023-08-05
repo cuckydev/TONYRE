@@ -83,9 +83,9 @@ void CVehicleCameraComponent::InitFromStructure( Script::CStruct* pParams )
 {
 	uint32 subject_id;
 	
-	if (pParams->ContainsComponentNamed(CRCD(0x431c185, "subject")))
+	if (pParams->ContainsComponentNamed(Crc::ConstCRC( "subject")))
 	{
-		pParams->GetChecksum(CRCD(0x431c185, "subject"), &subject_id, Script::ASSERT);
+		pParams->GetChecksum(Crc::ConstCRC( "subject"), &subject_id, Script::ASSERT);
 		mp_subject = static_cast< CCompositeObject* >(CCompositeObjectManager::Instance()->GetObjectByID(subject_id));
 		Dbg_MsgAssert(mp_subject, ("Vehicle camera given subject which is not a composite object"));
 		mp_subject_vehicle_component = static_cast< CVehicleComponent* >(mp_subject->GetComponent(CRC_VEHICLE));
@@ -180,7 +180,7 @@ CBaseComponent::EMemberFunctionResult CVehicleCameraComponent::CallMemberFunctio
 {
 	switch ( Checksum )
 	{
-		case CRCC(0x469fd, "VehicleCamera_Reset"):
+		case Crc::ConstCRC( "VehicleCamera_Reset"):
 			RefreshFromStructure(pParams);
 			Finalize();
 			break;

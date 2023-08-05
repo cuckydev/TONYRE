@@ -16,7 +16,7 @@
 #include <gel/soundfx/soundfx.h>
 
 // Just thinking about it - a generic way of accessing the component				 
-#define		CRC_SOUND CRCD(0x7713c7b,"Sound")
+#define		CRC_SOUND Crc::ConstCRC("Sound")
 #define		GetSoundComponent() ((Obj::CSoundComponent*)GetComponent(CRC_SOUND))
 #define		GetSoundComponentFromObject(pObj) ((Obj::CSoundComponent*)(pObj)->GetComponent(CRC_SOUND))
 

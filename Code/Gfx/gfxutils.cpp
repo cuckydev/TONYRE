@@ -225,7 +225,7 @@ bool GetScaleFromParams( Mth::Vector* pScaleVector, Script::CStruct* pParams )
 	}
 		
 	bool xFound = pParams->GetFloat( Crc::ConstCRC("x"), &(*pScaleVector)[X], false );
-	bool yFound = pParams->GetFloat( CRCD(0x424d9ea,"y"), &(*pScaleVector)[Y], false );
+	bool yFound = pParams->GetFloat( Crc::ConstCRC("y"), &(*pScaleVector)[Y], false );
 	bool zFound = pParams->GetFloat( Crc::ConstCRC("z"), &(*pScaleVector)[Z], false );
 
 	return ( xFound || yFound || zFound );

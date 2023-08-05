@@ -1694,7 +1694,7 @@ uint32 CAnimationComponent::PlayAnim(Script::CStruct *pParams, Script::CScript *
 		// but clear the flag for next time.
 		mGotBlendPeriodOut=false;
 	}
-	else if (pParams->GetFloat(CRCD( 0x4f3abd6c,"BlendPeriodPercent"), &BlendPeriodPercent) )
+	else if (pParams->GetFloat(Crc::ConstCRC("BlendPeriodPercent"), &BlendPeriodPercent) )
 	{
 		BlendPeriod = AnimDuration(AnimChecksum) * (BlendPeriodPercent/100.0f);
 	}

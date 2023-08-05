@@ -1079,7 +1079,7 @@ void CStatsManagerComponent::Land()
                 switch ( stat )
                 {
                     case 0xb1fc0722: //"manual_balance"
-                        p_params->AddString( "text", Script::GetString( CRCD(0x69f2596,"manual_increase_text") ) );
+                        p_params->AddString( "text", Script::GetString( Crc::ConstCRC("manual_increase_text") ) );
                         break;
                     case 0xf73a13e3: //"rail_balance"
                         p_params->AddString( "text", Script::GetString( Crc::ConstCRC("rail_increase_text") ) );

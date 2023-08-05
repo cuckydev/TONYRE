@@ -161,7 +161,7 @@ CBaseComponent::EMemberFunctionResult CSkaterStancePanelComponent::CallMemberFun
 			break;
 
         // @script | PressureOn | sets pressure to on (check with InPressure)
-		case CRCC(0xa23d710,"PressureOn"):
+		case Crc::ConstCRC("PressureOn"):
 			if (m_in_pressure == false)
 			{
 				m_in_pressure = true;

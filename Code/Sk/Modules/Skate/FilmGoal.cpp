@@ -46,7 +46,7 @@ bool CFilmGoal::Activate()
 	m_filming = false;
 
 	// script param for displaying time on camera...
-	mp_params->AddInteger( CRCD( 0x9278ca8d, "time_on_camera" ), 0 );
+	mp_params->AddInteger( Crc::ConstCRC( "time_on_camera" ), 0 );
 	
 	int time_required;
 	if ( mp_params->GetInteger( Crc::ConstCRC("total_time_required"), &time_required, Script::NO_ASSERT ) )
@@ -83,7 +83,7 @@ bool CFilmGoal::Update()
 				m_timeOnCamera += (Tmr::Time)( Tmr::FrameLength() * 1000 );
 				
 				// script param for displaying time on camera...
-				mp_params->AddInteger( CRCD( 0x9278ca8d, "time_on_camera" ), (int)m_timeOnCamera );
+				mp_params->AddInteger( Crc::ConstCRC( "time_on_camera" ), (int)m_timeOnCamera );
 			}
 			// printf( "on camera: %i, required: %i\n", (int)m_timeOnCamera, (int)m_timeRequired );
 	
@@ -155,7 +155,7 @@ void CFilmGoal::CheckpointHit()
 bool CFilmGoal::target_object_visible()
 {
 	uint32 target_obj_id;
-	mp_params->GetChecksum( CRCD( 0xd262ed09, "film_target" ), &target_obj_id, Script::ASSERT );
+	mp_params->GetChecksum( Crc::ConstCRC( "film_target" ), &target_obj_id, Script::ASSERT );
 	Obj::CCompositeObject* pTargetObj = (Obj::CCompositeObject*)Obj::ResolveToObject( target_obj_id );
 	Dbg_Assert( pTargetObj );
 

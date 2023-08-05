@@ -1063,7 +1063,7 @@ CSkater::CSkater ( int player_num, CBaseManager* p_obj_manager, bool local_clien
 	}
 	if (heap_num == 1)
 	{
-		Obj::CTracker::Instance()->AddAlias(CRCD(0x6ed3fa7,"Skater2"),this);				
+		Obj::CTracker::Instance()->AddAlias(Crc::ConstCRC("Skater2"),this);				
 	}
 	
 	// low priority (but not lower than cameras) ensures that moving objects we may skate on or
@@ -1243,7 +1243,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 			// so it can get me as the target
 			Script::CStruct * p_component_params = new Script::CStruct;
 			p_component_params->AddChecksum(Crc::ConstCRC("CameraTarget"), GetID());
-			// p_component_params->AddChecksum(CRCD(0x1313e3c,"ProximTriggerTarget"), GetID());
+			// p_component_params->AddChecksum(Crc::ConstCRC("ProximTriggerTarget"), GetID());
 			p_component_params->AddChecksum(Crc::ConstCRC("name"),name);
 	
 			p_cam_object = CCompositeObjectManager::Instance()->CreateCompositeObjectFromNode(
@@ -1347,7 +1347,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	uint32 anim_script_name = Crc::ConstCRC("animload_human");
 	if (pSkaterInfoParams)
 	{
-		pSkaterInfoParams->GetChecksum(CRCD(0x8b7488e,"skater_anims"),&anim_script_name,Script::NO_ASSERT);
+		pSkaterInfoParams->GetChecksum(Crc::ConstCRC("skater_anims"),&anim_script_name,Script::NO_ASSERT);
 	}
 	mp_animation_component->SetAnims( anim_script_name );
 	mp_animation_component->EnableBlending( true );
@@ -1537,7 +1537,7 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 		{
 			m_created_trick[i] = new Game::CCreateATrick;
 		}
-        Script::RunScript( CRCD(0xbdc1c89,"spawn_add_premade_cats_to_skater"), nullptr, this );
+        Script::RunScript( Crc::ConstCRC("spawn_add_premade_cats_to_skater"), nullptr, this );
         
 		// setup the correct physics state
 		CCompositeObject::CallMemberFunction(Crc::ConstCRC("SkaterPhysicsControl_SwitchWalkingToSkating"), nullptr, nullptr);

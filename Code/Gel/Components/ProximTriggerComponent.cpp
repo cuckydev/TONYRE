@@ -63,10 +63,10 @@ CProximTriggerComponent::~CProximTriggerComponent()
 
 void CProximTriggerComponent::InitFromStructure( Script::CStruct* pParams )
 {
-	if (pParams->ContainsComponentNamed(CRCD(0x1313e3c, "ProximTriggerTarget")))
+	if (pParams->ContainsComponentNamed(Crc::ConstCRC( "ProximTriggerTarget")))
 	{
 		uint32 script_target_id;
-		pParams->GetChecksum(CRCD(0x1313e3c, "ProximTriggerTarget"), &script_target_id);
+		pParams->GetChecksum(Crc::ConstCRC( "ProximTriggerTarget"), &script_target_id);
 		
 		mp_script_target_object = static_cast< CCompositeObject* >(CCompositeObjectManager::Instance()->GetObjectByID(script_target_id));
 		Dbg_MsgAssert(mp_script_target_object, ("ProximTriggerComponent given unidentifiable target object"));

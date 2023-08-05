@@ -17,7 +17,7 @@
 #include <gel/object/basecomponent.h>
 
 // Replace this with the CRCD of the component you are adding
-#define		CRC_NEAR							CRCD( 0x89b3e3ee, "near" )
+#define		CRC_NEAR							Crc::ConstCRC( "near" )
 
 //  Standard accessor macros for getting the component either from within an object, or given an object.
 #define		GetNearComponent()					((Obj::CNearComponent*)GetComponent(CRC_NEAR))

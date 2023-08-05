@@ -287,7 +287,7 @@ void CModelComponent::InitModel( Script::CStruct* pParams )
 				char fullModelName[vMAX_PATH];
 
 				uint32 skeletonName;
-				if ( pParams->GetChecksum( CRCD(0x9794932,"skeletonName"), &skeletonName, Script::NO_ASSERT ) )
+				if ( pParams->GetChecksum( Crc::ConstCRC("skeletonName"), &skeletonName, Script::NO_ASSERT ) )
 				{
 					// if it's a skinned model
 					Gfx::GetModelFileName(pModelName, ".skin", fullModelName);
@@ -328,7 +328,7 @@ void CModelComponent::InitModel( Script::CStruct* pParams )
 						if ( pParams->GetFloat( paramName, &modelDist, Script::NO_ASSERT ) )
 						{
 							uint32 skeletonName;
-							if ( pParams->GetChecksum( CRCD(0x9794932,"skeletonName"), &skeletonName, Script::NO_ASSERT ) )
+							if ( pParams->GetChecksum( Crc::ConstCRC("skeletonName"), &skeletonName, Script::NO_ASSERT ) )
 							{
 								// if it's a skinned model
 								Gfx::GetModelFileName(pModelName, ".skin", fullModelName);
@@ -1181,7 +1181,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 			float v_offset;
 			bool found_all;
 
-			found_all  = pParams->GetFloat(CRCD(0xd9295c1,"u"), &u_offset);
+			found_all  = pParams->GetFloat(Crc::ConstCRC("u"), &u_offset);
 			found_all &= pParams->GetFloat(Crc::ConstCRC("v"), &v_offset);
 			found_all &= pParams->GetInteger(Crc::ConstCRC("pass"), &pass);
 
@@ -1393,7 +1393,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				// Convert from seconds to milliseconds
 				duration *= 1000.0f;
 			}
-			else if (pParams->ContainsFlag(CRCD(0x19176c5, "Frames")) || pParams->ContainsFlag(Crc::ConstCRC("Frame")))
+			else if (pParams->ContainsFlag(Crc::ConstCRC( "Frames")) || pParams->ContainsFlag(Crc::ConstCRC("Frame")))
 			{
 				// Convert from frames to milliseconds
 				duration = duration * 1000.0f / 60.0f;
@@ -1430,7 +1430,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 											   sine_power,
 											   hold_on_last_angle);
 			}	
-			if (pParams->ContainsFlag(CRCD(0x424d9ea, "Y")))
+			if (pParams->ContainsFlag(Crc::ConstCRC( "Y")))
 			{
 				flags |= 2;
 				mpDisplayRotationInfo[1].SetUp(duration,

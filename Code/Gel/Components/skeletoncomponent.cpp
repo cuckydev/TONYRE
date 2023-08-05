@@ -109,7 +109,7 @@ void CSkeletonComponent::InitFromStructure( Script::CStruct* pParams )
 
     if ( !pParams->GetChecksum( Crc::ConstCRC("skeleton"), &skeletonName, Script::NO_ASSERT ) )
 	{
-		pParams->GetChecksum( CRCD(0x9794932,"skeletonName"), &skeletonName, Script::ASSERT );
+		pParams->GetChecksum( Crc::ConstCRC("skeletonName"), &skeletonName, Script::ASSERT );
 	}
 
     init_skeleton( skeletonName );
@@ -179,7 +179,7 @@ CBaseComponent::EMemberFunctionResult CSkeletonComponent::CallMemberFunction( ui
 			// make sure we have somewhere to return the data
 			Dbg_Assert( pScript && pScript->GetParams() );
 			pScript->GetParams()->AddFloat( Crc::ConstCRC("x"), bonePos[X] );
-			pScript->GetParams()->AddFloat( CRCD(0x424d9ea,"y"), bonePos[Y] );
+			pScript->GetParams()->AddFloat( Crc::ConstCRC("y"), bonePos[Y] );
 			pScript->GetParams()->AddFloat( Crc::ConstCRC("z"), bonePos[Z] );
 		
 			return success ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
@@ -218,7 +218,7 @@ CBaseComponent::EMemberFunctionResult CSkeletonComponent::CallMemberFunction( ui
 			const char*	p_texture_name;
 			Mth::Vector	pos;
 
-			pParams->GetFloat( CRCD(0x83fdb95,"size"), &size );
+			pParams->GetFloat( Crc::ConstCRC("size"), &size );
 			pParams->GetFloat( Crc::ConstCRC("radius"), &radius );
 			pParams->GetFloat( Crc::ConstCRC("lifetime"), &lifetime );
 			pParams->GetFloat( Crc::ConstCRC("dropdown_length"), &dropdown_length );
@@ -263,7 +263,7 @@ CBaseComponent::EMemberFunctionResult CSkeletonComponent::CallMemberFunction( ui
 			pParams->GetStructure(Crc::ConstCRC("params"), &p_params, Script::ASSERT);
 			
 			Mth::Vector relative_vel;
-			pParams->GetVector(CRCD(0xc4c809e, "vel"), &relative_vel, Script::ASSERT);
+			pParams->GetVector(Crc::ConstCRC( "vel"), &relative_vel, Script::ASSERT);
 			
 			Mth::Vector relative_rotvel;
 			pParams->GetVector(Crc::ConstCRC("rotvel"), &relative_rotvel, Script::ASSERT);
@@ -418,7 +418,7 @@ void CSkeletonComponent::SpawnCompositeObject ( uint32 bone_name, Script::CArray
 	
 	// setup rigidbody's initial velocity
 	Mth::Vector vel = object_vel_factor * GetObj()->GetVel() + GetObj()->GetMatrix().Rotate(relative_vel);
-	pParams->AddVector(CRCD(0xc4c809e, "vel"), vel);
+	pParams->AddVector(Crc::ConstCRC( "vel"), vel);
 	
 	// setup rigidbody's initial rotational velocity
 	Mth::Vector rotvel = GetObj()->GetMatrix().Rotate(relative_rotvel);

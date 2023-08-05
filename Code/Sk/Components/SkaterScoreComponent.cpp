@@ -175,9 +175,9 @@ CBaseComponent::EMemberFunctionResult CSkaterScoreComponent::CallMemberFunction(
 
 		// @script | GetTotalScore | returns the total score of the skater
 		// in TotalScore
-		case CRCC( 0x8f2fe3d3, "GetTotalScore" ):
+		case Crc::ConstCRC( "GetTotalScore" ):
 		{
-			pScript->GetParams()->AddInteger( CRCD( 0xee5b2b48, "TotalScore" ), mp_score->GetTotalScore() );
+			pScript->GetParams()->AddInteger( Crc::ConstCRC( "TotalScore" ), mp_score->GetTotalScore() );
 			return CBaseComponent::MF_TRUE;
 		}
 			

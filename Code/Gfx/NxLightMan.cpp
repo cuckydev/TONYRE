@@ -942,7 +942,7 @@ void SVCLight::CalculateSectorList( void )
 			{
 				// Only consider this sector if it is not in the "NoLevelLights" lightgroup.
 				// and not in the Indoor group
-				if( p_sector->GetLightGroup() != CRCD( 0xed82767b, "NoLevelLights" )
+				if( p_sector->GetLightGroup() != Crc::ConstCRC( "NoLevelLights" )
 					&& p_sector->GetLightGroup() != Crc::ConstCRC("indoor"))
 				{
 					Nx::CGeom *p_geom = p_sector->GetGeom();
@@ -1299,7 +1299,7 @@ void CLightManager::sFakeLight(uint32 id, Script::CStruct *pParams)
 			p_light->SetIntensity( amount );
 		}
 
-		if( pParams->GetFloat( CRCD(0x999151b,"outer_radius"), &radius ))
+		if( pParams->GetFloat( Crc::ConstCRC("outer_radius"), &radius ))
 		{
 			p_light->SetRadius( radius );
 
@@ -1307,7 +1307,7 @@ void CLightManager::sFakeLight(uint32 id, Script::CStruct *pParams)
 			p_light->CalculateSectorList();
 		}
 
-		if( pParams->GetInteger( CRCD(0x59ea070,"red"), &red ))
+		if( pParams->GetInteger( Crc::ConstCRC("red"), &red ))
 		{
 			// We must have a green and blue value too.
 			pParams->GetInteger( Crc::ConstCRC("green"), &grn, true );
@@ -1337,12 +1337,12 @@ void CLightManager::sFakeLight(uint32 id, Script::CStruct *pParams)
 				p_obj_light->SetLightIntensity( amount );
 			}
 
-			if( pParams->GetFloat( CRCD(0x999151b,"outer_radius"), &radius ))
+			if( pParams->GetFloat( Crc::ConstCRC("outer_radius"), &radius ))
 			{
 				p_obj_light->SetLightRadius( radius );
 			}
 
-			if( pParams->GetInteger( CRCD(0x59ea070,"red"), &red ))
+			if( pParams->GetInteger( Crc::ConstCRC("red"), &red ))
 			{
 				// We must have a green and blue value too.
 				pParams->GetInteger( Crc::ConstCRC("green"), &grn, true );

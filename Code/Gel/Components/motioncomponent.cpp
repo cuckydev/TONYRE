@@ -843,7 +843,7 @@ CBaseComponent::EMemberFunctionResult CMotionComponent::CallMemberFunction( uint
 			break;
 
 		// @script | Obj_WaitStop | use to wait for the object to come to a complete stop
-		case CRCC( 0x8d95f1e1, "Obj_WaitStop" ):
+		case Crc::ConstCRC( "Obj_WaitStop" ):
 			pScript->SetWait(Script::WAIT_TYPE_OBJECT_STOP_FINISHED,this);
 			break;
 
@@ -969,17 +969,17 @@ CBaseComponent::EMemberFunctionResult CMotionComponent::CallMemberFunction( uint
 			m_jump_start_pos = GetObj()->m_pos;
 
 			m_jump_col_dist_above = 6.0f;
-			pParams->GetFloat( CRCD( 0xecc2c699, "col_dist_above" ), &m_jump_col_dist_above, Script::NO_ASSERT );
+			pParams->GetFloat( Crc::ConstCRC( "col_dist_above" ), &m_jump_col_dist_above, Script::NO_ASSERT );
 			m_jump_col_dist_below = 6.0f;
-			pParams->GetFloat( CRCD( 0x5c4ae2f9, "col_dist_below" ), &m_jump_col_dist_below, Script::NO_ASSERT );
+			pParams->GetFloat( Crc::ConstCRC( "col_dist_below" ), &m_jump_col_dist_below, Script::NO_ASSERT );
 			
-			if ( pParams->GetVector( CRCD( 0xfd4bc03e, "heading" ), &m_jump_heading, Script::NO_ASSERT ) )
+			if ( pParams->GetVector( Crc::ConstCRC( "heading" ), &m_jump_heading, Script::NO_ASSERT ) )
 			{
 				m_jump_use_heading = true;
 				m_jump_speed *= m_jump_heading[Y];
 				m_jump_heading[Y] = 0.0f;
 			}
-			else if ( pParams->ContainsFlag( CRCD( 0xfecffe49, "use_current_heading" ) ) )
+			else if ( pParams->ContainsFlag( Crc::ConstCRC( "use_current_heading" ) ) )
 			{
 				// m_jump_heading = Mth::Vector(0, 0, 1);
 				m_jump_heading = GetObj()->GetDisplayMatrix()[Z];
@@ -993,7 +993,7 @@ CBaseComponent::EMemberFunctionResult CMotionComponent::CallMemberFunction( uint
 			}
 
 			m_jump_use_land_height = false;
-			if ( pParams->GetFloat( CRCD( 0xa1810c27, "land_height" ), &m_jump_land_height, Script::NO_ASSERT ) )
+			if ( pParams->GetFloat( Crc::ConstCRC( "land_height" ), &m_jump_land_height, Script::NO_ASSERT ) )
 			{
 				m_jump_use_land_height = true;
 			}
@@ -2480,7 +2480,7 @@ void CMotionComponent::GetDebugInfo( Script::CStruct* p_info )
 	Dbg_MsgAssert( p_info, ( "nullptr p_info sent to CMotionComponent::GetDebugInfo" ) );
 	CBaseComponent::GetDebugInfo(p_info);
 	
-	p_info->AddChecksum( CRCD(0x9e6b250,"m_movingobj_status"), m_movingobj_status );
+	p_info->AddChecksum( Crc::ConstCRC("m_movingobj_status"), m_movingobj_status );
 	p_info->AddChecksum( Crc::ConstCRC("m_movingobj_flags"), m_movingobj_flags );
 	p_info->AddFloat( Crc::ConstCRC("m_moveto_speed"), m_moveto_speed );
 	p_info->AddFloat( Crc::ConstCRC("m_acceleration"), m_acceleration );
@@ -2510,7 +2510,7 @@ void CMotionComponent::GetDebugInfo( Script::CStruct* p_info )
 	p_info->AddVector( Crc::ConstCRC("m_turn_speed"), m_turn_speed );
 	// p_info->AddVector( "m_delta_turn_speed", m_delta_turn_speed );
 	// p_info->AddVector( "m_angular_friction", m_angular_friction );
-	p_info->AddVector( CRCD(0xfa4307e,"m_orig_pos"), m_orig_pos );
+	p_info->AddVector( Crc::ConstCRC("m_orig_pos"), m_orig_pos );
 	
 	// p_info->AddFloat( "m_stop_dist_traveled", m_stop_dist_traveled );
 	// p_info->AddFloat( "m_vel_z_start", m_vel_z_start );
@@ -2526,7 +2526,7 @@ void CMotionComponent::GetDebugInfo( Script::CStruct* p_info )
 	p_info->AddFloat( Crc::ConstCRC("m_rot_time"), m_rot_time );
 	
 	p_info->AddInteger( Crc::ConstCRC("m_start_node"), m_start_node );
-	p_info->AddInteger( CRCD(0xa80dc42,"m_current_node"), m_current_node );
+	p_info->AddInteger( Crc::ConstCRC("m_current_node"), m_current_node );
 	
 	if (mp_pathOb)
 	{

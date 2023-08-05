@@ -130,7 +130,7 @@ void CMovieManager::setup_last_movie_camera( CMovieDetails* pDetails )
 	}
 	else
 	{
-//		Script::RunScript( CRCD( 0x15674315, "Restore_skater_camera" ) );  // Temp patch to get the skater camera back at end of cutscenes
+//		Script::RunScript( Crc::ConstCRC( "Restore_skater_camera" ) );  // Temp patch to get the skater camera back at end of cutscenes
 	}
 }
 
@@ -190,7 +190,7 @@ void CMovieManager::ClearMovieQueue( void )
 	if ( !m_movieDetailsList.IsEmpty() )
 	{
 		setup_last_movie_camera( get_movie_details( 0 ) );
-		//Script::RunScript( CRCD( 0x15674315, "Restore_skater_camera" ) );  // Temp patch to get the skater camera back at end of cutscenes
+		//Script::RunScript( Crc::ConstCRC( "Restore_skater_camera" ) );  // Temp patch to get the skater camera back at end of cutscenes
 	}
 	m_movieDetailsList.DestroyAllNodes();
 	//Dbg_Message("Removing all movies\n");

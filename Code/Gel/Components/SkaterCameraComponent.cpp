@@ -1045,16 +1045,16 @@ void CSkaterCameraComponent::SetMode( ESkaterCamMode mode, float time )
 	// Read the values from the array.
 	p_struct->GetFloat( Crc::ConstCRC("horiz_fov"),				&h_fov );
 	p_struct->GetFloat( Crc::ConstCRC("behind"),					&behind );
-	p_struct->GetFloat( CRCD(0xb96ae2d,"above"),					&above );
+	p_struct->GetFloat( Crc::ConstCRC("above"),					&above );
 	p_struct->GetFloat( Crc::ConstCRC("tilt"),						&tilt );
-	p_struct->GetFloat( CRCD(0x12f6992,"origin_offset"),			&origin_offset );
+	p_struct->GetFloat( Crc::ConstCRC("origin_offset"),			&origin_offset );
 	p_struct->GetFloat( Crc::ConstCRC("lip_trick_tilt"),			&mLipTrickTilt );
 	p_struct->GetFloat( Crc::ConstCRC("lip_trick_above"),			&mLipTrickAbove );
 
 	// Get SLERP values.
 	p_struct->GetFloat( Crc::ConstCRC("slerp"),					&mSlerp );
 	p_struct->GetFloat( Crc::ConstCRC("vert_air_slerp"),			&mVertAirSlerp );
-	p_struct->GetFloat( CRCD(0x42fd4a0,"vert_air_landed_slerp"),	&mVertAirLandedSlerp );
+	p_struct->GetFloat( Crc::ConstCRC("vert_air_landed_slerp"),	&mVertAirLandedSlerp );
 
 	// Get LERP values.
 	p_struct->GetFloat( Crc::ConstCRC("lerp_xz"),					&mLerpXZ );

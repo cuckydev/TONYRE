@@ -34,7 +34,7 @@ static uint32 spKillScripts[]=
 {
 	Crc::ConstCRC("SK3_KillSkater"),
 	Crc::ConstCRC("SK3_KillSkater_Water"),
-	CRCC(0xb38ed6b,"SK3_KillSkater_Finish"),
+	Crc::ConstCRC("SK3_KillSkater_Finish"),
 	Crc::ConstCRC("SK3_KillSkater_Pungee"),
 	Crc::ConstCRC("NY_KillWater"),
 	Crc::ConstCRC("RU_KillSkater"),
@@ -782,7 +782,7 @@ void CEditorCameraComponent::Update()
 		}	
 	}
 
-	m_cam_pos+=(end-m_cam_pos)*Script::GetFloat(CRCD(0xf151a64,"EditorCam_CameraCatchUpFactor"));
+	m_cam_pos+=(end-m_cam_pos)*Script::GetFloat(Crc::ConstCRC("EditorCam_CameraCatchUpFactor"));
 	*/
 	// TODO: Fix the camera collision above, then comment out this line for it to have effect.
 	m_cam_pos=start + tilted_v*m_radius;

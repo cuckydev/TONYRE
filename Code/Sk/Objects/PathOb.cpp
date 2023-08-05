@@ -1014,19 +1014,19 @@ void CPathOb::GetDebugInfo( Script::CStruct* p_info )
 	switch ( m_pathob_state )
 	{
 	case 0:
-		pathob_state_checksum = CRCD( 0x16d6676f, "PATHOB_STATE_UNINITIALIZED" );
+		pathob_state_checksum = Crc::ConstCRC( "PATHOB_STATE_UNINITIALIZED" );
 		break;
 	case 1:
-		pathob_state_checksum = CRCD( 0x55b5bee1, "PATHOB_STATE_FOLLOW_LINE" );
+		pathob_state_checksum = Crc::ConstCRC( "PATHOB_STATE_FOLLOW_LINE" );
 		break;
 	case 2:
-		pathob_state_checksum = CRCD( 0x6cc96f7, "PATHOB_STATE_FOLLOW_CURVE" );
+		pathob_state_checksum = Crc::ConstCRC( "PATHOB_STATE_FOLLOW_CURVE" );
 		break;
 	case 3:
-		pathob_state_checksum = CRCD( 0xac01db8, "PATHOB_STATE_LINEAR_INTERP" );
+		pathob_state_checksum = Crc::ConstCRC( "PATHOB_STATE_LINEAR_INTERP" );
 		break;
 	case 4:
-		pathob_state_checksum = CRCD( 0x5bc8724c, "PATHOB_STATE_IDLE" );
+		pathob_state_checksum = Crc::ConstCRC( "PATHOB_STATE_IDLE" );
 		break;
 	default:
 		Dbg_MsgAssert( 0, ( "CPathOb::GetDebugInfo got bad m_pathob_state.  Was the enum changed?" ) );

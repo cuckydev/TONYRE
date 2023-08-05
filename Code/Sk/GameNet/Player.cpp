@@ -191,11 +191,11 @@ void	Manager::s_render_scores_code( const Tsk::Task< Manager >& task )
 	Manager& man = task.GetData();
     // Only draw the scores in modes in which the score accumulates
 	pGameMode = skate_mod->GetGameMode();
-	show_score =  skate_mod->GetGameMode()->GetNameChecksum() != CRCD( 0x1c471c60, "netlobby" );
+	show_score =  skate_mod->GetGameMode()->GetNameChecksum() != Crc::ConstCRC( "netlobby" );
 
 	// in King of the hill games, "score" is actually milliseconds with the crown
-	king_mode =	( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0x6ef8fda0, "netking" )) ||
-				( skate_mod->GetGameMode()->GetNameChecksum() == CRCD( 0x5d32129c, "king" ));
+	king_mode =	( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netking" )) ||
+				( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "king" ));
     
 	cur_time = Tmr::GetTime();
 	if(( cur_time - last_update ) >= Tmr::Seconds( 1 ))
@@ -221,16 +221,16 @@ void	Manager::s_render_scores_code( const Tsk::Task< Manager >& task )
 					switch( j )
 					{
 					case 0:
-						team_name_checksum = CRCD( 0x3224348d, "team_1_name" );
+						team_name_checksum = Crc::ConstCRC( "team_1_name" );
 						break;
 					case 1:
-						team_name_checksum = CRCD( 0xb4b04623, "team_2_name" );
+						team_name_checksum = Crc::ConstCRC( "team_2_name" );
 						break;
 					case 2:
-						team_name_checksum = CRCD( 0x7fec9586, "team_3_name" );
+						team_name_checksum = Crc::ConstCRC( "team_3_name" );
 						break;
 					case 3:
-						team_name_checksum = CRCD( 0x62e9a53e, "team_4_name" );
+						team_name_checksum = Crc::ConstCRC( "team_4_name" );
 						break;
 					default:
 						Dbg_Assert( 0 );
@@ -432,28 +432,28 @@ void	Manager::s_render_scores_code( const Tsk::Task< Manager >& task )
 			switch( i )
 			{
 			case 0:
-				id = CRCD( 0x2b083809, "net_score_1" );
+				id = Crc::ConstCRC( "net_score_1" );
 				break;
 			case 1:
-				id = CRCD( 0xb20169b3, "net_score_2" );
+				id = Crc::ConstCRC( "net_score_2" );
 				break;
 			case 2:
-				id = CRCD( 0xc5065925, "net_score_3" );
+				id = Crc::ConstCRC( "net_score_3" );
 				break;
 			case 3:
-				id = CRCD( 0x5b62cc86, "net_score_4" );
+				id = Crc::ConstCRC( "net_score_4" );
 				break;
 			case 4:
-				id = CRCD( 0x2c65fc10, "net_score_5" );
+				id = Crc::ConstCRC( "net_score_5" );
 				break;
 			case 5:
-				id = CRCD( 0xb56cadaa, "net_score_6" );
+				id = Crc::ConstCRC( "net_score_6" );
 				break;
 			case 6:
-				id = CRCD( 0xc26b9d3c, "net_score_7" );
+				id = Crc::ConstCRC( "net_score_7" );
 				break;
 			case 7:
-				id = CRCD( 0x52d480ad, "net_score_8" );
+				id = Crc::ConstCRC( "net_score_8" );
 				break;
 			default:
 				Dbg_Assert( 0 );
@@ -462,8 +462,8 @@ void	Manager::s_render_scores_code( const Tsk::Task< Manager >& task )
 			}
 			
 			pParams = new Script::CScriptStructure;
-			pParams->AddComponent( CRCD( 0xc4745838, "text" ), ESYMBOLTYPE_STRING, score_str );
-			pParams->AddComponent( CRCD( 0x40c698af, "id" ), ESYMBOLTYPE_NAME, id );
+			pParams->AddComponent( Crc::ConstCRC( "text" ), ESYMBOLTYPE_STRING, score_str );
+			pParams->AddComponent( Crc::ConstCRC( "id" ), ESYMBOLTYPE_NAME, id );
 			
 			
 			Front::CScreenElement* p_name_elem = p_screen_elem_man->GetElement( id, Front::CScreenElementManager::DONT_ASSERT );

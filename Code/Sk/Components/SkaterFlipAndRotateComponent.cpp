@@ -188,7 +188,7 @@ CBaseComponent::EMemberFunctionResult CSkaterFlipAndRotateComponent::CallMemberF
 		case Crc::ConstCRC("BoardIsRotated"):
 			return m_rotate_board ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 			
-		case CRCC(0xb1e7291, "PlayAnim"):
+		case Crc::ConstCRC( "PlayAnim"):
 			// do any required flips and rotates, and then cascade the member function call
 			DoAnyFlipRotateOrBoardRotateAfters();
 			return CBaseComponent::MF_NOT_EXECUTED;
@@ -211,13 +211,13 @@ void CSkaterFlipAndRotateComponent::GetDebugInfo(Script::CStruct *p_info)
 	
 	if (mp_core_physics_component)
 	{
-		p_info->AddChecksum(Crc::ConstCRC("switched"), mp_core_physics_component->IsSwitched() ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+		p_info->AddChecksum(Crc::ConstCRC("switched"), mp_core_physics_component->IsSwitched() ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	}
-	p_info->AddChecksum(CRCD(0xc7a712c, "flipped"), GetSkaterStateComponentFromObject(GetObj())->GetFlag(FLIPPED) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC( "flipped"), GetSkaterStateComponentFromObject(GetObj())->GetFlag(FLIPPED) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	
-	p_info->AddChecksum(Crc::ConstCRC("FlipAfter"), mFlipAfter ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum(Crc::ConstCRC("RotateAfter"), mRotateAfter ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum(Crc::ConstCRC("BoardRotateAfter"), mBoardRotateAfter ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("FlipAfter"), mFlipAfter ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("RotateAfter"), mRotateAfter ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("BoardRotateAfter"), mBoardRotateAfter ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

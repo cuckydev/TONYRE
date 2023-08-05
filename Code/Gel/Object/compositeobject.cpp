@@ -630,7 +630,7 @@ bool 	CCompositeObject::CallMemberFunction( uint32 Checksum, Script::CStruct *pP
 				float h=0.0f;
 				float r=0.0f;
 				pParams->GetFloat(Crc::ConstCRC("x"),&p);
-				pParams->GetFloat(CRCD(0x424d9ea,"y"),&h);
+				pParams->GetFloat(Crc::ConstCRC("y"),&h);
 				pParams->GetFloat(Crc::ConstCRC("z"),&r);
 				p*=3.141592654f/180.0f;
 				h*=3.141592654f/180.0f;
@@ -700,7 +700,7 @@ bool 	CCompositeObject::CallMemberFunction( uint32 Checksum, Script::CStruct *pP
 			pParams->GetFloat(Crc::ConstCRC("x"), &distance);
 			m_pos += distance * m_matrix[X];
 			distance = 0.0f;
-			pParams->GetFloat(CRCD(0x424d9ea, "y"), &distance);
+			pParams->GetFloat(Crc::ConstCRC( "y"), &distance);
 			m_pos += distance * m_matrix[Y];
 			distance = 0.0f;
 			pParams->GetFloat(Crc::ConstCRC("z"), &distance);

@@ -154,7 +154,7 @@ CBaseComponent::EMemberFunctionResult CSkaterPhysicsControlComponent::CallMember
 			break;
 			
         // @script | UnPausePhysics | 
-		case CRCC(0x595627c, "UnPausePhysics"):
+		case Crc::ConstCRC( "UnPausePhysics"):
 			if (m_physics_suspended)
 			{
 				suspend_physics(false);
@@ -198,7 +198,7 @@ CBaseComponent::EMemberFunctionResult CSkaterPhysicsControlComponent::CallMember
 			m_board_missing = true;
 			break;
 			
-		case CRCC(0x4830e80, "UnsetBoardMissing"):
+		case Crc::ConstCRC( "UnsetBoardMissing"):
 			m_board_missing = false;
 			break;
 		
@@ -231,7 +231,7 @@ void CSkaterPhysicsControlComponent::GetDebugInfo(Script::CStruct *p_info)
 #ifdef	__DEBUG_CODE__
 	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterPhysicsControlComponent::GetDebugInfo"));
 	
-	p_info->AddChecksum("m_physics_suspended", m_physics_suspended ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum("m_physics_suspended", m_physics_suspended ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	p_info->AddInteger("m_physics_state", mp_state_component->m_physics_state);
 
 	CBaseComponent::GetDebugInfo(p_info);	  

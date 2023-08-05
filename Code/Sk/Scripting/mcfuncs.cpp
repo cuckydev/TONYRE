@@ -652,7 +652,7 @@ static void s_insert_game_save_info(uint32 fileType, CStruct *p_struct)
 			
 			Script::CStruct *p_story_skater=new Script::CStruct;
 			s_insert_story_skater_info(p_story_skater);
-			p_struct->AddStructurePointer(CRCD(0xdf2f448,"StorySkater"),p_story_skater);
+			p_struct->AddStructurePointer(Crc::ConstCRC("StorySkater"),p_story_skater);
 			
 			Script::CStruct *p_custom_skater=new Script::CStruct;
 			s_insert_custom_skater_info(p_custom_skater);
@@ -780,7 +780,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 				Script::CStruct *p_custom_skater=nullptr;
 				p_mainData->GetStructure(Crc::ConstCRC("CustomSkater"),&p_custom_skater,Script::ASSERT);
 				Script::CStruct *p_custom=nullptr;
-				p_custom_skater->GetStructure(CRCD(0xa7be964,"Custom"),&p_custom,Script::ASSERT);
+				p_custom_skater->GetStructure(Crc::ConstCRC("Custom"),&p_custom,Script::ASSERT);
 				Script::CStruct *p_info=nullptr;
 				p_custom->GetStructure(Crc::ConstCRC("Info"),&p_info,Script::ASSERT);
                 int is_male=0;
@@ -1261,7 +1261,7 @@ static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p
 			{
 				printf("APPLY_STORY_SKATER\n");
                 Script::CStruct *p_story_skater_info=nullptr;
-				p_struct->GetStructure(CRCD(0xdf2f448,"StorySkater"),&p_story_skater_info,Script::ASSERT);
+				p_struct->GetStructure(Crc::ConstCRC("StorySkater"),&p_story_skater_info,Script::ASSERT);
                 Script::CStruct *p_custom_skater_info=nullptr;
 				p_struct->GetStructure(Crc::ConstCRC("CustomSkater"),&p_custom_skater_info,Script::ASSERT);
 				s_read_story_skater_info(p_story_skater_info,p_custom_skater_info);
@@ -2513,16 +2513,16 @@ bool ScriptGetMostRecentSave(Script::CStruct *pParams, Script::CScript *pScript)
 // into the parameter SpaceAvailable. Units are K for the PS2
 bool ScriptGetMemCardSpaceAvailable(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	pScript->GetParams()->AddInteger(CRCD(0xc37c363,"SpaceAvailable"),0);
-	pScript->GetParams()->AddInteger(CRCD(0x855b2fc,"FilesLeft"),1000000);
+	pScript->GetParams()->AddInteger(Crc::ConstCRC("SpaceAvailable"),0);
+	pScript->GetParams()->AddInteger(Crc::ConstCRC("FilesLeft"),1000000);
 
 	Mc::Manager * mc_man = Mc::Manager::Instance();
 	Mc::Card* p_card=mc_man->GetCard(0,0);
 	if (p_card)
 	{
-		pScript->GetParams()->AddInteger(CRCD(0xc37c363,"SpaceAvailable"),p_card->GetNumFreeClusters());
+		pScript->GetParams()->AddInteger(Crc::ConstCRC("SpaceAvailable"),p_card->GetNumFreeClusters());
 		#ifdef __PLAT_NGC__
-		pScript->GetParams()->AddInteger(CRCD(0x855b2fc,"FilesLeft"),p_card->CountFilesLeft());
+		pScript->GetParams()->AddInteger(Crc::ConstCRC("FilesLeft"),p_card->CountFilesLeft());
 		#endif
 			
 		return true;
@@ -3949,7 +3949,7 @@ bool ScriptGetMemCardDataForUpload(Script::CStruct *pParams, Script::CScript *pS
 {
 	Dbg_MsgAssert(spVaultData,("\n%s\nNo mem card data present",pScript->GetScriptInfo()));
 	
-	pScript->GetParams()->AddStructure(CRCD(0x6d2ab6a,"DataForUpload"),spVaultData);
+	pScript->GetParams()->AddStructure(Crc::ConstCRC("DataForUpload"),spVaultData);
 	pScript->GetParams()->AddChecksum(Crc::ConstCRC("Type"),sVaultDataType);
 	return true;
 }	

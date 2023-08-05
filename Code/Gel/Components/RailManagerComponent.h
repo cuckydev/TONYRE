@@ -16,7 +16,7 @@
 #include <sk/objects/rail.h>
 
 // Just thinking about it - a generic way of accessing the component				 
-#define		CRC_RAILMANAGER								CRCD( 0x1cdfb2a3, "RailManager" )
+#define		CRC_RAILMANAGER								Crc::ConstCRC( "RailManager" )
 #define		GetRailManagerComponent()					((Obj::CRailManagerComponent*)GetComponent( CRC_RAILMANAGER ))
 #define		GetRailManagerComponentFromObject( pObj )	((Obj::CRailManagerComponent*)(pObj)->GetComponent( CRC_RAILMANAGER ))
 

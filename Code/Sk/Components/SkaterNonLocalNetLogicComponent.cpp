@@ -202,7 +202,7 @@ void CSkaterNonLocalNetLogicComponent::Update()
 	{
 		Script::CStruct* pParams = new Script::CStruct;
 		pParams->AddChecksum(Crc::ConstCRC("SkaterId"), GetObj()->GetID());
-		RunScript(CRCD(0xf02e44f, "NonLocalClientExitVehicle"), pParams);
+		RunScript(Crc::ConstCRC( "NonLocalClientExitVehicle"), pParams);
 		delete pParams;
 	}
 	m_last_driving = mp_state_component->GetDriving();

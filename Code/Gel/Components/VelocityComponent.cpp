@@ -88,7 +88,7 @@ void CVelocityComponent::InitFromStructure( Script::CStruct* pParams )
 {
 	Mth::Vector vel;
 	
-	pParams->GetVector(CRCD(0xc4c809e, "vel"), &vel, Script::ASSERT);
+	pParams->GetVector(Crc::ConstCRC( "vel"), &vel, Script::ASSERT);
 	GetObj()->SetVel( vel );
 }
 

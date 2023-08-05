@@ -182,7 +182,7 @@ void CSkaterStateComponent::GetDebugInfo(Script::CStruct *p_info)
 	p_info->AddChecksum(Crc::ConstCRC("m_state"), p_state_checksums[m_state]);
 	for (int flag = 0; flag < NUM_ESKATERFLAGS; flag++)
 	{
-		p_info->AddChecksum(p_flag_checksums[flag], GetFlag(static_cast< ESkaterFlag >(flag)) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+		p_info->AddChecksum(p_flag_checksums[flag], GetFlag(static_cast< ESkaterFlag >(flag)) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	}
 	
 	CBaseComponent::GetDebugInfo(p_info);	  

@@ -407,10 +407,10 @@ bool ScriptAdjustTextureRegion(Script::CScriptStructure *pParams, Script::CScrip
 		int start_point = 0;
 		int end_point = 0;
 
-		pParams->GetInteger(CRCD(0xfa8972e,"xpos"), &x_pos);
+		pParams->GetInteger(Crc::ConstCRC("xpos"), &x_pos);
 		pParams->GetInteger(Crc::ConstCRC("ypos"), &y_pos);
 		pParams->GetInteger(Crc::ConstCRC("width"), &width);
-		pParams->GetInteger(CRCD(0xab21af0,"height"), &height);
+		pParams->GetInteger(Crc::ConstCRC("height"), &height);
 		pParams->GetInteger(Crc::ConstCRC("split_axis"), &split_axis);
 		pParams->GetInteger(Crc::ConstCRC("start_point"), &start_point);
 		pParams->GetInteger(Crc::ConstCRC("end_point"), &end_point);

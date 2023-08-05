@@ -419,7 +419,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 	CScreenElement::SetProperties(p_props);
 	
 	uint32 skeletonChecksum = 0;
-	p_props->GetChecksum( CRCD(0x9794932,"skeletonName"), &skeletonChecksum, false );
+	p_props->GetChecksum( Crc::ConstCRC("skeletonName"), &skeletonChecksum, false );
 	
 	const char* p_model_name="";
 	Script::CArray *p_model_array=nullptr;
@@ -431,7 +431,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
     int texDictOffset = 0;
     p_props->GetInteger( Crc::ConstCRC("TexDictOffset"), &texDictOffset, false );
 	
-	if (p_props->GetChecksum( CRCD(0x73ec4c8,"CloneModel"), &clone_model_name ))
+	if (p_props->GetChecksum( Crc::ConstCRC("CloneModel"), &clone_model_name ))
 	{
 		UnloadModels();
 		
@@ -529,7 +529,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 	}
 	
 	p_props->GetFloat(Crc::ConstCRC("CameraZ"),&m_camera_z);
-	p_props->GetFloat(CRCD(0xaffd09d,"AngleX"),&m_angle_x);
+	p_props->GetFloat(Crc::ConstCRC("AngleX"),&m_angle_x);
 	p_props->GetFloat(Crc::ConstCRC("AngleY"),&m_angle_y);
 	p_props->GetFloat(Crc::ConstCRC("AngleZ"),&m_angle_z);
 	p_props->GetFloat(Crc::ConstCRC("AngVelX"),&m_angvel_x);
@@ -571,7 +571,7 @@ void CElement3d::SetProperties(Script::CStruct *p_props)
 	m_hover_amp=0.0f;
 	m_hover_period=0;
 	Script::CStruct *p_hover_params=nullptr;
-	if (p_props->GetStructure(CRCD(0xca1c41,"HoverParams"),&p_hover_params))
+	if (p_props->GetStructure(Crc::ConstCRC("HoverParams"),&p_hover_params))
 	{
 		p_hover_params->GetFloat(Crc::ConstCRC("Amp"),&m_hover_amp);
 		float f=1.0f;

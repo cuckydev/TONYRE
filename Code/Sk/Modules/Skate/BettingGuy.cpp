@@ -527,7 +527,7 @@ void CBettingGuy::SetupParams()
 	mp_params->RemoveComponent( "num_tries" );
 	mp_params->AddInteger( Crc::ConstCRC("num_tries"), max_attempts );
 	
-	mp_params->RemoveComponent( CRCD(0x6922090,"bet_unit") );
+	mp_params->RemoveComponent( Crc::ConstCRC("bet_unit") );
 	mp_params->RemoveComponent( Crc::ConstCRC("bet_action") );
 	mp_params->RemoveComponent( Crc::ConstCRC("location") );
 	// get the trick string if necessary
@@ -567,8 +567,8 @@ void CBettingGuy::SetupParams()
 		p_minigameParams->GetString( Crc::ConstCRC("bet_action"), &bet_action, Script::ASSERT );
 		mp_params->AddString( Crc::ConstCRC("bet_action"), bet_action );
 		const char* bet_unit;
-		p_minigameParams->GetString( CRCD(0x6922090,"bet_unit"), &bet_unit, Script::ASSERT );
-		mp_params->AddString( CRCD(0x6922090,"bet_unit"), bet_unit );
+		p_minigameParams->GetString( Crc::ConstCRC("bet_unit"), &bet_unit, Script::ASSERT );
+		mp_params->AddString( Crc::ConstCRC("bet_unit"), bet_unit );
 	}
 }
 

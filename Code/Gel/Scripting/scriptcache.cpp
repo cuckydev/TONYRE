@@ -534,7 +534,7 @@ void CScriptCache::GetDebugInfo( Script::CStruct* p_info )
 		p_cache_entry = mp_cache_hash_table->IterateNext();		
 	}
 
-	p_script_cache_info->AddInteger(CRCD(0xb6d1536,"NumScriptsInCache"),num_scripts_in_cache);
+	p_script_cache_info->AddInteger(Crc::ConstCRC("NumScriptsInCache"),num_scripts_in_cache);
 
 	if (num_scripts_in_cache)
 	{

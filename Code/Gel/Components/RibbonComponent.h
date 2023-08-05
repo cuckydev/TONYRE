@@ -13,7 +13,7 @@
 
 #include <gel/object/basecomponent.h>
 
-#define		CRC_RIBBON CRCD(0xee6fc5b, "Ribbon")
+#define		CRC_RIBBON Crc::ConstCRC( "Ribbon")
 
 #define		GetRibbonComponent() ((Obj::CRibbonComponent*)GetComponent(CRC_RIBBON))
 #define		GetRibbonComponentFromObject(pObj) ((Obj::CRibbonComponent*)(pObj)->GetComponent(CRC_RIBBON))

@@ -4303,9 +4303,9 @@ void CParkManager::create_abstract_metapieces()
 				if (p_pos_array->GetSize() > 3)
 					rot = (Mth::ERot90) p_pos_array->GetInteger(3);
 				
-				if (p_name_pos->ContainsFlag(CRCD(0xcd75a3f,"riser")))
+				if (p_name_pos->ContainsFlag(Crc::ConstCRC("riser")))
 					contains_risers = true;
-				p_meta->add_piece(p_source_piece, &area, rot, p_name_pos->ContainsFlag(CRCD(0xcd75a3f,"riser")));
+				p_meta->add_piece(p_source_piece, &area, rot, p_name_pos->ContainsFlag(Crc::ConstCRC("riser")));
 			} // end for
 
 			if (contains_risers)
@@ -4335,7 +4335,7 @@ void CParkManager::create_abstract_metapieces()
 				if (p_pos_array->GetSize() > 3)
 					rot = (Mth::ERot90) p_pos_array->GetInteger(3);
 				
-				p_meta->add_piece_dumb(p_source_meta, &area, rot, p_name_pos->ContainsFlag(CRCD(0xcd75a3f,"riser")));
+				p_meta->add_piece_dumb(p_source_meta, &area, rot, p_name_pos->ContainsFlag(Crc::ConstCRC("riser")));
 			} // end for
 		}
 		else

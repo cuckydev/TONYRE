@@ -597,10 +597,10 @@ void CNavManager::AddNavNode( int node_number, Script::CStruct* p_node_struct )
 	CNavNode* pNavNode = &mp_nodes[m_current_node];
 	
 	uint32 class_checksum;
-	p_node_struct->GetChecksum( CRCD( 0x12b4e660, "class" ), &class_checksum );
+	p_node_struct->GetChecksum( Crc::ConstCRC( "class" ), &class_checksum );
 	
 	uint32 type_checksum;
-	p_node_struct->GetChecksum( CRCD( 0x7321a8d6, "type" ), &type_checksum );
+	p_node_struct->GetChecksum( Crc::ConstCRC( "type" ), &type_checksum );
 
 	// No links as yet.
 	pNavNode->m_num_links = 0;
@@ -661,12 +661,12 @@ void CNavManager::AddNavsFromNodeArray( Script::CArray *p_nodearray )
 		if( !skate_mod->ShouldBeAbsentNode( p_node_struct ))
 		{
 			uint32 class_checksum = 0;		
-			p_node_struct->GetChecksum( CRCD( 0x12b4e660, "Class" ), &class_checksum );
-			if( class_checksum == CRCD( 0x4c23a77e, "Waypoint" ))
+			p_node_struct->GetChecksum( Crc::ConstCRC( "Class" ), &class_checksum );
+			if( class_checksum == Crc::ConstCRC( "Waypoint" ))
 			{
 				uint32 type_checksum = 0;		
-				p_node_struct->GetChecksum( CRCD( 0x7321a8d6, "Type" ), &type_checksum );
-				if( type_checksum == CRCD( 0x9784feb5, "HorseNav" ))
+				p_node_struct->GetChecksum( Crc::ConstCRC( "Type" ), &type_checksum );
+				if( type_checksum == Crc::ConstCRC( "HorseNav" ))
 				{
 					++m_num_nodes;
 				}
@@ -693,12 +693,12 @@ void CNavManager::AddNavsFromNodeArray( Script::CArray *p_nodearray )
 		if( !skate_mod->ShouldBeAbsentNode( p_node_struct ))
 		{
 			uint32 class_checksum = 0;		
-			p_node_struct->GetChecksum( CRCD( 0x12b4e660, "Class" ), &class_checksum );
-			if( class_checksum == CRCD( 0x4c23a77e, "Waypoint" ))
+			p_node_struct->GetChecksum( Crc::ConstCRC( "Class" ), &class_checksum );
+			if( class_checksum == Crc::ConstCRC( "Waypoint" ))
 			{
 				uint32 type_checksum = 0;		
-				p_node_struct->GetChecksum( CRCD( 0x7321a8d6, "Type" ), &type_checksum );
-				if( type_checksum == CRCD( 0x9784feb5, "HorseNav" ))
+				p_node_struct->GetChecksum( Crc::ConstCRC( "Type" ), &type_checksum );
+				if( type_checksum == Crc::ConstCRC( "HorseNav" ))
 				{
 					AddNavNode( i, p_node_struct );
 					++m_current_node;

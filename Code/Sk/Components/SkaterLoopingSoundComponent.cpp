@@ -286,7 +286,7 @@ CBaseComponent::EMemberFunctionResult CSkaterLoopingSoundComponent::CallMemberFu
 			SetActive(false);
 			break;
 			
-		case CRCC(0xb1e7291, "PlayAnim"):
+		case Crc::ConstCRC( "PlayAnim"):
 			// if a transition anim is interrupted, we must turn the looping sounds on here
 			Dbg_MsgAssert( mp_physics_control_component, ( "Don't call PlayAnim on a non-skater" ) );
 			

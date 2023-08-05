@@ -14,7 +14,7 @@
 #include <gel/object/basecomponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
-#define		CRC_NODEARRAY							CRCD( 0xc472ecc5, "NodeArray" )
+#define		CRC_NODEARRAY							Crc::ConstCRC( "NodeArray" )
 #define		GetNodeArrayComponent()					((Obj::CNodeArrayComponent*)GetComponent( CRC_NODEARRAY ))
 #define		GetNodeArrayComponentFromObject( pObj )	((Obj::CNodeArrayComponent*)(pObj)->GetComponent( CRC_NODEARRAY ))
 

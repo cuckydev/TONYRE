@@ -106,7 +106,7 @@ namespace Obj
 /******************************************************************/
 static float s_get_gunslinger_param( uint32 checksum )
 {
-	Script::CStruct* p_walk_params = Script::GetStructure( CRCD( 0x1c33e162, "GunslingerWalkParameters" ));
+	Script::CStruct* p_walk_params = Script::GetStructure( Crc::ConstCRC( "GunslingerWalkParameters" ));
 	Dbg_Assert(p_walk_params);
 	
 	float param;
@@ -334,7 +334,7 @@ void CWalkComponent::Update()
 			break;
 					
 		case LADDERMOVE:
-			mp_animation_component->SetAnimSpeed(m_anim_effective_speed / s_get_gunslinger_param(CRCD(0xab2db54, "ladder_move_speed")), false, false);
+			mp_animation_component->SetAnimSpeed(m_anim_effective_speed / s_get_gunslinger_param(Crc::ConstCRC( "ladder_move_speed")), false, false);
 			break;
 	
 		default:
@@ -465,7 +465,7 @@ CBaseComponent::EMemberFunctionResult CWalkComponent::CallMemberFunction( uint32
 			}
 			else if (m_anim_effective_speed < s_get_gunslinger_param(Crc::ConstCRC("max_fast_walk_speed")))
 			{
-				checksum = CRCD(0x131f2a2, "WALK_FAST");
+				checksum = Crc::ConstCRC( "WALK_FAST");
 			}
 			else if (m_anim_effective_speed < s_get_gunslinger_param(Crc::ConstCRC("max_slow_run_speed")))
 			{
@@ -475,7 +475,7 @@ CBaseComponent::EMemberFunctionResult CWalkComponent::CallMemberFunction( uint32
 			{
 				checksum = Crc::ConstCRC("RUN_FAST");
 			}
-			pScript->GetParams()->AddChecksum(CRCD(0x92c388f, "SpeedScale"), checksum);
+			pScript->GetParams()->AddChecksum(Crc::ConstCRC( "SpeedScale"), checksum);
 			
 			break;
 		}
@@ -661,10 +661,10 @@ void CWalkComponent::go_on_ground_state( void )
 
 		// Get the control component.
 		CSkaterPhysicsControlComponent*	p_control_component = GetSkaterPhysicsControlComponentFromObject( GetObj());
-		p_control_component->CallMemberFunction( CRCD( 0x14c4f16b, "SkaterPhysicsControl_SwitchWalkingToRiding"), nullptr, nullptr );
+		p_control_component->CallMemberFunction( Crc::ConstCRC( "SkaterPhysicsControl_SwitchWalkingToRiding"), nullptr, nullptr );
 
 		// Send the 'Ride' exception.
-		m_frame_event = CRCD( 0x64c2832f, "Ride" );
+		m_frame_event = Crc::ConstCRC( "Ride" );
 		GetObj()->SelfEvent( m_frame_event );
 		return;
 	}
@@ -843,7 +843,7 @@ void CWalkComponent::calculate_horizontal_speed_and_facing ( float &horizontal_s
 				{
 					// if moving fast enough to require a skidding stop
 					special_acceleration = true;
-					horizontal_speed -= s_get_gunslinger_param(CRCD(0x9661ed7, "skid_accel")) * m_frame_length;
+					horizontal_speed -= s_get_gunslinger_param(Crc::ConstCRC( "skid_accel")) * m_frame_length;
 					horizontal_speed = Mth::ClampMin(horizontal_speed, 0.0f);
 					m_frame_event = Crc::ConstCRC("Skid");
 				}
@@ -1051,7 +1051,7 @@ bool  CWalkComponent::adjust_horizonal_vel_for_environment ( void )
 			if (Mth::DotProduct(mp_contacts[n].normal, mp_contacts[m].normal) <= 0.0f)
 			{
 				m_horizontal_vel.Set();
-				m_anim_effective_speed = Mth::Min(s_get_gunslinger_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+				m_anim_effective_speed = Mth::Min(s_get_gunslinger_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 				return true;
 			}
 		}
@@ -1082,7 +1082,7 @@ bool  CWalkComponent::adjust_horizonal_vel_for_environment ( void )
 		if (Mth::DotProduct(adjusted_vel, m_horizontal_vel) <= 0.0f)
 		{
 			m_horizontal_vel.Set();
-			m_anim_effective_speed = Mth::Min(s_get_gunslinger_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+			m_anim_effective_speed = Mth::Min(s_get_gunslinger_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 			return true;
 		}
 	}
@@ -1102,10 +1102,10 @@ bool  CWalkComponent::adjust_horizonal_vel_for_environment ( void )
 	m_horizontal_vel = adjusted_vel;
 	
 	float final_horiz_vel = m_horizontal_vel.Length();
-	if (m_anim_effective_speed > s_get_gunslinger_param(CRCD(0xbd6a05d, "min_anim_run_speed")))
+	if (m_anim_effective_speed > s_get_gunslinger_param(Crc::ConstCRC( "min_anim_run_speed")))
 	{
 		m_anim_effective_speed = final_horiz_vel;
-		m_anim_effective_speed = Mth::Max(s_get_gunslinger_param(CRCD(0xbd6a05d, "min_anim_run_speed")), m_anim_effective_speed);
+		m_anim_effective_speed = Mth::Max(s_get_gunslinger_param(Crc::ConstCRC( "min_anim_run_speed")), m_anim_effective_speed);
 	}
 	
 	return true;
@@ -1125,7 +1125,7 @@ void CWalkComponent::adjust_facing_for_adjusted_horizontal_vel (   )
 	
 	float horizontal_speed = m_horizontal_vel.Length();
 	
-	if (horizontal_speed < s_get_gunslinger_param(CRCD(0x515a933, "wall_turn_speed_threshold"))) return;
+	if (horizontal_speed < s_get_gunslinger_param(Crc::ConstCRC( "wall_turn_speed_threshold"))) return;
 	
 	// the new facing is in the direction of our adjusted velocity
 	Mth::Vector new_facing = m_horizontal_vel;
@@ -1775,7 +1775,7 @@ void CWalkComponent::lerp_upright (   )
 		return;
 	}
 	
-	m_upward = Mth::Lerp(m_upward, Mth::Vector(0.0f, 1.0f, 0.0f), s_get_gunslinger_param(CRCD(0xf22c135, "lerp_upright_rate")) * Tmr::FrameLength());
+	m_upward = Mth::Lerp(m_upward, Mth::Vector(0.0f, 1.0f, 0.0f), s_get_gunslinger_param(Crc::ConstCRC( "lerp_upright_rate")) * Tmr::FrameLength());
 	m_upward.Normalize();
 }
 

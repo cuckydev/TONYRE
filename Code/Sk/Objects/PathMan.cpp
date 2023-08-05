@@ -146,7 +146,7 @@ void CPathMan::AddPathInfoToNodeArray()
 		// adding them to save memory.
 		uint32 class_type=0;
 		p_start_node->GetChecksum( Crc::ConstCRC("Class"), &class_type );
-		if ( class_type == CRCD( 0x8e6b02ad, "RailNode" ) ||
+		if ( class_type == Crc::ConstCRC( "RailNode" ) ||
 			 class_type == Crc::ConstCRC("ClimbingNode") )
 		{
 			continue;
@@ -154,9 +154,9 @@ void CPathMan::AddPathInfoToNodeArray()
 
 		// make sure this isn't a pedai waypoint
 		uint32 type;
-		if ( class_type == CRCD( 0x4c23a77e, "Waypoint" )
-			 && p_start_node->GetChecksum( CRCD( 0x7321a8d6, "type" ), &type, Script::NO_ASSERT )
-			 && type == CRCD( 0xcba10ffa, "PedAI" ) )
+		if ( class_type == Crc::ConstCRC( "Waypoint" )
+			 && p_start_node->GetChecksum( Crc::ConstCRC( "type" ), &type, Script::NO_ASSERT )
+			 && type == Crc::ConstCRC( "PedAI" ) )
 		{
 			continue;
 		}
@@ -165,8 +165,8 @@ void CPathMan::AddPathInfoToNodeArray()
 		int node_path_number = 0;
 		// Check if the node is linked to something, and has not already had a PathNum
 		// given to it.
-		if ( ( num_links || class_type == CRCD( 0x4c23a77e, "WayPoint" ) ) && 
-			!p_start_node->ContainsComponentNamed( CRCD( 0x9c91c3ca, "PathNum" ) ) )
+		if ( ( num_links || class_type == Crc::ConstCRC( "WayPoint" ) ) && 
+			!p_start_node->ContainsComponentNamed( Crc::ConstCRC( "PathNum" ) ) )
 		{
 			// printf("found a non PedAI waypoint\n");
 			// The node and subsequent nodes that it is linked to require a PathNum				
@@ -179,7 +179,7 @@ void CPathMan::AddPathInfoToNodeArray()
 			
 			while (true)
 			{
-				if (p_node->GetInteger( CRCD( 0x9c91c3ca, "PathNum" ),&node_path_number))
+				if (p_node->GetInteger( Crc::ConstCRC( "PathNum" ),&node_path_number))
 				{
 					// We've hit a node that has already had a PathNum written in.
 					

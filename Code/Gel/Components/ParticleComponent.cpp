@@ -116,7 +116,7 @@ void CParticleComponent::InitFromStructure( Script::CStruct* pParams )
 
 	scale = 1.0f;
 	generate_name = false;
-	pParams->GetChecksum( CRCD(0x92276db,"UpdateScript"), &m_update_script );
+	pParams->GetChecksum( Crc::ConstCRC("UpdateScript"), &m_update_script );
 	
 	pParams->GetInteger( Crc::ConstCRC("SystemLifetime"), (int*) &m_system_lifetime );
 	if( pParams->ContainsFlag(Crc::ConstCRC("noname")))
@@ -146,7 +146,7 @@ void CParticleComponent::InitFromStructure( Script::CStruct* pParams )
 	
         // Create a matrix with -vel as the AT vector of the matrix and transform the system
 		// by that matrix
-		pParams->GetVector(CRCD(0xc4c809e, "vel"), &vel, Script::ASSERT);
+		pParams->GetVector(Crc::ConstCRC( "vel"), &vel, Script::ASSERT);
 		vel.Normalize();
 
 		orientation[Mth::AT] = vel;
@@ -165,7 +165,7 @@ void CParticleComponent::InitFromStructure( Script::CStruct* pParams )
 	part.m_Radius[Nx::vBOX_MID] *= scale;
 	part.m_Radius[Nx::vBOX_END] *= scale;
 
-	pParams->GetFloat( CRCD(0x5400a25,"StartRadiusSpread"), &part.m_RadiusSpread[Nx::vBOX_START] );
+	pParams->GetFloat( Crc::ConstCRC("StartRadiusSpread"), &part.m_RadiusSpread[Nx::vBOX_START] );
 	pParams->GetFloat( Crc::ConstCRC("MidRadiusSpread"), &part.m_RadiusSpread[Nx::vBOX_MID] );
 	pParams->GetFloat( Crc::ConstCRC("EndRadiusSpread"), &part.m_RadiusSpread[Nx::vBOX_END] );
 
@@ -187,7 +187,7 @@ void CParticleComponent::InitFromStructure( Script::CStruct* pParams )
 		pParams->GetVector( Crc::ConstCRC("Pos"), &part.m_BoxPos[Nx::vBOX_START] );
 	}
 	
-	pParams->GetVector( CRCD(0x4b51a2,"MidPosition"), &part.m_BoxPos[Nx::vBOX_MID] );
+	pParams->GetVector( Crc::ConstCRC("MidPosition"), &part.m_BoxPos[Nx::vBOX_MID] );
 	pParams->GetVector( Crc::ConstCRC("EndPosition"), &part.m_BoxPos[Nx::vBOX_END] );
 
 	part.m_BoxPos[Nx::vBOX_START] *= scale;
@@ -223,7 +223,7 @@ void CParticleComponent::InitFromStructure( Script::CStruct* pParams )
 		color = array->GetInt( 2 );
 		part.m_Color[Nx::vBOX_START].b = (uint8) color;
 	}
-	if( pParams->GetArray( CRCD(0x444769a,"MidRGB"), &array ))
+	if( pParams->GetArray( Crc::ConstCRC("MidRGB"), &array ))
 	{
 		color = array->GetInt( 0 );
 		part.m_Color[Nx::vBOX_MID].r = (uint8) color;
@@ -623,7 +623,7 @@ void CParticleComponent::GetDebugInfo(Script::CStruct *p_info)
 	{
 		part = mp_particle->GetParameters();
 
-		p_info->AddChecksum( CRCD(0x92276db,"UpdateScript"), m_update_script );
+		p_info->AddChecksum( Crc::ConstCRC("UpdateScript"), m_update_script );
 		p_info->AddChecksum( Crc::ConstCRC("Type"), part->m_Type );
 		p_info->AddChecksum( Crc::ConstCRC("UseMidPoint"), part->m_UseMidpoint );
 		
@@ -637,7 +637,7 @@ void CParticleComponent::GetDebugInfo(Script::CStruct *p_info)
 		p_info->AddFloat(Crc::ConstCRC("MidPointPCT"), part->m_MidpointPct );
 		
 		p_info->AddVector(Crc::ConstCRC("StartPosition"), part->m_BoxPos[Nx::vBOX_START] );
-		p_info->AddVector(CRCD(0x4b51a2,"MidPosition"), part->m_BoxPos[Nx::vBOX_MID] );
+		p_info->AddVector(Crc::ConstCRC("MidPosition"), part->m_BoxPos[Nx::vBOX_MID] );
 		p_info->AddVector(Crc::ConstCRC("EndPosition"), part->m_BoxPos[Nx::vBOX_END] );
 	
 		p_info->AddVector(Crc::ConstCRC("BoxDimsStart"), part->m_BoxDims[Nx::vBOX_START] );

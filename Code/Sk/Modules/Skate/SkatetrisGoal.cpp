@@ -82,9 +82,9 @@ bool CSkatetrisGoal::Win()
 	// afterwards if necessary. (The flag is required by the call to CGoal::Win below)
 	bool testing_goal=mp_params->ContainsFlag(Crc::ConstCRC("testing_goal"));
 	
-	mp_params->AddChecksum( NONAME, CRCD( 0xc309cad1, "just_won_goal" ) );
+	mp_params->AddChecksum( NONAME, Crc::ConstCRC( "just_won_goal" ) );
 	Deactivate();
-	mp_params->RemoveFlag( CRCD( 0xc309cad1, "just_won_goal" ) );
+	mp_params->RemoveFlag( Crc::ConstCRC( "just_won_goal" ) );
 	
 	if (testing_goal)
 	{
@@ -236,9 +236,9 @@ void CSkatetrisGoal::StartTetrisGoal()
     m_numTetrisTricks = 0;
     m_tetrisTime = 0;
     int original_time;
-    mp_params->GetInteger( CRCD( 0xded8540a, "trick_time" ), &original_time, Script::ASSERT );
-    mp_params->AddInteger( CRCD( 0x648d8d2a, "adjusted_trick_time" ), original_time );
-	mp_params->AddInteger( CRCD( 0x8d958f01, "tricks_completed" ), 0 );
+    mp_params->GetInteger( Crc::ConstCRC( "trick_time" ), &original_time, Script::ASSERT );
+    mp_params->AddInteger( Crc::ConstCRC( "adjusted_trick_time" ), original_time );
+	mp_params->AddInteger( Crc::ConstCRC( "tricks_completed" ), 0 );
 
 	// start almost out of time so a trick gets added right away
 	if ( IsSingleComboSkatetris() )
@@ -392,7 +392,7 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 				const char* p_trick_display_text;
 				p_trick->GetString( Crc::ConstCRC("trick"), &p_trick_display_text, Script::ASSERT );
 				
-				if ( p_trick->ContainsFlag( CRCD( 0x255ed86f, "grind" ) ) )
+				if ( p_trick->ContainsFlag( Crc::ConstCRC( "grind" ) ) )
 				{
 					// store FS and BS versions of the trick
 					char grind_string[128];
@@ -490,7 +490,7 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 					if ( pSkater )
 					{
 						Game::CCreateATrick* pCreatedTrick = pSkater->m_created_trick[cat_index];
-						pCreatedTrick->mp_other_params->GetString( CRCD( 0xa1dc81f9, "name" ), &p_text, Script::ASSERT );
+						pCreatedTrick->mp_other_params->GetString( Crc::ConstCRC( "name" ), &p_text, Script::ASSERT );
 						
 						// mark it
 						// no cat tricks have double versions!
@@ -582,8 +582,8 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 			// create text name element
 			Script::CStruct *p_elem_params = new Script::CStruct();
 			p_elem_params->AddString( Crc::ConstCRC("text"), trick_text );
-			p_elem_params->AddChecksum( Crc::ConstCRC("font"), CRCD( 0xbc19c379, "newtrickfont" ) );
-			p_elem_params->AddChecksum( NONAME, CRCD( 0x1d944426, "not_focusable" ) );
+			p_elem_params->AddChecksum( Crc::ConstCRC("font"), Crc::ConstCRC( "newtrickfont" ) );
+			p_elem_params->AddChecksum( NONAME, Crc::ConstCRC( "not_focusable" ) );
 			uint32 id = Obj::CBaseManager::vNO_OBJECT_ID;
 	
 			Front::CTextElement* p_new_element = new Front::CTextElement();
@@ -614,8 +614,8 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 
 				Script::CStruct *p_button_params = new Script::CStruct();
 				p_button_params->AddString( Crc::ConstCRC("text"), p_key_combo_text );
-				p_button_params->AddChecksum( Crc::ConstCRC("font"), CRCD( 0x8aba15ec, "small" ) );
-				p_button_params->AddChecksum( NONAME, CRCD( 0x1d944426, "not_focusable" ) );
+				p_button_params->AddChecksum( Crc::ConstCRC("font"), Crc::ConstCRC( "small" ) );
+				p_button_params->AddChecksum( NONAME, Crc::ConstCRC( "not_focusable" ) );
 				uint32 button_id = Obj::CBaseManager::vNO_OBJECT_ID;
 		
 				Front::CTextElement* p_button_element = new Front::CTextElement();
@@ -637,7 +637,7 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 			// run entrance animation
 			Script::CStruct* p_script_params = new Script::CStruct();
 			if ( !p_key_combo_text )
-				p_script_params->AddChecksum( NONAME, CRCD( 0x7b716096, "no_key_combo" ) );
+				p_script_params->AddChecksum( NONAME, Crc::ConstCRC( "no_key_combo" ) );
 			uint32 script = Crc::ConstCRC("goal_tetris_add_trick");
 
 			if ( !IsTricktris() && !IsSingleComboSkatetris() && m_numTetrisTricks > ( .75 * (float)max_tricks ) )
@@ -922,13 +922,13 @@ void CSkatetrisGoal::RemoveTrick( int index )
 	
 	// accelerate if needed
 	int acceleration_interval = 0;
-	mp_params->GetInteger( CRCD(0x1181b29,"acceleration_interval"), &acceleration_interval, Script::NO_ASSERT );
+	mp_params->GetInteger( Crc::ConstCRC("acceleration_interval"), &acceleration_interval, Script::NO_ASSERT );
 	// printf("acceleration interval = %i, tricks completed = %i\n", acceleration_interval, tricks_completed );
 	if ( acceleration_interval && ( tricks_completed % acceleration_interval == 0 ) )
 	{
 		// adjust the time between new tricks
 		float acceleration_percent = 0;
-		mp_params->GetFloat( CRCD(0x76f65c8,"acceleration_percent"), &acceleration_percent, Script::NO_ASSERT );
+		mp_params->GetFloat( Crc::ConstCRC("acceleration_percent"), &acceleration_percent, Script::NO_ASSERT );
 		int trick_time;
 		mp_params->GetInteger( Crc::ConstCRC("adjusted_trick_time"), &trick_time, Script::ASSERT );
 		trick_time = (int)( ( 1 - acceleration_percent ) * trick_time );
@@ -974,8 +974,8 @@ void CSkatetrisGoal::UpdateFadedTricks()
 	Front::CScreenElementManager* p_screen_elem_man = Front::CScreenElementManager::Instance();
 	Dbg_Assert( p_screen_elem_man );
 
-	float faded_trick_alpha = Script::GetFloat( CRCD( 0x855e6da4, "goal_tetris_faded_trick_alpha" ), Script::ASSERT );
-	float unfaded_trick_alpha = Script::GetFloat( CRCD( 0xdbe5b19e, "goal_tetris_unfaded_trick_alpha" ), Script::ASSERT );
+	float faded_trick_alpha = Script::GetFloat( Crc::ConstCRC( "goal_tetris_faded_trick_alpha" ), Script::ASSERT );
+	float unfaded_trick_alpha = Script::GetFloat( Crc::ConstCRC( "goal_tetris_unfaded_trick_alpha" ), Script::ASSERT );
 
 	for ( int i = 0; i < vMAXTETRISTRICKS; i++ )
 	{

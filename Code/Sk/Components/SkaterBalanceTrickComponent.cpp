@@ -173,7 +173,7 @@ CBaseComponent::EMemberFunctionResult CSkaterBalanceTrickComponent::CallMemberFu
 			mBalanceTrickType = NewBalanceTrickType;
 			
 			bool DoFlipCheck = pParams->ContainsFlag(Crc::ConstCRC("DoFlipCheck"));
-			bool PlayRangeAnimBackwards = pParams->ContainsFlag(CRCD(0x8fe31ed, "PlayRangeAnimBackwards"));
+			bool PlayRangeAnimBackwards = pParams->ContainsFlag(Crc::ConstCRC( "PlayRangeAnimBackwards"));
 			
 			// This needed because for the extra grind tricks (eg left triangle triangle) the
 			// DoBalanceTrick command gets called twice in a row, once for the first time the grind is detected
@@ -188,7 +188,7 @@ CBaseComponent::EMemberFunctionResult CSkaterBalanceTrickComponent::CallMemberFu
 					Dbg_MsgAssert(false, ("\n%s\nMust specify a type in DoBalanceTrick, eg Type=NoseManual", pScript->GetScriptInfo()));
 					break;
 					
-				case CRCC(0xac90769, "NoseManual"):
+				case Crc::ConstCRC( "NoseManual"):
 				case Crc::ConstCRC("Manual"):
 					if (clear_cheese)
 					{
@@ -251,7 +251,7 @@ CBaseComponent::EMemberFunctionResult CSkaterBalanceTrickComponent::CallMemberFu
 				float LeanAdd = 0.0f;
 				float SpeedAdd = 0.0f;
 				pParams->GetFloat(Crc::ConstCRC("TimeAdd"), &TimeAdd);
-				pParams->GetFloat(CRCD(0xb4cecc1, "LeanAdd"), &LeanAdd);
+				pParams->GetFloat(Crc::ConstCRC( "LeanAdd"), &LeanAdd);
 				pParams->GetFloat(Crc::ConstCRC("SpeedAdd"), &SpeedAdd);
 				pParams->GetFloat(Crc::ConstCRC("TimeMult"), &TimeMult);
 				pParams->GetFloat(Crc::ConstCRC("LeanMult"), &LeanMult);
@@ -274,7 +274,7 @@ CBaseComponent::EMemberFunctionResult CSkaterBalanceTrickComponent::CallMemberFu
 						pBalance = &mSkitch;
 						break;
 						
-					case CRCC(0xac90769, "NoseManual"):
+					case Crc::ConstCRC( "NoseManual"):
 					case Crc::ConstCRC("Manual"):
 						pBalance = &mManual;
 						break;
@@ -347,7 +347,7 @@ void CSkaterBalanceTrickComponent::GetDebugInfo(Script::CStruct *p_info)
 #ifdef	__DEBUG_CODE__
 	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterBalanceTrickComponent::GetDebugInfo"));
 	
-	p_info->AddChecksum("mDoingBalanceTrick", mDoingBalanceTrick ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum("mDoingBalanceTrick", mDoingBalanceTrick ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	p_info->AddChecksum("mBalanceTrickType", mBalanceTrickType);
 
 	CBaseComponent::GetDebugInfo(p_info);	  
@@ -416,7 +416,7 @@ void CSkaterBalanceTrickComponent::ExcludeBalanceButtons ( int& numButtonsToIgno
 	// is pressed right now we just read the pad. Just noting this if any problems occur later.
 	switch (mBalanceTrickType)
 	{
-		case CRCC(0xac90769, "NoseManual"):
+		case Crc::ConstCRC( "NoseManual"):
 		case Crc::ConstCRC("Manual"):
 			numButtonsToIgnore = 2;
 			pButtonsToIgnore[0] = mManual.mButtonAChecksum;
@@ -463,7 +463,7 @@ float CSkaterBalanceTrickComponent::GetBalanceStat ( uint32 Checksum )
 		
 	switch (mBalanceTrickType)
 	{
-		case CRCC(0xac90769, "NoseManual"):
+		case Crc::ConstCRC( "NoseManual"):
 		case Crc::ConstCRC("Manual"):
 			return GetSkater()->GetScriptedStat(Checksum, Script::GetStructure(Crc::ConstCRC("ManualParams")));
 			
@@ -540,7 +540,7 @@ void CSkaterBalanceTrickComponent::set_wobble_params ( Script::CStruct *pParams 
 	pParams->GetStructure(Crc::ConstCRC("WobbleAmpB"), &pStat, Script::ASSERT);
 	theWobbleDetails.wobbleAmpB = GetSkater()->GetScriptedStat(pStat);
 
-	pParams->GetStructure(CRCD(0xf43fd49, "WobbleK1"), &pStat, Script::ASSERT);
+	pParams->GetStructure(Crc::ConstCRC( "WobbleK1"), &pStat, Script::ASSERT);
 	theWobbleDetails.wobbleK1 = GetSkater()->GetScriptedStat(pStat);
 
 	pParams->GetStructure(Crc::ConstCRC("WobbleK2"), &pStat, Script::ASSERT);

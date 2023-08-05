@@ -15,7 +15,7 @@
 #include <gel/object/basecomponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
-#define		CRC_MOTION CRCD(0xa015e17,"Motion")
+#define		CRC_MOTION Crc::ConstCRC("Motion")
 #define		GetMotionComponent() ((Obj::CMotionComponent*)GetComponent(CRC_MOTION))
 #define		GetMotionComponentFromObject(pObj) ((Obj::CMotionComponent*)(pObj)->GetComponent(CRC_MOTION))
 

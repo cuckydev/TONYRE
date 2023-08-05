@@ -677,7 +677,7 @@ float CSkaterStateHistoryComponent::get_collision_cylinder_coeff( bool driving )
 	
 	if (GetSkater()->IsLocalClient())
 	{
-        radius = GetPhysicsFloat( CRCD(0xd24273b, "LanServerCollCoefficient"), Script::ASSERT);
+        radius = GetPhysicsFloat( Crc::ConstCRC( "LanServerCollCoefficient"), Script::ASSERT);
 	}
 	else
 	{
@@ -690,7 +690,7 @@ float CSkaterStateHistoryComponent::get_collision_cylinder_coeff( bool driving )
 	}
 	else
 	{
-        return radius * (1.0f + Script::GetFloat(CRCD(0xa49ff23, "DrivingCoefficientBoostFactor")));
+        return radius * (1.0f + Script::GetFloat(Crc::ConstCRC( "DrivingCoefficientBoostFactor")));
 	}
 }
 

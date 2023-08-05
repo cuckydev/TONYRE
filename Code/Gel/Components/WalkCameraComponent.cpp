@@ -192,7 +192,7 @@ void CWalkCameraComponent::Update()
 		else
 		{
 			full_slerp_speed = s_get_param(Crc::ConstCRC("dpad_full_slerp_speed"));
-			min_slerp_speed = s_get_param(CRCD(0xda5cad3, "dpad_min_slerp_speed"));
+			min_slerp_speed = s_get_param(Crc::ConstCRC( "dpad_min_slerp_speed"));
 		}
 		
 		float target_vel = sqrtf(mp_target->GetVel()[X] * mp_target->GetVel()[X] + mp_target->GetVel()[Z] * mp_target->GetVel()[Z]);
@@ -270,7 +270,7 @@ void CWalkCameraComponent::Update()
 			Mth::SlerpInterpolator slerper(&GetObj()->GetMatrix(), &target_matrix);
 			
 			// standard slerp rate
-			float slerp = s_get_param(CRCD(0xc39b639, "matrix_slerp_rate"));
+			float slerp = s_get_param(Crc::ConstCRC( "matrix_slerp_rate"));
 			
 			// running slerp rate adjustment
 			if (mp_target_walk_component->IsRunning())
@@ -302,7 +302,7 @@ void CWalkCameraComponent::Update()
 				// can't override flush speed
 				if (m_flush_request_active)
 				{
-					slerp = s_get_param(CRCD(0xc39b639, "matrix_slerp_rate")) * s_get_param(Crc::ConstCRC("flush_slerp_factor"));
+					slerp = s_get_param(Crc::ConstCRC( "matrix_slerp_rate")) * s_get_param(Crc::ConstCRC("flush_slerp_factor"));
 				}
 				else
 				{

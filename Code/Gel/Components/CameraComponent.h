@@ -15,7 +15,7 @@
 #include <gfx/camera.h>
 
 // Replace this with the CRCD of the component you are adding.
-#define		CRC_CAMERA								CRCD( 0xc4e311fa, "Camera" )
+#define		CRC_CAMERA								Crc::ConstCRC( "Camera" )
 
 //  Standard accessor macros for getting the component either from within an object, or given an object.
 #define		GetCameraComponent()					((Obj::CCameraComponent*)GetComponent( CRC_CAMERA ))

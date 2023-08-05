@@ -148,7 +148,7 @@ CBaseComponent::EMemberFunctionResult CSkaterRotateComponent::CallMemberFunction
 				{
 					// Seconds is what we want, so nothing to do
 				}
-				else if (pParams->ContainsFlag(CRCD(0x19176c5, "Frames")) || pParams->ContainsFlag(Crc::ConstCRC("Frame")))
+				else if (pParams->ContainsFlag(Crc::ConstCRC( "Frames")) || pParams->ContainsFlag(Crc::ConstCRC("Frame")))
 				{
 					// Convert from frames to seconds
 					duration /= 60.0f;
@@ -167,7 +167,7 @@ CBaseComponent::EMemberFunctionResult CSkaterRotateComponent::CallMemberFunction
 					mp_rotations[X].angle_traversed = 0.0f;
 					mp_rotations[X].active = true;
 				}	
-				if (pParams->GetFloat(CRCD(0x424d9ea, "y"), &mp_rotations[Y].angle))
+				if (pParams->GetFloat(Crc::ConstCRC( "y"), &mp_rotations[Y].angle))
 				{
 					mp_rotations[Y].duration = duration;
 					mp_rotations[Y].angle_step = Mth::DegToRad(mp_rotations[Y].angle / mp_rotations[Y].duration);
@@ -213,7 +213,7 @@ CBaseComponent::EMemberFunctionResult CSkaterRotateComponent::CallMemberFunction
 					GetObj()->m_matrix.RotateXLocal(Mth::DegToRad(angle));				
 					mp_core_physics_component->ResetLerpingMatrix();
 				}
-				else if (pParams->GetFloat(CRCD(0x424d9ea, "y"), &angle))
+				else if (pParams->GetFloat(Crc::ConstCRC( "y"), &angle))
 				{
 					GetObj()->m_matrix.RotateYLocal(Mth::DegToRad(angle));				
 					mp_core_physics_component->ResetLerpingMatrix();

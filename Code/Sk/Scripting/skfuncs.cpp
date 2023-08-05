@@ -521,7 +521,7 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 				TypeChecksum != Crc::ConstCRC("Flag_Green") 		 && 
 				TypeChecksum != Crc::ConstCRC("Flag_Green_base")	 &&
 				TypeChecksum != Crc::ConstCRC("Flag_Blue")		 &&
-				TypeChecksum != CRCD(0x41e5bcf,"Flag_Blue_base")	 &&
+				TypeChecksum != Crc::ConstCRC("Flag_Blue_base")	 &&
 				TypeChecksum != Crc::ConstCRC("Flag_Yellow")		 &&
 				TypeChecksum != Crc::ConstCRC("Flag_Yellow_base") )
 			{
@@ -4796,7 +4796,7 @@ bool ScriptRefreshSkaterUV(Script::CStruct *pParams, Script::CScript *pScript)
     Gfx::CModelAppearance* pAppearance = pProfile->GetAppearance();
 	
 	Obj::CModelComponent* pModelComponent = GetModelComponentFromObject( pSkater );
-	pModelComponent->RefreshModel( pAppearance, CRCD(0x91d6261,"set_uv_from_appearance") );
+	pModelComponent->RefreshModel( pAppearance, Crc::ConstCRC("set_uv_from_appearance") );
 	
 	return true;
 }
@@ -5287,7 +5287,7 @@ bool ScriptGetCustomSkaterName(Script::CStruct *pParams, Script::CScript *pScrip
 {
 	
 	Obj::CPlayerProfileManager*	pPlayerProfileManager = Mdl::Skate::Instance()->GetPlayerProfileManager();
-	const char* name = pPlayerProfileManager->GetProfileTemplate(CRCD(0xa7be964,"custom"))->GetDisplayName();
+	const char* name = pPlayerProfileManager->GetProfileTemplate(Crc::ConstCRC("custom"))->GetDisplayName();
 	pScript->GetParams()->AddString(Crc::ConstCRC("display_name"), name);
 
 	return true;
@@ -5761,9 +5761,9 @@ bool ScriptSetPlayerAppearanceScale( Script::CStruct* pParams, Script::CScript* 
 	}
 	
 	float y;
-	if ( pParams->GetFloat( CRCD(0x424d9ea,"y"), &y, Script::NO_ASSERT ) )
+	if ( pParams->GetFloat( Crc::ConstCRC("y"), &y, Script::NO_ASSERT ) )
 	{
-		pVirtualStruct->AddInteger( CRCD(0x424d9ea,"y"), (int)y );
+		pVirtualStruct->AddInteger( Crc::ConstCRC("y"), (int)y );
 	}
 	
 	float z;
@@ -7249,10 +7249,10 @@ bool ScriptBroadcastProjectile( Script::CStruct *pParams, Script::CScript *pScri
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Net::Client* client;
 	
-	pParams->GetChecksum( CRCD(0x830ecaf,"objID"), &id );
+	pParams->GetChecksum( Crc::ConstCRC("objID"), &id );
 	pParams->GetChecksum( Crc::ConstCRC("type"), &type );
 	pParams->GetVector( Crc::ConstCRC("pos"), &pos );
-	pParams->GetVector( CRCD(0xc4c809e,"vel"), &vel );
+	pParams->GetVector( Crc::ConstCRC("vel"), &vel );
 	pParams->GetFloat( Crc::ConstCRC("scale"), &scale );
 	pParams->GetInteger( Crc::ConstCRC("radius"), &radius );
 

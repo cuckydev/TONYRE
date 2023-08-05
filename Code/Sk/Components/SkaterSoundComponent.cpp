@@ -98,7 +98,7 @@ CBaseComponent::EMemberFunctionResult CSkaterSoundComponent::CallMemberFunction(
 	switch ( Checksum )
 	{
         // @script | PlayJumpSound |
-		case CRCC(0xe338369, "PlayJumpSound"):
+		case Crc::ConstCRC( "PlayJumpSound"):
 		{
 			switch ( m_stateType )
 			{

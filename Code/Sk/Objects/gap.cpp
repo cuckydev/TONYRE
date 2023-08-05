@@ -501,7 +501,7 @@ bool CGapChecklist::ScriptGetLevelGapTotals( Script::CStruct* pParams, Script::C
 
 bool CGapChecklist::ScriptAddGapsToMenu( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	uint32 choose_script=CRCD(0xf7e902c,"nullscript");
+	uint32 choose_script=Crc::ConstCRC("nullscript");
 	pParams->GetChecksum(Crc::ConstCRC("choose_script"),&choose_script);
 
 
@@ -516,9 +516,9 @@ bool CGapChecklist::ScriptAddGapsToMenu( Script::CStruct* pParams, Script::CScri
 		// check if this is the first or last gap
 		CGapCheck* pNext = (CGapCheck*)pGap->GetNext();
 		if ( entry == 0 )
-			p_gap_params->AddChecksum( NONAME, CRCD( 0x171665d5, "first_item" ) );
+			p_gap_params->AddChecksum( NONAME, Crc::ConstCRC( "first_item" ) );
 		else if ( !pNext )
-			p_gap_params->AddChecksum( NONAME, CRCD( 0x76cf1ebd, "last_item" ) );
+			p_gap_params->AddChecksum( NONAME, Crc::ConstCRC( "last_item" ) );
 
 		p_gap_params->AddInteger( "gap_score", pGap->GetScore() );
 		p_gap_params->AddString( "gap_name", pGap->GetText() );

@@ -73,7 +73,7 @@ void CSkaterFloatingNameComponent::InitFromStructure( Script::CStruct* pParams )
 			m_screen_element_id = Crc::ConstCRC("skater_name_1");
 			break;
 		case 2:
-			m_screen_element_id = CRCD(0x999c0aa, "skater_name_2");
+			m_screen_element_id = Crc::ConstCRC( "skater_name_2");
 			break;
 		case 3:
 			m_screen_element_id = Crc::ConstCRC("skater_name_3");
@@ -85,7 +85,7 @@ void CSkaterFloatingNameComponent::InitFromStructure( Script::CStruct* pParams )
 			m_screen_element_id = Crc::ConstCRC("skater_name_5");
 			break;
 		case 6:
-			m_screen_element_id = CRCD(0xef404b3, "skater_name_6");
+			m_screen_element_id = Crc::ConstCRC( "skater_name_6");
 			break;
 		case 7:
 			m_screen_element_id = Crc::ConstCRC("skater_name_7");

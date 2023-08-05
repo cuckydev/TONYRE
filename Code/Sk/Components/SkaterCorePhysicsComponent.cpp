@@ -275,7 +275,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			break;
 			
         // @script | Flipped | true if flipped
-		case CRCC(0xc7a712c, "Flipped"):
+		case Crc::ConstCRC( "Flipped"):
 			return GetFlag(FLIPPED) ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 			
         // @script | Switched | true if switched
@@ -341,7 +341,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
         // @uparm 1.0 | time (default is milliseconds)
         // @flag seconds | time in seconds
         // @flag frames | time in frames
-        case CRCC(0xc890a84, "AirTimeLessThan"):
+        case Crc::ConstCRC( "AirTimeLessThan"):
         // @script | AirTimeGreaterThan | true if the air time is 
         // greater than the specified time
         // @uparm 1.0 | time (default is milliseconds)
@@ -357,7 +357,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			{
 				TestTime = static_cast< Tmr::Time >(t * 1000);
 			}	
-			else if (pParams->ContainsFlag(CRCD(0x19176c5, "frames")) || pParams->ContainsFlag(Crc::ConstCRC("frame")))
+			else if (pParams->ContainsFlag(Crc::ConstCRC( "frames")) || pParams->ContainsFlag(Crc::ConstCRC("frame")))
 			{
 				TestTime = static_cast< Tmr::Time >(t * (1000 / 60));
 			}
@@ -376,7 +376,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 				AirTime = m_landed_time - m_went_airborne_time;
 			}	
 			
-			if (Checksum == CRCD(0xc890a84, "AirTimeLessThan"))
+			if (Checksum == Crc::ConstCRC( "AirTimeLessThan"))
 			{
 				return AirTime < TestTime ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 			}
@@ -423,7 +423,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			break;
 			
         // @script | CanKick | true if skater can kick
-		case CRCC(0x2f66333, "CanKick"):
+		case Crc::ConstCRC( "CanKick"):
 			return can_kick() ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 
         // @script | CanKickOn | sets can kick to true
@@ -442,12 +442,12 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			break;
 
         // @script | ForceAutoKickOff | turns off auto kick
-		case CRCC(0x257947e, "ForceAutokickOff"):
+		case Crc::ConstCRC( "ForceAutokickOff"):
 			m_auto_kick = false;
 			break;
 
 	    // @script | AutoKickIsOff | true if auto kick is off
-		case CRCC(0x1baa1d9, "AutoKickIsOff"):
+		case Crc::ConstCRC( "AutoKickIsOff"):
 			return m_auto_kick == false ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 			
         // @script | RestoreAutokick | restores auto kick to 
@@ -567,7 +567,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			break;
 
         // @script | CanSpin | sets flag enabling spin
-		case CRCC(0xe2998b9, "CanSpin"):
+		case Crc::ConstCRC( "CanSpin"):
 			mNoSpin = false;
 			break;
 		
@@ -600,7 +600,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			break;
 
         // @script | BailIsOn | true if bails on
-		case CRCC(0xe1d5168, "BailIsOn"):
+		case Crc::ConstCRC( "BailIsOn"):
 			return m_bail ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
 			
 
@@ -834,7 +834,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 		
         // @script | ResetLandedFromVert | clears mlandedfromvert flag
         // (check with LandedFromVert)
-		case CRCC(0xf922431, "ResetLandedFromVert"):
+		case Crc::ConstCRC( "ResetLandedFromVert"):
 			mLandedFromVert = false;
 			break;
 			
@@ -859,7 +859,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 			break;
 
         // @script | AllowRailTricks | turn off with NoRailTricks
-		case CRCC(0x65a559a, "AllowRailTricks"):
+		case Crc::ConstCRC( "AllowRailTricks"):
 			mNoRailTricks = false;
 			break;
 			
@@ -963,7 +963,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCorePhysicsComponent::CallMemberFun
 		}
 		
 		// @script | GetMatrixNormal | places the skater's matrix normal in x, y, and z
-		case CRCC(0x5144783, "GetMatrixNormal"):
+		case Crc::ConstCRC( "GetMatrixNormal"):
 		{
 			pScript->GetParams()->AddFloat(Crc::ConstCRC("x"), GetMatrix()[Y][X]);
 			pScript->GetParams()->AddFloat(Crc::ConstCRC("y"), GetMatrix()[Y][Y]);
@@ -1552,7 +1552,7 @@ void CSkaterCorePhysicsComponent::do_on_ground_physics (  )
 			}
 			break;
 			
-		case CRCC(0xac90769, "NoseManual"):
+		case Crc::ConstCRC( "NoseManual"):
 		case Crc::ConstCRC("Manual"):
 			m_braking = false;
 			
@@ -3880,7 +3880,7 @@ float CSkaterCorePhysicsComponent::get_air_gravity (   )
 		// set the flags as if they had actually enabled the cheat -- which enables us
 		// to detect that it has been turned on more easily.
 		Mdl::Skate::Instance()->GetCareer()->SetGlobalFlag( Script::GetInteger(Crc::ConstCRC("CHEAT_MOON")));
-		gravity *= GetPhysicsFloat(CRCD(0xec128f0, "moon_gravity"));
+		gravity *= GetPhysicsFloat(Crc::ConstCRC( "moon_gravity"));
 		g_CheatsEnabled = true;
 	}
 	 
@@ -4183,13 +4183,13 @@ bool CSkaterCorePhysicsComponent::check_for_wallpush (   )
 	if (!mp_input_component->GetControlPad().m_triangle.GetPressed()) return false;
 	
 	// last wallpush must not have been too recently
-	if (Tmr::ElapsedTime(m_last_wallpush_time_stamp) < Script::GetFloat(CRCD(0x17d543, "Physics_Disallow_Rewallpush_Duration"))) return false;
+	if (Tmr::ElapsedTime(m_last_wallpush_time_stamp) < Script::GetFloat(Crc::ConstCRC( "Physics_Disallow_Rewallpush_Duration"))) return false;
 	
 	// wall normal must be opposite our forward direction; just under the maximum flail angle
 	if (Mth::DotProduct(GetMatrix()[Z], m_feeler.GetNormal()) >= -sinf(Mth::DegToRad(Script::GetFloat(Crc::ConstCRC("Wall_Bounce_Dont_Slow_Angle")) - 1.0f))) return false;
 	
 	// last wallplant must not have been too recently
-	if (Tmr::ElapsedTime(m_last_wallplant_time_stamp) < Script::GetFloat(CRCD(0x17d543, "Physics_Disallow_Rewallpush_Duration"))) return false;
+	if (Tmr::ElapsedTime(m_last_wallplant_time_stamp) < Script::GetFloat(Crc::ConstCRC( "Physics_Disallow_Rewallpush_Duration"))) return false;
 	
 	// throw a wallpush event for the scripts
 	GetObj()->SelfEvent(Crc::ConstCRC("WallPush"));
@@ -4342,7 +4342,7 @@ bool CSkaterCorePhysicsComponent::check_for_wallplant (   )
 		GetVel()[Y] = 0.0f;
 		GetVel().Normalize(Mth::Max(
 			Script::GetFloat(Crc::ConstCRC("Physics_Wallplant_Min_Exit_Speed")),
-			horizontal_speed - Script::GetFloat(CRCD(0x9b2d4a3, "Physics_Wallplant_Speed_Loss"))
+			horizontal_speed - Script::GetFloat(Crc::ConstCRC( "Physics_Wallplant_Speed_Loss"))
 		));
 	}
 	else
@@ -4351,7 +4351,7 @@ bool CSkaterCorePhysicsComponent::check_for_wallplant (   )
 	}
 	
 	// replace vertical velocity with a wallplant boost
-	GetVel()[Y] = Script::GetFloat(CRCD(0x74957fa, "Physics_Wallplant_Vertical_Exit_Speed"));
+	GetVel()[Y] = Script::GetFloat(Crc::ConstCRC( "Physics_Wallplant_Vertical_Exit_Speed"));
 	
 	if (m_feeler.IsMovableCollision())
 	{
@@ -4367,7 +4367,7 @@ bool CSkaterCorePhysicsComponent::check_for_wallplant (   )
 	
 	// move to just outside the wall, insuring that there is no additional collision along the line to that point
 	m_feeler.m_start = m_feeler.GetPoint();
-	m_feeler.m_end = m_feeler.GetPoint() + Script::GetFloat(CRCD(0x24be8f0, "Physics_Wallplant_Distance_From_Wall")) * m_feeler.GetNormal();
+	m_feeler.m_end = m_feeler.GetPoint() + Script::GetFloat(Crc::ConstCRC( "Physics_Wallplant_Distance_From_Wall")) * m_feeler.GetNormal();
 	if (m_feeler.GetCollision())
 	{
 		GetPos() = m_feeler.GetPoint() + 0.1f * m_feeler.GetNormal();
@@ -6256,7 +6256,7 @@ void CSkaterCorePhysicsComponent::do_wallride_physics (   )
 	// also note we are intentionally not removing sideways components of velocity, so we get to drift up a bit
 	// after we hit the wall, allowing us to to the "claw" trick (Jump-WallRide-Jump-Grind)
 	
-	Mth::Vector acc(0.0f, GetPhysicsFloat(CRCD(0xc617caf, "Wall_Ride_Gravity")), 0.0f);
+	Mth::Vector acc(0.0f, GetPhysicsFloat(Crc::ConstCRC( "Wall_Ride_Gravity")), 0.0f);
 	GetPos() += GetVel() * m_frame_length + acc * (0.5f * m_frame_length * m_frame_length);
 	GetPos() += m_movement;
 	DUMP_POSITION;
@@ -7253,7 +7253,7 @@ void CSkaterCorePhysicsComponent::do_lip_physics (   )
 	}
 	
 	#ifdef __USER_DAN__
-	if (Script::GetInteger(CRCD(0x1a5eab7, "rail_highlights")))
+	if (Script::GetInteger(Crc::ConstCRC( "rail_highlights")))
 	{
 		Gfx::AddDebugLine(mp_rail_man->GetPos(mp_rail_node), mp_rail_man->GetPos(mp_rail_node->GetNextLink()), MAKE_RGB(Mth::Rnd(256), Mth::Rnd(256), Mth::Rnd(256)), 0, 1);
 		Gfx::AddDebugLine(mp_rail_man->GetPos(mp_rail_node) + Mth::Vector(1.0f, 0.0f, 0.0f), mp_rail_man->GetPos(mp_rail_node->GetNextLink()) + Mth::Vector(1.0f, 0.0f, 0.0f), MAKE_RGB(Mth::Rnd(256), Mth::Rnd(256), Mth::Rnd(256)), 0, 1);
@@ -7349,7 +7349,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 	{
 		maybe_trip_rail_trigger(TRIGGER_JUMP_OFF);
 		
-		m_rerail_time = static_cast< Tmr::Time >(GetPhysicsFloat(CRCD(0xbf35053, "Rail_jump_rerail_time")));
+		m_rerail_time = static_cast< Tmr::Time >(GetPhysicsFloat(Crc::ConstCRC( "Rail_jump_rerail_time")));
 		
 		SetFlagTrue(OLLIED_FROM_RAIL);
 		
@@ -7397,7 +7397,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 		const CRailNode* pOnto = nullptr;
 		
 		#ifdef __USER_DAN__
-		if (Script::GetInteger(CRCD(0x1a5eab7, "rail_highlights")))
+		if (Script::GetInteger(Crc::ConstCRC( "rail_highlights")))
 		{
 			Gfx::AddDebugLine(mp_rail_man->GetPos(pStart), mp_rail_man->GetPos(pEnd), MAKE_RGB(Mth::Rnd(256), Mth::Rnd(256), Mth::Rnd(256)), 0, 1);
 			Gfx::AddDebugLine(mp_rail_man->GetPos(pStart) + Mth::Vector(1.0f, 0.0f, 0.0f), mp_rail_man->GetPos(pEnd) + Mth::Vector(1.0f, 0.0f, 0.0f), MAKE_RGB(Mth::Rnd(256), Mth::Rnd(256), Mth::Rnd(256)), 0, 1);
@@ -8171,7 +8171,7 @@ void CSkaterCorePhysicsComponent::do_jump ( Script::CStruct *pParams )
 		}
 		else
 		{
-			max_jump_speed = GetSkater()->GetScriptedStat(CRCD(0x2ade3ad, "Physics_Jump_Speed_stat"));
+			max_jump_speed = GetSkater()->GetScriptedStat(Crc::ConstCRC( "Physics_Jump_Speed_stat"));
 			min_jump_speed = GetSkater()->GetScriptedStat(Crc::ConstCRC("Physics_Jump_Speed_min_stat"));
 		}
 	}	

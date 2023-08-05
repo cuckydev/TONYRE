@@ -94,20 +94,20 @@ void CHorseCameraComponent::InitFromStructure( Script::CStruct* pParams )
 {
 	uint32 subject_id;
 	
-	if (pParams->ContainsComponentNamed(CRCD(0x431c185, "subject")))
+	if (pParams->ContainsComponentNamed(Crc::ConstCRC( "subject")))
 	{
-		pParams->GetChecksum(CRCD(0x431c185, "subject"), &subject_id, Script::ASSERT);
+		pParams->GetChecksum(Crc::ConstCRC( "subject"), &subject_id, Script::ASSERT);
 		mp_subject = static_cast< CCompositeObject* >(CCompositeObjectManager::Instance()->GetObjectByID(subject_id));
 		Dbg_MsgAssert(mp_subject, ("Vehicle camera given subject which is not a composite object"));
 		mp_subject_vehicle_component = static_cast< CHorseComponent* >(mp_subject->GetComponent(CRC_HORSE));
 		Dbg_MsgAssert(mp_subject_vehicle_component, ("HorseCameraComponent given subject which contains no HorseComponent"));
 	}
 		
-	pParams->GetFloat( CRCD( 0x9213625f, "alignment_rate" ), &m_alignment_rate);
-	pParams->GetFloat( CRCD( 0x14849b6d, "offset_height" ), &m_offset_height);
-	pParams->GetFloat( CRCD( 0xbd3d3ca9, "offset_distance" ), &m_offset_distance);
+	pParams->GetFloat( Crc::ConstCRC( "alignment_rate" ), &m_alignment_rate);
+	pParams->GetFloat( Crc::ConstCRC( "offset_height" ), &m_offset_height);
+	pParams->GetFloat( Crc::ConstCRC( "offset_distance" ), &m_offset_distance);
 
-	if( pParams->GetFloat( CRCD( 0x480e14e2, "offset_tilt"), &m_offset_tilt ))
+	if( pParams->GetFloat( Crc::ConstCRC( "offset_tilt"), &m_offset_tilt ))
 	{
 		// Convert tilt from degrees to radians.
 		m_offset_tilt = Mth::DegToRad( m_offset_tilt );
@@ -247,7 +247,7 @@ CBaseComponent::EMemberFunctionResult CHorseCameraComponent::CallMemberFunction(
 {
 	switch ( Checksum )
 	{
-		case CRCC(0x469fd, "VehicleCamera_Reset"):
+		case Crc::ConstCRC( "VehicleCamera_Reset"):
 			RefreshFromStructure(pParams);
 			break;
 			
@@ -349,10 +349,10 @@ void CHorseCameraComponent::get_controller_input( void )
 	tilt_target		= tilt_target * m_tilt_modulator;
 		
 	// Get script values.
-	float heading_ka = Script::GetFloat( CRCD( 0xe31bc279, "GunslingerHorseLookaroundHeadingKa" ), Script::ASSERT );
-	float heading_ea = Script::GetFloat( CRCD( 0x7d98eff7, "GunslingerHorseLookaroundHeadingEa" ), Script::ASSERT );
-	float heading_ks = Script::GetFloat( CRCD( 0x10a2b331, "GunslingerHorseLookaroundHeadingKs" ), Script::ASSERT );
-	float heading_es = Script::GetFloat( CRCD( 0x8e219ebf, "GunslingerHorseLookaroundHeadingEs" ), Script::ASSERT );
+	float heading_ka = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundHeadingKa" ), Script::ASSERT );
+	float heading_ea = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundHeadingEa" ), Script::ASSERT );
+	float heading_ks = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundHeadingKs" ), Script::ASSERT );
+	float heading_es = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundHeadingEs" ), Script::ASSERT );
 
 	// Calculate acceleration.
 	float a = heading_ka * powf( Mth::Abs( heading_target ), heading_ea ) * (( heading_target > 0.0f ) ? 1.0f : ( heading_target < 0.0f ) ? -1.0f : 0.0f );
@@ -371,7 +371,7 @@ void CHorseCameraComponent::get_controller_input( void )
 		m_lookaround_heading_angular_speed = s;
 	}
 
-	float lookaround_heading_speed = Script::GetFloat( CRCD( 0x8cf5f0cd, "GunslingerHorseLookaroundHeadingSpeed" ), Script::ASSERT );
+	float lookaround_heading_speed = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundHeadingSpeed" ), Script::ASSERT );
 
 	// Control stick left - reticle should move left.
 	m_lookaround_heading_delta	= -m_lookaround_heading_angular_speed * lookaround_heading_speed * m_frame_length;
@@ -382,17 +382,17 @@ void CHorseCameraComponent::get_controller_input( void )
 	else if( m_lookaround_heading <= -Mth::PI )
 		m_lookaround_heading = ( 2 * Mth::PI ) + m_lookaround_heading;
 
-	if( Script::GetInteger( CRCD( 0x9edfc7af, "GunslingerInvertAiming" )) == 0 )
+	if( Script::GetInteger( Crc::ConstCRC( "GunslingerInvertAiming" )) == 0 )
 	{
 		// Negate value if vertical aiming invert is not enabled.
 		tilt_target = -tilt_target;
 	}
 
 	// Get script values.
-	float tilt_ka = Script::GetFloat( CRCD( 0x3e8e974f, "GunslingerHorseLookaroundTiltKa" ), Script::ASSERT );
-	float tilt_ea = Script::GetFloat( CRCD( 0xa00dbac1, "GunslingerHorseLookaroundTiltEa" ), Script::ASSERT );
-	float tilt_ks = Script::GetFloat( CRCD( 0xcd37e607, "GunslingerHorseLookaroundTiltKs" ), Script::ASSERT );
-	float tilt_es = Script::GetFloat( CRCD( 0x53b4cb89, "GunslingerHorseLookaroundTiltEs" ), Script::ASSERT );
+	float tilt_ka = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundTiltKa" ), Script::ASSERT );
+	float tilt_ea = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundTiltEa" ), Script::ASSERT );
+	float tilt_ks = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundTiltKs" ), Script::ASSERT );
+	float tilt_es = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundTiltEs" ), Script::ASSERT );
 
 	// Calculate acceleration.
 	a = tilt_ka * powf( Mth::Abs( tilt_target ), tilt_ea ) * (( tilt_target > 0.0f ) ? 1.0f : ( tilt_target < 0.0f ) ? -1.0f : 0.0f );
@@ -411,7 +411,7 @@ void CHorseCameraComponent::get_controller_input( void )
 		m_lookaround_tilt_angular_speed = s;
 	}
 
-	float lookaround_tilt_speed = Script::GetFloat( CRCD( 0xebbaa7e8, "GunslingerHorseLookaroundTiltSpeed" ), Script::ASSERT );
+	float lookaround_tilt_speed = Script::GetFloat( Crc::ConstCRC( "GunslingerHorseLookaroundTiltSpeed" ), Script::ASSERT );
 	m_lookaround_tilt_delta	= m_lookaround_tilt_angular_speed * lookaround_tilt_speed * m_frame_length;
 	m_lookaround_tilt	   += m_lookaround_tilt_delta;
 

@@ -121,7 +121,7 @@ CBaseComponent::EMemberFunctionResult CSkaterEndRunComponent::CallMemberFunction
 			m_flags.Set(STARTED_END_OF_RUN);
 			break;
 
-		case CRCC(0xafc6a7,"Goal_EndOfRunStarted"):
+		case Crc::ConstCRC("Goal_EndOfRunStarted"):
 			m_flags.Set(STARTED_GOAL_END_OF_RUN);
 			break;
 			
@@ -150,12 +150,12 @@ void CSkaterEndRunComponent::GetDebugInfo(Script::CStruct *p_info)
 #ifdef	__DEBUG_CODE__
 	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterEndRunComponent::GetDebugInfo"));
 	
-	p_info->AddChecksum(Crc::ConstCRC("STARTED_END_OF_RUN"), m_flags.Test(STARTED_END_OF_RUN) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum(Crc::ConstCRC("FINISHED_END_OF_RUN"), m_flags.Test(FINISHED_END_OF_RUN) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum(Crc::ConstCRC("IS_ENDING_RUN"), m_flags.Test(IS_ENDING_RUN) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum(Crc::ConstCRC("STARTED_GOAL_END_OF_RUN"), m_flags.Test(STARTED_GOAL_END_OF_RUN) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum(Crc::ConstCRC("FINISHED_GOAL_END_OF_RUN"), m_flags.Test(FINISHED_GOAL_END_OF_RUN) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
-	p_info->AddChecksum(Crc::ConstCRC("IS_ENDING_GOAL"), m_flags.Test(IS_ENDING_GOAL) ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("STARTED_END_OF_RUN"), m_flags.Test(STARTED_END_OF_RUN) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("FINISHED_END_OF_RUN"), m_flags.Test(FINISHED_END_OF_RUN) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("IS_ENDING_RUN"), m_flags.Test(IS_ENDING_RUN) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("STARTED_GOAL_END_OF_RUN"), m_flags.Test(STARTED_GOAL_END_OF_RUN) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("FINISHED_GOAL_END_OF_RUN"), m_flags.Test(FINISHED_GOAL_END_OF_RUN) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum(Crc::ConstCRC("IS_ENDING_GOAL"), m_flags.Test(IS_ENDING_GOAL) ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 
 	CBaseComponent::GetDebugInfo(p_info);	  
 #endif				 

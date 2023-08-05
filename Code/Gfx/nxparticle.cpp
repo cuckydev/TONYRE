@@ -593,7 +593,7 @@ bool CParticle::CallMemberFunction( uint32 Checksum, Script::CStruct *pParams, S
 				else
 				{
 					pParams->GetFloat(Crc::ConstCRC("x"),&x);
-					pParams->GetFloat(CRCD(0x424d9ea,"y"),&y);
+					pParams->GetFloat(Crc::ConstCRC("y"),&y);
 					pParams->GetFloat(Crc::ConstCRC("z"),&z);
 				}
 
@@ -621,7 +621,7 @@ bool CParticle::CallMemberFunction( uint32 Checksum, Script::CStruct *pParams, S
 				float width = 0.0f;
 				pParams->GetFloat(Crc::ConstCRC("width"),&width);
 				float height = width;
-				pParams->GetFloat(CRCD(0xab21af0,"height"),&height);
+				pParams->GetFloat(Crc::ConstCRC("height"),&height);
 			
 				set_emit_range( width, height );
 			}

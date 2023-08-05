@@ -158,7 +158,7 @@ CBaseComponent::EMemberFunctionResult CInputComponent::CallMemberFunction( uint3
 			break;
 				
 		// @script | PlayerInputIsDisabled	| return true if the player input is disabled
-		case CRCC(0x660746a, "PlayerInputIsDisabled"):
+		case Crc::ConstCRC( "PlayerInputIsDisabled"):
 			return IsInputDisabled() ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;	
 
         // @script | LeftPressed | true if left is being pressed on the pad
@@ -200,7 +200,7 @@ CBaseComponent::EMemberFunctionResult CInputComponent::CallMemberFunction( uint3
 			{
 				TestTime = static_cast< Tmr::Time >(time * 1000.0f);
 			}	
-			else if (pParams->ContainsFlag(CRCD(0x19176c5, "frames")) || pParams->ContainsFlag(Crc::ConstCRC("frame")))
+			else if (pParams->ContainsFlag(Crc::ConstCRC( "frames")) || pParams->ContainsFlag(Crc::ConstCRC("frame")))
 			{
 				TestTime =static_cast< Tmr::Time >(time * (1000.0f / 60.0f));
 			}
@@ -454,7 +454,7 @@ void CInputComponent::build_input_mask ( Inp::Data* input )
 	update_input_mask(input, Inp::Data::vA_UP,			Inp::Data::mA_UP, 		Crc::ConstCRC("Trigger_UP"),        Crc::ConstCRC("Release_UP"),		&m_pad.m_up			);	
 	update_input_mask(input, Inp::Data::vA_DOWN,		Inp::Data::mA_DOWN, 	Crc::ConstCRC("Trigger_DOWN"),      Crc::ConstCRC("Release_DOWN"),      &m_pad.m_down		);	
 	update_input_mask(input, Inp::Data::vA_LEFT,		Inp::Data::mA_LEFT, 	Crc::ConstCRC("Trigger_LEFT"),      Crc::ConstCRC("Release_LEFT"),      &m_pad.m_left		);	
-	update_input_mask(input, Inp::Data::vA_RIGHT,		Inp::Data::mA_RIGHT, 	CRCD(0xedbbc2b,"Trigger_RIGHT"),      Crc::ConstCRC("Release_RIGHT"),     &m_pad.m_right 		);	
+	update_input_mask(input, Inp::Data::vA_RIGHT,		Inp::Data::mA_RIGHT, 	Crc::ConstCRC("Trigger_RIGHT"),      Crc::ConstCRC("Release_RIGHT"),     &m_pad.m_right 		);	
 	update_input_mask(input, Inp::Data::vA_CIRCLE,		Inp::Data::mA_CIRCLE, 	Crc::ConstCRC("Trigger_CIRCLE"),    Crc::ConstCRC("Release_CIRCLE"),    &m_pad.m_circle		);	
 	update_input_mask(input, Inp::Data::vA_SQUARE,		Inp::Data::mA_SQUARE, 	Crc::ConstCRC("Trigger_SQUARE"),    Crc::ConstCRC("Release_SQUARE"),    &m_pad.m_square		);	
 	update_input_mask(input, Inp::Data::vA_TRIANGLE,	Inp::Data::mA_TRIANGLE, Crc::ConstCRC("Trigger_TRIANGLE"),  Crc::ConstCRC("Release_TRIANGLE"),  &m_pad.m_triangle	);	

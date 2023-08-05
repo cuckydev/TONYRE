@@ -99,7 +99,7 @@ static void s_send_script_name(uint32 script_name, int numReturnAddresses)
 		Crc::ConstCRC("make_text_sub_menu_item"),
 		Crc::ConstCRC("parked_make_piece_menu_item"),
 		Crc::ConstCRC("doapush"),
-		CRCC(0x493a52f,"helper_text_update_element"),
+		Crc::ConstCRC("helper_text_update_element"),
 		Crc::ConstCRC("show_panel_message"),
 		Crc::ConstCRC("DestroyMemStatsScreenElements"),
 		Crc::ConstCRC("setexception"),
@@ -108,7 +108,7 @@ static void s_send_script_name(uint32 script_name, int numReturnAddresses)
 		Crc::ConstCRC("switchoffboard"),
 		Crc::ConstCRC("bloodparticlesoff"),
 		Crc::ConstCRC("skaterbloodoff"),
-		CRCC(0x243e716,"verifyparam"),
+		Crc::ConstCRC("verifyparam"),
 		Crc::ConstCRC("onexceptionrun"),
 		Crc::ConstCRC("WaitAnimWhilstChecking"),
 		Crc::ConstCRC("ClothingLandBounce"),
@@ -697,7 +697,7 @@ void CScript::set_script(uint32 scriptChecksum, uint8 *p_script, CStruct *p_para
 		if (!mp_pc)
 		{
 			#ifdef	__NOPT_ASSERT__
-			if (Script::GetInteger(CRCD(0x22d1f89,"AssertOnMissingScripts")))
+			if (Script::GetInteger(Crc::ConstCRC("AssertOnMissingScripts")))
 			{
 				Dbg_MsgAssert(false, ("Script %s not found.",FindChecksumName(scriptChecksum)));
 			}
@@ -1776,7 +1776,7 @@ bool CScript::execute_command()
 	if (!p_entry)
 	{
 		#ifdef	__NOPT_ASSERT__
-		if (Script::GetInteger(CRCD(0x22d1f89,"AssertOnMissingScripts")))
+		if (Script::GetInteger(Crc::ConstCRC("AssertOnMissingScripts")))
 		{
 			Dbg_MsgAssert(p_entry,("\n%s\nConfused by '%s', which does not appear to be defined anywhere.\nIf it is a C-function or member function, it needs to be listed in ftables.cpp.",GetScriptInfo(),FindChecksumName(name)));
 		}

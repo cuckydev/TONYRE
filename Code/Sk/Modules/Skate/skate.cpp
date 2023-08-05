@@ -2340,9 +2340,9 @@ void Skate::CheckSkaterCollisions( void )
 	if( ( gamenet_man->PlayerCollisionEnabled() == false ) &&
 		( GetGameMode()->GetNameChecksum() != Crc::ConstCRC("netfirefight")) &&
 		( GetGameMode()->GetNameChecksum() != Crc::ConstCRC("firefight")) &&
-		( GetGameMode()->GetNameChecksum() != CRCD( 0x6ef8fda0, "netking" )) &&
-		( GetGameMode()->GetNameChecksum() != CRCD( 0x5d32129c, "king" )) &&
-		( GetGameMode()->GetNameChecksum() != CRCD( 0x6c5ff266, "netctf" )))
+		( GetGameMode()->GetNameChecksum() != Crc::ConstCRC( "netking" )) &&
+		( GetGameMode()->GetNameChecksum() != Crc::ConstCRC( "king" )) &&
+		( GetGameMode()->GetNameChecksum() != Crc::ConstCRC( "netctf" )))
 	{
 		return;
 	}
@@ -2361,8 +2361,8 @@ void Skate::CheckSkaterCollisions( void )
 
 	// If we're in king of the hill mode and the crown is on the ground
 	// perform collision checks to see if someone snags it
-	if(	( GetGameMode()->GetNameChecksum() == CRCD( 0x6ef8fda0, "netking" )) ||
-		( GetGameMode()->GetNameChecksum() == CRCD( 0x5d32129c, "king" )))
+	if(	( GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netking" )) ||
+		( GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "king" )))
 	{   
 		Obj::CCrown* crown;
 

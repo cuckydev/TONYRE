@@ -216,7 +216,7 @@ void CWeaponComponent::ProcessStickyTarget( float heading_change, float tilt_cha
 		if( heading_change != 0.0f )
 		{
 			// Figure default adjustment amount.
-			float		heading_cursor_suck		= Script::GetFloat( CRCD( 0xd90b2dfb, "GunslingerLookaroundHeadingCursorSuck" ), Script::ASSERT );
+			float		heading_cursor_suck		= Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundHeadingCursorSuck" ), Script::ASSERT );
 			float		default_adjustment		= heading_change * heading_cursor_suck;
 
 			Mth::Vector	immediate_camera_pos	= m_sight_pos;
@@ -275,7 +275,7 @@ void CWeaponComponent::ProcessStickyTarget( float heading_change, float tilt_cha
 		if( tilt_change != 0.0f )
 		{
 			// Figure default adjustment amount.
-			float		tilt_cursor_suck		= Script::GetFloat( CRCD( 0x4ece2698, "GunslingerLookaroundTiltCursorSuck" ), Script::ASSERT );
+			float		tilt_cursor_suck		= Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltCursorSuck" ), Script::ASSERT );
 			float		default_adjustment		= tilt_change * tilt_cursor_suck;
 
 			Mth::Vector	immediate_camera_pos	= m_sight_pos;
@@ -359,10 +359,10 @@ void CWeaponComponent::Fire( void )
 {
 	if( mp_current_target )
 	{
-		mp_current_target->SelfEvent( CRCD( 0xfaeec40f, "SkaterInAvoidRadius" ));
+		mp_current_target->SelfEvent( Crc::ConstCRC( "SkaterInAvoidRadius" ));
 	}
 
-	Script::RunScript( CRCD( 0xe03997d0, "PlayGunshot" ));
+	Script::RunScript( Crc::ConstCRC( "PlayGunshot" ));
 }
 
 
@@ -378,7 +378,7 @@ const float SPIN_MODULATION_ANGLE = 0.9848f;	// Cosine of 10 degrees.
 CCompositeObject* CWeaponComponent::GetCurrentTarget( Mth::Vector& start_pos, Mth::Vector* p_reticle_max )
 {
 	// This is the maximum distance that we will check for targets.
-	float target_distance = Script::GetFloat( CRCD( 0x89495011,"GunslingerTargetDistance" ), Script::ASSERT );
+	float target_distance = Script::GetFloat( Crc::ConstCRC("GunslingerTargetDistance" ), Script::ASSERT );
 
 	Mth::Vector reticle_min		= start_pos;
 	m_reticle_max				= reticle_min - ( m_sight_matrix[Z] * target_distance );
@@ -442,7 +442,7 @@ CCompositeObject* CWeaponComponent::GetCurrentTarget( Mth::Vector& start_pos, Mt
 		float dist_to_line	= dist_to_ped * sqrtf( 1.0f - ( best_dp * best_dp ));
 
 		// This value should really be per-weapon in some script array.
-		if( dist_to_line < Script::GetFloat( CRCD( 0x755235db, "GunslingerLookaroundModulationDistance" ), Script::ASSERT ))
+		if( dist_to_line < Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundModulationDistance" ), Script::ASSERT ))
 		{
 			// Is this the same target as last time?
 //			if( mp_best_target == p_selected_target )
@@ -458,13 +458,13 @@ CCompositeObject* CWeaponComponent::GetCurrentTarget( Mth::Vector& start_pos, Mt
 //			}
 
 			// Modulator gets smaller as result tends to 1.0.
-			float max_damping = Script::GetFloat( CRCD( 0xef314a12, "GunslingerLookaroundDamping" ), Script::ASSERT );
+			float max_damping = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundDamping" ), Script::ASSERT );
 			m_spin_modulator = 1.0f - ( max_damping * (( best_dp - SPIN_MODULATION_ANGLE ) / ( 1.0f - SPIN_MODULATION_ANGLE )));
 
 //			if( gun_fired )
 //			{
 //				// Make this ped fall down.
-//				mp_best_target->SelfEvent( CRCD( 0xfaeec40f, "SkaterInAvoidRadius" ));
+//				mp_best_target->SelfEvent( Crc::ConstCRC( "SkaterInAvoidRadius" ));
 //			}
 		}
 		else

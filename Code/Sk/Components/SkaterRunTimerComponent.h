@@ -110,7 +110,7 @@ inline uint32 CSkaterRunTimerComponent::get_run_timer_controller_id (   )
 
 inline void CSkaterRunTimerComponent::ComboStarted (   )
 {
-	m_timer = GetSkater()->GetScriptedStat(CRCD(0xb84f532, "Physics_RunTimer_Duration"));
+	m_timer = GetSkater()->GetScriptedStat(Crc::ConstCRC( "Physics_RunTimer_Duration"));
 	m_unpause_count = 0;
 	
 	set_state(ACTIVE_PAUSED);

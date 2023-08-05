@@ -1653,7 +1653,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 
             pTempStructure = new Script::CStruct;
 			ui_string = gamenet_man->GetNameFromArrayEntry( "time_limit_options", msg->m_TimeLimit );
-			time = gamenet_man->GetIntFromArrayEntry( "time_limit_options", msg->m_TimeLimit, CRCD( 0x906b67ba, "time" ) );
+			time = gamenet_man->GetIntFromArrayEntry( "time_limit_options", msg->m_TimeLimit, Crc::ConstCRC( "time" ) );
 			Dbg_Printf( "Got Time Limit UI String of %s\n", ui_string );
 			pTempStructure->AddComponent( Script::GenerateCRC("ui_string"), ESYMBOLTYPE_STRING, ui_string );
 			pTempStructure->AddComponent( Script::GenerateCRC("checksum"), ESYMBOLTYPE_NAME, msg->m_TimeLimit );
@@ -1665,17 +1665,17 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 
 			score = 0;
 			ui_string = gamenet_man->GetNameFromArrayEntry( "target_score_options", msg->m_TargetScore );
-			score = gamenet_man->GetIntFromArrayEntry( "target_score_options", msg->m_TargetScore, CRCD( 0xcd66c8ae, "score" ));
+			score = gamenet_man->GetIntFromArrayEntry( "target_score_options", msg->m_TargetScore, Crc::ConstCRC( "score" ));
 			// Our "target score" comes from either the target score options array or the time limit options array, depending on
 			// whether the game type is score challenge or koth
 			if( ui_string == nullptr )
 			{
 				ui_string = gamenet_man->GetNameFromArrayEntry( "capture_options", msg->m_TargetScore );
-				score = gamenet_man->GetIntFromArrayEntry( "capture_options", msg->m_TargetScore, CRCD( 0xcd66c8ae, "score" ));
+				score = gamenet_man->GetIntFromArrayEntry( "capture_options", msg->m_TargetScore, Crc::ConstCRC( "score" ));
 				if( ui_string == nullptr )
 				{
 					ui_string = gamenet_man->GetNameFromArrayEntry( "time_limit_options", msg->m_TargetScore );
-					score = gamenet_man->GetIntFromArrayEntry( "time_limit_options", msg->m_TargetScore, CRCD( 0x906b67ba, "time" ));
+					score = gamenet_man->GetIntFromArrayEntry( "time_limit_options", msg->m_TargetScore, Crc::ConstCRC( "time" ));
 					score *= 1000;
 				}
 			}

@@ -1144,7 +1144,7 @@ void	CScene::GetMetrics(Script::CStruct * p_info)
 	}
 	
 	p_info->AddInteger(Crc::ConstCRC("Sectors"),total_sectors);
-	p_info->AddInteger(CRCD(0xac30a9d,"ColSectors"),GetNumCollSectors());
+	p_info->AddInteger(Crc::ConstCRC("ColSectors"),GetNumCollSectors());
 	p_info->AddInteger(Crc::ConstCRC("Verts"),render_verts);
 	p_info->AddInteger(Crc::ConstCRC("Polys"),render_polys);
 	p_info->AddInteger(Crc::ConstCRC("BasePolys"),render_base_polys);

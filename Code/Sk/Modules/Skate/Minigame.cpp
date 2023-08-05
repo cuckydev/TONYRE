@@ -111,7 +111,7 @@ void CMinigame::UpdateMinigameTimer()
 	int seconds = time_left % 60;
 	int minutes = time_left / 60;
 		
-	Front::CScreenElementPtr p_element = p_screen_elem_man->GetElement( CRCD( 0xcd9671b4, "minigame_timer") );
+	Front::CScreenElementPtr p_element = p_screen_elem_man->GetElement( Crc::ConstCRC( "minigame_timer") );
 	if (p_element)
 	{
 		Dbg_MsgAssert(p_element->GetType() == Crc::ConstCRC("TextElement"), ("type is 0x%x", p_element->GetType()));
@@ -122,7 +122,7 @@ void CMinigame::UpdateMinigameTimer()
 		
 		// get the description if there is one
 		const char* timer_description;
-		if ( mp_params->GetString( CRCD( 0xe1fc4f74, "timer_description" ), &timer_description, Script::NO_ASSERT ) )
+		if ( mp_params->GetString( Crc::ConstCRC( "timer_description" ), &timer_description, Script::NO_ASSERT ) )
 		{
 			strcat( time_text, " " );
 			strcat( time_text, timer_description );

@@ -105,14 +105,14 @@ void CTextElement::SetProperties(Script::CStruct *pProps)
 	
 	resolve_rgba(pProps, Crc::ConstCRC("shadow_rgba"), &m_shadow_rgba);
 	
-	if ( pProps->ContainsFlag( CRCD(0xbf51a0c,"remember_override_rgba_state") ) )
+	if ( pProps->ContainsFlag( Crc::ConstCRC("remember_override_rgba_state") ) )
 	{
 		Dbg_MsgAssert( !pProps->ContainsFlag( Crc::ConstCRC("restore_override_rgba_state") ), ( "restore_override_rgba_state and remember_override_rgba_state?" ) );
 		m_previous_override_rgba_state = m_override_encoded_rgba;
 	}
 	if ( pProps->ContainsFlag( Crc::ConstCRC("restore_override_rgba_state") ) )
 	{
-		Dbg_MsgAssert( !pProps->ContainsFlag( CRCD(0xbf51a0c,"remember_override_rgba_state") ), ( "restore_override_rgba_state and remember_override_rgba_state?" ) );
+		Dbg_MsgAssert( !pProps->ContainsFlag( Crc::ConstCRC("remember_override_rgba_state") ), ( "restore_override_rgba_state and remember_override_rgba_state?" ) );
 		m_override_encoded_rgba = m_previous_override_rgba_state;
 	}
 	
@@ -739,14 +739,14 @@ void CTextBlockElement::SetProperties(Script::CStruct *pProps)
 
 	resolve_rgba(pProps, Crc::ConstCRC("shadow_rgba"), &m_shadow_rgba);
 	
-	if ( pProps->ContainsFlag( CRCD(0xbf51a0c,"remember_override_rgba_state") ) )
+	if ( pProps->ContainsFlag( Crc::ConstCRC("remember_override_rgba_state") ) )
 	{
 		Dbg_MsgAssert( !pProps->ContainsFlag( Crc::ConstCRC("restore_override_rgba_state") ), ( "restore_override_rgba_state and remember_override_rgba_state?" ) );
 		m_previous_override_rgba_state = m_override_encoded_rgba;
 	}
 	if ( pProps->ContainsFlag( Crc::ConstCRC("restore_override_rgba_state") ) )
 	{
-		Dbg_MsgAssert( !pProps->ContainsFlag( CRCD(0xbf51a0c,"remember_override_rgba_state") ), ( "restore_override_rgba_state and remember_override_rgba_state?" ) );
+		Dbg_MsgAssert( !pProps->ContainsFlag( Crc::ConstCRC("remember_override_rgba_state") ), ( "restore_override_rgba_state and remember_override_rgba_state?" ) );
 		m_override_encoded_rgba = m_previous_override_rgba_state;
 	}
 	

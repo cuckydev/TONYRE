@@ -71,11 +71,11 @@ CPedLogicComponent::CPedLogicComponent() : CBaseComponent()
 
 	ResetBias();
 	m_turn_frames = 0;
-	m_max_turn_frames = 0; // Script::GetInteger( CRCD( 0x793535f5, "ped_turn_frames" ), Script::ASSERT );
+	m_max_turn_frames = 0; // Script::GetInteger( Crc::ConstCRC( "ped_turn_frames" ), Script::ASSERT );
 	mp_path_object_tracker = nullptr;
 
-	m_col_dist_above = Script::GetFloat( CRCD( 0x379d93d2, "ped_skater_stick_dist_above" ), Script::ASSERT );
-	m_col_dist_below = Script::GetFloat( CRCD( 0x8715b7b2, "ped_skater_stick_dist_below" ), Script::ASSERT );
+	m_col_dist_above = Script::GetFloat( Crc::ConstCRC( "ped_skater_stick_dist_above" ), Script::ASSERT );
+	m_col_dist_below = Script::GetFloat( Crc::ConstCRC( "ped_skater_stick_dist_below" ), Script::ASSERT );
 
 	m_flags = 0;
 
@@ -99,16 +99,16 @@ CPedLogicComponent::~CPedLogicComponent()
 void CPedLogicComponent::InitFromStructure( Script::CStruct* pParams )
 {
 	// ** Add code to parse the structure, and initialize the component
-	// m_state = CRCD( 0x23db4aea, "Idle" );s
+	// m_state = Crc::ConstCRC( "Idle" );s
 
-	pParams->GetInteger( CRCD( 0xe50d6573, "nodeIndex" ), &m_node_from, Script::ASSERT );
+	pParams->GetInteger( Crc::ConstCRC( "nodeIndex" ), &m_node_from, Script::ASSERT );
 	// printf("m_node_from = %i\n", m_node_from);
 	SkateScript::GetPosition( m_node_from, &m_wp_from );
 	m_normal_lerp = 0.0f;
 	m_display_normal = m_last_display_normal = m_current_normal = GetObj()->m_matrix[Y];
 
-	pParams->GetFloat( CRCD( 0x367c4a1b, "StickToGroundDistAbove" ), &m_col_dist_above );
-	pParams->GetFloat( CRCD( 0x86f46e7b, "StickToGroundDistBelow" ), &m_col_dist_below );
+	pParams->GetFloat( Crc::ConstCRC( "StickToGroundDistAbove" ), &m_col_dist_above );
+	pParams->GetFloat( Crc::ConstCRC( "StickToGroundDistBelow" ), &m_col_dist_below );
 
 	m_current_display_matrix = GetObj()->GetDisplayMatrix();
 }
@@ -128,16 +128,16 @@ void CPedLogicComponent::Update()
 	// if need be.  Plus it just looks cleaner.
 	switch ( m_state )
 	{
-		case CRCC( 0x69b05e2c, "generic" ):
+		case Crc::ConstCRC( "generic" ):
 			GenericPedUpdate();
 			break;
-		case CRCC( 0xa85af587, "generic_skater" ):
+		case Crc::ConstCRC( "generic_skater" ):
 			GenericSkaterUpdate();
 			break;
 		case Crc::ConstCRC("lip_trick"):
 			UpdateLipDisplayMatrix();
 			break;
-		case CRCC( 0x82b45a67, "generic_standing" ):
+		case Crc::ConstCRC( "generic_standing" ):
 			// this is currently handled in script
 			break;
 	default:
@@ -160,11 +160,11 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 	{
 		// @script | Ped_SetLogicState | set the current state of the ped
 		// @uparm name | state - eg, generic, generic_skater, etc.
-		case CRCC( 0x3685b765, "Ped_SetLogicState" ):
+		case Crc::ConstCRC( "Ped_SetLogicState" ):
 			pParams->GetChecksum( NONAME, &m_state, Script::ASSERT );
 			break;
 		// @script | Ped_InitPath | initializes the ped on his linked path and starts movement
-		case CRCC( 0xe9906815, "Ped_InitPath" ):
+		case Crc::ConstCRC( "Ped_InitPath" ):
 		{
 			Script::CStruct* pNodeData = SkateScript::GetNode( m_node_from );
 			// m_node_to = SkateScript::GetLink( pNodeData, Mth::Rnd( SkateScript::GetNumLinks( pNodeData ) ) );
@@ -199,11 +199,11 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 			break;
 		}
 		// @script | Ped_StartMoving | start moving on path
-		case CRCC( 0xd711542, "Ped_StartMoving" ):
+		case Crc::ConstCRC( "Ped_StartMoving" ):
 		{
 			if ( m_flags & PEDLOGIC_STOPPED )
 			{
-				Script::CScript* pScript = Script::SpawnScript( CRCD( 0xbed339d4, "ped_skater_start_moving" ) );
+				Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_start_moving" ) );
 				pScript->mpObject = GetObj();
 				m_flags &= ~PEDLOGIC_STOPPED;
 			}
@@ -211,7 +211,7 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 			break;
 		}
 		// @script | Ped_StopMoving | stop moving on path
-		case CRCC( 0xcc85adfe, "Ped_StopMoving" ):
+		case Crc::ConstCRC( "Ped_StopMoving" ):
 			m_flags &= ~PEDLOGIC_MOVING_ON_PATH;
 			break;
 		// @script | Ped_IsMoving | returns true if the ped is moving on the path
@@ -223,14 +223,14 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 		// angle the ped is currently standing (his Y vector).
 		// @parmopt float | StickToGroundDistAbove | | distance to check above the ped
 		// @parmopt float | StickToGroundDistBelow | | distance to check below the ped
-		case CRCC( 0x2cc086dd, "Ped_SetStickToGroundDist" ):
+		case Crc::ConstCRC( "Ped_SetStickToGroundDist" ):
 			pParams->GetFloat( "distAbove", &m_col_dist_above );
 			pParams->GetFloat( "distBelow", &m_col_dist_below );
 			printf("StickToGround distances set to %f (above), %f (below)\n", m_col_dist_above, m_col_dist_below);
 			break;
 		// @script | Ped_SetIsGrinding | used for manually setting the grind state on and off
 		// @uparm 0 | 0 for off, anything else for on
-		case CRCC( 0xc643e8f5, "Ped_SetIsGrinding" ):
+		case Crc::ConstCRC( "Ped_SetIsGrinding" ):
 		{
 			int is_grinding = 0;
 			pParams->GetInteger( NONAME, &is_grinding, Script::ASSERT );
@@ -244,16 +244,16 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 		// @flag max | get the maximum velocity, rather than the currnt velocity.
 		// This is useful in case the ped is currently accelerating or decelerating 
 		// to achieve maximum velocity.
-		case CRCC( 0x13713760, "Ped_GetCurrentVelocity" ):
+		case Crc::ConstCRC( "Ped_GetCurrentVelocity" ):
 		{
 			Obj::CMotionComponent* pMotionComp = GetMotionComponentFromObject( GetObj() );
 			Dbg_Assert( pMotionComp );
-			pScript->GetParams()->AddFloat( CRCD( 0x41272956, "velocity" ), pMotionComp->m_vel_z );
+			pScript->GetParams()->AddFloat( Crc::ConstCRC( "velocity" ), pMotionComp->m_vel_z );
 			break;
 		}
 		// @script | Ped_StoreMaxVelocity | stores the current max velocity, so you can
 		// change it and restore it later
-		case CRCC( 0xf5627596, "Ped_StoreMaxVelocity" ):
+		case Crc::ConstCRC( "Ped_StoreMaxVelocity" ):
 		{
 			Obj::CMotionComponent* pMotionComp = GetMotionComponentFromObject( GetObj() );
 			Dbg_Assert( pMotionComp );
@@ -262,20 +262,20 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 		}
 		// @script | Ped_GetOriginalMaxVelocity | returns original_max_velocity stored when 
 		// Ped_StoreMaxVelocity was called
-		case CRCC( 0xe575efa9, "Ped_GetOriginalMaxVelocity" ):
+		case Crc::ConstCRC( "Ped_GetOriginalMaxVelocity" ):
 		{
 			pScript->GetParams()->AddFloat( "original_max_velocity", m_original_max_vel );
 			break;
 		}
 		// @script | Ped_Bail |
-		case CRCC( 0xee24a410, "Ped_Bail" ):
+		case Crc::ConstCRC( "Ped_Bail" ):
 			Bail();
 			break;
-		case CRCC( 0xc076d74, "Ped_SetIsBailing" ):
+		case Crc::ConstCRC( "Ped_SetIsBailing" ):
 		{
 			int v;
 			pParams->GetInteger( NONAME, &v, Script::ASSERT );
-			if ( pParams->ContainsFlag( CRCD( 0x255ed86f, "grind" ) ) )
+			if ( pParams->ContainsFlag( Crc::ConstCRC( "grind" ) ) )
 			{
 				if ( v == 0 )
 					m_flags &= ~PEDLOGIC_GRIND_BAILING;
@@ -291,13 +291,13 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 			}
 			break;
 		}
-		case CRCC( 0xda7be9e2, "Ped_InitVertTrick" ):
+		case Crc::ConstCRC( "Ped_InitVertTrick" ):
 		{
 			// get the height and gravity
 			float height;
-			pParams->GetFloat( CRCD( 0xab21af0, "height" ), &height, Script::ASSERT );
+			pParams->GetFloat( Crc::ConstCRC( "height" ), &height, Script::ASSERT );
 			float gravity;
-			pParams->GetFloat( CRCD( 0xa5e2da58, "gravity" ), &gravity, Script::ASSERT );
+			pParams->GetFloat( Crc::ConstCRC( "gravity" ), &gravity, Script::ASSERT );
 			Dbg_MsgAssert( gravity < 0.0f, ( "Ped_InitVertTrick given positive number for gravity" ) );
 
 			Mth::Vector pt = m_wp_to - GetObj()->m_pos;
@@ -321,7 +321,7 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 			// find the horizontal distance we need to travel
 			float distance = pt.Length() / 2;
 			// bump it up a bit so we don't miss landing
-			distance *= Script::GetFloat( CRCD( 0x2b5bedba, "ped_skater_vert_jump_slop_distance" ), Script::ASSERT );
+			distance *= Script::GetFloat( Crc::ConstCRC( "ped_skater_vert_jump_slop_distance" ), Script::ASSERT );
 
 			// horizontal velocity
 			Mth::Vector vh = ( distance / time ) * pt.Normalize();
@@ -334,20 +334,20 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 			float jump_speed = ( vh + vy ).Length();
 			Mth::Vector heading = ( vh + vy ).Normalize();
 
-			pScript->GetParams()->AddVector( CRCD( 0xfd4bc03e, "heading" ), heading );
-			pScript->GetParams()->AddFloat( CRCD( 0x1c4c5690, "jumpSpeed" ), jump_speed );
-			pScript->GetParams()->AddFloat( CRCD( 0x66ced87b, "jumpTime" ), time );
+			pScript->GetParams()->AddVector( Crc::ConstCRC( "heading" ), heading );
+			pScript->GetParams()->AddFloat( Crc::ConstCRC( "jumpSpeed" ), jump_speed );
+			pScript->GetParams()->AddFloat( Crc::ConstCRC( "jumpTime" ), time );
 			break;
 		}
 		// @script | Ped_HitWaypoint | force the ped to register a hit on the
 		// to waypoint, regardless of his position.  Don't call this unless
 		// you know exactly why you're doing it.
-		case CRCC( 0x1affffb3, "Ped_HitWaypoint" ):
+		case Crc::ConstCRC( "Ped_HitWaypoint" ):
 			HitWaypoint();
 			break;
 		// @script | Ped_SetIsSkater | 
 		// @uparm 1 | 0 if not skater, anything else for skater
-		case CRCC( 0x5c794c57, "Ped_SetIsSkater" ):
+		case Crc::ConstCRC( "Ped_SetIsSkater" ):
 		{
 			int is_skater;
 			pParams->GetInteger( NONAME, &is_skater, Script::ASSERT );
@@ -359,12 +359,12 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 		}
 		// @script | Ped_NearVertNode | true if the next node or the to node
 		// is vert
-		case CRCC( 0x5bb23915, "Ped_NearVertNode" ):
+		case Crc::ConstCRC( "Ped_NearVertNode" ):
 			return ( ( ( m_flags & PEDLOGIC_TO_NODE_IS_VERT )
 					 || ( m_flags & PEDLOGIC_NEXT_NODE_IS_VERT )
 					 || ( m_flags & PEDLOGIC_FROM_NODE_IS_VERT ) ) ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE );
 			break;
-		case CRCC( 0x56d9f55f, "Ped_PlayJumpSound" ):
+		case Crc::ConstCRC( "Ped_PlayJumpSound" ):
 		{
 			//Dbg_MsgAssert( m_state == Crc::ConstCRC("generic_skater"), ( "%s\nPed_PlayJumpSound called on a non-skater ped %s",pScript->GetScriptInfo(),Script::FindChecksumName(GetObj()->GetID()) ) );
 			Obj::CSkaterSoundComponent *pSoundComponent = GetSkaterSoundComponentFromObject( GetObj() );
@@ -372,7 +372,7 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 				pSoundComponent->PlayJumpSound(m_speed_fraction);
 			break;
 		}
-		case CRCC( 0x749de914, "Ped_PlayLandSound" ):
+		case Crc::ConstCRC( "Ped_PlayLandSound" ):
 		{
 			Dbg_MsgAssert( m_state == Crc::ConstCRC("generic_skater"), ( "Ped_PlayLandSound called on a non-ped skater" ) );
 			Obj::CSkaterSoundComponent *pSoundComponent = GetSkaterSoundComponentFromObject( GetObj() );
@@ -380,11 +380,11 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 				pSoundComponent->PlayLandSound(m_speed_fraction);
 			break;
 		}
-		case CRCC( 0x58a588b5, "Ped_GetCurrentNodeNames" ):
+		case Crc::ConstCRC( "Ped_GetCurrentNodeNames" ):
 		{
-			pScript->GetParams()->AddChecksum( CRCD( 0xd14cd5bc, "node_to" ), m_node_to );
-			pScript->GetParams()->AddChecksum( CRCD( 0x8141d319, "node_from" ), m_node_from );
-			pScript->GetParams()->AddChecksum( CRCD( 0x3c746255, "node_next" ), m_node_next );
+			pScript->GetParams()->AddChecksum( Crc::ConstCRC( "node_to" ), m_node_to );
+			pScript->GetParams()->AddChecksum( Crc::ConstCRC( "node_from" ), m_node_from );
+			pScript->GetParams()->AddChecksum( Crc::ConstCRC( "node_next" ), m_node_next );
 			break;
 		}
 		default:
@@ -498,7 +498,7 @@ void CPedLogicComponent::GenericSkaterUpdate()
 		{
 			float d = Mth::DistanceSqr( GetObj()->m_pos, pSkater->GetPos() );
 			// printf("skater dist square = %f\n", d );
-			if ( d < Script::GetFloat( CRCD( 0xbc2e678a, "ped_skater_min_square_distance_to_skater" ), Script::ASSERT ) )
+			if ( d < Script::GetFloat( Crc::ConstCRC( "ped_skater_min_square_distance_to_skater" ), Script::ASSERT ) )
 			{
 				GrindBail();
 				return;
@@ -523,7 +523,7 @@ void CPedLogicComponent::GenericSkaterUpdate()
 			pt = ped_pos_no_y - wp_to_no_y;
 		}
 		float distance_to_target_square = pt.LengthSqr();
-		int min_dist_square = Script::GetInteger( CRCD( 0xfb5d106f, "ped_skater_min_square_distance_to_waypoint" ), Script::ASSERT );
+		int min_dist_square = Script::GetInteger( Crc::ConstCRC( "ped_skater_min_square_distance_to_waypoint" ), Script::ASSERT );
 	
 		if ( !( m_flags & PEDLOGIC_JUMPING_TO_NODE ) )
 		{
@@ -535,13 +535,13 @@ void CPedLogicComponent::GenericSkaterUpdate()
 
 		if ( m_flags & PEDLOGIC_JUMP_AT_TO_NODE )
 		{
-			int dist_to_crouch = Script::GetInteger( CRCD( 0x52ec432f, "ped_skater_min_square_distance_to_crouch_for_jump" ), Script::ASSERT );
+			int dist_to_crouch = Script::GetInteger( Crc::ConstCRC( "ped_skater_min_square_distance_to_crouch_for_jump" ), Script::ASSERT );
 			if ( distance_to_target_square < dist_to_crouch )
 			{
 				// clear flag!
 				m_flags &= ~PEDLOGIC_JUMP_AT_TO_NODE;
 
-				Script::CScript* pScript = Script::SpawnScript( CRCD( 0x9c7ab5f5, "ped_skater_crouch_for_jump" ) );
+				Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_crouch_for_jump" ) );
 				pScript->mpObject = GetObj();
 			}
 		}
@@ -651,8 +651,8 @@ bool CPedLogicComponent::CheckForOtherPeds()
 	{		
 		const CSmtPtr<CCompositeObject>* pp_object_list = mp_path_object_tracker->GetObjectList();
 		Mth::Matrix display_matrix = GetObj()->GetDisplayMatrix();
-		float range = Script::GetFloat( CRCD( 0x7a78f471, "ped_avoid_ped_range" ) );
-		float avoid_ped_bias = Script::GetFloat( CRCD( 0xd1e6177b, "ped_avoid_ped_bias" ) );
+		float range = Script::GetFloat( Crc::ConstCRC( "ped_avoid_ped_range" ) );
+		float avoid_ped_bias = Script::GetFloat( Crc::ConstCRC( "ped_avoid_ped_bias" ) );
 		Obj::CMotionComponent* pMotionComp = GetMotionComponentFromObject( GetObj() );
 		Dbg_Assert( pMotionComp );
 
@@ -703,7 +703,7 @@ bool CPedLogicComponent::CheckForOtherPeds()
 						// sideways bias - we don't want them to stop moving or turn around
 						// As they start to pass each other, the offset will naturally start
 						// to create its own bias
-						if ( fabs( theta - Mth::PI ) < Script::GetFloat( CRCD( 0xd2e22cec, "ped_head_on_range" ), Script::ASSERT ) )
+						if ( fabs( theta - Mth::PI ) < Script::GetFloat( Crc::ConstCRC( "ped_head_on_range" ), Script::ASSERT ) )
 						{
 							// printf("he's coming right for me!\n");
 							// left by default
@@ -738,7 +738,7 @@ void CPedLogicComponent::UpdatePathBias()
 	Mth::Vector ped_pos_no_y = GetObj()->m_pos;
 	ped_pos_no_y[Y] = 0.0f;
 
-	float max_dist_to_path = Script::GetFloat( CRCD( 0xa876aa2c, "ped_max_distance_to_path" ), Script::ASSERT );
+	float max_dist_to_path = Script::GetFloat( Crc::ConstCRC( "ped_max_distance_to_path" ), Script::ASSERT );
 	Mth::Vector ft = wp_to_no_y - wp_from_no_y;
 	Mth::Vector fp = ped_pos_no_y - wp_from_no_y;
 
@@ -774,7 +774,7 @@ void CPedLogicComponent::UpdatePathBias()
 		path_bias = 1 - ( ( max_dist_to_path - current_distance ) / max_dist_to_path );
 
 	// reset the bias to get back on the path
-	if ( current_distance > Script::GetFloat( CRCD( 0x81085734, "ped_min_distance_to_path" ) ) )
+	if ( current_distance > Script::GetFloat( Crc::ConstCRC( "ped_min_distance_to_path" ) ) )
 		AdjustBias( Mth::DegToRad( angle_to_path ), path_bias );
 }
 
@@ -799,7 +799,7 @@ bool CPedLogicComponent::UpdateTargetBias()
 
 	if ( m_node_next == m_node_from )
 	{
-		float min_square_distance_to_dead_end = Script::GetFloat( CRCD( 0x65b46f32, "ped_walker_min_square_distance_to_dead_end" ), Script::ASSERT );
+		float min_square_distance_to_dead_end = Script::GetFloat( Crc::ConstCRC( "ped_walker_min_square_distance_to_dead_end" ), Script::ASSERT );
 		if ( distance_to_target_square <= min_square_distance_to_dead_end )
 		{
 			HitWaypoint();
@@ -809,9 +809,9 @@ bool CPedLogicComponent::UpdateTargetBias()
 	{
 		int fade_bias_max_distance_square;
 		if ( m_flags & PEDLOGIC_IS_SKATER )
-			fade_bias_max_distance_square = Script::GetInteger( CRCD( 0x354beda1, "ped_skater_fade_target_bias_max_distance_square" ), Script::ASSERT );
+			fade_bias_max_distance_square = Script::GetInteger( Crc::ConstCRC( "ped_skater_fade_target_bias_max_distance_square" ), Script::ASSERT );
 		else
-			fade_bias_max_distance_square = Script::GetInteger( CRCD( 0x5b21ab0e, "ped_fade_target_bias_max_distance_square" ), Script::ASSERT );
+			fade_bias_max_distance_square = Script::GetInteger( Crc::ConstCRC( "ped_fade_target_bias_max_distance_square" ), Script::ASSERT );
 
 		if ( m_max_turn_frames && m_turn_frames >= m_max_turn_frames )
 		{
@@ -1076,8 +1076,8 @@ void CPedLogicComponent::AdjustBias( float angle, float amount )
 void CPedLogicComponent::DecayWhiskerBiases()
 {
 	// multiply each whisker by the decay factor
-	float decay_factor = Script::GetFloat( CRCD( 0x98cd0c8c, "ped_whisker_decay_factor" ), Script::ASSERT );
-	float min_bias = Script::GetFloat( CRCD( 0x4aba9798, "ped_min_bias" ), Script::ASSERT );
+	float decay_factor = Script::GetFloat( Crc::ConstCRC( "ped_whisker_decay_factor" ), Script::ASSERT );
+	float min_bias = Script::GetFloat( Crc::ConstCRC( "ped_min_bias" ), Script::ASSERT );
 	for ( int i = 0; i < vNUM_WHISKERS; i++ )
 	{
 		m_whiskers[i] *= decay_factor;
@@ -1115,7 +1115,7 @@ float CPedLogicComponent::GetTotalXBias()
 		if ( total <= -1 )
 			return -1;
 	}
-	if ( fabs( total ) < Script::GetFloat( CRCD( 0x4aba9798, "ped_min_bias" ), Script::ASSERT ) )
+	if ( fabs( total ) < Script::GetFloat( Crc::ConstCRC( "ped_min_bias" ), Script::ASSERT ) )
 		total = 0;
 	// remember that we're 180 degrees out of phase
 	return total;
@@ -1151,7 +1151,7 @@ float CPedLogicComponent::GetTotalZBias()
 		if ( total <= -1 )
 			return -1;
 	}
-	if ( fabs( total ) < Script::GetFloat( CRCD( 0x4aba9798, "ped_min_bias" ), Script::ASSERT ) )
+	if ( fabs( total ) < Script::GetFloat( Crc::ConstCRC( "ped_min_bias" ), Script::ASSERT ) )
 		total = 0;
 	// return total;
 	return total;
@@ -1195,7 +1195,7 @@ void CPedLogicComponent::HitWaypoint()
 	// handle dead ends for ped walkers
 	if ( !( m_flags & PEDLOGIC_IS_SKATER ) && old_from_node == m_node_to )
 	{
-		Script::CScript* pDeadEndScript = Script::SpawnScript( CRCD( 0xa80f965e, "ped_walker_hit_dead_end" ) );
+		Script::CScript* pDeadEndScript = Script::SpawnScript( Crc::ConstCRC( "ped_walker_hit_dead_end" ) );
 		pDeadEndScript->mpObject = GetObj();
 	}
 	
@@ -1207,11 +1207,11 @@ void CPedLogicComponent::HitWaypoint()
 	m_flags &= ~PEDLOGIC_TO_NODE_IS_LIP;
 
 	uint32 to_node_type;
-	if ( pToNodeData->GetChecksum( CRCD( 0x17ea37fb, "PedType" ), &to_node_type, Script::NO_ASSERT )
-		 && to_node_type == CRCD( 0x54166acd, "skate" ) )
+	if ( pToNodeData->GetChecksum( Crc::ConstCRC( "PedType" ), &to_node_type, Script::NO_ASSERT )
+		 && to_node_type == Crc::ConstCRC( "skate" ) )
 	{
 		uint32 to_node_action;
-		pToNodeData->GetChecksum( CRCD( 0x963dc198, "SkateAction" ), &to_node_action, Script::ASSERT );
+		pToNodeData->GetChecksum( Crc::ConstCRC( "SkateAction" ), &to_node_action, Script::ASSERT );
 		if ( WaypointIsVert( m_node_to ) )
 		{
 			m_flags |= PEDLOGIC_TO_NODE_IS_VERT;
@@ -1220,15 +1220,15 @@ void CPedLogicComponent::HitWaypoint()
 		
 		// check for a jump next - we'll need to crouch if we're not
 		// already doing some action
-		if ( to_node_action == CRCD( 0x7d9d0008, "vert_grab" )
-			 || to_node_action == CRCD( 0x584cf9e9, "jump" ) )
+		if ( to_node_action == Crc::ConstCRC( "vert_grab" )
+			 || to_node_action == Crc::ConstCRC( "jump" ) )
 		{
 			// make sure we're not coming from an action
 			Script::CStruct* pFromNodeData = SkateScript::GetNode( m_node_from );
 			uint32 from_node_action;
-			if ( pFromNodeData->GetChecksum( CRCD( 0x963dc198, "SkateAction" ), &from_node_action, Script::ASSERT ) )
+			if ( pFromNodeData->GetChecksum( Crc::ConstCRC( "SkateAction" ), &from_node_action, Script::ASSERT ) )
 			{
-				if ( from_node_action != CRCD( 0x255ed86f, "grind" )
+				if ( from_node_action != Crc::ConstCRC( "grind" )
 					 && !( m_flags & PEDLOGIC_GRINDING )
 					 && !( m_flags & PEDLOGIC_FROM_NODE_IS_VERT ) )
 				{
@@ -1237,7 +1237,7 @@ void CPedLogicComponent::HitWaypoint()
 			}
 		}
 
-		if ( to_node_action == CRCD( 0x554dbd64, "vert_lip" ) )
+		if ( to_node_action == Crc::ConstCRC( "vert_lip" ) )
 		{
 			m_flags |= PEDLOGIC_TO_NODE_IS_LIP;
 		}
@@ -1254,18 +1254,18 @@ void CPedLogicComponent::HitWaypoint()
 	Dbg_Assert( pNodeData );
 	DoGenericNodeActions( pNodeData );
 
-	if ( !( pOldFromNodeData->GetChecksum( CRCD( 0x963dc198, "skateAction" ), &old_skate_action )
-		 && old_skate_action == CRCD( 0x7d9d0008, "Vert_Grab" ) ) )
+	if ( !( pOldFromNodeData->GetChecksum( Crc::ConstCRC( "skateAction" ), &old_skate_action )
+		 && old_skate_action == Crc::ConstCRC( "Vert_Grab" ) ) )
 	{
 		uint32 waypoint_type;
-		if ( pNodeData->GetChecksum( CRCD( 0x17ea37fb, "PedType" ), &waypoint_type, Script::NO_ASSERT ) )
+		if ( pNodeData->GetChecksum( Crc::ConstCRC( "PedType" ), &waypoint_type, Script::NO_ASSERT ) )
 		{
 			switch ( waypoint_type )
 			{
-			case CRCC( 0x726e85aa, "walk" ):
+			case Crc::ConstCRC( "walk" ):
 				DoWalkActions( pNodeData );
 				break;
-			case CRCC( 0x54166acd, "skate" ):
+			case Crc::ConstCRC( "skate" ):
 				DoSkateActions( pNodeData );
 				break;
 			default:
@@ -1287,14 +1287,14 @@ bool CPedLogicComponent::WaypointIsVert( int waypoint )
 {
 	Script::CStruct* pNodeData = SkateScript::GetNode( waypoint );
 	uint32 node_action;
-	if ( pNodeData->GetChecksum( CRCD( 0x963dc198, "SkateAction" ), &node_action, Script::NO_ASSERT ) )
+	if ( pNodeData->GetChecksum( Crc::ConstCRC( "SkateAction" ), &node_action, Script::NO_ASSERT ) )
 	{
-		if ( node_action == CRCD( 0x7d9d0008, "vert_grab" )
-			 || node_action == CRCD( 0x554dbd64, "vert_lip" )
-			 || node_action == CRCD( 0xe6dfaec7, "vert_grind" )
-			 || node_action == CRCD( 0xda0723da, "vert_land" )
-			 || node_action == CRCD( 0xe8f91257, "vert_flip" )
-			 || node_action == CRCD( 0xd5b4f014, "vert_jump" ) )
+		if ( node_action == Crc::ConstCRC( "vert_grab" )
+			 || node_action == Crc::ConstCRC( "vert_lip" )
+			 || node_action == Crc::ConstCRC( "vert_grind" )
+			 || node_action == Crc::ConstCRC( "vert_land" )
+			 || node_action == Crc::ConstCRC( "vert_flip" )
+			 || node_action == Crc::ConstCRC( "vert_jump" ) )
 		{
 			return true;
 		}
@@ -1322,21 +1322,21 @@ void CPedLogicComponent::DoGenericNodeActions( Script::CStruct* pNodeData )
 {
 	Dbg_Assert( pNodeData );
 	// check for special things we should do at this node
-	if ( pNodeData->ContainsFlag( CRCD( 0x74e4bba5, "AdjustSpeed" ) ) )
+	if ( pNodeData->ContainsFlag( Crc::ConstCRC( "AdjustSpeed" ) ) )
 	{
-		if ( ShouldExecuteAction( pNodeData, CRCD( 0x922c5b59, "AdjustSpeedWeight" ) ) )
+		if ( ShouldExecuteAction( pNodeData, Crc::ConstCRC( "AdjustSpeedWeight" ) ) )
 		{
 			float percent;
-			pNodeData->GetFloat( CRCD( 0xa04d16ec, "AdjustSpeedPercent" ), &percent, Script::ASSERT );
+			pNodeData->GetFloat( Crc::ConstCRC( "AdjustSpeedPercent" ), &percent, Script::ASSERT );
 			AdjustSpeed( percent );
 		}
 	}
-	if ( pNodeData->ContainsFlag( CRCD( 0x55d98ed7, "RunScript" ) ) )
+	if ( pNodeData->ContainsFlag( Crc::ConstCRC( "RunScript" ) ) )
 	{
-		if ( ShouldExecuteAction( pNodeData, CRCD( 0x86c9ccce, "RunScriptWeight" ) ) )
+		if ( ShouldExecuteAction( pNodeData, Crc::ConstCRC( "RunScriptWeight" ) ) )
 		{
 			uint32 script_name;
-			pNodeData->GetChecksum( CRCD( 0x64b4cd9d, "RunScriptName" ), &script_name, Script::ASSERT );
+			pNodeData->GetChecksum( Crc::ConstCRC( "RunScriptName" ), &script_name, Script::ASSERT );
 			Script::CScript* pScript = Script::SpawnScript( script_name );
 			pScript->mpObject = GetObj();
 		}
@@ -1356,17 +1356,17 @@ void CPedLogicComponent::DoSkateActions( Script::CStruct* pNodeData )
 	
 	Dbg_Assert( pNodeData );
 	uint32 skate_action;
-	if ( pNodeData->GetChecksum( CRCD( 0x963dc198, "SkateAction" ), &skate_action, Script::NO_ASSERT ) )
+	if ( pNodeData->GetChecksum( Crc::ConstCRC( "SkateAction" ), &skate_action, Script::NO_ASSERT ) )
 	{
 		switch ( skate_action )
 		{
-			case CRCC( 0xec1cd520, "continue" ):
+			case Crc::ConstCRC( "continue" ):
 				break;
-			case CRCC( 0x255ed86f, "grind" ):
-			case CRCC( 0xe6dfaec7, "vert_grind" ):
+			case Crc::ConstCRC( "grind" ):
+			case Crc::ConstCRC( "vert_grind" ):
 				DoGrind( pNodeData );
 				break;
-			case CRCC( 0xc870bce5, "grind_off" ):
+			case Crc::ConstCRC( "grind_off" ):
 				DoGrindOff( pNodeData );
 				break;
 			case Crc::ConstCRC("grind_bail"):
@@ -1375,36 +1375,36 @@ void CPedLogicComponent::DoSkateActions( Script::CStruct* pNodeData )
 			case Crc::ConstCRC("flip_trick"):
 				DoFlipTrick( pNodeData );
 				break;
-			case CRCC( 0xe8f91257, "vert_flip" ):
+			case Crc::ConstCRC( "vert_flip" ):
 				DoFlipTrick( pNodeData, true );
 				break;
-			case CRCC( 0x12797a1b, "grab_trick" ):
+			case Crc::ConstCRC( "grab_trick" ):
 				DoGrab( pNodeData );
 				break;
-			case CRCC( 0x7d9d0008, "vert_grab" ):
+			case Crc::ConstCRC( "vert_grab" ):
 				DoGrab( pNodeData, true );
 				break;
-			case CRCC( 0x554dbd64, "vert_lip" ):
+			case Crc::ConstCRC( "vert_lip" ):
 				DoLipTrick( pNodeData );
 				break;
-			case CRCC( 0xda0723da, "vert_land" ):
+			case Crc::ConstCRC( "vert_land" ):
 				break;
-			case CRCC( 0x584cf9e9, "jump" ):
+			case Crc::ConstCRC( "jump" ):
 				DoJump( pNodeData );
 				break;
-			case CRCC( 0xd5b4f014, "vert_jump" ):
+			case Crc::ConstCRC( "vert_jump" ):
 				DoJump( pNodeData, true );
 				break;
-			case CRCC( 0x6d3144bf, "Roll_off" ):
+			case Crc::ConstCRC( "Roll_off" ):
 				DoRollOff( pNodeData );
 				break;
-			case CRCC( 0xef24413b, "manual" ):
+			case Crc::ConstCRC( "manual" ):
 				DoManual( pNodeData );
 				break;
-			case CRCC( 0x9403a0ed, "manual_down" ):
+			case Crc::ConstCRC( "manual_down" ):
 				DoManualDown( pNodeData );
 				break;
-			case CRCC( 0x46a9e949, "stop" ):
+			case Crc::ConstCRC( "stop" ):
 				Stop( pNodeData );
 				break;
 			default:
@@ -1425,8 +1425,8 @@ void CPedLogicComponent::SelectNextWaypoint()
 	bool on_grind_bail_path = false;
 	Script::CStruct* pNode = SkateScript::GetNode( m_node_from );
 	uint32 skate_action;
-	if ( pNode->GetChecksum( CRCD( 0x963dc198, "SkateAction" ), &skate_action )
-		 && skate_action == CRCD( 0xe41199af, "Grind_Bail" ) )
+	if ( pNode->GetChecksum( Crc::ConstCRC( "SkateAction" ), &skate_action )
+		 && skate_action == Crc::ConstCRC( "Grind_Bail" ) )
 	{
 		on_grind_bail_path = true;
 	}
@@ -1449,8 +1449,8 @@ void CPedLogicComponent::SelectNextWaypoint()
 		{
 			Script::CStruct* pToNodeData = SkateScript::GetNode( m_node_to );
 			uint32 skate_action;
-			if ( pToNodeData->GetChecksum( CRCD( 0x963dc198, "skateAction" ), &skate_action )
-				 && skate_action == CRCD( 0x7d9d0008, "Vert_Grab" ) )
+			if ( pToNodeData->GetChecksum( Crc::ConstCRC( "skateAction" ), &skate_action )
+				 && skate_action == Crc::ConstCRC( "Vert_Grab" ) )
 			{
 				waypoint = m_node_to;
 			}
@@ -1472,7 +1472,7 @@ void CPedLogicComponent::SelectNextWaypoint()
 	
 		int num_valid_low_choices = 0;
 		int num_valid_high_choices = 0;
-		int min_inner_angle = Script::GetInteger( CRCD( 0xfe65d822, "ped_min_inner_path_angle" ), Script::ASSERT );
+		int min_inner_angle = Script::GetInteger( Crc::ConstCRC( "ped_min_inner_path_angle" ), Script::ASSERT );
 		
 		// store the max angle, so we can return the best choice if we don't find any good ones
 		float max_angle = 0.0f;
@@ -1488,17 +1488,17 @@ void CPedLogicComponent::SelectNextWaypoint()
 				// ignore nodes that aren't PedAI waypoints
 				uint32 class_type = 0;
 				uint32 waypoint_type = 0;
-				pNodeData->GetChecksum( CRCD( 0x12b4e660, "class" ), &class_type );
-				pNodeData->GetChecksum( CRCD( 0x7321a8d6, "Type" ), &waypoint_type );
-				if ( class_type != CRCD( 0x4c23a77e, "Waypoint" ) || waypoint_type != CRCD( 0xcba10ffa, "PedAI" ) )
+				pNodeData->GetChecksum( Crc::ConstCRC( "class" ), &class_type );
+				pNodeData->GetChecksum( Crc::ConstCRC( "Type" ), &waypoint_type );
+				if ( class_type != Crc::ConstCRC( "Waypoint" ) || waypoint_type != Crc::ConstCRC( "PedAI" ) )
 					continue;
 				
 				// ignore Grind_Bail nodes unless we're already on a grind_bail path
 				if ( !on_grind_bail_path )
 				{
 					uint32 skate_action;
-					if ( pNodeData->GetChecksum( CRCD( 0x963dc198, "SkateAction" ), &skate_action )
-						 && skate_action == CRCD( 0xe41199af, "Grind_Bail" ) )
+					if ( pNodeData->GetChecksum( Crc::ConstCRC( "SkateAction" ), &skate_action )
+						 && skate_action == Crc::ConstCRC( "Grind_Bail" ) )
 					{
 						continue;
 					}
@@ -1522,10 +1522,10 @@ void CPedLogicComponent::SelectNextWaypoint()
 				{
 					// sort nodes by priority
 					uint32 priority;
-					pNodeData->GetChecksum( CRCD( 0x9d5923d8, "priority" ), &priority, Script::ASSERT );
+					pNodeData->GetChecksum( Crc::ConstCRC( "priority" ), &priority, Script::ASSERT );
 					switch ( priority )
 					{
-						case CRCC( 0xde7a971b, "normal" ):
+						case Crc::ConstCRC( "normal" ):
 							valid_high_priority_choices[num_valid_high_choices] = i;
 							num_valid_high_choices++;
 							break;
@@ -1798,7 +1798,7 @@ void CPedLogicComponent::StickToGround()
 
 void CPedLogicComponent::UpdateSkaterSoundStates( EStateType state )
 {
-	Dbg_MsgAssert( m_state == CRCD( 0xa85af587, "generic_skater" ), ( "CPedLogicComponent::UpdateSkaterSoundStates called on a non-skater ped" ) );
+	Dbg_MsgAssert( m_state == Crc::ConstCRC( "generic_skater" ), ( "CPedLogicComponent::UpdateSkaterSoundStates called on a non-skater ped" ) );
 
 	Obj::CSkaterLoopingSoundComponent *pLoopingSoundComponent = GetSkaterLoopingSoundComponentFromObject( GetObj() );
 	if ( pLoopingSoundComponent )
@@ -1884,13 +1884,13 @@ void CPedLogicComponent::DoGrind( Script::CStruct* pNodeData )
 	// set the terrain
 	uint32 terrain_checksum;
 	// TODO: Assert if terrain missing
-	if ( pNodeData->GetChecksum( CRCD( 0x54cf8532, "TerrainType" ), &terrain_checksum, Script::NO_ASSERT ) )
+	if ( pNodeData->GetChecksum( Crc::ConstCRC( "TerrainType" ), &terrain_checksum, Script::NO_ASSERT ) )
 	{
 		UpdateSkaterSoundTerrain( Env::CTerrainManager::sGetTerrainFromChecksum( terrain_checksum ) );
 	}
 
 	Script::CStruct* pScriptParams = GetSkateActionParams( pNodeData );
-	Script::CScript* pScript = Script::SpawnScript( CRCD( 0xb7fca430, "ped_skater_grind" ), pScriptParams );
+	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_grind" ), pScriptParams );
 	pScript->mpObject = GetObj();
 	delete pScriptParams;
 }
@@ -1928,7 +1928,7 @@ void CPedLogicComponent::DoGrindOff( Script::CStruct* pNodeData )
 		// m_is_grinding = false;
 		m_flags &= ~PEDLOGIC_GRINDING;
 	
-		Script::CScript* pScript = Script::SpawnScript( CRCD( 0x84c51e26, "ped_skater_grind_off" ) );
+		Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_grind_off" ) );
 		pScript->mpObject = GetObj();
 		// delete pScriptParams;
 	}
@@ -1950,11 +1950,11 @@ void CPedLogicComponent::DoJump( Script::CStruct* pNodeData, bool is_vert )
 	{
 		m_flags &= ~PEDLOGIC_MOVING_ON_PATH;
 		pScriptParams = GetJumpParams( pNodeData, is_vert );
-		pScript = Script::SpawnScript( CRCD( 0x990152d7, "ped_skater_vert_jump" ), pScriptParams );
+		pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_vert_jump" ), pScriptParams );
 	}
 	else
 	{
-		if ( pNodeData->ContainsFlag( CRCD( 0xb02567ae, "JumpToNextNode" ) ) )
+		if ( pNodeData->ContainsFlag( Crc::ConstCRC( "JumpToNextNode" ) ) )
 		{
 			m_flags &= ~PEDLOGIC_MOVING_ON_PATH;
 			pScriptParams = GetJumpParams( pNodeData, is_vert );
@@ -1964,7 +1964,7 @@ void CPedLogicComponent::DoJump( Script::CStruct* pNodeData, bool is_vert )
 		{
 			pScriptParams = GetSkateActionParams( pNodeData );
 		}
-		pScript = Script::SpawnScript( CRCD( 0x28be3d25, "ped_skater_jump" ), pScriptParams );
+		pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_jump" ), pScriptParams );
 	}
 	pScript->mpObject = GetObj();
 	delete pScriptParams;
@@ -1986,7 +1986,7 @@ void CPedLogicComponent::DoLipTrick( Script::CStruct* pNodeData )
 	UpdateLipDisplayMatrix();
 	
 	Script::CStruct* pScriptParams = GetSkateActionParams( pNodeData );
-	Script::CScript* pScript = Script::SpawnScript( CRCD( 0x2fd2b4b8, "ped_skater_lip_trick" ), pScriptParams );
+	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_lip_trick" ), pScriptParams );
 	pScript->mpObject = GetObj();
 	delete pScriptParams;
 }
@@ -2020,7 +2020,7 @@ void CPedLogicComponent::DoManual( Script::CStruct* pNodeData )
 	StopSkateActions();
 	
 	Script::CStruct* pScriptParams = GetSkateActionParams( pNodeData );
-	Script::CScript* pScript = Script::SpawnScript( CRCD( 0x1462af22, "ped_skater_manual" ), pScriptParams );
+	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_manual" ), pScriptParams );
 	pScript->mpObject = GetObj();
 	delete pScriptParams;
 }
@@ -2035,7 +2035,7 @@ void CPedLogicComponent::DoManualDown( Script::CStruct* pNodeData )
 	StopSkateActions();
 	
 	Script::CStruct* pScriptParams = GetSkateActionParams( pNodeData );
-	Script::CScript* pScript = Script::SpawnScript( CRCD( 0x4c0caa11, "ped_skater_manual_down" ), pScriptParams );
+	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_manual_down" ), pScriptParams );
 	pScript->mpObject = GetObj();
 	delete pScriptParams;
 }
@@ -2063,19 +2063,19 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 	// figure heading and time
 	// get the height and gravity
 	float height;
-	pNodeData->GetFloat( CRCD( 0x838da447, "jumpHeight" ), &height, Script::ASSERT );
-	float gravity = Script::GetFloat( CRCD( 0xe224a5d3, "ped_skater_jump_gravity" ), Script::ASSERT );
+	pNodeData->GetFloat( Crc::ConstCRC( "jumpHeight" ), &height, Script::ASSERT );
+	float gravity = Script::GetFloat( Crc::ConstCRC( "ped_skater_jump_gravity" ), Script::ASSERT );
 
 	float time_total;
 
-	if ( is_vert || pNodeData->ContainsFlag( CRCD( 0xb02567ae, "JumpToNextNode" ) ) )
+	if ( is_vert || pNodeData->ContainsFlag( Crc::ConstCRC( "JumpToNextNode" ) ) )
 	{
 		Mth::Vector pt = m_wp_to - GetObj()->m_pos;
 		pt[Y] = 0.0f;
 		
 		if ( GetObj()->m_pos[Y] + height < m_wp_to[Y] )
 		{
-			height = m_wp_to[Y] - GetObj()->m_pos[Y] + Script::GetFloat( CRCD( 0x23f14b13, "ped_skater_jump_to_next_node_height_slop" ), Script::ASSERT );						
+			height = m_wp_to[Y] - GetObj()->m_pos[Y] + Script::GetFloat( Crc::ConstCRC( "ped_skater_jump_to_next_node_height_slop" ), Script::ASSERT );						
 			// Script::PrintContents( pNodeData );
 			// Dbg_MsgAssert( 0, ( "JumpToNextNode selected but jumpHeight isn't enough to reach target node." ) );
 		}		
@@ -2111,9 +2111,9 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 		float jump_speed = ( vh + vy ).Length();
 		Mth::Vector heading = ( vh + vy ).Normalize();
 	
-		pScriptParams->AddVector( CRCD( 0xfd4bc03e, "heading" ), heading );
-		pScriptParams->AddFloat( CRCD( 0x1c4c5690, "jumpSpeed" ), jump_speed );
-		pScriptParams->AddFloat( CRCD( 0x66ced87b, "jumpTime" ), time_total );
+		pScriptParams->AddVector( Crc::ConstCRC( "heading" ), heading );
+		pScriptParams->AddFloat( Crc::ConstCRC( "jumpSpeed" ), jump_speed );
+		pScriptParams->AddFloat( Crc::ConstCRC( "jumpTime" ), time_total );
 	}
 	else
 	{
@@ -2127,10 +2127,10 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 	// setup any rotation
 	int rot_angle = 0;
 	float rot_float;
-	if ( pNodeData->ContainsFlag( CRCD( 0xb4077854, "RandomSpin" ) ) )
+	if ( pNodeData->ContainsFlag( Crc::ConstCRC( "RandomSpin" ) ) )
 	{
 		// figure the spin angle based on the time we've got
-		float min_180_time = Script::GetFloat( CRCD( 0x8b381ab1, "ped_skater_min_180_spin_time" ), Script::ASSERT );
+		float min_180_time = Script::GetFloat( Crc::ConstCRC( "ped_skater_min_180_spin_time" ), Script::ASSERT );
 	
 		int mult = (int)( time_total / min_180_time );
 		// cap the rotation to 720 degrees
@@ -2139,7 +2139,7 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 	
 		rot_angle = 180 * Mth::Rnd( mult + 1 );
 	}
-	else if ( pNodeData->GetFloat( CRCD( 0x96fb50d9, "SpinAngle" ), &rot_float, Script::NO_ASSERT ) )
+	else if ( pNodeData->GetFloat( Crc::ConstCRC( "SpinAngle" ), &rot_float, Script::NO_ASSERT ) )
 	{
 		// cast to int but make sure it doesn't get rounded down
 		rot_angle = (int)( rot_float + 0.01f );
@@ -2150,14 +2150,14 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 	{
 		// figure fs or bs
 		uint32 spin_direction;
-		pNodeData->GetChecksum( CRCD( 0xef0b71a0, "SpinDirection" ), &spin_direction, Script::ASSERT );
+		pNodeData->GetChecksum( Crc::ConstCRC( "SpinDirection" ), &spin_direction, Script::ASSERT );
 		
 		Obj::CAnimationComponent* pAnimationComponent = GetAnimationComponentFromObject( GetObj() );
 		bool is_flipped = pAnimationComponent->IsFlipped();
 		
 		switch ( spin_direction )
 		{
-			case CRCC( 0x20e1c4a3, "BS" ):
+			case Crc::ConstCRC( "BS" ):
 			{
 				if ( is_flipped )
 				{
@@ -2165,7 +2165,7 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 				}
 				break;
 			}
-			case CRCC( 0x448d01a7, "FS" ):
+			case Crc::ConstCRC( "FS" ):
 			{
 				if ( !is_flipped )
 				{
@@ -2173,7 +2173,7 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 				}
 				break;
 			}
-			case CRCC( 0xe7390a8b, "Rand" ):
+			case Crc::ConstCRC( "Rand" ):
 			{
 				// randomly change direction
 				int toggle = Mth::Rnd( 2 );
@@ -2192,15 +2192,15 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 		m_flags |= PEDLOGIC_DOING_VERT_ROTATION;
 	}
 
-	bool is_spine = pNodeData->ContainsFlag( CRCD( 0x4aa0cff, "SpineTransfer" ) );
+	bool is_spine = pNodeData->ContainsFlag( Crc::ConstCRC( "SpineTransfer" ) );
 	if ( rot_angle % 360 == 0 )
 	{
 		if ( !is_spine )
-			pScriptParams->AddChecksum( NONAME, CRCD( 0x8868e76a, "should_flip" ) );
+			pScriptParams->AddChecksum( NONAME, Crc::ConstCRC( "should_flip" ) );
 	}
 	else if ( is_spine )
 	{
-		pScriptParams->AddChecksum( NONAME, CRCD( 0x8868e76a, "should_flip" ) );
+		pScriptParams->AddChecksum( NONAME, Crc::ConstCRC( "should_flip" ) );
 	}
 
 	// setup any spine trasnfer
@@ -2217,14 +2217,14 @@ Script::CStruct* CPedLogicComponent::GetJumpParams( Script::CStruct* pNodeData, 
 	if ( m_flags & PEDLOGIC_DOING_SPINE || m_flags & PEDLOGIC_DOING_VERT_ROTATION )
 	{
 		m_rot_start_matrix = m_current_display_matrix;
-		m_rot_total_time = time_total * Script::GetFloat( CRCD( 0xc1dfc97b, "ped_skater_vert_rotation_time_slop" ), Script::ASSERT );
+		m_rot_total_time = time_total * Script::GetFloat( Crc::ConstCRC( "ped_skater_vert_rotation_time_slop" ), Script::ASSERT );
 		m_rot_current_time = 0.0f;
 	}
 
 	// check if we're jumping to the next node
-	if ( pNodeData->ContainsFlag( CRCD( 0xb02567ae, "JumpToNextNode" ) ) )
+	if ( pNodeData->ContainsFlag( Crc::ConstCRC( "JumpToNextNode" ) ) )
 	{
-		pScriptParams->AddFloat( CRCD( 0xa1810c27, "land_height" ), m_wp_to[Y] );
+		pScriptParams->AddFloat( Crc::ConstCRC( "land_height" ), m_wp_to[Y] );
 	}
 	
 	return pScriptParams;
@@ -2245,7 +2245,7 @@ void CPedLogicComponent::DoGrab( Script::CStruct* pNodeData, bool is_vert )
 
 		m_flags &= ~PEDLOGIC_MOVING_ON_PATH;
 		pScriptParams = GetJumpParams( pNodeData, is_vert );
-		pScriptParams->AddChecksum( NONAME, CRCD( 0x1615618, "is_vert" ) );
+		pScriptParams->AddChecksum( NONAME, Crc::ConstCRC( "is_vert" ) );
 	}
 	else
 	{
@@ -2254,19 +2254,19 @@ void CPedLogicComponent::DoGrab( Script::CStruct* pNodeData, bool is_vert )
 		// see if we're already jumping
 		Obj::CMotionComponent* pMotionComp = GetMotionComponentFromObject( GetObj() );
 		if ( pMotionComp->m_movingobj_status & MOVINGOBJ_STATUS_JUMPING )
-			pScriptParams->AddInteger( CRCD( 0x65b5788d, "is_jumping" ), 1 );
+			pScriptParams->AddInteger( Crc::ConstCRC( "is_jumping" ), 1 );
 		else
 		{
 			// figure out how long before we start to fall
-			float jumpSpeed = Script::GetFloat( CRCD( 0xf1ff758a, "ped_skater_jump_speed" ), Script::ASSERT );
-			float jumpGravity = Script::GetFloat( CRCD( 0xe224a5d3, "ped_skater_jump_gravity" ), Script::ASSERT );
+			float jumpSpeed = Script::GetFloat( Crc::ConstCRC( "ped_skater_jump_speed" ), Script::ASSERT );
+			float jumpGravity = Script::GetFloat( Crc::ConstCRC( "ped_skater_jump_gravity" ), Script::ASSERT );
 			float time = 2 * sqrtf( Mth::Sqr( jumpSpeed ) / Mth::Sqr( jumpGravity ) );
-			pScriptParams->AddInteger( CRCD( 0x66ced87b, "jumpTime" ), time );
-			pScriptParams->AddInteger( CRCD( 0x65b5788d, "is_jumping" ), 0 );
+			pScriptParams->AddInteger( Crc::ConstCRC( "jumpTime" ), time );
+			pScriptParams->AddInteger( Crc::ConstCRC( "is_jumping" ), 0 );
 		}
 	}
 		
-	Script::CScript* pScript = Script::SpawnScript( CRCD( 0x10585cb3, "ped_skater_grab_trick" ), pScriptParams );
+	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_grab_trick" ), pScriptParams );
 	pScript->mpObject = GetObj();
 	
 	delete pScriptParams;
@@ -2330,7 +2330,7 @@ void CPedLogicComponent::Stop( Script::CStruct* pNodeData )
 	m_flags |= PEDLOGIC_STOPPED;
 	
 	Script::CStruct* pScriptParams = GetSkateActionParams( pNodeData );
-	Script::CScript* pScript = Script::SpawnScript( CRCD( 0x365b2d85, "ped_skater_stop" ), pScriptParams );
+	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_stop" ), pScriptParams );
 	pScript->mpObject = GetObj();
 	delete pScriptParams;
 }
@@ -2344,7 +2344,7 @@ void CPedLogicComponent::Stop( Script::CStruct* pNodeData )
 void CPedLogicComponent::StopSkateActions()
 {
 	// BB - I moved this from script because it was too damn slow!
-	Script::CArray* p_scripts_to_stop = Script::GetArray( CRCD( 0x2ecd9f57, "ped_skater_action_scripts" ), Script::ASSERT );
+	Script::CArray* p_scripts_to_stop = Script::GetArray( Crc::ConstCRC( "ped_skater_action_scripts" ), Script::ASSERT );
 	int array_size = p_scripts_to_stop->GetSize();
 	Obj::CObject* p_object = (Obj::CObject*)GetObj();
 	
@@ -2419,8 +2419,8 @@ void CPedLogicComponent::GrindBail()
 				Script::CStruct* pNodeData = SkateScript::GetNode( test_node );
 
 				uint32 skate_action;
-				if ( pNodeData->GetChecksum( CRCD( 0x963dc198, "skateAction" ), &skate_action )
-					 && skate_action == CRCD( 0xe41199af, "grind_bail" ) )
+				if ( pNodeData->GetChecksum( Crc::ConstCRC( "skateAction" ), &skate_action )
+					 && skate_action == Crc::ConstCRC( "grind_bail" ) )
 				{
 					m_node_next = test_node;
 					SkateScript::GetPosition( m_node_next, &m_wp_next );
@@ -2430,7 +2430,7 @@ void CPedLogicComponent::GrindBail()
 		}
 
 		// run script!
-		Script::CScript* pScript = Script::SpawnScript( CRCD( 0xe630bf07, "ped_skater_grind_bail" ) );
+		Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_grind_bail" ) );
 		pScript->mpObject = GetObj();
 	}
 }
@@ -2442,7 +2442,7 @@ void CPedLogicComponent::GrindBail()
 
 void CPedLogicComponent::DoRollOff( Script::CStruct* pNodeData )
 {
-	Script::CScript* pScript = Script::SpawnScript( CRCD( 0xb183d99e, "ped_skater_roll_off" ) );
+	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_roll_off" ) );
 	pScript->mpObject = GetObj();
 }
 
@@ -2467,22 +2467,22 @@ void CPedLogicComponent::DoFlipTrick( Script::CStruct* pNodeData, bool is_vert )
 	if ( is_vert )
 	{
 		m_flags &= ~PEDLOGIC_MOVING_ON_PATH;		
-		pScriptParams->AddChecksum( NONAME, CRCD( 0x1615618, "is_vert" ) );
+		pScriptParams->AddChecksum( NONAME, Crc::ConstCRC( "is_vert" ) );
 	}
 
 	// check jumping state
 	if ( pMotionComp->m_movingobj_status & MOVINGOBJ_STATUS_JUMPING )
-		pScriptParams->AddInteger( CRCD( 0x65b5788d, "is_jumping" ), 1 );
+		pScriptParams->AddInteger( Crc::ConstCRC( "is_jumping" ), 1 );
 	else
-		pScriptParams->AddInteger( CRCD( 0x65b5788d, "is_jumping" ), 0 );
+		pScriptParams->AddInteger( Crc::ConstCRC( "is_jumping" ), 0 );
 
-	if ( pNodeData->ContainsFlag( CRCD( 0xb02567ae, "JumpToNextNode" ) ) )
+	if ( pNodeData->ContainsFlag( Crc::ConstCRC( "JumpToNextNode" ) ) )
 	{
 		m_flags &= ~PEDLOGIC_MOVING_ON_PATH;
 		m_flags |= PEDLOGIC_JUMPING_TO_NODE;
 	}
 
-	Script::CScript *pScript = Script::SpawnScript( CRCD( 0xb83c383c, "ped_skater_flip_trick" ), pScriptParams );
+	Script::CScript *pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_flip_trick" ), pScriptParams );
 	pScript->mpObject = GetObj();
 	delete pScriptParams;
 }

@@ -128,7 +128,7 @@ void		LobbyMan::add_lobby_to_menu( LobbyInfo* lobby, int index )
 	p_item_params->AddString( "text", lobby_title );
 	if( lobby->m_Full || lobby->m_OffLimits )
 	{
-		p_item_params->AddChecksum( NONAME, CRCD( 0x1d944426, "not_focusable" ) );
+		p_item_params->AddChecksum( NONAME, Crc::ConstCRC( "not_focusable" ) );
 		p_item_params->AddChecksum( "pad_choose_script",Script::GenerateCRC("selected_lobby_full"));
 	}
 	else
@@ -1937,7 +1937,7 @@ bool	LobbyMan::ScriptStartNatNegotiation(Script::CScriptStructure *pParams, Scri
 	lobby_man = gamenet_man->mpLobbyMan;
 	pParams->GetText( NONAME, &server_ip );
 	pParams->GetInteger( NONAME, &port );
-	pParams->GetChecksum( CRCD( 0x751f4599, "cookie" ), (uint32*) &lobby_man->m_cookie );
+	pParams->GetChecksum( Crc::ConstCRC( "cookie" ), (uint32*) &lobby_man->m_cookie );
 	
     //port = 9959;
 	Dbg_Printf( "******* Starting NAT Negotiation for server : %s port %p *******", server_ip, port );

@@ -65,7 +65,7 @@ int CSkinAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pE
 		int no_collision = 0;
 		if (pStruct)
 		{
-			pStruct->GetInteger(CRCD(0xbf29bc0,"nocollision"),&no_collision);
+			pStruct->GetInteger(Crc::ConstCRC("nocollision"),&no_collision);
 		}
 		if (!no_collision)
 		{

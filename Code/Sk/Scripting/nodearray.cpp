@@ -849,7 +849,7 @@ int GetLink(CStruct *p_node, int linkNumber)
 {
 	Dbg_MsgAssert( p_node, ( "nullptr p_node" ) );
 	CArray *p_links=nullptr;
-	p_node->GetArray( CRCD( 0x2e7d5ee7, "Links" ), &p_links);
+	p_node->GetArray( Crc::ConstCRC( "Links" ), &p_links);
 	Dbg_MsgAssert( p_links, ( "Tried to call GetLink when there are no links" ) );
 	Dbg_MsgAssert( p_links->GetSize(), ( "Tried to call GetLink when there are no links (empty Links array)" ) );
 	return p_links->GetInteger( linkNumber );

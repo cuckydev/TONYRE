@@ -42,7 +42,7 @@ namespace Obj
 /******************************************************************/
 static float s_get_gunslinger_param( uint32 checksum )
 {
-	Script::CStruct* p_cam_params = Script::GetStructure( CRCD( 0xa13ff9ae,"GunslingerCameraParameters" ));
+	Script::CStruct* p_cam_params = Script::GetStructure( Crc::ConstCRC("GunslingerCameraParameters" ));
 	Dbg_Assert( p_cam_params );
 
 	float param;
@@ -211,7 +211,7 @@ void CWalkCameraComponent::Update()
 		else
 		{
 			full_slerp_speed = s_get_gunslinger_param(Crc::ConstCRC("dpad_full_slerp_speed"));
-			min_slerp_speed = s_get_gunslinger_param(CRCD(0xda5cad3, "dpad_min_slerp_speed"));
+			min_slerp_speed = s_get_gunslinger_param(Crc::ConstCRC( "dpad_min_slerp_speed"));
 		}
 		
 		float target_vel = mp_target->GetVel().Length();
@@ -288,7 +288,7 @@ void CWalkCameraComponent::Update()
 		GetObj()->GetMatrix().RotateYLocal( horiz_control );
 	}
 
-	float tilt = s_get_gunslinger_param( CRCD( 0xe3c07609, "tilt" ));
+	float tilt = s_get_gunslinger_param( Crc::ConstCRC( "tilt" ));
 	GetObj()->GetMatrix().RotateXLocal( tilt + mp_lookaround_component->mLookaroundTilt );
 
 	Mth::Vector	camera_pos = get_tripod_pos( instantly );
@@ -532,8 +532,8 @@ void CWalkCameraComponent::calculate_zoom ( float& above, float& behind )
 		target_zoom *= mp_lookaround_component->mLookaroundZoom;
 	}
 	
-//	m_current_zoom += (( target_zoom - m_current_zoom ) * s_get_gunslinger_param( CRCD( 0x748743a7, "zoom_lerp" )));
-	m_current_zoom += (( target_zoom - m_current_zoom ) * s_get_gunslinger_param( CRCD( 0x748743a7, "zoom_lerp" )));
+//	m_current_zoom += (( target_zoom - m_current_zoom ) * s_get_gunslinger_param( Crc::ConstCRC( "zoom_lerp" )));
+	m_current_zoom += (( target_zoom - m_current_zoom ) * s_get_gunslinger_param( Crc::ConstCRC( "zoom_lerp" )));
 	
 //	behind = s_get_gunslinger_param(Crc::ConstCRC("behind")) * m_current_zoom;
 	behind = s_get_gunslinger_param(Crc::ConstCRC("behind")) * m_current_zoom;
@@ -552,8 +552,8 @@ void CWalkCameraComponent::calculate_zoom ( float& above, float& behind )
 	}
 
 	// Use lip_trick_above when doing a lip trick.
-//	float above_val = s_get_gunslinger_param(CRCD(0xb96ae2d, "above"));
-	float above_val = s_get_gunslinger_param( CRCD( 0xb96ae2d, "above" ));
+//	float above_val = s_get_gunslinger_param(Crc::ConstCRC( "above"));
+	float above_val = s_get_gunslinger_param( Crc::ConstCRC( "above" ));
 	
 	// Figure above tending towards the perfect above, if zoom is < 1.0.
 	if( m_current_zoom < 1.0f )

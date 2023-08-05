@@ -3640,7 +3640,7 @@ bool ScriptSetEditedParkGapInfo(Script::CStruct *pParams, Script::CScript *pScri
 	CCursor::sInstance()->SetGapNameAndScore(p_name, score);
 
 	Script::CStruct *p_cancel_flags=nullptr;
-	pParams->GetStructure(CRCD(0x49ec3f9,"cancel_flags"),&p_cancel_flags);
+	pParams->GetStructure(Crc::ConstCRC("cancel_flags"),&p_cancel_flags);
 	CCursor::sInstance()->SetGapCancelFlags(p_cancel_flags);
 	return true;
 }

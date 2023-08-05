@@ -138,13 +138,13 @@ static uint32 s_generate_letter_node_type_checksum(uint32 goalType, int letterIn
 					checksum=Crc::ConstCRC("Letter_K");
 					break;
 				case 2:
-					checksum=CRCD(0x4ed54a2,"Letter_A");
+					checksum=Crc::ConstCRC("Letter_A");
 					break;
 				case 3:
 					checksum=Crc::ConstCRC("Letter_T");
 					break;
 				case 4:
-					checksum=CRCD(0x38090bb,"Letter_E");
+					checksum=Crc::ConstCRC("Letter_E");
 					break;
 				default:
 					break;
@@ -163,7 +163,7 @@ static uint32 s_generate_letter_node_type_checksum(uint32 goalType, int letterIn
 					checksum=Crc::ConstCRC("Combo_M");
 					break;
 				case 3:
-					checksum=CRCD(0xcf68af0,"Combo_B");
+					checksum=Crc::ConstCRC("Combo_B");
 					break;
 				case 4:
 					checksum=Crc::ConstCRC("Combo_O");
@@ -434,7 +434,7 @@ void CEditGoal::add_goal_params(Script::CStruct *p_params)
 	p_params->AppendStructure(s_get_extra_goal_params(m_goal_type));
 	
 	// Now change the node names to be those of the special nodes created just for edited goals.
-    p_params->AddChecksum(CRCD(0x2d7e03d,"trigger_obj_id"),s_generate_node_name_checksum(m_level_goal_index,0));
+    p_params->AddChecksum(Crc::ConstCRC("trigger_obj_id"),s_generate_node_name_checksum(m_level_goal_index,0));
     p_params->AddChecksum(Crc::ConstCRC("restart_node"),s_generate_node_name_checksum(m_level_goal_index,1));
 	
 	// Then write in other misc params.
@@ -493,7 +493,7 @@ void CEditGoal::add_goal_params(Script::CStruct *p_params)
 	
 	if (mp_goal_description[0])
 	{
-		p_params->AddString(CRCD(0xc5d7e6b,"goal_description"),mp_goal_description);
+		p_params->AddString(Crc::ConstCRC("goal_description"),mp_goal_description);
 	}
 
 	if (mp_win_message[0])
@@ -567,7 +567,7 @@ void CEditGoal::create_marker(int index)
 	switch (mp_item_positions[index].mType)
 	{
 		case CGoalPos::PED:
-			params.AddChecksum(Crc::ConstCRC("Type"),CRCD(0x61a741e,"Ped"));
+			params.AddChecksum(Crc::ConstCRC("Type"),Crc::ConstCRC("Ped"));
 			break;
 
 		case CGoalPos::RESTART:
@@ -683,7 +683,7 @@ void CEditGoal::WriteIntoStructure(Script::CStruct *p_info)
 	p_info->AddChecksum(Crc::ConstCRC("control_type"),m_control_type);		
 	
 	p_info->AddString(Crc::ConstCRC("view_goals_text"),mp_goal_name);
-	p_info->AddString(CRCD(0xc5d7e6b,"goal_description"),mp_goal_description);
+	p_info->AddString(Crc::ConstCRC("goal_description"),mp_goal_description);
 	p_info->AddString(Crc::ConstCRC("win_message"),mp_win_message);
 	p_info->AddString(Crc::ConstCRC("ped_name"),mp_ped_name);
 	p_info->AddChecksum(Crc::ConstCRC("goal_type"),m_goal_type);
@@ -701,7 +701,7 @@ void CEditGoal::WriteIntoStructure(Script::CStruct *p_info)
 			p_pos_info->AddVector(Crc::ConstCRC("Pos"),mp_item_positions[i].mPos[X],
 														 mp_item_positions[i].mPos[Y],
 														 mp_item_positions[i].mPos[Z]);
-			p_pos_info->AddFloat(CRCD(0xab21af0,"Height"),mp_item_positions[i].mHeight);
+			p_pos_info->AddFloat(Crc::ConstCRC("Height"),mp_item_positions[i].mHeight);
 			p_pos_info->AddFloat(Crc::ConstCRC("Angle"),mp_item_positions[i].mAngle);
 			p_position_array->SetStructure(i,p_pos_info);
 		}
@@ -741,7 +741,7 @@ void CEditGoal::ReadFromStructure(Script::CStruct *p_info)
 	strcpy(mp_goal_name,p_string);
 	
 	p_string="";
-	p_info->GetString(CRCD(0xc5d7e6b,"goal_description"),&p_string);
+	p_info->GetString(Crc::ConstCRC("goal_description"),&p_string);
 	Dbg_MsgAssert(strlen(p_string)<GOAL_DESCRIPTION_BUFFER_SIZE,("goal description '%s' too long",p_string));
 	strcpy(mp_goal_description,p_string);
 
@@ -766,7 +766,7 @@ void CEditGoal::ReadFromStructure(Script::CStruct *p_info)
 		{
 			Script::CStruct *p_struct=p_position_array->GetStructure(i);
 			p_struct->GetVector(Crc::ConstCRC("Pos"),&mp_item_positions[i].mPos);
-			p_struct->GetFloat(CRCD(0xab21af0,"Height"),&mp_item_positions[i].mHeight);
+			p_struct->GetFloat(Crc::ConstCRC("Height"),&mp_item_positions[i].mHeight);
 			p_struct->GetFloat(Crc::ConstCRC("Angle"),&mp_item_positions[i].mAngle);
 		}	
 	}
@@ -999,13 +999,13 @@ void CEditGoal::write_combo_sets(Script::CStruct *p_info)
 		
 		p_array->SetStructure(i,p_struct);
 	}	
-	p_info->AddArrayPointer(CRCD(0x490f171,"combo_sets"),p_array);
+	p_info->AddArrayPointer(Crc::ConstCRC("combo_sets"),p_array);
 }
 
 void CEditGoal::read_combo_sets(Script::CStruct *p_info)
 {
 	Script::CArray *p_array=nullptr;
-	if (!p_info->GetArray(CRCD(0x490f171,"combo_sets"),&p_array))
+	if (!p_info->GetArray(Crc::ConstCRC("combo_sets"),&p_array))
 	{
 		return;
 	}
@@ -1039,8 +1039,8 @@ void CEditGoal::read_combo_sets(Script::CStruct *p_info)
 // generated. When writing to mem card the chosen pre-defined set numbers are written instead.
 void CEditGoal::write_skatetris_params(Script::CStruct *p_info, EWriteDest dest)
 {
-	p_info->AddInteger(CRCD(0x1181b29,"acceleration_interval"),m_acceleration_interval);
-	p_info->AddFloat(CRCD(0x76f65c8,"acceleration_percent"),m_acceleration_percent);
+	p_info->AddInteger(Crc::ConstCRC("acceleration_interval"),m_acceleration_interval);
+	p_info->AddFloat(Crc::ConstCRC("acceleration_percent"),m_acceleration_percent);
 	p_info->AddInteger(Crc::ConstCRC("trick_time"),m_trick_time);
 	p_info->AddInteger(Crc::ConstCRC("time_to_stop_adding_tricks"),m_time_to_stop_adding_tricks);
 	p_info->AddInteger(Crc::ConstCRC("max_tricks"),m_max_tricks);
@@ -1060,8 +1060,8 @@ void CEditGoal::write_skatetris_params(Script::CStruct *p_info, EWriteDest dest)
 
 void CEditGoal::read_skatetris_params(Script::CStruct *p_info)
 {
-	p_info->GetInteger(CRCD(0x1181b29,"acceleration_interval"),&m_acceleration_interval);
-	p_info->GetFloat(CRCD(0x76f65c8,"acceleration_percent"),&m_acceleration_percent);
+	p_info->GetInteger(Crc::ConstCRC("acceleration_interval"),&m_acceleration_interval);
+	p_info->GetFloat(Crc::ConstCRC("acceleration_percent"),&m_acceleration_percent);
 	p_info->GetInteger(Crc::ConstCRC("trick_time"),&m_trick_time);
 	p_info->GetInteger(Crc::ConstCRC("time_to_stop_adding_tricks"),&m_time_to_stop_adding_tricks);
 	p_info->GetInteger(Crc::ConstCRC("max_tricks"),&m_max_tricks);
@@ -1325,7 +1325,7 @@ bool CEditGoal::SetPosition(const Mth::Vector& pos, float height, float angle)
 		if ((m_goal_type==Crc::ConstCRC("Combo") || m_goal_type==Crc::ConstCRC("Skate")) &&  
 			 m_current_position_index == 2 )
 		{
-			mp_item_positions[m_current_position_index].mHeight+=Script::GetFloat(CRCD(0x82a694e,"GoalEditor_LetterHeight"));
+			mp_item_positions[m_current_position_index].mHeight+=Script::GetFloat(Crc::ConstCRC("GoalEditor_LetterHeight"));
 		}
 	}	
 		
@@ -1983,7 +1983,7 @@ void CGoalEditorComponent::refresh_cursor_object()
 	Script::CStruct params;
 	if (mp_current_goal->GetPositionType()==CGoalPos::PED)
 	{
-		params.AddChecksum(Crc::ConstCRC("Type"),CRCD(0x61a741e,"Ped"));
+		params.AddChecksum(Crc::ConstCRC("Type"),Crc::ConstCRC("Ped"));
 	}
 	else
 	{

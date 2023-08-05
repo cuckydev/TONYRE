@@ -15,7 +15,7 @@
 #include <gel/components/objecthookmanagercomponent.h>
 
 // Replace this with the CRCD of the component you are adding
-#define		CRC_SKITCH								CRCD( 0x3506ce64, "Skitch" )
+#define		CRC_SKITCH								Crc::ConstCRC( "Skitch" )
 
 //  Standard accessor macros for getting the component either from within an object, or given an object
 #define		GetSkitchComponent()					((Obj::CSkitchComponent*)GetComponent( CRC_SKITCH ))

@@ -197,7 +197,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 	pParams->GetFloat(Crc::ConstCRC("body_wipeout_friction"), &m_body_wipeout_friction);
 	
 	// vehicle body's penalty-method interpenetration-prevention spring constant
-	pParams->GetFloat(CRCD(0x1dd4890, "body_spring"), &m_body_spring);
+	pParams->GetFloat(Crc::ConstCRC( "body_spring"), &m_body_spring);
 	
 	// factor of normal impulse over which you can control via steering
 	pParams->GetFloat(Crc::ConstCRC("collision_control"), &m_collision_control);
@@ -419,7 +419,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 		pParams->GetChecksum(Crc::ConstCRC("skater_anim"), &m_skater_anim, Script::ASSERT);
 	}
 	
-	pParams->GetChecksum(CRCD(0xedcf90e, "Sounds"), &m_sound_setup_checksum);
+	pParams->GetChecksum(Crc::ConstCRC( "Sounds"), &m_sound_setup_checksum);
 	
 	// zero velocities and accumulators
 	
@@ -954,7 +954,7 @@ void CVehicleComponent::GetDebugInfo ( Script::CStruct *p_info )
 	p_info->AddFloat("in_air_slerp_velocity_cutoff", m_in_air_slerp_vel_cutoff);
 	p_info->AddFloat("in_air_slerp_time_delay", m_in_air_slerp_time_delay);
 	p_info->AddFloat("in_air_slerp_strength", m_in_air_slerp_strength);
-	p_info->AddChecksum("vert_correction", m_vert_correction ? CRCD(0x203b372, "true") : Crc::ConstCRC("false"));
+	p_info->AddChecksum("vert_correction", m_vert_correction ? Crc::ConstCRC( "true") : Crc::ConstCRC("false"));
 	
 	p_info->AddFloat("wipeout_body_friction", m_body_wipeout_friction);
 	p_info->AddFloat("max_steering_angle", RADIANS_TO_DEGREES(m_max_steering_angle));
@@ -1254,9 +1254,9 @@ void CVehicleComponent::update_wheel_from_structure ( SWheel& wheel, Script::CSt
 	uint32 checksum;
 	
 	// wheel's steering type
-	if (p_wheel_struct->ContainsComponentNamed(CRCD(0x7560e63, "steering")))
+	if (p_wheel_struct->ContainsComponentNamed(Crc::ConstCRC( "steering")))
 	{
-		p_wheel_struct->GetChecksum(CRCD(0x7560e63, "steering"), &checksum);
+		p_wheel_struct->GetChecksum(Crc::ConstCRC( "steering"), &checksum);
 		switch (checksum)
 		{
 			case Crc::ConstCRC("left"):

@@ -1615,7 +1615,7 @@ int	Skate::handle_projectile( Net::MsgHandlerContext* context )
 	pParams = new Script::CStruct;
 	pParams->AddChecksum( Crc::ConstCRC("owner_id"), msg->m_Id );
 	pParams->AddInteger( Crc::ConstCRC("x"), pos[X] );
-	pParams->AddInteger( CRCD(0x424d9ea,"y"), pos[Y] );
+	pParams->AddInteger( Crc::ConstCRC("y"), pos[Y] );
 	pParams->AddInteger( Crc::ConstCRC("z"), pos[Z] );
 	pParams->AddInteger( Crc::ConstCRC("scaled_x"), msg->m_Vel[X] );
 	pParams->AddInteger( Crc::ConstCRC("scaled_y"), msg->m_Vel[Y] );

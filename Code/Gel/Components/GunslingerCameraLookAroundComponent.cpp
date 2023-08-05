@@ -172,18 +172,18 @@ void CCameraLookAroundComponent::Update()
 		{
 			allow_strafe_locking = false;
 
-			if( Script::GetInteger( CRCD( 0x9edfc7af, "GunslingerInvertAiming" )) == 0 )
+			if( Script::GetInteger( Crc::ConstCRC( "GunslingerInvertAiming" )) == 0 )
 			{
 				// Negate value if vertical aiming invert is not enabled.
 				target = -target;
 			}
 
 			// Get script values.
-			float tilt_ka = Script::GetFloat( CRCD( 0xcac0c1d4, "GunslingerLookaroundTiltKa" ), Script::ASSERT );
-			float tilt_ea = Script::GetFloat( CRCD( 0x5443ec5a, "GunslingerLookaroundTiltEa" ), Script::ASSERT );
+			float tilt_ka = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltKa" ), Script::ASSERT );
+			float tilt_ea = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltEa" ), Script::ASSERT );
 
-			float tilt_ks = Script::GetFloat( CRCD( 0x3979b09c, "GunslingerLookaroundTiltKs" ), Script::ASSERT );
-			float tilt_es = Script::GetFloat( CRCD( 0xa7fa9d12, "GunslingerLookaroundTiltEs" ), Script::ASSERT );
+			float tilt_ks = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltKs" ), Script::ASSERT );
+			float tilt_es = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltEs" ), Script::ASSERT );
 
 			// Calculate acceleration.
 			float a = tilt_ka * powf( Mth::Abs( target ), tilt_ea ) * (( target > 0.0f ) ? 1.0f : ( target < 0.0f ) ? -1.0f : 0.0f );
@@ -202,7 +202,7 @@ void CCameraLookAroundComponent::Update()
 					lookaround_tilt_angular_speed = s;
 			}
 
-			float lookaround_tilt_speed = Script::GetFloat( CRCD( 0x67796648, "GunslingerLookaroundTiltSpeed" ), Script::ASSERT );
+			float lookaround_tilt_speed = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundTiltSpeed" ), Script::ASSERT );
 			mLookaroundTilt += lookaround_tilt_angular_speed * lookaround_tilt_speed * frame_length;
 
 			last_tilt_change = lookaround_tilt_angular_speed * lookaround_tilt_speed * frame_length;
@@ -240,11 +240,11 @@ void CCameraLookAroundComponent::Update()
 			allow_strafe_locking = false;
 
 			// Get script values.
-			float heading_ka = Script::GetFloat( CRCD( 0x6fd803d9, "GunslingerLookaroundHeadingKa" ), Script::ASSERT );
-			float heading_ea = Script::GetFloat( CRCD( 0xf15b2e57, "GunslingerLookaroundHeadingEa" ), Script::ASSERT );
+			float heading_ka = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundHeadingKa" ), Script::ASSERT );
+			float heading_ea = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundHeadingEa" ), Script::ASSERT );
 
-			float heading_ks = Script::GetFloat( CRCD( 0x9c617291, "GunslingerLookaroundHeadingKs" ), Script::ASSERT );
-			float heading_es = Script::GetFloat( CRCD( 0x2e25f1f, "GunslingerLookaroundHeadingEs" ), Script::ASSERT );
+			float heading_ks = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundHeadingKs" ), Script::ASSERT );
+			float heading_es = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundHeadingEs" ), Script::ASSERT );
 
 			// Calculate acceleration.
 			float a = heading_ka * powf( Mth::Abs( target ), heading_ea ) * (( target > 0.0f ) ? 1.0f : ( target < 0.0f ) ? -1.0f : 0.0f );
@@ -263,7 +263,7 @@ void CCameraLookAroundComponent::Update()
 					lookaround_heading_angular_speed = s;
 			}
 
-			float lookaround_heading_speed = Script::GetFloat( CRCD( 0x8501d824, "GunslingerLookaroundHeadingSpeed" ), Script::ASSERT );
+			float lookaround_heading_speed = Script::GetFloat( Crc::ConstCRC( "GunslingerLookaroundHeadingSpeed" ), Script::ASSERT );
 
 			// Control stick left - reticle should move left.
 			mLookaroundHeading -= lookaround_heading_angular_speed * lookaround_heading_speed * frame_length;

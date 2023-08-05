@@ -19,7 +19,7 @@
 #include <sk/objects/skater.h>
 
 // Replace this with the CRCD of the component you are adding.
-#define		CRC_SKATERCAMERA							CRCD( 0x5e43a604, "SkaterCamera" )
+#define		CRC_SKATERCAMERA							Crc::ConstCRC( "SkaterCamera" )
 
 //  Standard accessor macros for getting the component either from within an object, or given an object.
 #define		GetSkaterCameraComponent()					((Obj::CSkaterCameraComponent*)GetComponent( CRC_SKATERCAMERA ))

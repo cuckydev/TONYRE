@@ -115,7 +115,7 @@ void CProjectileCollisionComponent::InitFromStructure( Script::CStruct* pParams 
 	pParams->GetChecksum(Crc::ConstCRC("death_script"), &m_death_script, Script::ASSERT);
 
 	m_vel.Set( 0, 0, 1 );
-	pParams->GetVector(CRCD(0xc4c809e, "vel"), &m_vel, Script::ASSERT);
+	pParams->GetVector(Crc::ConstCRC( "vel"), &m_vel, Script::ASSERT);
 	m_vel.Normalize();
 	
 }
@@ -250,7 +250,7 @@ void CProjectileCollisionComponent::Update()
 					params = new Script::CStruct;
 					
 					params->AddVector( Crc::ConstCRC("pos"), pos );
-					params->AddVector( CRCD(0xc4c809e,"vel"), m_vel );
+					params->AddVector( Crc::ConstCRC("vel"), m_vel );
 					params->AddFloat( Crc::ConstCRC("scale"), m_scale );
 
 					Script::RunScript( m_death_script, params );

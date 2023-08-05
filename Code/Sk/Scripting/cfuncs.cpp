@@ -883,7 +883,7 @@ bool ScriptGetArraySize(Script::CStruct *pParams, Script::CScript *pScript)
 
 	// Add support for higher dimensional arrays
 	uint32 index = 0;
-	if(pParams->GetInteger(CRCD(0xba453b9,"index1"),(int*)&index, Script::NO_ASSERT))
+	if(pParams->GetInteger(Crc::ConstCRC("index1"),(int*)&index, Script::NO_ASSERT))
 	{
 		pArray = pArray->GetArray(index);
 
@@ -1061,7 +1061,7 @@ bool ScriptGet2DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 
 	// Get the index of the element
 	uint32 index1=0;
-	pParams->GetInteger(CRCD(0xba453b9,"Index1"),(int*)&index1,Script::ASSERT);
+	pParams->GetInteger(Crc::ConstCRC("Index1"),(int*)&index1,Script::ASSERT);
 
 	// Get the index of the element
 	uint32 index2=0;
@@ -1142,7 +1142,7 @@ bool ScriptGet3DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 
 	// Get the index of the element
 	uint32 index1=0;
-	pParams->GetInteger(CRCD(0xba453b9,"Index1"),(int*)&index1,Script::ASSERT);
+	pParams->GetInteger(Crc::ConstCRC("Index1"),(int*)&index1,Script::ASSERT);
 
 	// Get the index of the element
 	uint32 index2=0;
@@ -1337,7 +1337,7 @@ bool ScriptRemoveComponent(Script::CStruct *pParams, Script::CScript *pScript)
 static uint32 s_get_bottom_up_free(bool includeFrag)
 {
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	Mem::Heap* p_heap = mem_man.GetHeap( CRCD(0xc7800b0,"BottomUpHeap") );
+	Mem::Heap* p_heap = mem_man.GetHeap( Crc::ConstCRC("BottomUpHeap") );
 	Mem::Region* p_region = p_heap->ParentRegion();
 
 	if (includeFrag)
@@ -1494,7 +1494,7 @@ bool ScriptFindNearestRailPoint(Script::CStruct *pParams, Script::CScript *pScri
 			nearest_point=edited_rail_nearest_point;
 			
 			pScript->GetParams()->AddChecksum(Crc::ConstCRC("rail_id"),rail_id);
-			pScript->GetParams()->AddInteger(CRCD(0xab3c14,"rail_point_index"),rail_point_index);
+			pScript->GetParams()->AddInteger(Crc::ConstCRC("rail_point_index"),rail_point_index);
 		}
 		else
 		{
@@ -1687,7 +1687,7 @@ bool ScriptGetRandomValue(Script::CStruct *pParams, Script::CScript *pScript)
 	else
 	{
 		int resolution=1000;
-		pParams->GetInteger(CRCD(0x22cf075,"Resolution"),&resolution);
+		pParams->GetInteger(Crc::ConstCRC("Resolution"),&resolution);
 		Dbg_MsgAssert(resolution>=2,("Resolution needs to be at least 2"));
 
 		float a=0.0f;
@@ -2499,15 +2499,15 @@ bool ScriptApplyChangeGamma( Script::CStruct *pParams, Script::CScript *pScript 
 	pParams->GetFloat( "change", &change, Script::ASSERT );
 	switch ( color )
 	{
-	case CRCC( 0x59ea070, "red" ):
+	case Crc::ConstCRC( "red" ):
 		if (( change > 0.0f && gamma_r < 1.0f ) || ( change < 0.0f && gamma_r > 0.0f ))
 			gamma_r += change;
 		break;
-	case CRCC( 0x2f6511de, "green" ):
+	case Crc::ConstCRC( "green" ):
 		if (( change > 0.0f && gamma_g < 1.0f ) || ( change < 0.0f && gamma_g > 0.0f ))
 			gamma_g += change;
 		break;
-	case CRCC( 0x61c9354b, "blue" ):
+	case Crc::ConstCRC( "blue" ):
 		if (( change > 0.0f && gamma_b < 1.0f ) || ( change < 0.0f && gamma_b > 0.0f ))
 			gamma_b += change;
 		break;
@@ -6437,8 +6437,8 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 		if (ClassChecksum == Crc::ConstCRC("LevelLight"))
 		{						   
 			// Will need to check a parameter here to see if the light is flagged to affect objects.
-			bool affects_objects	= !pNode->ContainsFlag( CRCD( 0xe1509e4f, "ExcludeSkater" ));
-			bool affects_geometry	= !pNode->ContainsFlag( CRCD( 0x6f050e18, "ExcludeLevel" ));
+			bool affects_objects	= !pNode->ContainsFlag( Crc::ConstCRC( "ExcludeSkater" ));
+			bool affects_geometry	= !pNode->ContainsFlag( Crc::ConstCRC( "ExcludeLevel" ));
 
 			// Get the name checksum of this node, since this will be used as the link between the node and the Scene Light.
 			uint32 name_checksum = SkateScript::GetNodeNameChecksum( i );
@@ -6451,11 +6451,11 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 			float inner_radius	= 300.0f;
 			float outer_radius	= 300.0f;
 
-			pNode->GetFloat( CRCD( 0x2689291c, "Brightness" ), &intensity );	
-			pNode->GetFloat( CRCD( 0x8d2c287f, "InnerRadius" ), &inner_radius );
-			pNode->GetFloat( CRCD( 0x833950cc, "OuterRadius" ), &outer_radius );
+			pNode->GetFloat( Crc::ConstCRC( "Brightness" ), &intensity );	
+			pNode->GetFloat( Crc::ConstCRC( "InnerRadius" ), &inner_radius );
+			pNode->GetFloat( Crc::ConstCRC( "OuterRadius" ), &outer_radius );
 
-			if( !pNode->ContainsFlag( CRCD( 0x7c2552b9, "CreatedAtStart" )))
+			if( !pNode->ContainsFlag( Crc::ConstCRC( "CreatedAtStart" )))
 			{
 				// This light is not supposed to be active at startup.
 			}
@@ -6464,7 +6464,7 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 			Image::RGBA col( 0xFF, 0xFF, 0xFF, 0x00 );
 
 			Script::CArray *p_array;
-			pNode->GetArray( CRCD( 0x99a9b716, "Color" ), &p_array );
+			pNode->GetArray( Crc::ConstCRC( "Color" ), &p_array );
 			if( p_array )
 			{
 				col.r = p_array->GetInteger( 0 );
@@ -12657,7 +12657,7 @@ bool ScriptGetBonePosition( Script::CStruct* pParams, Script::CScript* pScript )
 	// make sure we have somewhere to return the data
 	Dbg_Assert( pScript && pScript->GetParams() );
 	pScript->GetParams()->AddFloat( Crc::ConstCRC("x"), bonePos[X] );
-	pScript->GetParams()->AddFloat( CRCD(0x424d9ea,"y"), bonePos[Y] );
+	pScript->GetParams()->AddFloat( Crc::ConstCRC("y"), bonePos[Y] );
 	pScript->GetParams()->AddFloat( Crc::ConstCRC("z"), bonePos[Z] );
 
 	return success;
@@ -14548,7 +14548,7 @@ bool ScriptIsGrind(Script::CStruct* pParams, Script::CScript* pScript)
 bool ScriptSetColorBufferClear(Script::CStruct* pParams, Script::CScript* pScript)
 {
 	int	clear = 0;
-	pParams->GetInteger( CRCD( 0x1a4e0ef9, "clear" ), &clear );
+	pParams->GetInteger( Crc::ConstCRC( "clear" ), &clear );
 
 	Nx::CEngine::sSetColorBufferClear( clear > 0 );
 	return true;

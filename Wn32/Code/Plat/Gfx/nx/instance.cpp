@@ -208,7 +208,7 @@ void render_instances( uint32 flags )
 		Mth::Vector current_cam_pos( EngineGlobals.cam_position.x, EngineGlobals.cam_position.y, EngineGlobals.cam_position.z );
 
 		// Get the (square of) the distance at which env mapping will be disabled, in inches.
-		float env_map_disable_distance	= Script::GetFloat( CRCD( 0x4e7dc608, "EnvMapDisableDistance")) * 12.0f;
+		float env_map_disable_distance	= Script::GetFloat( Crc::ConstCRC( "EnvMapDisableDistance")) * 12.0f;
 		env_map_disable_distance		= env_map_disable_distance * env_map_disable_distance;
 
 		for( ; i < current_index; ++i )

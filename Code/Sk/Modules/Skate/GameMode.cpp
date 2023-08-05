@@ -512,7 +512,7 @@ int
 CGameMode::NumTeams()
 {
 	int num_teams;
-	m_ModeDefinition.GetInteger( CRCD( 0x2ebe6cd1, "num_teams" ), &num_teams, true );
+	m_ModeDefinition.GetInteger( Crc::ConstCRC( "num_teams" ), &num_teams, true );
 	return num_teams;
 }
 
@@ -525,7 +525,7 @@ bool
 CGameMode::ShouldTimerBeep()
 {
 	int beeps;
-	m_ModeDefinition.GetInteger( CRCD(0x35c8073,"timer_beeps"), &beeps, true );
+	m_ModeDefinition.GetInteger( Crc::ConstCRC("timer_beeps"), &beeps, true );
 	return beeps;
 }
 
@@ -671,7 +671,7 @@ bool CGameMode::IsFrontEnd()
 	
 
 	int is_frontend;
-	m_ModeDefinition.GetInteger( CRCD( 0xa6479767, "is_frontend" ), &is_frontend, true );
+	m_ModeDefinition.GetInteger( Crc::ConstCRC( "is_frontend" ), &is_frontend, true );
 	return is_frontend;
 }
 
@@ -764,23 +764,23 @@ uint32 CGameMode::ConvertNetNameChecksum(uint32 nameChecksum)
 	
 	if( nameChecksum == Crc::ConstCRC("nettrickattack"))
 	{
-		checksum =  CRCD( 0xf9283ee7,"trickattack" );
+		checksum =  Crc::ConstCRC("trickattack" );
 	}
-	else if( nameChecksum == CRCD( 0x5e2ea50c, "netgraffiti" ))
+	else if( nameChecksum == Crc::ConstCRC( "netgraffiti" ))
 	{
 		checksum = Crc::ConstCRC("graffiti");
 	}
-	else if( nameChecksum == CRCD( 0xc50affd0, "netcombomambo" ))
+	else if( nameChecksum == Crc::ConstCRC( "netcombomambo" ))
 	{
 		checksum = Crc::ConstCRC("combomambo");
 	}
-	else if ( nameChecksum == CRCD( 0xf9d5d933, "netslap" ))
+	else if ( nameChecksum == Crc::ConstCRC( "netslap" ))
 	{
-		checksum = CRCD( 0xca1f360f, "slap" );
+		checksum = Crc::ConstCRC( "slap" );
 	}
 	else if ( nameChecksum == Crc::ConstCRC("netking" ) )
 	{
-		checksum = CRCD( 0x5d32129c,"king" );
+		checksum = Crc::ConstCRC("king" );
 	}
 	else if( nameChecksum == Crc::ConstCRC("netfirefight") )
 	{

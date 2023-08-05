@@ -154,7 +154,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 	if ( !CFuncs::ScriptInMultiplayerGame( nullptr, nullptr ) && free_skate && !pParams->ContainsFlag( Crc::ConstCRC("minigame") ) )
 		return false;
 
-	if ( skate_mod->GetGameMode()->IsTrue( CRCD( 0x353961d7, "is_creategoals" ) ) && !pParams->ContainsFlag( CRCD( 0x981d3ad0, "edited_goal" ) ) )
+	if ( skate_mod->GetGameMode()->IsTrue( Crc::ConstCRC( "is_creategoals" ) ) && !pParams->ContainsFlag( Crc::ConstCRC( "edited_goal" ) ) )
 		return false;
 
 	// printf("addGoal called with goalId %x\n", goalId);
@@ -176,7 +176,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 		// printf("adding comp goal\n");
 		pGoal = new CCompetitionGoal( pParams );
 	}
-	else if ( pParams->ContainsFlag( CRCD(0xd15ea00,"net") ) )
+	else if ( pParams->ContainsFlag( Crc::ConstCRC("net") ) )
 	{
 		// printf("adding net goal\n");
 		pGoal = new CNetGoal( pParams );
@@ -206,15 +206,15 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 		// printf("adding horse goal\n");
 		pGoal = new CHorseGoal( pParams );
 	}
-	else if ( pParams->ContainsFlag( CRCD( 0xc5ec08e6, "findGaps" ) ) )
+	else if ( pParams->ContainsFlag( Crc::ConstCRC( "findGaps" ) ) )
 	{
 		pGoal = new CFindGapsGoal( pParams );
 	}
-	else if ( pParams->ContainsFlag( CRCD( 0x7dbb41dd, "Film" ) ) )
+	else if ( pParams->ContainsFlag( Crc::ConstCRC( "Film" ) ) )
 	{
 		pGoal = new CFilmGoal( pParams );
 	}
-	else if ( pParams->ContainsFlag( CRCD( 0x8e6014f6, "create_a_trick" ) ) )
+	else if ( pParams->ContainsFlag( Crc::ConstCRC( "create_a_trick" ) ) )
 	{
 		pGoal = new CCatGoal( pParams );
 	}
@@ -232,7 +232,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 	// add children
 	uint32 childId;
 	Script::CArray* p_children;
-	if ( pGoalParams->GetArray( CRCD( 0x5e684e45, "children" ), &p_children, Script::NO_ASSERT ) )
+	if ( pGoalParams->GetArray( Crc::ConstCRC( "children" ), &p_children, Script::NO_ASSERT ) )
 	{
 		int size = p_children->GetSize();
 		Dbg_MsgAssert( size > 0, ( "0 size children array for goal %s", Script::FindChecksumName( goalId ) ) );
@@ -243,7 +243,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 			pGoal->AddChild( p_children->GetChecksum( i ) );
 		}
 	}
-	else if ( pGoalParams->GetChecksum( CRCD( 0xdd4cabd6, "child" ), &childId, Script::NO_ASSERT ) )
+	else if ( pGoalParams->GetChecksum( Crc::ConstCRC( "child" ), &childId, Script::NO_ASSERT ) )
 	{
 		FindCircularLinks( goalId, childId );
 		pGoal->AddChild( childId );
@@ -848,8 +848,8 @@ void CGoalManager::InitializeAllGoals()
 				// the chapter and stage will default to -1.
 				// Always create these goals
 				if ( ( goal_chapter == m_currentChapter && goal_stage == m_currentStage ) 
-					 || pGoalParams->ContainsFlag( CRCD( 0x4e863e93, "always_initialize_goal" ) )
-					 || pGoalParams->ContainsFlag( CRCD( 0x981d3ad0, "edited_goal" ) ) )
+					 || pGoalParams->ContainsFlag( Crc::ConstCRC( "always_initialize_goal" ) )
+					 || pGoalParams->ContainsFlag( Crc::ConstCRC( "edited_goal" ) ) )
 				{
 					pGoal->Init();
 				}
@@ -1104,7 +1104,7 @@ void CGoalManager::RestartLastGoal()
 		// SKATE SPECIFIC
 		// kill any sk3_killscripts, as they will screw up the reset skater call
 		Script::KillSpawnedScriptsThatReferTo( ( Crc::ConstCRC("SK3_KillSkater") ) );
-		Script::KillSpawnedScriptsThatReferTo( ( CRCD(0xb38ed6b,"SK3_Killskater_Finish") ) );
+		Script::KillSpawnedScriptsThatReferTo( ( Crc::ConstCRC("SK3_Killskater_Finish") ) );
 		// END SKATE SPECIFIC
 
 		// kill any blur effect
@@ -1120,7 +1120,7 @@ void CGoalManager::RestartLastGoal()
 		{
 			Script::CStruct* p_params = new Script::CStruct();
 			p_params->AddChecksum( "goal_id", pGoal->GetGoalId() );
-			Script::RunScript( CRCD( 0x17c2e09f, "GoalManager_ResetGoalTrigger" ), p_params );
+			Script::RunScript( Crc::ConstCRC( "GoalManager_ResetGoalTrigger" ), p_params );
 			delete p_params;
 		}
 		
@@ -1154,7 +1154,7 @@ void CGoalManager::RestartStage()
 		// SKATE SPECIFIC
 		// kill any sk3_killscripts, as they will screw up the reset skater call
 		Script::KillSpawnedScriptsThatReferTo(  Crc::ConstCRC("SK3_KillSkater")  );
-		Script::KillSpawnedScriptsThatReferTo( ( CRCD(0xb38ed6b,"SK3_Killskater_Finish") ) );
+		Script::KillSpawnedScriptsThatReferTo( ( Crc::ConstCRC("SK3_Killskater_Finish") ) );
 		// END SKATE SPECIFIC
 
 		// kill any blur effect
@@ -1170,7 +1170,7 @@ void CGoalManager::RestartStage()
 		{
 			Script::CStruct* p_params = new Script::CStruct();
 			p_params->AddChecksum( "goal_id", pGoal->GetGoalId() );
-			Script::RunScript( CRCD( 0x17c2e09f, "GoalManager_ResetGoalTrigger" ), p_params );
+			Script::RunScript( Crc::ConstCRC( "GoalManager_ResetGoalTrigger" ), p_params );
 			delete p_params;
 		}
 		
@@ -1749,7 +1749,7 @@ void CGoalManager::LevelLoad()
         Script::CComponent* p_next = mp_goalFlags->GetNextComponent( p_comp );
 
 		// special goal manager params structure
-		if ( p_comp->mNameChecksum == CRCD( 0x23d4170a, "GoalManager_Params" ) )
+		if ( p_comp->mNameChecksum == Crc::ConstCRC( "GoalManager_Params" ) )
 		{
 			p_comp->mpStructure->GetInteger( Crc::ConstCRC("goalPoints"), &m_goalPoints, Script::NO_ASSERT );
 			p_comp->mpStructure->GetInteger( Crc::ConstCRC("totalGoalPointsEarned"), &m_totalGoalPointsEarned, Script::NO_ASSERT );
@@ -2282,7 +2282,7 @@ void CGoalManager::AddViewGoalsList()
 		CGoal* pGoal = m_goalList.GetItemByIndex( i, (int*)&key );
 		Dbg_Assert( pGoal );
 
-		if ( pGoal->GetParams()->ContainsComponentNamed( CRCD(0x9b048fc,"ordinal") ) )
+		if ( pGoal->GetParams()->ContainsComponentNamed( Crc::ConstCRC("ordinal") ) )
 		{
 			p_ordered_goals->SetChecksum( num_ordered_goals, pGoal->GetGoalId() );
 			num_ordered_goals++;
@@ -2305,7 +2305,7 @@ void CGoalManager::AddViewGoalsList()
 			CGoal* p_temp_goal = GetGoal( temp );
 			Dbg_Assert( p_temp_goal );
 			int ordinal_check;
-			p_temp_goal->GetParams()->GetInteger( CRCD(0x9b048fc,"ordinal"), &ordinal_check, Script::ASSERT );
+			p_temp_goal->GetParams()->GetInteger( Crc::ConstCRC("ordinal"), &ordinal_check, Script::ASSERT );
 			Dbg_MsgAssert( ordinal_check - 1 < num_ordered_goals, ( "Ordinal value %i too big.", ordinal_check ) );
 			if ( ordinal_check - 1 == i )
 			{
@@ -2315,7 +2315,7 @@ void CGoalManager::AddViewGoalsList()
 				// swap them				
 				uint32 temp2 = p_ordered_goals->GetChecksum( i );
 				int double_check;
-				GetGoal( temp2 )->GetParams()->GetInteger( CRCD(0x9b048fc,"ordinal"), &double_check, Script::ASSERT );
+				GetGoal( temp2 )->GetParams()->GetInteger( Crc::ConstCRC("ordinal"), &double_check, Script::ASSERT );
 				Dbg_MsgAssert( double_check != i, ( "Found ordinal %i twice", double_check ) );
 
 				p_ordered_goals->SetChecksum( i, temp );
@@ -2436,7 +2436,7 @@ void CGoalManager::AddViewGoalsList()
 			}
 			else
 			{
-				p_elem_params->AddChecksum( NONAME,  CRCD(0xc80e196,"no_record_type")  );
+				p_elem_params->AddChecksum( NONAME,  Crc::ConstCRC("no_record_type")  );
 			}
 		}
 
@@ -2521,9 +2521,9 @@ void CGoalManager::AddGoalChoices( bool selected_only )
 
 		// add the id so we can use the same struct when calling the set_events script below
 		p_elem_params->AddChecksum( Crc::ConstCRC("goal_id"), id );
-		p_elem_params->AddChecksum( Crc::ConstCRC("parent"), CRCD( 0x4d49ac0a, "current_menu" ) );
+		p_elem_params->AddChecksum( Crc::ConstCRC("parent"), Crc::ConstCRC( "current_menu" ) );
 		p_elem_params->AddString( Crc::ConstCRC("text"), p_view_goals_text );
-		p_elem_params->AddChecksum( Crc::ConstCRC("font"), CRCD( 0x8aba15ec, "small" ) );		
+		p_elem_params->AddChecksum( Crc::ConstCRC("font"), Crc::ConstCRC( "small" ) );		
 		p_elem_params->AddInteger( Crc::ConstCRC("scale"), 0 );
 		
 		
@@ -3107,10 +3107,10 @@ void CGoalManager::Land()
 				// lose the goal next frame
 				Script::CStruct* pScriptParams = new Script::CStruct();
 				pScriptParams->AddChecksum( Crc::ConstCRC("goal_id"), pGoal->GetGoalId() );
-				Script::SpawnScript( CRCD(0xfefda11,"goal_lose_next_frame"), pScriptParams );
+				Script::SpawnScript( Crc::ConstCRC("goal_lose_next_frame"), pScriptParams );
 				delete pScriptParams;
 			}
-			else if ( pGoal->IsActive() && pGoal->GetParams()->ContainsFlag( CRCD( 0x293b95a7, "score_goal" ) ) )
+			else if ( pGoal->IsActive() && pGoal->GetParams()->ContainsFlag( Crc::ConstCRC( "score_goal" ) ) )
 			{
 				Obj::CSkater* pSkater = Mdl::Skate::Instance()->GetLocalSkater();
 				if ( pSkater )
@@ -3149,13 +3149,13 @@ void CGoalManager::Bail()
 			// lose the goal next frame
 			Script::CStruct* pScriptParams = new Script::CStruct();
 			pScriptParams->AddChecksum( Crc::ConstCRC("goal_id"), pGoal->GetGoalId() );
-			Script::SpawnScript( CRCD(0xfefda11,"goal_lose_next_frame"), pScriptParams );
+			Script::SpawnScript( Crc::ConstCRC("goal_lose_next_frame"), pScriptParams );
 			delete pScriptParams;
 		}
 		if ( pGoal->IsActive() && pGoal->IsTetrisGoal() )
 		{
 			int trick_flag;
-			if ( pGoal->GetParams()->GetInteger( CRCD( 0x60b827d5, "trick_flag" ), &trick_flag, Script::NO_ASSERT ) )
+			if ( pGoal->GetParams()->GetInteger( Crc::ConstCRC( "trick_flag" ), &trick_flag, Script::NO_ASSERT ) )
 			{
 				if ( trick_flag != 0 )
 				{
@@ -3527,7 +3527,7 @@ bool CGoalManager::CanRestartStage()
 void CGoalManager::SetGoalChaptersAndStages()
 {
 	// grab the chapter info array
-	Script::CArray* pChapterGoalsArray = Script::GetArray( CRCD( 0xb892776f, "chapter_goals" ), Script::ASSERT );
+	Script::CArray* pChapterGoalsArray = Script::GetArray( Crc::ConstCRC( "chapter_goals" ), Script::ASSERT );
 	Dbg_Assert( pChapterGoalsArray->GetType() == ESYMBOLTYPE_ARRAY );
 
 	int chapter_goals_array_size = pChapterGoalsArray->GetSize();
@@ -3545,7 +3545,7 @@ void CGoalManager::SetGoalChaptersAndStages()
 			{
 				Script::CStruct* pGoalStruct = pStage->GetStructure( goal_index );
 				uint32 goal_id;
-				if ( pGoalStruct->GetChecksum( CRCD( 0x9982e501, "goal_id" ), &goal_id, Script::NO_ASSERT ) )
+				if ( pGoalStruct->GetChecksum( Crc::ConstCRC( "goal_id" ), &goal_id, Script::NO_ASSERT ) )
 				{
 					CGoal* pGoal = GetGoal( goal_id, false );
 					if ( pGoal )
@@ -3573,17 +3573,17 @@ bool CGoalManager::AdvanceStage( bool force, uint32 just_won_goal_id )
 	// K: This was to fix an assert when winning a created goal in the park editor.
 	// Fixed by just not doing any advance-stage logic when in created goals mode.
 	Mdl::Skate *p_skate_mod = Mdl::Skate::Instance();
-	if ( p_skate_mod->GetGameMode()->IsTrue( CRCD( 0x353961d7, "is_creategoals" ) ) )
+	if ( p_skate_mod->GetGameMode()->IsTrue( Crc::ConstCRC( "is_creategoals" ) ) )
 	{
 		return false;
 	}	
 	
 	// grab the chapter info array
-	Script::CArray* pChapterGoalsArray = Script::GetArray( CRCD( 0xb892776f, "chapter_goals" ), Script::ASSERT );
+	Script::CArray* pChapterGoalsArray = Script::GetArray( Crc::ConstCRC( "chapter_goals" ), Script::ASSERT );
 	Dbg_Assert( pChapterGoalsArray->GetType() == ESYMBOLTYPE_ARRAY );
 	
 	// grab num goals to complete array
-	Script::CArray* pChapterNumGoalsToComplete = Script::GetArray( CRCD( 0x846f65f5, "CHAPTER_NUM_GOALS_TO_COMPLETE" ), Script::ASSERT );
+	Script::CArray* pChapterNumGoalsToComplete = Script::GetArray( Crc::ConstCRC( "CHAPTER_NUM_GOALS_TO_COMPLETE" ), Script::ASSERT );
 	Dbg_Assert( pChapterNumGoalsToComplete->GetType() == ESYMBOLTYPE_ARRAY );
 	
 	if ( m_currentChapter >= (int)pChapterGoalsArray->GetSize() )
@@ -3624,7 +3624,7 @@ bool CGoalManager::AdvanceStage( bool force, uint32 just_won_goal_id )
 	{
 		Script::CStruct* pGoalStruct = pCurrentStage->GetStructure( goal_index );
 		uint32 goal_id;
-		if ( pGoalStruct->GetChecksum( CRCD( 0x9982e501, "goal_id" ), &goal_id, Script::NO_ASSERT ) )
+		if ( pGoalStruct->GetChecksum( Crc::ConstCRC( "goal_id" ), &goal_id, Script::NO_ASSERT ) )
 		{
 			CGoal* pGoal = GetGoal( goal_id, false );
 			
@@ -3701,7 +3701,7 @@ void CGoalManager::RunLastStageScript()
 	// DeactivateAllGoals();
 	
 	// don't do anything if they beat the game
-	Script::CArray* pChapterGoalsArray = Script::GetArray( CRCD( 0xb892776f, "chapter_goals" ), Script::ASSERT );
+	Script::CArray* pChapterGoalsArray = Script::GetArray( Crc::ConstCRC( "chapter_goals" ), Script::ASSERT );
 	Dbg_Assert( pChapterGoalsArray->GetType() == ESYMBOLTYPE_ARRAY );
 	if ( m_currentChapter >= (int)pChapterGoalsArray->GetSize() )
 	{
@@ -3711,7 +3711,7 @@ void CGoalManager::RunLastStageScript()
 	// K: This was to fix an assert when winning a created goal in the park editor.
 	// Fixed by just not doing any advance-stage logic when in created goals mode.
 	Mdl::Skate *p_skate_mod = Mdl::Skate::Instance();
-	if ( p_skate_mod->GetGameMode()->IsTrue( CRCD( 0x353961d7, "is_creategoals" ) ) )
+	if ( p_skate_mod->GetGameMode()->IsTrue( Crc::ConstCRC( "is_creategoals" ) ) )
 	{
 		return;
 	}	
@@ -6796,7 +6796,7 @@ bool ScriptAdvanceStage( Script::CStruct* pParams, Script::CScript* pScript )
 	Dbg_Assert( pGoalManager );
 	uint32 just_won_goal_id = 0;
 	pParams->GetChecksum( Crc::ConstCRC("just_won_goal_id"), &just_won_goal_id, Script::NO_ASSERT );
-	return pGoalManager->AdvanceStage( pParams->ContainsFlag( CRCD( 0x68977cd7, "force" ) ), just_won_goal_id );
+	return pGoalManager->AdvanceStage( pParams->ContainsFlag( Crc::ConstCRC( "force" ) ), just_won_goal_id );
 }
 
 /******************************************************************/
@@ -6814,14 +6814,14 @@ bool ScriptGetCurrentChapterAndStage( Script::CStruct* pParams, Script::CScript*
 	int stage = pGoalManager->GetCurrentStage();
 	
 	// return the last chapter if they beat the game
-	Script::CArray* pChapterGoalsArray = Script::GetArray( CRCD( 0xb892776f, "chapter_goals" ), Script::ASSERT );
+	Script::CArray* pChapterGoalsArray = Script::GetArray( Crc::ConstCRC( "chapter_goals" ), Script::ASSERT );
 	Dbg_Assert( pChapterGoalsArray->GetType() == ESYMBOLTYPE_ARRAY );
 	if ( chapter >= (int)pChapterGoalsArray->GetSize() )
 	{
 		chapter = pChapterGoalsArray->GetSize() - 1;
 	}
-	pScript->GetParams()->AddInteger( CRCD( 0xf884773c, "CurrentChapter" ), chapter );
-	pScript->GetParams()->AddInteger( CRCD( 0xaf1575eb, "CurrentStage" ), stage );
+	pScript->GetParams()->AddInteger( Crc::ConstCRC( "CurrentChapter" ), chapter );
+	pScript->GetParams()->AddInteger( Crc::ConstCRC( "CurrentStage" ), stage );
 	return true;
 }
 
@@ -6839,7 +6839,7 @@ bool ScriptSetCurrentChapterAndStage( Script::CStruct* pParams, Script::CScript*
 	Dbg_Assert( pGoalManager );
 	int chapter = pGoalManager->GetCurrentChapter();
 	int stage = pGoalManager->GetCurrentStage();
-	pParams->GetInteger( CRCD(0x67e4ad1,"chapter"), &chapter, Script::NO_ASSERT );
+	pParams->GetInteger( Crc::ConstCRC("chapter"), &chapter, Script::NO_ASSERT );
 	pParams->GetInteger( Crc::ConstCRC("stage"), &stage, Script::NO_ASSERT );
 	pGoalManager->SetCurrentChapter( chapter );
 	pGoalManager->SetCurrentStage( stage );

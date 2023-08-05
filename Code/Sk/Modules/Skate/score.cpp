@@ -2067,7 +2067,7 @@ inline uint32 get_trickname_checksum_from_trick_and_taps( uint32 trick_checksum,
 	// get the trick text and associated checksum
 	Script::CStruct* p_trick = Script::GetStructure( trick_checksum, Script::ASSERT );
 	Script::CStruct* p_trick_params;
-	p_trick->GetStructure( CRCD( 0x7031f10c, "params" ), &p_trick_params, Script::ASSERT );
+	p_trick->GetStructure( Crc::ConstCRC( "params" ), &p_trick_params, Script::ASSERT );
 
 	const char* p_trick_name;
 
@@ -2079,7 +2079,7 @@ inline uint32 get_trickname_checksum_from_trick_and_taps( uint32 trick_checksum,
 		Script::CArray* p_extra_trick_array;
 		uint32 extra_trick;
 
-		if ( !p_trick_params->GetChecksum( CRCD( 0x6e855102, "ExtraTricks" ), &extra_trick, Script::NO_ASSERT ) )
+		if ( !p_trick_params->GetChecksum( Crc::ConstCRC( "ExtraTricks" ), &extra_trick, Script::NO_ASSERT ) )
 			Dbg_MsgAssert( 0, ( "Couldn't find ExtraTricks to get multiple tap version of trick" ) );
 		
 		// printf("got extra trick %s\n", Script::FindChecksumName( extra_trick ) );
@@ -2087,10 +2087,10 @@ inline uint32 get_trickname_checksum_from_trick_and_taps( uint32 trick_checksum,
 		p_extra_trick_array = Script::GetArray( extra_trick, Script::ASSERT );
 		Dbg_MsgAssert( p_extra_trick_array->GetType() == ESYMBOLTYPE_STRUCTURE, ( "Extra trick array %s had wrong type", Script::FindChecksumName( extra_trick ) ) );
 		Script::CStruct* p_sub_struct = p_extra_trick_array->GetStructure( 0 );
-		p_sub_struct->GetStructure( CRCD( 0x7031f10c, "params" ), &p_trick_params, Script::ASSERT );
+		p_sub_struct->GetStructure( Crc::ConstCRC( "params" ), &p_trick_params, Script::ASSERT );
 	}
 	
-	p_trick_params->GetLocalString( CRCD( 0xa1dc81f9, "name" ), &p_trick_name, Script::ASSERT );
+	p_trick_params->GetLocalString( Crc::ConstCRC( "name" ), &p_trick_name, Script::ASSERT );
 	// printf("found name %s\n", p_trick_name);
 	return Script::GenerateCRC( p_trick_name );
 }
@@ -2116,10 +2116,10 @@ inline uint32 get_trickname_checksum_from_key_combo( uint32 key_combo, int num_t
 		{
 			Script::CStruct* pSpecial = pSpecialTricksArray->GetStructure( i );
 			uint32 trickSlot;
-			pSpecial->GetChecksum( CRCD( 0xa92a2280, "TrickSlot" ), &trickSlot, Script::ASSERT );
+			pSpecial->GetChecksum( Crc::ConstCRC( "TrickSlot" ), &trickSlot, Script::ASSERT );
 			if ( trickSlot == key_combo )
 			{
-				pSpecial->GetChecksum( CRCD( 0x5b077ce1, "TrickName" ), &trick_checksum, Script::ASSERT );
+				pSpecial->GetChecksum( Crc::ConstCRC( "TrickName" ), &trick_checksum, Script::ASSERT );
 				break;
 			}
 		}
@@ -2197,7 +2197,7 @@ bool Score::VerifyTrickMatch( int info_tab_index, uint32 trick_checksum, int spi
 			{
 				if ( !require_perfect )
 					return true;
-				else if ( Mth::Abs( Mth::Abs(m_infoTab[info_tab_index].spin_degrees) - ( spin_mult * 180 ) ) < Script::GetInteger( CRCD( 0xfcfacab8, "perfect_landing_slop" ) ) )
+				else if ( Mth::Abs( Mth::Abs(m_infoTab[info_tab_index].spin_degrees) - ( spin_mult * 180 ) ) < Script::GetInteger( Crc::ConstCRC( "perfect_landing_slop" ) ) )
 					return true;
 			}
 		}		
@@ -2240,7 +2240,7 @@ int Score::CountTrickMatches( uint32 trick_checksum, int spin_mult, bool require
 				{
 					if ( !require_perfect )
 						total++;
-					else if ( Mth::Abs( Mth::Abs(m_infoTab[i].spin_degrees) - ( spin_mult * 180 ) ) < Script::GetInteger( CRCD( 0xfcfacab8, "perfect_landing_slop" ) ) )
+					else if ( Mth::Abs( Mth::Abs(m_infoTab[i].spin_degrees) - ( spin_mult * 180 ) ) < Script::GetInteger( Crc::ConstCRC( "perfect_landing_slop" ) ) )
 						total++;
 				}
 			}		
@@ -2324,7 +2324,7 @@ bool Score::IsLatestTrick( uint32 key_combo, int spin_mult, bool require_perfect
 				Game::CCreateATrick* pCreatedTrick = pSkater->m_created_trick[cat_trick];
 				Dbg_Assert( pCreatedTrick );
 				const char* p_trick_name;
-				pCreatedTrick->mp_other_params->GetString( CRCD( 0xa1dc81f9, "name" ), &p_trick_name, Script::ASSERT );
+				pCreatedTrick->mp_other_params->GetString( Crc::ConstCRC( "name" ), &p_trick_name, Script::ASSERT );
 				trick_name_checksum = Script::GenerateCRC( p_trick_name );
 			}
 		}
@@ -2406,7 +2406,7 @@ int Score::GetCurrentNumberOfOccurrences( uint32 key_combo, int spin_mult, bool 
 				Game::CCreateATrick* pCreatedTrick = pSkater->m_created_trick[cat_trick];
 				Dbg_Assert( pCreatedTrick );
 				const char* p_trick_name;
-				pCreatedTrick->mp_other_params->GetString( CRCD( 0xa1dc81f9, "name" ), &p_trick_name, Script::ASSERT );
+				pCreatedTrick->mp_other_params->GetString( Crc::ConstCRC( "name" ), &p_trick_name, Script::ASSERT );
 				trick_name_checksum = Script::GenerateCRC( p_trick_name );
 			}
 		}
@@ -2506,7 +2506,7 @@ int Score::GetPreviousNumberOfOccurrences( uint32 key_combo, int spin_mult, int 
 				Game::CCreateATrick* pCreatedTrick = pSkater->m_created_trick[cat_trick];
 				Dbg_Assert( pCreatedTrick );
 				const char* p_trick_name;
-				pCreatedTrick->mp_other_params->GetString( CRCD( 0xa1dc81f9, "name" ), &p_trick_name, Script::ASSERT );
+				pCreatedTrick->mp_other_params->GetString( Crc::ConstCRC( "name" ), &p_trick_name, Script::ASSERT );
 				trick_name_checksum = Script::GenerateCRC( p_trick_name );
 			}
 		}
@@ -2576,15 +2576,15 @@ inline void GetTrickInfoFromTrickArray( Script::CArray* pTricks, int trick_array
 	{
 		// grab the key combo and any spin or perfect modifiers from the struct
 		Script::CStruct* pSubStruct = pTricks->GetStructure( trick_array_index );
-		pSubStruct->GetChecksum( CRCD( 0x95e16467, "KeyCombo" ), &key_combo, Script::ASSERT );
-		pSubStruct->GetInteger( CRCD( 0xa4bee6a1, "num_taps" ), &num_taps, Script::NO_ASSERT );
+		pSubStruct->GetChecksum( Crc::ConstCRC( "KeyCombo" ), &key_combo, Script::ASSERT );
+		pSubStruct->GetInteger( Crc::ConstCRC( "num_taps" ), &num_taps, Script::NO_ASSERT );
 		pSubStruct->GetInteger( Crc::ConstCRC("num_taps"), &*p_num_taps, Script::NO_ASSERT );
 		*p_trick_name_checksum = get_trickname_checksum_from_key_combo( key_combo, num_taps );
-		if ( pSubStruct->GetInteger( CRCD( 0xedf5db70, "spin" ), &*p_spin, Script::NO_ASSERT ) )
+		if ( pSubStruct->GetInteger( Crc::ConstCRC( "spin" ), &*p_spin, Script::NO_ASSERT ) )
 		{
 			Dbg_MsgAssert( *p_spin % 180 == 0, ( "Bad spin value %i in gap tricks structure", *p_spin ) );
 			*p_spin = *p_spin / 180;
-			*p_require_perfect = pSubStruct->ContainsFlag( CRCD( 0x1c39f1b9, "perfect" ) );
+			*p_require_perfect = pSubStruct->ContainsFlag( Crc::ConstCRC( "perfect" ) );
 		}
 		// printf("\tlooking for key_combo %s\n", Script::FindChecksumName( key_combo ) );
 	}

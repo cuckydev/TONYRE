@@ -132,7 +132,7 @@ CBaseComponent::EMemberFunctionResult CSkaterRunTimerComponent::CallMemberFuncti
 			
 		// @script | RunTimer_GetFactorComplete | returns the time left of the run timer as a float between zero and one in FactorComplete
 		case Crc::ConstCRC("RunTimer_GetFactorComplete"):
-			pScript->GetParams()->AddFloat(Crc::ConstCRC("FactorComplete"), m_timer / GetSkater()->GetScriptedStat(CRCD(0xb84f532, "Physics_RunTimer_Duration")));
+			pScript->GetParams()->AddFloat(Crc::ConstCRC("FactorComplete"), m_timer / GetSkater()->GetScriptedStat(Crc::ConstCRC( "Physics_RunTimer_Duration")));
 			break;
 			
 		// @script | RunTimer_GetRunTimerControllerId | returns the id of the display controller script for the run timer in RunTimerControllerId
@@ -203,7 +203,7 @@ void CSkaterRunTimerComponent::unpause (   )
 	
 	if (m_unpause_count < vRT_NUM_TIME_CHUNKS)
 	{
-		float max_timer = (vRT_NUM_TIME_CHUNKS - m_unpause_count) * GetSkater()->GetScriptedStat(CRCD(0xb84f532, "Physics_RunTimer_Duration")) / vRT_NUM_TIME_CHUNKS;
+		float max_timer = (vRT_NUM_TIME_CHUNKS - m_unpause_count) * GetSkater()->GetScriptedStat(Crc::ConstCRC( "Physics_RunTimer_Duration")) / vRT_NUM_TIME_CHUNKS;
 		m_timer = Mth::Min(m_timer, max_timer);
 	}
 	

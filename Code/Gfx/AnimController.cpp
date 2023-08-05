@@ -427,31 +427,31 @@ void CAnimChannel::GetDebugInfo( Script::CStruct* p_info )
 	switch ( m_loopingType )
 	{
 	case 0:
-		looping_type_checksum = CRCD( 0x3f00df04, "LOOPING_HOLD" );
+		looping_type_checksum = Crc::ConstCRC( "LOOPING_HOLD" );
 		break;
 	case 1:
-		looping_type_checksum = CRCD( 0xfbada576, "LOOPING_CYCLE" );
+		looping_type_checksum = Crc::ConstCRC( "LOOPING_CYCLE" );
 		break;
 	case 2:
-		looping_type_checksum = CRCD( 0x792b924b, "LOOPING_PINGPONG" );
+		looping_type_checksum = Crc::ConstCRC( "LOOPING_PINGPONG" );
 		break;
 	case 3:
-		looping_type_checksum = CRCD( 0x90423ff2, "LOOPING_WOBBLE" );
+		looping_type_checksum = Crc::ConstCRC( "LOOPING_WOBBLE" );
 		break;
 	default:
 		Dbg_MsgAssert( 0, ( "Unknown looping type found in CAnimChannel::GetDebugInfo.  Was the enum changed?" ) );
 		break;
 	}
 	if ( looping_type_checksum )
-		p_info->AddChecksum( CRCD(0x84b06b3,"m_loopingType"), looping_type_checksum );
+		p_info->AddChecksum( Crc::ConstCRC("m_loopingType"), looping_type_checksum );
 
 	switch ( m_direction )
 	{
 	case 0:
-		p_info->AddChecksum( Crc::ConstCRC("m_direction"), CRCD( 0xdf8b2509, "ANIM_DIR_FORWARDS" ) );
+		p_info->AddChecksum( Crc::ConstCRC("m_direction"), Crc::ConstCRC( "ANIM_DIR_FORWARDS" ) );
 		break;
 	case -1:
-		p_info->AddChecksum( Crc::ConstCRC("m_direction"), CRCD( 0xfdf0c4a4, "ANIM_DIR_BACKWARDS" ) );
+		p_info->AddChecksum( Crc::ConstCRC("m_direction"), Crc::ConstCRC( "ANIM_DIR_BACKWARDS" ) );
 		break;
 	default:
 		Dbg_MsgAssert( 0, ( "Unknown direction found in CAnimChannel::GetDebugInfo.  Was the enum changed?" ) );

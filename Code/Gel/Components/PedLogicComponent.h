@@ -21,7 +21,7 @@
 #include <sk/objects/skaterflags.h>
 #include <gfx/nxflags.h>
 
-#define		CRC_PEDLOGIC CRCD( 0x6efddfb8, "PedLogic" )
+#define		CRC_PEDLOGIC Crc::ConstCRC( "PedLogic" )
 #define		GetPedLogicComponent() ((Obj::CPedLogicComponent*)GetComponent(CRC_PEDLOGIC))
 #define		GetPedLogicComponentFromObject(pObj) ((Obj::CPedLogicComponent*)(pObj)->GetComponent(CRC_PEDLOGIC))
 

@@ -246,7 +246,7 @@ void CRiderComponent::Update()
 //			break;
 //					
 //		case LADDERMOVE:
-//			mp_animation_component->SetAnimSpeed(m_anim_effective_speed / s_get_param(CRCD(0xab2db54, "ladder_move_speed")), false, false);
+//			mp_animation_component->SetAnimSpeed(m_anim_effective_speed / s_get_param(Crc::ConstCRC( "ladder_move_speed")), false, false);
 //			break;
 //	
 //		default:
@@ -371,7 +371,7 @@ CBaseComponent::EMemberFunctionResult CRiderComponent::CallMemberFunction( uint3
 			}
 			else if (m_anim_effective_speed < s_get_param(Crc::ConstCRC("max_fast_walk_speed")))
 			{
-				checksum = CRCD(0x131f2a2, "WALK_FAST");
+				checksum = Crc::ConstCRC( "WALK_FAST");
 			}
 			else if (m_anim_effective_speed < s_get_param(Crc::ConstCRC("max_slow_run_speed")))
 			{
@@ -381,7 +381,7 @@ CBaseComponent::EMemberFunctionResult CRiderComponent::CallMemberFunction( uint3
 			{
 				checksum = Crc::ConstCRC("RUN_FAST");
 			}
-			pScript->GetParams()->AddChecksum(CRCD(0x92c388f, "SpeedScale"), checksum);
+			pScript->GetParams()->AddChecksum(Crc::ConstCRC( "SpeedScale"), checksum);
 			
 			break;
 		}
@@ -592,11 +592,11 @@ void CRiderComponent::go_on_horse_state( void )
 
 		// Get the control component.
 		CSkaterPhysicsControlComponent*	p_control_component = GetSkaterPhysicsControlComponentFromObject( GetObj());
-		p_control_component->CallMemberFunction( CRCD( 0x82604c1e, "SkaterPhysicsControl_SwitchRidingToWalking"), nullptr, nullptr );
+		p_control_component->CallMemberFunction( Crc::ConstCRC( "SkaterPhysicsControl_SwitchRidingToWalking"), nullptr, nullptr );
 
 		mp_horse_component->AcceptRiderDismount( GetObj());
 
-		m_frame_event = CRCD( 0x9b46e749, "Stand" );
+		m_frame_event = Crc::ConstCRC( "Stand" );
 		GetObj()->SelfEvent( m_frame_event );
 		return;
 	}
@@ -608,14 +608,14 @@ void CRiderComponent::go_on_horse_state( void )
 	// Decide which animation to play.
 	switch( mp_horse_component->GetAnimation())
 	{
-		case CRCC(0xae7deda,"Horse_Jump"):
+		case Crc::ConstCRC("Horse_Jump"):
 		{
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Jump"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
 			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
-		case CRCC( 0xa337737a, "Horse_Airidle" ):
+		case Crc::ConstCRC( "Horse_Airidle" ):
 		{
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Airidle"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);
@@ -623,7 +623,7 @@ void CRiderComponent::go_on_horse_state( void )
 			p_anim_component->PlayAnim( p_temp_struct, nullptr, 0.3f );
 			break;
 		}
-		case CRCC( 0x5540d14, "Horse_Land" ):
+		case Crc::ConstCRC( "Horse_Land" ):
 		{
 			p_temp_struct->AddChecksum( Crc::ConstCRC("Anim"), Crc::ConstCRC("Rider_Land"));
 			p_temp_struct->AddChecksum( (uint32)0, 0xfe09fe09/*"NoRestart"*/);

@@ -434,7 +434,7 @@ void CManual::DoManualPhysics()
     
     pStatsManagerComponent->CheckTimedRecord( mpSkaterBalanceTrickComponent->mBalanceTrickType, mActualManualTime, false );
 	
-	float ManualLeanGravity=mpSkaterBalanceTrickComponent->GetBalanceStat(CRCD(0x6851748,"Lean_Gravity_Stat"));
+	float ManualLeanGravity=mpSkaterBalanceTrickComponent->GetBalanceStat(Crc::ConstCRC("Lean_Gravity_Stat"));
 	float ManualInstableRate=mpSkaterBalanceTrickComponent->GetBalanceStat(Crc::ConstCRC("Instable_Rate"));
 	float ManualBase = mpSkaterBalanceTrickComponent->GetBalanceStat(Crc::ConstCRC("Instable_base")); 
 	float ManualInstability = ManualBase + (mManualTime * ManualInstableRate);
@@ -469,7 +469,7 @@ void CManual::DoManualPhysics()
 
 	// If the buttons have not technically been released, but have been held for longer than a certain
 	// amount of time, then assume that the player does want the button to have an effect after all.
-	if (!mManualReleased && elapsed_time>(uint32)Script::GetInt(CRCD(0x7da1621,"BalanceIgnoreButtonPeriod")))
+	if (!mManualReleased && elapsed_time>(uint32)Script::GetInt(Crc::ConstCRC("BalanceIgnoreButtonPeriod")))
 	{
 		mManualReleased = true;
 	}

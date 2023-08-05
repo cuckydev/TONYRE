@@ -182,7 +182,7 @@ ETerrainType			CTerrainManager::sGetTerrainFromChecksum(uint32 checksum)
 	case Crc::ConstCRC("TERRAIN_GRINDMETAL"):
 		return vTERRAIN_GRINDMETAL;
 
-	case CRCC(0xffc0b5e,"TERRAIN_GRINDWOODRAILING"):
+	case Crc::ConstCRC("TERRAIN_GRINDWOODRAILING"):
 		return vTERRAIN_GRINDWOODRAILING;
 
 	case Crc::ConstCRC("TERRAIN_GRINDWOODLOG"):
@@ -548,7 +548,7 @@ bool					CTerrainManager::s_get_sound_info(Script::CStruct *p_sound, STerrainSou
 	p_info->m_loadPitch = 100.0f;
 	p_info->m_loadVol = 100.0f;
 
-	p_sound->GetString( CRCD(0x7713c7b,"sound"), &p_info->mp_soundName );
+	p_sound->GetString( Crc::ConstCRC("sound"), &p_info->mp_soundName );
 	if ( !p_info->mp_soundName )
 	{
 		Dbg_MsgAssert(0, ( "Need the name of a sound in s_get_sound_info" ));
@@ -569,7 +569,7 @@ bool					CTerrainManager::s_get_sound_info(Script::CStruct *p_sound, STerrainSou
 	p_sound->GetFloat( Crc::ConstCRC("maxPitch"), &p_info->m_maxPitch );
 	p_sound->GetFloat( Crc::ConstCRC("minPitch"), &p_info->m_minPitch );
 	
-	p_sound->GetFloat( CRCD(0x693daaf,"maxVol"), &p_info->m_maxVol );
+	p_sound->GetFloat( Crc::ConstCRC("maxVol"), &p_info->m_maxVol );
 	p_sound->GetFloat( Crc::ConstCRC("minVol"), &p_info->m_minVol );
 
 	p_sound->GetFloat( Crc::ConstCRC("loadPitch"), &p_info->m_loadPitch );

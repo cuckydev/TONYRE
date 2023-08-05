@@ -216,20 +216,6 @@ typedef	sint64				nID64;
 
 #include <Plat/Gfx/p_memview.h>
 
-
-// Mick:  This check slows the game down quite a bit
-#if  1 && 	defined( __NOPT_ASSERT__ )
-
-extern  uint32	check_checksum(uint32 _i, const char *_s, const char *f, int line);
-
-#define CRCD(_i, _s)		check_checksum(_i, _s, __FILE__, __LINE__)
-#else
-#define CRCD(_i, _s)		_i
-#endif
-
-// CRC-C, for use only in switch statements, where you want to use the same syntax as CRCD
-#define CRCC(_i, _s)		_i
-
 /******************************************************************/
 /* Global new/delete operators                                    */
 /*                                                                */

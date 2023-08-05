@@ -2027,7 +2027,7 @@ bool		Manager::ScriptChooseServer(Script::CScriptStructure *pParams, Script::CSc
 		}
 		
 		gamenet_man->m_XboxKeyRegistered = true;
-		// Translate the host’s XNADDR to an IN_ADDR.			
+		// Translate the hostï¿½s XNADDR to an IN_ADDR.			
 		if( XNetXnAddrToInAddr( &p_server->m_XboxAddr, &p_server->m_XboxKeyId,
 				&host_addr ) != NO_ERROR )
 		{
@@ -2051,7 +2051,7 @@ bool		Manager::ScriptChooseServer(Script::CScriptStructure *pParams, Script::CSc
 		if( p_server->m_CanDirectConnect == false )
 		{
 			cookie = Mth::Rnd( vINT32_MAX );
-			p_structure->AddComponent( CRCD( 0x751f4599, "cookie" ), ESYMBOLTYPE_NAME, cookie );
+			p_structure->AddComponent( Crc::ConstCRC( "cookie" ), ESYMBOLTYPE_NAME, cookie );
 		}
         p_structure->AddComponent( NONAME, ESYMBOLTYPE_INTEGER, p_server->m_Port );
 		p_structure->AddComponent( NONAME, ESYMBOLTYPE_STRING, ip_addr );

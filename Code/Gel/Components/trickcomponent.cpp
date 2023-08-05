@@ -3896,7 +3896,7 @@ void CTrickComponent::GetDebugInfo(Script::CStruct *p_info)
 			{
 				case EVENT_NONE:  event_type=Crc::ConstCRC("None"); break;
 				case EVENT_BUTTON_PRESSED:  event_type=Crc::ConstCRC("Pressed"); break;
-				case EVENT_BUTTON_RELEASED:  event_type=CRCD(0x4ba9ee9,"Released"); break;
+				case EVENT_BUTTON_RELEASED:  event_type=Crc::ConstCRC("Released"); break;
 				default: break;
 			}
 			p_event->AddChecksum(NONAME,event_type);
@@ -3923,7 +3923,7 @@ void CTrickComponent::GetDebugInfo(Script::CStruct *p_info)
 	
 	p_info->AddInteger(Crc::ConstCRC("GotExtraGrindTrick"),mGotExtraGrindTrick);
 	s_add_array_of_names(p_info,mNumExtraGrindTrickArrays,mpExtraGrindTrickArrays,"ExtraGrindTrickArrays");
-	p_info->AddChecksum(CRCD(0x4cb1bfe,"SpecialExtraGrindTrickArray"),mSpecialExtraGrindTrickArrayChecksum);
+	p_info->AddChecksum(Crc::ConstCRC("SpecialExtraGrindTrickArray"),mSpecialExtraGrindTrickArrayChecksum);
 
 	p_info->AddInteger(Crc::ConstCRC("GotExtraTricks"),mGotExtraTricks);
 	p_info->AddInteger(Crc::ConstCRC("ExtraTricksInfiniteDuration"),mExtraTricksInfiniteDuration);

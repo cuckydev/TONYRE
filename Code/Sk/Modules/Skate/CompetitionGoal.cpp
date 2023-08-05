@@ -156,9 +156,9 @@ bool CCompetitionGoal::UnBeatGoal()
 	
 bool CCompetitionGoal::Win()
 {
-	mp_params->AddChecksum( NONAME, CRCD( 0xc309cad1, "just_won_goal" ) );
+	mp_params->AddChecksum( NONAME, Crc::ConstCRC( "just_won_goal" ) );
 	RunCallbackScript( Game::vDEACTIVATE );
-	mp_params->RemoveFlag( CRCD( 0xc309cad1, "just_won_goal" ) );
+	mp_params->RemoveFlag( Crc::ConstCRC( "just_won_goal" ) );
 	SetInactive();
 	
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();

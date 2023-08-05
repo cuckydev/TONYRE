@@ -261,7 +261,7 @@ void CVehicleSoundComponent::update_engine_sounds (   )
 	}
 	
 	// smooth out frame-to-frame fluxuations
-	m_effective_speed = Mth::Lerp(frame_effective_speed, m_effective_speed, get_global_param(CRCD(0x2a7095b, "effective_speed_lerp_rate")) * frame_length);
+	m_effective_speed = Mth::Lerp(frame_effective_speed, m_effective_speed, get_global_param(Crc::ConstCRC( "effective_speed_lerp_rate")) * frame_length);
 	if (m_effective_speed < frame_effective_speed)
 	{
 		m_effective_speed = Mth::ClampMax(m_effective_speed + get_global_param(Crc::ConstCRC("effective_speed_adjust_up_rate")) * frame_length, m_effective_speed);
@@ -517,7 +517,7 @@ void CVehicleSoundComponent::fetch_script_parameters (   )
 		Script::CStruct* global_sound_setup = Script::GetStructure(Crc::ConstCRC("PlayerVehicleSoundGlobalParameters"), Script::ASSERT);
 		
 		global_sound_setup->GetChecksum(Crc::ConstCRC("CAGEngineSound"), &m_engine_sound_checksum, Script::ASSERT);
-		global_sound_setup->GetChecksum(CRCD(0x60e93a2, "CAGTireSound"), &m_tire_sound_checksum, Script::ASSERT);
+		global_sound_setup->GetChecksum(Crc::ConstCRC( "CAGTireSound"), &m_tire_sound_checksum, Script::ASSERT);
 		global_sound_setup->GetStructure(Crc::ConstCRC("CAGCollideSound"), &m_collide_sound_struct, Script::ASSERT);
 	}
 }

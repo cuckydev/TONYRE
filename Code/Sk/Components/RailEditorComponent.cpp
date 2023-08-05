@@ -1511,7 +1511,7 @@ void CEditedRail::GetDebugInfo( Script::CStruct* p_info )
 		{
 			Script::CStruct *p_struct=new Script::CStruct;
 			p_struct->AddVector(Crc::ConstCRC("pos"),p_point->mPos[X],p_point->mPos[Y],p_point->mPos[Z]);
-			p_struct->AddFloat(CRCD(0xab21af0,"Height"),p_point->mHeightAboveGround);
+			p_struct->AddFloat(Crc::ConstCRC("Height"),p_point->mHeightAboveGround);
 			p_struct->AddInteger(Crc::ConstCRC("mpClonedRailSector"),(int)p_point->mpClonedRailSector);
 			p_struct->AddInteger(Crc::ConstCRC("mpPostSector"),(int)p_point->mpPostSector);
 			
@@ -2128,7 +2128,7 @@ void CRailEditorComponent::Hide( bool shouldHide )
 
 	if (shouldHide)
 	{
-		Script::RunScript(CRCD(0xec0a515,"rail_editor_destroy_cursor"));
+		Script::RunScript(Crc::ConstCRC("rail_editor_destroy_cursor"));
 		p_park_manager->GetGenerator()->CleanUpOutRailSet();
 		UnHighlightAllRails();
 		DeleteDottedLine();
@@ -2637,7 +2637,7 @@ CBaseComponent::EMemberFunctionResult CRailEditorComponent::CallMemberFunction( 
 			pParams->GetChecksum(Crc::ConstCRC("rail_id"),&rail_id);
 			
 			int rail_point_index=0;
-			pParams->GetInteger(CRCD(0xab3c14,"rail_point_index"),&rail_point_index);
+			pParams->GetInteger(Crc::ConstCRC("rail_point_index"),&rail_point_index);
 			
 			Mth::Vector pos;
 			pParams->GetVector(Crc::ConstCRC("Pos"),&pos);
@@ -2665,7 +2665,7 @@ CBaseComponent::EMemberFunctionResult CRailEditorComponent::CallMemberFunction( 
 			pParams->GetChecksum(Crc::ConstCRC("rail_id"),&rail_id);
 			
 			int rail_point_index=0;
-			pParams->GetInteger(CRCD(0xab3c14,"rail_point_index"),&rail_point_index);
+			pParams->GetInteger(Crc::ConstCRC("rail_point_index"),&rail_point_index);
 
 			CEditedRail *p_rail=GetRail(rail_id);
 			if (p_rail)
@@ -2688,7 +2688,7 @@ CBaseComponent::EMemberFunctionResult CRailEditorComponent::CallMemberFunction( 
 			}
 			
 			int rail_point_index=0;
-			pParams->GetInteger(CRCD(0xab3c14,"rail_point_index"),&rail_point_index);
+			pParams->GetInteger(Crc::ConstCRC("rail_point_index"),&rail_point_index);
 			CEditedRailPoint *p_point=p_rail->GetRailPointFromIndex(rail_point_index);
 			if (!p_point)
 			{

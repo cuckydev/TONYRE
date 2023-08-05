@@ -53,7 +53,7 @@ void CEventLog::AddEntry(uint32 type, uint32 target, uint32 source, uint32 scrip
 	if (!mp_event_type_hash_table)
 	{
 		mp_event_type_hash_table = new Lst::HashTable<EventType>(8);
-		Script::CArray *p_event_type_array = Script::GetArray(CRCD(0x8114f90,"event_type_array"), Script::ASSERT);
+		Script::CArray *p_event_type_array = Script::GetArray(Crc::ConstCRC("event_type_array"), Script::ASSERT);
 		for (int i = 0; i < (int) p_event_type_array->GetSize(); i++)
 		{
 			strcpy(m_event_type_table[i].mName, p_event_type_array->GetString(i));
