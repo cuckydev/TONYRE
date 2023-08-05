@@ -1984,11 +1984,7 @@ bool BinTable::PutItem ( const uint32 key, SAutoRail* item )
 	BinItem *pEntry = &mp_table[key_to_bin(key)];
 	if (pEntry->mp_value)
 	{
-#ifndef __PLAT_WN32__
 		BinItem *pNew = new (Mem::PoolManager::SCreateItem(Mem::PoolManager::vHASH_ITEM_POOL)) BinItem();
-#else
-		BinItem *pNew = new BinItem;
-#endif
 		pNew->mp_value = item;
 		pNew->mp_next = pEntry->mp_next;
 		pEntry->mp_next = pNew;
@@ -2076,11 +2072,7 @@ void BinTable::FlushAllItems (   )
 		while (pLinkedEntry)
 		{
 			BinItem* pNext = pLinkedEntry->mp_next;
-#ifndef __PLAT_WN32__
 			Mem::PoolManager::SFreeItem(Mem::PoolManager::vHASH_ITEM_POOL, pLinkedEntry);
-#else
-			delete pLinkedEntry;
-#endif
 			pLinkedEntry = pNext;
 		}
 		++pMainEntry;

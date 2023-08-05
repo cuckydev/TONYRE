@@ -100,16 +100,11 @@ Handle< _T >::Handle( _T* ptr )
 /*                                                                */
 /******************************************************************/
 	
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
-// This version to fix Visual C++ compiler lack of ANSI C++ compliance.
-#else
 template < class _T > template < class _NewT > inline
-Handle< _T >::Handle< _T >( Handle< _NewT >& rhs )
-: m_ptr ( rhs.m_ptr ), m_id ( rhs.m_id )
+Handle< _T >::Handle( Handle< _NewT >& rhs ) : m_ptr ( rhs.m_ptr ), m_id ( rhs.m_id )
 {
 	
 }
-#endif
 
 /******************************************************************/
 /*                                                                */
@@ -127,20 +122,14 @@ Handle< _T >::~Handle( void )
 /*                                                                */
 /******************************************************************/
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
-// This version to fix Visual C++ compiler lack of ANSI C++ compliance.
-#else
  template < class _T > template < class _NewT > inline
 Handle< _T >&		Handle< _T >::operator = ( Handle< _NewT >& rhs ) 
 {
-	
-
 	m_ptr = rhs.m_ptr;
 	m_id  = rhs.m_id;
 
 	return *this;	
 }
-#endif
 
 /******************************************************************/
 /*                                                                */

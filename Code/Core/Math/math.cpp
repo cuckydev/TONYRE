@@ -24,12 +24,7 @@
 *****************************************************************************/
 
 #include <core/defines.h>
-#ifdef __PLAT_WN32__
 #include <math.h>
-#endif
-#ifdef __PLAT_XBOX__
-#include <math.h>
-#endif
 
 /*****************************************************************************
 **							  DBG Information								**

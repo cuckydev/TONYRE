@@ -668,11 +668,9 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, Script::CScript *pScript, bo
 	#endif
 	
 	m_in_immediate_use_counter++;
-
-#ifndef __PLAT_WN32__
+	
 	// Need to assert that mp_tab is valid (or we have no entries in it)
 	Dbg_MsgAssert(!m_num_entries || Mem::Valid(mp_tab),("Invalid event handler table for Event %s", Script::FindChecksumName(pEvent->GetType())));
-#endif
 
 	
 	Entry *p_entry = mp_tab;
