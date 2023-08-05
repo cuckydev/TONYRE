@@ -394,10 +394,10 @@ void sSprite::Draw( void )
 	float y1 = y0 + (m_height * m_scale_y);
 
 	// Get color
-	float r = ((m_rgba >> 0) & 0xFF) / 255.0f;
-	float g = ((m_rgba >> 8) & 0xFF) / 255.0f;
-	float b = ((m_rgba >> 16) & 0xFF) / 255.0f;
-	float a = ((m_rgba >> 24) & 0xFF) / 255.0f;
+	float r = ((m_rgba >> 0) & 0xFF) / 128.0f;
+	float g = ((m_rgba >> 8) & 0xFF) / 128.0f;
+	float b = ((m_rgba >> 16) & 0xFF) / 128.0f;
+	float a = ((m_rgba >> 24) & 0xFF) / 128.0f;
 
 	// r = g = b = a = 1.0f;
 

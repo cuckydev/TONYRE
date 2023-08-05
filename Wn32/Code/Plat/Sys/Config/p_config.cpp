@@ -6,7 +6,7 @@ namespace Config
 
 void Plat_Init(sint argc, char** argv)
 {
-	gHardware = HARDWARE_WIN32;
+	gHardware = HARDWARE_XBOX;
 	gLanguage = LANGUAGE_ENGLISH;	
 	gGotExtraMemory = true;
 	gCD = true; // Weird name but this is actually a flag to enable developer mode

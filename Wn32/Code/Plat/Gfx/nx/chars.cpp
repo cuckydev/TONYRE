@@ -508,11 +508,10 @@ void SText::Draw( void )
 	float space_spacing = (float)mp_font->mSpaceSpacing * m_xscale;
 	
 	// Get color
-	float r = ((m_rgba >> 0) & 0xFF) / 255.0f;
-	float g = ((m_rgba >> 8) & 0xFF) / 255.0f;
-	float b = ((m_rgba >> 16) & 0xFF) / 255.0f;
-	float a = ((m_rgba >> 24) & 0xFF) / 255.0f;
-	a = 1.0f;
+	float r = ((m_rgba >> 0) & 0xFF) / 128.0f;
+	float g = ((m_rgba >> 8) & 0xFF) / 128.0f;
+	float b = ((m_rgba >> 16) & 0xFF) / 128.0f;
+	float a = ((m_rgba >> 24) & 0xFF) / 128.0f;
 	
 	float text_z = GetZValue();
 	
@@ -545,21 +544,19 @@ void SText::Draw( void )
 					if( digit == 0 || m_color_override)
 					{
 						// Switch from RGBA to BGRA format.
-						r = (( m_rgba >> 0 ) & 0xFF) / 255.0f;
-						g = (( m_rgba >> 8 ) & 0xFF) / 255.0f;
-						b = (( m_rgba >> 16 ) & 0xFF) / 255.0f;
-						a = (( m_rgba >> 24 ) & 0xFF) / 255.0f;
-						a = 1.0f;
+						r = (( m_rgba >> 0 ) & 0xFF) / 128.0f;
+						g = (( m_rgba >> 8 ) & 0xFF) / 128.0f;
+						b = (( m_rgba >> 16 ) & 0xFF) / 128.0f;
+						a = (( m_rgba >> 24 ) & 0xFF) / 128.0f;
 					}
 					else
 					{
 						// Switch from RGBA to BGRA format.
 						uint32 color	= mp_font->mRGBATab[digit-1];
-						r = ((color >> 0) & 0xFF) / 255.0f;
-						g = ((color >> 8) & 0xFF) / 255.0f;
-						b = ((color >> 16) & 0xFF) / 255.0f;
-						a = ((color >> 24) & 0xFF) / 255.0f;
-						a = 1.0f;
+						r = ((color >> 0) & 0xFF) / 128.0f;
+						g = ((color >> 8) & 0xFF) / 128.0f;
+						b = ((color >> 16) & 0xFF) / 128.0f;
+						a = ((color >> 24) & 0xFF) / 128.0f;
 					}
 					break;
 				}
