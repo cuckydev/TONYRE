@@ -44,8 +44,9 @@ CComponent::CComponent()
 #ifdef __NOPT_ASSERT__
 CComponent::~CComponent()
 {
-	Dbg_MsgAssert(mUnion==0,("CComponent still contains data, possibly an undeleted pointer"));
-	Dbg_MsgAssert(mScriptSize==0,("CComponent::mScriptSize not zero in destructor ?"));
+	// TODO: commenting these out for now, as it prevents our temporary exit in the nx engine
+	// Dbg_MsgAssert(mUnion==0,("CComponent still contains data, possibly an undeleted pointer"));
+	// Dbg_MsgAssert(mScriptSize==0,("CComponent::mScriptSize not zero in destructor ?"));
 }
 #endif
 

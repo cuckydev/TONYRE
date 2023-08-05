@@ -119,6 +119,7 @@ static void s_send_script_name(uint32 script_name, int numReturnAddresses)
 		Crc::ConstCRC("model_hide_geom"),
 		Crc::ConstCRC("process_cas_command"),
 		Crc::ConstCRC("goal_editor_update_cursor_position"),
+		Crc::ConstCRC("hide_loading_screen"),
 	};
 	
 	uint32 *p_ignored_script_names=sp_ignored_script_names;

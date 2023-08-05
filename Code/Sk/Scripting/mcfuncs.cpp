@@ -2900,10 +2900,6 @@ bool ScriptFormatCard(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | CardIsInSlot | returns true if the memory card is in the slot
 bool ScriptCardIsInSlot(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	#ifdef __PLAT_WN32__
-	if (1)
-		return false;
-	#endif
 	Mc::Manager * mc_man = Mc::Manager::Instance();
 	Mc::Card* p_card=mc_man->GetCard(0,0);
 	if (p_card)
@@ -3057,7 +3053,6 @@ static uint32 sGetFixedFileSize(uint32 fileType)
 // @script | SaveToMemoryCard | 
 bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	#ifndef __PLAT_WN32__
 	if (Config::GetHardware() == Config::HARDWARE_NGC)
 	{
 		// On the GameCube, the temp mem card pools only exist for the duration of this function,
@@ -3231,7 +3226,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	printf("required_size=%d, fixed_size=%d, %d percent\n",required_size,fixed_size,(100*required_size)/fixed_size);
 	if (required_size > fixed_size)
 	{
-		goto ERROR;
+		goto McError;
 	}	
 	#endif
 
@@ -3249,12 +3244,12 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	p_card=mc_man->GetCard(0,0);
 	if (!p_card)
 	{
-		goto ERROR;
+		goto McError;
 	}
 	// GameCube often crashes if try to do card operations on a bad card, so do this check first.
 	if (!p_card->IsFormatted())
 	{
-		goto ERROR;
+		goto McError;
 	}
 	
 	char p_card_file_name[MAX_CARD_FILE_NAME_CHARS+1];
@@ -3268,7 +3263,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 										  p_card_file_name,
 										  &s_insufficient_space))
 			{
-				goto ERROR;
+				goto McError;
 			}
 			break;
 			
@@ -3292,12 +3287,12 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 										   p_card_file_name,
 										   &s_insufficient_space))
 			{
-				goto ERROR;
+				goto McError;
 			}
 			break;
 		default:
 			{
-				goto ERROR;
+				goto McError;
 			}
 			break;
 	}
@@ -3310,7 +3305,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 
 	if (!pFile)
 	{
-		goto ERROR;
+		goto McError;
 	}
 		
 	pTemp=(uint8*)Mem::Malloc(header_and_structures_size);
@@ -3328,7 +3323,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	{
 		if (!s_insert_ngc_icon(p_file_header,p_card,pFile,file_type,p_name))
 		{
-			goto ERROR;
+			goto McError;
 		}
 	}
 	
@@ -3410,7 +3405,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	s_insufficient_space=p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE;
 	if (CardBytesWritten!=header_and_structures_size)
 	{
-		goto ERROR;
+		goto McError;
 	}
 
 
@@ -3431,7 +3426,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 		s_insufficient_space=p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE;
 		if (CardBytesWritten!=sizeof(Replay::SReplayDataHeader))
 		{
-			goto ERROR;
+			goto McError;
 		}
 	
 		replay_data_checksum=Crc::UpdateCRC((const char *)&replay_data_header,sizeof(Replay::SReplayDataHeader),replay_data_checksum);
@@ -3449,7 +3444,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 			s_insufficient_space=p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE;
 			if (CardBytesWritten!=sizeof(Replay::SSavedDummy))
 			{
-				goto ERROR;
+				goto McError;
 			}
 			replay_data_checksum=Crc::UpdateCRC((const char *)&saved_dummy,sizeof(Replay::SSavedDummy),replay_data_checksum);
 			
@@ -3479,7 +3474,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 			s_insufficient_space=p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE;
 			if (CardBytesWritten!=REPLAY_BUFFER_CHUNK_SIZE)
 			{
-				goto ERROR;
+				goto McError;
 			}
 		}
 		
@@ -3488,7 +3483,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 		s_insufficient_space=p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE;
 		if (CardBytesWritten!=4)
 		{
-			goto ERROR;
+			goto McError;
 		}
 	}
 #endif
@@ -3512,14 +3507,14 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 			s_insufficient_space=p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE;
 			if (CardBytesWritten != pad_size)
 			{
-				goto ERROR;
+				goto McError;
 			}
 		}	
 	}	
 	
 	SavedOK=true;
 	
-ERROR:	
+McError:	
 	if (p_pad)
 	{
 		Mem::Free(p_pad);
@@ -3567,8 +3562,6 @@ ERROR:
 	}
 		
 	return SavedOK;
-	#endif
-	return true;
 }
 
 /******************************************************************/
@@ -3667,12 +3660,12 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 	Mc::Card* p_card=mc_man->GetCard(0,0);
 	if (!p_card)
 	{
-		goto ERROR;
+		goto McError;
 	}
 	// GameCube often crashes if try to do card operations on a bad card, so do this check first.
 	if (!p_card->IsFormatted())
 	{
-		goto ERROR;
+		goto McError;
 	}
 		
 		
@@ -3713,7 +3706,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 		
 			if (!p_low_level_directory_name)
 			{
-				goto ERROR;
+				goto McError;
 			}
 						
 			// Calculate the low-level file name.
@@ -3722,7 +3715,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 		}	
 		default:
 		{
-			goto ERROR;
+			goto McError;
 			break;
 		}	
 	}
@@ -3742,7 +3735,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 	if (!p_file)
 	{
 		// File could not be opened
-		goto ERROR;
+		goto McError;
 	}	
 	
 	// File opened OK
@@ -3755,7 +3748,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 	//{
 	//	// Size mismatch, so consider the file corrupted.
 	//	pScript->GetParams()->AddChecksum(NONAME,GenerateCRC("CorruptedData"));
-	//	goto ERROR;
+	//	goto McError;
 	//}	
 	
 	// Read the file into memory
@@ -3767,7 +3760,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 	if (p_file->Read(p_temp, file_size) != file_size)
 	{
 		// Some sort of read error.
-		goto ERROR;
+		goto McError;
 	}		
 	
 	// Seemed to read into memory OK
@@ -3913,7 +3906,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 		}	
 	}
 
-ERROR:	
+McError:	
 	// Cleanup and unpause the music.
 	if (p_file)
 	{
@@ -4001,13 +3994,13 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 	Mc::Card* p_card=mc_man->GetCard(0,0);
 	if (!p_card)
 	{
-		goto ERROR;
+		goto McError;
 	}
 	
 	// GameCube often crashes if try to do card operations on a bad card, so do this check first.
 	if (!p_card->IsFormatted())
 	{
-		goto ERROR;
+		goto McError;
 	}
 
 	// Open the file.
@@ -4015,7 +4008,7 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 	if (!p_file)
 	{
 		// File could not be opened
-		goto ERROR;
+		goto McError;
 	}	
 	
 	// File opened OK
@@ -4026,7 +4019,7 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 	if (p_file->Read((uint8*)&sFileHeader, sizeof(SMcFileHeader)) != sizeof(SMcFileHeader))
 	{
 		// Some sort of read error.
-		goto ERROR;
+		goto McError;
 	}		
 	p_file->Seek(sFileHeader.mDataSize,Mc::File::BASE_START);
 
@@ -4040,7 +4033,7 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 	if (bytes_read!=sizeof(Replay::SReplayDataHeader))
 	{
 		// Some sort of read error.
-		goto ERROR;
+		goto McError;
 	}
 	Replay::ReadReplayDataHeader(&header);
 	replay_data_checksum=Crc::UpdateCRC((const char *)&header,sizeof(Replay::SReplayDataHeader),replay_data_checksum);
@@ -4052,7 +4045,7 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 		if (bytes_read!=sizeof(Replay::SSavedDummy))
 		{
 			// Some sort of read error.
-			goto ERROR;
+			goto McError;
 		}
 		replay_data_checksum=Crc::UpdateCRC((const char *)&saved_dummy,sizeof(Replay::SSavedDummy),replay_data_checksum);
 		
@@ -4073,7 +4066,7 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 		if (bytes_read!=REPLAY_BUFFER_CHUNK_SIZE)
 		{
 			// Some sort of read error.
-			goto ERROR;
+			goto McError;
 		}
 		Replay::WriteIntoBuffer(p_chunk,offset,REPLAY_BUFFER_CHUNK_SIZE);
 		replay_data_checksum=Crc::UpdateCRC((const char *)p_chunk,REPLAY_BUFFER_CHUNK_SIZE,replay_data_checksum);
@@ -4086,17 +4079,17 @@ bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 	if (bytes_read!=4)
 	{
 		// Some sort of read error.
-		goto ERROR;
+		goto McError;
 	}
 	if (ch != replay_data_checksum)
 	{
-		goto ERROR;
+		goto McError;
 	}	
 		
 	// Hooray!	
 	loaded_ok=true;
 
-ERROR:	
+McError:	
 	sNeedToLoadReplayBuffer=false;
 	
 	if (p_file)
@@ -4770,7 +4763,7 @@ bool SaveDataFile(const char *p_name, uint8 *p_data, uint32 size)
 	Mc::Card* p_card=mc_man->GetCard(0,0);
 	if (!p_card)
 	{
-		goto ERROR;
+		goto McError;
 	}
 
 	while (true)
@@ -4806,7 +4799,7 @@ bool SaveDataFile(const char *p_name, uint8 *p_data, uint32 size)
 								  p_card_file_name,
 								  &s_insufficient_space))
 	{
-		goto ERROR;
+		goto McError;
 	}
 
 	// Open a file big enough to hold all data
@@ -4815,19 +4808,19 @@ bool SaveDataFile(const char *p_name, uint8 *p_data, uint32 size)
 
 	if (!pFile)
 	{
-		goto ERROR;
+		goto McError;
 	}
 
 	CardBytesWritten=pFile->Write( p_data, size );
 	s_insufficient_space=p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE;
 	if (CardBytesWritten!=size)
 	{
-		goto ERROR;
+		goto McError;
 	}
 
 	SavedOK=true;
 	
-ERROR:	
+McError:	
 	if (pFile)
 	{
 		if (!pFile->Flush())
