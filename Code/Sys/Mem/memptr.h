@@ -47,23 +47,13 @@ nTemplateBaseClass( _T, PtrToConst )
 	
 public :
 
-								PtrToConst( const _T* ptr = nullptr );
-								~PtrToConst( void );
+		PtrToConst( const _T* ptr = nullptr );
+		~PtrToConst( void );
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
+		template < class _NewT > PtrToConst( const PtrToConst< _NewT >& rhs ); 	// needed to support inheritance correctly
 
-								PtrToConst( const PtrToConst< _T >& rhs );
-		PtrToConst< _T >&		operator= ( const PtrToConst< _T >& rhs );
+		template < class _NewT > PtrToConst< _T >&		operator = ( const PtrToConst< _NewT >& rhs );	// template assignment operator
 
-#else
-
-	template < class _NewT >						                    		// template copy contructor
-								PtrToConst( const PtrToConst< _NewT >& rhs ); 	// needed to support inheritance correctly
-
-	template < class _NewT > 	
-		PtrToConst< _T >&		operator = ( const PtrToConst< _NewT >& rhs );	// template assignment operator
-
-#endif		
 		PtrToConst< _T >&		operator = ( const _T* ptr );
 
 		PtrToConst< _T >&		operator++ ( void ); 							// ++ptr   
@@ -99,21 +89,13 @@ nTemplateSubClass( _T, Ptr, PtrToConst< _T > )
 
 	
 public :
-								Ptr( const _T* ptr = nullptr );
-								~Ptr( void );
+		Ptr( const _T* ptr = nullptr );
+		~Ptr( void );
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
+		template < class _NewT > Ptr( const Ptr< _NewT >& rhs );	
 
-								Ptr( const Ptr< _T >& rhs );
-		Ptr< _T >&				operator= ( const Ptr< _T >& rhs );
+		template < class _NewT > Ptr< _T > &operator = ( const Ptr< _NewT >& rhs );			// template assignment operator
 
-#else
-	template < class _NewT >										 
-								Ptr( const Ptr< _NewT >& rhs );	
-
-	template < class _NewT > 	
-		Ptr< _T >&				operator = ( const Ptr< _NewT >& rhs );			// template assignment operator
-#endif		
 		Ptr< _T >&				operator = ( const _T* ptr );
 		_T&						operator * ( void ) const; 
 		_T*						operator -> ( void ) const;
@@ -166,49 +148,15 @@ PtrToConst< _T >::~PtrToConst( void )
 
 }
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-template < class _T > inline	
-PtrToConst< _T >::PtrToConst( const PtrToConst< _T >& rhs )
-: m_const_ptr ( rhs.Addr() )
-{
-	
-
-}
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-template < class _T > inline	
-PtrToConst< _T >&		PtrToConst< _T >::operator= ( const PtrToConst< _T >& rhs )
-{
-	
-	
-	m_const_ptr = rhs.Addr();
-	return *this;	
-}
-
-#else
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
 /******************************************************************/
 	
 template < class _T > template < class _NewT > inline
-PtrToConst< _T >::PtrToConst< _T >( const PtrToConst< _NewT >& rhs )
+PtrToConst< _T >::PtrToConst( const PtrToConst< _NewT >& rhs )
 : m_const_ptr ( rhs.Addr() )
 {
-	
-
-	Dbg_MsgAssert( false, ( "Microsoft VC++ sucks - don't do this (yet)" ));
 }
 
 /******************************************************************/
@@ -219,15 +167,9 @@ PtrToConst< _T >::PtrToConst< _T >( const PtrToConst< _NewT >& rhs )
 template < class _T > template < class _NewT > inline
 PtrToConst< _T >&		PtrToConst< _T >::operator = ( const PtrToConst< _NewT >& rhs ) 
 {
-	
-
-	Dbg_MsgAssert( false, ( "Microsoft VC++ sucks - don't do this (yet)" ));
-
 	m_const_ptr = rhs.Addr();
 	return *this;	
 }
-
-#endif
 
 /******************************************************************/
 /*                                                                */
@@ -460,49 +402,15 @@ Ptr< _T >::~Ptr( void )
 	
 }
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-template < class _T > inline	
-Ptr< _T >::Ptr( const Ptr< _T >& rhs )
-: PtrToConst< _T >( rhs )
-{
-	
-
-}
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-template < class _T > inline	
-Ptr< _T >&		Ptr< _T >::operator= ( const Ptr< _T >& rhs )
-{
-	
-	
-	m_const_ptr = rhs.Addr();
-	return *this;	
-}
-
-#else
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
 /******************************************************************/
 	
 template < class _T > template < class _NewT > inline
-Ptr< _T >::Ptr( const Ptr< _NewT >& rhs )	
-: PtrToConst< _T >( rhs )
+Ptr< _T >::Ptr( const Ptr< _NewT >& rhs ) : PtrToConst< _T >( rhs )
 {
-	
 
-	Dbg_MsgAssert( false, ( "Microsoft VC++ sucks - don't do this (yet)" ));
 }
 
 /******************************************************************/
@@ -513,15 +421,9 @@ Ptr< _T >::Ptr( const Ptr< _NewT >& rhs )
 template < class _T > template < class _NewT > inline
 Ptr< _T >&		Ptr< _T >::operator= ( const Ptr< _NewT >& rhs ) 
 {
-	
-
-	Dbg_MsgAssert( false, ( "Microsoft VC++ sucks - don't do this (yet)" ));
-
 	m_const_ptr = rhs.Addr();
 	return *this;	
 }
-
-#endif
 
 /******************************************************************/
 /*                                                                */
