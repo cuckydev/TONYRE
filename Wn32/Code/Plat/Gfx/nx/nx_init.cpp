@@ -2,6 +2,7 @@
 
 #include "sys/config/config.h"
 #include "nx_init.h"
+#include "sprite.h"
 #include "anim.h"
 #include "chars.h"
 #include "scene.h"
@@ -9,6 +10,7 @@
 #include "instance.h"
 #include "gamma.h"
 #include "grass.h"
+#include "shader.h"
 
 namespace NxWn32
 {
@@ -49,6 +51,10 @@ void InitialiseEngine( void )
 
 	// Set initial clear color
 	EngineGlobals.clear_color = { 0.3137f, 0.3764f, 0.4392f };
+
+	// Create 2D render mesh
+	EngineGlobals.shader_2d = new sShader(SDraw2D::vertex_shader, SDraw2D::fragment_shader);
+	EngineGlobals.mesh_2d = new GlMesh();
 
 	/*
 	D3DPRESENT_PARAMETERS   params;

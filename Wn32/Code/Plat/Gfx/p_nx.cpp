@@ -60,6 +60,9 @@ namespace Nx
 		NxWn32::GlCol3 &clear_color = NxWn32::EngineGlobals.clear_color;
 		glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Increment frame counter
+		NxWn32::EngineGlobals.frame_count++;
 	}
 
 
@@ -70,7 +73,8 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_render_world(void)
 	{
-		
+		// Draw 2D sprites
+		NxWn32::SDraw2D::DrawAll();
 	}
 
 

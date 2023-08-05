@@ -36,6 +36,8 @@ add_library(TonyRE.Wn32 STATIC
 	"Code/Plat/Gfx/nx/render.h"
 	"Code/Plat/Gfx/nx/scene.cpp"
 	"Code/Plat/Gfx/nx/scene.h"
+	"Code/Plat/Gfx/nx/shader.cpp"
+	"Code/Plat/Gfx/nx/shader.h"
 	"Code/Plat/Gfx/nx/sprite.cpp"
 	"Code/Plat/Gfx/nx/sprite.h"
 	"Code/Plat/Gfx/nx/texture.cpp"

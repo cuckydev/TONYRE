@@ -9,12 +9,37 @@
 #include "render.h"
 #include "sprite.h"
 
-extern DWORD PixelShader4;
-extern DWORD PixelShader5;
-
 namespace NxWn32
 {
 
+// Shaders
+const char *SDraw2D::vertex_shader = R"(#version 330 core
+layout (location = 0) in vec3 i_pos;
+layout (location = 1) in vec2 i_uv;
+layout (location = 2) in vec4 i_col;
+
+out vec2 f_uv;
+out vec4 f_col;
+
+void main()
+{
+	gl_Position = vec4(i_pos, 1.0);
+	f_uv = i_uv;
+	f_col = i_col;
+}
+)";
+
+const char *SDraw2D::fragment_shader = R"(#version 330 core
+in vec2 f_uv;
+in vec4 f_col;
+
+layout(location = 0) out vec4 o_col;
+
+void main()
+{
+	o_col = f_col;
+}
+)";
 
 /******************************************************************/
 /*                                                                */
@@ -178,28 +203,27 @@ void SDraw2D::DrawAll( void )
 /******************************************************************/
 void SDraw2D::InsertDrawList( void )
 {
-	if( !sp_2D_draw_list || ( m_pri <= sp_2D_draw_list->m_pri ))
+	if (!sp_2D_draw_list || (m_pri <= sp_2D_draw_list->m_pri))
 	{
 		// Empty or start of list.
-		mp_next			= sp_2D_draw_list;
+		mp_next = sp_2D_draw_list;
 		sp_2D_draw_list	= this;
 	}
 	else
 	{
-		SDraw2D *p_cur	= sp_2D_draw_list;
+		SDraw2D *p_cur = sp_2D_draw_list;
 	
-		// Find where to insert.
-		while( p_cur->mp_next )
+		// Find where to insert
+		while (p_cur->mp_next)
 		{
-			if( m_pri <= p_cur->mp_next->m_pri )
+			if (m_pri <= p_cur->mp_next->m_pri)
 				break;
-
-			p_cur		= p_cur->mp_next;
+			p_cur = p_cur->mp_next;
 		}
 
 		// Insert at this point.
-		mp_next			= p_cur->mp_next;
-		p_cur->mp_next	= this;
+		mp_next = p_cur->mp_next;
+		p_cur->mp_next = this;
 	}
 }
 

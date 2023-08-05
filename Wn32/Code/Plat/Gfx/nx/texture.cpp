@@ -9,6 +9,8 @@
 #include "texture.h"
 #include "render.h"
 
+#include "Com/texturedecode.h"
+
 namespace NxWn32
 {
 
@@ -155,7 +157,6 @@ static bool is_power_of_two( uint32 a )
 /******************************************************************/
 sTexture *LoadTexture( const char *p_filename )
 {
-	/*
 	struct sIMGHeader
 	{
 		uint32	version;
@@ -214,86 +215,55 @@ sTexture *LoadTexture( const char *p_filename )
 			// Create the texture object.
 			sTexture *p_texture = new sTexture();
 
-			// Create palette if required.
-			if( header.clut_bit_depth == 0 )
+			// Create palette if required
+			uint8 pal[256][4] = {};
+			if( header.clut_bit_depth > 0 )
 			{
-				p_texture->pD3DPalette = nullptr;
-			}
-			else
-			{
-				if( D3D_OK != D3DDevice_CreatePalette( D3DPALETTE_256, &p_texture->pD3DPalette ))
-				{
-					Dbg_Assert( 0 );
-				}
-		
 				// Read clut bitmap data.
-				D3DCOLOR *p_clut;
-				p_texture->pD3DPalette->Lock( &p_clut, 0 );
-
-				int len	= File::Read( p_clut, header.palette_data_size, 1, p_FH );
+				Dbg_Assert(header.palette_data_size <= sizeof( pal ));
+				int len	= File::Read( pal, header.palette_data_size, 1, p_FH );
 				Dbg_MsgAssert( len == header.palette_data_size, ( "Couldn't read clut from texture file %s", p_filename ));
 			}
 
-			// Textures of width 512 and above will not have been resized. This means they cannot be in a swizzled format.
-//			bool arbitrary_texture_size = ( header.original_width >= 512 );
-			bool arbitrary_texture_size = false;
-			
-			if( !is_power_of_two( header.width ) || !is_power_of_two( header.height ))
-				arbitrary_texture_size = true;
+			// Read texture bitmap data
+			size_t num_bytes = (((header.bit_depth / 8) * (header.original_width) * (header.original_height)) + 3) & 0xFFFFFFFC;
+			uint8 *source_data = new uint8[num_bytes];
+			int len = File::Read(source_data, num_bytes, 1, p_FH);
+			Dbg_MsgAssert(len == num_bytes, ("couldn't read texture data from texture file %s", p_filename));
+			File::Close(p_FH);
 
-			// Create texture resource. Linear for arbitrary sized textures, swizzled for standard sizes.
-			uint32 num_bytes;
-			if( arbitrary_texture_size )
-			{
-				if( D3D_OK != D3DDevice_CreateTexture(	header.original_width,
-														header.original_height,
-														1,
-														0,
-														( header.bit_depth <= 8 ) ? D3DFMT_P8 : (( header.bit_depth == 16 ) ? D3DFMT_LIN_A1R5G5B5 : D3DFMT_LIN_A8R8G8B8 ),
-														0,
-														&p_texture->pD3DTexture ))
-				{
-					Dbg_Assert( 0 );
-				}
-				p_texture->BaseWidth	= header.original_width;
-				p_texture->BaseHeight	= header.original_height;
-				p_texture->ActualWidth	= header.original_width;
-				p_texture->ActualHeight	= header.original_height;
-				num_bytes				= ((( header.bit_depth / 8 ) * ( header.original_width ) * ( header.original_height )) + 3 ) & 0xFFFFFFFC;
-			}
-			else
-			{
-				if( D3D_OK != D3DDevice_CreateTexture(	header.width,
-														header.height,
-														1,
-														0,
-														( header.bit_depth <= 8 ) ? D3DFMT_P8 : (( header.bit_depth == 16 ) ? D3DFMT_A1R5G5B5 : D3DFMT_A8R8G8B8 ),
-														0,
-														&p_texture->pD3DTexture ))
-				{
-					Dbg_Assert( 0 );
-				}
-				p_texture->BaseWidth	= (uint16)header.width;
-				p_texture->BaseHeight	= (uint16)header.height;
-				p_texture->ActualWidth	= header.original_width;
-				p_texture->ActualHeight	= header.original_height;
-				num_bytes				= ((( header.bit_depth / 8 ) * header.width * header.height ) + 3 ) & 0xFFFFFFFC;
-			}
-	
-			// Lock the texture so we can read data into it directly.
-			D3DLOCKED_RECT locked_rect;
-			if( D3D_OK != p_texture->pD3DTexture->LockRect( 0, &locked_rect, nullptr, 0 ))
-			{
-				Dbg_Assert( 0 );
-			}
+			// Convert to 32 bit
+			uint8 *texture_data = new uint8[header.original_width * header.original_height * 4];
 
-			// Read texture bitmap data directly into texture. 
-			int len = File::Read( locked_rect.pBits, num_bytes, 1, p_FH );
-			Dbg_MsgAssert( len == num_bytes, ( "couldn't read texture data from texture file %s", p_filename ));
-		
-			File::Close( p_FH );
+			switch (header.bit_depth)
+			{
+				case 8:
+					TextureDecode::Pal_Decode(source_data, &pal[0][0], texture_data, header.original_width, header.original_height);
+					break;
+				case 16:
+					TextureDecode::Ps2_Decode(source_data, texture_data, header.original_width, header.original_height);
+					break;
+				case 32:
+					TextureDecode::Long_Decode(source_data, texture_data, header.original_width, header.original_height);
+					break;
+				default:
+					Dbg_Assert(0);
+			}
+			delete[] source_data;
+
+			// Load to texture
+			glGenTextures(1, &p_texture->GLTexture);
+			glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.original_width, header.original_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
+
+			delete[] texture_data;
 
 			// Set up some member values.
+			p_texture->ActualWidth = header.original_width;
+			p_texture->ActualHeight = header.original_height;
+			p_texture->BaseHeight = header.original_height;
+			p_texture->BaseHeight = header.original_height;
+
 			p_texture->PaletteDepth	= (uint8)header.clut_bit_depth;
 			p_texture->TexelDepth	= (uint8)header.bit_depth;
 			p_texture->DXT			= 0;
@@ -302,7 +272,6 @@ sTexture *LoadTexture( const char *p_filename )
 			return p_texture;
 		}
 	}
-	*/
 	return nullptr;
 }
 

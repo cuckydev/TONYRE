@@ -1,5 +1,4 @@
-#ifndef __NX_INIT_H
-#define __NX_INIT_H
+#pragma once
 
 #include <core/defines.h>
 #include <Windows.h>
@@ -9,6 +8,7 @@
 
 namespace NxWn32
 {
+	class sShader;
 
 void InitialiseEngine( void );
 void FatalFileError( uint32 error );
@@ -21,6 +21,7 @@ struct GlCol3
 {
 	float r, g, b;
 };
+
 struct GlVec4
 {
 	float x, y, z, w;
@@ -30,14 +31,82 @@ struct GlCol4
 	float r, g, b, a;
 };
 
-typedef struct
+struct GlMesh
+{
+	public:
+		GLuint vao = 0;
+		GLuint vbo = 0;
+		GLuint ebo = 0;
+		size_t vbo_size = 0;
+		size_t ebo_size = 0;
+
+	public:
+		GlMesh()
+		{
+			// Generate buffers
+			glGenVertexArrays(1, &vao);
+			glGenBuffers(1, &vbo);
+			glGenBuffers(1, &ebo);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		}
+
+		~GlMesh()
+		{
+			// Delete buffers
+			glDeleteVertexArrays(1, &vao);
+			glDeleteBuffers(1, &vbo);
+			glDeleteBuffers(1, &ebo);
+		}
+
+		void Bind()
+		{
+			// Bind buffers
+			glBindVertexArray(vao);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		}
+
+		void Submit(void *vbo_p, size_t vbo_s, void *ebo_p, size_t ebo_s)
+		{
+			// Submit buffers
+			Bind();
+			if (vbo_s > vbo_size)
+			{
+				glBufferData(GL_ARRAY_BUFFER, vbo_s, vbo_p, GL_STATIC_DRAW);
+				vbo_size = vbo_s;
+			}
+			else
+			{
+				glBufferSubData(GL_ARRAY_BUFFER, 0, vbo_s, vbo_p);
+			}
+			if (ebo_s > ebo_size)
+			{
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, ebo_s, ebo_p, GL_STATIC_DRAW);
+				ebo_size = ebo_s;
+			}
+			else
+			{
+				glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, ebo_s, ebo_p);
+			}
+		}
+};
+
+struct sEngineGlobals
 {
 	// SDL window and GL context
-	SDL_Window *window;
-	SDL_GLContext context;
+	SDL_Window *window = nullptr;
+	SDL_GLContext context = nullptr;
 
 	// Render state
 	GlCol3 clear_color;
+
+	// 2D render mesh
+	sShader *shader_2d = nullptr;
+	GlMesh *mesh_2d = nullptr;
+
+	// Frame counter
+	uint64 frame_count = 0;
 
 	/*
 	// XGMATRIX			world_matrix;
@@ -139,13 +208,8 @@ typedef struct
 	float				fog_start;
 	float				fog_end;
 	*/
-}
-sEngineGlobals;
+};
 
 extern sEngineGlobals EngineGlobals;
 
-
-
 } // namespace NxWn32
-
-#endif // __NX_INIT_H

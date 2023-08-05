@@ -2,6 +2,33 @@
 
 namespace TextureDecode
 {
+	// 32-bit texture write to .bmp
+	static void WriteToBmp(const char *sign, uint8 *out, size_t width, size_t height)
+	{
+		if (1) return;
+		// Open file
+		static char buf[512];
+		static int i = 0;
+		sprintf(buf, "decdump/out%d%s.tga", i++, sign);
+
+		FILE *fp = fopen(buf, "wb");
+
+		// Write header
+		uint8_t header[18] = { 0,0,2,0,0,0,0,0,0,0,0,0, (uint8_t)(width % 256), (uint8_t)(width / 256), (uint8_t)(height % 256), (uint8_t)(height / 256), 32, 0x20 };
+		fwrite(&header, 18, 1, fp);
+
+		for (size_t i = 0; i < width * height * 4; i += 4)
+		{
+			fputc(out[2], fp);
+			fputc(out[1], fp);
+			fputc(out[0], fp);
+			fputc(out[3], fp);
+			out += 4;
+		}
+
+		fclose(fp);
+	}
+
 	// DXT1 decode
 	static void DXT1_DecodeBlock(const uint8 *source, uint8 *out, size_t pitch)
 	{
@@ -81,6 +108,8 @@ namespace TextureDecode
 			}
 			out += width * 4 * 3;
 		}
+
+		WriteToBmp("DXT1", out, width, height);
 	}
 
 	// DXT5 decode
@@ -156,6 +185,8 @@ namespace TextureDecode
 			}
 			out += width * 4 * 3;
 		}
+
+		WriteToBmp("DXT5", out, width, height);
 	}
 
 	// Palette decode
@@ -170,6 +201,8 @@ namespace TextureDecode
 			out[3] = palp[3];
 			out += 4;
 		}
+
+		WriteToBmp("Pal", out, width, height);
 	}
 
 	// Short decode
@@ -185,6 +218,8 @@ namespace TextureDecode
 			out[3] = (c & 0x8000) ? 0xFF : 0x00;
 			out += 4;
 		}
+
+		WriteToBmp("Short", out, width, height);
 	}
 
 	// Long decode
@@ -199,6 +234,25 @@ namespace TextureDecode
 			source += 4;
 			out += 4;
 		}
+
+		WriteToBmp("Long", out, width, height);
+	}
+
+	// PS2 decode
+	void Ps2_Decode(const uint8 *source, uint8 *out, size_t width, size_t height)
+	{
+		for (size_t i = 0; i < width * height; i++)
+		{
+			uint16 c = ((uint16)source[0] << 0) | ((uint16)source[1] << 8);
+			source += 2;
+			out[0] = ((c >> 0) & 0x1F) * 0xFF / 0x1F;
+			out[1] = ((c >> 5) & 0x1F) * 0xFF / 0x1F;
+			out[2] = ((c >> 10) & 0x1F) * 0xFF / 0x1F;
+			out[3] = (c & 0x8000) ? 0xFF : 0x00;
+			out += 4;
+		}
+
+		WriteToBmp("Ps2", out, width, height);
 	}
 
 } // namespace TextureDecode
