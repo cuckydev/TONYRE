@@ -41,7 +41,7 @@ public:
 	sint16		mSpaceSpacing = 0;
 	uint32		mRGBATab[16] = {};
 	
-	GLuint GLTexture;
+	GLuint GLTexture = 0;
 	// IDirect3DTexture8*	pD3DTexture;		// To do - these should probably be replaced with an sTexture.
 	// IDirect3DPalette8*	pD3DPalette;
 };

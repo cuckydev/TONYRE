@@ -36,7 +36,7 @@ namespace NxWn32
 
 			static void DrawAll( void );
 
-		private:
+		protected:
 			void InsertDrawList( void );
 			void RemoveDrawList( void );
 
@@ -57,9 +57,9 @@ namespace NxWn32
 			static GlMesh *sp_mesh;
 
 			// Render state
-			static sTexture *sp_current_texture;
-			// static std::vector<sVert2D> m_verts;
-			// static std::vector<GLushort> m_indices;
+			static GLuint sp_current_texture;
+			static std::vector<sVert2D> m_verts;
+			static std::vector<GLushort> m_indices;
 
 			static void Submit(void);
 	};

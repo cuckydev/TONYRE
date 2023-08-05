@@ -14,6 +14,8 @@
 #include "chars.h"
 #include "xbmemfnt.h"
 
+#include "Com/texturedecode.h"
+
 
 /*
 
@@ -62,24 +64,11 @@ namespace NxWn32
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-typedef struct
-{
-	float		x, y, z;
-	float		rhw;
-	// D3DCOLOR	col;
-	float		u, v;
-}
-sFontVert;
-
-
 SFont			*pFontList;
 SFont			*pButtonsFont				= nullptr;
 SFont			*SText::spOverrideFont		= nullptr;
 
 const uint32	CHARS_PER_BUFFER			= 256;
-static int		font_vertex_offset			= 0;
-static BYTE*	p_locked_font_vertex_buffer	= nullptr;
-static BYTE		font_vertex_buffer[CHARS_PER_BUFFER * 4 * sizeof( sFontVert )];
 
 /******************************************************************/
 /*                                                                */
@@ -252,6 +241,8 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 
 	// Read into texture
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, p_texture);
+
+	TextureDecode::WriteToBmp("Font", p_texture, Width, Height);
 	delete[] p_texture;
 
 	// Skip numsubtextures, and load subtextures.
@@ -303,7 +294,6 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 /******************************************************************/
 void UnloadFont( SFont *pFont )
 {
-	/*
 	SFont*	pPrevFont;
 	int		found = 0;
 
@@ -328,10 +318,12 @@ void UnloadFont( SFont *pFont )
 
 	Dbg_MsgAssert( found, ( "Attempt to unload font which has not been loaded" ));
 
+	// Delete texture
+	glDeleteTextures( 1, &pFont->GLTexture );
+
 	// Free memory.
 	delete [] pFont->pChars;
 	delete pFont;
-	*/
 }
 
 
@@ -484,7 +476,14 @@ SText::~SText( void )
 /******************************************************************/
 void SText::BeginDraw( void )
 {
-	p_locked_font_vertex_buffer = &( font_vertex_buffer[0] );
+	// Check if we need to change the render state
+	SFont *p_font = (spOverrideFont) ? spOverrideFont : mp_font;
+	if (p_font->GLTexture != SDraw2D::sp_current_texture)
+	{
+		Submit();
+		SDraw2D::sp_current_texture = p_font->GLTexture;
+	}
+	// p_locked_font_vertex_buffer = &( font_vertex_buffer[0] );
 }
 
 
@@ -495,7 +494,6 @@ void SText::BeginDraw( void )
 /******************************************************************/
 void SText::Draw( void )
 {
-	/*
 	SChar	*pChar;
 	char	*pLetter;
 	float	u0,v0,x0,y0,u1,v1,x1,y1,yt;
@@ -506,7 +504,12 @@ void SText::Draw( void )
 	float char_spacing	= (float)mp_font->mCharSpacing * m_xscale;
 	float space_spacing = (float)mp_font->mSpaceSpacing * m_xscale;
 	
-	DWORD current_color	= ( m_rgba & 0xFF00FF00 ) | (( m_rgba & 0xFF ) << 16 ) | (( m_rgba & 0xFF0000 ) >> 16 );
+	// Get color
+	float r = ((m_rgba >> 0) & 0xFF) / 255.0f;
+	float g = ((m_rgba >> 8) & 0xFF) / 255.0f;
+	float b = ((m_rgba >> 16) & 0xFF) / 255.0f;
+	float a = ((m_rgba >> 24) & 0xFF) / 255.0f;
+	a = 1.0f;
 	
 	float text_z = GetZValue();
 	
@@ -515,7 +518,7 @@ void SText::Draw( void )
 		pChar = nullptr;
 		SFont *p_font = mp_font;
 
-		sFontVert* p_vert = ((sFontVert*)p_locked_font_vertex_buffer ) + font_vertex_offset;
+		// sFontVert* p_vert = ((sFontVert*)p_locked_font_vertex_buffer ) + font_vertex_offset;
 
 		// acount for tags (might be multiple ones in a row)
 		bool got_char_tag = false; // tag resulting in output of character
@@ -539,13 +542,21 @@ void SText::Draw( void )
 					if( digit == 0 || m_color_override)
 					{
 						// Switch from RGBA to BGRA format.
-						current_color	= ( m_rgba & 0xFF00FF00 ) | (( m_rgba & 0xFF ) << 16 ) | (( m_rgba & 0xFF0000 ) >> 16 );
+						r = (( m_rgba >> 0 ) & 0xFF) / 255.0f;
+						g = (( m_rgba >> 8 ) & 0xFF) / 255.0f;
+						b = (( m_rgba >> 16 ) & 0xFF) / 255.0f;
+						a = (( m_rgba >> 24 ) & 0xFF) / 255.0f;
+						a = 1.0f;
 					}
 					else
 					{
 						// Switch from RGBA to BGRA format.
 						uint32 color	= mp_font->mRGBATab[digit-1];
-						current_color	= ( color & 0xFF00FF00 ) | (( color & 0xFF ) << 16 ) | (( color & 0xFF0000 ) >> 16 );
+						r = ((color >> 0) & 0xFF) / 255.0f;
+						g = ((color >> 8) & 0xFF) / 255.0f;
+						b = ((color >> 16) & 0xFF) / 255.0f;
+						a = ((color >> 24) & 0xFF) / 255.0f;
+						a = 1.0f;
 					}
 					break;
 				}
@@ -579,7 +590,7 @@ void SText::Draw( void )
 					BeginDraw();
 
 					// Reset the vertex data pointer.
-					p_vert = ((sFontVert*)p_locked_font_vertex_buffer ) + font_vertex_offset;
+					// p_vert = ((sFontVert*)p_locked_font_vertex_buffer ) + font_vertex_offset;
 					
 					spOverrideFont = p_font;
 					break;
@@ -598,20 +609,53 @@ void SText::Draw( void )
 		{
 			if (!pChar)
 				pChar = p_font->pChars + p_font->Map[(uint8) *pLetter];
-			yt = y0 + ((float)( p_font->DefaultBase - pChar->Baseline ) * m_yscale ) * EngineGlobals.screen_conv_y_multiplier;
+			yt = y0 + ((float)(p_font->DefaultBase - pChar->Baseline) * m_yscale); // *EngineGlobals.screen_conv_y_multiplier;
 			u0 = pChar->u0;
 			v0 = pChar->v0;
 			u1 = pChar->u1;
 			v1 = pChar->v1;
-			x1 = x0 + ( pChar->w * m_xscale * EngineGlobals.screen_conv_x_multiplier );
-			y1 = yt + ( pChar->h * m_yscale * EngineGlobals.screen_conv_y_multiplier );
+			x1 = x0 + (pChar->w * m_xscale); // *EngineGlobals.screen_conv_x_multiplier );
+			y1 = yt + (pChar->h * m_yscale); // * EngineGlobals.screen_conv_y_multiplier );
 		}
 		else
 		{
-			x0 += ( space_spacing + char_spacing ) * EngineGlobals.screen_conv_x_multiplier;
+			x0 += (space_spacing + char_spacing); // *EngineGlobals.screen_conv_x_multiplier;
 			continue;
 		}
 
+		// Push vertices
+		size_t vi = m_verts.size();
+
+		m_verts.push_back(sVert2D{
+			x0, yt, text_z,
+			u0, v0,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			x0, y1, text_z,
+			u0, v1,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			x1, y1, text_z,
+			u1, v0,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			x1, yt, text_z,
+			u1, v1,
+			r, g, b, a
+		});
+
+		// Push indices
+		m_indices.push_back(vi + 0);
+		m_indices.push_back(vi + 1);
+		m_indices.push_back(vi + 2);
+		m_indices.push_back(vi + 0);
+		m_indices.push_back(vi + 2);
+		m_indices.push_back(vi + 3);
+
+		/*
 		p_vert->x	= x0;
 		p_vert->y	= yt;
 		p_vert->z	= text_z;
@@ -646,7 +690,9 @@ void SText::Draw( void )
 		p_vert->col	= current_color;
 		p_vert->u	= u1;
 		p_vert->v	= v0;
+		*/
 
+		/*
 		font_vertex_offset += 4;
 
 		if( font_vertex_offset >= ( CHARS_PER_BUFFER * 4 ))
@@ -655,8 +701,9 @@ void SText::Draw( void )
 			EndDraw();
 			BeginDraw();
 		}
+		*/
 
-		x0 = x1 + ( char_spacing * EngineGlobals.screen_conv_x_multiplier );
+		x0 = x1 + (char_spacing); // *EngineGlobals.screen_conv_x_multiplier );
 
 		if( p_font != mp_font )
 		{
@@ -665,7 +712,6 @@ void SText::Draw( void )
 			BeginDraw();
 		}
 	}
-	*/
 }
 
 
@@ -698,6 +744,8 @@ void SText::EndDraw( void )
 		spOverrideFont = nullptr;
 	}
 	*/
+	// Clear font override
+	spOverrideFont = nullptr;
 }
 
 

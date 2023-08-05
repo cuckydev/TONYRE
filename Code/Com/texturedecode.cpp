@@ -3,13 +3,16 @@
 namespace TextureDecode
 {
 	// 32-bit texture write to .bmp
-	static void WriteToBmp(const char *sign, uint8 *out, size_t width, size_t height)
+	void WriteToBmp(const char *sign, uint8 *out, size_t width, size_t height)
 	{
-		if (1) return;
 		// Open file
 		static char buf[512];
 		static int i = 0;
-		sprintf(buf, "decdump/out%d%s.tga", i++, sign);
+		sprintf(buf, "out%d%s.tga", i++, sign);
+
+		for (char *p = buf; *p != '\0'; p++)
+			if (*p == '/' || *p == '\\')
+				*p = '_';
 
 		FILE *fp = fopen(buf, "wb");
 
@@ -108,8 +111,6 @@ namespace TextureDecode
 			}
 			out += width * 4 * 3;
 		}
-
-		WriteToBmp("DXT1", out, width, height);
 	}
 
 	// DXT5 decode
@@ -185,8 +186,6 @@ namespace TextureDecode
 			}
 			out += width * 4 * 3;
 		}
-
-		WriteToBmp("DXT5", out, width, height);
 	}
 
 	// Palette decode
@@ -201,8 +200,6 @@ namespace TextureDecode
 			out[3] = palp[3];
 			out += 4;
 		}
-
-		WriteToBmp("Pal", out, width, height);
 	}
 
 	// Short decode
@@ -218,8 +215,6 @@ namespace TextureDecode
 			out[3] = (c & 0x8000) ? 0xFF : 0x00;
 			out += 4;
 		}
-
-		WriteToBmp("Short", out, width, height);
 	}
 
 	// Long decode
@@ -234,8 +229,6 @@ namespace TextureDecode
 			source += 4;
 			out += 4;
 		}
-
-		WriteToBmp("Long", out, width, height);
 	}
 
 	// PS2 decode
@@ -251,8 +244,6 @@ namespace TextureDecode
 			out[3] = (c & 0x8000) ? 0xFF : 0x00;
 			out += 4;
 		}
-
-		WriteToBmp("Ps2", out, width, height);
 	}
 
 } // namespace TextureDecode

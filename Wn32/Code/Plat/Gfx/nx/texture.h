@@ -26,6 +26,8 @@ struct sTexture
 	uint8 DXT;
 
 	GLuint GLTexture;
+
+	const char *dbugid = "UNK";
 };
 
 sTexture *LoadTexture( const char *p_filename );

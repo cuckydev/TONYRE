@@ -1,8 +1,6 @@
 #include <string.h>
 #include <core/defines.h>
-#include <vector>
 #include <core/macros.h>
-
 #include <core/debug.h>
 #include <sys/config/config.h>
 #include <sys/file/filesys.h>
@@ -25,7 +23,7 @@ out vec4 f_col;
 
 void main()
 {
-	gl_Position = vec4(i_pos, 1.0);
+	gl_Position = vec4(-1.0 + i_pos.x / 320.0, 1.0 - i_pos.y / 240.0, i_pos.z, 1.0);
 	f_uv = i_uv;
 	f_col = i_col;
 }
@@ -37,9 +35,11 @@ in vec4 f_col;
 
 layout(location = 0) out vec4 o_col;
 
+uniform sampler2D u_texture_0;
+
 void main()
 {
-	o_col = f_col;
+	o_col = texture(u_texture_0, f_uv) * f_col;
 }
 )";
 
@@ -54,20 +54,35 @@ SDraw2D *SDraw2D::sp_2D_draw_list = nullptr;
 sShader *SDraw2D::sp_shader = nullptr;
 GlMesh *SDraw2D::sp_mesh = nullptr;
 
-sTexture *SDraw2D::sp_current_texture;
-// std::vector<sVert2D> m_verts;
-std::vector<GLushort> m_indices;
+GLuint SDraw2D::sp_current_texture = 0;
+std::vector<sVert2D> SDraw2D::m_verts;
+std::vector<GLushort> SDraw2D::m_indices;
 
 void SDraw2D::Submit(void)
 {
+	// Check if any data was pushed
+	if (m_verts.empty())
+		return;
+
+	// Set blend
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
 	// Send vertex and index data to GPU
 	sp_mesh->Bind();
-	// glBufferData(GL_ARRAY_BUFFER, m_verts.size() * sizeof(sVert2D), m_verts.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_verts.size() * sizeof(sVert2D), m_verts.data(), GL_STATIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLushort), m_indices.data(), GL_STATIC_DRAW);
 
 	// Draw
 	glUseProgram(sp_shader->program);
+
+	glBindTexture(GL_TEXTURE_2D, sp_current_texture);
+
 	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_SHORT, nullptr);
+
+	// Clear buffers
+	m_verts.clear();
+	m_indices.clear();
 }
 
 void SDraw2D::Init(void)
@@ -78,9 +93,9 @@ void SDraw2D::Init(void)
 
 	// Set VAO layout
 	sp_mesh->Bind();
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3 + 2 + 4) * sizeof(float), (void*)((0) * sizeof(float)));
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, (3 + 2 + 4) * sizeof(float), (void*)((3) * sizeof(float)));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, (3 + 2 + 4) * sizeof(float), (void*)((3 + 2) * sizeof(float)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(sVert2D), (void*)offsetof(sVert2D, x));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(sVert2D), (void*)offsetof(sVert2D, u));
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(sVert2D), (void*)offsetof(sVert2D, r));
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
@@ -184,6 +199,20 @@ void SDraw2D::SetHidden( bool hide )
 /******************************************************************/
 void SDraw2D::DrawAll( void )
 {
+	// Draw all the 2D objects in the list
+	SDraw2D *pDraw = sp_2D_draw_list;
+
+	while (pDraw)
+	{
+		pDraw->BeginDraw();
+		pDraw->Draw();
+		pDraw->EndDraw();
+
+		pDraw = pDraw->mp_next;
+	}
+
+	Submit();
+
 	/*
 	static uint32 z_test_required = 0;
 	
@@ -294,18 +323,6 @@ void SDraw2D::RemoveDrawList( void )
 	}
 }
 
-	
-
-typedef struct
-{
-	float		x, y, z;
-	float		rhw;
-	// D3DCOLOR	col;
-	float		u, v;
-}
-sSpriteVert;
-
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -333,6 +350,13 @@ sSprite::~sSprite()
 /******************************************************************/
 void sSprite::BeginDraw( void )
 {
+	// Check if we need to change the render state
+	if (mp_texture->GLTexture != SDraw2D::sp_current_texture)
+	{
+		Submit();
+		SDraw2D::sp_current_texture = mp_texture->GLTexture;
+	}
+
 	/*
 	set_vertex_shader( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 ));
 
@@ -357,194 +381,77 @@ void sSprite::BeginDraw( void )
 /******************************************************************/
 void sSprite::Draw( void )
 {
-	/*
-	// Sprites are based on .img files, which in turn are converted from .png files, which are upside down,
-	// so reverse the v components of the texture coordinates.
+	// Get UVs
 	float u0 = 0.0f;
 	float v0 = 1.0f;
-	float u1, v1;
+	float u1 = 1.0f;
+	float v1 = 0.0f;
 
-	if( mp_texture )
-	{
-		u1	= (float)mp_texture->ActualWidth / (float)mp_texture->BaseWidth;
-		v1	= 1.0f - ((float)mp_texture->ActualHeight / (float)mp_texture->BaseHeight );
-	}
-	else
-	{
-		u1	= 1.0f;
-		v1	= 0.0f;
-	}
+	// Get coordinates
+	float x0 = -(m_xhot * m_scale_x);
+	float y0 = -(m_yhot * m_scale_y);
+	float x1 = x0 + (m_width * m_scale_x);
+	float y1 = y0 + (m_height * m_scale_y);
 
-	// Check for flip.
-	float abs_scale_x = m_scale_x;
-	float abs_scale_y = m_scale_y;
-	if( abs_scale_x < 0.0f )
-	{
-		float temp = u0;
-		u0 = u1;
-		u1 = temp;
-		abs_scale_x = -abs_scale_x;
-	}
-	if( abs_scale_y < 0.0f )
-	{
-		float temp = v0;
-		v0 = v1;
-		v1 = temp;
-		abs_scale_y = -abs_scale_y;
-	}
+	// Get color
+	float r = ((m_rgba >> 0) & 0xFF) / 255.0f;
+	float g = ((m_rgba >> 8) & 0xFF) / 255.0f;
+	float b = ((m_rgba >> 16) & 0xFF) / 255.0f;
+	float a = ((m_rgba >> 24) & 0xFF) / 255.0f;
 
-	float x0 = -( m_xhot * abs_scale_x );
-	float y0 = -( m_yhot * abs_scale_y );
-	float x1 = x0 + ( m_width * abs_scale_x );
-	float y1 = y0 + ( m_height * abs_scale_y );
+	// r = g = b = a = 1.0f;
 
-	DWORD	current_color	= ( m_rgba & 0xFF00FF00 ) | (( m_rgba & 0xFF ) << 16 ) | (( m_rgba & 0xFF0000 ) >> 16 );
-	DWORD*	p_push;
+	// Get points
+	Mth::Vector p0(x0, y0, 0.0f, 0.0f);
+	Mth::Vector p1(x1, y0, 0.0f, 0.0f);
+	Mth::Vector p2(x0, y1, 0.0f, 0.0f);
+	Mth::Vector p3(x1, y1, 0.0f, 0.0f);
 
-	if( m_rot != 0.0f )
-	{
-		Mth::Vector p0( x0, y0, 0.0f, 0.0f );
-		Mth::Vector p1( x1, y0, 0.0f, 0.0f );
-		Mth::Vector p2( x0, y1, 0.0f, 0.0f );
-		Mth::Vector p3( x1, y1, 0.0f, 0.0f );
+	p0.RotateZ(m_rot);
+	p1.RotateZ(m_rot);
+	p2.RotateZ(m_rot);
+	p3.RotateZ(m_rot);
 
-		p0.RotateZ( m_rot );
-		p1.RotateZ( m_rot );
-		p2.RotateZ( m_rot );
-		p3.RotateZ( m_rot );
+	p0[X] = SCREEN_CONV_X(p0[X] + m_xpos);
+	p0[Y] = SCREEN_CONV_Y(p0[Y] + m_ypos);
+	p1[X] = SCREEN_CONV_X(p1[X] + m_xpos);
+	p1[Y] = SCREEN_CONV_Y(p1[Y] + m_ypos);
+	p2[X] = SCREEN_CONV_X(p2[X] + m_xpos);
+	p2[Y] = SCREEN_CONV_Y(p2[Y] + m_ypos);
+	p3[X] = SCREEN_CONV_X(p3[X] + m_xpos);
+	p3[Y] = SCREEN_CONV_Y(p3[Y] + m_ypos);
 
-		p0[X]	= SCREEN_CONV_X( p0[X] + m_xpos );
-		p0[Y]	= SCREEN_CONV_Y( p0[Y] + m_ypos );
-		p1[X]	= SCREEN_CONV_X( p1[X] + m_xpos );
-		p1[Y]	= SCREEN_CONV_Y( p1[Y] + m_ypos );
-		p2[X]	= SCREEN_CONV_X( p2[X] + m_xpos );
-		p2[Y]	= SCREEN_CONV_Y( p2[Y] + m_ypos );
-		p3[X]	= SCREEN_CONV_X( p3[X] + m_xpos );
-		p3[Y]	= SCREEN_CONV_Y( p3[Y] + m_ypos );
+	// Push vertices
+	size_t vi = m_verts.size();
 
-		// Now grab the push buffer space required.
-		p_push			= D3DDevice_BeginPush( 34 );
-		p_push[0]		= D3DPUSH_ENCODE( D3DPUSH_SET_BEGIN_END, 1 );
-		p_push[1]		= D3DPT_QUADLIST;
-		p_push[2]		= D3DPUSH_ENCODE( D3DPUSH_NOINCREMENT_FLAG | D3DPUSH_INLINE_ARRAY, 28 );
+	m_verts.push_back(sVert2D{
+		p0[X], p0[Y], 0.0f,
+		u0, v0,
+		r, g, b, a
+	});
+	m_verts.push_back(sVert2D{
+		p1[X], p1[Y], 0.0f,
+		u1, v0,
+		r, g, b, a
+	});
+	m_verts.push_back(sVert2D{
+		p2[X], p2[Y], 0.0f,
+		u0, v1,
+		r, g, b, a
+	});
+	m_verts.push_back(sVert2D{
+		p3[X], p3[Y], 0.0f,
+		u1, v1,
+		r, g, b, a
+	});
 
-		// Vertex0.
-		p_push[3]		= *((uint32*)&p0[X] ); 
-		p_push[4]		= *((uint32*)&p0[Y] );
-		p_push[5]		= 0;
-		p_push[6]		= 0;
-		p_push[7]		= current_color;
-		p_push[8]		= *((uint32*)&u0 );
-		p_push[9]		= *((uint32*)&v0 );
-
-		// Vertex1.
-		p_push[10]		= *((uint32*)&p2[X] ); 
-		p_push[11]		= *((uint32*)&p2[Y] );
-		p_push[12]		= 0;
-		p_push[13]		= 0;
-		p_push[14]		= current_color;
-		p_push[15]		= *((uint32*)&u0 );
-		p_push[16]		= *((uint32*)&v1 );
-
-		// Vertex2.
-		p_push[17]		= *((uint32*)&p3[X] ); 
-		p_push[18]		= *((uint32*)&p3[Y] );
-		p_push[19]		= 0;
-		p_push[20]		= 0;
-		p_push[21]		= current_color;
-		p_push[22]		= *((uint32*)&u1 );
-		p_push[23]		= *((uint32*)&v1 );
-
-		// Vertex3.
-		p_push[24]		= *((uint32*)&p1[X] ); 
-		p_push[25]		= *((uint32*)&p1[Y] );
-		p_push[26]		= 0;
-		p_push[27]		= 0;
-		p_push[28]		= current_color;
-		p_push[29]		= *((uint32*)&u1 );
-		p_push[30]		= *((uint32*)&v0 );
-	}
-	else
-	{
-		x0 += m_xpos;
-		y0 += m_ypos;
-		x1 += m_xpos;
-		y1 += m_ypos;
-
-		// Nasty hack - if the sprite is intended to cover the screen from top to bottom or left to right,
-		// bypass the addtional offset added by SCREEN_CONV.
-		if(( x0 <= 0.0f ) && ( x1 >= 640.0f ))
-		{
-			x0 = 0.0f;
-			x1 = (float)NxWn32::EngineGlobals.backbuffer_width;
-		}
-		else
-		{
-			x0 = SCREEN_CONV_X( x0 );
-			x1 = SCREEN_CONV_X( x1 );
-		}
-
-		if(( y0 <= 0.0f ) && ( y1 >= 480.0f ))
-		{
-			y0 = 0.0f;
-			y1 = (float)NxWn32::EngineGlobals.backbuffer_height;
-		}
-		else
-		{
-			y0 = SCREEN_CONV_Y( y0 );
-			y1 = SCREEN_CONV_Y( y1 );
-		}
-
-
-		// Now grab the push buffer space required.
-		p_push			= D3DDevice_BeginPush( 34 );
-		p_push[0]		= D3DPUSH_ENCODE( D3DPUSH_SET_BEGIN_END, 1 );
-		p_push[1]		= D3DPT_QUADLIST;
-		p_push[2]		= D3DPUSH_ENCODE( D3DPUSH_NOINCREMENT_FLAG | D3DPUSH_INLINE_ARRAY, 28 );
-
-		// Vertex0.
-		p_push[3]		= *((uint32*)&x0 ); 
-		p_push[4]		= *((uint32*)&y0 );
-		p_push[5]		= 0;
-		p_push[6]		= 0;
-		p_push[7]		= current_color;
-		p_push[8]		= *((uint32*)&u0 );
-		p_push[9]		= *((uint32*)&v0 );
-
-		// Vertex1.
-		p_push[10]		= *((uint32*)&x0 ); 
-		p_push[11]		= *((uint32*)&y1 );
-		p_push[12]		= 0;
-		p_push[13]		= 0;
-		p_push[14]		= current_color;
-		p_push[15]		= *((uint32*)&u0 );
-		p_push[16]		= *((uint32*)&v1 );
-
-		// Vertex2.
-		p_push[17]		= *((uint32*)&x1 ); 
-		p_push[18]		= *((uint32*)&y1 );
-		p_push[19]		= 0;
-		p_push[20]		= 0;
-		p_push[21]		= current_color;
-		p_push[22]		= *((uint32*)&u1 );
-		p_push[23]		= *((uint32*)&v1 );
-
-		// Vertex3.
-		p_push[24]		= *((uint32*)&x1 ); 
-		p_push[25]		= *((uint32*)&y0 );
-		p_push[26]		= 0;
-		p_push[27]		= 0;
-		p_push[28]		= current_color;
-		p_push[29]		= *((uint32*)&u1 );
-		p_push[30]		= *((uint32*)&v0 );
-	}
-
-	// End of vertex data for this sprite.
-	p_push[31] = D3DPUSH_ENCODE( D3DPUSH_SET_BEGIN_END, 1 );
-	p_push[32] = 0;
-	p_push += 33;
-	D3DDevice_EndPush( p_push );
-	*/
+	// Push indices
+	m_indices.push_back(vi + 0);
+	m_indices.push_back(vi + 1);
+	m_indices.push_back(vi + 2);
+	m_indices.push_back(vi + 2);
+	m_indices.push_back(vi + 1);
+	m_indices.push_back(vi + 3);
 }
 
 

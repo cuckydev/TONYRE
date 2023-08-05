@@ -42,7 +42,16 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_pre_render(void)
 	{
-		
+		// Handle SDL events
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+				case SDL_QUIT:
+					break;
+			}
+		}
 	}
 
 

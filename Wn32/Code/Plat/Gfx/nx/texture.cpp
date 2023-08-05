@@ -255,19 +255,22 @@ sTexture *LoadTexture( const char *p_filename )
 			glGenTextures(1, &p_texture->GLTexture);
 			glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.original_width, header.original_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
+			// TextureDecode::WriteToBmp(p_filename, texture_data, header.original_width, header.original_height);
 
 			delete[] texture_data;
 
 			// Set up some member values.
 			p_texture->ActualWidth = header.original_width;
 			p_texture->ActualHeight = header.original_height;
-			p_texture->BaseHeight = header.original_height;
+			p_texture->BaseHeight = header.original_width;
 			p_texture->BaseHeight = header.original_height;
 
 			p_texture->PaletteDepth	= (uint8)header.clut_bit_depth;
 			p_texture->TexelDepth	= (uint8)header.bit_depth;
 			p_texture->DXT			= 0;
 			p_texture->Levels		= 1;
+
+			p_texture->dbugid = strdup(p_filename);
 			
 			return p_texture;
 		}
