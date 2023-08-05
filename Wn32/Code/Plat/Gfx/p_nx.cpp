@@ -54,6 +54,7 @@ namespace Nx
 			switch (event.type)
 			{
 				case SDL_QUIT:
+					exit(0);
 					break;
 			}
 		}
