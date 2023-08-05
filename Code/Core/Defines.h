@@ -19,66 +19,14 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
-#define __CORE_DEFINES_H
+#pragma once
 
 /*****************************************************************************
 **								   Includes									**
 *****************************************************************************/
 
-
-#ifdef __PLAT_WN32__
 #include <iostream>
-#else
-#ifdef __PLAT_NGPS__
-#include <stdio.h>
-#include <eetypes.h>
-//#include <iostream.h>
-#include <string.h>
-#include <stdlib.h>
-#else
-#ifdef __PLAT_NGC__
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <typeinfo>  
-#else
-#ifdef __PLAT_XBOX__
-#include <stdio.h>
-//#include <iostream.h>
-#include <string.h>
-#include <stdlib.h>
-
-#pragma warning( disable : 4800 ) 
-#pragma warning( disable : 4291 ) // no matching operator delete found
-#pragma warning( disable : 4355 ) // 'this' : used in base member initializer list
-#pragma warning( disable : 4995 ) // name was marked as #pragma deprecated
-
-#endif
-#endif
-#endif
-#endif
-
-#ifndef __PLAT_WN32__
-//#ifdef __NOPT_ASSERT__
-#ifdef __PLAT_NGC__
-#ifdef __NOPT_FINAL__
-	#define printf(A...)
-#else
-	int OurPrintf(const char *fmt, ...);
-	#define printf OurPrintf
-#endif
-#else
-	int OurPrintf(const char *fmt, ...);
-	#define printf OurPrintf
-#endif	
-
-//#else
-//	inline void NullPrintf(const char *fmt, ...){}
-//	#define printf NullPrintf	
-//#endif
-#endif
-
+#include <cstdint>
 
 /*****************************************************************************
 **								   Defines									**
@@ -107,86 +55,27 @@
 **							     Type Defines								**
 *****************************************************************************/
 
-typedef char				int8;
-typedef short				int16;
+typedef int8_t int8;
+typedef int16_t int16;
 
-typedef unsigned int		uint;
-typedef unsigned char		uint8;
-typedef unsigned short		uint16;
+typedef uint32_t uint;
+typedef uint8_t uint8;
+typedef uint16_t uint16;
 
-typedef signed int			sint;
-typedef signed char			sint8;
-typedef signed short		sint16;
+typedef int32_t sint;
+typedef int8_t sint8;
+typedef int16_t sint16;
 
 #define vINT_MAX			vINT32_MAX
 #define vINT_MIN			vINT32_MIN
 #define vUINT_MAX			vUINT32_MAX
 
-#ifdef __PLAT_WN32__
-typedef long				int32;
-typedef unsigned long		uint32;
-typedef signed long			sint32;
-typedef __int64				int64;
-typedef unsigned __int64	uint64;
-typedef signed __int64		sint64;
-
-#endif
-
-#ifdef __PLAT_NGPS__
-typedef int					int32;
-typedef unsigned int		uint32;
-typedef signed int			sint32;
-typedef long				int64;
-typedef unsigned long		uint64;
-typedef signed long			sint64;
-typedef long128				int128;
-typedef u_long128			uint128;
-typedef long128				sint128;
-
-#endif
-
-#ifdef __PLAT_XBOX__
-typedef long				int32;
-typedef unsigned long		uint32;
-typedef signed long			sint32;
-typedef __int64				int64;
-typedef unsigned __int64	uint64;
-typedef signed __int64		sint64;
-
-#endif
-
-#ifdef __PLAT_NGC__
-typedef int					int32;
-typedef unsigned int		uint32;
-typedef signed int			sint32;
-typedef long long			int64;
-typedef unsigned long long	uint64;
-typedef signed long long	sint64;
-// Paul: No GameCube 128-bit types.
-//typedef long128				int128;
-//typedef u_long128			uint128;
-//typedef long128				sint128;
-typedef long long			int128;
-typedef unsigned long long	uint128;
-typedef signed long long	sint128;
-
-#endif
-
-#if defined(__PLAT_NGPS__) || defined(__PLAT_XBOX__) || defined(__PLAT_NGC__)
-
-class ostream
-{
-public:
-	ostream& operator<< ( char* str ) 		{ printf ( str ); return *this; }
-	ostream& operator<< ( const char* str ) { printf ( str ); return *this; }
-	ostream& operator<< ( sint i ) 			{ printf ( "%d", i ); return *this; }
-	ostream& operator<< ( uint i ) 			{ printf ( "%u", i ); return *this; }
-	ostream& operator<< ( float f ) 		{ printf ( "%f", f ); return *this; }
-	ostream& operator<< ( void* p ) 		{ printf ( "%p", p ); return *this; }
-	ostream& operator<< ( const void* p )	{ printf ( "%p", p ); return *this; }
-};
-
-#endif 
+typedef int32_t int32;
+typedef uint32_t uint32;
+typedef int32_t sint32;
+typedef int64_t int64;
+typedef uint64_t uint64;
+typedef int64_t sint64;
 
 #define	vINT_BITS			32
 #define	vPTR_BITS			32
@@ -198,12 +87,7 @@ public:
 
 // Alignment macros
 
-
-#ifdef __PLAT_NGPS__
-#define nAlign(bits)	__attribute__((aligned((bits>>3))))
-#else
-#define nAlign(bits)
-#endif
+#define nAlign(bits) alignas(bits>>3)
 
 #define	nPad64(X)	uint64		_pad##X;
 #define	nPad32(X)	uint32		_pad##X;
@@ -274,14 +158,6 @@ typedef	sint64				nID64;
 
 #endif
 
-#ifdef __PLAT_XBOX__
-#define __PRETTY_FUNCTION__ "?"
-
-#define isnanf	_isnan
-#define isinff	_isnan
-
-#endif
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -338,15 +214,7 @@ typedef	sint64				nID64;
 
 #include <core/crc.h>
 
-#ifdef	__PLAT_NGPS__
-#include <gfx/ngps/p_memview.h>
-#include "libsn.h"
-#elif defined( __PLAT_NGC__ )
-#include <gfx/ngc/p_memview.h>
-//#include "libsn.h"
-#elif defined( __PLAT_XBOX__ )
-#include <gfx/xbox/p_memview.h>
-#endif
+#include <Plat/Gfx/p_memview.h>
 
 
 // Mick:  This check slows the game down quite a bit
@@ -362,30 +230,6 @@ extern  uint32	check_checksum(uint32 _i, const char *_s, const char *f, int line
 // CRC-C, for use only in switch statements, where you want to use the same syntax as CRCD
 #define CRCC(_i, _s)		_i
 
-
-
-//#ifdef __PLAT_NGC__
-//class TCPPInit
-//{
-//public:
-//  static bool IsHeapInitialized ;
-//} ;
-//
-//// these definitions override the new and delete operators.
-//
-#ifdef __PLAT_NGC__
-static inline void* operator new       ( size_t blocksize ) ;
-
-static inline void* operator new[]     ( size_t blocksize ) ;
-
-static inline void operator delete     ( void* block ) ;
-
-static inline void operator delete[]   ( void* block ) ;
-#endif		// __PLAT_NGC__
-//
-//#else
-
-#ifndef __PLAT_NGC__
 /******************************************************************/
 /* Global new/delete operators                                    */
 /*                                                                */
@@ -403,7 +247,6 @@ inline void* 	operator new[] ( size_t size )
 {
 	return Mem::Manager::sHandle().New( size, true );
 }
-#endif		// __PLAT_NGC__
 
 /******************************************************************/
 /*                                                                */
@@ -464,7 +307,6 @@ inline void*	operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on
 // 	return pLocation;
 // }
 
-#ifndef __PLAT_NGC__
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -484,9 +326,7 @@ inline void 	operator delete[]( void* pAddr )
 {
 	Mem::Manager::sHandle().Delete( pAddr );
 }
-#endif		// __PLAT_NGC__
 
-//#ifdef __PLAT_NGC__
 /******************************************************************/
 /* only used when exception is thrown in constructor              */
 /*                                                                */
@@ -518,15 +358,4 @@ inline void 	operator delete( void*, void* pLocation )
 {
 	return;
 }
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-//#endif		// __PLAT_NGC__
-#endif	//	__CORE_DEFINES_H
-
-
-
-
+*/

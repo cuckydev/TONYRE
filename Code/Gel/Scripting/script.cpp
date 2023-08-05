@@ -32,7 +32,7 @@
 
 //char foo[sizeof(Script::SReturnAddress)/0];
 
-//#define SEND_SCRIPT_NAMES_TO_DEBUGGER
+#define SEND_SCRIPT_NAMES_TO_DEBUGGER
 
 DefinePoolableClass(Script::CScript);
 
@@ -130,6 +130,7 @@ static void s_send_script_name(uint32 script_name, int numReturnAddresses)
 		}	
 	}
 
+	/*
 	uint32 p_buf[2];
 	p_buf[0]=script_name;
 	p_buf[1]=numReturnAddresses;
@@ -140,6 +141,13 @@ static void s_send_script_name(uint32 script_name, int numReturnAddresses)
 	msg.m_Length = 8;
 	msg.m_Id = GameNet::vMSG_ID_DBG_RUNNING_SCRIPT;
 	Dbg::CScriptDebugger::Instance()->StreamMessage(&msg);
+	*/
+
+	// Get name of checksum
+	const char *p_script_name = FindChecksumName(script_name);
+	OutputDebugStringA("s_send_script_name ");
+	OutputDebugStringA(p_script_name);
+	OutputDebugStringA("\n");
 }
 #endif
 

@@ -340,7 +340,7 @@ volatile bool CXboxAsyncFileHandle::plat_is_done( void )
 		if( is_done )
 		{
 			// I/O operation is complete, so GetOverlappedResult() should retuen true.
-			uint32 bt;
+			DWORD bt;
 			bool result	= GetOverlappedResult(	mh_file,		// handle to file, pipe, or device
 												&m_overlapped,	// overlapped structure
 												&bt,			// bytes transferred
