@@ -44,7 +44,7 @@ class Class
 {
 	public:
 	
-	#if (defined ( ZERO_CLASS_MEM ) && !defined ( __PLAT_WN32__ ))
+	#if (defined ( ZERO_CLASS_MEM ))
 		void*			operator new( size_t size );
 		void*			operator new[] ( size_t size );
 		void*			operator new( size_t size, bool assert_on_fail );
