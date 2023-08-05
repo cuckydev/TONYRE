@@ -57,8 +57,8 @@ namespace Nx
 		SDL_GL_SwapWindow(NxWn32::EngineGlobals.window);
 
 		// Clear the screen for next frame
-		NxWn32::GlCol4 &clear_color = NxWn32::EngineGlobals.clear_color;
-		glClearColor(clear_color.r, clear_color.g, clear_color.b, clear_color.a);
+		NxWn32::GlCol3 &clear_color = NxWn32::EngineGlobals.clear_color;
+		glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -592,6 +592,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_color_buffer_clear(bool clear)
 	{
+
 	}
 
 } // namespace Nx

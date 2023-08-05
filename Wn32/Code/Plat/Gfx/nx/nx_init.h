@@ -15,11 +15,11 @@ void FatalFileError( uint32 error );
 
 struct GlVec3
 {
-	float x, y, z, w;
+	float x, y, z;
 };
 struct GlCol3
 {
-	float r, g, b, a;
+	float r, g, b;
 };
 struct GlVec4
 {
@@ -37,7 +37,7 @@ typedef struct
 	SDL_GLContext context;
 
 	// Render state
-	GlCol4 clear_color;
+	GlCol3 clear_color;
 
 	/*
 	// XGMATRIX			world_matrix;

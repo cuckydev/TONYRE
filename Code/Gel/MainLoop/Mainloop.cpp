@@ -31,9 +31,9 @@
 
 #include <gfx/nx.h>
 
-#ifndef __PLAT_WN32__
-    #include <sys/profiler.h>
-#endif
+#include <sys/profiler.h>
+
+#include <Plat/Gfx/p_memview.h>
 
 #include <gel/scripting/symboltable.h>
 
@@ -256,8 +256,6 @@ void		Manager::MainLoop( void )
 		}
 		
 
-#ifndef __PLAT_WN32__
-
 #ifdef	__PLAT_NGPS__		
 // for profiling on the PS2, we do a bit of the code from sPreRender here
 // so we can time the final waiting for GS		
@@ -303,7 +301,6 @@ void		Manager::MainLoop( void )
 #endif
 
 //		Sys::Profiler::sStartFrame();		  		
-#endif
 
 #ifdef	__PLAT_NGC__		
 #	ifdef __USE_PROFILER__
@@ -339,7 +336,6 @@ void		Manager::MainLoop( void )
 		}
 #endif
 
-#ifndef __PLAT_WN32__
 		// Display the memory contents, (if memview is active)
 		MemView_Display();
 #	ifdef __USE_PROFILER__
@@ -377,7 +373,6 @@ void		Manager::MainLoop( void )
  #ifdef	__PLAT_NGPS__		
 //		snProfSetRange( 4, (void*)nullptr, (void*)-1);
  #endif		
-#endif		
 		
 		currently_profiling = false;
 
