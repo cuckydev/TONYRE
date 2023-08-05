@@ -566,6 +566,9 @@ bool ScriptPreLoadStreamDone( Script::CStruct* pParams, Script::CScript* pScript
 bool ScriptStartPreLoadedStream( Script::CStruct* pParams, Script::CScript* pScript );
 bool ScriptFinishRendering( Script::CStruct* pParams, Script::CScript* pScript );
 
+bool ScriptIsInternetGameHost(Script::CStruct *pParams, Script::CScript *pScript);
+bool ScriptIsJoiningInternetGame(Script::CStruct *pParams, Script::CScript *pScript);
+
 /*****************************************************************************
 **								Inline Functions							**
 *****************************************************************************/

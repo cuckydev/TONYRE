@@ -5035,6 +5035,9 @@ bool ScriptPrintf(Script::CStruct *pParams, Script::CScript *pScript)
 	
 	printf( buffer );
 
+	OutputDebugStringA(buffer);
+
+
 	return true;
 }
 
@@ -12837,16 +12840,7 @@ bool ScriptRotateVector( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsPS2 | Returns true if the current hardware is PS2 (proview/devkit/regular).
 bool ScriptIsPS2( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	if (( Config::GetHardware() == Config::HARDWARE_PS2 ) ||
-		( Config::GetHardware() == Config::HARDWARE_PS2_PROVIEW ) ||
-		( Config::GetHardware() == Config::HARDWARE_PS2_DEVSYSTEM ) )
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 /******************************************************************/
@@ -12857,14 +12851,7 @@ bool ScriptIsPS2( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsNGC | Returns true if the current hardware is GameCube.
 bool ScriptIsNGC( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	if ( ( Config::GetHardware() == Config::HARDWARE_NGC ) )
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 /******************************************************************/
@@ -12875,14 +12862,7 @@ bool ScriptIsNGC( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsXBOX | Returns true if the current hardware is Xbox.
 bool ScriptIsXBOX( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	if ( ( Config::GetHardware() == Config::HARDWARE_XBOX ) )
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return true;
 }
 
 /******************************************************************/
@@ -12893,14 +12873,7 @@ bool ScriptIsXBOX( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsWin32 | Returns true if the current hardware is Win32.
 bool ScriptIsWIN32( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	if ( ( Config::GetHardware() == Config::HARDWARE_WIN32 ) )
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 /******************************************************************/
@@ -14845,6 +14818,17 @@ bool ScriptFinishRendering( Script::CStruct* pParams, Script::CScript* pScript )
 	Nx::CEngine::sFinishRendering();
 
 	return true;
+}
+
+// Functions that don't seem to exist but are referenced by scripts
+bool ScriptIsInternetGameHost(Script::CStruct *pParams, Script::CScript *pScript)
+{
+	return false;
+}
+
+bool ScriptIsJoiningInternetGame(Script::CStruct *pParams, Script::CScript *pScript)
+{
+	return false;
 }
 
 /******************************************************************/

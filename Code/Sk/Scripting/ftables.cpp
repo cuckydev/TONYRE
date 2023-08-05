@@ -1442,6 +1442,10 @@ SCFunction CFunctionLookupTable[]=
 	{"Ngc_Set60hz",						Nx::ScriptNgc_Set60Hz},
 	{"Ngc_Set50hz",						Nx::ScriptNgc_Set50Hz},
 #endif		// __PLAT_NGC__
+
+	// Functions that don't seem to exist but are referenced by scripts
+	{"IsInternetGameHost", CFuncs::ScriptIsInternetGameHost},
+	{"IsJoiningInternetGame", CFuncs::ScriptIsJoiningInternetGame},
 };
 
 // A list of all the member function names accessible from scripts.

@@ -17,6 +17,8 @@
 #include <Plat/Gfx/p_NxGeom.h>
 #include <Plat/Gfx/p_NxSprite.h>
 #include <Plat/Gfx/p_NxModel.h>
+#include <Plat/Gfx/p_NxNewParticleMgr.h>
+#include <Plat/Gfx/p_NxWeather.h>
 
 #include <Plat/Gfx/nx/nx_init.h>
 #include <Plat/Gfx/nx/scene.h>
@@ -32,6 +34,9 @@ namespace Nx
 	{
 		// Initialize engine
 		NxWn32::InitialiseEngine();
+
+		mp_particle_manager = new CXboxNewParticleManager;
+		mp_weather = new CXboxWeather;
 	}
 
 

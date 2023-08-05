@@ -137,20 +137,6 @@ Dbg_DefineProject( PS2, "Test Project" )
 **								  Externals									**
 *****************************************************************************/
 
-extern "C"
-{
-#ifdef __PLAT_XBOX__
-int pre_main( void );
-#endif
-#ifdef __PLAT_NGC__
-void __init_vm(void);
-#endif
-#ifdef __PLAT_NGPS__
-void pre_main( void );
-#endif
-void post_main( void );
-}
-
 /*****************************************************************************
 **								   Defines									**
 *****************************************************************************/
@@ -180,65 +166,6 @@ void post_main( void );
 /*****************************************************************************
 **							   Public Functions								**
 *****************************************************************************/
-
-/*
-#ifdef __PLAT_XBOX__
-int pre_main( void )
-#endif
-#ifdef __PLAT_NGC__
-void __init_vm( void )
-#endif
-#ifdef __PLAT_NGPS__
-void pre_main( void )
-#endif
-{
-	DEBUG_FLASH(0x07f7f7f);		// initial white
-
-
-#ifdef __PLAT_NGPS__
-	printf ("calling Mike test\n");
-//	maintest(0, nullptr); // the Mike code.....
-	printf ("DONE calling Mike test\n");
-#endif		// __PLAT_NGPS__
-
-#ifdef __PLAT_NGC__
-	OSInitFastCast();
-	NsDisplay::init();
-#endif		// __PLAT_NGC__
-
-	Dbg::SetUp();
-	Mem::Manager::sSetUp();
-	
-	DEBUG_FLASH(0x02050);		// brown
-
-#ifdef __PLAT_XBOX__
-	// Must return 0 here, as this is called from CRT initialization code.
-	return 0;
-}
-
-#pragma data_seg( ".CRT$RIX" )
-static int (*_mypreinit)(void) = pre_main;
-#pragma data_seg()
-
-#else
-}
-#endif
-*/
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-/*
-void post_main (void)
-{
-	Mem::Manager::sCloseDown();
-	Dbg::CloseDown();
-}
-*/
-
-void mat_test(Mth::Matrix A,Mth::Matrix B,Mth::Matrix C);
 
 /******************************************************************/
 /*                                                                */
@@ -586,11 +513,7 @@ int main ( sint argc, char** argv )
 			************************************************/
 			
 			Mem::PushMemProfile("Hash Item Pool Manager");
-#			if( defined( __PLAT_NGC__ ) || defined( __PLAT_XBOX__ ))
 			Mem::PoolManager::SSetupPool(Mem::PoolManager::vHASH_ITEM_POOL, 12500);	// Mick: increased from 5600 to 10000
-#			else
-			Mem::PoolManager::SSetupPool(Mem::PoolManager::vHASH_ITEM_POOL, 10000);	// Mick: increased from 5600 to 10000
-#			endif // __PLAT_NGC__ || __PLAT_XBOX__
 			Mem::PopMemProfile(/*"Hash Item Pool Manager"*/);
 
 				
@@ -836,29 +759,11 @@ extern uint8 * RES_gamecube;
 		Tmr::DeInit();
 		Mem::Manager::sHandle().PopMemoryMarker(MAINLOOP_MEMMARKER);
 		Mem::Manager::sHandle().BottomUpHeap()->PopContext();
-	Mth::Matrix A,B,C;
-	mat_test(A,B,C);				 
 	}
 
 				 
 	return 0;
 }
-
-void nob(Mth::Matrix A);
-
-void mat_test(const Mth::Matrix A,const Mth::Matrix B,Mth::Matrix C)
-{
-
-	Mth::Matrix D;
-	D = A * B;
-}
-
-void nob(Mth::Matrix A)
-{
-	printf ("%f",A[X][X]);
-}
-
-
 
 /*****************************************************************************
 **							                    							**
