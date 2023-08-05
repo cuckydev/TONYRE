@@ -24,7 +24,7 @@
 /*****************************************************************************
 **								   Includes									**
 *****************************************************************************/
-
+#include <Core/Defines.h>
 	
 /*****************************************************************************
 **								   Defines									**
@@ -218,7 +218,7 @@ const _T	_Rect< _T >::GetHeight ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-ostream& operator<< ( ostream& str, const _Rect< _T >& r )
+std::ostream& operator<< (std::ostream& str, const _Rect< _T >& r )
 {
 	str << "(( " << r.GetOriginX() << ", " << r.GetOriginY() << " ),( " 
 					<< r.GetWidth() << ", " << r.GetHeight() << " ))"; 

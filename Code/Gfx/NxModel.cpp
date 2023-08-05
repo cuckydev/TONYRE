@@ -857,7 +857,7 @@ bool CModel::ReplaceTexture( uint32 geomName, const char* p_SrcTextureName, cons
 	char* pDstExt = strstr( dest_texture_name, ".png" );
 	if ( pDstExt )
 	{
-		*pDstExt = nullptr;
+		*pDstExt = 0;
 	}
 
 	int numGeoms = GetNumGeoms();
@@ -1508,7 +1508,7 @@ int CModel::GetNumObjectsInHierarchy()
 	}
 	else
 	{
-		return nullptr;
+		return 0;
 	}
 }
 

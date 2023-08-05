@@ -101,10 +101,6 @@ struct sEngineGlobals
 	// Render state
 	GlCol3 clear_color;
 
-	// 2D render mesh
-	sShader *shader_2d = nullptr;
-	GlMesh *mesh_2d = nullptr;
-
 	// Frame counter
 	uint64 frame_count = 0;
 

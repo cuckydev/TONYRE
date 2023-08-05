@@ -1189,7 +1189,7 @@ inline Vector&		Vector::ZeroIfShorterThan ( float length )
 /*                                                                */
 /******************************************************************/
 
-inline ostream& operator<< ( ostream& os, const Vector& v )
+inline std::ostream& operator<< (std::ostream& os, const Vector& v )
 {
 	return os << "( " << v[X] << ", " << v[Y] << ", " << v[Z] << ", " << v[W] << " )";
 }

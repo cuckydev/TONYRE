@@ -24,7 +24,8 @@
 /*****************************************************************************
 **								   Includes									**
 *****************************************************************************/
-
+#include <Core/Defines.h>
+#include "vector.h"
 	
 /*****************************************************************************
 **								   Defines									**
@@ -168,7 +169,7 @@ void xsceVu0MulMatrix(Mth::Matrix* m0, Mth::Matrix* m1, const Mth::Matrix* m2);
 void		Swap ( Matrix& a, Matrix& b );
 void		Slerp ( Matrix& result, const Matrix& s1, const Matrix& s2, float t );
 Matrix		operator* ( const Matrix& m1, const Matrix& m2 );
-ostream& 	operator<< ( ostream& os, const Matrix& m );
+std::ostream& 	operator<< (std::ostream& os, const Matrix& m );
 
 Matrix&		CreateRotateMatrix ( Matrix& mat, const Vector& axis, const float angle );
 Matrix&		CreateRotateMatrix ( Matrix& mat, int axis, const float angle );

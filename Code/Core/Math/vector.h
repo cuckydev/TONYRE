@@ -52,6 +52,7 @@
 **								   Includes									**
 *****************************************************************************/
 
+#include <Core/Defines.h>
 #include <core/math/rot90.h>
 
 	
@@ -230,7 +231,7 @@ Vector		Max ( const Vector& v1, const Vector& v2 );
 Vector		Min ( const Vector& v, float c );
 Vector		Max ( const Vector& v, float c );
 void		Swap ( Vector& a, Vector& b );
-ostream& 	operator<< ( ostream& os, const Vector& v );
+std::ostream& 	operator<< (std::ostream& os, const Vector& v );
 
 /*****************************************************************************
 **								Inline Functions							**

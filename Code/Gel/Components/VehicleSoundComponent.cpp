@@ -363,7 +363,7 @@ void CVehicleSoundComponent::update_engine_sounds (   )
 	// play or adjust sound
 	if (!m_engine_sound_id)
 	{
-		m_engine_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_engine_sound_checksum, &volume, pitch, nullptr);
+		m_engine_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_engine_sound_checksum, &volume, pitch, 0);
 	}
 	else
 	{
@@ -433,7 +433,7 @@ void CVehicleSoundComponent::update_tire_sounds (   )
 	{
 		if (!m_tire_sound_id)
 		{
-			m_tire_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_tire_sound_checksum, &volume, pitch, nullptr);
+			m_tire_sound_id = Sfx::CSfxManager::Instance()->PlaySfx(m_tire_sound_checksum, &volume, pitch, 0);
 		}
 		else
 		{

@@ -604,7 +604,7 @@ inline	bool		Equal ( const Quat& q1, const Quat& q2, const float tol )
 /*                                                                */
 /******************************************************************/
 
-inline ostream& operator<< ( ostream& os, const Quat& q ) 
+inline std::ostream& operator<< (std::ostream& os, const Quat& q )
 {
 	return os << "(( " << q[X] << ", " << q[Y] << ", " << q[Z] << ") , " << q[W] << " )";
 }

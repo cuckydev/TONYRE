@@ -3030,7 +3030,7 @@ CCutsceneData::~CCutsceneData()
 		Ass::CAssMan* pAssMan = Ass::CAssMan::Instance();
 		Ass::CAsset* pAsset = pAssMan->GetAssetNode( m_assetName[i], true );
 		pAssMan->UnloadAsset( pAsset );
-		m_assetName[i] = nullptr;
+		m_assetName[i] = 0;
 		
 		// TODO:  Need to handle anims slightly
 		// if we use references...  fortunately,
@@ -4101,7 +4101,7 @@ char* get_cut_name( const char* p_fileName )
 	char* pExt = strstr( cutsceneName, "." );
 	if ( pExt )
 	{
-		*pExt = nullptr;
+		*pExt = 0;
 	}
 
 	return cutsceneName;

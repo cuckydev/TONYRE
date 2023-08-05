@@ -6057,7 +6057,7 @@ static uint32 s_find_cat_in_mapping( Script::CStruct* pMapping, int cat_num )
 // @parm name | trick | trick to look for
 bool ScriptGetKeyComboBoundToTrick( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	uint32 trick_checksum = nullptr;
+	uint32 trick_checksum = 0;
     int cat_num;
     if (!pParams->GetChecksum( Crc::ConstCRC("trick"), &trick_checksum, Script::NO_ASSERT) )
     {

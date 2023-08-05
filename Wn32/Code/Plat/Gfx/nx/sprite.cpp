@@ -1,6 +1,8 @@
 #include <string.h>
 #include <core/defines.h>
+#include <vector>
 #include <core/macros.h>
+
 #include <core/debug.h>
 #include <sys/config/config.h>
 #include <sys/file/filesys.h>
@@ -13,7 +15,7 @@ namespace NxWn32
 {
 
 // Shaders
-const char *SDraw2D::vertex_shader = R"(#version 330 core
+static const char *vertex_shader = R"(#version 330 core
 layout (location = 0) in vec3 i_pos;
 layout (location = 1) in vec2 i_uv;
 layout (location = 2) in vec4 i_col;
@@ -29,7 +31,7 @@ void main()
 }
 )";
 
-const char *SDraw2D::fragment_shader = R"(#version 330 core
+static const char *fragment_shader = R"(#version 330 core
 in vec2 f_uv;
 in vec4 f_col;
 
@@ -48,6 +50,41 @@ void main()
 /******************************************************************/
 
 SDraw2D *SDraw2D::sp_2D_draw_list = nullptr;
+
+sShader *SDraw2D::sp_shader = nullptr;
+GlMesh *SDraw2D::sp_mesh = nullptr;
+
+sTexture *SDraw2D::sp_current_texture;
+// std::vector<sVert2D> m_verts;
+std::vector<GLushort> m_indices;
+
+void SDraw2D::Submit(void)
+{
+	// Send vertex and index data to GPU
+	sp_mesh->Bind();
+	// glBufferData(GL_ARRAY_BUFFER, m_verts.size() * sizeof(sVert2D), m_verts.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLushort), m_indices.data(), GL_STATIC_DRAW);
+
+	// Draw
+	glUseProgram(sp_shader->program);
+	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_SHORT, nullptr);
+}
+
+void SDraw2D::Init(void)
+{
+	// Compile shader
+	sp_shader = new sShader(vertex_shader, fragment_shader);
+	sp_mesh = new GlMesh();
+
+	// Set VAO layout
+	sp_mesh->Bind();
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3 + 2 + 4) * sizeof(float), (void*)((0) * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, (3 + 2 + 4) * sizeof(float), (void*)((3) * sizeof(float)));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, (3 + 2 + 4) * sizeof(float), (void*)((3 + 2) * sizeof(float)));
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+}
 
 
 /******************************************************************/

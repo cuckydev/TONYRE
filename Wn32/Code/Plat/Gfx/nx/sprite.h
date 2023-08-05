@@ -1,10 +1,20 @@
 #ifndef __SPRITE_H
 #define __SPRITE_H
 
+#include <vector>
+
 #include "texture.h"
+#include "shader.h"
 
 namespace NxWn32
 {
+	struct sVert2D
+	{
+		float x, y, z;
+		float u, v;
+		float r, g, b, a;
+	};
+
 	struct SDraw2D
 	{
 			SDraw2D( float pri = 0.0f, bool hide = true );
@@ -22,6 +32,8 @@ namespace NxWn32
 			SDraw2D *mp_next;
 
 			// Statics
+			static void Init(void);
+
 			static void DrawAll( void );
 
 		private:
@@ -40,10 +52,16 @@ namespace NxWn32
 			// 2D draw list (sorted by priority);
 			static SDraw2D *sp_2D_draw_list;
 
-		public:
-			// 2D shader
-			static const char *vertex_shader;
-			static const char *fragment_shader;
+			// Mesh and shader
+			static sShader *sp_shader;
+			static GlMesh *sp_mesh;
+
+			// Render state
+			static sTexture *sp_current_texture;
+			// static std::vector<sVert2D> m_verts;
+			// static std::vector<GLushort> m_indices;
+
+			static void Submit(void);
 	};
 
 

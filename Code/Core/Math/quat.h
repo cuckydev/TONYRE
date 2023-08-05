@@ -26,6 +26,7 @@
 **								   Includes									**
 *****************************************************************************/
 
+#include <Core/Defines.h>
 #include <core/math/vector.h>	
 
 /*****************************************************************************
@@ -125,7 +126,7 @@ float		DotProduct ( const Quat& v1, const Quat& v2 );
 Quat		Slerp ( const Quat& q1, const Quat& q2, const float t );
 Quat		FastSlerp( Quat& qIn1, Quat& qIn2, const float t );
 bool		Equal ( const Quat& q1, const Quat& q2, const float tol = 0.0001f );
-ostream& 	operator<< ( ostream& os, const Quat& v );
+std::ostream& 	operator<< (std::ostream& os, const Quat& v );
 Quat		EulerToQuat( const Vector& v );
 
 // converts a quat+vector xform into a matrix xform

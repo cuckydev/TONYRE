@@ -1025,7 +1025,7 @@ inline Vector			Matrix::GetColumn ( sint i ) const
 /*                                                                */
 /******************************************************************/
 
-inline ostream& operator<<	( ostream& os, const Matrix& m )
+inline std::ostream& operator<<	(std::ostream& os, const Matrix& m )
 {
 	return os << "{ " << m[X] << ",\n " << m[Y] << ",\n " << m[Z] << ",\n " << m[W] << " }";
 }

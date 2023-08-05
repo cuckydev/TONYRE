@@ -107,8 +107,8 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
     showed_info = false;    // need to grab this from memcard eventually
     stat_goals_on = false;
     
-    new_event = nullptr;
-    last_event = nullptr;
+    new_event = 0;
+    last_event = 0;
     
     vert_set = 0;
     vert_height = 0;

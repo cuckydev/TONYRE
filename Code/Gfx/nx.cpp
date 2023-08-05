@@ -750,7 +750,7 @@ CMesh*			CEngine::sLoadMesh(const char* pFileName, uint32 texDictOffset, bool fo
 	foundSkin = ( pEnd != nullptr );
 	if ( foundSkin )
 	{
-		*pEnd = nullptr;
+		*pEnd = 0;
 	}
 
 	bool foundModel = false;
@@ -758,7 +758,7 @@ CMesh*			CEngine::sLoadMesh(const char* pFileName, uint32 texDictOffset, bool fo
 	foundModel = ( pEnd != nullptr );
 	if ( foundModel )
 	{
-		*pEnd = nullptr;
+		*pEnd = 0;
 	}
 
 	Dbg_Assert( foundSkin || foundModel );

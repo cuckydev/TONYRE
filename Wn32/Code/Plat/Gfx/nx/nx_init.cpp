@@ -52,9 +52,8 @@ void InitialiseEngine( void )
 	// Set initial clear color
 	EngineGlobals.clear_color = { 0.3137f, 0.3764f, 0.4392f };
 
-	// Create 2D render mesh
-	EngineGlobals.shader_2d = new sShader(SDraw2D::vertex_shader, SDraw2D::fragment_shader);
-	EngineGlobals.mesh_2d = new GlMesh();
+	// initalize 2D render
+	SDraw2D::Init();
 
 	/*
 	D3DPRESENT_PARAMETERS   params;

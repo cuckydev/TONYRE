@@ -184,7 +184,7 @@ sMesh::sMesh( void )
 	m_current_write_vertex_buffer	= 0;
 	for( int vb = 0; vb < MAX_VERTEX_BUFFERS; ++vb )
 	{
-		mp_vertex_buffer[vb]		= nullptr;
+		mp_vertex_buffer[vb]		= 0;
 	}
 	for( int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib )
 	{

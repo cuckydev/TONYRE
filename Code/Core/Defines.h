@@ -28,23 +28,7 @@
 
 
 #ifdef __PLAT_WN32__
-//#include <strstream>
-//#include <fstream.h>
-#ifdef __USE_OLD_STREAMS__
-#include <iostream.h>
-#else
 #include <iostream>
-using namespace std;
-#endif
-#include <stdio.h>
-#include <string.h>
-
-#pragma warning( disable : 4800 ) 
-#pragma warning( disable : 4355 ) // 'this' : used in base member initializer list
-#pragma warning( disable : 4291 ) // no matching operator delete found
-
-
-
 #else
 #ifdef __PLAT_NGPS__
 #include <stdio.h>
@@ -117,10 +101,6 @@ using namespace std;
 #ifndef TRUE
 #define FALSE				0
 #define TRUE				(!FALSE)
-#endif
-
-#ifndef nullptr
-#define nullptr				0
 #endif
 
 /*****************************************************************************
