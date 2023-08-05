@@ -174,27 +174,9 @@ Dbg_DefineProject( PS2, "Test Project" )
 
 #ifdef __PLAT_WN32__
 #include <shellapi.h>
-#include <io.h>
-#include <fcntl.h>
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-	// Redirect printf to console
-	int hConHandle;
-	long lStdHandle;
-	FILE *fp;
-
-	// Allocate a console for this app
-	AllocConsole();
-
-	// Redirect unbuffered STDOUT to the console
-	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen(hConHandle, "w");
-	*stdout = *fp;
-
-	setvbuf(stdout, NULL, _IONBF, 0);
-
 	// Get argc and argv
 	int argc;
 	LPWSTR *argvW = CommandLineToArgvW( GetCommandLineW(), &argc );
