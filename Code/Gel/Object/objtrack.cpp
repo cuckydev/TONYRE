@@ -494,15 +494,11 @@ void CTracker::ValidateReceivers()
 					// Got a pointer to a node, so first validate that
 					// then validate the event handler table
 					
-#ifndef __PLAT_WN32__	// These script functions are not necessary from PC tools
-
 					Obj::CEventHandlerTable * p_event_handler_table = p_script->GetEventHandlerTable();
 					// Validate the table object
 					Dbg_MsgAssert(Mem::Valid(p_event_handler_table),("Corrupt Event handler table object for event %s\n",Script::FindChecksumName(entry_key)));
 					// and the table it contains
 					Dbg_MsgAssert(!p_event_handler_table->m_num_entries || Mem::Valid(p_event_handler_table->mp_tab),("Corrupt Event handler table actual table for event %s\n",Script::FindChecksumName(entry_key)));
-
-#endif
 
 					p_node = p_node->GetNext();					
 				}

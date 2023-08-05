@@ -764,9 +764,7 @@ void*	Heap::allocate( size_t size, bool assert_on_fail )
 #endif
 #endif		// __PLAT_NGC__ 
 
-#ifndef __PLAT_WN32__
 	CFuncs::ScriptDumpHeaps(nullptr,nullptr);
-#endif
 
 	return nullptr;
 

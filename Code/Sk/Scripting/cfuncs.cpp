@@ -13436,14 +13436,12 @@ bool ScriptAnalyzeHeap( Script::CStruct *pParams, Script::CScript *pScript )
 
 	pHeap = mem_man.GetHeap( whichHeap );
 
-#ifndef __PLAT_WN32__
 #ifndef __PLAT_NGC__
 	if ( pHeap )
 	{
 		MemView_AnalyzeHeap( pHeap );
 	}
 #endif		// __PLAT_NGC__
-	#endif
 
 	return true;
 }
@@ -13534,11 +13532,11 @@ bool ScriptDisplayFreeMem( Script::CStruct *pParams, Script::CScript *pScript )
 // @flag ExactValues | Prints the exact heap sizes in bytes.
 bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 {
-	#ifndef __PLAT_WN32__
 #	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
 
 	Script::DumpLastStructs();
 
+#if 0
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
 
 #	ifndef __PLAT_XBOX__
@@ -13661,7 +13659,7 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 	}
 #endif		// __PLAT_NGC__
 #	endif //__PLAT_XBOX__
-
+#endif
 	printf("\nScript pool usage:\n");
 	printf("CStruct:           %5d of %5d, max %5d\n",CStruct::SGetNumUsedItems(),CStruct::SGetTotalItems(),CStruct::SGetMaxUsedItems());
 	printf("CComponent:        %5d of %5d, max %5d\n",CComponent::SGetNumUsedItems(),CComponent::SGetTotalItems(),CComponent::SGetMaxUsedItems());
@@ -13674,7 +13672,6 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 	printf("CHashItem:         %5d of %5d, max %5d\n",p_hash->GetNumUsedItems(),p_hash->GetTotalItems(),p_hash->GetMaxUsedItems());
 	printf("\n(HashItems are init in main.cpp, others are in init.cpp)\n");
 #endif		// __NOPT_FINAL__
-	#endif // __PLAT_WN32__
 	return true;
 }
 

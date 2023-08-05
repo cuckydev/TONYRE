@@ -251,15 +251,9 @@ class CScript : public Mem::CPoolable<CScript>
 	float m_last_instruction_time_taken;
 	float m_total_instruction_time_taken;
 	
-	#ifdef __PLAT_WN32__
-	uint32 *write_callstack_entry(uint32 *p_buf, int bufferSize, uint32 scriptNameChecksum, uint8 *p_PC, CStruct *p_params, Obj::CObject *p_ob) {}
-	void check_if_needs_to_be_watched_in_debugger() {}
-	void advance_pc_to_next_line_and_halt() {}
-	#else
 	uint32 *write_callstack_entry(uint32 *p_buf, int bufferSize, uint32 scriptNameChecksum, uint8 *p_PC, CStruct *p_params, Obj::CObject *p_ob);
 	void check_if_needs_to_be_watched_in_debugger();
 	void advance_pc_to_next_line_and_halt();
-	#endif
 	#endif
 	
 	void execute_if();
@@ -279,19 +273,6 @@ class CScript : public Mem::CPoolable<CScript>
 public:
 
 	#ifdef __NOPT_ASSERT__
-	#ifdef __PLAT_WN32__
-	void SetCommentString(const char *p_comment) {}
-	void SetOriginatingScriptInfo(int lineNumber, uint32 scriptName) {}
-	void TransmitInfoToDebugger(bool definitely_transmit=false) {}
-	void TransmitBasicInfoToDebugger() {}
-	void WatchInDebugger(bool stopScriptImmediately) {}
-	bool BeingWatchedInDebugger() {return false;}
-	void StopWatchingInDebugger() {}
-	void DebugStop() {}
-	void DebugStepInto() {}
-	void DebugStepOver() {}
-	void DebugGo() {}
-	#else	
 	void SetCommentString(const char *p_comment);
 	void SetOriginatingScriptInfo(int lineNumber, uint32 scriptName);
 	// This gets called for all CScript's every frame.
@@ -309,7 +290,6 @@ public:
 	int GetNumReturnAddresses() {return m_num_return_addresses;}
 	bool UsingBigCallstackBuffer();
 	bool UsingBigLoopBuffer();
-	#endif
 	#endif
 
 #ifdef	__SCRIPT_EVENT_TABLE__		

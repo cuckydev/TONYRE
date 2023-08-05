@@ -2873,16 +2873,12 @@ void	Manager::ServerShutdown( void )
 
 	if( m_server )
 	{
-#ifndef __PLAT_WN32__
-#ifndef __PLAT_XBOX__
-#ifndef __PLAT_NGC__
+#if 0
 		if( !m_server->IsLocal() && InInternetMode())
 		{
 			mpLobbyMan->StopReportingGame();
 			NNFreeNegotiateList();
 		}
-#endif
-#endif
 #endif
 		net_man->DestroyApp( m_server );
 		m_server_add_new_players_task->Remove();
@@ -4095,15 +4091,7 @@ void	Manager::FindServersOnLAN( void )
         
 		msg.m_Timestamp = Tmr::GetTime();
         
-#if (defined(__PLAT_NGPS__)||defined(__PLAT_NGC__)||defined(__PLAT_WN32__))
-		m_match_client->SendMessageTo( Net::MSG_ID_FIND_SERVER, sizeof( MsgFindServer ), &msg, 
-									0xFFFFFFFF, vHOST_PORT, 0 );
-#else
-		XNetRandom( m_match_client->m_Nonce, sizeof( m_match_client->m_Nonce ));
-		memcpy( msg.m_Nonce, &m_match_client->m_Nonce, sizeof( m_match_client->m_Nonce ));
-		m_match_client->SendMessageTo( Net::MSG_ID_FIND_SERVER, sizeof( MsgFindServer ), &msg,
-									INADDR_BROADCAST, vHOST_PORT, 0 );
-#endif
+		m_match_client->SendMessageTo( Net::MSG_ID_FIND_SERVER, sizeof( MsgFindServer ), &msg, 0xFFFFFFFF, vHOST_PORT, 0 );
 	}
 }
 

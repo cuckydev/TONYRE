@@ -25,9 +25,7 @@
 	#include <core/defines.h>
 #endif
 
-#ifndef __PLAT_WN32__
-	#include <sys/mem/PoolManager.h>
-#endif
+#include <sys/mem/PoolManager.h>
 
 /*****************************************************************************
 **							  	  Includes									**
@@ -189,11 +187,7 @@ bool HashTable<_V>::PutItem(const uint32 &key, _V *item)
 	{
 		// The main table entry is already occupied, so create a new HashEntry and
 		// link it in between the first and the rest.
-#ifndef __PLAT_WN32__
 		HashItem<_V> *pNew = new (Mem::PoolManager::SCreateItem(Mem::PoolManager::vHASH_ITEM_POOL)) HashItem<_V>();
-#else
-		HashItem<_V> *pNew = new HashItem<_V>;
-#endif
 		pNew->m_key = key;
 		pNew->mp_value = item;
 		pNew->mp_next = pEntry->mp_next;
@@ -325,11 +319,7 @@ void HashTable<_V>::FlushItem(const uint32 &key)
 			{
 				// this is not a main table entry; this is a linked entry
 				pLast->mp_next = pEntry->mp_next;
-#ifndef __PLAT_WN32__
 				Mem::PoolManager::SFreeItem(Mem::PoolManager::vHASH_ITEM_POOL, pEntry);
-#else
-				delete pEntry;
-#endif
 			}
 			else
 			{
@@ -369,11 +359,7 @@ void HashTable<_V>::FlushAllItems()
 		while (pLinkedEntry)
 		{
 			HashItem<_V> *pNext = pLinkedEntry->mp_next;
-#ifndef __PLAT_WN32__
 			Mem::PoolManager::SFreeItem(Mem::PoolManager::vHASH_ITEM_POOL, pLinkedEntry);
-#else
-			delete pLinkedEntry;
-#endif
 			pLinkedEntry = pNext;
 		}
 		pMainEntry->Init();

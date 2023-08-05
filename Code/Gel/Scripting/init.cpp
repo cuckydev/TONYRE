@@ -112,7 +112,6 @@ void DeallocatePools()
 	DeallocatePermanentStringHeap();
 	DestroySymbolHashTable();
 	
-	#ifndef __PLAT_WN32__
 	CScript::SRemovePool();
 	CSymbolTableEntry::SRemovePool();
 	CArray::SRemovePool();
@@ -120,7 +119,6 @@ void DeallocatePools()
 	CPair::SRemovePool();
 	CVector::SRemovePool();
 	CComponent::SRemovePool();
-	#endif
 		
 	DeallocateChecksumNameLookupTables();
 }

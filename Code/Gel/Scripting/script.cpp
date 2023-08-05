@@ -22,9 +22,7 @@
 #include <sk/modules/skate/skate.h> // for SKATE_TYPE_SKATER
 #include <gel/scripting/debugger.h>
 #include <gel/net/client/netclnt.h> // For Net::Client class
-#ifndef __PLAT_WN32__
 #include <sk/gamenet/gamenet.h> // For GameNet::Manager
-#endif
 #include <sk/gamenet/scriptdebugger.h>
 
 #ifdef	__SCRIPT_EVENT_TABLE__		
@@ -268,7 +266,6 @@ CScript::~CScript()
 	ReleaseStoredRandoms(this);
 
 	#ifdef	__NOPT_ASSERT__	
-	#ifndef __PLAT_WN32__
 	if (m_being_watched_in_debugger)
 	{
 		// Tell the debugger that this script has died.
@@ -278,7 +275,6 @@ CScript::~CScript()
 		msg.m_Id = GameNet::vMSG_ID_DBG_SCRIPT_DIED;
 		Dbg::CScriptDebugger::Instance()->StreamMessage(&msg);
 	}	
-	#endif
 	#endif
 
 #ifdef	__SCRIPT_EVENT_TABLE__		
@@ -307,7 +303,6 @@ CScript::~CScript()
 }
 
 #ifdef __NOPT_ASSERT__
-#ifndef __PLAT_WN32__
 
 // This gets called whenever mScriptChecksum is changed.
 void CScript::check_if_needs_to_be_watched_in_debugger()
@@ -585,7 +580,6 @@ void CScript::DebugGo()
 	m_single_step_mode=OFF;
 	Dbg::CScriptDebugger::Instance()->ScriptDebuggerUnpause();	
 }
-#endif // #ifndef __PLAT_WN32__
 #endif // #ifdef __NOPT_ASSERT__
 
 void CScript::SetWait(EWaitType type, Obj::CBaseComponent *p_component)
@@ -1064,7 +1058,6 @@ const char *CScript::GetSourceFile(void)
 
 
 #ifdef __NOPT_ASSERT__
-#ifndef __PLAT_WN32__
 // For testing how many scripts end up needing the bigger buffer.
 bool CScript::UsingBigCallstackBuffer()
 {
@@ -1084,7 +1077,6 @@ bool CScript::UsingBigLoopBuffer()
 	return true;	
 }
 
-#endif
 #endif
 
 // Used by CScript::Update when calling a script.
@@ -1429,12 +1421,6 @@ bool CScript::run_member_function(uint32 functionName, Obj::CObject *p_substitut
 	}	
 	else
 	{
-		#ifdef __PLAT_WN32__
-		if (functionName != 0xb3c262ec) // "DisassociateFromObject" is okay, no harm in trying to break non-existent association
-		{
-			Dbg_MsgAssert(0,("\n%s\nTried to call member function %s from a script\nnot associated with a CObject",GetScriptInfo(),FindChecksumName(functionName)));
-		}
-		#else
 		GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 
 		// It network games, it's expected that some objects will no longer exist by the time
@@ -1451,7 +1437,6 @@ bool CScript::run_member_function(uint32 functionName, Obj::CObject *p_substitut
 		{
 			Dbg_MsgAssert(0,("\n%s\nTried to call member function %s from a script\nnot associated with a CObject",GetScriptInfo(),FindChecksumName(functionName)));
 		}
-		#endif
 	}
 	
 	return return_value;
@@ -1790,12 +1775,7 @@ bool CScript::execute_command()
 		else
 		#endif
 		{
-			#ifdef __PLAT_WN32__
-			// Don't printf if compiling on PC, otherwise LevelAssetLister prints lots
-			// of warning messages when running the load sound scripts.
-			#else
 			printf ("WARNING: script %s not found, ignoring in default level.\n",FindChecksumName(name));
-			#endif
 			return true;
 		}
 	}
@@ -2424,7 +2404,6 @@ bool CScript::execute_return()
 }
 
 #ifdef	__NOPT_ASSERT__
-#ifndef __PLAT_WN32__
 void CScript::advance_pc_to_next_line_and_halt()
 {
 	if (m_being_watched_in_debugger)
@@ -2447,7 +2426,6 @@ void CScript::advance_pc_to_next_line_and_halt()
 		}
 	}
 }			
-#endif
 #endif
 
 //static int sInstructionCount=0;
@@ -2941,9 +2919,6 @@ uint32 CScript::GetBaseScript()
 		
 void SendScript( uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_object )
 {
-	#ifdef __PLAT_WN32__
-	// No GameNet stuff if compiling on PC
-	#else
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Net::Client* client;
 	GameNet::MsgRunScript msg;
@@ -2975,7 +2950,6 @@ void SendScript( uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_objec
 		client->EnqueueMessageToServer( &msg_desc );
 	
 	}
-	#endif
 }
 
 #ifdef __NOPT_ASSERT__
@@ -3230,9 +3204,6 @@ void UpdateSpawnedScripts()
 // Sned spawn script events to other clients
 void SendSpawnScript( uint32 scriptChecksum, Obj::CObject *p_object, int node, bool permanent )
 {
-	#ifdef __PLAT_WN32__
-	// No GameNet stuff if compiling on PC
-	#else
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Net::Client* client;
 	GameNet::MsgSpawnAndRunScript msg;
@@ -3260,7 +3231,6 @@ void SendSpawnScript( uint32 scriptChecksum, Obj::CObject *p_object, int node, b
 		msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;
 		client->EnqueueMessageToServer( &msg_desc );
 	}
-	#endif
 }
 
 
@@ -3338,16 +3308,12 @@ CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_scriptParams, uint32 call
 		}	
 	}
 		
-	#ifdef __PLAT_WN32__
-	// No GameNet stuff if compiling on PC
-	#else
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	if( netEnabled && gamenet_man->InNetGame())
 	{
 		// TODO: Should pass on the not_session_specific flag ...
 		SendSpawnScript( scriptChecksum, nullptr, node, permanent );
 	}
-	#endif
 
 	return p_script;
 }

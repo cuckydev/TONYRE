@@ -1248,9 +1248,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 
 	#ifdef __NOPT_ASSERT__
-	#ifndef __PLAT_WN32__
 	CheckForPossibleInfiniteLoops(nameChecksum,(uint8*)(uint32)p_data, p_fileName);
-	#endif
 	#endif
 
 	CSymbolTableEntry *p_new=CreateNewSymbolEntry(nameChecksum);

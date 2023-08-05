@@ -293,12 +293,6 @@ void PrintContents(const CStruct *p_structure, int indent)
 
 static uint8 *sWriteCompressedName(uint8 *p_buffer, uint8 symbolType, uint32 nameChecksum)
 {
-	#ifdef __PLAT_WN32__
-	// If compiling on PC, the lookup table will not exist, so do no compression.
-	*p_buffer++=symbolType;
-	return Write4Bytes(p_buffer,nameChecksum);
-	#else
-	
 	// Check if the checksum is in the small array.
 	CArray *p_table=GetArray(0x35115a20/*WriteToBuffer_CompressionLookupTable_8*/);
 	int size=p_table->GetSize();
@@ -333,7 +327,6 @@ static uint8 *sWriteCompressedName(uint8 *p_buffer, uint8 symbolType, uint32 nam
 	// Oh well, it is not in either array, so write out the whole 4 byte checksum.
 	*p_buffer++=symbolType;
 	return Write4Bytes(p_buffer,nameChecksum);
-	#endif
 }
 
 static uint32 sIntegerWriteToBuffer(uint32 name, int val, uint8 *p_buffer, uint32 bufferSize)
@@ -775,23 +768,14 @@ uint8 *ReadFromBuffer(CStruct *p_structure, uint8 *p_buffer)
 		{
 			Dbg_MsgAssert(!(type&MASK_16_BIT_NAME_LOOKUP),("Eh? Both lookup-table flags set ?"));
 			
-			#ifdef __PLAT_WN32__
-			// The lookup table is not loaded when compiling on PC
-			name=Crc::ConstCRC("CompressedName");
-			#else
 			CArray *p_table=GetArray(0x35115a20/*WriteToBuffer_CompressionLookupTable_8*/);
 			name=p_table->GetChecksum(*p_buffer);
-			#endif
 			++p_buffer;
 		}
 		else if (type&MASK_16_BIT_NAME_LOOKUP)			
 		{
-			#ifdef __PLAT_WN32__
-			name=Crc::ConstCRC("CompressedName");
-			#else
 			CArray *p_table=GetArray(0x25231f42/*WriteToBuffer_CompressionLookupTable_16*/);
 			name=p_table->GetChecksum(Read2Bytes(p_buffer).mUInt);
-			#endif
 			p_buffer+=2;
 		}
 		else
