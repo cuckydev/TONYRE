@@ -74,9 +74,9 @@ void SDraw2D::Submit(void)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLushort), m_indices.data(), GL_STATIC_DRAW);
 
 	// Draw
-	glUseProgram(sp_shader->program);
-
 	glBindTexture(GL_TEXTURE_2D, sp_current_texture);
+
+	glUseProgram(sp_shader->program);
 
 	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_SHORT, nullptr);
 

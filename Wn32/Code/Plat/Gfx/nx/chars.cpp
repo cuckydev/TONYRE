@@ -194,6 +194,9 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	// Create texture
 	glGenTextures(1, &pFont->GLTexture);
 	glBindTexture(GL_TEXTURE_2D, pFont->GLTexture);
+
+	// Disable mipmaps
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
 	// Read texture bitmap data (into temp buffer so we can then swizzle it).
 	NumBytes = ( Width * Height + 3 ) & 0xFFFFFFFC;
@@ -638,12 +641,12 @@ void SText::Draw( void )
 		});
 		m_verts.push_back(sVert2D{
 			x1, y1, text_z,
-			u1, v0,
+			u1, v1,
 			r, g, b, a
 		});
 		m_verts.push_back(sVert2D{
 			x1, yt, text_z,
-			u1, v1,
+			u1, v0,
 			r, g, b, a
 		});
 

@@ -72,6 +72,9 @@ namespace Nx
 
 		// Increment frame counter
 		NxWn32::EngineGlobals.frame_count++;
+
+		// Wait for next frame (60 fps)
+		NxWn32::WaitForNextFrame();
 	}
 
 

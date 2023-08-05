@@ -251,9 +251,14 @@ sTexture *LoadTexture( const char *p_filename )
 			}
 			delete[] source_data;
 
-			// Load to texture
+			// Create texture
 			glGenTextures(1, &p_texture->GLTexture);
 			glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+
+			// Disable mipmaps
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+			// Write to texture
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.original_width, header.original_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
 			// TextureDecode::WriteToBmp(p_filename, texture_data, header.original_width, header.original_height);
 

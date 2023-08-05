@@ -13,6 +13,8 @@ namespace NxWn32
 void InitialiseEngine( void );
 void FatalFileError( uint32 error );
 
+void WaitForNextFrame(void);
+
 struct GlVec3
 {
 	float x, y, z;

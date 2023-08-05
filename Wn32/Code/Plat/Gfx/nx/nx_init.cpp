@@ -22,13 +22,40 @@ sEngineGlobals	EngineGlobals;
 /*                                                                */
 /*                                                                */
 /******************************************************************/
+
+static double s_next_frame;
+static constexpr double c_frame_time = 1000.0 / 60.0;
+
+void WaitForNextFrame(void)
+{
+	// Wait until next frame
+	while (1)
+	{
+		double now = (double)SDL_GetTicks64();
+		if (now >= s_next_frame)
+		{
+			s_next_frame += c_frame_time;
+			break;
+		}
+		if (now >= s_next_frame + 100.0)
+		{
+			s_next_frame = now + c_frame_time;
+			break;
+		}
+		SDL_Delay(1);
+	}
+}
+
 void InitialiseEngine( void )
 {
+	// Initialize SDL
+	Dbg_MsgAssert(SDL_Init(SDL_INIT_VIDEO) == 0, ("Failed to initialize SDL: %s", SDL_GetError()));
+
 	// Request an OpenGL 3.3 context
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 	// Create window
 	EngineGlobals.window = SDL_CreateWindow("Tony Hawk's Underground", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
@@ -52,8 +79,11 @@ void InitialiseEngine( void )
 	// Set initial clear color
 	EngineGlobals.clear_color = { 0.3137f, 0.3764f, 0.4392f };
 
-	// initalize 2D render
+	// Initalize 2D render
 	SDraw2D::Init();
+
+	// Initialize frame counter
+	s_next_frame = (double)SDL_GetTicks64();
 
 	/*
 	D3DPRESENT_PARAMETERS   params;
