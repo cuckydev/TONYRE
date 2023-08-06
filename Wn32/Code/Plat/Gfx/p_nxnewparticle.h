@@ -69,9 +69,9 @@ class CXboxNewParticle : public CNewParticle
 	bool				m_emitting;
 	int					m_max_streams;
 	int					m_num_streams;
-	CParticleStream*	mp_stream;
-	CParticleStream*	mp_newest_stream;
-	CParticleStream*	mp_oldest_stream;
+	CParticleStream*	mp_stream = nullptr;
+	CParticleStream*	mp_newest_stream = nullptr;
+	CParticleStream*	mp_oldest_stream = nullptr;
 	Mth::Matrix 		m_rotation;
 	Mth::Matrix			m_new_matrix;
 	// NxXbox::sMaterial*	mp_material;

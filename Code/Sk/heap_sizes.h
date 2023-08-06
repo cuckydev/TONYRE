@@ -32,7 +32,7 @@
 #define	SKATERINFO_HEAP_SIZE			 	(60000+2000+20000)	// extra 2000 for skater cams +20K for 2p fragmentation concerns
 
 #define	SKATER_HEAP_SIZE				 	(120000-40000+1000-2000)	// default size of skater heap, minus 2000 since skater cams moved to skater info heap
-#define	SKATER_GEOM_HEAP_SIZE			 	(680000 + 80000)	// default size of skater heap, plus a little extra cause we were running out for E3
+#define	SKATER_GEOM_HEAP_SIZE			 	(680000 - 16000)	// default size of skater heap, plus a little extra cause we were running out for E3
 #define	THEME_HEAP_SIZE     			 	(204800)		// theme textures heap size
 
 #endif // __SK_HEAP_SIZES_H
