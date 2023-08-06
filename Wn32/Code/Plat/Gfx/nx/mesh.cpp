@@ -179,32 +179,9 @@ void ApplyMeshScaling( float* p_vertices, int num_verts )
 /******************************************************************/
 sMesh::sMesh( void )
 {
-	m_flags							= 0;
-	m_num_vertex_buffers			= 1;
-	m_current_write_vertex_buffer	= 0;
-	for( int vb = 0; vb < MAX_VERTEX_BUFFERS; ++vb )
-	{
-		mp_vertex_buffer[vb]		= 0;
-	}
-	for( int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib )
-	{
-		mp_index_buffer[ib]			= nullptr;
-		m_num_indices[ib]			= 0;
-	}
-	mp_vc_wibble_data				= nullptr;
-	mp_index_lod_data				= nullptr;
-	mp_billboard_data				= nullptr;
-	m_bone_index					= -1;
-	mp_transform					= nullptr;
-	m_diffuse_offset				= 0;
-	m_uv0_offset					= 0;
-	m_normal_offset					= 0;
-	m_vertex_stride					= 0;
-	m_vertex_shader[0]				= 0;
-	m_pixel_shader					= 0;
-
-	SetActive( true );
-	SetVisibility( 0xFF );
+	// Initialize mesh state
+	SetActive(true);
+	SetVisibility(0xFF);
 
 	// Set default primitive type
 	m_primitive_type = GL_TRIANGLE_STRIP;
@@ -255,10 +232,18 @@ sMesh::~sMesh( void )
 			mp_billboard_data = nullptr;
 		}
 
-		for (int vb = 0; vb < MAX_VERTEX_BUFFERS; ++vb)
+		// Delete GL objects
+		// for (int i = 0; i < MAX_INDEX_BUFFERS; i++)
+		// 	glDeleteBuffers(1, &)
+		if (mp_vbo != 0)
 		{
-			// glDeleteBuffers(1, &mp_vertex_buffer[vb]);
-			// glDeleteVertexArrays(1, &mp_vao[vb]);
+			glDeleteBuffers(1, &mp_vbo);
+			mp_vbo = 0;
+		}
+		if (mp_vao != 0)
+		{
+			glDeleteVertexArrays(1, &mp_vao);
+			mp_vao = 0;
 		}
 	}
 }
@@ -1120,81 +1105,71 @@ void sMesh::Initialize( int				num_vertices,
 						uint32			*p_weights,
 						char			*p_vc_wibble_anims )
 {
-	// First thing to do is grab the material pointer for this mesh.
-	mp_material	= ((sScene*)p_scene )->GetMaterial( material_checksum );
+	// First thing to do is grab the material pointer for this mesh
+	mp_material	= ((sScene*)p_scene)->GetMaterial(material_checksum);
 	Dbg_AssertPtr(mp_material);
 
-	if(( num_index_sets == 0 ) || ( p_num_indices[0] == 0 ))
+	// Check if mesh actually has any indices
+	if ((num_index_sets == 0 ) || (p_num_indices[0] == 0))
 	{
 		return;
 	}
 
-	uint16 min_index	= ( pp_indices[0] )[0];
-	uint16 max_index	= ( pp_indices[0] )[0];
-	for( int i = 0; i < p_num_indices[0]; ++i )
+	// Calculate indices range
+	uint16 min_index = (pp_indices[0])[0];
+	uint16 max_index = (pp_indices[0])[0];
+	for (int i = 0; i < p_num_indices[0]; i++)
 	{
-		if(( pp_indices[0] )[i] > max_index )
-		{
-			max_index = ( pp_indices[0] )[i];
-		}
-		else if(( pp_indices[0] )[i] < min_index )
-		{
-			min_index = ( pp_indices[0] )[i];
-		}
+		if ((pp_indices[0])[i] > max_index)
+			max_index = (pp_indices[0])[i];
+		else if ((pp_indices[0])[i] < min_index)
+			min_index = (pp_indices[0])[i];
 	}
 
-	if( max_index >= num_vertices )
-	{
-		// Error!
-		Dbg_Assert( 0 );
-		return;
-	}
+	Dbg_Assert(max_index < num_vertices);
 
-	// Grab top-down heap memory for the mesh workspace buffer. This will need to be as big as the maximum vertex indexed.
-	int16 *p_mesh_workspace_array = new (Mem::Manager::sHandle().TopDownHeap()) int16[max_index + 1];
+	// Grab top-down heap memory for the mesh workspace buffer
+	// This will need to be as big as the maximum vertex indexed
+	uint16 *p_mesh_workspace_array = new (Mem::Manager::sHandle().TopDownHeap()) uint16[max_index + 1];
 
-	// Setup workspace buffer.
-	memset( p_mesh_workspace_array, 1, sizeof( int16 ) * ( max_index + 1 ));
-	for( int i = 0; i < p_num_indices[0]; ++i )
-	{
-		p_mesh_workspace_array[( pp_indices[0] )[i]] = 0;
-	}
+	// Get which vertices are used
+	memset(p_mesh_workspace_array, 1, sizeof(uint16) * (max_index + 1));
+	for (int i = 0; i < p_num_indices[0]; i++)
+		p_mesh_workspace_array[(pp_indices[0])[i]] = 0;
 	
-	// Now figure the wasted space.
-	int wasted_verts = 0;
-	for( int i = min_index; i <= max_index; ++i )
-	{
+	// Count unused vertices
+	uint16 wasted_verts = 0;
+	for (size_t i = min_index; i <= max_index; i++)
 		if( p_mesh_workspace_array[i] != 0 )
-			++wasted_verts;
-	}
+			wasted_verts++;
 
 	// Now figure the total number of vertices required for this mesh, to span the min->max indices.
-	uint16 vertices_for_this_mesh	= ( max_index - min_index + 1 ) - wasted_verts;
-	m_num_vertices					= vertices_for_this_mesh;
+	uint16 vertices_for_this_mesh = (max_index - min_index + 1) - wasted_verts;
+	m_num_vertices = vertices_for_this_mesh;
 
-	// Create the index buffer(s). (Should be 16byte aligned for best performance).
+	// Create the index buffers
 	for( int ib = 0; ib < num_index_sets; ++ib )
 	{
-		mp_index_buffer[ib]	= new uint16[p_num_indices[ib]];
-		m_num_indices[ib]	= p_num_indices[ib];
+		mp_index_buffer[ib] = new uint16[p_num_indices[ib]];
+		m_num_indices[ib] = p_num_indices[ib];
 	}
 	
-	// Use the material flags to figure the vertex format.
-	int vertex_size			= 3 * sizeof( float );
+	// Use the material flags to figure the vertex format
+	int vertex_size	 = 3 * sizeof(float);
 
-	// Include weights (for weighted animation) if present.
+	// Include weights if present
 	uint32 biggest_index_used = 0;
-	if( p_weights )
+	if (p_weights != nullptr)
 	{
-		Dbg_Assert( p_matrix_indices );
+		Dbg_AssertPtr(p_matrix_indices);
 
-		// Calculate the biggest weight used.
-		uint32*	p_weight_read	= p_weights + min_index;
-		for( int v = min_index; v <= max_index; ++v )
+		// Calculate the biggest weight used
+		uint32 *p_weight_read = p_weights + min_index;
+		for (int v = min_index; v <= max_index; v++)
 		{
-			if( p_mesh_workspace_array[v] == 0 )
+			if (p_mesh_workspace_array[v] == 0)
 			{
-				// This vertex is used.
+				// This vertex is used
 				uint32 w2 = (( p_weight_read[0] >> 22 ) & 0x3FF );
 				if( w2 > 0 )
 				{
@@ -1204,88 +1179,82 @@ void sMesh::Initialize( int				num_vertices,
 				else
 				{
 					uint32 w1 = (( p_weight_read[0] >> 11 ) & 0x7FF );
-					if( w1 > 0 )
-					{
+					if (w1 > 0)
 						biggest_index_used = 1;
-					}
 				}
 			}
-			++p_weight_read;
+
+			p_weight_read++;
 		}
-		vertex_size	+= sizeof( uint32 );
+		vertex_size	+= sizeof(uint32);
 	}
 
-	// Include indices (for weighted animation) if present.
-	if( p_matrix_indices )
+	// Include indices (for weighted animation) if present
+	if (p_matrix_indices != nullptr)
 	{
-		Dbg_Assert( p_weights );
-		vertex_size	+= sizeof( uint16 ) * 4;
+		Dbg_AssertPtr(p_weights);
+		vertex_size	+= sizeof(uint16) * 4;
 	}
 	
 	// Texture coordinates.
-	uint32	tex_coord_pass	= 0;
-	bool	env_mapped		= false;
-	if( p_tex_coords )
+	uint32 tex_coord_pass = 0;
+	bool env_mapped = false;
+
+	if (p_tex_coords != nullptr)
 	{
-		for( uint32 pass = 0; pass < mp_material->m_passes; ++pass )
+		for (uint32 pass = 0; pass < mp_material->m_passes; pass++)
 		{
-			if( mp_material->m_flags[pass] & MATFLAG_ENVIRONMENT )
-			{
-				env_mapped		= true;
-			}
+			if (mp_material->m_flags[pass] & MATFLAG_ENVIRONMENT)
+				env_mapped = true;
 
 			// Only need UV's for this stage if it is *not* environment mapped.
-			if(( mp_material->mp_tex[pass] ) && ( !( mp_material->m_flags[pass] & MATFLAG_ENVIRONMENT )))
+			if ((mp_material->mp_tex[pass]) && !(mp_material->m_flags[pass] & MATFLAG_ENVIRONMENT))
 			{
 				// Will need uv for this pass and all before it.
-				tex_coord_pass	= pass + 1; 
+				tex_coord_pass = pass + 1; 
 			}
 		}
 	}
 	else
 	{
-		for( uint32 pass = 0; pass < mp_material->m_passes; ++pass )
+		for (uint32 pass = 0; pass < mp_material->m_passes; pass++)
 		{
-			if( mp_material->m_flags[pass] & MATFLAG_ENVIRONMENT )
-			{
-				env_mapped		= true;
-			}
+			if (mp_material->m_flags[pass] & MATFLAG_ENVIRONMENT)
+				env_mapped = true;
 		}
 	}
 
-	if( tex_coord_pass > 0 )
-	{
-		vertex_size			+= 2 * sizeof( float ) * tex_coord_pass;
-	}
+	if (tex_coord_pass > 0)
+		vertex_size += 2 * sizeof(float) * tex_coord_pass;
 
-	// Assume no normals for now, unless weight information indicates an animating mesh.
-	bool use_normals		= false;
-	bool use_packed_normals	= false;
+	// Assume no normals for now, unless weight information indicates an animating mesh
+	bool use_normals = false;
+	bool use_packed_normals = false;
 
-	if( p_normals || p_weights || env_mapped )
+	if (p_normals != nullptr || p_weights != nullptr || env_mapped)
 	{
-		// Need to include normals. They will be packed differently for weighted meshes.
+		// Need to include normals. They will be packed differently for weighted meshes
 		use_normals	= true;
-		if( p_weights )
+		if (p_weights)
 		{
 			use_packed_normals = true;
-			vertex_size	+= sizeof( uint32 );
+			vertex_size	+= sizeof(uint32);
 		}
 		else
 		{
-			vertex_size	+= sizeof( float ) * 3;
+			vertex_size	+= sizeof(float) * 3;
 		}
 	}
 
 	bool use_colors = false;
-	if( p_colors )
+	if (p_colors != nullptr)
 	{
-		// The raw vertex data does contain vertex colors.
 		vertex_size	+= 4;
 		use_colors	= true;
 	}
 
-	// Create the vertex buffer.
+	#if 0
+	// Create the vertex buffer
 	m_vertex_stride	= vertex_size;
 
 	/*
@@ -1559,6 +1528,7 @@ void sMesh::Initialize( int				num_vertices,
 	}
 
 	delete[] p_byte;
+	#endif
 }
 
 

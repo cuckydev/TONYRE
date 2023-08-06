@@ -42,7 +42,6 @@ struct sMesh
 public:
 
 	static const uint32	VERTEX_SHADER_STACK_SIZE	= 2;
-	static const uint32	MAX_VERTEX_BUFFERS			= 3;
 	static const uint32	MAX_INDEX_BUFFERS			= 8;		// Multiple index buffers are used for triangle-decimated LOD's.
 	
 	enum EMeshFlags
@@ -111,44 +110,50 @@ public:
 	void			DrawBoundingSphere( void );
 
 	// Members. Order is important here since details required for fast mesh rejection need to be in top 32 bytes of structure.
-	uint32					m_flags = 0;
-	glm::vec3					m_sphere_center = {};
-	float					m_sphere_radius = 0.0f;
-	sMaterial				*mp_material = nullptr;
+	uint32 m_flags = 0;
 
-	uint8					m_vertex_stride = 0;
-	uint8					m_current_write_vertex_buffer = 0;
-	uint8					m_num_vertex_buffers = 1;
-	uint8					m_visibility_mask = 0;
-	uint8					m_diffuse_offset = 0; // Offset into vertex format for diffuse color component.
-	uint8					m_normal_offset = 0;  // Offset into vertex format for normal component.
-	uint8					m_uv0_offset = 0;     // Offset into vertex format for uv0 component.
-	int8					m_bone_index = -1;
+	glm::vec3 m_sphere_center = {};
+	float m_sphere_radius = 0.0f;
 
-	uint16					m_load_order = 0;
-	uint16					m_num_vertices = 0;
-	uint16					m_num_indices[MAX_INDEX_BUFFERS] = {};
+	sMaterial *mp_material = nullptr;
 
-	uint32					Checksum = 0;
-	uint32					m_vertex_shader[VERTEX_SHADER_STACK_SIZE] = {};
-	uint32					m_pixel_shader = 0;
+	uint8 m_vertex_stride = 0;
+	uint8 m_current_write_vertex_buffer = 0;
+
+	uint8 m_visibility_mask = 0;
+
+	uint8 m_diffuse_offset = 0; // Offset into vertex format for diffuse color component.
+	uint8 m_normal_offset = 0;  // Offset into vertex format for normal component.
+	uint8 m_uv0_offset = 0;     // Offset into vertex format for uv0 component.
+
+	int8 m_bone_index = -1;
+
+	uint16 m_load_order = 0;
+	uint16 m_num_vertices = 0;
+	uint16 m_num_indices[MAX_INDEX_BUFFERS] = {};
+
+	uint32 Checksum = 0;
+	uint32 m_vertex_shader[VERTEX_SHADER_STACK_SIZE] = {};
+	uint32 m_pixel_shader = 0;
 
 	// List of distances (squared) for which a particular index list should be used.
 	// nullptr for meshes that only have one set of index data.
-	float					*mp_index_lod_data = nullptr;
+	float *mp_index_lod_data = nullptr;
 
 	sBillboardData *mp_billboard_data = nullptr; // Data defining billboard properties. nullptr for non-billboard meshes.
 
 	GLenum m_primitive_type = GL_TRIANGLE_STRIP;
+	
 	uint16 *mp_index_buffer[MAX_INDEX_BUFFERS] = {};
+	GLuint mp_vao = 0;
+	GLuint mp_vbo = 0;
 
-	GLuint mp_vao[MAX_VERTEX_BUFFERS] = {};
-	GLuint mp_vertex_buffer[MAX_VERTEX_BUFFERS] = {};
+	float m_bounding_sphere_nearest_z = 0.0f; // Used for dynamic sorting during front-back block sorting.
+	float m_material_color_override[3] = {};
 
-	float					m_bounding_sphere_nearest_z = 0.0f; // Used for dynamic sorting during front-back block sorting.
-	float					m_material_color_override[3] = {};
-	char					*mp_vc_wibble_data = nullptr;
-	Mth::Matrix				*mp_transform = nullptr;
+	char *mp_vc_wibble_data = nullptr;
+
+	Mth::Matrix *mp_transform = nullptr;
 };
 
 
