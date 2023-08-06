@@ -779,7 +779,7 @@ void CScreenElementManager::destroy_element_recursive(EPreserveParent preserve_p
 
 CScreenElementPtr CScreenElementManager::get_element_by_local_id(const CScreenElementPtr &pParent, uint32 desiredLocalID)
 {
-	uint32 crc_tag_local_id = CRCX("tag_local_id");
+	uint32 crc_tag_local_id = Crc::ConstCRC("tag_local_id");
 
 	CScreenElementPtr p_child = pParent->GetFirstChild();
 	while(p_child)

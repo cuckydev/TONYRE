@@ -33,7 +33,7 @@
 #include <gel/scripting/script.h>
 #include <gfx/2d/screenelemman.h>
 
-#include <Windows.h>
+#include "SDL.h"
 
 //#include <libpad.h>
 
@@ -80,33 +80,6 @@ int gLastPadPressed=0;
 **							   Private Functions							**
 *****************************************************************************/
 
-static void set_xbox_actuators( HANDLE handle, unsigned short left_motor, unsigned short right_motor )
-{
-	/*
-	// Want this to be static since otherwise it would potentially go out of scope and be written to.
-	static XINPUT_FEEDBACK input_feedback[32];
-	static int next_index			= 0;
-	
-	// The Ps2 left motor is the high frequency motor, the right motor is a simple on/off low frequency motor.
-	// On the Xbox it is the reverse (although the left motor has more control than simple on/off).
-	
-	input_feedback[next_index].Header.dwStatus			= 0;
-	input_feedback[next_index].Header.hEvent			= nullptr;
-	input_feedback[next_index].Rumble.wLeftMotorSpeed	= right_motor;
-	input_feedback[next_index].Rumble.wRightMotorSpeed	= left_motor;
-
-	DWORD status = XInputSetState( handle, &input_feedback[next_index] );
-	Dbg_Assert(( status == ERROR_IO_PENDING ) || ( status == ERROR_SUCCESS ) || ( status == ERROR_DEVICE_NOT_CONNECTED ));
-
-	// Cycle array member.
-	if( ++next_index >= 32 )
-	{
-		next_index = 0;
-	}
-	*/
-}
-
-
 
 /******************************************************************/
 /*                                                                */
@@ -115,6 +88,11 @@ static void set_xbox_actuators( HANDLE handle, unsigned short left_motor, unsign
 	
 void Device::process( void )
 {
+	if (m_data.m_port == 0 && m_data.m_slot == 0)
+	{
+		m_plugged_in = true;
+		read_data();
+	}
 	/*
 	m_plugged_in = false;
 
@@ -167,6 +145,68 @@ void Device::wait( void )
 
 void Device::read_data ( void )
 {
+	const Uint8 *keystate = SDL_GetKeyboardState(nullptr);
+
+	m_data.m_valid = true;
+	m_plugged_in = true;
+
+	// Convert this data back into PS2-style 'raw' data for a DUALSHOCK2.
+	m_data.m_control_data[0] = 0;						// 'Valid' info flag.
+	m_data.m_control_data[1] = (0x07 << 4) | 16;		// DUALSHOCK2 id + data length.
+
+	m_data.m_control_data[2] = 0xFF;					// Turn off all buttons by default.
+	m_data.m_control_data[3] = 0xFF;					// Turn off all buttons by default.
+
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_RETURN] ? (1 << 3) : 0;		// XBox 'Start' = PS2 'Start'.
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_RSHIFT] ? (1 << 0) : 0;		// XBox 'Back' = PS2 'Select'.
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_2] ? (1 << 1) : 0;	// Xbox 'Left Stick Button' = PS2 'Left Stick Button'.
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_KP_5] ? (1 << 2) : 0;	// Xbox 'Right Stick Button' = PS2 'Right Stick Button'.
+
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_UP] ? (1 << 4) : 0;	// XBox 'Y' = PS2 'Triangle'.
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_RIGHT] ? (1 << 5) : 0;	// XBox 'B' = PS2 'Circle'.
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_DOWN] ? (1 << 6) : 0;	// XBox 'A' = PS2 'X'.
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_LEFT] ? (1 << 7) : 0;	// XBox 'X' = PS2 'Square'.
+
+	// Zero out the d-pad pressure values.
+	m_data.m_control_data[8] = 0x00;
+	m_data.m_control_data[9] = 0x00;
+	m_data.m_control_data[10] = 0x00;
+	m_data.m_control_data[11] = 0x00;
+
+	// Handle 8 position d-pad.
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_W] ? (1 << 4) : 0;		// PS2 'DPad Up'.
+	m_data.m_control_data[10] = keystate[SDL_SCANCODE_W] ? 0xFF : 0;			// PS2 'DPad Up'.
+
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_D] ? (1 << 5) : 0;	// PS2 'DPad Right'.
+	m_data.m_control_data[8] = keystate[SDL_SCANCODE_D] ? 0xFF : 0;			// PS2 'DPad Right'.
+
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_S] ? (1 << 6) : 0;	// PS2 'DPad Down'.
+	m_data.m_control_data[11] = keystate[SDL_SCANCODE_S] ? 0xFF : 0;		// PS2 'DPad Down'.
+
+	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_A] ? (1 << 7) : 0;	// PS2 'DPad Left'.
+	m_data.m_control_data[9] = keystate[SDL_SCANCODE_A] ? 0xFF : 0;			// PS2 'DPad Left'.
+
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_Q] ? (1 << 2) : 0; // PS2 L1
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_1] ? (1 << 0) : 0; // PS2 L2
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_3] ? (1 << 1) : 0; // PS2 R2
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_E] ? (1 << 3) : 0; // PS2 R1
+
+	// Xbox thumbsticks return analog value in range [-32767, 32767].
+	int up = keystate[SDL_SCANCODE_W] ? 1 : 0;
+	int right = keystate[SDL_SCANCODE_D] ? 1 : 0;
+	int down = keystate[SDL_SCANCODE_S] ? 1 : 0;
+	int left = keystate[SDL_SCANCODE_A] ? 1 : 0;
+
+	int rup = keystate[SDL_SCANCODE_KP_8] ? 1 : 0;
+	int rright = keystate[SDL_SCANCODE_KP_6] ? 1 : 0;
+	int rdown = keystate[SDL_SCANCODE_KP_2] ? 1 : 0;
+	int rleft = keystate[SDL_SCANCODE_KP_4] ? 1 : 0;
+
+	m_data.m_control_data[4] = (0x80 + (rright - rleft) * 0x7F); // Analog stick right (X direction).
+	m_data.m_control_data[5] = (0x80 + (rdown - rup) * 0x7F); // Analog stick right (Y direction).
+	m_data.m_control_data[6] = (0x80 + (right - left) * 0x7F); // Analog stick left (X direction).
+	m_data.m_control_data[7] = (0x80 + (down - up) * 0x7F); // Analog stick left (Y direction).
+
 	/*
 	XINPUT_STATE	xis;
 	HRESULT			hr;

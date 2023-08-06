@@ -333,7 +333,8 @@ namespace Nx
 	/******************************************************************/
 	CQuickAnim *CEngine::s_plat_init_quick_anim()
 	{
-		return new CQuickAnim;
+		CQuickAnim *pQuickAnim = new CQuickAnim;
+		return pQuickAnim;
 	}
 
 
@@ -386,6 +387,31 @@ namespace Nx
 	/******************************************************************/
 	CMesh *CEngine::s_plat_load_mesh(uint32 id, uint32 *p_model_data, int model_data_size, uint8 *p_cas_data, Nx::CTexDict *pTexDict, uint32 texDictOffset, bool isSkin, bool doShadowVolume)
 	{
+		// Convert the id into a usable string.
+		Dbg_Assert(id > 0);
+		char id_as_string[16];
+		sprintf(id_as_string, "%d\n", id);
+
+		// Load the scene.
+		Nx::CScene *p_scene = Nx::CEngine::s_plat_load_scene_from_memory(p_model_data, pTexDict, false, false, false);
+
+		// Store the checksum of the scene name.
+		p_scene->SetID(Script::GenerateCRC(id_as_string));
+
+		p_scene->SetTexDict(pTexDict);
+		p_scene->PostLoad(id_as_string);
+
+		CXboxMesh *pMesh = new CXboxMesh();
+
+		// Set CAS data for mesh.
+		pMesh->SetCASData(p_cas_data);
+
+		// Disable any scaling.
+		NxWn32::DisableMeshScaling();
+
+		Nx::CXboxScene *p_xbox_scene = static_cast<Nx::CXboxScene *>(p_scene);
+		pMesh->SetScene(p_xbox_scene);
+		pMesh->SetTexDict(pTexDict);
 		return nullptr;
 	}
 
@@ -397,6 +423,7 @@ namespace Nx
 	/******************************************************************/
 	bool CEngine::s_plat_unload_mesh(CMesh *pMesh)
 	{
+		delete pMesh;
 		return true;
 	}
 
@@ -408,7 +435,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_mesh_scaling_parameters(SMeshScalingParameters *pParams)
 	{
-
+		NxWn32::SetMeshScalingParameters(pParams);
 	}
 
 

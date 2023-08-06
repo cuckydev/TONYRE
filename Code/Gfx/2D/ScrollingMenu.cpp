@@ -172,9 +172,9 @@ void CBaseScrollingMenu::get_the_menu()
 	CScreenElementPtr p_child = GetFirstChild();
 	while(p_child)
 	{
-		if ((uint32) p_child->GetType() == CRCX("vmenu") && m_is_vertical)
+		if ((uint32) p_child->GetType() == Crc::ConstCRC("vmenu") && m_is_vertical)
 			mp_the_menu = (CBaseMenu *) p_child.Convert();
-		else if ((uint32) p_child->GetType() == CRCX("hmenu") && !m_is_vertical)
+		else if ((uint32) p_child->GetType() == Crc::ConstCRC("hmenu") && !m_is_vertical)
 			mp_the_menu = (CBaseMenu *) p_child.Convert();
 		p_child = p_child->GetNextSibling();
 	}

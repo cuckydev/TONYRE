@@ -1446,6 +1446,7 @@ SCFunction CFunctionLookupTable[]=
 	// Functions that don't seem to exist but are referenced by scripts
 	{"IsInternetGameHost", CFuncs::ScriptIsInternetGameHost},
 	{"IsJoiningInternetGame", CFuncs::ScriptIsJoiningInternetGame},
+	{"MultiPlayerOnly", CFuncs::ScriptMultiPlayerOnly},
 };
 
 // A list of all the member function names accessible from scripts.

@@ -218,14 +218,11 @@ sMesh::sMesh( void )
 /******************************************************************/
 sMesh::~sMesh( void )
 {
-	/*
 	// Remove this mesh from the billboard manager if appropriate.
 	if( m_flags & sMesh::MESH_FLAG_BILLBOARD )
 	{
 		BillboardManager.RemoveEntry( this );
 	}
-
-	EngineGlobals.p_Device->BlockUntilIdle();
 
 	if( mp_transform )
 	{
@@ -258,33 +255,12 @@ sMesh::~sMesh( void )
 			mp_billboard_data = nullptr;
 		}
 
-		UINT					stride;
-		IDirect3DVertexBuffer8	*p_vb;
-		D3DDevice_GetStreamSource( 0, &p_vb, &stride );
-		if( p_vb )
+		for (int vb = 0; vb < MAX_VERTEX_BUFFERS; ++vb)
 		{
-			// GetStreamSource() increments the reference count, so call Release() here.
-			p_vb->Release();
-		}
-
-		for( uint32 i = 0; i < m_num_vertex_buffers; ++i )
-		{
-			if( mp_vertex_buffer[i] )
-			{
-				if( p_vb == mp_vertex_buffer[i] )
-				{
-					// We are deleting a vertex buffer that is set as the current stream source. This can result in
-					// problems with the internal D3D reference counter, so clear this up first.
-					D3DDevice_SetStreamSource( 0, nullptr, 0 );
-				}
-			
-				uint8 *p_del = (uint8*)mp_vertex_buffer[i];
-				delete p_del;
-				mp_vertex_buffer[i]	= nullptr;
-			}
+			glDeleteBuffers(1, &mp_vertex_buffer[vb]);
+			glDeleteVertexArrays(1, &mp_vao[vb]);
 		}
 	}
-	*/
 }
 
 

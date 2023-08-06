@@ -30,22 +30,6 @@
 
 #include <sys/config/config.h>
 
-#ifndef __PLAT_WN32__
-#include <gfx/gfxman.h>
-#endif // __PLAT_WN32__
-
-#ifdef __PLAT_NGPS__
-int DumpUnwindStack( int iMaxDepth, int *pDest );
-#include <libdev.h>
-#endif
-
-#ifdef __PLAT_NGC__
-#include <dolphin.h>
-#define _output OSReport
-#else
-#define _output printf
-#endif
-
 #ifdef __PLAT_WN32__
 #include <Windows.h>
 #endif
@@ -71,7 +55,7 @@ namespace Dbg
 **								   Defines									**
 *****************************************************************************/
 
-static const int vASSERT_BUFFER_SIZE = 512;
+static const int vASSERT_BUFFER_SIZE = 1024;
 
 /*****************************************************************************
 **								Private Types								**
@@ -129,64 +113,42 @@ void	screen_assert( bool on )
 void		Assert( char* file, uint line, char* reason )
 {
 	static	char		assert_buffer1[vASSERT_BUFFER_SIZE];
-	static	char		assert_buffer3[vASSERT_BUFFER_SIZE];
-	static	char*		tmp1 = assert_buffer1; 
-	static	char*		tmp3 = assert_buffer3; 
 
-	static int again = 0;
-	if (again) 
-	{
-		_output ("MEM CONTEXT: %s\n",Mem::Manager::sHandle().GetContextName());
-				
-		_output( "LOOPED ASSERTION: %s(%d)\n%s\n\n", 
-			file, line, reason );
-		_output ("Real Assertion: %s\n%s\n",tmp1,tmp3);
-		while (1);			// and hang... 
-	}
-	again = 1;
-	
-	_output ("\n--------------------------------------------------\nPLEASE COPY FROM A FEW LINES ABOVE HERE\n\nCURRENT MEM CONTEXT: %s\n\n"
-			,Mem::Manager::sHandle().GetContextName());
+	sprintf(assert_buffer1, "\n--------------------------------------------------\nPLEASE COPY FROM A FEW LINES ABOVE HERE\n\nCURRENT MEM CONTEXT: %s\n\n", Mem::Manager::sHandle().GetContextName());
+	OutputDebugStringA(assert_buffer1);
+
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
-//	Mem::Heap* heap = mem_man.TopDownHeap();
-//	Mem::Region* region = heap->ParentRegion();
-//	_output ("TopDown  Fragmentation %7dK, in %5d Blocks\n",heap->mFreeMem.m_count / 1024, heap->mFreeBlocks.m_count);
-//	_output ("         used          %7dK, in %5d Blocks\n",heap->mUsedMem.m_count / 1024, heap->mUsedBlocks.m_count);
-//	heap = mem_man.BottomUpHeap();
-//	_output ("BottomUp Fragmentation %7dK, in %5d Blocks\n",heap->mFreeMem.m_count / 1024, heap->mFreeBlocks.m_count);
-//	_output ("         used          %7dK, in %5d Blocks\n",heap->mUsedMem.m_count / 1024, heap->mUsedBlocks.m_count);
-//	_output ("Shared Region %dK free out of %d K available\n", region->MemAvailable() / 1024, region->TotalSize() / 1024 );
 
-	_output("Name            Used  Frag  Free   Min  Blocks\n");
-	_output("--------------- ----- ----- ---- ------ ------\n");
+	OutputDebugStringA("Name            Used  Frag  Free   Min  Blocks\n");
+	OutputDebugStringA("--------------- ----- ----- ---- ------ ------\n");
 	Mem::Heap* heap;
 	for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 	{		
 			Mem::Region* region = heap->ParentRegion();			
-			_output( "%12s: %5dK %4dK %4dK %4dK  %5d \n",
+			sprintf(assert_buffer1, "%12s: %5dK %4dK %4dK %4dK  %5d \n",
 					heap->GetName(),
 					heap->mUsedMem.m_count / 1024,
 					heap->mFreeMem.m_count / 1024,
 					region->MemAvailable() / 1024,
 					region->MinMemAvailable() / 1024,
 					heap->mUsedBlocks.m_count
-					);										
+					);
+			OutputDebugStringA(assert_buffer1);
 	}
 
 	// Show an assertion failure dialog box
 	#ifdef __PLAT_WN32__
 		// Check if debugger is present
-		char buffer[1024];
-		sprintf(buffer, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
+		sprintf(assert_buffer1, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
 		if (IsDebuggerPresent())
 		{
 			// There will be a breakpoint triggered later on..
-			OutputDebugStringA(buffer);
+			OutputDebugStringA(assert_buffer1);
 		}
 		else
 		{
 			// Show dialog box
-			MessageBox(nullptr, buffer, "Assertion Failure", MB_OK | MB_ICONERROR);
+			MessageBox(nullptr, assert_buffer1, "Assertion Failure", MB_OK | MB_ICONERROR);
 		}
 	#endif
 }

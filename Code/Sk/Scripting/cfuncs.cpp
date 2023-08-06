@@ -7980,7 +7980,7 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 	}
 	#endif
 	
-	Dbg_MsgAssert(fragmentation < 10000, ("Excessive bottom up fragmentation (%d) after cleanup",fragmentation)); 
+	// Dbg_MsgAssert(fragmentation < 10000, ("Excessive bottom up fragmentation (%d) after cleanup",fragmentation)); 
 	
 #ifndef __PLAT_NGC__
 	heap = mem_man.TopDownHeap();
@@ -14827,6 +14827,11 @@ bool ScriptIsInternetGameHost(Script::CStruct *pParams, Script::CScript *pScript
 }
 
 bool ScriptIsJoiningInternetGame(Script::CStruct *pParams, Script::CScript *pScript)
+{
+	return false;
+}
+
+bool ScriptMultiPlayerOnly(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	return false;
 }

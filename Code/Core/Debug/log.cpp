@@ -31,16 +31,6 @@
 
 #include <sys/config/config.h>
 
-#ifndef __PLAT_WN32__
-#include <gfx/gfxman.h>
-#endif // __PLAT_WN32__
-
-#ifdef __PLAT_NGC__
-#include <dolphin.h>
-#define _output OSReport
-#else
-#define _output printf
-#endif
 
 #ifdef __NOPT_ASSERT__
 

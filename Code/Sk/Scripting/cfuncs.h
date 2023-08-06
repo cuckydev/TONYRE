@@ -568,6 +568,7 @@ bool ScriptFinishRendering( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptIsInternetGameHost(Script::CStruct *pParams, Script::CScript *pScript);
 bool ScriptIsJoiningInternetGame(Script::CStruct *pParams, Script::CScript *pScript);
+bool ScriptMultiPlayerOnly(Script::CStruct *pParams, Script::CScript *pScript);
 
 /*****************************************************************************
 **								Inline Functions							**

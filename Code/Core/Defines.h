@@ -184,30 +184,11 @@ typedef	sint64				nID64;
 
 /****************************************************************************/
 
-// Converts a string into a checksum. This macro can be used for readability.
-// Later, for speed, some application can scan all .cpp and .h files, and
-// replace all instances of CRCX(...) with corresponding CRCD(...) instances
-//
-// Example: CRCX("object_id")
-#define CRCX(_s)			Script::GenerateCRC(_s)
-// This macro exists simply for readability. Whenever you see a CRCD(...) instance,
-// you will know what string the checksum maps to. CRCD(...) instances in the code
-// can be generated from CRCX(...), and can be reverse mapped if desired.
-//
-// Example: Crc::ConstCRC("object_id")
-
-#include <core/debug.h>
-#include <Core/crc.h>
-
-
-
-
 /*****************************************************************************
 **								   Includes									**
 *****************************************************************************/
 
-
-
+#include <core/debug.h>
 
 #include <core/support.h>
 #include <sys/mem/memman.h>

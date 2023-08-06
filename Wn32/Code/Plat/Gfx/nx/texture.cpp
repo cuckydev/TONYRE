@@ -226,25 +226,25 @@ sTexture *LoadTexture( const char *p_filename )
 			}
 
 			// Read texture bitmap data
-			size_t num_bytes = (((header.bit_depth / 8) * (header.original_width) * (header.original_height)) + 3) & 0xFFFFFFFC;
+			size_t num_bytes = (((header.bit_depth / 8) * (header.width) * (header.height)) + 3) & 0xFFFFFFFC;
 			uint8 *source_data = new uint8[num_bytes];
 			int len = File::Read(source_data, num_bytes, 1, p_FH);
 			Dbg_MsgAssert(len == num_bytes, ("couldn't read texture data from texture file %s", p_filename));
 			File::Close(p_FH);
 
 			// Convert to 32 bit
-			uint8 *texture_data = new uint8[header.original_width * header.original_height * 4];
+			uint8 *texture_data = new uint8[header.width * header.height * 4];
 
 			switch (header.bit_depth)
 			{
 				case 8:
-					TextureDecode::Pal_Decode(source_data, &pal[0][0], texture_data, header.original_width, header.original_height);
+					TextureDecode::Pal_Decode(source_data, &pal[0][0], texture_data, header.width, header.height);
 					break;
 				case 16:
-					TextureDecode::Ps2_Decode(source_data, texture_data, header.original_width, header.original_height);
+					TextureDecode::Ps2_Decode(source_data, texture_data, header.width, header.height);
 					break;
 				case 32:
-					TextureDecode::Long_Decode(source_data, texture_data, header.original_width, header.original_height);
+					TextureDecode::Long_Decode(source_data, texture_data, header.width, header.height);
 					break;
 				default:
 					Dbg_Assert(0);
@@ -258,15 +258,28 @@ sTexture *LoadTexture( const char *p_filename )
 			// Disable mipmaps
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-			// Write to texture
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.original_width, header.original_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
-			// TextureDecode::WriteToBmp(p_filename, texture_data, header.original_width, header.original_height);
+			// Unswizzle texture
+			if (is_power_of_two(header.width) && is_power_of_two(header.height))
+			{
+				uint8 *unswizzled_texture_data = new uint8[header.width * header.height * 4];
+				TextureDecode::Swizzle_Decode(texture_data, unswizzled_texture_data, header.width, header.height);
+				delete[] texture_data;
 
-			delete[] texture_data;
+				// Write to texture
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, unswizzled_texture_data);
+				
+				delete[] unswizzled_texture_data;
+			}
+			else
+			{
+				// Write to texture
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
+				delete[] texture_data;
+			}
 
 			// Set up some member values.
-			p_texture->ActualWidth = header.original_width;
-			p_texture->ActualHeight = header.original_height;
+			p_texture->ActualWidth = header.width;
+			p_texture->ActualHeight = header.height;
 			p_texture->BaseHeight = header.original_width;
 			p_texture->BaseHeight = header.original_height;
 
@@ -274,8 +287,6 @@ sTexture *LoadTexture( const char *p_filename )
 			p_texture->TexelDepth	= (uint8)header.bit_depth;
 			p_texture->DXT			= 0;
 			p_texture->Levels		= 1;
-
-			p_texture->dbugid = strdup(p_filename);
 			
 			return p_texture;
 		}
