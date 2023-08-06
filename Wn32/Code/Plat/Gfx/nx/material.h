@@ -109,20 +109,20 @@ struct sMaterial
 	float					m_grass_height;
 	int						m_grass_layers;
 	float					m_draw_order;
-	uint32					m_flags[MAX_PASSES];
-	sTexture*				mp_tex[MAX_PASSES];
-	float					m_color[MAX_PASSES][4];				// Element [pass][3] holds the fixed alpha value where appropriate.
-	uint32					m_reg_alpha[MAX_PASSES];			// Low 24 bits are blend mode, high 8 bits are fixed alpha value.
-	uint32					m_uv_addressing[MAX_PASSES];
-	float					m_envmap_tiling[MAX_PASSES][2];		// Tile multiples for env mapping (NOTE: could maybe be changed to byte array?)
-	uint32					m_filtering_mode[MAX_PASSES];
-	sUVWibbleParams			*mp_UVWibbleParams[MAX_PASSES];
-	float					m_k[MAX_PASSES];
+	uint32					m_flags[MAX_PASSES] = {};
+	sTexture*				mp_tex[MAX_PASSES] = {};
+	float					m_color[MAX_PASSES][4] = {};				// Element [pass][3] holds the fixed alpha value where appropriate.
+	uint32					m_reg_alpha[MAX_PASSES] = {};			// Low 24 bits are blend mode, high 8 bits are fixed alpha value.
+	uint32					m_uv_addressing[MAX_PASSES] = {};
+	float					m_envmap_tiling[MAX_PASSES][2] = {};		// Tile multiples for env mapping (NOTE: could maybe be changed to byte array?)
+	uint32					m_filtering_mode[MAX_PASSES] = {};
+	sUVWibbleParams *mp_UVWibbleParams[MAX_PASSES] = {};
+	float					m_k[MAX_PASSES] = {};
 	uint32					m_num_wibble_vc_anims;
-	sVCWibbleParams			*mp_wibble_vc_params;
-	GlCol4					*mp_wibble_vc_colors;				// Max of eight banks of vertex color wibble information.
-	sTextureWibbleParams	*mp_wibble_texture_params;
-	float					m_specular_color[4];				// Specular color (0-2) plus power term (3).
+	sVCWibbleParams			*mp_wibble_vc_params = nullptr;
+	GlCol4					*mp_wibble_vc_colors = nullptr;				// Max of eight banks of vertex color wibble information.
+	sTextureWibbleParams	*mp_wibble_texture_params = nullptr;
+	float					m_specular_color[4] = {};				// Specular color (0-2) plus power term (3).
 };
 
 
