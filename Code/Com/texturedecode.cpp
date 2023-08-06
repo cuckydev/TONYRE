@@ -67,26 +67,32 @@ namespace TextureDecode
 				swizzle_z >>= 1;
 				if ((twiddle_i & i) != 0)
 					x |= swizzle_x;
-				swizzle_x *= 2;
-				twiddle_i *= 2;
+				swizzle_x <<= 1;
+				twiddle_i <<= 1;
 				if (swizzle_s)
 				{
 					SwizzleS:
 					swizzle_s >>= 1;
 					if ((twiddle_i & i) != 0)
 						y |= swizzle_y;
-					swizzle_y *= 2;
-					twiddle_i *= 2;
+					swizzle_y <<= 1;
+					twiddle_i <<= 1;
 				}
 			}
 			if (swizzle_s)
 				goto SwizzleS;
-			memcpy(&out[4 * (x + width * y)], source, 4);
-			++i;
+
+			uint8 *outp = &out[4 * (x + width * y)];
+			outp[0] = source[0];
+			outp[1] = source[1];
+			outp[2] = source[2];
+			outp[3] = source[3];
 			source += 4;
+
+			++i;
 			if (i < chars)
 			{
-				swizzle_w = (int)width >> 1;
+				swizzle_w = width >> 1;
 				swizzle_s = swizzle_h;
 				continue;
 			}

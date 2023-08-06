@@ -118,13 +118,16 @@ public:
 	sMaterial *mp_material = nullptr;
 
 	uint8 m_vertex_stride = 0;
+	uint8 m_weights_offset = 0; // Offset into vertex format for weights component.
+	uint8 m_matindices_offset = 0; // Offset into vertex format for matrix indices component.
+	uint8 m_diffuse_offset = 0; // Offset into vertex format for diffuse color component.
+	uint8 m_normal_offset = 0;  // Offset into vertex format for normal component.
+	uint8 m_uv0_offset = 0;     // Offset into vertex format for uv0 component.
+
 	uint8 m_current_write_vertex_buffer = 0;
 
 	uint8 m_visibility_mask = 0;
 
-	uint8 m_diffuse_offset = 0; // Offset into vertex format for diffuse color component.
-	uint8 m_normal_offset = 0;  // Offset into vertex format for normal component.
-	uint8 m_uv0_offset = 0;     // Offset into vertex format for uv0 component.
 
 	int8 m_bone_index = -1;
 

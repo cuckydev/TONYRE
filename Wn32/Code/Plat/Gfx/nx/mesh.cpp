@@ -1170,15 +1170,15 @@ void sMesh::Initialize( int				num_vertices,
 			if (p_mesh_workspace_array[v] == 0)
 			{
 				// This vertex is used
-				uint32 w2 = (( p_weight_read[0] >> 22 ) & 0x3FF );
-				if( w2 > 0 )
+				uint32 w2 = ((p_weight_read[0] >> 22) & 0x3FF);
+				if (w2 > 0)
 				{
 					biggest_index_used = 2;
 					break;
 				}
 				else
 				{
-					uint32 w1 = (( p_weight_read[0] >> 11 ) & 0x7FF );
+					uint32 w1 = ((p_weight_read[0] >> 11) & 0x7FF);
 					if (w1 > 0)
 						biggest_index_used = 1;
 				}
@@ -1186,6 +1186,8 @@ void sMesh::Initialize( int				num_vertices,
 
 			p_weight_read++;
 		}
+
+		m_weights_offset = vertex_size;
 		vertex_size	+= sizeof(uint32);
 	}
 
@@ -1193,10 +1195,12 @@ void sMesh::Initialize( int				num_vertices,
 	if (p_matrix_indices != nullptr)
 	{
 		Dbg_AssertPtr(p_weights);
+
+		m_matindices_offset = vertex_size;
 		vertex_size	+= sizeof(uint16) * 4;
 	}
 	
-	// Texture coordinates.
+	// Include texture coordinates if present
 	uint32 tex_coord_pass = 0;
 	bool env_mapped = false;
 
@@ -1225,33 +1229,183 @@ void sMesh::Initialize( int				num_vertices,
 	}
 
 	if (tex_coord_pass > 0)
+	{
+		m_uv0_offset = vertex_size;
 		vertex_size += 2 * sizeof(float) * tex_coord_pass;
+	}
 
 	// Assume no normals for now, unless weight information indicates an animating mesh
 	bool use_normals = false;
-	bool use_packed_normals = false;
 
 	if (p_normals != nullptr || p_weights != nullptr || env_mapped)
 	{
-		// Need to include normals. They will be packed differently for weighted meshes
+		// Need to include normals
+		m_normal_offset = vertex_size;
 		use_normals	= true;
-		if (p_weights)
-		{
-			use_packed_normals = true;
-			vertex_size	+= sizeof(uint32);
-		}
-		else
-		{
-			vertex_size	+= sizeof(float) * 3;
-		}
+		vertex_size	+= sizeof(float) * 3;
 	}
 
+	// Include colors if present
 	bool use_colors = false;
 	if (p_colors != nullptr)
 	{
+		m_diffuse_offset = vertex_size;
 		vertex_size	+= 4;
 		use_colors	= true;
 	}
+
+	// Create mesh
+	m_vertex_stride = vertex_size;
+
+	glGenVertexArrays(1, &mp_vao);
+	glBindVertexArray(mp_vao);
+
+	glGenBuffers(1, &mp_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
+
+	// Lock VBO
+	glBufferData(GL_ARRAY_BUFFER, vertex_size * vertices_for_this_mesh, nullptr, GL_STATIC_DRAW);
+	void *p_vbo = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+	void *p_vbo_p = p_vbo;
+
+	// Write vertex data
+	{
+		float *p_out = (float*)p_vbo;
+		const float *p_in = p_positions + min_index * 3;
+
+		for (uint16 v = min_index; v <= max_index; v++)
+		{
+			if (p_mesh_workspace_array[v] == 0)
+			{
+				p_out[0] = p_in[0];
+				p_out[1] = p_in[1];
+				p_out[2] = p_in[2];
+				p_out = (float*)((char*)p_out + vertex_size);
+			}
+			p_in += 3;
+		}
+	}
+
+	// Write weights
+	if (p_weights != nullptr)
+	{
+		uint32 *p_out = (uint32*)((char*)p_vbo + m_weights_offset);
+		uint32 *p_in = p_weights + min_index;
+
+		for (uint16 v = min_index; v <= max_index; v++)
+		{
+			if (p_mesh_workspace_array[v] == 0)
+			{
+				p_out[0] = p_in[0];
+				p_out = (uint32*)((char*)p_out + vertex_size);
+			}
+			p_in++;
+		}
+	}
+
+	// Write matrix indices
+	if (p_matrix_indices != nullptr)
+	{
+		uint16 *p_out = (uint16*)((char*)p_vbo + m_matindices_offset);
+		uint16 *p_in = p_matrix_indices + min_index * 4;
+
+		for (uint16 v = min_index; v <= max_index; v++)
+		{
+			if (p_mesh_workspace_array[v] == 0)
+			{
+				p_out[0] = p_in[0];
+				p_out[1] = p_in[1];
+				p_out[2] = p_in[2];
+				p_out[3] = p_in[3];
+				p_out = (uint16*)((char*)p_out + vertex_size);
+			}
+			p_in += 4;
+		}
+	}
+
+	// Write normals
+	if (use_normals)
+	{
+		float *p_out = (float*)((char*)p_vbo + m_normal_offset);
+		float *p_in = p_normals + min_index * 3;
+
+		for (uint16 v = min_index; v <= max_index; v++)
+		{
+			if (p_mesh_workspace_array[v] == 0)
+			{
+				p_out[0] = p_in[0];
+				p_out[1] = p_in[1];
+				p_out[2] = p_in[2];
+				p_out = (float*)((char*)p_out + vertex_size);
+			}
+			p_in += 3;
+		}
+	}
+
+	// Write colors
+	if (use_colors)
+	{
+		uint32 *p_out = (uint32*)((char*)p_vbo + m_diffuse_offset);
+		DWORD *p_in = p_colors + min_index;
+
+		for (uint16 v = min_index; v <= max_index; v++)
+		{
+			if (p_mesh_workspace_array[v] == 0)
+			{
+				p_out[0] = p_in[0];
+				p_out = (uint32*)((char*)p_out + vertex_size);
+			}
+			p_in++;
+		}
+	}
+
+	// Write texture coordinates
+	if ((tex_coord_pass > 0) && (p_tex_coords != nullptr))
+	{
+		float *p_out = (float*)((char*)p_vbo + m_uv0_offset);
+		float *p_in = p_tex_coords + (min_index * 2 * num_tc_sets);
+
+		for (uint16 v = min_index; v <= max_index; v++)
+		{
+			if (p_mesh_workspace_array[v] == 0)
+			{
+				for (uint32 pass = 0; pass < tex_coord_pass; ++pass)
+				{
+					p_out[(pass * 2) + 0] = p_in[(pass * 2) + 0];
+					p_out[(pass * 2) + 1] = p_in[(pass * 2) + 1];
+				}
+				p_out = (float *)((char *)p_out + vertex_size);
+			}
+			p_in = p_in + (num_tc_sets * 2);
+		}
+	}
+
+	// Unlock VBO
+	glUnmapBuffer(GL_ARRAY_BUFFER);
+
+	// Process the workspace array.
+	uint16 offset = 0;
+	for (int v = 0; v <= max_index; ++v)
+	{
+		if (p_mesh_workspace_array[v] == 0)
+			p_mesh_workspace_array[v] = offset; // Vertex is used
+		else
+			offset--; // Unused
+	}
+
+	// Copy in index data, normalising the indices for this vertex buffer
+	// so the lowest index will reference vertex 0 in the buffer built specifically for this mesh
+	for (int ib = 0; ib < num_index_sets; ++ib)
+	{
+		for (int i = 0; i < p_num_indices[ib]; ++i)
+		{
+			uint16 idx = (pp_indices[ib])[i];
+			mp_index_buffer[ib][i] = idx + p_mesh_workspace_array[idx];
+		}
+	}
+
+	// Can now remove the mesh workspace array.
+	delete[] p_mesh_workspace_array;
 
 	#if 0
 	// Create the vertex buffer
