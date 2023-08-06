@@ -53,13 +53,8 @@ void CSkaterPad::Update ( Inp::Data* input )
 	m_L1.Update(input->m_Event[Inp::Data::vA_L1] ? 255 : 0, debug);
 	m_R1.Update(input->m_Event[Inp::Data::vA_R1] ? 255 : 0, debug);
 
-	#ifndef	PS2_SIMULATING_XBOX
 	m_L2.Update(input->m_Event[Inp::Data::vA_L2] ? 255 : 0, debug);
 	m_R2.Update(input->m_Event[Inp::Data::vA_R2] ? 255 : 0, debug);
-	#else	// update both 1 and 2 from L1/R1, to simulate the X-Box
-	m_L2.Update(input->m_Event[Inp::Data::vA_L1] ? 255 : 0, debug);
-	m_R2.Update(input->m_Event[Inp::Data::vA_R1] ? 255 : 0, debug);
-	#endif
 	
 	m_L3.Update(input->m_Buttons & Inp::Data::mD_L3 ? 255 : 0, debug);
 	m_R3.Update(input->m_Buttons & Inp::Data::mD_R3 ? 255 : 0, debug);
@@ -82,13 +77,8 @@ void CSkaterPad::Update ( Inp::Data* input )
 	m_L1.Update(input->m_Event[Inp::Data::vA_L1] ? 255 : 0);
 	m_R1.Update(input->m_Event[Inp::Data::vA_R1] ? 255 : 0);
 
-	#ifndef	PS2_SIMULATING_XBOX
 	m_L2.Update(input->m_Event[Inp::Data::vA_L2] ? 255 : 0);
 	m_R2.Update(input->m_Event[Inp::Data::vA_R2] ? 255 : 0);
-	#else	// update both 1 and 2 from L1/R1, to simulate the X-Box
-	m_L2.Update(input->m_Event[Inp::Data::vA_L1] ? 255 : 0);
-	m_R2.Update(input->m_Event[Inp::Data::vA_R1] ? 255 : 0);
-	#endif
 	
 	m_L3.Update(input->m_Buttons & Inp::Data::mD_L3 ? 255 : 0);
 	m_R3.Update(input->m_Buttons & Inp::Data::mD_R3 ? 255 : 0);

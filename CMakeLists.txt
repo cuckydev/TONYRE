@@ -740,16 +740,17 @@ set_target_properties(TonyRE PROPERTIES
 )
 
 # Compile GameSpy SDK
-add_subdirectory("GameSpy")
+add_subdirectory("GameSpy" EXCLUDE_FROM_ALL)
 target_link_libraries(TonyRE PRIVATE GameSpy)
 
 # Platform select
 if(TRUE) # If WIN32
-	# Compile SDL and glad
-	add_subdirectory("External/SDL")
-	add_subdirectory("External/glad")
+	# Compile libraries
+	add_subdirectory("External/SDL" EXCLUDE_FROM_ALL)
+	add_subdirectory("External/glad" EXCLUDE_FROM_ALL)
+	add_subdirectory("External/glm" EXCLUDE_FROM_ALL)
 
 	# Compile Win32 platform
-	add_subdirectory("Wn32")
+	add_subdirectory("Wn32" EXCLUDE_FROM_ALL)
 	target_link_libraries(TonyRE PRIVATE TonyRE.Wn32)
 endif()

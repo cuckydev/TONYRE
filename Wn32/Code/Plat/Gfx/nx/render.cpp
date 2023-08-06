@@ -1767,6 +1767,48 @@ void set_texture_projection_camera( sTexture *p_texture, XGVECTOR3 *p_pos, XGVEC
 // MSM PERFCHANGE - added scale.
 void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_angle, float aspect_ratio, bool render_at_infinity )
 {
+	EngineGlobals.cam_position = glm::vec3(p_position->GetX(), p_position->GetY(), p_position->GetZ());
+	EngineGlobals.cam_at = glm::vec3(p_matrix->GetAt().GetX(), p_matrix->GetAt().GetY(), p_matrix->GetAt().GetZ());
+	EngineGlobals.cam_up = glm::vec3(p_matrix->GetUp().GetX(), p_matrix->GetUp().GetY(), p_matrix->GetUp().GetZ());
+
+	// EngineGlobals.world_matrix = glm::mat4(1.0f);
+
+	EngineGlobals.view_matrix = glm::lookAt(EngineGlobals.cam_position, EngineGlobals.cam_at, EngineGlobals.cam_up);
+
+	EngineGlobals.near_plane = 2.0f;
+	EngineGlobals.far_plane = 32000.0f;
+	EngineGlobals.screen_angle = screen_angle;
+
+	// Figure width and height of viewport at near clip plane.
+	float half_screen_angle_in_radians = Mth::DegToRad(screen_angle * 0.5f);
+	float width = EngineGlobals.near_plane * 2.0f * tanf(half_screen_angle_in_radians);
+	float height = width / aspect_ratio;
+
+	EngineGlobals.projection_matrix = glm::perspective(half_screen_angle_in_radians * 2.0f, aspect_ratio, EngineGlobals.near_plane, EngineGlobals.far_plane);
+
+	NxWn32::EngineGlobals.near_plane_width = width;
+	NxWn32::EngineGlobals.near_plane_height = height;
+
+	if (render_at_infinity)
+	{
+		// Rendering the sky, so set the projection transform up to calculate a constant z value of 1.0.
+		// W value must remain correct however.
+		// TODO: Lol??
+		// EngineGlobals.projection_matrix[2][2] = -0.999999f;	// Setting this to -1.0f causes D3D to complain about WNear calculation.
+		// EngineGlobals.projection_matrix[3][2] = 0.0f;
+	}
+
+	// Set up view frustum values for bounding sphere culling.
+	EngineGlobals.ViewFrustumTX = tanf(Mth::DegToRad(screen_angle * 0.5f));
+	EngineGlobals.ViewFrustumTY = -(EngineGlobals.ViewFrustumTX / aspect_ratio);
+	EngineGlobals.ViewFrustumSX = 1.0f / sqrtf(1.0f + 1.0f / (EngineGlobals.ViewFrustumTX * EngineGlobals.ViewFrustumTX));
+	EngineGlobals.ViewFrustumSY = 1.0f / sqrtf(1.0f + 1.0f / (EngineGlobals.ViewFrustumTY * EngineGlobals.ViewFrustumTY));
+	EngineGlobals.ViewFrustumCX = 1.0f / sqrtf(1.0f + EngineGlobals.ViewFrustumTX * EngineGlobals.ViewFrustumTX);
+	EngineGlobals.ViewFrustumCY = 1.0f / sqrtf(1.0f + EngineGlobals.ViewFrustumTY * EngineGlobals.ViewFrustumTY);
+
+	// Calculate vectors for billboard rendering.
+	BillboardManager.SetCameraMatrix();
+
 	/*
 	EngineGlobals.cam_position.x	= p_position->GetX();
 	EngineGlobals.cam_position.y	= p_position->GetY();
@@ -1851,21 +1893,19 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 bool IsVisible( Mth::Vector &center, float radius )
 {
 	/*
-	XGVECTOR4 test_out;
+	glm::vec4 test_out = glm::vec4( center[X], center[Y], center[Z], 1.0f ) * EngineGlobals.view_matrix;
 
-	XGVec3Transform( &test_out, (XGVECTOR3*)&center[X], (XGMATRIX*)&EngineGlobals.view_matrix );
-
-	if( -test_out.z + radius < EngineGlobals.near_plane )
+	if(-test_out.z + radius < EngineGlobals.near_plane)
 		return false;
 
 	float sx_z	= EngineGlobals.ViewFrustumSX * test_out.z;
 	float cx_x	= EngineGlobals.ViewFrustumCX * test_out.x;
-	if(( radius < sx_z - cx_x ) || ( radius < sx_z + cx_x ))
+	if((radius < sx_z - cx_x ) || (radius < sx_z + cx_x))
 		return false;
 
 	float sy_z	= EngineGlobals.ViewFrustumSY * test_out.z;
 	float cy_y	= EngineGlobals.ViewFrustumCY * test_out.y;
-	if(( radius < sy_z + cy_y ) || ( radius < sy_z - cy_y ))
+	if((radius < sy_z + cy_y ) || (radius < sy_z - cy_y))
 		return false;
 	*/
 	return true;
@@ -2063,7 +2103,7 @@ bool frustum_check_box( Mth::CBBox *p_bbox )
 		}
 	}
 	*/
-	return false;
+	return true;
 }
 
 

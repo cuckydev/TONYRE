@@ -5,6 +5,9 @@
 
 #include <SDL.h>
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
 
 namespace NxWn32
 {
@@ -14,24 +17,6 @@ void InitialiseEngine( void );
 void FatalFileError( uint32 error );
 
 void WaitForNextFrame(void);
-
-struct GlVec3
-{
-	float x, y, z;
-};
-struct GlCol3
-{
-	float r, g, b;
-};
-
-struct GlVec4
-{
-	float x, y, z, w;
-};
-struct GlCol4
-{
-	float r, g, b, a;
-};
 
 struct GlMesh
 {
@@ -101,10 +86,35 @@ struct sEngineGlobals
 	SDL_GLContext context = nullptr;
 
 	// Render state
-	GlCol3 clear_color;
+	glm::vec3 clear_color;
 
 	// Frame counter
 	uint64 frame_count = 0;
+
+	// Camera state
+	// glm::mat4 world_matrix;
+	glm::mat4 view_matrix;
+	glm::mat4 projection_matrix;
+
+	float near_plane = 0.0f;
+	float far_plane = 0.0f;
+	float screen_angle = 0.0f;
+	float near_plane_width = 0.0f;
+	float near_plane_height = 0.0f;
+
+	glm::vec3 cam_position;
+	// glm::vec3 model_relative_cam_position;
+	glm::vec3 cam_at;
+	glm::vec3 cam_up;
+	glm::vec3 cam_right;
+
+	// For bounding sphere culling calculations.
+	float ViewFrustumTX = 0.0f;
+	float ViewFrustumTY = 0.0f;
+	float ViewFrustumSX = 0.0f;
+	float ViewFrustumSY = 0.0f;
+	float ViewFrustumCX = 0.0f;
+	float ViewFrustumCY = 0.0f;
 
 	/*
 	// XGMATRIX			world_matrix;

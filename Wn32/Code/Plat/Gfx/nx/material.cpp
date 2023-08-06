@@ -54,7 +54,6 @@ sUVWibbleParams::~sUVWibbleParams( void )
 /******************************************************************/
 sMaterial::sMaterial( void )
 {
-	/*
 	m_num_wibble_vc_anims		= 0;
 	mp_wibble_vc_params			= nullptr;
 	mp_wibble_vc_colors			= nullptr;
@@ -71,7 +70,6 @@ sMaterial::sMaterial( void )
 		m_envmap_tiling[p][0]	= 3.0f;
 		m_envmap_tiling[p][1]	= 3.0f;
 	}
-	*/
 }
 
 
@@ -720,7 +718,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 				pMat->mp_wibble_vc_params = new sVCWibbleParams[NumSeqs];
 				
 				// Create resultant color array.
-				pMat->mp_wibble_vc_colors = new GlCol4[NumSeqs];
+				pMat->mp_wibble_vc_colors = new glm::vec4[NumSeqs];
 
 				for( seq = 0; seq < NumSeqs; ++seq )
 				{ 
@@ -1033,7 +1031,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 				pMat->mp_wibble_vc_params = new sVCWibbleParams[NumSeqs];
 				
 				// Create resultant color array.
-				pMat->mp_wibble_vc_colors = new GlCol4[NumSeqs];
+				pMat->mp_wibble_vc_colors = new glm::vec4[NumSeqs];
 
 				for( seq = 0; seq < NumSeqs; ++seq )
 				{ 

@@ -163,15 +163,14 @@ void sBillboardManager::SortBatches( void )
 /******************************************************************/
 void sBillboardManager::SetCameraMatrix( void )
 {
-	/*
 	Mth::Vector up( 0.0f, 1.0f, 0.0f );
 
-	m_at.Set( NxWn32::EngineGlobals.view_matrix.m[0][2], NxWn32::EngineGlobals.view_matrix.m[1][2], NxWn32::EngineGlobals.view_matrix.m[2][2] );
+	glm::vec4 view_at = NxWn32::EngineGlobals.view_matrix[2];
+	m_at.Set(-view_at.x, -view_at.y, -view_at.z);
 	m_screen_right		= Mth::CrossProduct( m_at, up ).Normalize();
 	m_screen_up			= Mth::CrossProduct( m_screen_right, m_at ).Normalize();
 	m_at_xz				= Mth::Vector( m_at[X], 0.0f, m_at[Z] ).Normalize();
 	m_screen_right_xz	= Mth::Vector( m_screen_right[X], 0.0f, m_screen_right[Z] ).Normalize();
-	*/
 }
 
 

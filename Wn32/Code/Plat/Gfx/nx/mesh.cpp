@@ -629,6 +629,13 @@ void sMesh::HandleColorOverride( void )
 /******************************************************************/
 void sMesh::Submit( void )
 {
+	// Pointless submitting a mesh with zero indices.
+	if (m_num_indices == 0)
+		return;
+
+	// Deal with vertex color wibbling.
+	wibble_vc();
+
 	/*
 	DWORD	stage_zero_minfilter;
 	DWORD	zwrite;

@@ -112,7 +112,7 @@ public:
 
 	// Members. Order is important here since details required for fast mesh rejection need to be in top 32 bytes of structure.
 	uint32					m_flags = 0;
-	GlVec3					m_sphere_center = {};
+	glm::vec3					m_sphere_center = {};
 	float					m_sphere_radius = 0.0f;
 	sMaterial				*mp_material = nullptr;
 

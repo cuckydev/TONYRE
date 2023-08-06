@@ -255,8 +255,11 @@ sTexture *LoadTexture( const char *p_filename )
 			glGenTextures(1, &p_texture->GLTexture);
 			glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
 
-			// Disable mipmaps
+			// Disable mipmaps and clamp to edges
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 			// Unswizzle texture
 			if (is_power_of_two(header.width) && is_power_of_two(header.height))

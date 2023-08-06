@@ -195,9 +195,12 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	glGenTextures(1, &pFont->GLTexture);
 	glBindTexture(GL_TEXTURE_2D, pFont->GLTexture);
 
-	// Disable mipmaps
+	// Disable mipmaps and clamp to edges
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 	// Read texture bitmap data (into temp buffer so we can then swizzle it).
 	NumBytes = ( Width * Height + 3 ) & 0xFFFFFFFC;
 
@@ -244,8 +247,6 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 
 	// Read into texture
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, p_texture);
-
-	TextureDecode::WriteToBmp("Font", p_texture, Width, Height);
 	delete[] p_texture;
 
 	// Skip numsubtextures, and load subtextures.

@@ -119,4 +119,4 @@ target_include_directories(TonyRE.Wn32 PUBLIC "Code")
 target_compile_definitions(TonyRE.Wn32 PUBLIC __PLAT_WN32__)
 
 # Link libraries
-target_link_libraries(TonyRE.Wn32 PUBLIC Ws2_32 SDL2-static glad)
+target_link_libraries(TonyRE.Wn32 PUBLIC Ws2_32 SDL2-static glad glm)
