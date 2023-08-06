@@ -1447,6 +1447,8 @@ SCFunction CFunctionLookupTable[]=
 	{"IsInternetGameHost", CFuncs::ScriptIsInternetGameHost},
 	{"IsJoiningInternetGame", CFuncs::ScriptIsJoiningInternetGame},
 	{"MultiPlayerOnly", CFuncs::ScriptMultiPlayerOnly},
+
+	{ "SkaterIsCustom", CFuncs::ScriptSkaterIsCustom },
 };
 
 // A list of all the member function names accessible from scripts.

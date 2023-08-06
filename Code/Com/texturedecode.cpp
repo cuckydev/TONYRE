@@ -35,56 +35,7 @@ namespace TextureDecode
 	// Texture unswizzler
 	void Swizzle_Decode(const uint8 *source, uint8 *out, size_t width, size_t height)
 	{
-		// Get tile size
-		size_t tiles_x, tiles_y;
-		size_t tiles_w, tiles_h;
-		size_t tile_size;
-
-		if (width > height)
-		{
-			tiles_x = width / height;
-			tiles_y = 1;
-
-			tiles_w = width / tiles_x;
-			tiles_h = height;
-		}
-		else
-		{
-			tiles_x = 1;
-			tiles_y = height / width;
-
-			tiles_w = width;
-			tiles_h = height / tiles_y;
-		}
-
-		tile_size = tiles_w * tiles_h;
-
-		uint8 *end = out + width * height * 4;
-
-		memset(out, 0, width * height * 4);
-
-		// Unswizzle tiles
-		for (size_t ty = 0; ty < tiles_y; ty++)
-		{
-			for (size_t tx = 0; tx < tiles_x; tx++)
-			{
-				uint8 *base = out + (((tile_size * tiles_x) * ty) + (tile_size * tx)) * 4;
-				for (size_t y = 0; y < tiles_h; y++)
-				{
-					const uint8 *src = source + ((width * (tiles_h * ty)) + (tiles_w * tx) + (width * y)) * 4;
-					for (size_t x = 0; x < tiles_w; x++)
-					{
-						uint8 *dst = base + ((tiles_w * y) + x) * 4;
-						Dbg_Assert(dst < end);
-						dst[0] = src[0];
-						dst[1] = src[1];
-						dst[2] = src[2];
-						dst[3] = src[3];
-						src += 4;
-					}
-				}
-			}
-		}
+		
 	}
 
 	// DXT1 decode

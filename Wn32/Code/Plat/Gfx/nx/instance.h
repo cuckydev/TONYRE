@@ -50,9 +50,9 @@ private:
 	Mth::Matrix*	mp_bone_transforms;
 	int				m_num_bones;
 	bool			m_active;
-	Nx::CModel*		mp_model;		// Required in order to get pointer to CXboxLights structure at render time.
-	sScene*			mp_scene;
-	CInstance*		mp_next_instance;
+	Nx::CModel*		mp_model = nullptr;		// Required in order to get pointer to CXboxLights structure at render time.
+	sScene*			mp_scene = nullptr;
+	CInstance*		mp_next_instance = nullptr;
 };
 
 

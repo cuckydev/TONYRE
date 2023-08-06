@@ -217,17 +217,15 @@ void sBillboardManager::Render( uint32 flags )
 /******************************************************************/
 sBillboardMaterialBatch::sBillboardMaterialBatch( sMaterial *p_material )
 {
-	/*
 	mp_material		= p_material;
 	mp_entries[0]	= new Lst::Head <sBillboardEntry>;
 	mp_entries[1]	= new Lst::Head <sBillboardEntry>;
 	mp_entries[2]	= new Lst::Head <sBillboardEntry>;
 
 	// We can calculate what the per-entry size will be based on the material properties.
-	m_entry_size	 = 4 * sizeof( float ) * 3;							// Four vertex positions.
-	m_entry_size	+= 4 * sizeof( D3DCOLOR );							// Four vertex colors.
-	m_entry_size	+= 4 * sizeof( float ) * 2 * p_material->m_passes;	// Four uv pairs for each pass.
-	*/
+	// m_entry_size	 = 4 * sizeof( float ) * 3;							// Four vertex positions.
+	// m_entry_size	+= 4 * sizeof( D3DCOLOR );							// Four vertex colors.
+	// m_entry_size	+= 4 * sizeof( float ) * 2 * p_material->m_passes;	// Four uv pairs for each pass.
 }
 
 
@@ -262,9 +260,6 @@ bool sBillboardMaterialBatch::IsEmpty( void )
 /******************************************************************/
 float sBillboardMaterialBatch::GetDrawOrder( void )
 {
-	#if 1
-	if (1) return 0.0f;
-	#endif
 	return mp_material ? mp_material->m_draw_order : 0.0f;
 }
 
@@ -276,9 +271,6 @@ float sBillboardMaterialBatch::GetDrawOrder( void )
 /******************************************************************/
 sMaterial *sBillboardMaterialBatch::GetMaterial( void )
 {
-	#if 1
-	if (1) return nullptr;
-	#endif
 	return mp_material;
 }
 
@@ -290,7 +282,6 @@ sMaterial *sBillboardMaterialBatch::GetMaterial( void )
 /******************************************************************/
 void sBillboardMaterialBatch::AddEntry( sMesh *p_mesh )
 {
-	#if 0
 	// Create a new billboard entry.
 	sBillboardEntry *p_entry = new sBillboardEntry( p_mesh );
 
@@ -301,7 +292,6 @@ void sBillboardMaterialBatch::AddEntry( sMesh *p_mesh )
 
 	// Now process the mesh.
 	ProcessMesh( p_mesh );
-	#endif
 }
 
 
@@ -632,14 +622,10 @@ void sBillboardMaterialBatch::Reset( void )
 /******************************************************************/
 sBillboardEntry::sBillboardEntry( sMesh *p_mesh )
 {
-	#if 0
 	Dbg_Assert( p_mesh->mp_billboard_data != nullptr );
 
 	mp_mesh			= p_mesh;
 	m_type			= p_mesh->mp_billboard_data->m_type;
-	#else
-	mp_mesh = p_mesh;
-	#endif
 
 	// For now set the pivot point as the center of the bounding sphere.
 //	m_pivot_pos.Set( p_mesh->m_sphere_center.x, p_mesh->m_sphere_center.y, p_mesh->m_sphere_center.z );

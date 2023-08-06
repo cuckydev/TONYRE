@@ -117,16 +117,109 @@ namespace Nx
 	/******************************************************************/
 	CScene *CEngine::s_plat_create_scene(const char *p_name, CTexDict *p_tex_dict, bool add_super_sectors)
 	{
-		return nullptr;
+		// Create scene class instance
+		CXboxScene *p_xbox_scene = new CXboxScene;
+		CScene *p_new_scene = p_xbox_scene;
+		p_new_scene->SetInSuperSectors(add_super_sectors);
+		p_new_scene->SetIsSky(false);
+
+		// Create a new sScene so the engine can track assets for this scene.
+		NxWn32::sScene *p_engine_scene = new NxWn32::sScene();
+		p_xbox_scene->SetEngineScene(p_engine_scene);
+
+		return p_new_scene;
 	}
 
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
+	#define MemoryRead( dst, size, num, src )	CopyMemory(( dst ), ( src ), (( num ) * ( size )));	\
+											( src ) += (( num ) * ( size ))
+
+	/******************************************************************/
+	/*                                                                */
+	/*                                                                */
+	/******************************************************************/
 	CScene *CEngine::s_plat_load_scene_from_memory(void *p_mem, CTexDict *p_tex_dict, bool add_super_sectors, bool is_sky, bool is_dictionary)
 	{
-		return nullptr;
+		uint8 *p_data = (uint8 *)p_mem;
+		CSector *pSector;
+		CXboxSector *pXboxSector;
+
+		// Create a new sScene so the engine can track assets for this scene.
+		NxWn32::sScene *p_engine_scene = new NxWn32::sScene();
+
+		// Set the dictionary flag.
+		p_engine_scene->m_is_dictionary = is_dictionary;
+
+		// Version numbers.
+		uint32 mat_version, mesh_version, vert_version;
+		MemoryRead(&mat_version, sizeof(uint32), 1, p_data);
+		MemoryRead(&mesh_version, sizeof(uint32), 1, p_data);
+		MemoryRead(&vert_version, sizeof(uint32), 1, p_data);
+
+		// Import materials (they will now be associated at the engine-level with this scene).
+		p_engine_scene->pMaterialTable = NxWn32::LoadMaterialsFromMemory((void**)&p_data, p_tex_dict->GetTexLookup());
+
+		// Read number of sectors.
+		int num_sectors;
+		MemoryRead(&num_sectors, sizeof(int), 1, p_data);
+
+		// Figure optimum hash table lookup size.
+		uint32 optimal_table_size = num_sectors * 2;
+		uint32 test = 2;
+		uint32 size = 1;
+		for (;; test <<= 1, ++size)
+		{
+			// Check if this iteration of table size is sufficient, or if we have hit the maximum size.
+			if ((optimal_table_size <= test) || (size >= 12))
+			{
+				break;
+			}
+		}
+
+		// Create scene class instance, using optimum size sector table.
+		CScene *new_scene = new CXboxScene(size);
+		new_scene->SetInSuperSectors(add_super_sectors);
+		new_scene->SetIsSky(is_sky);
+
+		// Get a scene id from the engine.
+		CXboxScene *p_new_xbox_scene = static_cast<CXboxScene *>(new_scene);
+		p_new_xbox_scene->SetEngineScene(p_engine_scene);
+
+		for (int s = 0; s < num_sectors; ++s)
+		{
+			// Create a new sector to hold the incoming details.
+			pSector = p_new_xbox_scene->CreateSector();
+			pXboxSector = static_cast<CXboxSector *>(pSector);
+
+			// Generate a hanging geom for the sector, used for creating level objects etc.
+			CXboxGeom *p_xbox_geom = new CXboxGeom();
+			p_xbox_geom->SetScene(p_new_xbox_scene);
+			pXboxSector->SetGeom(p_xbox_geom);
+
+			// Prepare CXboxGeom for receiving data.
+			p_xbox_geom->InitMeshList();
+
+			// Load sector data.
+			if (pXboxSector->LoadFromMemory((void **)&p_data))
+			{
+				new_scene->AddSector(pSector);
+			}
+		}
+
+		// At this point get the engine scene to figure it's bounding volumes.
+		p_engine_scene->FigureBoundingVolumes();
+
+		// Read hierarchy information.
+		int num_hierarchy_objects;
+		MemoryRead(&num_hierarchy_objects, sizeof(int), 1, p_data);
+
+		if (num_hierarchy_objects > 0)
+		{
+			p_engine_scene->mp_hierarchyObjects = new CHierarchyObject[num_hierarchy_objects];
+			MemoryRead(p_engine_scene->mp_hierarchyObjects, sizeof(CHierarchyObject), num_hierarchy_objects, p_data);
+			p_engine_scene->m_numHierarchyObjects = num_hierarchy_objects;
+		}
+
+		return new_scene;
 	}
 
 
@@ -412,7 +505,7 @@ namespace Nx
 		Nx::CXboxScene *p_xbox_scene = static_cast<Nx::CXboxScene *>(p_scene);
 		pMesh->SetScene(p_xbox_scene);
 		pMesh->SetTexDict(pTexDict);
-		return nullptr;
+		return pMesh;
 	}
 
 

@@ -563,7 +563,6 @@ sMaterial* GetMaterial( uint32 checksum, sScene *p_scene )
 /******************************************************************/
 Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTable< Nx::CTexture > *p_texture_table )
 {
-	/*
 	uint8	*p_data = (uint8*)( *pp_mem );
 	uint32	MMAG, MMIN, K, L, NumSeqs, seq, NumKeys;
 	
@@ -721,7 +720,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 				pMat->mp_wibble_vc_params = new sVCWibbleParams[NumSeqs];
 				
 				// Create resultant color array.
-				pMat->mp_wibble_vc_colors = new D3DCOLOR[NumSeqs];
+				pMat->mp_wibble_vc_colors = new GlCol4[NumSeqs];
 
 				for( seq = 0; seq < NumSeqs; ++seq )
 				{ 
@@ -869,8 +868,6 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 	*pp_mem = p_data;
 
 	return pMaterialTable;
-	*/
-	return nullptr;
 }
 
 

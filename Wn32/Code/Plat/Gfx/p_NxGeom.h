@@ -107,8 +107,8 @@ public:
 	bool							m_active;
 
 private:
-	NxWn32::CInstance				*mp_instance;
-	CXboxMesh						*mp_mesh;		// Used for obtaining CAS poly removal data.
+	NxWn32::CInstance				*mp_instance = nullptr;
+	CXboxMesh						*mp_mesh = nullptr;		// Used for obtaining CAS poly removal data.
 	Mth::Vector						m_scale;
 };
 

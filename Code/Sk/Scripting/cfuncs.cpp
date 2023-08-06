@@ -14836,6 +14836,11 @@ bool ScriptMultiPlayerOnly(Script::CStruct *pParams, Script::CScript *pScript)
 	return false;
 }
 
+bool ScriptSkaterIsCustom(Script::CStruct *pParams, Script::CScript *pScript)
+{
+	return false;
+}
+
 /******************************************************************/
 /*                                                                */
 /*                                                                */

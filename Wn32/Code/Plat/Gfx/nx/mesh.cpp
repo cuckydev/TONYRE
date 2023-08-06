@@ -794,7 +794,18 @@ sMesh *sMesh::Clone( bool instance )
 	}
 	return p_clone;
 	*/
-	return nullptr;
+	sMesh *p_clone = new sMesh();
+	CopyMemory(p_clone, this, sizeof(sMesh));
+	if (instance)
+	{
+		p_clone->m_flags |= MESH_FLAG_IS_INSTANCE;
+	}
+	else
+	{
+
+	}
+
+	return p_clone;
 }
 
 
@@ -890,7 +901,6 @@ void sMesh::Crunch( void )
 /******************************************************************/
 void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector & pivot_axis )
 {
-	/*
 	Dbg_Assert( mp_billboard_data == nullptr );
 
 	// Create the billboard data.
@@ -924,6 +934,7 @@ void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector 
 		mp_billboard_data->m_pivot_axis	= pivot_axis;
 	}
 
+	/*
 	// We need to go through at a low level and rebuild the vertex buffer. In all cases the
 	// mesh won't have been exported with normals, which we use for billboards to store the
 	// pivot-relative position, so we need to recalculate the vertex stride.
@@ -1050,15 +1061,15 @@ void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector 
 	// Copy the new vertex buffer into existing buffered buffers if m_num_vertex_buffers > 1.
 	if( m_num_vertex_buffers > 1 )
 	{
-		BYTE *p_buffer0;
-		BYTE *p_bufferN;
-		mp_vertex_buffer[0]->Lock( 0, 0, &p_buffer0, D3DLOCK_READONLY | D3DLOCK_NOFLUSH );
+		// BYTE *p_buffer0;
+		// BYTE *p_bufferN;
+		// mp_vertex_buffer[0]->Lock( 0, 0, &p_buffer0, D3DLOCK_READONLY | D3DLOCK_NOFLUSH );
 		for( int vb = 1; vb < m_num_vertex_buffers; ++vb )
 		{
-			delete mp_vertex_buffer[vb];
-			mp_vertex_buffer[vb] = AllocateVertexBuffer( new_vertex_stride * 4 );
-			mp_vertex_buffer[vb]->Lock( 0, 0, &p_bufferN, 0 );
-			CopyMemory( p_bufferN, p_buffer0, new_vertex_stride * 4 );
+			// delete mp_vertex_buffer[vb];
+			// mp_vertex_buffer[vb] = AllocateVertexBuffer( new_vertex_stride * 4 );
+			// mp_vertex_buffer[vb]->Lock( 0, 0, &p_bufferN, 0 );
+			// CopyMemory( p_bufferN, p_buffer0, new_vertex_stride * 4 );
 		}
 	}
 

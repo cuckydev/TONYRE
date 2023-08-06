@@ -626,6 +626,7 @@ void CXboxGeom::plat_clear_color( void )
 	{
 		// Grab the engine scene from the geom, and clear all meshes of the flag.
 		NxWn32::sScene *p_scene = mp_instance->GetScene();
+		if (p_scene != nullptr)
 		for( int i = 0; i < p_scene->m_num_mesh_entries; ++i )
 		{
 			NxWn32::sMesh *p_mesh = p_scene->m_meshes[i];
