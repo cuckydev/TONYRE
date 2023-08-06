@@ -54,7 +54,7 @@ namespace Nx
 			switch (event.type)
 			{
 				case SDL_QUIT:
-					exit(0);
+					// exit(0);
 					break;
 			}
 		}
@@ -404,7 +404,8 @@ namespace Nx
 	/******************************************************************/
 	CGeom *CEngine::s_plat_init_geom(void)
 	{
-		return nullptr;
+		CXboxGeom *pGeom = new CXboxGeom;
+		return pGeom;
 	}
 
 
@@ -415,6 +416,7 @@ namespace Nx
 	/******************************************************************/
 	bool CEngine::s_plat_uninit_geom(CGeom *p_geom)
 	{
+		delete p_geom;
 		return true;
 	}
 

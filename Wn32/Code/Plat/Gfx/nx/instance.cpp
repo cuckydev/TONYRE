@@ -247,7 +247,6 @@ void render_instances( uint32 flags )
 /******************************************************************/
 CInstance::CInstance( sScene *pScene, Mth::Matrix &transform, int numBones, Mth::Matrix *pBoneTransforms )
 {
-	/*
 	SetTransform( transform );
 	mp_bone_transforms	= pBoneTransforms;
 	m_num_bones			= numBones;
@@ -267,14 +266,13 @@ CInstance::CInstance( sScene *pScene, Mth::Matrix &transform, int numBones, Mth:
 		for( int m = 0; m < pScene->m_num_mesh_entries; ++m )
 		{
 			NxWn32::sMesh *p_mesh = pScene->m_meshes[m];
-			if(( p_mesh->m_vertex_shader[0] & D3DFVF_NORMAL ) == 0 )
-				return;
+			// if(( p_mesh->m_vertex_shader[0] & D3DFVF_NORMAL ) == 0 )
+			//	return;
 			if( p_mesh->m_flags & sMesh::MESH_FLAG_UNLIT )
 				return;
 		}
 		m_flags |= CInstance::INSTANCE_FLAG_LIGHTING_ALLOWED;
 	}
-	*/
 }
 
 
@@ -285,7 +283,6 @@ CInstance::CInstance( sScene *pScene, Mth::Matrix &transform, int numBones, Mth:
 /******************************************************************/
 CInstance::~CInstance()
 {
-	/*
 	if( m_flags & INSTANCE_FLAG_DELETE_ATTACHED_SCENE )
 	{
 		if( mp_scene )
@@ -309,7 +306,6 @@ CInstance::~CInstance()
 			pp_instance = &(( *pp_instance )->mp_next_instance );
 		}
 	}
-	*/
 }
 
 

@@ -47,7 +47,7 @@ public:
 private:
 	uint32			m_flags;
 	Mth::Matrix		m_transform;
-	Mth::Matrix*	mp_bone_transforms;
+	Mth::Matrix*	mp_bone_transforms = nullptr;
 	int				m_num_bones;
 	bool			m_active;
 	Nx::CModel*		mp_model = nullptr;		// Required in order to get pointer to CXboxLights structure at render time.

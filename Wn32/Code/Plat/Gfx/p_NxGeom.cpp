@@ -529,7 +529,8 @@ bool CXboxGeom::plat_hide_polys( uint32 mask )
 		NxWn32::sScene *p_engine_scene = GetInstance()->GetScene();
 
 		// Request the scene to hide the relevant polys.
-		p_engine_scene->HidePolys( mask, mp_mesh->GetCASData(), mp_mesh->GetNumCASData());
+		if (p_engine_scene != nullptr)
+			p_engine_scene->HidePolys( mask, mp_mesh->GetCASData(), mp_mesh->GetNumCASData());
 	}
 	
 	return true;
@@ -591,13 +592,16 @@ void CXboxGeom::plat_set_color( Image::RGBA rgba )
 	{
 		// Grab the engine scene from the geom, and set all meshes to the color.
 		NxWn32::sScene *p_scene = mp_instance->GetScene();
-		for( int i = 0; i < p_scene->m_num_mesh_entries; ++i )
+		if (p_scene != nullptr)
 		{
-			NxWn32::sMesh *p_mesh = p_scene->m_meshes[i];
-			p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
-			p_mesh->m_material_color_override[0] = (float)rgba.r / 255.0f;
-			p_mesh->m_material_color_override[1] = (float)rgba.g / 255.0f;
-			p_mesh->m_material_color_override[2] = (float)rgba.b / 255.0f;
+			for (int i = 0; i < p_scene->m_num_mesh_entries; ++i)
+			{
+				NxWn32::sMesh *p_mesh = p_scene->m_meshes[i];
+				p_mesh->m_flags |= NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+				p_mesh->m_material_color_override[0] = (float)rgba.r / 255.0f;
+				p_mesh->m_material_color_override[1] = (float)rgba.g / 255.0f;
+				p_mesh->m_material_color_override[2] = (float)rgba.b / 255.0f;
+			}
 		}
 	}
 	else if( m_mesh_array != nullptr )
@@ -627,10 +631,12 @@ void CXboxGeom::plat_clear_color( void )
 		// Grab the engine scene from the geom, and clear all meshes of the flag.
 		NxWn32::sScene *p_scene = mp_instance->GetScene();
 		if (p_scene != nullptr)
-		for( int i = 0; i < p_scene->m_num_mesh_entries; ++i )
 		{
-			NxWn32::sMesh *p_mesh = p_scene->m_meshes[i];
-			p_mesh->m_flags &= ~NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+			for (int i = 0; i < p_scene->m_num_mesh_entries; ++i)
+			{
+				NxWn32::sMesh *p_mesh = p_scene->m_meshes[i];
+				p_mesh->m_flags &= ~NxWn32::sMesh::MESH_FLAG_MATERIAL_COLOR_OVERRIDE;
+			}
 		}
 	}
 	else if( m_mesh_array != nullptr )

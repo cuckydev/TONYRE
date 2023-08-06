@@ -257,8 +257,8 @@ sMesh::~sMesh( void )
 
 		for (int vb = 0; vb < MAX_VERTEX_BUFFERS; ++vb)
 		{
-			glDeleteBuffers(1, &mp_vertex_buffer[vb]);
-			glDeleteVertexArrays(1, &mp_vao[vb]);
+			// glDeleteBuffers(1, &mp_vertex_buffer[vb]);
+			// glDeleteVertexArrays(1, &mp_vao[vb]);
 		}
 	}
 }
@@ -1298,8 +1298,8 @@ void sMesh::Initialize( int				num_vertices,
 	*/
 
 	// Create vertex buffer
-	glGenVertexArrays(1, &mp_vao[0]);
-	glGenBuffers(1, &mp_vertex_buffer[0]);
+	// glGenVertexArrays(1, &mp_vao[0]);
+	// glGenBuffers(1, &mp_vertex_buffer[0]);
 	char *p_byte = new char[vertex_size * vertices_for_this_mesh];
 
 	// Copy in vertex position data (for vertices that are used).
@@ -1550,6 +1550,8 @@ void sMesh::Initialize( int				num_vertices,
 			mp_index_lod_data[d]	= dist;
 		}
 	}
+
+	delete[] p_byte;
 }
 
 
