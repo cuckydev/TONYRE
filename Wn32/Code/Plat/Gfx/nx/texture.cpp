@@ -269,20 +269,27 @@ sTexture *LoadTexture( const char *p_filename )
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, unswizzled_texture_data);
 				
 				delete[] unswizzled_texture_data;
+
+				// Set size
+				p_texture->BaseWidth = header.width;
+				p_texture->BaseHeight = header.height;
+				p_texture->ActualWidth = header.original_width;
+				p_texture->ActualHeight = header.original_height;
 			}
 			else
 			{
 				// Write to texture
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.original_width, header.original_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
 				delete[] texture_data;
+
+				// Set size
+				p_texture->BaseWidth = header.original_width;
+				p_texture->BaseHeight = header.original_height;
+				p_texture->ActualWidth = header.original_width;
+				p_texture->ActualHeight = header.original_height;
 			}
 
-			// Set up some member values.
-			p_texture->ActualWidth = header.width;
-			p_texture->ActualHeight = header.height;
-			p_texture->BaseHeight = header.original_width;
-			p_texture->BaseHeight = header.original_height;
-
+			// Set up some member values
 			p_texture->PaletteDepth	= (uint8)header.clut_bit_depth;
 			p_texture->TexelDepth	= (uint8)header.bit_depth;
 			p_texture->DXT			= 0;

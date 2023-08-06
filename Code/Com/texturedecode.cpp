@@ -35,7 +35,63 @@ namespace TextureDecode
 	// Texture unswizzler
 	void Swizzle_Decode(const uint8 *source, uint8 *out, size_t width, size_t height)
 	{
-		
+		size_t i;
+		size_t swizzle_w;
+		size_t swizzle_s;
+		size_t swizzle_x;
+		size_t x;
+		size_t y;
+		size_t twiddle_i;
+		size_t swizzle_h;
+		size_t chars;
+		size_t swizzle_y;
+		size_t swizzle_z;
+
+		i = 0;
+		chars = height * width;
+		if (!(height * width))
+			return;
+		swizzle_w = width >> 1;
+		swizzle_s = height >> 1;
+		swizzle_h = height >> 1;
+		while (1)
+		{
+			swizzle_x = 1;
+			swizzle_z = swizzle_w;
+			x = 0;
+			y = 0;
+			swizzle_y = 1;
+			twiddle_i = 1;
+			while (swizzle_z)
+			{
+				swizzle_z >>= 1;
+				if ((twiddle_i & i) != 0)
+					x |= swizzle_x;
+				swizzle_x *= 2;
+				twiddle_i *= 2;
+				if (swizzle_s)
+				{
+					SwizzleS:
+					swizzle_s >>= 1;
+					if ((twiddle_i & i) != 0)
+						y |= swizzle_y;
+					swizzle_y *= 2;
+					twiddle_i *= 2;
+				}
+			}
+			if (swizzle_s)
+				goto SwizzleS;
+			memcpy(&out[4 * (x + width * y)], source, 4);
+			++i;
+			source += 4;
+			if (i < chars)
+			{
+				swizzle_w = (int)width >> 1;
+				swizzle_s = swizzle_h;
+				continue;
+			}
+			return;
+		}
 	}
 
 	// DXT1 decode

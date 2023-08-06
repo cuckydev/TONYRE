@@ -384,8 +384,8 @@ void sSprite::Draw( void )
 	// Get UVs
 	float u0 = 0.0f;
 	float v0 = 1.0f;
-	float u1 = 1.0f;
-	float v1 = 0.0f;
+	float u1 = (float)mp_texture->ActualWidth / (float)mp_texture->BaseWidth;
+	float v1 = 1.0f - (float)mp_texture->ActualHeight / (float)mp_texture->BaseHeight;
 
 	// Get coordinates
 	float x0 = -(m_xhot * m_scale_x);
