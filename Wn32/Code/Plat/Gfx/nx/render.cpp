@@ -1979,6 +1979,8 @@ float get_bounding_sphere_nearest_z( void )
 /******************************************************************/
 bool frustum_check_sphere( const glm::vec3 &p_center, float radius )
 {
+	// TODO: broken and idk how to properly convert dx to gl math
+
 	glm::vec4 test_out;
 	
 	// Build the composite transform if required.
@@ -1998,7 +2000,8 @@ bool frustum_check_sphere( const glm::vec3 &p_center, float radius )
 		// World to view.
 		test_out = glm::vec4(p_center, 1.0f) * EngineGlobals.view_matrix;
 	}
-		
+
+	/*
 	boundingSphereNearestZ = -test_out.z - radius;
 
 	if( -test_out.z + radius < EngineGlobals.near_plane )
@@ -2013,7 +2016,7 @@ bool frustum_check_sphere( const glm::vec3 &p_center, float radius )
 	float cy_y	= EngineGlobals.ViewFrustumCY * test_out.y;
 	if(( radius < sy_z + cy_y ) || ( radius < sy_z - cy_y ))
 		return false;
-
+		*/
 	return true;
 }
 
@@ -2575,6 +2578,7 @@ void render_scene(sScene *p_scene, uint32 flags, uint32 viewport)
 							// Check against any occluders.
 							if ((!(flags & vRENDER_OCCLUDED)) || (!TestSphereAgainstOccluders(p_mesh->m_sphere_center, p_mesh->m_sphere_radius)))
 								render = true;
+							render = true;
 						}
 					}
 				}

@@ -104,8 +104,6 @@ Allocator::Context::Context( void )
 
 Allocator::Context::~Context( void ) 
 {
-	
-
 #ifdef __NOPT_DEBUG__
 	Dbg_MsgAssert( mp_used_list == nullptr,( "Memory Leak" ));
 	Dbg_MsgAssert( mp_free_list == nullptr,( "Corrupt Free List" ));

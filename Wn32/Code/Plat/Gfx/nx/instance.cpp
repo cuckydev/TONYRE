@@ -711,6 +711,9 @@ void CInstance::Render( uint32 flags )
 
 //		shutdown_weighted_mesh_vertex_shader();
 	}
+
+	// Restore model matrix
+	EngineGlobals.model_matrix = glm::mat4(1.0f);
 }
 
 
