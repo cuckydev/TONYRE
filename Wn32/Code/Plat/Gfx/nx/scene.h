@@ -27,10 +27,10 @@ struct sMeshEntry
 
 struct sScene
 {
-								sScene( void );
-								~sScene( void );
+	sScene( void );
+	~sScene( void );
 
-	sMaterial *					sScene::GetMaterial( uint32 checksum );
+	sMaterial *					GetMaterial( uint32 checksum );
 	void						CountMeshes( int num_meshes, sMesh **pp_meshes );
 	void						CreateMeshArrays( void );
 	void						AddMeshes( int num_meshes, sMesh **pp_meshes );

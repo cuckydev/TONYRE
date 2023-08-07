@@ -30,6 +30,8 @@
 #include <sys/file/filesys.h>
 #include <core/compress.h>
 
+#include <cstring>
+
 namespace Pip
 {
 

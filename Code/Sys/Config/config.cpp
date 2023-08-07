@@ -1,6 +1,8 @@
 // Config Manager stuff. KSH 20 Mar 2002
 #include <sys/config/config.h>
 
+#include <cstring>
+
 namespace Config
 {
 ELanguage gLanguage=LANGUAGE_UNDEFINED;

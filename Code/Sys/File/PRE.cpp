@@ -28,9 +28,6 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifdef	__PLAT_NGPS__
-#include <eekernel.h>
-#endif		//	__PLAT_NGPS__
 #include <core/defines.h>
 //#include <core/HashTable.h>
 #include <core/StringHashTable.h>
@@ -47,14 +44,7 @@
 #include <gel/scripting/struct.h> 
 #include <gel/scripting/symboltable.h>
 
-#ifdef __PLAT_NGC__
-#include "sys/ngc/p_aram.h"
-#include "sys/ngc/p_dma.h"
-#include "sys/ngc/p_display.h"
-#ifdef __NOPT_FINAL__
-#define __PRE_ARAM__
-#endif		// __NOPT_FINAL__
-#endif
+#include <cstring>
 
 /*****************************************************************************
 **								DBG Information								**

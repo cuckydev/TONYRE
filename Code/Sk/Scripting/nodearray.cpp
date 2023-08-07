@@ -21,6 +21,8 @@
 #include <core/math.h>
 #include <sk/components/goaleditorcomponent.h>
 
+#include <cstring>
+
 namespace SkateScript
 {
 using namespace Script;

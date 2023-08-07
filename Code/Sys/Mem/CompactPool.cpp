@@ -19,6 +19,8 @@ extern bool g_mc_hack;
 
 #include <Plat/Gfx/p_memview.h>
 
+#include <cstring>
+
 namespace Mem
 {
 

@@ -498,6 +498,10 @@ bool ScriptLaunchLevel(Script::CStruct* pParams, Script::CScript* pScript);
 bool ScriptRequestLevel(Script::CStruct* pParams, Script::CScript* pScript);
 bool ScriptInitSkaterHeaps(Script::CStruct* pParams, Script::CScript* pScript);
 bool ScriptFillRankingScreen(Script::CStruct* pParams, Script::CScript* pScript);
+bool ScriptSetGameType(Script::CStruct *pParams, Script::CScript *pScript);
+bool ScriptInTeamGame(Script::CStruct *pParams, Script::CScript *pScript);
+bool ScriptLaunchLevel(Script::CStruct *pParams, Script::CScript *pScript);
+bool ScriptSetTimeLimit(Script::CStruct *pParams, Script::CScript *pScript);
 
 // GJ:  These are some convenience functions that don't really
 // belong in any class, but are of general use to the skate code

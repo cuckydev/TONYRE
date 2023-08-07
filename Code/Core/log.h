@@ -4,7 +4,7 @@
 namespace Log
 {
 void Init();
-void AddEntry(char *p_fileName, int lineNumber, char *p_functionName, char *p_message=nullptr);
+void AddEntry(char *p_fileName, int lineNumber, const char *p_functionName, char *p_message=nullptr);
 }
 
 #endif // #ifndef __CORE_DEBUG_LOG_H

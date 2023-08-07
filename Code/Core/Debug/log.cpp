@@ -139,7 +139,7 @@ void Init()
 	}
 }
 
-void AddEntry(char *p_fileName, int lineNumber, char *p_functionName, char *p_message)
+void AddEntry(char *p_fileName, int lineNumber, const char *p_functionName, char *p_message)
 {
 	if (Config::GotExtraMemory())
 	{
@@ -185,7 +185,7 @@ void Init()
 {
 }
 
-void AddEntry(char *p_fileName, int lineNumber, char *p_functionName, char *p_message)
+void AddEntry(char *p_fileName, int lineNumber, const char *p_functionName, char *p_message)
 {
 }
 } // namespace Log

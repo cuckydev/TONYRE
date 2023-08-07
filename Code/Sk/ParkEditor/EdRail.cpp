@@ -25,6 +25,7 @@
 #include <core/defines.h>
 #include <sk/ParkEditor/EdRail.h>
 
+#include <cstring>
 
 /*****************************************************************************
 **								DBG Information								**
