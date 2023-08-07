@@ -18,12 +18,9 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_LIST_LOOKUPTABLE_H
-#define __CORE_LIST_LOOKUPTABLE_H
+#pragma once
 
-#ifndef __CORE_CRC_H
 #include <core/crc.h>
-#endif
 
 /*****************************************************************************
 **							  	  Includes									**
@@ -62,8 +59,6 @@ template< class _V > class LookupTable;
 //nTemplateBaseClass2(_K, _V, LookupItem)
 template< class _V > class LookupItem
 {
-//    Dbg_TemplateBaseClass2(_K, _V, LookupItem);
-
 	friend class LookupTable<_V>;
 	
 private:
@@ -73,15 +68,13 @@ private:
 	_V *				mp_value;
 	LookupItem<_V> *	mp_next;
 };
-    
-
 
 nTemplateBaseClass(_V, LookupTable)
 {
     Dbg_TemplateBaseClass(_V, LookupTable);
 
 public:
-	LookupTable(int size=0);	   	// Mick, size is not used, so give it default until we get rid of it
+	LookupTable(int size = 0);
 	~LookupTable();
 
 	// if any item exists with the same key, replace it
@@ -97,11 +90,11 @@ public:
 	void flushAllItems();
 
 private:
-	int 				m_size;
-	LookupItem<_V> *	mp_list;		  // first item in list
-	LookupItem<_V> *	mp_last;		  // last item in list
-	LookupItem<_V> *    mp_current;		  // Pointer to current item in this table, nullptr if invalid
-	int					m_currentIndex;	  // the index of this item. Only valid if mp_current is not nullptr 
+	int m_size;
+	LookupItem<_V> *mp_list;		  // first item in list
+	LookupItem<_V> *mp_last;		  // last item in list
+	LookupItem<_V> *mp_current;		  // Pointer to current item in this table, nullptr if invalid
+	int m_currentIndex;	  // the index of this item. Only valid if mp_current is not nullptr 
 };
 
 
@@ -161,23 +154,19 @@ private:
 template<class _V> //inline
 LookupItem<_V>::LookupItem()
 {
-    mp_value = nullptr;
+	mp_value = nullptr;
 	mp_next = nullptr;
 }
 
-
-
-template<class _V> //inline
-LookupTable<_V>::LookupTable(int size=0) 
+template<class _V> inline
+LookupTable<_V>::LookupTable(int size)
 {
     m_size = 0;
 	mp_list = nullptr;
-	mp_current = nullptr;	   			// initialized invalid, so we don't try to use it
+	mp_current = nullptr; // initialized invalid, so we don't try to use it
 }
 
-	
-
-template<class _V> //inline
+template<class _V> inline
 LookupTable<_V>::~LookupTable()
 {
 	flushAllItems();
@@ -185,7 +174,7 @@ LookupTable<_V>::~LookupTable()
 
 
 
-template<class _V> //inline
+template<class _V> inline
 bool LookupTable<_V>::PutItem(const int &key, _V *item)
 {
     
@@ -213,7 +202,7 @@ bool LookupTable<_V>::PutItem(const int &key, _V *item)
 
 
 
-template<class _V> //inline
+template<class _V> inline
 _V *LookupTable<_V>::GetItem(const int &key)
 {
     
@@ -241,7 +230,7 @@ _V *LookupTable<_V>::GetItem(const int &key)
 
 
 
-template<class _V> //inline
+template<class _V> inline
 _V *LookupTable<_V>::GetItemByIndex(const int &index, int *pKey)
 {
     
@@ -299,7 +288,7 @@ _V *LookupTable<_V>::GetItemByIndex(const int &index, int *pKey)
 
 
 
-template<class _V> //inline
+template<class _V> inline
 void LookupTable<_V>::FlushItem(const int &key)
 {
     
@@ -332,7 +321,7 @@ void LookupTable<_V>::FlushItem(const int &key)
 
 
 
-template<class _V> //inline
+template<class _V> inline
 void LookupTable<_V>::flushAllItems()
 {
     
@@ -359,7 +348,7 @@ _V *mp_value;
 
 
 
-template<class _V> //inline
+template<class _V> inline
 StringLookupTable<_V>::StringLookupTable(int size) :
     LookupTable<_V>(size)
 {
@@ -367,7 +356,7 @@ StringLookupTable<_V>::StringLookupTable(int size) :
 
 
 
-template<class _V> //inline
+template<class _V> inline
 bool StringLookupTable<_V>::PutItem(const char *stringKey, _V *item)
 {
     int key = Crc::GenerateCRCFromString(stringKey);
@@ -376,7 +365,7 @@ bool StringLookupTable<_V>::PutItem(const char *stringKey, _V *item)
 
 
 
-template<class _V> //inline
+template<class _V> inline
 _V *StringLookupTable<_V>::GetItem(const char *stringKey)
 {
     int key = Crc::GenerateCRCFromString(stringKey);
@@ -384,7 +373,7 @@ _V *StringLookupTable<_V>::GetItem(const char *stringKey)
 }
 
 
-template<class _V> //inline
+template<class _V> inline
 void StringLookupTable<_V>::FlushItem(const char *stringKey)
 {
     int key = Crc::GenerateCRCFromString(stringKey);
@@ -393,7 +382,7 @@ void StringLookupTable<_V>::FlushItem(const char *stringKey)
 
 
 
-template<class _V> //inline
+template<class _V> inline
 LookupTableDestroyer<_V>::LookupTableDestroyer(LookupTable<_V> *pTable)
 {
 	mp_table = pTable;
@@ -420,7 +409,3 @@ void LookupTableDestroyer<_V>::DeleteTableContents()
 
 
 } // namespace Lst
-
-#endif	// __CORE_LIST_LOOKUPTABLE_H
-
-

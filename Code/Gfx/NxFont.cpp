@@ -3,6 +3,8 @@
 
 #include "gfx/NxFont.h"
 
+#include <cstring>
+
 namespace	Nx
 {
 // These functions are the platform independent part of the interface to 

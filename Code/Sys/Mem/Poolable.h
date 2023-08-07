@@ -10,13 +10,16 @@
 #include <sys/mem/CompactPool.h>
 #include <sys/mem/memman.h>
 
-#define DefinePoolableClass(_T)										\
-namespace Mem														\
-{																	\
-	Mem::CCompactPool *Mem::CPoolable< _T >::sp_pool[POOL_STACK_SIZE] = {nullptr,nullptr};		\
+#define DefinePoolableClass(_T)																\
+namespace Mem																				\
+{																							\
+	template<>																				\
+	Mem::CCompactPool *Mem::CPoolable<_T>::sp_pool[POOL_STACK_SIZE] = {nullptr,nullptr};	\
+	template<>																				\
 	bool Mem::CPoolable< _T >::s_internallyCreatedPool[POOL_STACK_SIZE] = {false,false};	\
-	int Mem::CPoolable< _T >::s_currentPool=0;						\
-}																	\
+	template<>																				\
+	int Mem::CPoolable< _T >::s_currentPool=0;												\
+}																							\
 
 
 namespace Mem

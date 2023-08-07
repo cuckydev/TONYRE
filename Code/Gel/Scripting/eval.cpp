@@ -6,6 +6,8 @@
 #include <gel/scripting/utils.h>
 #include <gel/scripting/parse.h>
 
+#include <cstring>
+
 namespace Script
 {
 

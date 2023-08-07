@@ -18,16 +18,13 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_CRC_H
-#define __CORE_CRC_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
-#endif
+#include <core/defines.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -166,6 +163,3 @@ constexpr static inline uint32 ConstCRC(const char *const literal, size_t max_le
 }
 
 } // namespace Crc
-
-#endif // __CORE_CRC_H
-

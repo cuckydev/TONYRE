@@ -18,8 +18,7 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_SUPPORT_SUPPORT_H
-#define __CORE_SUPPORT_SUPPORT_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
@@ -40,27 +39,27 @@
 
 #define nTemplateBaseClass(_t,_c)				\
 	template< class _t >						\
-	class _c : public Spt::Class								\
+	class _c : public Spt::Class
 
 #define nTemplateBaseClass2(_t1,_t2,_c)			\
 	template< class _t1, class _t2 >			\
-	class _c : public Spt::Class								\
+	class _c : public Spt::Class
 
 #define nTemplateBaseClass3(_t1,_t2,_t3,_c)		\
 	template< class _t1, class _t2, class _t3 >	\
-	class _c : public Spt::Class								\
+	class _c : public Spt::Class
 
 #define nTemplateSubClass(_t,_c,_b)				\
 	template< class _t >						\
-	class _c : public _b							\
+	class _c : public _b
 
 #define nTemplateSubClass2(_t1,_t2,_c,_b)		\
 	template< class _t1, class _t2 >			\
-	class _c : public _b							\
+	class _c : public _b
 
 #define nTemplateSubClass3(_t1,_t2,_t3,_c,_b)	\
 	template< class _t1, class _t2, class _t3 >	\
-	class _c : public _b							\
+	class _c : public _b
 
 
 #define Dbg_TemplateBaseClass(_t1,_c)
@@ -71,6 +70,3 @@
 
 #define Dbg_TemplateBaseClass2(_t1,_t2,_c)
 #define Dbg_TemplateSubClass2(_t1,_t2,_c,_b)	
-
-
-#endif // __CORE_SUPPORT_SUPPORT_H

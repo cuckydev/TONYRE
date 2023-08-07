@@ -23,9 +23,9 @@
 // (There's no function here yet for doing that, but easy to add)
 
 #include <gel/scripting/string.h>
-#ifndef __CORE_CRC_H
 #include <core/crc.h>
-#endif
+
+#include <cstring>
 
 namespace Script
 {

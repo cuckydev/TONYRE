@@ -13,15 +13,17 @@
 #include 	"sk\engine\SuperSector.h"
 #include 	"gel\scripting\script.h"
 
-#include <Plat/Gfx/p_NxMesh.h>
-#include <Plat/Gfx/p_NxGeom.h>
-#include <Plat/Gfx/p_NxSprite.h>
-#include <Plat/Gfx/p_NxModel.h>
-#include <Plat/Gfx/p_NxNewParticleMgr.h>
-#include <Plat/Gfx/p_NxWeather.h>
+#include "p_NxMesh.h"
+#include "p_NxGeom.h"
+#include "p_NxSprite.h"
+#include "p_NxModel.h"
+#include "p_NxNewParticleMgr.h"
+#include "p_NxWeather.h"
 
-#include <Plat/Gfx/nx/nx_init.h>
-#include <Plat/Gfx/nx/scene.h>
+#include "nx/nx_init.h"
+#include "nx/scene.h"
+#include "nx/render.h"
+#include "nx/occlude.h"
 
 namespace Nx
 {
@@ -91,18 +93,69 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_render_world(void)
 	{
-		// Draw scenes
-		for (int i = 0; i < MAX_LOADED_SCENES; i++)
+		// Draw viewports
+		int num_viewports = CViewportManager::sGetNumActiveViewports();
+		for (int v = 0; v < num_viewports; ++v)
 		{
-			if (sp_loaded_scenes[i])
+			// Get viewport and camera
+			CViewport *p_cur_viewport = CViewportManager::sGetActiveViewport(v);
+			Gfx::Camera *p_cur_camera = p_cur_viewport->GetCamera();
+
+			if (p_cur_camera == nullptr)
+				continue;
+
+			// There is no bounding box transform for rendering the world.
+			NxWn32::set_frustum_bbox_transform(nullptr);
+
+			// Set up the camera..
+			float aspect_ratio = p_cur_viewport->GetAspectRatio();
+
+			NxWn32::set_camera(&(p_cur_camera->GetMatrix()), &(p_cur_camera->GetPos()), p_cur_camera->GetAdjustedHFOV(), aspect_ratio);
+
+			// Draw scenes
+			for (int i = 0; i < MAX_LOADED_SCENES; i++)
 			{
-				CXboxScene *pXboxScene = static_cast<CXboxScene *>(sp_loaded_scenes[i]);
-				if (!pXboxScene->IsSky())
+				if (sp_loaded_scenes[i] != nullptr)
 				{
-					// Build relevant occlusion poly list, now that the camera is set.
-					
+					CXboxScene *pXboxScene = static_cast<CXboxScene*>(sp_loaded_scenes[i]);
+					if (!pXboxScene->IsSky())
+					{
+						// Build relevant occlusion poly list, now that the camera is set.
+						NxWn32::BuildOccluders(&(p_cur_camera->GetPos()), v);
+
+						// Render scene
+						NxWn32::render_scene(pXboxScene->GetEngineScene(), NxWn32::vRENDER_OPAQUE |
+							NxWn32::vRENDER_OCCLUDED |
+							NxWn32::vRENDER_SORT_FRONT_TO_BACK |
+							NxWn32::vRENDER_BILLBOARDS, v);
+					}
 				}
 			}
+
+			// Render opaque instances
+			NxWn32::render_instances(NxWn32::vRENDER_OPAQUE);
+
+			// Render the non - sky semitransparent scene geometry.
+			// Setting the depth clip control to clamp here means that semitransparent periphary objects that would usually cull out
+			// are now drawn correctly (since they will clamp at 1.0, and the z test is <=).
+			
+			for (int i = 0; i < MAX_LOADED_SCENES; i++)
+			{
+				if (sp_loaded_scenes[i])
+				{
+					CXboxScene *pXboxScene = static_cast<CXboxScene *>(sp_loaded_scenes[i]);
+					if (!pXboxScene->IsSky())
+					{
+						// Build relevant occlusion poly list, now that the camera is set.
+						NxWn32::render_scene(pXboxScene->GetEngineScene(), NxWn32::vRENDER_SEMITRANSPARENT |
+							NxWn32::vRENDER_OCCLUDED |
+							NxWn32::vRENDER_BILLBOARDS, v);
+					}
+				}
+			}
+
+			// Render all semitransparent instances.
+			NxWn32::render_instances(NxWn32::vRENDER_SEMITRANSPARENT | NxWn32::vRENDER_INSTANCE_POST_WORLD_SEMITRANSPARENT);
 		}
 
 		// Draw 2D sprites

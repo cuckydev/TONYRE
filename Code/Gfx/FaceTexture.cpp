@@ -14,6 +14,8 @@
 // for temporary texture
 #include <sys/file/filesys.h>
 
+#include <cstring>
+
 namespace Gfx
 {
 

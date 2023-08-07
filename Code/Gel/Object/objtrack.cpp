@@ -16,6 +16,7 @@
 
 #include <gfx/2D/ScreenElemMan.h>
 
+#include <cstring>
 
 // start autoduck documentation
 // @DOC objtrack

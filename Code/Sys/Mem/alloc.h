@@ -132,7 +132,7 @@ public :
 				void			dump_used_list ( void );
 #endif
 
-				char *	GetName() {return mp_name;}
+				const char *GetName() {return mp_name;}
 				Direction GetDirection() {return m_dir;}
 
 /// sorry, need to access this from elsewhere, for debugging... (MICK)
@@ -173,7 +173,7 @@ public :
 #endif		// __NOPT_ASSERT__
 #else
 				CMemProfile	*		mp_profile;
-#endif __EFFICIENT__
+#endif // __EFFICIENT__
 
 
 		static const uint			sSize; // Aligned Block Header size
@@ -216,7 +216,7 @@ public :
 	
 	};
 
-									Allocator( Region* region, Direction dir, char *p_name );
+									Allocator( Region* region, Direction dir, const char *p_name );
 	virtual							~Allocator( void );
 	
 			Region*					mp_region;
@@ -224,7 +224,7 @@ public :
 			void*					mp_top;
 			Context*				mp_context;
 
-			char *					mp_name;		// debugging name, for checking
+			const char *			mp_name;		// debugging name, for checking
 
 			Lst::Head< Context >	m_context_stack;
 

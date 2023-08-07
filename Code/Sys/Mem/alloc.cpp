@@ -200,7 +200,7 @@ Allocator::BlockHeader* Allocator::BlockHeader::sRead( void* pAddr )
 **							   Public Functions								**
 *****************************************************************************/
 
-Allocator::Allocator( Region* region, Direction dir, char *p_name )
+Allocator::Allocator( Region* region, Direction dir, const char *p_name )
 : mp_region( region ), m_dir( dir ), mp_name(p_name)
 {
 	

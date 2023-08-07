@@ -28,6 +28,8 @@
 #include <core/list.h>
 #include <core/macros.h>
 
+#include <Core/math.h>
+
 namespace Sk3Sfx
 {
 
@@ -74,8 +76,8 @@ public:
 		vNUM_SOUND_TYPES,
 	};
 	
-	CSk3SfxManager::CSk3SfxManager( void );
-	CSk3SfxManager::~CSk3SfxManager( void );
+	CSk3SfxManager( void );
+	~CSk3SfxManager( void );
 
 	void			Reset( void );
 	void			SetSkaterSoundInfo( int surfaceFlag, uint32 whichSound,

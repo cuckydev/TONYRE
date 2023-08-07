@@ -33,10 +33,11 @@ namespace Obj
 	class CShadowComponent;
 	class CMovableContactComponent;
 	class CSkaterStateComponent;
+	class CSkaterNonLocalNetLogicComponent;
 
 class CSkaterAdjustPhysicsComponent : public CBaseComponent
 {
-	friend CSkaterNonLocalNetLogicComponent;
+	friend class CSkaterNonLocalNetLogicComponent;
 	
 public:
     CSkaterAdjustPhysicsComponent();

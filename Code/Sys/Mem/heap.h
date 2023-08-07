@@ -56,7 +56,7 @@ class  Heap : public  Allocator
 
 public :
 		
-								Heap( Region* region, Direction dir = vBOTTOM_UP, char* p_name = "unknown heap" );
+								Heap( Region* region, Direction dir = vBOTTOM_UP, const char* p_name = "unknown heap" );
 
 	int							LargestFreeBlock();
 	

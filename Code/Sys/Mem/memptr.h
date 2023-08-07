@@ -52,16 +52,16 @@ public :
 
 		template < class _NewT > PtrToConst( const PtrToConst< _NewT >& rhs ); 	// needed to support inheritance correctly
 
-		template < class _NewT > PtrToConst< _T >&		operator = ( const PtrToConst< _NewT >& rhs );	// template assignment operator
+		template < class _NewT > PtrToConst<_T>&		operator = ( const PtrToConst< _NewT >& rhs );	// template assignment operator
 
-		PtrToConst< _T >&		operator = ( const _T* ptr );
+		PtrToConst<_T>&		operator = ( const _T* ptr );
 
-		PtrToConst< _T >&		operator++ ( void ); 							// ++ptr   
-		const PtrToConst< _T >	operator++ ( int ); 							// ptr++   
-		PtrToConst< _T >&		operator-- ( void );							// --ptr
-		const PtrToConst< _T >	operator-- ( int );								// ptr--
-		PtrToConst< _T >&		operator+= ( int val );
-		PtrToConst< _T >&		operator-= ( int val );
+		PtrToConst<_T>&		operator++ ( void ); 							// ++ptr   
+		const PtrToConst<_T>	operator++ ( int ); 							// ptr++   
+		PtrToConst<_T>&		operator-- ( void );							// --ptr
+		const PtrToConst<_T>	operator-- ( int );								// ptr--
+		PtrToConst<_T>&		operator+= ( int val );
+		PtrToConst<_T>&		operator-= ( int val );
 
 		bool					operator ! () const;                    		// operator! - use to test for null
 		
@@ -69,14 +69,8 @@ public :
 		const _T*				operator -> () const;																	
 		const _T*				Addr( void ) const;								// Retrieve 'dumb' pointer
 		
-protected :
-
-		union
-		{
-			const	_T*		m_const_ptr;
-					_T*		m_ptr;
-		};
-	
+protected:
+		_T *m_ptr;
 };
 
 /******************************************************************/
@@ -84,7 +78,7 @@ protected :
 /*                                                                */
 /******************************************************************/
 
-nTemplateSubClass( _T, Ptr, PtrToConst< _T > )
+nTemplateSubClass( _T, Ptr, PtrToConst<_T> )
 {
 
 	
@@ -94,9 +88,9 @@ public :
 
 		template < class _NewT > Ptr( const Ptr< _NewT >& rhs );	
 
-		template < class _NewT > Ptr< _T > &operator = ( const Ptr< _NewT >& rhs );			// template assignment operator
+		template < class _NewT > Ptr<_T> &operator = ( const Ptr< _NewT >& rhs );			// template assignment operator
 
-		Ptr< _T >&				operator = ( const _T* ptr );
+		Ptr<_T>&				operator = ( const _T* ptr );
 		_T&						operator * ( void ) const; 
 		_T*						operator -> ( void ) const;
 		_T*						Addr( void ) const;
@@ -125,12 +119,12 @@ public :
 
 /******************************************************************/
 /*                                                                */
-/* PtrToConst< _T >                                               */
+/* PtrToConst<_T>                                               */
 /*                                                                */
 /******************************************************************/
 
-template < class _T > inline   
-PtrToConst< _T >::PtrToConst( const _T* ptr ) : m_const_ptr ( ptr )
+template < class _T > inline
+PtrToConst<_T>::PtrToConst(const _T* ptr) : m_ptr((_T*)ptr)
 {
 	
 }
@@ -141,7 +135,7 @@ PtrToConst< _T >::PtrToConst( const _T* ptr ) : m_const_ptr ( ptr )
 /******************************************************************/
 
 template < class _T > inline	
-PtrToConst< _T >::~PtrToConst( void )
+PtrToConst<_T>::~PtrToConst( void )
 {
 	
 
@@ -153,8 +147,9 @@ PtrToConst< _T >::~PtrToConst( void )
 /******************************************************************/
 	
 template < class _T > template < class _NewT > inline
-PtrToConst< _T >::PtrToConst( const PtrToConst< _NewT >& rhs ) : m_const_ptr ( rhs.Addr() )
+PtrToConst<_T>::PtrToConst( const PtrToConst<_NewT> &rhs) : m_ptr((_T*)rhs.Addr())
 {
+
 }
 
 /******************************************************************/
@@ -163,9 +158,9 @@ PtrToConst< _T >::PtrToConst( const PtrToConst< _NewT >& rhs ) : m_const_ptr ( r
 /******************************************************************/
 
 template < class _T > template < class _NewT > inline
-PtrToConst< _T > &PtrToConst< _T >::operator = ( const PtrToConst< _NewT >& rhs ) 
+PtrToConst<_T> &PtrToConst<_T>::operator = ( const PtrToConst< _NewT >& rhs ) 
 {
-	m_const_ptr = rhs.Addr();
+	m_ptr = (_T*)rhs.Addr();
 	return *this;	
 }
 
@@ -175,11 +170,9 @@ PtrToConst< _T > &PtrToConst< _T >::operator = ( const PtrToConst< _NewT >& rhs 
 /******************************************************************/
 
 template < class _T > inline
-PtrToConst< _T >&		PtrToConst< _T >::operator = ( const _T* ptr ) 
+PtrToConst<_T>&		PtrToConst<_T>::operator = ( const _T* ptr ) 
 {
-	
-
-	m_const_ptr = ptr;
+	m_ptr = (_T*)ptr;
 	return *this;	
 }
 
@@ -189,13 +182,10 @@ PtrToConst< _T >&		PtrToConst< _T >::operator = ( const _T* ptr )
 /******************************************************************/
 
 template < class _T > inline
-const _T&		PtrToConst< _T >::operator * ( void ) const 
+const _T&		PtrToConst<_T>::operator * ( void ) const 
 {
-	
-	
-	Dbg_AssertType( m_const_ptr, _T );
-	
-	return *m_const_ptr;	
+	Dbg_AssertType(m_ptr, _T );
+	return *((const _T*)m_ptr);
 }
 
 /******************************************************************/
@@ -204,13 +194,10 @@ const _T&		PtrToConst< _T >::operator * ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-PtrToConst< _T >&	PtrToConst< _T >::operator+= ( int val )
+PtrToConst<_T>&	PtrToConst<_T>::operator+= ( int val )
 {
-	
-
-	m_const_ptr += val;
-	Dbg_AssertType( m_const_ptr, _T );
-
+	m_ptr += val;
+	Dbg_AssertType(m_ptr, _T);
 	return *this;
 }
 
@@ -220,14 +207,10 @@ PtrToConst< _T >&	PtrToConst< _T >::operator+= ( int val )
 /******************************************************************/
 
 template < class _T > inline
-PtrToConst< _T >&	PtrToConst< _T >::operator-= ( int val )
+PtrToConst<_T>&	PtrToConst<_T>::operator-= ( int val )
 {
-	
-
-	m_const_ptr -= val;
-
-	Dbg_AssertType( m_const_ptr, _T );
-	
+	m_ptr -= val;
+	Dbg_AssertType(m_ptr, _T);
 	return *this;
 }
 
@@ -238,12 +221,9 @@ PtrToConst< _T >&	PtrToConst< _T >::operator-= ( int val )
 /******************************************************************/
 
 template < class _T > inline
-PtrToConst< _T >&	PtrToConst< _T >::operator++ ( void )
+PtrToConst<_T>&	PtrToConst<_T>::operator++ ( void )
 {
-	
-
 	*this += 1;
-
 	return *this;
 }
 
@@ -253,14 +233,10 @@ PtrToConst< _T >&	PtrToConst< _T >::operator++ ( void )
 /******************************************************************/
 
 template < class _T > inline
-const PtrToConst< _T >	PtrToConst< _T >::operator++ ( int )
+const PtrToConst<_T>	PtrToConst<_T>::operator++ ( int )
 {
-	
-	
-	PtrToConst< _T > old = *this;
-
+	PtrToConst<_T> old = *this;
 	++(*this);
-
 	return old;
 }
 
@@ -270,14 +246,10 @@ const PtrToConst< _T >	PtrToConst< _T >::operator++ ( int )
 /******************************************************************/
 
 template < class _T > inline
-PtrToConst< _T >&	PtrToConst< _T >::operator-- ( void )
+PtrToConst<_T>&	PtrToConst<_T>::operator-- ( void )
 {
-	
-
-	Dbg_AssertType( m_const_ptr, _T );
-
+	Dbg_AssertType(m_ptr, _T );
 	*this -= 1;
-
 	return *this;
 }
 
@@ -287,16 +259,11 @@ PtrToConst< _T >&	PtrToConst< _T >::operator-- ( void )
 /******************************************************************/
 
 template < class _T > inline
-const PtrToConst< _T >	PtrToConst< _T >::operator-- ( int )
+const PtrToConst<_T>	PtrToConst<_T>::operator-- ( int )
 {
-	
-
-	Dbg_AssertType( m_const_ptr, _T );
-	
-	PtrToConst< _T > old = *this;
-
+	Dbg_AssertType(m_ptr, _T);
+	PtrToConst<_T> old = *this;
 	--(*this);
-
 	return old;
 }
 
@@ -306,13 +273,10 @@ const PtrToConst< _T >	PtrToConst< _T >::operator-- ( int )
 /******************************************************************/
 
 template < class _T > inline
-const _T*		PtrToConst< _T >::operator -> ( void ) const 
+const _T *PtrToConst<_T>::operator->( void ) const 
 {
-	
-
-	Dbg_AssertType( m_const_ptr, _T );
-	
-	return m_const_ptr;	
+	Dbg_AssertType(m_ptr, _T );
+	return m_ptr;
 }
 
 /******************************************************************/
@@ -321,11 +285,9 @@ const _T*		PtrToConst< _T >::operator -> ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-bool		PtrToConst< _T >::operator ! ( void ) const 
+bool PtrToConst<_T>::operator!( void ) const 
 {
-	
-
-	return ( m_const_ptr == nullptr );	
+	return (m_ptr == nullptr );
 }
 
 /******************************************************************/
@@ -334,11 +296,9 @@ bool		PtrToConst< _T >::operator ! ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-const _T*		PtrToConst< _T >::Addr ( void ) const 
+const _T *PtrToConst<_T>::Addr(void) const 
 {
-	
-
-	return m_const_ptr;	
+	return m_ptr;
 }
 
 /******************************************************************/
@@ -347,13 +307,10 @@ const _T*		PtrToConst< _T >::Addr ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-const PtrToConst< _T > operator+ ( const PtrToConst< _T >& lhs, int rhs )
+const PtrToConst<_T> operator+ ( const PtrToConst<_T>& lhs, int rhs )
 {
-	
-	
-	PtrToConst< _T >	ret = lhs;
+	PtrToConst<_T>	ret = lhs;
 	ret += rhs;
-	
 	return ret;
 }
 
@@ -363,13 +320,10 @@ const PtrToConst< _T > operator+ ( const PtrToConst< _T >& lhs, int rhs )
 /******************************************************************/
 
 template < class _T > inline
-const PtrToConst< _T > operator- ( const PtrToConst< _T >& lhs, int rhs )
+const PtrToConst<_T> operator- ( const PtrToConst<_T>& lhs, int rhs )
 {
-	
-	
-	PtrToConst< _T >	ret = lhs;
+	PtrToConst<_T>	ret = lhs;
 	ret -= rhs;
-	
 	return ret;
 }
 
@@ -378,12 +332,12 @@ const PtrToConst< _T > operator- ( const PtrToConst< _T >& lhs, int rhs )
 
 /******************************************************************/
 /*                                                                */
-/* Ptr< _T >                                                      */
+/* Ptr<_T>                                                      */
 /*                                                                */
 /******************************************************************/
 
 template < class _T > inline   
-Ptr< _T >::Ptr( const _T* ptr ) : PtrToConst< _T >( ptr )
+Ptr<_T>::Ptr( const _T* ptr ) : PtrToConst<_T>( ptr )
 {
 	
 }
@@ -394,7 +348,7 @@ Ptr< _T >::Ptr( const _T* ptr ) : PtrToConst< _T >( ptr )
 /******************************************************************/
 
 template < class _T > inline	
-Ptr< _T >::~Ptr( void )
+Ptr<_T>::~Ptr( void )
 {
 	
 }
@@ -405,7 +359,7 @@ Ptr< _T >::~Ptr( void )
 /******************************************************************/
 	
 template < class _T > template < class _NewT > inline
-Ptr< _T >::Ptr( const Ptr< _NewT >& rhs ) : PtrToConst< _T >( rhs )
+Ptr<_T>::Ptr( const Ptr< _NewT >& rhs ) : PtrToConst<_T>( rhs )
 {
 
 }
@@ -416,9 +370,9 @@ Ptr< _T >::Ptr( const Ptr< _NewT >& rhs ) : PtrToConst< _T >( rhs )
 /******************************************************************/
 
 template < class _T > template < class _NewT > inline
-Ptr< _T > &Ptr< _T >::operator= ( const Ptr< _NewT >& rhs ) 
+Ptr<_T> &Ptr<_T>::operator= ( const Ptr< _NewT >& rhs ) 
 {
-	m_const_ptr = rhs.Addr();
+	this->m_ptr = (_T*)rhs.Addr();
 	return *this;	
 }
 
@@ -428,11 +382,9 @@ Ptr< _T > &Ptr< _T >::operator= ( const Ptr< _NewT >& rhs )
 /******************************************************************/
 
 template < class _T > inline
-Ptr< _T > &Ptr< _T >::operator= ( const _T* ptr ) 
+Ptr<_T> &Ptr<_T>::operator= ( const _T* ptr ) 
 {
-	
-
-	m_const_ptr = ptr;
+	this->m_ptr = (_T*)ptr;
 	return *this;	
 }
 
@@ -443,13 +395,10 @@ Ptr< _T > &Ptr< _T >::operator= ( const _T* ptr )
 /******************************************************************/
 
 template < class _T > inline
-_T &Ptr< _T >::operator * ( void ) const 
+_T &Ptr<_T>::operator * ( void ) const 
 {
-	
-
-	Dbg_AssertType( m_ptr, _T );
-
-	return *m_ptr;	
+	Dbg_AssertType(this->m_ptr, _T );
+	return *this->m_ptr;
 }
 
 /******************************************************************/
@@ -458,13 +407,10 @@ _T &Ptr< _T >::operator * ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-_T *Ptr< _T >::operator -> ( void ) const 
+_T *Ptr<_T>::operator -> ( void ) const 
 {
-	
-	
-	Dbg_AssertType( m_ptr, _T );
-	
-	return m_ptr;	
+	Dbg_AssertType(this->m_ptr, _T );
+	return this->m_ptr;
 }
 
 /******************************************************************/
@@ -473,11 +419,9 @@ _T *Ptr< _T >::operator -> ( void ) const
 /******************************************************************/
 
 template < class _T > inline
-_T *Ptr< _T >::Addr ( void ) const 
+_T *Ptr<_T>::Addr ( void ) const 
 {
-	
-
-	return m_ptr;	
+	return this->m_ptr;
 }
 
 /******************************************************************/

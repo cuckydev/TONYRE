@@ -13,6 +13,7 @@
 #include "anim.h"
 #include "render.h"
 #include "billboard.h"
+#include "shader.h"
 
 namespace NxWn32
 {
@@ -195,56 +196,36 @@ sMesh::sMesh( void )
 /******************************************************************/
 sMesh::~sMesh( void )
 {
-	// Remove this mesh from the billboard manager if appropriate.
-	if( m_flags & sMesh::MESH_FLAG_BILLBOARD )
-	{
-		BillboardManager.RemoveEntry( this );
-	}
+	// Remove this mesh from the billboard manager
+	if (m_flags & sMesh::MESH_FLAG_BILLBOARD)
+		BillboardManager.RemoveEntry(this);
 
-	if( mp_transform )
-	{
+	// Delete transform
+	if (mp_transform)
 		delete mp_transform;
-	}
 	
-	if( !( m_flags & MESH_FLAG_IS_INSTANCE ))
+	// Delete mesh data if owned
+	if (!(m_flags & MESH_FLAG_IS_INSTANCE))
 	{
-		for( int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib )
-		{
-			delete [] mp_index_buffer[ib];
-			mp_index_buffer[ib] = nullptr;
-		}
+		// Delete index buffers
+		for (int ib = 0; ib < MAX_INDEX_BUFFERS; ib++)
+			delete[] mp_index_buffer[ib];
 
-		if( mp_vc_wibble_data )
-		{
+		// Delete wibble data
+		if (mp_vc_wibble_data != nullptr)
 			delete mp_vc_wibble_data;
-			mp_vc_wibble_data = nullptr;
-		}
 
-		if( mp_index_lod_data )
-		{
+		if (mp_index_lod_data)
 			delete mp_index_lod_data;
-			mp_index_lod_data = nullptr;
-		}
 
-		if( mp_billboard_data )
-		{
+		if (mp_billboard_data != nullptr)
 			delete mp_billboard_data;
-			mp_billboard_data = nullptr;
-		}
 
 		// Delete GL objects
-		// for (int i = 0; i < MAX_INDEX_BUFFERS; i++)
-		// 	glDeleteBuffers(1, &)
 		if (mp_vbo != 0)
-		{
 			glDeleteBuffers(1, &mp_vbo);
-			mp_vbo = 0;
-		}
 		if (mp_vao != 0)
-		{
 			glDeleteVertexArrays(1, &mp_vao);
-			mp_vao = 0;
-		}
 	}
 }
 
@@ -615,11 +596,84 @@ void sMesh::HandleColorOverride( void )
 void sMesh::Submit( void )
 {
 	// Pointless submitting a mesh with zero indices.
-	if (m_num_indices == 0)
+	if (m_num_indices[0] == 0)
 		return;
 
 	// Deal with vertex color wibbling.
-	wibble_vc();
+	// wibble_vc();
+
+	// Select indices to use
+	size_t lod = 0;
+	if (mp_index_lod_data)
+	{
+		// Figure distance from this mesh to the camera
+		frustum_check_sphere(m_sphere_center, m_sphere_radius);
+		float dist = get_bounding_sphere_nearest_z();
+
+		for (size_t lod = 0; lod < MAX_INDEX_BUFFERS; lod++)
+		{
+			if (mp_index_buffer[lod] == nullptr)
+			{
+				// We have got to the end of the set without drawing anything. Just use the last valid index set
+				if (lod != 0)
+					lod--;
+				break;
+			}
+
+			if (dist < mp_index_lod_data[lod])
+			{
+				// This is the index set we want
+				break;
+			}
+		}
+
+	}
+
+	Dbg_AssertPtr(mp_index_buffer[lod]);
+
+	// Draw mesh
+	static const char *test_v = R"(#version 330 core
+
+layout(location = 0) in vec3 i_pos;
+layout(location = 3) in vec3 i_nor;
+
+out vec4 f_col;
+
+uniform mat4 u_mvp;
+
+void main()
+{
+	gl_Position = u_mvp * vec4(i_pos, 1.0f);
+	f_col = vec4(vec3(0.5f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.5f), 1.0f);
+}
+	)";
+	static const char *test_f = R"(#version 330 core
+
+in vec4 f_col;
+
+layout(location = 0) out vec4 o_col;
+
+void main()
+{
+	o_col = f_col;
+}
+	)";
+	static sShader *test_s = new sShader(test_v, test_f);
+
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+
+	// Send MVP matrix
+	glm::mat4 mvp = EngineGlobals.projection_matrix * EngineGlobals.view_matrix * EngineGlobals.model_matrix;
+
+	glUseProgram(test_s->program);
+	glUniformMatrix4fv(glGetUniformLocation(test_s->program, "u_mvp"), 1, GL_FALSE, &mvp[0][0]);
+
+	glBindVertexArray(mp_vao);
+	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
+
+	glDrawElements(GL_TRIANGLE_STRIP, m_num_indices[lod], GL_UNSIGNED_SHORT, mp_index_buffer[lod]);
 
 	/*
 	DWORD	stage_zero_minfilter;
@@ -739,62 +793,35 @@ void sMesh::Submit( void )
 /******************************************************************/
 sMesh *sMesh::Clone( bool instance )
 {
-	/*
-	sMesh *p_clone = new sMesh();
-
-	// Copy over basic details.
-	CopyMemory( p_clone, this, sizeof( sMesh ));
-	
-	if( instance )
-	{
-		p_clone->m_flags |= MESH_FLAG_IS_INSTANCE;
-	}
-	else
-	{
-		// Build new vertex and index lists.
-		p_clone->mp_vertex_buffer[0] = AllocateVertexBuffer( p_clone->m_vertex_stride * p_clone->m_num_vertices );
-
-		BYTE *p_byte_src, *p_byte_dest;
-		if( D3D_OK != mp_vertex_buffer[0]->Lock( 0, 0, &p_byte_src, D3DLOCK_READONLY ))
-		{
-			return nullptr;
-		}
-		if( D3D_OK != p_clone->mp_vertex_buffer[0]->Lock( 0, 0, &p_byte_dest, 0 ))
-		{
-			return nullptr;
-		}
-
-		// Copy over vertex information.
-		CopyMemory( p_byte_dest, p_byte_src, p_clone->m_vertex_stride * p_clone->m_num_vertices );
-
-		// Create index buffer(s) and copy over index information.
-		for( int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib )
-		{
-			if( p_clone->m_num_indices[ib] > 0 )
-			{
-				p_clone->mp_index_buffer[ib] = new uint16[p_clone->m_num_indices[ib]];
-				CopyMemory( p_clone->mp_index_buffer[ib], mp_index_buffer[ib], sizeof( uint16 ) * p_clone->m_num_indices[ib] );
-			}
-		}
-
-		// Handle duplicate vertex buffers if they exist.
-		if( m_num_vertex_buffers > 1 )
-		{
-			p_clone->mp_vertex_buffer[1] = nullptr;
-			p_clone->CreateDuplicateVertexBuffers( m_num_vertex_buffers - 1 );
-		}
-	}
-	return p_clone;
-	*/
+	// Clone mesh data
 	sMesh *p_clone = new sMesh();
 	CopyMemory(p_clone, this, sizeof(sMesh));
+
 	if (instance)
 	{
 		p_clone->m_flags |= MESH_FLAG_IS_INSTANCE;
 	}
 	else
 	{
+		// Create new VAO and VBOs
+		glGenVertexArrays(1, &p_clone->mp_vao);
+		glGenBuffers(1, &p_clone->mp_vbo);
 
+		// Clone vertex buffer
+		glBindBuffer(GL_COPY_READ_BUFFER, mp_vbo);
+		glBindBuffer(GL_COPY_WRITE_BUFFER, p_clone->mp_vbo);
+		glBufferData(GL_COPY_WRITE_BUFFER, m_num_vertices * m_vertex_stride, nullptr, GL_STATIC_DRAW);
+		glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, m_vertex_stride * m_num_vertices);
+
+		// Create index buffers and copy over index information.
+		for (int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib)
+		{
+			if (p_clone->m_num_indices[ib] > 0)
+			{
+				p_clone->mp_index_buffer[ib] = new uint16[p_clone->m_num_indices[ib]];
+				CopyMemory(p_clone->mp_index_buffer[ib], mp_index_buffer[ib], sizeof(uint16) * p_clone->m_num_indices[ib]);
+			}
+		}
 	}
 
 	return p_clone;
@@ -832,23 +859,23 @@ void sMesh::Crunch( void )
 	uint32 i0 = p_indices[0];
 	uint32 i1 = p_indices[1];
 
-	uint32	invalid			= 0;
-	uint32	total_invalid	= 0;
-	bool	crunch			= false;
+	uint32 invalid = 0;
+	uint32 total_invalid = 0;
+	bool crunch = false;
 
-	for( uint32 i = 2; i < m_num_indices[0]; ++i )
+	for (uint32 i = 2; i < m_num_indices[0]; i++)
 	{
 		uint32 i2 = p_indices[i];
 
-		if(( i0 == i1 ) || ( i0 == i2 ) || ( i1 == i2 ))
+		if ((i0 == i1) || (i0 == i2) || (i1 == i2))
 		{
 			++invalid;
 		}
 		else
 		{
-			if( invalid > 5 )
+			if (invalid > 5)
 			{
-				if(( invalid & 1 ) == 0 )
+				if ((invalid & 1) == 0)
 				{
 //					printf( "Crunching %d indices (even)\n", invalid - 4 );
 
@@ -857,10 +884,10 @@ void sMesh::Crunch( void )
 					p_indices[i - invalid]	= p_indices[i - invalid - 1];
 
 					// With an even number of invalid entries, the wind order won't change during crunch.
-					MoveMemory( p_indices + i - invalid + 1, p_indices + i - 3, sizeof( uint16 ) * ( m_num_indices[0] - i + 3 ));
+					MoveMemory(p_indices + i - invalid + 1, p_indices + i - 3, sizeof(uint16) * (m_num_indices[0] - i + 3));
 
-					m_num_indices[0]	-= (uint16)( invalid - 4 );
-					i					-= invalid - 4;
+					m_num_indices[0] -= (uint16)(invalid - 4);
+					i -= invalid - 4;
 				}
 				else
 				{
@@ -872,9 +899,9 @@ void sMesh::Crunch( void )
 					p_indices[i - invalid + 1]	= p_indices[i - invalid];
 
 					// With an odd number of invalid entries, the wind order will change during crunch, so use one extra index.
-					MoveMemory( p_indices + i - invalid + 2, p_indices + i - 3, sizeof( uint16 ) * ( m_num_indices[0] - i + 3 ));
-					m_num_indices[0]	-= (uint16)( invalid - 5 );
-					i					-= invalid - 5;
+					MoveMemory(p_indices + i - invalid + 2, p_indices + i - 3, sizeof(uint16) * (m_num_indices[0] - i + 3));
+					m_num_indices[0] -= (uint16)(invalid - 5);
+					i -= invalid - 5;
 				}
 			}
 			invalid = 0;
@@ -885,6 +912,33 @@ void sMesh::Crunch( void )
 	}
 }
 
+
+void sMesh::SetupVAO(void)
+{
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, m_vertex_stride, (void *)0);
+	glEnableVertexAttribArray(0);
+
+	if (m_weights_offset != 0)
+	{
+		glVertexAttribIPointer(1, 1, GL_UNSIGNED_INT, m_vertex_stride, (void*)m_weights_offset);
+		glEnableVertexAttribArray(1);
+	}
+	if (m_matindices_offset != 0)
+	{
+		glVertexAttribIPointer(2, 4, GL_UNSIGNED_SHORT, m_vertex_stride, (void*)m_matindices_offset);
+		glEnableVertexAttribArray(2);
+	}
+	if (m_normal_offset != 0)
+	{
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, m_vertex_stride, (void*)m_normal_offset);
+		glEnableVertexAttribArray(3);
+	}
+	if (m_diffuse_offset != 0)
+	{
+		glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, m_vertex_stride, (void*)m_diffuse_offset);
+		glEnableVertexAttribArray(4);
+	}
+}
 
 
 /******************************************************************/
@@ -1130,7 +1184,7 @@ void sMesh::Initialize( int				num_vertices,
 
 	// Grab top-down heap memory for the mesh workspace buffer
 	// This will need to be as big as the maximum vertex indexed
-	uint16 *p_mesh_workspace_array = new (Mem::Manager::sHandle().TopDownHeap()) uint16[max_index + 1];
+	int16 *p_mesh_workspace_array = new (Mem::Manager::sHandle().TopDownHeap()) int16[max_index + 1];
 
 	// Get which vertices are used
 	memset(p_mesh_workspace_array, 1, sizeof(uint16) * (max_index + 1));
@@ -1240,8 +1294,8 @@ void sMesh::Initialize( int				num_vertices,
 	if (p_normals != nullptr || p_weights != nullptr || env_mapped)
 	{
 		// Need to include normals
-		m_normal_offset = vertex_size;
 		use_normals	= true;
+		m_normal_offset = vertex_size;
 		vertex_size	+= sizeof(float) * 3;
 	}
 
@@ -1249,24 +1303,24 @@ void sMesh::Initialize( int				num_vertices,
 	bool use_colors = false;
 	if (p_colors != nullptr)
 	{
+		use_colors = true;
 		m_diffuse_offset = vertex_size;
-		vertex_size	+= 4;
-		use_colors	= true;
+		vertex_size += 4;
 	}
 
-	// Create mesh
+	// Create VAO
 	m_vertex_stride = vertex_size;
 
 	glGenVertexArrays(1, &mp_vao);
 	glBindVertexArray(mp_vao);
 
+	// Create VBO
 	glGenBuffers(1, &mp_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
 
 	// Lock VBO
 	glBufferData(GL_ARRAY_BUFFER, vertex_size * vertices_for_this_mesh, nullptr, GL_STATIC_DRAW);
 	void *p_vbo = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-	void *p_vbo_p = p_vbo;
 
 	// Write vertex data
 	{
@@ -1383,9 +1437,12 @@ void sMesh::Initialize( int				num_vertices,
 	// Unlock VBO
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 
+	// Setup VAO attributes
+	SetupVAO();
+
 	// Process the workspace array.
-	uint16 offset = 0;
-	for (int v = 0; v <= max_index; ++v)
+	int16 offset = 0;
+	for (uint16 v = 0; v <= max_index; v++)
 	{
 		if (p_mesh_workspace_array[v] == 0)
 			p_mesh_workspace_array[v] = offset; // Vertex is used
@@ -1395,9 +1452,9 @@ void sMesh::Initialize( int				num_vertices,
 
 	// Copy in index data, normalising the indices for this vertex buffer
 	// so the lowest index will reference vertex 0 in the buffer built specifically for this mesh
-	for (int ib = 0; ib < num_index_sets; ++ib)
+	for (int ib = 0; ib < num_index_sets; ib++)
 	{
-		for (int i = 0; i < p_num_indices[ib]; ++i)
+		for (int i = 0; i < p_num_indices[ib]; i++)
 		{
 			uint16 idx = (pp_indices[ib])[i];
 			mp_index_buffer[ib][i] = idx + p_mesh_workspace_array[idx];
@@ -1407,282 +1464,16 @@ void sMesh::Initialize( int				num_vertices,
 	// Can now remove the mesh workspace array.
 	delete[] p_mesh_workspace_array;
 
-	#if 0
-	// Create the vertex buffer
-	m_vertex_stride	= vertex_size;
-
-	/*
-	// One allocation for the header and the data buffer.	
-	mp_vertex_buffer[0] = AllocateVertexBuffer( vertex_size * vertices_for_this_mesh );
-
-	// Lock the vertex buffer.
-	BYTE* p_byte;
-	if( D3D_OK != mp_vertex_buffer[0]->Lock(	0,					// Offset to lock.
-												0,					// Size to lock ( 0 means all).
-												&p_byte,			// Pointer to data.
-												D3DLOCK_NOFLUSH ))	// Flags.
-	{
-		Dbg_Assert( 0 );
-		return;
-	}
-	*/
-
-	// Create vertex buffer
-	// glGenVertexArrays(1, &mp_vao[0]);
-	// glGenBuffers(1, &mp_vertex_buffer[0]);
-	char *p_byte = new char[vertex_size * vertices_for_this_mesh];
-
-	// Copy in vertex position data (for vertices that are used).
-	uint32		byte_write_offset	= 0;
-	float*		p_read				= p_positions + ( min_index * 3 );
-	float*		p_write				= (float*)p_byte;
-
-	for( int v = min_index; v <= max_index; ++v )
-	{
-		if( p_mesh_workspace_array[v] == 0 )
-		{
-			// This vertex is used.
-			p_write[0]	= p_read[0];
-			p_write[1]	= p_read[1];
-			p_write[2]	= p_read[2];
-			p_write	= (float*)((char*)p_write + vertex_size );
-		}
-		p_read += 3;
-	}
-
-	byte_write_offset	+= sizeof( float ) * 3;
-	// m_vertex_shader[0]	|= D3DFVF_XYZ;
-
-	// Copy in vertex weight data.
-	if( p_weights )
-	{
-		uint32*	p_weight_read	= p_weights + min_index;
-		uint32*	p_weight_write	= (uint32*)((char*)p_byte + byte_write_offset );
-
-		for( int v = min_index; v <= max_index; ++v )
-		{
-			if( p_mesh_workspace_array[v] == 0 )
-			{
-				// This vertex is used.
-				p_weight_write[0]	= p_weight_read[0];
-				p_weight_write		= (uint32*)((char*)p_weight_write + vertex_size );
-			}
-			++p_weight_read;
-		}
-		byte_write_offset += sizeof( uint32 );
-
-		// No fvf flag setting, since it will be determined at the end.
-	}
-
-	// Copy in vertex matrix index data.
-	if( p_matrix_indices )
-	{
-		uint16*	p_index_read	= p_matrix_indices + ( min_index * 4 );
-		uint16*	p_index_write	= (uint16*)((char*)p_byte + byte_write_offset );
-		for( int v = min_index; v <= max_index; ++v )
-		{
-			if( p_mesh_workspace_array[v] == 0 )
-			{
-				// Have to multiply the indices by three to get the correct register offset, since there are 3 registers
-				// per matrix.
-				p_index_write[0]	= p_index_read[0] * 3;
-				p_index_write[1]	= p_index_read[1] * 3;
-				p_index_write[2]	= p_index_read[2] * 3;
-				p_index_write[3]	= p_index_read[3] * 3;
-				p_index_write		= (uint16*)((char*)p_index_write + vertex_size );
-			}
-			p_index_read += 4;
-		}
-		byte_write_offset += sizeof( uint16 ) * 4;
-
-		// No fvf flag setting, since it will be determined at the end.
-	}
-
-	// Copy in normals data.
-	if( use_normals )
-	{
-		m_normal_offset		= (uint8)byte_write_offset;
-		if( use_packed_normals )
-		{
-			float *p_read	= p_normals + ( min_index * 3 );
-			uint32 *p_write	= (uint32*)((char*)p_byte + byte_write_offset );
-			for( int v = min_index; v <= max_index; ++v )
-			{
-				if( p_mesh_workspace_array[v] == 0 )
-				{
-					// The packed normal format is as follows:
-					// 31                                             0
-					// |----- 10 -----|----- 11 ------|----- 11 ------|
-					// |       z      |       y       |       x       |
-					uint32 snx	= (int32)( p_read[0] * 1023.0f );
-					uint32 sny	= (int32)( p_read[1] * 1023.0f );
-					uint32 snz	= (int32)( p_read[2] * 511.0f );
-					p_write[0]	= ( snx & 0x7FF ) | (( sny & 0x7FF ) << 11 ) | (( snz & 0x3FF ) << 22 );
-					p_write		= (uint32*)((char*)p_write + vertex_size );
-				}
-				p_read += 3;
-			}
-			byte_write_offset += sizeof( uint32 );
-		}
-		else
-		{
-			float*	p_read	= p_normals + ( min_index * 3 );
-			float*	p_write	= (float*)((char*)p_byte + byte_write_offset );
-			for( int v = min_index; v <= max_index; ++v )
-			{
-				if( p_mesh_workspace_array[v] == 0 )
-				{
-					p_write[0]	= p_read[0];
-					p_write[1]	= p_read[1];
-					p_write[2]	= p_read[2];
-					p_write		= (float*)((char*)p_write + vertex_size );
-				}
-				p_read += 3;
-			}
-			byte_write_offset += sizeof( float ) * 3;
-		}
-		// m_vertex_shader[0]	|= D3DFVF_NORMAL;
-	}
-
-	// Copy in vertex color data.
-	if( use_colors )
-	{
-		m_diffuse_offset	= (uint8)byte_write_offset;
-		DWORD*	p_col_read	= p_colors + min_index;
-		DWORD*	p_col_write	= (DWORD*)((char*)p_byte + byte_write_offset );
-		for( int v = min_index; v <= max_index; ++v )
-		{
-			if( p_mesh_workspace_array[v] == 0 )
-			{
-				p_col_write[0]	= p_col_read[0];
-				p_col_write		= (DWORD*)((char*)p_col_write + vertex_size );
-			}
-			p_col_read++;
-		}
-		byte_write_offset += sizeof( DWORD );
-		// m_vertex_shader[0] |= D3DFVF_DIFFUSE;
-	}
-
-	// Copy in vertex texture coordinate data.
-	if(( tex_coord_pass > 0 ) && ( p_tex_coords != nullptr ))
-	{
-		m_uv0_offset						= (uint8)byte_write_offset;
-		p_read								= p_tex_coords + ( min_index * 2 * num_tc_sets );
-		p_write								= (float*)((char*)p_byte + byte_write_offset );
-		for( int v = min_index; v <= max_index; ++v )
-		{
-			if( p_mesh_workspace_array[v] == 0 )
-			{
-				for( uint32 pass = 0; pass < tex_coord_pass; ++pass )
-				{
-					p_write[( pass * 2 ) + 0]	= p_read[( pass * 2 ) + 0];
-					p_write[( pass * 2 ) + 1]	= p_read[( pass * 2 ) + 1];
-				}
-				p_write	= (float*)((char*)p_write + vertex_size );
-			}
-			p_read = p_read + ( num_tc_sets * 2 );
-		}
-		byte_write_offset	+= sizeof( float ) * 2 * tex_coord_pass;
-
-		switch( tex_coord_pass )
-		{
-			case 1:
-			{
-				// m_vertex_shader[0]	|= D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2( 0 );
-				break;
-			}
-			case 2:
-			{
-				// m_vertex_shader[0]	|= D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 );
-				break;
-			}
-			case 3:
-			{
-				// m_vertex_shader[0]	|= D3DFVF_TEX3 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 ) | D3DFVF_TEXCOORDSIZE2( 2 );
-				break;
-			}
-			case 4:
-			{
-				// m_vertex_shader[0]	|= D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2( 0 ) | D3DFVF_TEXCOORDSIZE2( 1 ) | D3DFVF_TEXCOORDSIZE2( 2 ) | D3DFVF_TEXCOORDSIZE2( 3 );
-				break;
-			}
-			default:
-			{
-				Dbg_MsgAssert( 0, ( "Bad number of passes" ));
-				break;
-			}
-		}
-	}
-
-	// Create the vertex color wibble array if data is present.
-	if( p_vc_wibble_anims )
-	{
-		mp_vc_wibble_data			= new char[m_num_vertices];
-		int vc_wibble_data_offset	= 0;
-
-		for( int v = min_index; v <= max_index; ++v )
-		{
-			if( p_mesh_workspace_array[v] == 0 )
-			{
-				mp_vc_wibble_data[vc_wibble_data_offset++] = p_vc_wibble_anims[v];
-			}
-		}
-		// Double buffer the vertex buffer.
-		CreateDuplicateVertexBuffers( 1 );
-	}
-
-	// Process the workspace array.
-	int offset = 0;
-	for( int v = 0; v <= max_index; ++v )
-	{
-		if( p_mesh_workspace_array[v] == 0 )
-		{
-			// This vertex is used.
-			p_mesh_workspace_array[v] = offset;
-		}
-		else
-		{
-			// This vertex is not used. Update the offset for the next used vertex.
-			--offset;
-		}
-	}
-	
-	// Copy in index data, normalising the indices for this vertex buffer (i.e. so the lowest index will reference
-	// vertex 0 in the buffer built specifically for this mesh).
-	for( int ib = 0; ib < num_index_sets; ++ib )
-	{
-		for( int i = 0; i < p_num_indices[ib]; ++i )
-		{
-			uint16 idx				= ( pp_indices[ib] )[i];
-			mp_index_buffer[ib][i]	= idx + p_mesh_workspace_array[idx];
-		}
-	}
-	
-	// Can now remove the mesh workspace array.
-	delete [] p_mesh_workspace_array;
-	
-	// Set the correct vertex shader if a weighted mesh.
-	// The number of indices used will be one more than the biggest index used (given 0 base).
-	if( p_weights )
-	{
-		m_vertex_shader[0] = GetVertexShader( use_colors, ( mp_material->m_flags[0] & MATFLAG_SPECULAR ) ? true : false, biggest_index_used + 1 );
-	}
-
-	// Set the pixel shader regardless.
-	GetPixelShader( mp_material, &m_pixel_shader );
-
-	if( num_index_sets > 1 )
+	// Write LOD distances
+	if (num_index_sets > 1)
 	{
 		mp_index_lod_data = new float[num_index_sets];
-		for( int d = 0; d < num_index_sets; ++d )
+		for (int d = 0; d < num_index_sets; ++d)
 		{
-			float dist				= ( 15.0f + ( d * 10.0f )) * 12.0f;
-			mp_index_lod_data[d]	= dist;
+			float dist = (15.0f + (d * 10.0f)) * 12.0f;
+			mp_index_lod_data[d] = dist;
 		}
 	}
-
-	delete[] p_byte;
-	#endif
 }
 
 

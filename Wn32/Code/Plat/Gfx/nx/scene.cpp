@@ -119,8 +119,8 @@ void sScene::FigureBoundingVolumes( void )
 	// Figure bounding sphere assuming bounding box has already been set up (during individual mesh initialisation).
 	Mth::Vector radial	= ( m_bbox.GetMax() - m_bbox.GetMin() ) * 0.5f;
 	Mth::Vector center	= m_bbox.GetMin() + radial;
-	// m_sphere_center		= D3DXVECTOR3( center[X], center[Y], center[Z] );
-	// m_sphere_radius		= sqrtf(( radial[X] * radial[X] ) +	( radial[Y] * radial[Y] ) + ( radial[Z] * radial[Z] ));
+	m_sphere_center		= glm::vec3( center[X], center[Y], center[Z] );
+	m_sphere_radius		= sqrtf(( radial[X] * radial[X] ) +	( radial[Y] * radial[Y] ) + ( radial[Z] * radial[Z] ));
 }
 
 

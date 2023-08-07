@@ -99,7 +99,7 @@ public:
 
 template < class _T > inline	
 Head< _T >::Head( void )
-: Node< _T > ( reinterpret_cast < _T* >( vHEAD_NODE ) ) 
+: Node< _T > ( reinterpret_cast < _T* >( Node<_T>::vHEAD_NODE ) ) 
 {
 	
 }
@@ -114,7 +114,7 @@ Head< _T >::~Head( void )
 {
 	
 
-	Dbg_MsgAssert( IsEmpty(),( "List is not empty" ));
+	Dbg_MsgAssert(this->IsEmpty(),( "List is not empty" ));
 }
 
 /******************************************************************/
@@ -125,14 +125,12 @@ Head< _T >::~Head( void )
 template < class _T > inline	
 void	Head< _T >::AddNode( Node< _T >* node )
 {
-	
-	
-	Dbg_AssertType( node, Node< _T > );
-	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
-	Dbg_MsgAssert( !node->InList (),( "Object is already in a list" ));
+	Dbg_AssertType(node, Node<_T>);
+	Dbg_MsgAssert(this->is_head(), ("Object is not a list"));
+	Dbg_MsgAssert(!node->InList(), ("Object is already in a list"));
 
-	Node< _T >*		node_ptr =	this;
-	Priority		new_pri	 =	node->GetPri();
+	Node<_T> *node_ptr = this;
+	typename Node<_T>::Priority new_pri = node->GetPri();
 
 	while (( node_ptr = node_ptr->GetNext() ))
 	{
@@ -143,7 +141,7 @@ void	Head< _T >::AddNode( Node< _T >* node )
 		}
 	}
 
-	Insert( node );
+	this->Insert( node );
 }
 
 /******************************************************************/
@@ -154,14 +152,12 @@ void	Head< _T >::AddNode( Node< _T >* node )
 template < class _T > inline	
 void	Head< _T >::AddNodeFromTail( Node< _T >* node )
 {
-	
-	
-	Dbg_AssertType( node, Node< _T > );
-	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
-	Dbg_MsgAssert( !node->InList (),( "Object is already in a list" ));
+	Dbg_AssertType(node, Node<_T>);
+	Dbg_MsgAssert(this->is_head(), ("Object is not a list"));
+	Dbg_MsgAssert(!node->InList(), ("Object is already in a list"));
 
-	Node< _T >*		node_ptr =	this;
-	Priority		new_pri	 =	node->GetPri();
+	Node<_T> *node_ptr = this;
+	typename Node<_T>::Priority new_pri = node->GetPri();
 
 	while (( node_ptr = node_ptr->GetPrev() ))
 	{
@@ -172,7 +168,7 @@ void	Head< _T >::AddNodeFromTail( Node< _T >* node )
 		}
 	}
 
-	Append( node );
+	this->Append( node );
 }
 
 /******************************************************************/
@@ -183,14 +179,12 @@ void	Head< _T >::AddNodeFromTail( Node< _T >* node )
 template < class _T > inline
 bool	Head< _T >::AddUniqueSequence( Node< _T >* node )
 {
-	
-	
-	Dbg_AssertType( node, Node< _T > );
-	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
-	Dbg_MsgAssert( !node->InList (),( "Object is already in a list" ));
+	Dbg_AssertType(node, Node<_T>);
+	Dbg_MsgAssert(this->is_head(), ("Object is not a list"));
+	Dbg_MsgAssert(!node->InList(), ("Object is already in a list"));
 
-	Node< _T >*		node_ptr =	this;
-	Priority		new_pri	 =	node->GetPri();
+	Node<_T> *node_ptr = this;
+	typename Node<_T>::Priority new_pri = node->GetPri();
 
 	while (( node_ptr = node_ptr->GetNext() ))
 	{
@@ -205,7 +199,7 @@ bool	Head< _T >::AddUniqueSequence( Node< _T >* node )
 		}
 	}
 
-	Insert( node );
+	this->Insert( node );
 	return true;
 }
 
@@ -217,15 +211,13 @@ bool	Head< _T >::AddUniqueSequence( Node< _T >* node )
 template < class _T > inline	
 void		Head< _T >::Merge( Head< _T >* dest )
 {
-	
-	
 	Dbg_AssertType( dest, Head< _T > );
 	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
 	Dbg_MsgAssert( dest->is_head (),( "Object is not a list" ));
 
-	Node< _T >*		first = next;	
-	Node< _T >*		last = prev;
-	Node< _T >*		node = dest->GetPrev();
+	Node< _T > *first = this->next;	
+	Node< _T > *last = this->prev;
+	Node< _T > *node = dest->GetPrev();
 	
 	if ( this == first )			// source list is empty
 	{
@@ -238,7 +230,7 @@ void		Head< _T >::Merge( Head< _T >* dest )
 	last->SetNext( dest );
 	dest->SetPrev( last );
 	
-	node_init();					// make the source list empty
+	this->node_init();					// make the source list empty
 }
 
 /******************************************************************/
@@ -249,11 +241,9 @@ void		Head< _T >::Merge( Head< _T >* dest )
 template < class _T > inline	
 Node< _T >*		Head< _T >::GetItem( uint number )
 {
-	
-	
 	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
 
-	Node< _T >*		node = GetNext();
+	Node< _T >*		node = this->GetNext();
 
 	while ( node )
 	{
@@ -266,7 +256,6 @@ Node< _T >*		Head< _T >::GetItem( uint number )
 	}
 
 	Dbg_Warning( "Item requested (%d) out of range (%d)", number, CountItems() );
-
 	return nullptr;
 }
 
@@ -281,11 +270,8 @@ Node< _T >*		Head< _T >::GetItem( uint number )
 template < class _T > inline	
 Node< _T >*		Head< _T >::FirstItem( )
 {
-	
-	
 	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
-
-	return GetNext();
+	return this->GetNext();
 }
 
 
@@ -297,19 +283,16 @@ Node< _T >*		Head< _T >::FirstItem( )
 template <class _T > inline	
 uint		Head< _T >::CountItems( void )
 {
-	
-	
 	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
 
-	uint			count = 0;
-	Node< _T >*	node = GetNext();
+	uint count = 0;
+	Node< _T > *node = this->GetNext();
 
 	while ( node )
 	{
 		count++;
 		node = node->GetNext();
 	}
-
 	return count;
 }
 
@@ -321,12 +304,10 @@ uint		Head< _T >::CountItems( void )
 template <class _T> inline	
 void		Head< _T >::RemoveAllNodes( void )
 {
-	
-	
 	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
 
-	Node< _T >*		next_nd;
-	Node< _T >*		node = GetNext();
+	Node< _T > *next_nd;
+	Node< _T > *node = this->GetNext();
 
 	while ( node )
 	{
@@ -344,12 +325,10 @@ void		Head< _T >::RemoveAllNodes( void )
 template <class _T> inline	
 void		Head< _T >::DestroyAllNodes( void )
 {
-	
-	
 	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
 
-	Node< _T >*		next_nd;
-	Node< _T >*		node = GetNext();
+	Node< _T > *next_nd;
+	Node< _T > *node = this->GetNext();
 
 	while ( node )
 	{
@@ -368,13 +347,11 @@ void		Head< _T >::DestroyAllNodes( void )
 template <class _T> inline	
 void		Head< _T >::AddToTail( Node< _T >* node )
 {
-	
-	
 	Dbg_AssertType( node, Node< _T > );
 	Dbg_MsgAssert( this->is_head (),( "Object is not a list" ));
 	Dbg_MsgAssert( !node->InList (),( "Node is already in a list" ));
 
-	Insert ( node );
+	this->Insert ( node );
 }
 
 /******************************************************************/
@@ -385,13 +362,11 @@ void		Head< _T >::AddToTail( Node< _T >* node )
 template <class _T> inline	
 void		Head< _T >::AddToHead ( Node< _T >* node )
 {
-	
-	
 	Dbg_AssertType( node, Node< _T > );
 	Dbg_MsgAssert( this->is_head(),(( "Object is not a list" )));
 	Dbg_MsgAssert( !node->InList(),(( "Node is already in a list" )));
 
-	Append( node );
+	this->Append( node );
 }
 
 /******************************************************************/
@@ -402,11 +377,8 @@ void		Head< _T >::AddToHead ( Node< _T >* node )
 template <class _T> inline
 bool		Head< _T >::IsEmpty( void )
 {
-	
-	
 	Dbg_MsgAssert ( this->is_head(),( "Object is not a list" ));
-
-	return ( !InList() );
+	return ( !this->InList() );
 }
 
 /******************************************************************/

@@ -10,6 +10,7 @@
 
 #include <core/defines.h>
 #include <core/support.h>
+#include <cstring>
 
 #include <gel/object/basecomponent.h>
 

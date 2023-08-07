@@ -37,6 +37,11 @@ namespace Nx
 {
 	class CCollCache;
 }
+
+namespace Mdl
+{
+	class Skate;
+};
               
 namespace Obj
 {
@@ -50,21 +55,34 @@ namespace Obj
 	
 	struct SRailData;
 
+	class CSkater;
+	class CSkaterCam;
+	class CManual;
+	class CSkaterCameraComponent;
+	class CSkaterAdjustPhysicsComponent;
+	class CSkaterFinalizePhysicsComponent;
+	class CSkaterNonLocalNetLogicComponent;
+	class CSkaterRotateComponent;
+	class CSkaterPhysicsControlComponent;
+	class CSkaterMatrixQueriesComponent;
+	class CSkaterStateHistoryComponent;
+	class CWalkComponent;
+
 class CSkaterCorePhysicsComponent : public CBaseComponent
 {
-	friend Mdl::Skate;
-	friend CSkater;
-	friend CSkaterCam;
-	friend CManual;
-	friend CSkaterCameraComponent;
-	friend CSkaterAdjustPhysicsComponent;
-	friend CSkaterFinalizePhysicsComponent;
-	friend CSkaterNonLocalNetLogicComponent;
-	friend CSkaterRotateComponent;
-	friend CSkaterPhysicsControlComponent;
-	friend CSkaterMatrixQueriesComponent;
-	friend CSkaterStateHistoryComponent;
-	friend CWalkComponent;
+	friend class Mdl::Skate;
+	friend class CSkater;
+	friend class CSkaterCam;
+	friend class CManual;
+	friend class CSkaterCameraComponent;
+	friend class CSkaterAdjustPhysicsComponent;
+	friend class CSkaterFinalizePhysicsComponent;
+	friend class CSkaterNonLocalNetLogicComponent;
+	friend class CSkaterRotateComponent;
+	friend class CSkaterPhysicsControlComponent;
+	friend class CSkaterMatrixQueriesComponent;
+	friend class CSkaterStateHistoryComponent;
+	friend class CWalkComponent;
 	
 public:
     CSkaterCorePhysicsComponent();

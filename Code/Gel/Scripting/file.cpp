@@ -16,6 +16,8 @@
 #include <core/crc.h> // For Crc::GenerateCRCFromString
 #include <sys/file/pip.h>
 
+#include <cstring>
+
 namespace Script
 {
 // TODO: Need another LoadQB in the game-specific script namespace, which will call this LoadQB
@@ -33,7 +35,7 @@ void restart_dirty_scripts()
 	{
 		if (p_sym->mGotReloaded && p_sym->mType==ESYMBOLTYPE_QSCRIPT)
 		{
-			CScript *p_script=GetNextScript();
+			CScript *p_script=GetNextScript(nullptr);
 			while (p_script)
 			{
 				if (p_script->RefersToScript(p_sym->mNameChecksum))
@@ -135,7 +137,7 @@ void UnloadQB(uint32 fileNameChecksum)
 	
 	// Scan through all the existing CScripts stopping any that are referring to a script
 	// that got deleted above.
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (!p_script->AllScriptsInCallstackStillExist())

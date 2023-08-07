@@ -83,7 +83,6 @@ static int sort_by_bone_transform( const void *p1, const void *p2 )
 /******************************************************************/
 void render_instance( CInstance* p_instance, uint32 flags )
 {
-/*
 	// Seed the static pointer off to nullptr, otherwise if there is only one object with bone transforms, it will never update.
 	pLastBoneTransforms = nullptr;
 
@@ -96,9 +95,9 @@ void render_instance( CInstance* p_instance, uint32 flags )
 		{
 			// Check whether this instance is visible.
 			render = false;
-			if( frustum_check_sphere( &p_instance->GetScene()->m_sphere_center, p_instance->GetScene()->m_sphere_radius ))
+			if( frustum_check_sphere(p_instance->GetScene()->m_sphere_center, p_instance->GetScene()->m_sphere_radius))
 			{
-				if( !TestSphereAgainstOccluders( &p_instance->GetScene()->m_sphere_center, p_instance->GetScene()->m_sphere_radius ))
+				if( !TestSphereAgainstOccluders(p_instance->GetScene()->m_sphere_center, p_instance->GetScene()->m_sphere_radius))
 				{
 					render = true;
 				}
@@ -120,10 +119,8 @@ void render_instance( CInstance* p_instance, uint32 flags )
 		}
 
 		// Restore world transform to identity.
-		D3DDevice_SetTransform( D3DTS_WORLD, &EngineGlobals.world_matrix );
 		set_frustum_bbox_transform( nullptr );
 	}
-*/
 }
 
 
@@ -133,7 +130,6 @@ void render_instance( CInstance* p_instance, uint32 flags )
 /******************************************************************/
 void render_instances( uint32 flags )
 {
-	/*
 	#define INSTANCE_ARRAY_SIZE	4096
 	static CInstance *p_instances[INSTANCE_ARRAY_SIZE];
 	int current_index = 0;
@@ -170,7 +166,7 @@ void render_instances( uint32 flags )
 				// The logic code already sets the active flag based on visibility, so there is no need to perform a second visibility check
 				// at this point.
 				// We do, however, want to test against occluders.
-				if( !TestSphereAgainstOccluders( &p_instance->GetScene()->m_sphere_center, radius ))
+				if( !TestSphereAgainstOccluders(p_instance->GetScene()->m_sphere_center, radius))
 				{
 					Dbg_Assert( current_index < INSTANCE_ARRAY_SIZE );
 					p_instances[current_index++] = p_instance;
@@ -200,10 +196,10 @@ void render_instances( uint32 flags )
 		shutdown_weighted_mesh_vertex_shader();
 		
 		// Then the instances with no bone transforms. These will require fixed function lighting.
-		D3DDevice_SetRenderState( D3DRS_LIGHTING,				TRUE );
-		D3DDevice_SetRenderState( D3DRS_COLORVERTEX,			TRUE );
-		D3DDevice_LightEnable( 0, TRUE );
-		D3DDevice_LightEnable( 1, TRUE );
+		// D3DDevice_SetRenderState( D3DRS_LIGHTING,				TRUE );
+		// D3DDevice_SetRenderState( D3DRS_COLORVERTEX,			TRUE );
+		// D3DDevice_LightEnable( 0, TRUE );
+		// D3DDevice_LightEnable( 1, TRUE );
 
 		Mth::Vector current_cam_pos( EngineGlobals.cam_position.x, EngineGlobals.cam_position.y, EngineGlobals.cam_position.z );
 
@@ -217,26 +213,24 @@ void render_instances( uint32 flags )
 			float dist_squared = Mth::DistanceSqr( p_instances[i]->GetTransform()->GetPos(), current_cam_pos );
 
 			// At forty feet, environment mapping is turned off.
-			EngineGlobals.allow_envmapping = ( dist_squared > env_map_disable_distance ) ? false : true;
+			// EngineGlobals.allow_envmapping = ( dist_squared > env_map_disable_distance ) ? false : true;
 
 			if(( flags & vRENDER_OPAQUE ) || (( flags & vRENDER_SEMITRANSPARENT ) && ( flags & vRENDER_INSTANCE_POST_WORLD_SEMITRANSPARENT )))
 				p_instances[i]->Render( flags );
 		}
 
 		// Restore environment mapping..
-		EngineGlobals.allow_envmapping = true;
+		// EngineGlobals.allow_envmapping = true;
 
 		// Shut down fixed function lighting.
-		D3DDevice_SetRenderState( D3DRS_LIGHTING,				FALSE );
-		D3DDevice_SetRenderState( D3DRS_COLORVERTEX,			FALSE );
-		D3DDevice_LightEnable( 0, FALSE );
-		D3DDevice_LightEnable( 1, FALSE );
+		// D3DDevice_SetRenderState( D3DRS_LIGHTING,				FALSE );
+		// D3DDevice_SetRenderState( D3DRS_COLORVERTEX,			FALSE );
+		// D3DDevice_LightEnable( 0, FALSE );
+		// D3DDevice_LightEnable( 1, FALSE );
 	}
 
 	// Restore world transform to identity.
-	D3DDevice_SetTransform( D3DTS_WORLD, &EngineGlobals.world_matrix );
-	set_frustum_bbox_transform( nullptr );
-	*/
+	set_frustum_bbox_transform(nullptr);
 }
 
 
@@ -316,10 +310,10 @@ CInstance::~CInstance()
 /******************************************************************/
 void CInstance::Render( uint32 flags )
 {
-	/*
 	const int			MAX_SUPPORTED_BONES	= 58;
 	static float		root_matrix[12];
 
+	/*
 	static D3DLIGHT8 l0 =
 	{
 		D3DLIGHT_DIRECTIONAL,
@@ -344,8 +338,27 @@ void CInstance::Render( uint32 flags )
 		0.0f, 0.0f, 0.0f,			// Attenuation0, 1, 2
 		0.0f, 0.0f					// Theta, Phi
 	};
+	*/
 
-	if(( GetBoneTransforms() == nullptr ) || ( GetScene()->m_numHierarchyObjects > 0 ))
+	Mth::Matrix *transform = GetTransform();
+	EngineGlobals.model_matrix[0][0] = transform->GetRight().GetX();
+	EngineGlobals.model_matrix[0][1] = transform->GetRight().GetY();
+	EngineGlobals.model_matrix[0][2] = transform->GetRight().GetZ();
+	EngineGlobals.model_matrix[0][3] = 0.0f;
+	EngineGlobals.model_matrix[1][0] = transform->GetUp().GetX();
+	EngineGlobals.model_matrix[1][1] = transform->GetUp().GetY();
+	EngineGlobals.model_matrix[1][2] = transform->GetUp().GetZ();
+	EngineGlobals.model_matrix[1][3] = 0.0f;
+	EngineGlobals.model_matrix[2][0] = transform->GetAt().GetX();
+	EngineGlobals.model_matrix[2][1] = transform->GetAt().GetY();
+	EngineGlobals.model_matrix[2][2] = transform->GetAt().GetZ();
+	EngineGlobals.model_matrix[2][3] = 0.0f;
+	EngineGlobals.model_matrix[3][0] = transform->GetPos().GetX();
+	EngineGlobals.model_matrix[3][1] = transform->GetPos().GetY();
+	EngineGlobals.model_matrix[3][2] = transform->GetPos().GetZ();
+	EngineGlobals.model_matrix[3][3] = 1.0f;
+
+	if ((GetBoneTransforms() == nullptr) || (GetScene()->m_numHierarchyObjects > 0))
 	{
 		// Is a non-skinned object.
 		pLastBoneTransforms = nullptr;
@@ -353,7 +366,7 @@ void CInstance::Render( uint32 flags )
 		// Do the lighting setup here.
 		if((( m_flags & CInstance::INSTANCE_FLAG_LIGHTING_ALLOWED ) == 0 ) || ( GetScene()->m_flags & SCENE_FLAG_RENDERING_SHADOW ))
 		{
-			D3DDevice_SetRenderState( D3DRS_LIGHTING, FALSE );
+			// D3DDevice_SetRenderState( D3DRS_LIGHTING, FALSE );
 		}
 		else
 		{
@@ -368,6 +381,7 @@ void CInstance::Render( uint32 flags )
 				Nx::CLightManager::sUpdateEngine();
 			}
 
+			/*
 			D3DDevice_SetRenderState( D3DRS_LIGHTING, TRUE );
 			
 			l0.Diffuse.r	= EngineGlobals.directional_light_color[4];
@@ -390,21 +404,22 @@ void CInstance::Render( uint32 flags )
 																	Ftoi_ASM( EngineGlobals.ambient_light_color[1] * 255.0f ),
 																	Ftoi_ASM( EngineGlobals.ambient_light_color[2] * 255.0f ),
 																	0xFF ));
+			*/
 		}
 
 		// If the object has a 'fake skeleton', like the cars with rotating wheels, then set up accordingly.
-		if( GetScene()->m_numHierarchyObjects )
+		if (GetScene()->m_numHierarchyObjects)
 		{
-			int num_bones = ( GetNumBones() < MAX_SUPPORTED_BONES ) ? GetNumBones() : MAX_SUPPORTED_BONES;
-			for( int lp = 0; lp < num_bones; ++lp )
+			int num_bones = (GetNumBones() < MAX_SUPPORTED_BONES) ? GetNumBones() : MAX_SUPPORTED_BONES;
+			for (int lp = 0; lp < num_bones; lp++)
 			{
 				Mth::Matrix temp = *GetTransform();
 				temp = GetBoneTransforms()[lp] * temp;
 				set_frustum_bbox_transform( &temp );
-				D3DDevice_SetTransform( D3DTS_WORLD, (D3DXMATRIX*)&temp );
+				// D3DDevice_SetTransform( D3DTS_WORLD, (D3DXMATRIX*)&temp );
 
 				// Scan through the meshes, setting only those with the current bone active.
-				for( int m = 0; m < GetScene()->m_num_mesh_entries; ++m )
+				for(int m = 0; m < GetScene()->m_num_mesh_entries; m++)
 				{
 					NxWn32::sMesh *p_mesh = GetScene()->m_meshes[m];
 					if( p_mesh->GetBoneIndex() == lp )
@@ -418,8 +433,8 @@ void CInstance::Render( uint32 flags )
 		else
 		{
 			// Has no skeleton.
-			set_frustum_bbox_transform( GetTransform());
-			D3DDevice_SetTransform( D3DTS_WORLD, (D3DXMATRIX*)GetTransform());
+			set_frustum_bbox_transform(GetTransform());
+			// D3DDevice_SetTransform( D3DTS_WORLD, (D3DXMATRIX*)GetTransform());
 
 			render_scene( GetScene(), flags | vRENDER_NO_CULLING );
 		}
@@ -427,7 +442,7 @@ void CInstance::Render( uint32 flags )
 	else
 	{
 		// Has bone transforms, is therefore an animated object such as a skater, pedestrian etc.
-		set_frustum_bbox_transform( GetTransform());
+		set_frustum_bbox_transform(GetTransform());
 
 		// We only want to upload all the bone transforms if they have changed from the last call.
 		bool upload_bone_transforms = false;
@@ -474,20 +489,20 @@ void CInstance::Render( uint32 flags )
 		if( GetScene()->m_flags & SCENE_FLAG_RENDERING_SHADOW )
 		{
 			// Set the simple vertex shader that does no normal transform or lighting.
-			set_vertex_shader( WeightedMeshVertexShader_SBWrite );
-			EngineGlobals.vertex_shader_override = 1;
+			// set_vertex_shader( WeightedMeshVertexShader_SBWrite );
+			// EngineGlobals.vertex_shader_override = 1;
 
 			// Set the simple pixel shader that just writes constant (1,1,1,1) out.
-			set_pixel_shader( PixelShaderNULL );
-			EngineGlobals.pixel_shader_override = 1;
+			// set_pixel_shader( PixelShaderNULL );
+			// EngineGlobals.pixel_shader_override = 1;
 
 			// No backface culling.
-			set_render_state( RS_CULLMODE, D3DCULL_NONE );
+			// set_render_state( RS_CULLMODE, D3DCULL_NONE );
 
 			// Lock out material changes.
-			EngineGlobals.material_override = 1;
+			// EngineGlobals.material_override = 1;
 
-			render_scene( GetScene(), flags | vRENDER_NO_CULLING );
+			// render_scene( GetScene(), flags | vRENDER_NO_CULLING );
 
 //			RenderShadowVolume();
 		}
@@ -495,6 +510,7 @@ void CInstance::Render( uint32 flags )
 		{
 			render_scene( GetScene(), flags | vRENDER_NO_CULLING );
 
+			/*
 			// Render the self-shadowing pass here, if so flagged.
 			if( GetScene()->m_flags & SCENE_FLAG_SELF_SHADOWS )
 			{
@@ -527,6 +543,24 @@ void CInstance::Render( uint32 flags )
 
 					if( p_details )
 					{
+						Mth::Matrix *mtx = GetTransform();
+						EngineGlobals.model_matrix[0][0] = GetTransform()->GetRight()[X];
+						EngineGlobals.model_matrix[1][0] = GetTransform()->GetRight()[Y];
+						EngineGlobals.model_matrix[2][0] = GetTransform()->GetRight()[Z];
+						EngineGlobals.model_matrix[3][0] = 0.0f;
+						EngineGlobals.model_matrix[0][1] = GetTransform()->GetUp()[X];
+						EngineGlobals.model_matrix[1][1] = GetTransform()->GetUp()[Y];
+						EngineGlobals.model_matrix[2][1] = GetTransform()->GetUp()[Z];
+						EngineGlobals.model_matrix[3][1] = 0.0f;
+						EngineGlobals.model_matrix[0][2] = -GetTransform()->GetAt()[X];
+						EngineGlobals.model_matrix[1][2] = -GetTransform()->GetAt()[Y];
+						EngineGlobals.model_matrix[2][2] = -GetTransform()->GetAt()[Z];
+						EngineGlobals.model_matrix[3][2] = 0.0f;
+						EngineGlobals.model_matrix[0][3] = GetTransform()->GetPos()[X];
+						EngineGlobals.model_matrix[1][3] = GetTransform()->GetPos()[Y];
+						EngineGlobals.model_matrix[2][3] = GetTransform()->GetPos()[Z];
+						EngineGlobals.model_matrix[3][3] = 1.0f;
+
 						// Need to incorporate the world matrix into the texture projection matrix, since we will be using the bone-transformed
 						// vertex positions, which are in object space.
 						XGMATRIX world_matrix;
@@ -565,13 +599,13 @@ void CInstance::Render( uint32 flags )
 						texture_projection_matrix[13]	= p_details->texture_projection_matrix.m[1][3];
 						texture_projection_matrix[14]	= p_details->texture_projection_matrix.m[2][3];
 						texture_projection_matrix[15]	= p_details->texture_projection_matrix.m[3][3];
-
 						// We can upload this matrix to the space taken up by the directional lighting details, since this render pass requires no lighting.
-						D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_DIR_LIGHT_OFFSET, (void*)texture_projection_matrix, 4 );
+						// D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_DIR_LIGHT_OFFSET, (void*)texture_projection_matrix, 4 );
 
 						// Scan through each mesh in this scene, setting the vertex shader to be the equivalent vertex shader
 						// for shadow buffering.
 						sScene *p_scene = GetScene();
+						/*
 						for( int m = 0; m < p_scene->m_num_mesh_entries; ++m )
 						{
 							sMesh *p_mesh = p_scene->m_meshes[m];
@@ -615,46 +649,46 @@ void CInstance::Render( uint32 flags )
 						NxWn32::EngineGlobals.upload_pixel_shader_constants	= true;
 
 						// Set the pixel shader that will do the shadow attenuation.			
-						extern DWORD PixelShader_ShadowBuffer;
-						set_pixel_shader( PixelShader_ShadowBuffer );
-						EngineGlobals.pixel_shader_override = 1;
+						// extern DWORD PixelShader_ShadowBuffer;
+						// set_pixel_shader( PixelShader_ShadowBuffer );
+						// EngineGlobals.pixel_shader_override = 1;
 
 						// Set the material properties used for shadow modulation.
-						set_blend_mode( vBLEND_MODE_MODULATE_COLOR );
-						set_texture( 0, nullptr );
-						set_texture( 1, nullptr );
-						set_texture( 2, nullptr );
-						EngineGlobals.material_override = 1;
+						// set_blend_mode( vBLEND_MODE_MODULATE_COLOR );
+						// set_texture( 0, nullptr );
+						// set_texture( 1, nullptr );
+						// set_texture( 2, nullptr );
+						// EngineGlobals.material_override = 1;
 
 						// Set texture stage 3 to use the shadow buffer.
-						EngineGlobals.texture_stage_override |= ( 1 << 3 );
-						set_texture( 3, nullptr );
-						set_texture( 3, p_details->p_texture->pD3DTexture );
-						set_render_state( RS_UVADDRESSMODE0 + 3, 0x00020002UL );
-						D3DDevice_SetTextureStageState( 3, D3DTSS_BORDERCOLOR, 0x00000000UL );
-						D3DDevice_SetTextureStageState( 3, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
-						D3DDevice_SetTextureStageState( 3, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
-
-						D3DDevice_SetTextureStageState( 3, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE );
-						D3DDevice_SetTextureStageState( 3, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_PASSTHRU | 3 );
+						// EngineGlobals.texture_stage_override |= ( 1 << 3 );
+						// set_texture( 3, nullptr );
+						// set_texture( 3, p_details->p_texture->pD3DTexture );
+						// set_render_state( RS_UVADDRESSMODE0 + 3, 0x00020002UL );
+						// D3DDevice_SetTextureStageState( 3, D3DTSS_BORDERCOLOR, 0x00000000UL );
+						// D3DDevice_SetTextureStageState( 3, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
+						// D3DDevice_SetTextureStageState( 3, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
+						// 
+						// D3DDevice_SetTextureStageState( 3, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE );
+						// D3DDevice_SetTextureStageState( 3, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_PASSTHRU | 3 );
 
 						// Set shadowbuffer state.
-						D3DDevice_SetRenderState( D3DRS_SHADOWFUNC, D3DCMP_GREATER );
+						// D3DDevice_SetRenderState( D3DRS_SHADOWFUNC, D3DCMP_GREATER );
 
 						// Render the shadow pass with fogging disabled.
-						if( EngineGlobals.fog_enabled )
+						// if( EngineGlobals.fog_enabled )
 						{
-							D3DDevice_SetRenderState( D3DRS_FOGENABLE, FALSE );
+							// D3DDevice_SetRenderState( D3DRS_FOGENABLE, FALSE );
 							render_scene( GetScene(), flags | vRENDER_NO_CULLING );
-							D3DDevice_SetRenderState( D3DRS_FOGENABLE, TRUE );
+							// D3DDevice_SetRenderState( D3DRS_FOGENABLE, TRUE );
 						}
-						else
-						{
-							render_scene( GetScene(), flags | vRENDER_NO_CULLING );
-						}
+						// else
+						// {
+						//	render_scene( GetScene(), flags | vRENDER_NO_CULLING );
+						// }
 
 						// Restore shadowbuffer state.
-						D3DDevice_SetRenderState( D3DRS_SHADOWFUNC, D3DCMP_NEVER );
+						// D3DDevice_SetRenderState( D3DRS_SHADOWFUNC, D3DCMP_NEVER );
 
 						// Scan through each mesh in this scene, restoring the vertex shader to the original.
 						for( int m = 0; m < p_scene->m_num_mesh_entries; ++m )
@@ -665,18 +699,18 @@ void CInstance::Render( uint32 flags )
 					}
 				}
 			}
+			*/
 		}
 
 		// Restore state.
-		EngineGlobals.vertex_shader_override	= 0;
-		EngineGlobals.pixel_shader_override		= 0;
-		EngineGlobals.material_override			= 0;
-		EngineGlobals.texture_stage_override	&= ~( 1 << 3 );
-		set_texture( 3, nullptr );
+		// EngineGlobals.vertex_shader_override	= 0;
+		// EngineGlobals.pixel_shader_override		= 0;
+		// EngineGlobals.material_override			= 0;
+		// EngineGlobals.texture_stage_override	&= ~( 1 << 3 );
+		// set_texture( 3, nullptr );
 
 //		shutdown_weighted_mesh_vertex_shader();
 	}
-	*/
 }
 
 

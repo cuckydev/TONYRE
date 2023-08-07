@@ -20,7 +20,7 @@ namespace NxWn32
 		{
 			char msg[512];
 			glGetShaderInfoLog(shader, 512, nullptr, msg);
-			Dbg_MsgAssert(status == 0, (msg));
+			Dbg_MsgAssert(status == GL_TRUE, (msg));
 			return 0;
 		}
 
@@ -51,7 +51,7 @@ namespace NxWn32
 		{
 			char msg[512];
 			glGetProgramInfoLog(program, 512, nullptr, msg);
-			Dbg_MsgAssert(status == 0, (msg));
+			Dbg_MsgAssert(status == GL_TRUE, (msg));
 			return;
 		}
 

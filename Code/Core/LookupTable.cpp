@@ -22,9 +22,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
+#include <core/lookuptable.h>
 #include <core/defines.h>
 #include <core/string/cstring.h>
-#include <core/lookuptable.h>
 
 //
 

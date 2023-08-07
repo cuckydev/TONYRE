@@ -23,10 +23,7 @@
 #include <core/crc.h> // For Crc::GenerateCRCFromString
 #include <core/compress.h>
 
-#ifdef __PLAT_NGC__
-#include <sys/ngc/p_aram.h>
-#include <sys/ngc/p_dma.h>
-#endif		// __PLAT_NGC__
+#include <cstring>
 
 DefinePoolableClass(Script::CStoredRandom);
 

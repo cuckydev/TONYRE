@@ -31,6 +31,8 @@
 
 #include <gfx\nxweather.h>
 
+#include <cstring>
+
 namespace	Nx
 {
 

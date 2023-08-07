@@ -25,10 +25,8 @@
 #include <sys/file/filesys.h>
 #include <core/crc.h>
 
-#ifdef __PLAT_NGC__
-#include "dolphin.h"
-extern bool g_in_cutscene;
-#endif
+#include <cstring>
+
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/

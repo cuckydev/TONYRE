@@ -31,6 +31,8 @@
 #include <gel/scripting/symboltable.h>
 #include <gel/scripting/checksum.h>
 
+#include <cstring>
+
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/

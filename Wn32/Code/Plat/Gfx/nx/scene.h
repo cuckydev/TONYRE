@@ -66,7 +66,7 @@ struct sScene
 	bool						m_is_dictionary;
 
 	Mth::CBBox					m_bbox;	
-	// D3DXVECTOR3					m_sphere_center;
+	glm::vec3					m_sphere_center;
 	float						m_sphere_radius;
 
 	// For mesh heirarchies.

@@ -124,7 +124,7 @@ bool	CFeeler::GetCollision(bool movables, bool bfar)
 
 	m_col_data.mp_callback_object = nullptr;
 						  
-	void *callback = 0;					
+	void (*callback)(Nx::CollData*) = nullptr;
 	if (mp_callback)
 	{
 	   	callback = s_feeler_collide_callback;
@@ -230,7 +230,7 @@ bool CFeeler::GetMovableCollision(bool bfar)
 
 	m_col_data.p_callback_data = this;	// callback data is this current feeler
 						  
-	void *callback = 0;					
+	void (*callback)(Nx::CollData*) = nullptr;
 	if (mp_callback)
 	{
 	   	callback = s_feeler_collide_callback;

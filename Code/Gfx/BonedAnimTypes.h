@@ -37,8 +37,8 @@ public:
 	short			signBit:1;	// 1 = negative
 #endif		// __PLAT_NGC__
 
-protected:
-	CAnimQKey() {}
+// protected:
+	CAnimQKey() : timestamp(0), signBit(0) {}
 };
 
 class CStandardAnimQKey	: public CAnimQKey
@@ -62,7 +62,7 @@ class CAnimTKey
 public:
 	short			timestamp = 0;
 
-protected:
+// protected:
 	CAnimTKey() {}
 };
 

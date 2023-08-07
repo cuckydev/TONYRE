@@ -3084,7 +3084,7 @@ void DeleteSpawnedScripts()
 		return;
 	}
 
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3102,7 +3102,7 @@ void DeleteSpawnedScripts()
 // This gets called from Front::PauseGame
 void PauseSpawnedScripts(bool status)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->mIsSpawned)
@@ -3126,7 +3126,7 @@ uint32 NumSpawnedScriptsRunning()
 {
 	uint32 num_spawned_scripts=0;
 	
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->mIsSpawned)
@@ -3146,7 +3146,7 @@ void UpdateSpawnedScripts()
 	s_updating_scripts = true;
 	s_done_one_per_frame = false;
 	
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next;
@@ -3245,7 +3245,7 @@ void SendSpawnScript( uint32 scriptChecksum, Obj::CObject *p_object, int node, b
 
 CScript *GetScriptWithUniqueId(uint32 id)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->GetUniqueId() == id) 
@@ -3359,7 +3359,7 @@ void KillSpawnedScript(CScript *p_script)
 // or have it in their call stack somewhere. (Ie, they will return to it later)
 void KillSpawnedScriptsThatReferTo(uint32 checksum)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3376,7 +3376,7 @@ void KillSpawnedScriptsThatReferTo(uint32 checksum)
 // Kills all scripts with this particular Id.
 void KillSpawnedScriptsWithId(uint32 id)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3399,7 +3399,7 @@ void KillSpawnedScriptsWithId(uint32 id)
 // This gets called from within Script::KillAllScriptsWithObject.
 void KillSpawnedScriptsWithObject(Obj::CObject *p_object)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3417,7 +3417,7 @@ void KillSpawnedScriptsWithObject(Obj::CObject *p_object)
 // Called by Matt's Obj_KillSpawnedScript CObject script member function.
 void KillSpawnedScriptsWithObjectAndId(Obj::CObject *p_object, uint32 id, CScript *p_callingScript)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3438,7 +3438,7 @@ void KillSpawnedScriptsWithObjectAndId(Obj::CObject *p_object, uint32 id, CScrip
 // Called by Matt's Obj_KillSpawnedScript CObject script member function.
 void KillSpawnedScriptsWithObjectAndName(Obj::CObject *p_object, uint32 name, CScript *p_callingScript )
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3474,7 +3474,7 @@ uint32 FindSpawnedScriptID(CScript *p_script)
 
 CScript* FindSpawnedScriptWithID(uint32 id)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3501,7 +3501,7 @@ uint32 GenerateCRC(const char *p_string)
 // anywhere, but might be handy one day.
 void StopAllScripts()
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		p_script->ClearScript();
@@ -3523,7 +3523,7 @@ void StopAllScriptsUsingThisObject(Obj::CObject *p_object)
 // If scriptCrc != 0, then only stop scripts with that ID, otherwise stop all scripts using object
 void StopScriptsUsingThisObject(Obj::CObject *p_object, uint32 scriptCrc)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		if (p_script->RefersToObject(p_object) && (!scriptCrc || p_script->mScriptChecksum == scriptCrc))
@@ -3540,7 +3540,7 @@ void StopScriptsUsingThisObject(Obj::CObject *p_object, uint32 scriptCrc)
 // this version to be called only when we know we want to use it.
 void StopScriptsUsingThisObject_Proper(Obj::CObject *p_object, uint32 scriptCrc)
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while ( p_script )
 	{
 		if ( p_script->RefersToObject( p_object ) && ( !scriptCrc || p_script->RefersToScript( scriptCrc ) ) )
@@ -3557,7 +3557,7 @@ void StopScriptsUsingThisObject_Proper(Obj::CObject *p_object, uint32 scriptCrc)
 // would be scripts stopped by the above StopAllScriptsUsingThisObject
 void KillStoppedScripts()
 {
-	CScript *p_script=GetNextScript();
+	CScript *p_script=GetNextScript(nullptr);
 	while (p_script)
 	{
 		CScript *p_next=GetNextScript(p_script);
@@ -3595,7 +3595,7 @@ void DumpScripts()
 	printf("###########################################################\n\n");
 	printf("All the CScripts that currently exist ...\n\n");
 	
-	CScript *p_scr=GetNextScript();
+	CScript *p_scr=GetNextScript(nullptr);
 	int n = 0;
 	while (p_scr)
 	{

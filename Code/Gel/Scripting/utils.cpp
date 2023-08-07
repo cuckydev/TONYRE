@@ -16,6 +16,8 @@
 #include <gel/scripting/symboltable.h>
 #include <gel/scripting/string.h>
 
+#include <cstring>
+
 // Some defines that affect how PrintContents works:
 
 // If defined, then if a structure contains a reference to a global structure, PrintContents

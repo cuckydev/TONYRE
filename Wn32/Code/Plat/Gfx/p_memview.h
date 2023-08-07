@@ -1,7 +1,9 @@
 ////
 
-#ifndef	__P_MEMVIEW_H__
-#define	__P_MEMVIEW_H__
+#pragma once
+
+#include <Core/Defines.h>
+#include <Sys/Mem/Heap.h>
 
 void MemView_Display();
 void MemView_Input(uint buttons, uint makes, uint breaks);
@@ -16,5 +18,3 @@ void MemView_AnalyzeBlocks(uint32 mask = 0);
 void MemView_MarkBlocks(uint32 flags = 1 );
 void MemView_DumpHeap(Mem::Heap *pHeap);
 void MemView_AnalyzeHeap(Mem::Heap *pHeap);
-#endif
-

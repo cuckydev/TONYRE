@@ -186,7 +186,7 @@ private:
 			};
 		
 			float				col[NUM_ELEMENTS];
-} nAlign(128);
+};
 
 /*****************************************************************************
 **							 Private Declarations							**

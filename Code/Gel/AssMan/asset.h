@@ -1,12 +1,9 @@
 ///////////////////////////////////////////////////////////
 // asset.h - base class for managed assets
 
-#ifndef	__GEL_ASSET_H__
-#define	__GEL_ASSET_H__
+#pragma once
 
-#ifndef __CORE_DEFINES_H
 #include <core/defines.h>
-#endif
 
 #include <gel/assman/assettypes.h>
 #include <core/string/cstring.h>
@@ -19,6 +16,9 @@ namespace Script
 
 namespace Ass
 {
+	class CAssMan;
+	class CRefAsset;
+
 class 	CAsset : public Spt::Class
 {
 	friend class CAssMan;
@@ -97,6 +97,3 @@ inline	void	CAsset::SetPermanent(bool perm) {m_permanent = perm;}
 
 
 } // end namespace Ass
-
-#endif			// #ifndef	__GEL_ASSET_H__
-

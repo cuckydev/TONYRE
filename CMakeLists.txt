@@ -11,6 +11,13 @@ target_include_directories(TonyRE.Common INTERFACE "Code/Sk")
 
 target_compile_definitions(TonyRE.Common INTERFACE __PRETTY_FUNCTION__=__FILE__)
 
+# Set to use C++14 without extensions
+set_target_properties(TonyRE.Common PROPERTIES
+	CXX_STANDARD 14
+	CXX_STANDARD_REQUIRED ON
+	CXX_EXTENSIONS OFF
+)
+
 # Define __NOPT_DEBUG__ if in debug build
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_compile_definitions(TonyRE.Common INTERFACE __NOPT_DEBUG__)

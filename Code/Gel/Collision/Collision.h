@@ -182,12 +182,12 @@ public:
 												Obj::CCompositeObject *p_object);
 
 	// Does collision against all the static collision in the SuperSectors
-	static bool			sFindNearestStaticCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
-	static bool			sFindFarStaticCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
+	static bool			sFindNearestStaticCollision(Mth::Line &is, CollData *p_data, void (*p_callback)(CollData *) = nullptr, CCollCache *p_cache = nullptr);
+	static bool			sFindFarStaticCollision(Mth::Line &is, CollData *p_data, void (*p_callback)(CollData*) = nullptr, CCollCache *p_cache = nullptr);
 
 	// Does collision against all the movable collision
-	static Obj::CCompositeObject *	sFindNearestMovableCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
-	static Obj::CCompositeObject *	sFindFarMovableCollision(Mth::Line &is, CollData *p_data, void *p_callback = nullptr, CCollCache *p_cache = nullptr);
+	static Obj::CCompositeObject *	sFindNearestMovableCollision(Mth::Line &is, CollData *p_data, void (*p_callback)(CollData*) = nullptr, CCollCache *p_cache = nullptr);
+	static Obj::CCompositeObject *	sFindFarMovableCollision(Mth::Line &is, CollData *p_data, void (*p_callback)(CollData*) = nullptr, CCollCache *p_cache = nullptr);
 
 	// Does rect collision against all the static collision
 	static bool			sFindRectangleStaticCollision(Mth::Rectangle& rect, S2DCollData* p_coll_data, CCollCache* p_cache = nullptr);

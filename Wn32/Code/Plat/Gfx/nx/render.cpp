@@ -41,6 +41,9 @@ extern DWORD ShadowBufferStaticGeomVS;
 namespace NxWn32
 {
 
+glm::mat4 *p_bbox_transform = nullptr;
+glm::mat4 bbox_transform;
+
 const float FRONT_TO_BACK_SORT_CUTOFF	= ( 50.0f * 12.0f );
 
 Lst::HashTable< sTextureProjectionDetails >	*pTextureProjectionDetailsTable = nullptr;
@@ -1773,21 +1776,21 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 
 	// EngineGlobals.world_matrix = glm::mat4(1.0f);
 
-	EngineGlobals.view_matrix = glm::lookAt(EngineGlobals.cam_position, EngineGlobals.cam_at, EngineGlobals.cam_up);
+	EngineGlobals.view_matrix = glm::lookAt(EngineGlobals.cam_position, EngineGlobals.cam_position - EngineGlobals.cam_at, EngineGlobals.cam_up);
 
 	EngineGlobals.near_plane = 2.0f;
 	EngineGlobals.far_plane = 32000.0f;
 	EngineGlobals.screen_angle = screen_angle;
 
 	// Figure width and height of viewport at near clip plane.
-	float half_screen_angle_in_radians = Mth::DegToRad(screen_angle * 0.5f);
+	float half_screen_angle_in_radians = Mth::DegToRad(screen_angle * 0.5f); 
 	float width = EngineGlobals.near_plane * 2.0f * tanf(half_screen_angle_in_radians);
 	float height = width / aspect_ratio;
 
 	EngineGlobals.projection_matrix = glm::perspective(half_screen_angle_in_radians * 2.0f, aspect_ratio, EngineGlobals.near_plane, EngineGlobals.far_plane);
 
-	NxWn32::EngineGlobals.near_plane_width = width;
-	NxWn32::EngineGlobals.near_plane_height = height;
+	EngineGlobals.near_plane_width = width;
+	EngineGlobals.near_plane_height = height;
 
 	if (render_at_infinity)
 	{
@@ -1919,36 +1922,34 @@ bool IsVisible( Mth::Vector &center, float radius )
 /******************************************************************/
 void set_frustum_bbox_transform( Mth::Matrix *p_transform )
 {
-	/*
 	if( p_transform == nullptr )
 	{
 		p_bbox_transform = nullptr;
 	}
 	else
 	{
-		p_bbox_transform		= &bbox_transform;
+		p_bbox_transform = &bbox_transform;
 
-		bbox_transform.m[0][0]	= ( *p_transform ).GetRight().GetX();
-		bbox_transform.m[0][1]	= ( *p_transform ).GetRight().GetY();
-		bbox_transform.m[0][2]	= ( *p_transform ).GetRight().GetZ();
-		bbox_transform.m[0][3]	= 0.0f;
+		bbox_transform[0][0] = (*p_transform).GetRight().GetX();
+		bbox_transform[1][0] = (*p_transform).GetRight().GetY();
+		bbox_transform[2][0] = (*p_transform).GetRight().GetZ();
+		bbox_transform[3][0] = 0.0f;
 
-		bbox_transform.m[1][0]	= ( *p_transform ).GetUp().GetX();
-		bbox_transform.m[1][1]	= ( *p_transform ).GetUp().GetY();
-		bbox_transform.m[1][2]	= ( *p_transform ).GetUp().GetZ();
-		bbox_transform.m[1][3]	= 0.0f;
+		bbox_transform[0][1] = (*p_transform).GetUp().GetX();
+		bbox_transform[1][1] = (*p_transform).GetUp().GetY();
+		bbox_transform[2][1] = (*p_transform).GetUp().GetZ();
+		bbox_transform[3][1] = 0.0f;
 
-		bbox_transform.m[2][0]	= ( *p_transform ).GetAt().GetX();
-		bbox_transform.m[2][1]	= ( *p_transform ).GetAt().GetY();
-		bbox_transform.m[2][2]	= ( *p_transform ).GetAt().GetZ();
-		bbox_transform.m[2][3]	= 0.0f;
+		bbox_transform[0][2] = -(*p_transform).GetAt().GetX();
+		bbox_transform[1][2] = -(*p_transform).GetAt().GetY();
+		bbox_transform[2][2] = -(*p_transform).GetAt().GetZ();
+		bbox_transform[3][2] = 0.0f;
 
-		bbox_transform.m[3][0]	= p_transform->GetPos().GetX();
-		bbox_transform.m[3][1]	= p_transform->GetPos().GetY();
-		bbox_transform.m[3][2]	= p_transform->GetPos().GetZ();
-		bbox_transform.m[3][3]	= 1.0f;
+		bbox_transform[0][3] = p_transform->GetPos().GetX();
+		bbox_transform[1][3] = p_transform->GetPos().GetY();
+		bbox_transform[2][3] = p_transform->GetPos().GetZ();
+		bbox_transform[3][3] = 1.0f;
 	}
-	*/
 }
 
 
@@ -1976,27 +1977,26 @@ float get_bounding_sphere_nearest_z( void )
 /* space.														  */
 /*                                                                */
 /******************************************************************/
-	/*
-bool frustum_check_sphere( D3DXVECTOR3 *p_center, float radius )
+bool frustum_check_sphere( const glm::vec3 &p_center, float radius )
 {
-	XGVECTOR4	test_out;
-
+	glm::vec4 test_out;
+	
 	// Build the composite transform if required.
-	if( p_bbox_transform )
+	if(p_bbox_transform != nullptr)
 	{
 		// Object to world.
-		test_out.x = p_center->x + p_bbox_transform->_41;
-		test_out.y = p_center->y + p_bbox_transform->_42;
-		test_out.z = p_center->z + p_bbox_transform->_43;
-//		XGVec3Transform( &test_out, (XGVECTOR3*)p_center, p_bbox_transform );
+		test_out.x = p_center.x + (*p_bbox_transform)[0][3];
+		test_out.y = p_center.y + (*p_bbox_transform)[1][3];
+		test_out.z = p_center.z + (*p_bbox_transform)[2][3];
+		test_out.w = 1.0f;
 
 		// World to view.
-		XGVec3Transform( &test_out, (XGVECTOR3*)&test_out, (XGMATRIX*)&EngineGlobals.view_matrix );
+		test_out = test_out * EngineGlobals.view_matrix;
 	}
 	else
 	{
 		// World to view.
-		XGVec3Transform( &test_out, (XGVECTOR3*)p_center, (XGMATRIX*)&EngineGlobals.view_matrix );
+		test_out = glm::vec4(p_center, 1.0f) * EngineGlobals.view_matrix;
 	}
 		
 	boundingSphereNearestZ = -test_out.z - radius;
@@ -2016,7 +2016,6 @@ bool frustum_check_sphere( D3DXVECTOR3 *p_center, float radius )
 
 	return true;
 }
-*/
 
 
 
@@ -2522,48 +2521,44 @@ static sMesh	*visible_mesh_array[VISIBLE_MESH_ARRAY_SIZE];
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
+void render_scene(sScene *p_scene, uint32 flags, uint32 viewport)
 {
-	/*
-	sMaterial		*p_material					= nullptr;
-	bool			no_culling					= ( flags & vRENDER_NO_CULLING ) > 0 ;
-	bool			render;
-	int				visible_mesh_array_index	= 0;
+	sMaterial *p_material = nullptr;
+	bool no_culling = (flags & vRENDER_NO_CULLING) > 0;
+	bool render;
+	int visible_mesh_array_index = 0;
 
 	// Don't render dictionary scenes.
-	if( p_scene->m_is_dictionary )
+	if (p_scene->m_is_dictionary)
 	{
 		return;
 	}
-	
-	if( flags & vRENDER_SHADOW_VOLUMES )
+
+	if (flags & vRENDER_SHADOW_VOLUMES)
 	{
-		render_shadow_volumes( p_scene, viewport );
+		render_shadow_volumes(p_scene, viewport);
 		return;
 	}
 
 	// Disallow front to back sorting if the number of opaque meshes is larger than the visible mesh array.
-	if( p_scene->m_first_semitransparent_entry >= VISIBLE_MESH_ARRAY_SIZE )
+	if (p_scene->m_first_semitransparent_entry >= VISIBLE_MESH_ARRAY_SIZE)
 	{
 		flags &= ~vRENDER_SORT_FRONT_TO_BACK;
 	}
 
 	// Switch viewport from value to bitfield value.
-	viewport = ( 1 << viewport );
-	
+	viewport = (1 << viewport);
+
 	// Render opaque meshes.
-	if( flags & vRENDER_OPAQUE )
+	if (flags & vRENDER_OPAQUE)
 	{
-		for( int e = 0; e < p_scene->m_first_semitransparent_entry; ++e )
+		for (int e = 0; e < p_scene->m_first_semitransparent_entry; e++)
 		{
 			sMesh *p_mesh = p_scene->m_meshes[e];
 
-			__asm mov eax, p_mesh			// Store mesh pointer.
-			__asm prefetcht0 [eax]			// Get first 32 bytes of sMesh structure.
-			
-			if(( p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE ) && (( p_mesh->m_flags & ( sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD )) == 0 ))
+			if ((p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE) && ((p_mesh->m_flags & (sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD)) == 0))
 			{
-				if( no_culling )
+				if (no_culling)
 				{
 					render = true;
 				}
@@ -2572,27 +2567,25 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 					render = false;
 
 					// Check the visibility mask.
-					if( p_mesh->m_visibility_mask & viewport )
+					if (p_mesh->m_visibility_mask & viewport)
 					{
 						// Frustum cull this set of meshes, using the associated bounding sphere and bounding box.
-						if( frustum_check_sphere( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius ))
+						if (frustum_check_sphere(p_mesh->m_sphere_center, p_mesh->m_sphere_radius))
 						{
 							// Check against any occluders.
-							if(( !( flags & vRENDER_OCCLUDED )) || ( !TestSphereAgainstOccluders( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius )))
-							{
+							if ((!(flags & vRENDER_OCCLUDED)) || (!TestSphereAgainstOccluders(p_mesh->m_sphere_center, p_mesh->m_sphere_radius)))
 								render = true;
-							}
 						}
 					}
 				}
 
 				// Draw this mesh if we decided it is visible.
-				if( render )
+				if (render)
 				{
-					if(( flags & vRENDER_SORT_FRONT_TO_BACK ) == 0 )
+					if ((flags & vRENDER_SORT_FRONT_TO_BACK) == 0)
 					{
 						// If the material has changed, submit the new material.
-						if( p_mesh->mp_material != p_material )
+						if (p_mesh->mp_material != p_material)
 						{
 							p_material = p_mesh->mp_material;
 							p_material->Submit();
@@ -2603,9 +2596,9 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 					{
 						// If this mesh is within the 'near' section, render it now. Meshes in the far section will be
 						// deferred for rendering later on, which should gain some benefit from the fast pixel occlusion.
-						if( boundingSphereNearestZ <= FRONT_TO_BACK_SORT_CUTOFF )
+						if (boundingSphereNearestZ <= FRONT_TO_BACK_SORT_CUTOFF)
 						{
-							if( p_mesh->mp_material != p_material )
+							if (p_mesh->mp_material != p_material)
 							{
 								p_material = p_mesh->mp_material;
 								p_material->Submit();
@@ -2619,24 +2612,24 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 
 					// Add this mesh to the visible list, providing it is within bounds.
 					visible_mesh_array[visible_mesh_array_index] = p_mesh;
-					if( visible_mesh_array_index < ( VISIBLE_MESH_ARRAY_SIZE - 1 ))
+					if (visible_mesh_array_index < (VISIBLE_MESH_ARRAY_SIZE - 1))
 						++visible_mesh_array_index;
 				}
 			}
-		}			
-		
-		if(( flags & vRENDER_SORT_FRONT_TO_BACK ) && ( visible_mesh_array_index > 0 ))
+		}
+
+		if ((flags & vRENDER_SORT_FRONT_TO_BACK) && (visible_mesh_array_index > 0))
 		{
 			// At this stage we have an array of meshes, some of which may not yet have been rendered.
 			// At this point simply scan through the list twice, drawing all 'far' meshes.
-			for( int vm = 0; vm < visible_mesh_array_index; ++vm )
+			for (int vm = 0; vm < visible_mesh_array_index; ++vm)
 			{
 				sMesh *p_sorted_mesh = visible_mesh_array[vm];
 
-				if( p_sorted_mesh->m_bounding_sphere_nearest_z > FRONT_TO_BACK_SORT_CUTOFF )
-				{				
+				if (p_sorted_mesh->m_bounding_sphere_nearest_z > FRONT_TO_BACK_SORT_CUTOFF)
+				{
 					// If the material has changed, submit the new material.
-					if( p_sorted_mesh->mp_material != p_material )
+					if (p_sorted_mesh->mp_material != p_material)
 					{
 						p_material = p_sorted_mesh->mp_material;
 						p_material->Submit();
@@ -2646,6 +2639,7 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 			}
 		}
 
+		/*
 		// Now draw the opaque meshes with shadow mapped on them.
 		if( p_scene->m_flags & SCENE_FLAG_RECEIVE_SHADOWS )
 		{
@@ -2656,7 +2650,7 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 			{
 				D3DDevice_SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
 			}
-		
+
 			render_shadow_meshes( p_scene, visible_mesh_array, visible_mesh_array_index );
 
 			if( min_filter == D3DTEXF_ANISOTROPIC )
@@ -2665,35 +2659,32 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 			}
 			set_render_state( RS_ZWRITEENABLE,	1 );
 		}
-
+		*/
 		// Reset mesh array
 		visible_mesh_array_index = 0;
 
-		if( flags & vRENDER_BILLBOARDS )
+		if (flags & vRENDER_BILLBOARDS)
 		{
-			BillboardManager.Render( vRENDER_OPAQUE );
+			BillboardManager.Render(vRENDER_OPAQUE);
 		}
 	}
-	
-	if( flags & vRENDER_SEMITRANSPARENT )
+
+	if (flags & vRENDER_SEMITRANSPARENT)
 	{
-		int e						= p_scene->m_first_semitransparent_entry;
-		int next_sorted_mesh_entry	= 0;
-		
+		int e = p_scene->m_first_semitransparent_entry;
+		int next_sorted_mesh_entry = 0;
+
 		// Semitransparent rendering is done in three stages.
 		// The first stage is meshes in the list up to the point where dynamic sorting starts.
 		// The second stage is meshes in the list which use dynamic sorting.
 		// The third stage is meshes in the list beyond the point where dynamic sorting ends.
-		for( ; e < p_scene->m_first_dynamic_sort_entry; ++e )
+		for (; e < p_scene->m_first_dynamic_sort_entry; ++e)
 		{
 			sMesh *p_mesh = p_scene->m_meshes[e];
 
-			__asm mov eax, p_mesh			// Store mesh pointer.
-			__asm prefetcht0 [eax]			// Get first 32 bytes of sMesh structure.
-
-			if(( p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE ) && (( p_mesh->m_flags & ( sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD )) == 0 ))
+			if ((p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE) && ((p_mesh->m_flags & (sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD)) == 0))
 			{
-				if( no_culling )
+				if (no_culling)
 				{
 					render = true;
 				}
@@ -2702,23 +2693,22 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 					render = false;
 
 					// Check the visibility mask.
-					if( p_mesh->m_visibility_mask & viewport )
+					if (p_mesh->m_visibility_mask & viewport)
 					{
 						// Frustum cull this set of meshes, using the associated bounding box.
-						if( frustum_check_sphere( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius ))
+						if (frustum_check_sphere(p_mesh->m_sphere_center, p_mesh->m_sphere_radius))
 						{
 							// Check against any occluders.
-							if(( !( flags & vRENDER_OCCLUDED )) || ( !TestSphereAgainstOccluders( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius )))
-							{
+							if ((!(flags & vRENDER_OCCLUDED)) || (!TestSphereAgainstOccluders(p_mesh->m_sphere_center, p_mesh->m_sphere_radius)))
 								render = true;
-							}
 						}
 					}
 				}
-				if( render )
+
+				if (render)
 				{
 					// If the material has changed, submit the new material.
-					if( p_mesh->mp_material != p_material )
+					if (p_mesh->mp_material != p_material)
 					{
 						p_material = p_mesh->mp_material;
 						p_material->Submit();
@@ -2727,26 +2717,23 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 
 					// Add this mesh to the visible list, providing it is within bounds.
 					visible_mesh_array[visible_mesh_array_index] = p_mesh;
-					if( visible_mesh_array_index < ( VISIBLE_MESH_ARRAY_SIZE - 1 ))
+					if (visible_mesh_array_index < (VISIBLE_MESH_ARRAY_SIZE - 1))
 						++visible_mesh_array_index;
 				}
 			}
 		}
 
-		if( p_scene->m_num_dynamic_sort_entries > 0 )
+		if (p_scene->m_num_dynamic_sort_entries > 0)
 		{
 			// Second stage - dynamically sorted meshes.
 			int last_dynamic_sort_entry = p_scene->m_first_dynamic_sort_entry + p_scene->m_num_dynamic_sort_entries;
-			for( ; e < last_dynamic_sort_entry; ++e )
+			for (; e < last_dynamic_sort_entry; ++e)
 			{
 				sMesh *p_mesh = p_scene->m_meshes[e];
 
-				__asm mov eax, p_mesh			// Store mesh pointer.
-				__asm prefetcht0 [eax]			// Get first 32 bytes of sMesh structure.
-
-				if(( p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE ) && (( p_mesh->m_flags & ( sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD )) == 0 ))
+				if ((p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE) && ((p_mesh->m_flags & (sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD)) == 0))
 				{
-					if( no_culling )
+					if (no_culling)
 					{
 						render = true;
 					}
@@ -2755,41 +2742,40 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 						render = false;
 
 						// Check the visibility mask.
-						if( p_mesh->m_visibility_mask & viewport )
+						if (p_mesh->m_visibility_mask & viewport)
 						{
 							// Frustum cull this set of meshes, using the associated bounding box.
-							if( frustum_check_sphere( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius ))
+							if (frustum_check_sphere(p_mesh->m_sphere_center, p_mesh->m_sphere_radius))
 							{
 								// Check against any occluders.
-								if(( !( flags & vRENDER_OCCLUDED )) || ( !TestSphereAgainstOccluders( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius )))
-								{
+								if ((!(flags & vRENDER_OCCLUDED)) || (!TestSphereAgainstOccluders(p_mesh->m_sphere_center, p_mesh->m_sphere_radius)))
 									render = true;
-								}
 							}
 						}
 					}
-					if( render )
+
+					if (render)
 					{
 						// Add this mesh to the visible list, providing it is within bounds.
 						visible_mesh_array[visible_mesh_array_index] = p_mesh;
-						if( visible_mesh_array_index < ( VISIBLE_MESH_ARRAY_SIZE - 1 ))
+						if (visible_mesh_array_index < (VISIBLE_MESH_ARRAY_SIZE - 1))
 							++visible_mesh_array_index;
 
-						sortedMeshArray[next_sorted_mesh_entry].p_mesh	= p_mesh;
-						sortedMeshArray[next_sorted_mesh_entry].sort	= boundingSphereNearestZ;
+						sortedMeshArray[next_sorted_mesh_entry].p_mesh = p_mesh;
+						sortedMeshArray[next_sorted_mesh_entry].sort = boundingSphereNearestZ;
 
 						++next_sorted_mesh_entry;
 					}
 				}
 			}
-			if( next_sorted_mesh_entry > 0 )
+			if (next_sorted_mesh_entry > 0)
 			{
 				// Sort the array into ascending sort order.
-				qsort( sortedMeshArray, next_sorted_mesh_entry, sizeof( sSortedMeshEntry ), cmp );
-		
-				for( int m = 0; m < next_sorted_mesh_entry; ++m )
+				qsort(sortedMeshArray, next_sorted_mesh_entry, sizeof(sSortedMeshEntry), cmp);
+
+				for (int m = 0; m < next_sorted_mesh_entry; ++m)
 				{
-					if( sortedMeshArray[m].p_mesh->mp_material != p_material )
+					if (sortedMeshArray[m].p_mesh->mp_material != p_material)
 					{
 						sortedMeshArray[m].p_mesh->mp_material->Submit();
 						p_material = sortedMeshArray[m].p_mesh->mp_material;
@@ -2797,18 +2783,15 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 					sortedMeshArray[m].p_mesh->Submit();
 				}
 			}
-		
+
 			// Third stage - meshes after the dynamically sorted set.
-			for( ; e < p_scene->m_num_mesh_entries; ++e )
+			for (; e < p_scene->m_num_mesh_entries; ++e)
 			{
 				sMesh *p_mesh = p_scene->m_meshes[e];
 
-				__asm mov eax, p_mesh			// Store mesh pointer.
-				__asm prefetcht0 [eax]			// Get first 32 bytes of sMesh structure.
-
-				if(( p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE ) && (( p_mesh->m_flags & ( sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD )) == 0 ))
+				if ((p_mesh->m_flags & sMesh::MESH_FLAG_ACTIVE) && ((p_mesh->m_flags & (sMesh::MESH_FLAG_SHADOW_VOLUME | sMesh::MESH_FLAG_BILLBOARD)) == 0))
 				{
-					if( no_culling )
+					if (no_culling)
 					{
 						render = true;
 					}
@@ -2817,23 +2800,24 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 						render = false;
 
 						// Check the visibility mask.
-						if( p_mesh->m_visibility_mask & viewport )
+						if (p_mesh->m_visibility_mask & viewport)
 						{
 							// Frustum cull this set of meshes, using the associated bounding box.
-							if( frustum_check_sphere( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius ))
+							if (frustum_check_sphere(p_mesh->m_sphere_center, p_mesh->m_sphere_radius))
 							{
 								// Check against any occluders.
-								if(( !( flags & vRENDER_OCCLUDED )) || ( !TestSphereAgainstOccluders( &p_mesh->m_sphere_center, p_mesh->m_sphere_radius )))
+								if ((!(flags & vRENDER_OCCLUDED)) || (!TestSphereAgainstOccluders(p_mesh->m_sphere_center, p_mesh->m_sphere_radius)))
 								{
 									render = true;
 								}
 							}
 						}
 					}
-					if( render )
+
+					if (render)
 					{
 						// If the material has changed, submit the new material.
-						if( p_mesh->mp_material != p_material )
+						if (p_mesh->mp_material != p_material)
 						{
 							p_material = p_mesh->mp_material;
 							p_material->Submit();
@@ -2842,7 +2826,7 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 
 						// Add this mesh to the visible list, providing it is within bounds.
 						visible_mesh_array[visible_mesh_array_index] = p_mesh;
-						if( visible_mesh_array_index < ( VISIBLE_MESH_ARRAY_SIZE - 1 ))
+						if (visible_mesh_array_index < (VISIBLE_MESH_ARRAY_SIZE - 1))
 							++visible_mesh_array_index;
 					}
 				}
@@ -2850,17 +2834,16 @@ void render_scene( sScene *p_scene, uint32 flags, uint32 viewport )
 		}
 
 		// Now draw the semitransparent meshes with shadow mapped on them.
-		if( p_scene->m_flags & SCENE_FLAG_RECEIVE_SHADOWS )
+		if (p_scene->m_flags & SCENE_FLAG_RECEIVE_SHADOWS)
 		{
-			render_shadow_meshes( p_scene, visible_mesh_array, visible_mesh_array_index );
+			render_shadow_meshes(p_scene, visible_mesh_array, visible_mesh_array_index);
 		}
 
-		if( flags & vRENDER_BILLBOARDS )
+		if (flags & vRENDER_BILLBOARDS)
 		{
-			BillboardManager.Render( vRENDER_SEMITRANSPARENT );
+			BillboardManager.Render(vRENDER_SEMITRANSPARENT);
 		}
 	}
-	*/
 }
 
 

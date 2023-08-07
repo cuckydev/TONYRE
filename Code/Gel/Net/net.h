@@ -16,16 +16,13 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __NET_H__
-#define __NET_H__
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
 #include <core/defines.h>
-#endif
 #include <core/list.h>
 #include <core/task.h>
 #include <core/singleton.h>
@@ -642,6 +639,10 @@ private:
 
 // NET CONNECTION
 
+MsgHandlerCode handle_ack;
+MsgHandlerCode handle_latency_response;
+MsgHandlerCode handle_latency_test;
+
 class Conn
 {
 	friend class Client;
@@ -655,9 +656,9 @@ private:
 	Lst::Head< MsgImpLink >	m_important_msg_list;
 	Lst::Head< MsgSeqLink >	m_sequenced_msg_list;
 
-	friend	MsgHandlerCode	handle_ack;	
-	friend	MsgHandlerCode	handle_latency_response;
-	friend	MsgHandlerCode	handle_latency_test;
+	friend MsgHandlerCode handle_ack;	
+	friend MsgHandlerCode handle_latency_response;
+	friend MsgHandlerCode handle_latency_test;
 
 	int				m_handle;
 	int				m_ip;
@@ -1101,10 +1102,10 @@ public:
 
 	void	AliasConnections( Conn* server_conn, Conn* client_conn );
 
-	Tsk::BaseTask&	GetSendDataTask( void );
-	Tsk::BaseTask&	GetReceiveDataTask( void );
-	Tsk::BaseTask&	GetProcessDataTask( void );
-	Tsk::BaseTask&	GetNetworkMetricsTask( void );
+	Tsk::BaseTask &GetSendDataTask( void );
+	Tsk::BaseTask &GetReceiveDataTask( void );
+	Tsk::BaseTask &GetProcessDataTask( void );
+	Tsk::BaseTask &GetNetworkMetricsTask( void );
 	    
 	virtual	void	ProcessData( void );
     
@@ -1202,10 +1203,10 @@ protected:
 	bool	m_shutting_down;
 #endif // __PLAT_NGPS__
 
-	static	Tsk::Task< App >::Code	process_network_data;
-	static	Tsk::Task< App >::Code	send_network_data;
-	static	Tsk::Task< App >::Code	read_network_data;
-	static	Tsk::Task< App >::Code	service_network_metrics;
+	static Tsk::Task< App >::Code process_network_data;
+	static Tsk::Task< App >::Code send_network_data;
+	static Tsk::Task< App >::Code read_network_data;
+	static Tsk::Task< App >::Code service_network_metrics;
     
 private:
 
@@ -1376,6 +1377,3 @@ inline char* inet_ntoa( struct in_addr addr )
 	return string_buffer;
 }
 #endif
-
-#endif // __NET_H__
-

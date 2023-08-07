@@ -27,6 +27,7 @@
 #include <core/math.h>
 #include <gfx/debuggfx.h>
 #include "occlude.h"
+#include "render.h"
 
 /*****************************************************************************
 **								DBG Information								**
@@ -443,24 +444,23 @@ void BuildOccluders( Mth::Vector *p_cam_pos, int view )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-/*
-bool TestSphereAgainstOccluders( D3DXVECTOR3 *p_center, float radius, uint32 meshes )
+bool TestSphereAgainstOccluders(const glm::vec3 &p_center, float radius, uint32 meshes)
 {
-	XGVECTOR3 center;
+	glm::vec3 center;
 
 	// Build the composite transform if required.
-	if( p_bbox_transform )
+	if( p_bbox_transform != nullptr )
 	{
 		// Object to world, so transform the sphere center.
-		center.x = p_center->x + p_bbox_transform->_41;
-		center.y = p_center->y + p_bbox_transform->_42;
-		center.z = p_center->z + p_bbox_transform->_43;
+		center.x = p_center.x + (*p_bbox_transform)[0][3];
+		center.y = p_center.y + (*p_bbox_transform)[1][3];
+		center.z = p_center.z + (*p_bbox_transform)[2][3];
 	}
 	else
 	{
-		center.x = p_center->x;
-		center.y = p_center->y;
-		center.z = p_center->z;
+		center.x = p_center.x;
+		center.y = p_center.y;
+		center.z = p_center.z;
 	}
 
 	// Test against each occluder.
@@ -475,7 +475,7 @@ bool TestSphereAgainstOccluders( D3DXVECTOR3 *p_center, float radius, uint32 mes
 							( sOccluder::Occluders[o].planes[p][Y] * center.y ) +
 							( sOccluder::Occluders[o].planes[p][Z] * center.z ) -
 							( sOccluder::Occluders[o].planes[p][W] );
-			if( result >= -radius )
+			if (result >= -radius)
 			{
 				// Outside of this plane, therefore not occluded by this occluder.
 				occluded = false;
@@ -483,7 +483,7 @@ bool TestSphereAgainstOccluders( D3DXVECTOR3 *p_center, float radius, uint32 mes
 			}
 		}
 
-		if( occluded )
+		if (occluded)
 		{
 			// Inside all planes, therefore occluded. Increase score for this occluder.
 			sOccluder::Occluders[o].score[CurrentView] += meshes;
@@ -492,7 +492,6 @@ bool TestSphereAgainstOccluders( D3DXVECTOR3 *p_center, float radius, uint32 mes
 	}
 	return false;
 }
-*/
 
 
 

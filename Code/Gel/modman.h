@@ -16,8 +16,7 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __GEL_MODMAN_H
-#define __GEL_MODMAN_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
@@ -116,5 +115,3 @@ inline	Tsk::BaseTask&	Manager::GetProcessModulesTask ( void ) const
 /******************************************************************/
 
 } // namespace Mdl
-
-#endif	// __GEL_MODMAN_H

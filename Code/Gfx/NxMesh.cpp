@@ -14,9 +14,7 @@
 
 #include <sys/file/pip.h>
 
-#ifdef __PLAT_NGC__
-#include <gfx/ngc/p_nxmesh.h>
-#endif		// __PLAT_NGC__
+#include <cstring>
 
 namespace Nx
 {

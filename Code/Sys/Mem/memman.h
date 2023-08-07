@@ -16,16 +16,13 @@
 **																			**
 *****************************************************************************/
 
-#ifndef	__SYS_MEM_MEMMAN_H
-#define	__SYS_MEM_MEMMAN_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
 #include <core/defines.h>
-#endif
 #include <core/singleton.h>
 #include <core/list.h>
 #include <sys\mem\region.h>
@@ -38,22 +35,6 @@
 #endif
 //#endif
 #include "handle.h"
-
-#if 0
-#ifdef __PLAT_WN32__
-#include "mem/wn32/p_memman.h"
-#else
-#ifdef __PLAT_NGPS__
-#include "mem/ngps/p_memman.h"
-#else
-#ifdef __PLAT_NGC__
-#include "mem/ngc/p_memman.h"
-#else
-#error Unsupported Platform
-#endif
-#endif
-#endif
-#endif
 
 /*****************************************************************************
 **								   Defines									**
@@ -192,7 +173,7 @@ public:
 	
 
 //	int 						GetContextNumber();
-	char *						GetContextName();
+	const char *				GetContextName();
 	Allocator::Direction		GetContextDirection();
 	Allocator*					GetContextAllocator();
 
@@ -346,7 +327,3 @@ bool dump_open(const char *name);
 void dump_printf(char *p);
 void dump_close();
 extern int dumping_printfs;
-
-
-
-#endif  // __SYS_MEM_MEMMAN_H

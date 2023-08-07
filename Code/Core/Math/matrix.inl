@@ -18,8 +18,7 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_MATH_MATRIX_INL
-#define __CORE_MATH_MATRIX_INL
+#pragma once
 
 namespace Mth
 {
@@ -542,49 +541,6 @@ inline Matrix&		Matrix::Invert ( void )
 /*                                                                */
 /******************************************************************/
 
-#ifdef	__USE_VU0__
-// K: Copied from sceVu0InversMatrix, just tweaked to take one param & be inline.
-// This is about 18% faster than in C. (1000000 calls take .121 s instead of .148)
-inline void Vu0Invert(sceVu0FMATRIX m0)
-{
-	asm __volatile__("
-	lq $8,0x0000(%0)
-	lq $9,0x0010(%0)
-	lq $10,0x0020(%0)
-	lqc2 vf4,0x0030(%0)
-
-	vmove.xyzw vf5,vf4
-	vsub.xyz vf4,vf4,vf4		#vf4.xyz=0;
-	vmove.xyzw vf9,vf4
-	qmfc2    $11,vf4
-
-	#Transpose
-	pextlw     $12,$9,$8
-	pextuw     $13,$9,$8
-	pextlw     $14,$11,$10
-	pextuw     $15,$11,$10
-	pcpyld     $8,$14,$12
-	pcpyud     $9,$12,$14
-	pcpyld     $10,$15,$13
-
-	qmtc2    $8,vf6
-	qmtc2    $9,vf7
-	qmtc2    $10,vf8
-
-	#Inner Product
-	vmulax.xyz	ACC,   vf6,vf5
-	vmadday.xyz	ACC,   vf7,vf5
-	vmaddz.xyz	vf4,vf8,vf5
-	vsub.xyz	vf4,vf9,vf4
-
-	sq $8,0x0000(%0)
-	sq $9,0x0010(%0)
-	sq $10,0x0020(%0)
-	sqc2 vf4,0x0030(%0)
-	": : "r" (m0) :"$8","$9","$10","$11","$12","$13","$14","$15");
-}
-#endif
-
 inline Matrix&		Matrix::InvertUniform ()
 {
 	
@@ -1048,6 +1004,3 @@ inline Matrix&			Matrix::SetFromAngles ( const Vector& angles )
 }
 
 } // namespace Mth
-
-#endif // __CORE_MATH_MATRIX_INL
-

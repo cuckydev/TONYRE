@@ -1011,7 +1011,7 @@ bool					CCollObj::sFindRectangleStaticCollision ( Mth::Rectangle& rect, S2DColl
 
 bool GPrintCollisionData = false;
 
-bool					CCollObj::sFindNearestStaticCollision( Mth::Line &is, CollData *p_data, void *p_callback, CCollCache *p_cache)
+bool					CCollObj::sFindNearestStaticCollision( Mth::Line &is, CollData *p_data, void (*p_callback)(CollData*), CCollCache *p_cache)
 {
 #if PRINT_CACHE_HITS
 	static uint s_cache_hits = 0, s_num_collisions = 0;
@@ -1061,7 +1061,7 @@ bool					CCollObj::sFindNearestStaticCollision( Mth::Line &is, CollData *p_data,
 
 		ss_man = Nx::CEngine::sGetNearestSuperSectorManager(is);
 		if (!ss_man)
-			return nullptr;
+			return false;
 
 		p_coll_obj_list = ss_man->GetIntersectingCollSectors( is );
 	}
@@ -1178,7 +1178,7 @@ bool					CCollObj::sFindNearestStaticCollision( Mth::Line &is, CollData *p_data,
 }
 
 
-bool					CCollObj::sFindFarStaticCollision( Mth::Line &is, CollData *p_data, void *p_callback, CCollCache *p_cache)
+bool					CCollObj::sFindFarStaticCollision( Mth::Line &is, CollData *p_data, void (*p_callback)(CollData*), CCollCache *p_cache)
 {
 	s_check_for_far = true;
 	bool result = sFindNearestStaticCollision(is,p_data,p_callback,p_cache);
@@ -1198,7 +1198,7 @@ bool					CCollObj::sFindFarStaticCollision( Mth::Line &is, CollData *p_data, voi
 // - see below, we don't set "dist" if we've previously found a collision
 // (stops you snapping through walls onto cars)
 				  
-Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, CollData *p_data, void *p_callback, CCollCache *p_cache)
+Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, CollData *p_data, void (*p_callback)(CollData*), CCollCache *p_cache)
 {
 #if PRINT_CACHE_HITS
 	static uint s_cache_hits = 0, s_num_collisions = 0;
@@ -1375,7 +1375,7 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 	return p_collision_obj;
 }
 
-Obj::CCompositeObject *	CCollObj::sFindFarMovableCollision( Mth::Line &is, CollData *p_data, void *p_callback, CCollCache *p_cache)
+Obj::CCompositeObject *	CCollObj::sFindFarMovableCollision( Mth::Line &is, CollData *p_data, void (*p_callback)(CollData*), CCollCache *p_cache)
 {
 	s_check_for_far = true;
 	Obj::CCompositeObject *result = sFindNearestMovableCollision(is,p_data,p_callback,p_cache);

@@ -75,11 +75,11 @@ static 	AssertTrap*		assert_trap_handler = nullptr;
 static 	bool			screen_assert_active = false;
 
 // made public for Dbg_ Macros
-char*			msg_null_pointer		= "Null Pointer";
-char*			msg_misaligned_pointer	= "Pointer not aligned";			 
-char*			msg_pointer_to_free_mem	= "Pointer to free mem";
-char*			msg_unknown_reason		= "No reason supplied";
-char*			msg_type_mismatch		= "Type Mismatch: \"%s\" is of type \"%s\" - not a valid \"%s\"";
+const char *msg_null_pointer = "Null Pointer";
+const char *msg_misaligned_pointer = "Pointer not aligned";			 
+const char *msg_pointer_to_free_mem = "Pointer to free mem";
+const char *msg_unknown_reason = "No reason supplied";
+const char *msg_type_mismatch = "Type Mismatch: \"%s\" is of type \"%s\" - not a valid \"%s\"";
 
 /*****************************************************************************
 **								 Public Data								**
@@ -110,7 +110,7 @@ void	screen_assert( bool on )
 /*                                                                */
 /******************************************************************/
 
-void		Assert( char* file, uint line, char* reason )
+void		Assert( const char* file, uint line, const char* reason )
 {
 	static	char		assert_buffer1[vASSERT_BUFFER_SIZE];
 

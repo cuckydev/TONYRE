@@ -1138,7 +1138,7 @@ void *Heap::reallocate_shrink( size_t newSize, void *pOld )
 **							   Public Functions								**
 *****************************************************************************/
 
-Heap::Heap( Region* region, Direction dir, char *p_name )
+Heap::Heap( Region* region, Direction dir, const char *p_name )
 : Allocator( region, dir, p_name )
 {
 	

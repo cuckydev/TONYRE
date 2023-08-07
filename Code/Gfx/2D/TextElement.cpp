@@ -12,6 +12,8 @@
 #include <gfx/2D/BlurEffect.h>
 #include <gfx/2D/Window.h>
 
+#include <cstring>
+
 #define BLUR_EFFECT_ON 1
 
 namespace Front

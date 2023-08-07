@@ -16,8 +16,9 @@
 **																			**
 *****************************************************************************/
 
-#ifndef	__SYS_MEM_MEMDBG_H
-#define	__SYS_MEM_MEMDBG_H
+#pragma once
+
+#include <Core/Defines.h>
 
 /*****************************************************************************
 **							  	  Includes									**
@@ -30,13 +31,8 @@ namespace Mem
 **								   Defines									**
 *****************************************************************************/
 
-#if defined( __PLAT_WN32__ ) || defined( __PLAT_XBOX__ )
-static const uint64 vALLOCATED_BLOCK = 0x0101010101010101i64;
-static const uint64 vFREE_BLOCK 	 = 0x0303030303030303i64;
-#else
-static const uint64 vALLOCATED_BLOCK = 0x0101010101010101LL;
-static const uint64 vFREE_BLOCK 	 = 0x0303030303030303LL;
-#endif	// __PLAT_WN32__
+static const uint64 vALLOCATED_BLOCK = 0x0101010101010101ULL;
+static const uint64 vFREE_BLOCK 	 = 0x0303030303030303ULL;
 
 #ifdef __NOPT_MEM_DEBUG__
 	
@@ -75,5 +71,3 @@ static const uint64 vFREE_BLOCK 	 = 0x0303030303030303LL;
 *****************************************************************************/
 
 } // namespace Mem
-
-#endif  // __SYS_MEM_MEMDBG_H								

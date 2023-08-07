@@ -186,9 +186,9 @@ void Device::read_data ( void )
 	m_data.m_control_data[2] ^= keystate[SDL_SCANCODE_A] ? (1 << 7) : 0;	// PS2 'DPad Left'.
 	m_data.m_control_data[9] = keystate[SDL_SCANCODE_A] ? 0xFF : 0;			// PS2 'DPad Left'.
 
-	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_Q] ? (1 << 2) : 0; // PS2 L1
 	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_1] ? (1 << 0) : 0; // PS2 L2
 	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_3] ? (1 << 1) : 0; // PS2 R2
+	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_Q] ? (1 << 2) : 0; // PS2 L1
 	m_data.m_control_data[3] ^= keystate[SDL_SCANCODE_E] ? (1 << 3) : 0; // PS2 R1
 
 	// Xbox thumbsticks return analog value in range [-32767, 32767].
@@ -206,6 +206,12 @@ void Device::read_data ( void )
 	m_data.m_control_data[5] = (0x80 + (rdown - rup) * 0x7F); // Analog stick right (Y direction).
 	m_data.m_control_data[6] = (0x80 + (right - left) * 0x7F); // Analog stick left (X direction).
 	m_data.m_control_data[7] = (0x80 + (down - up) * 0x7F); // Analog stick left (Y direction).
+
+	m_data.m_control_data[20] = 0;
+	if (keystate[SDL_SCANCODE_Q] && keystate[SDL_SCANCODE_E])
+	{
+		m_data.m_control_data[20] |= (1 << 0); // Black button
+	}
 
 	/*
 	XINPUT_STATE	xis;

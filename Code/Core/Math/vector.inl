@@ -18,25 +18,7 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_MATH_VECTOR_INL
-#define __CORE_MATH_VECTOR_INL
-
-#ifdef __PLAT_NGPS__
-#include <libvu0.h>
-
-	 
-#define	__USE_VU0__
-	 
-#ifdef		DEBUG_UNINIT_VECTORS
-#undef	__USE_VU0__
-#endif
-
-#ifdef		DEBUG_OVERFLOW_VECTORS
-#undef	__USE_VU0__
-#endif
-
-#endif
-
+#pragma once
 
 /*****************************************************************************
 **							Private Inline Functions						**
@@ -279,34 +261,13 @@ inline Vector&		Vector::operator/= ( float s )
 /*                                                                */
 /******************************************************************/
 
-#ifdef	__USE_VU0__
-inline void xsceVu0MulVector(sceVu0FVECTOR v0, sceVu0FVECTOR v1, sceVu0FVECTOR v2)
-{
-	asm __volatile__("
-	.set noreorder
-	lqc2    vf4,0x0(%1)
-	lqc2    vf5,0x0(%2)
-	vmul.xyzw	vf6,vf4,vf5
-	sqc2    vf6,0x0(%0)
-	.set reorder
-	": : "r" (v0) , "r" (v1), "r" (v2));
-}
-#endif
-
 inline Vector&		Vector::operator*= ( const Vector& v )
 {
-#ifndef	__USE_VU0__
-	
 	col[X] *= v[X];
 	col[Y] *= v[Y];
 	col[Z] *= v[Z];
 	col[W] *= v[W];
-#	else
-	xsceVu0MulVector(col,(float*)v.col,col);	
-#	endif
 	return *this;
-
-
 }
 
 /******************************************************************/
@@ -437,43 +398,9 @@ inline Vector&		Vector::Negate ( const Vector& src )
 /*                                                                */
 /******************************************************************/
 
-#ifdef	__USE_VU0__
-// currenntly this version seems to have problems with instrcutionre-ordering,
-// so don't use it unless you figure it out.
-// Note:  it was originally a non-inline library function, so those problems would not occur
-inline void xsceVu0Normalize(sceVu0FVECTOR v0, sceVu0FVECTOR v1)
-{
-        asm __volatile__("
-		.set noreorder
-        lqc2    vf4,0x0(%1)
-        vmul.xyz vf5,vf4,vf4
-        vaddy.x vf5,vf5,vf5
-        vaddz.x vf5,vf5,vf5
-
-        vsqrt Q,vf5x
-        vwaitq
-        vaddq.x vf5x,vf0x,Q
-        vdiv    Q,vf0w,vf5x
-        vsub.xyzw vf6,vf0,vf0           #vf6.xyzw=0;
-        vwaitq
-
-        vmulq.xyz  vf6,vf4,Q
-        sqc2    vf6,0x0(%0)
-		.set reorder
-        ": : "r" (v0) , "r" (v1));
-}
-#endif
 
 inline Vector&		Vector::Normalize( )
 {	
-	
-
-//#	if 0			
-#ifdef	__USE_VU0__
-// currenntly inline (xsce) version seems to have problems with instrcutionre-ordering,
-// so don't use it unless you figure it out.
-	sceVu0Normalize(col,col);		// NOTE::: using the non-inline version  (not xsce....)
-#	else
 	float l = Length();
 	if ( l > 0.0f ) 
 	{
@@ -487,7 +414,6 @@ inline Vector&		Vector::Normalize( )
 	{
 //		Dbg_MsgAssert(0,("Normalizing vector of zero length"));
 	}
-#	endif
 	return *this;
 }
 
@@ -1200,6 +1126,3 @@ inline std::ostream& operator<< (std::ostream& os, const Vector& v )
 /******************************************************************/
 
 } // namespace Mth
-
-#endif // __CORE_MATH_VECTOR_INL   
-

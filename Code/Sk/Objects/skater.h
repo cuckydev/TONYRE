@@ -550,7 +550,7 @@ public:
 	
 	Gfx::Camera *GetActiveCamera( void );
 	
-	CCompositeObject* CSkater::GetCamera (    );
+	CCompositeObject *GetCamera (    );
 
 	void    SetViewMode( EViewMode view_mode );
 	int		GetViewMode() { return m_viewing_mode; }

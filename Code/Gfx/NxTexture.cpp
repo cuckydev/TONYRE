@@ -11,6 +11,8 @@
 #include <gfx/nx.h>
 #include <gfx/nxtexture.h>
 
+#include <cstring>
+
 namespace	Nx
 {
 

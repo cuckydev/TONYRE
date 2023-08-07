@@ -516,7 +516,7 @@ void Manager::PopContext( void )
 //	return mp_context->mp_alloc->GetNumber();		
 //}
 
-char * Manager::GetContextName()
+const char * Manager::GetContextName()
 {
 	
 	return mp_context->mp_alloc->GetName();		

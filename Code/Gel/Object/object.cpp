@@ -1122,9 +1122,10 @@ void			SetLockOff( CObject* obj, void* data )
 void			CObject::GetDebugInfo(Script::CStruct *p_info)
 {
 #ifdef	__DEBUG_CODE__
-		// CObject stuff
-	Script::CStruct *p_scripts=new Script::CStruct;
-	Script::CScript *p_script=Script::GetNextScript(nullptr);
+	// CObject stuff
+	Script::CStruct *p_scripts = new Script::CStruct;
+	Script::CScript *p_script = Script::GetNextScript(nullptr);
+
 	while (p_script)
 	{
 		if (p_script->mpObject==this)
@@ -1153,7 +1154,7 @@ void			CObject::GetDebugInfo(Script::CStruct *p_info)
 			p_scripts->AddStructurePointer(p_script->GetBaseScript(),p_script_info);
 		}
 			
-		p_script=Script::GetNextScript(p_script);
+		p_script = Script::GetNextScript(p_script);
 	}	
 	p_info->AddStructurePointer("Scripts",p_scripts);
 	

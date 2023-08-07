@@ -105,6 +105,7 @@ public:
 	void			PushVertexShader( uint32 shader_id );
 	void			PopVertexShader( void );
 	void			Crunch( void );
+	void			SetupVAO(void);
 
 	// Debug functions, will be empty stub for Final build.
 	void			DrawBoundingSphere( void );

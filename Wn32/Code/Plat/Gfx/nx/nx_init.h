@@ -92,7 +92,7 @@ struct sEngineGlobals
 	uint64 frame_count = 0;
 
 	// Camera state
-	// glm::mat4 world_matrix;
+	glm::mat4 model_matrix;
 	glm::mat4 view_matrix;
 	glm::mat4 projection_matrix;
 

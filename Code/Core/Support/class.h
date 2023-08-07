@@ -19,12 +19,9 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_SUPPORT_CLASS_H
-#define __CORE_SUPPORT_CLASS_H
+#pragma once
 
-#ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
-#endif
+#include <core/defines.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -67,6 +64,3 @@ class Class
 };
 
 } // namespace Spt
-
-#endif // __CORE_SUPPORT_CLASS_H
-

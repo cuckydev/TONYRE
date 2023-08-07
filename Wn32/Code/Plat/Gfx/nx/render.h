@@ -5,6 +5,7 @@
 #include <core/math.h>
 #include <core/math/geometry.h>
 #include <Plat/Gfx/p_nxmodel.h>
+#include "nx_init.h"
 #include "mesh.h"
 
 #define		RS_ZWRITEENABLE			1
@@ -60,6 +61,8 @@ namespace NxWn32
 
 	extern Lst::HashTable< sTextureProjectionDetails > *pTextureProjectionDetailsTable;
 
+	extern glm::mat4 *p_bbox_transform;
+	extern glm::mat4 bbox_transform;
 	
 	typedef enum
 	{
@@ -117,7 +120,7 @@ namespace NxWn32
 	// MSM PERFCHANGE - added scale.
 	void	set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_angle, float aspect_ratio, bool render_at_infinity = false );
 	void	set_frustum_bbox_transform( Mth::Matrix *p_transform );
-	// bool	frustum_check_sphere( D3DXVECTOR3 *p_center, float radius );
+	bool	frustum_check_sphere( const glm::vec3 &p_center, float radius );
 	float	get_bounding_sphere_nearest_z( void );
 	bool	IsVisible( Mth::Vector &center, float radius );
 	void	render_shadow_targets();

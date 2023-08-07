@@ -56,11 +56,11 @@ typedef void ( AssertTrap ) ( char* message );
 **							 Private Declarations							**
 *****************************************************************************/
 
-extern	char*		msg_unknown_reason;			// message strings 
-extern	char*		msg_null_pointer;			 
-extern	char*		msg_misaligned_pointer;			 
-extern	char*		msg_pointer_to_free_mem;
-extern	char*		msg_type_mismatch;			 
+extern const char *msg_unknown_reason;			// message strings 
+extern const char *msg_null_pointer;			 
+extern const char *msg_misaligned_pointer;			 
+extern const char *msg_pointer_to_free_mem;
+extern const char *msg_type_mismatch;			 
 
 extern 	AssertTrap	default_trap;
 
@@ -69,9 +69,9 @@ extern 	AssertTrap	default_trap;
 *****************************************************************************/
 
 // #ifdef __NOPT_DEBUG__
-// void	Assert ( char* file, uint line, Signature& sig, char* reason = msg_unknown_reason );
+// void	Assert ( const char* file, uint line, Signature& sig, const char* reason = msg_unknown_reason );
 // #else
-void	Assert ( char* file, uint line, char* reason = msg_unknown_reason );
+void	Assert ( const char* file, uint line, const char* reason = msg_unknown_reason );
 // #endif
 
 void	pad_printf ( const char* text, ... );
