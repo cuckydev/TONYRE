@@ -95,6 +95,8 @@ void		CSprite::Initialize(CTexture *p_tex, float xpos, float ypos,
 
 void		CSprite::SetHidden(bool hide)
 {
+	Dbg_AssertPtr(mp_texture);
+
 	m_hidden = hide;
 
 	plat_update_hidden();

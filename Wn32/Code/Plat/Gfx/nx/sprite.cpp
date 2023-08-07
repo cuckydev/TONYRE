@@ -183,11 +183,9 @@ void SDraw2D::SetHidden( bool hide )
 	{
 		m_hidden = hide;
 		if (hide)
-		{
 			RemoveDrawList();
-		} else {
+		else
 			InsertDrawList();
-		}
 	}
 }
 
@@ -204,9 +202,12 @@ void SDraw2D::DrawAll( void )
 
 	while (pDraw)
 	{
-		pDraw->BeginDraw();
-		pDraw->Draw();
-		pDraw->EndDraw();
+		if (!pDraw->m_hidden)
+		{
+			pDraw->BeginDraw();
+			pDraw->Draw();
+			pDraw->EndDraw();
+		}
 
 		pDraw = pDraw->mp_next;
 	}
