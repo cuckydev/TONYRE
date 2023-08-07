@@ -62,6 +62,5 @@ bool CTexDictManager::s_plat_unload_texture_dictionary( CTexDict* p_tex_dict )
 	return true;
 }
 
-
 } 
  

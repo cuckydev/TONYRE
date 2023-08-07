@@ -39,6 +39,7 @@ CXboxTexture::~CXboxTexture()
 /******************************************************************/
 void CXboxTexture::SetEngineTexture( NxWn32::sTexture *p_texture )
 {
+	Dbg_AssertPtr(p_texture);
 	mp_texture	= p_texture;
 	m_checksum	= p_texture->Checksum;
 }
@@ -63,9 +64,9 @@ bool CXboxTexture::plat_load_texture( const char *p_texture_name, bool sprite, b
 	// Append '.img.xbx' to the end.
 	strcat( filename, ".img.xbx" );
 
-	mp_texture = NxWn32::LoadTexture( filename );
-	
-	return mp_texture;
+	mp_texture = NxWn32::LoadTexture(filename);
+
+	return true;
 }
 
 
@@ -75,63 +76,16 @@ bool CXboxTexture::plat_load_texture( const char *p_texture_name, bool sprite, b
 /*                                                                */
 /******************************************************************/
 bool CXboxTexture::plat_replace_texture( CTexture *p_texture )
-{				
-	/*
-	CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>( p_texture );
+{
+	CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>(p_texture);
 
 	// Go through and copy the texture.
-	NxWn32::sTexture *p_src	= p_xbox_texture->GetEngineTexture();
-	NxWn32::sTexture *p_dst	= GetEngineTexture();
+	NxWn32::sTexture *p_src = p_xbox_texture->GetEngineTexture();
+	NxWn32::sTexture *p_dst = GetEngineTexture();
 
-	if( p_dst->pD3DTexture )
-	{
-		p_dst->pD3DTexture->Release();
-	}
-	if( p_dst->pD3DPalette )
-	{
-		p_dst->pD3DPalette->Release();
-	}
-
-	D3DSURFACE_DESC	desc;
-	uint32			num_levels = p_src->pD3DTexture->GetLevelCount();
-	p_src->pD3DTexture->GetLevelDesc( 0, &desc );
-	if( D3D_OK != D3DDevice_CreateTexture(	desc.Width,
-											desc.Height,
-											num_levels,
-											0,
-											desc.Format,
-											0,
-											&p_dst->pD3DTexture ))
-	{
-		exit( 0 );
-	}
-
-	// Create and copy the palette if present.
-	if( p_src->pD3DPalette )
-	{
-		if( D3D_OK != D3DDevice_CreatePalette( D3DPALETTE_256, &p_dst->pD3DPalette ))
-		{
-			exit( 0 );
-		}
-		
-		D3DCOLOR *p_src_palette;
-		D3DCOLOR *p_dst_palette;
-		p_src->pD3DPalette->Lock( &p_src_palette, D3DLOCK_READONLY );
-		p_dst->pD3DPalette->Lock( &p_dst_palette, 0 );
-		CopyMemory( p_dst_palette, p_src_palette, sizeof( D3DCOLOR ) * 256 );
-	}
-	
-	for( uint32 l = 0; l < num_levels; ++l )
-	{
-		p_src->pD3DTexture->GetLevelDesc( l, &desc );
-
-		D3DLOCKED_RECT src_rect, dst_rect;
-		p_src->pD3DTexture->LockRect( l, &src_rect, nullptr, D3DLOCK_READONLY );
-		p_dst->pD3DTexture->LockRect( l, &dst_rect, nullptr, 0 );
-
-		CopyMemory( dst_rect.pBits, src_rect.pBits, desc.Size );
-	}
-	*/
+	// TODO: actually copy
+	glDeleteTextures(1, &p_dst->GLTexture);
+	glGenTextures(1, &p_dst->GLTexture);
 	return true;
 }
 

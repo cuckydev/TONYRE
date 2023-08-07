@@ -18,8 +18,7 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_FILE_PRE_H
-#define __CORE_FILE_PRE_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
@@ -196,45 +195,40 @@ private:
 	// Holds data for pending async loads
 	struct SPendingAsync
 	{
-		CAsyncFileHandle *			mp_file_handle;
-		char						m_file_name[MAX_COMPACT_FILE_NAME];
+		CAsyncFileHandle *mp_file_handle = nullptr;
+		char m_file_name[MAX_COMPACT_FILE_NAME] = {};
 	};
 
 	PreMgr();
 	~PreMgr();
 
-	void				 loadPre(const char *pFilename, bool async, bool dont_assert = false, bool useBottomUpHeap=false);
-    void    			 postLoadPre(CAsyncFileHandle *p_file_handle, uint8 *pData, int size);
-	bool				 fileExists(const char *pName);
+	void loadPre(const char *pFilename, bool async, bool dont_assert = false, bool useBottomUpHeap=false);
+	void postLoadPre(CAsyncFileHandle *p_file_handle, uint8 *pData, int size);
+	bool fileExists(const char *pName);
 	PreFile::FileHandle *getContainedFile(const char *pName);
-	uint8 *				 getContainedFileByHandle(PreFile::FileHandle *pHandle);
+	uint8 *getContainedFileByHandle(PreFile::FileHandle *pHandle);
 
-	static char *		 getCompactFileName(char *pName);		// Returns point in string where it will fit in compact space
+	static char *getCompactFileName(char *pName); // Returns point in string where it will fit in compact space
 
-	static void			 async_callback(CAsyncFileHandle *p_file_handle, EAsyncFunctionType function,
-										int result, unsigned int arg0, unsigned int arg1);
+	static void async_callback(CAsyncFileHandle *p_file_handle, EAsyncFunctionType function, int result, unsigned int arg0, unsigned int arg1);
 
-	PreFile							*mp_activePre;
-	PreFile::FileHandle *	 		mp_activeHandle;
-	uint8 *							mp_activeData;
+	PreFile *mp_activePre = nullptr;
+	PreFile::FileHandle *mp_activeHandle = nullptr;
+	uint8 *mp_activeData = nullptr;
 	// handle of current file being accessed from regular file system, for quick check
-	void *							mp_activeNonPreHandle;
+	void *mp_activeNonPreHandle = nullptr;
 
-	static bool						s_lastExecuteSuccess;
-	static PreMgr *					sp_mgr;
+	static bool s_lastExecuteSuccess;
+	static PreMgr *sp_mgr;
 	
-	Lst::StringHashTable<PreFile> *	mp_table;
+	Lst::StringHashTable<PreFile> *mp_table = nullptr;
 
-	bool							m_blockPreLoading;
+	bool m_blockPreLoading = false;
 
 	// Async status
-	SPendingAsync					m_pending_pre_files[MAX_NUM_ASYNC_LOADS];
-	int								m_num_pending_pre_files;
+	SPendingAsync m_pending_pre_files[MAX_NUM_ASYNC_LOADS] = {};
+	int m_num_pending_pre_files = 0;
 };
 
 
 } // namespace File
-
-#endif	// __CORE_FILE_PRE_H
-
-

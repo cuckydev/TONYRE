@@ -28,12 +28,7 @@
 #include <sys\mem\region.h>
 #include "heap.h"
 #include "alloc.h"
-//#ifndef __PLAT_XBOX__
-
-#ifndef	__SYS_MEM_MEMPTR_H
-#	include "memptr.h"
-#endif
-//#endif
+#include "memptr.h"
 #include "handle.h"
 
 /*****************************************************************************

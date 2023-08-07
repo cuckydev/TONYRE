@@ -93,6 +93,9 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_render_world(void)
 	{
+		// Process imposters
+		CEngine::sGetImposterManager()->ProcessImposters();
+
 		// Draw viewports
 		int num_viewports = CViewportManager::sGetNumActiveViewports();
 		for (int v = 0; v < num_viewports; ++v)
@@ -112,7 +115,7 @@ namespace Nx
 
 			NxWn32::set_camera(&(p_cur_camera->GetMatrix()), &(p_cur_camera->GetPos()), p_cur_camera->GetAdjustedHFOV(), aspect_ratio);
 
-			// Draw scenes
+			// Render the non-sky world scenes.
 			for (int i = 0; i < MAX_LOADED_SCENES; i++)
 			{
 				if (sp_loaded_scenes[i] != nullptr)
@@ -124,21 +127,27 @@ namespace Nx
 						NxWn32::BuildOccluders(&(p_cur_camera->GetPos()), v);
 
 						// Render scene
-						NxWn32::render_scene(pXboxScene->GetEngineScene(), NxWn32::vRENDER_OPAQUE |
-							NxWn32::vRENDER_OCCLUDED |
-							NxWn32::vRENDER_SORT_FRONT_TO_BACK |
-							NxWn32::vRENDER_BILLBOARDS, v);
+						pXboxScene->GetEngineScene()->m_flags |= SCENE_FLAG_RECEIVE_SHADOWS;
+						NxWn32::render_scene(pXboxScene->GetEngineScene(), NxWn32::vRENDER_OPAQUE | NxWn32::vRENDER_OCCLUDED | NxWn32::vRENDER_SORT_FRONT_TO_BACK | NxWn32::vRENDER_BILLBOARDS, v);
 					}
 				}
 			}
 
+			// Render the sky, followed by all the non-sky semitransparent scene geometry. There is no bounding box transform for rendering the world.
+			NxWn32::set_frustum_bbox_transform(nullptr);
+
+			// Render imposters
+			CEngine::sGetImposterManager()->DrawImposters();
+
 			// Render opaque instances
 			NxWn32::render_instances(NxWn32::vRENDER_OPAQUE);
+
+			// Render all semitransparent instances.
+			NxWn32::render_instances(NxWn32::vRENDER_SEMITRANSPARENT | NxWn32::vRENDER_INSTANCE_PRE_WORLD_SEMITRANSPARENT);
 
 			// Render the non - sky semitransparent scene geometry.
 			// Setting the depth clip control to clamp here means that semitransparent periphary objects that would usually cull out
 			// are now drawn correctly (since they will clamp at 1.0, and the z test is <=).
-			
 			for (int i = 0; i < MAX_LOADED_SCENES; i++)
 			{
 				if (sp_loaded_scenes[i])

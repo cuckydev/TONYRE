@@ -64,13 +64,9 @@ void CXboxSprite::plat_update_hidden()
 /******************************************************************/
 void CXboxSprite::plat_update_engine()
 {
-	CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>( mp_texture );
-
-	if( p_xbox_texture )
-	{
-		// Rebuild sprite primitives
+	CXboxTexture *p_xbox_texture = static_cast<CXboxTexture*>( mp_texture );
+	if (p_xbox_texture != nullptr)
 		mp_plat_sprite->mp_texture	= p_xbox_texture->GetEngineTexture();
-	}
 	
 	mp_plat_sprite->m_xpos		= m_pos_x;
 	mp_plat_sprite->m_ypos		= m_pos_y;
@@ -83,7 +79,7 @@ void CXboxSprite::plat_update_engine()
 	mp_plat_sprite->m_yhot		= (( m_anchor_y + 1.0f ) * 0.5f) * ( m_height );
 
 	mp_plat_sprite->m_rot		= m_rotation;
-	mp_plat_sprite->m_rgba		= *((uint32 *) &m_rgba);
+	mp_plat_sprite->m_rgba		= *((uint32*)&m_rgba);
 }
 
 
