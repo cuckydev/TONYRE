@@ -27,6 +27,7 @@
 
 #include <iostream>
 #include <cstdint>
+#include <cstring>
 
 /*****************************************************************************
 **								   Defines									**
@@ -201,7 +202,7 @@ typedef	sint64				nID64;
 /* Global new/delete operators                                    */
 /*                                                                */
 /******************************************************************/
-inline void* 	operator new( size_t size )
+inline void *operator new( size_t size )
 {
 	return Mem::Manager::sHandle().New( size, true );
 }
@@ -210,7 +211,7 @@ inline void* 	operator new( size_t size )
 /*                                                                */
 /******************************************************************/
 
-inline void* 	operator new[] ( size_t size )
+inline void *operator new[] ( size_t size )
 {
 	return Mem::Manager::sHandle().New( size, true );
 }
@@ -220,7 +221,7 @@ inline void* 	operator new[] ( size_t size )
 /*                                                                */
 /******************************************************************/
 
-inline void* 	operator new( size_t size, bool assert_on_fail )
+inline void *operator new( size_t size, bool assert_on_fail )
 {
 	return Mem::Manager::sHandle().New( size, assert_on_fail );
 }
@@ -230,7 +231,7 @@ inline void* 	operator new( size_t size, bool assert_on_fail )
 /*                                                                */
 /******************************************************************/
 
-inline void* 	operator new[] ( size_t size, bool assert_on_fail )
+inline void *operator new[] ( size_t size, bool assert_on_fail )
 {
 	return Mem::Manager::sHandle().New( size, assert_on_fail );
 }
@@ -240,7 +241,7 @@ inline void* 	operator new[] ( size_t size, bool assert_on_fail )
 /*                                                                */
 /******************************************************************/
 
-inline void*	operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true )
+inline void *operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true )
 {
 	return Mem::Manager::sHandle().New( size, assert_on_fail, pAlloc );
 }
@@ -249,7 +250,7 @@ inline void*	operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_f
 /*                                                                */
 /******************************************************************/
 
-inline void*	operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true )
+inline void *operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true )
 {
 	return Mem::Manager::sHandle().New( size, assert_on_fail, pAlloc );
 }
@@ -259,27 +260,7 @@ inline void*	operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on
 /*                                                                */
 /******************************************************************/
 
-// inline void* 	operator new( size_t size, void* pLocation )
-// {
-// 	return pLocation;
-// }
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-// inline void* 	operator new[]( size_t size, void* pLocation )
-// {
-// 	return pLocation;
-// }
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-inline void 	operator delete( void* pAddr )
+inline void operator delete( void* pAddr )
 {
 	Mem::Manager::sHandle().Delete( pAddr );
 }
@@ -289,7 +270,7 @@ inline void 	operator delete( void* pAddr )
 /*                                                                */
 /******************************************************************/
 
-inline void 	operator delete[]( void* pAddr )
+inline void operator delete[]( void* pAddr )
 {
 	Mem::Manager::sHandle().Delete( pAddr );
 }
@@ -297,32 +278,19 @@ inline void 	operator delete[]( void* pAddr )
 /******************************************************************/
 /* only used when exception is thrown in constructor              */
 /*                                                                */
-/******************************************************************
+/******************************************************************/
 
 inline void	operator delete( void* pAddr, Mem::Allocator* pAlloc )
 {
-	Mem::Manager * mem_man = Mem::Manager::Instance();
 	Mem::Manager::sHandle().Delete( pAddr );
 }
 
 /******************************************************************/
 /*                                                                */
 /*                                                                */
-/******************************************************************
+/******************************************************************/
 
 inline void	operator delete[]( void* pAddr, Mem::Allocator* pAlloc )
 {
-	Mem::Manager * mem_man = Mem::Manager::Instance();
 	Mem::Manager::sHandle().Delete( pAddr );
 }
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************
-
-inline void 	operator delete( void*, void* pLocation )
-{
-	return;
-}
-*/

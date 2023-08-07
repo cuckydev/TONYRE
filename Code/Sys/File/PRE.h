@@ -25,6 +25,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
+#include <Core/Defines.h>
 #include <sys/file/AsyncTypes.h>
 
 namespace Lst
@@ -131,19 +132,19 @@ public:
 
 private:
 
-	static void						s_delete_file(_File *pFile, void *pData);
+	static void s_delete_file(_File *pFile, void *pData);
 	
-	uint8 *							mp_buffer;
-	int								m_numEntries;
+	uint8 *mp_buffer = nullptr;
+	int m_numEntries = 0;
 	
 	// maps filenames to pointers
-	Lst::StringHashTable<_File> *	mp_table;
+	Lst::StringHashTable<_File> *mp_table = nullptr;
 
-	_File *							mp_activeFile;
+	_File *mp_activeFile = nullptr;
 
-	int								m_numOpenAsyncFiles;
+	int m_numOpenAsyncFiles = 0;
 	
-	bool							m_use_bottom_up_heap;
+	bool m_use_bottom_up_heap = false;
 };
 
 

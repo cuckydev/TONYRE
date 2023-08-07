@@ -54,10 +54,6 @@ namespace Nx
 **								   Defines									**
 *****************************************************************************/
 
-#ifdef	__PLAT_NGPS__
-#define USE_VU0_MICROMODE
-#endif
-
 #define PRINT_CACHE_HITS 0
 
 /*****************************************************************************
@@ -183,168 +179,6 @@ bool CCollObj::s_found_collision(const Mth::Line *p_is, CCollObj *p_coll_object,
 bool CCollObj::sRayTriangleCollision(const Mth::Vector *rayStart, const Mth::Vector *rayDir,
 									 Mth::Vector *v0, Mth::Vector *v1, Mth::Vector *v2, float *t)
 {
-#if 0
-// #ifdef	__PLAT_NGPS__
-// Turned off assem versions to test correction to false positive issue as discussed in C code below.  Dan - 1/21/3
-#ifdef	USE_VU0_MICROMODE
-	register bool result;
-
-	asm __volatile__(
-	"
-	.set noreorder
-	lqc2    vf06,%4				# v0
-	lqc2    vf08,%6				# v2
-	lqc2    vf07,%5				# v1
-	lqc2    vf04,%2				# rayStart
-	lqc2    vf05,%3				# rayDir
-
-	vcallms	RayTriangleCollision	# call microsubroutine
-	vnop							# interlocking instruction, waits for vu0 completion
-
-	cfc2	%0,$vi02			# get boolean result from vu0
-
-	beq		%0, $0, vu0RayTriDone	# skip copy of t if not needed
-	nop
-
-	qmfc2	$12, $vf17			# move t to $8
-	sw		$12, %1				# and write out
-
-vu0RayTriDone:
-
-	.set reorder
-	": "=&r" (result), "=m" (*t) : "m" (*rayStart), "m" (*rayDir), "m" (*v0), "m" (*v1) , "m" (*v2) : "$12" );
-
-	return result;
-#else
-    //*t = 2.0f;
-	bool result;
-
-	asm __volatile__(
-	"
-	.set noreorder
-	lqc2    vf06,0x0(%4)		# v0
-	lqc2    vf08,0x0(%6)		# v2
-	lqc2    vf07,0x0(%5)		# v1
-	lqc2    vf04,0x0(%2)		# rayStart
-	lqc2    vf05,0x0(%3)		# rayDir
-
-	vsub.xyz vf10, vf08, vf06    # edge2 = v2 - v0
-	vsub.xyz vf09, vf07, vf06    # edge1 = v1 - v0 
-	vsub.xyz vf13, vf04, vf06    # tvec = rayStart - v0
-   	li.s     $f4,0.00001		 # EPSILON
-	vaddw.x  vf02, vf00, vf00w   # Load 1.0f to VF02x
-
-	vopmula.xyz  ACC,vf05,vf10   # Cross product of ray normal and edge2 (pvec)
-	vopmsub.xyz  vf12,vf10,vf05  # Second part of cross product
-   	mfc1         $8,$f4
-	li		     %0,0			 # store 0 for return value
-	#li      $9,0x80	 		 # Set the mask X sign flag
-	#li      $10,0x10			 # Set the mask W sign flag
-
-	vmul.xyz  vf11,vf09,vf12     # det = edge1 * pvec [start]
-	vmulax.x  ACC,vf09,vf12x
-	vmul.xyz  vf15,vf13,vf12     # u = tvec * pvec [start]
-	qmtc2	$8, $vf03
-	vmadday.x ACC,vf02,vf11y
-	vmaddz.x  vf11,vf02,vf11z    # det = edge1 * pvec [ready]
-	vmulax.x  ACC,vf02,vf15x
-	vmadday.x ACC,vf02,vf15y
-	vmaddz.x  vf15,vf02,vf15z    # u = tvec * pvec [ready]
-	vdiv 	  Q,vf00w,vf11x      # Q = 1.0f / det
-
-	vopmula.xyz ACC,vf13,vf09    # qvec = crossProd(tvec, edge1);
-	vopmsub.xyz vf14,vf09,vf13
-	vsub.x      vf01,vf11,vf03   # If det < EPSILON
-		vnop
-		vnop
-		vnop
-		vnop
-		vnop
-	cfc2    $8,$vi17			 # transfer if det result (MAC register)
-	vmulq.x vf15,vf15,Q          # u = (tvec * pvec) / det
-	vnop
-	vnop
-	vnop
-		vnop
-		andi	$8, $8, 0x80		 # check result
-	cfc2    $9,$vi17			 # transfer u result (MAC register)
-	bne		$8, $0, vu0RayTriDone
-	vaddx.w vf03, vf00, vf03x	 # put 1 + EPSILON in VF03w
-	andi	$9, $9, 0x80		 # check result (u < 0) fail
-	bne		$9, $0, vu0RayTriDone
-	#vaddq.x vf20,vf00,Q          
-
-    vsubw.x vf00,vf15,vf03w		 # if u > 1 + EPSILON
-		vnop
-		vnop
-		vnop
-		vnop
-		vnop
-	cfc2    $8,$vi17			 # transfer if u > 1 + EPSILON result (MAC register)
-    vmul.xyz vf16,vf05,vf14      # v = rayDir * qvec [start] 
-    vmulax.x ACC,vf05,vf14x
-	andi	$8, $8, 0x80		 # check result (u > 1) fail
-	beq		$8, $0, vu0RayTriDone
-	vnop
-
-    vmadday.x ACC,vf02,vf16
-    vmaddz.x vf16,vf02,vf16z     # v = rayDir * qvec [ready]
-	vnop
-    vmul.xyz vf17,vf10,vf14      # t = edge2 * qvec [start]
-    vmulax.x ACC,vf10,vf14x
-    vmulq.x   vf16,vf16,Q        # v = (rayDir * qvec) / det;
-	vnop
-		vnop
-		vnop
-		vnop
-		vnop
-	cfc2    $8,$vi17			 # transfer if v < 0 result (MAC register)
-
-	vmadday.x ACC,vf02,vf17
-	vmaddz.x  vf17,vf02,vf17z    # t = edge2 * qvec [ready]
-	vadd.x    vf01,vf15,vf16
-	andi	  $8, $8, 0x80		 # check result (v < 0) fail
-	bne		  $8, $0, vu0RayTriDone
-    vmulq.x    vf17,vf17,Q       # t = (edge2 * qvec) / det
-
-    vsubw.x vf31,vf01,vf03w      # if (u+v) > 1 + EPSILON [start]
-	vnop
-	vnop
-	vnop
-		vnop
-		vnop
-	cfc2    $8,$vi17			 # transfer if u+v > 1 + EPSILON result (MAC register)
-    vsub.x vf00,vf17,vf00
-	vnop
-		vnop
-		vnop
-		vnop
-	andi	$8, $8, 0x80		 # check result (u+v > 1 + EPSILON) fail
-	cfc2    $9,$vi17			 # transfer if t < 0 result (MAC register)
-	vsubx.w vf00,vf00,vf17       # if t > 1 [start]
-	vnop
-		vnop
-		#vnop
-		#vnop
-		#vnop
-	beq		$8, $0, vu0RayTriDone
-	andi	$9, $9, 0x80		 # check result (t < 0) fail
-	bne		$9, $0, vu0RayTriDone
-	cfc2    $8,$vi17			 # transfer if t > 1 result (MAC register)
-	andi	$8, $8, 0x10		 # check result (t > 1) fail
-	bne		$8, $0, vu0RayTriDone
-	qmfc2	$9, $vf17			 # move t to $9
-	sw		$9, 0(%1)			 # and write out
-	li		%0,1				 # store 1 for return value
-
-
-vu0RayTriDone:
-	.set reorder
-	": "=r" (result), "+r" (t) : "r" (rayStart), "r" (rayDir), "r" (v0), "r" (v1) , "r" (v2) : "$8", "$9");
-	//return *t <= 1.0f;
-	return result;
-#endif //	USE_VU0_MICROMODE
-#else
     const float EPSILON = 0.00001f;
 
     /* find vectors for two edges sharing vert0 */
@@ -443,7 +277,6 @@ vu0RayTriDone:
 #endif
 
     return (*t <= 1.0f) && (*t >= 0.0f);
-#endif
 
 }
 

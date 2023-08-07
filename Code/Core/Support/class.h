@@ -42,24 +42,23 @@ class Class
 	public:
 	
 	#if (defined ( ZERO_CLASS_MEM ))
-		void*			operator new( size_t size );
-		void*			operator new[] ( size_t size );
-		void*			operator new( size_t size, bool assert_on_fail );
-		void*			operator new[] ( size_t size, bool assert_on_fail );
-		void*			operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true );
-		void*			operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true );
-		void*			operator new( size_t size, void* pLocation );
-		void*			operator new[]( size_t size, void* pLocation );
+		void *operator new( size_t size );
+		void *operator new[] ( size_t size );
+		void *operator new( size_t size, bool assert_on_fail );
+		void *operator new[] ( size_t size, bool assert_on_fail );
+		void *operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true );
+		void *operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail = true );
+		void *operator new( size_t size, void* pLocation );
+		void *operator new[]( size_t size, void* pLocation );
 
-		void			operator delete( void* pMem ) { delete pMem; }
-		void			operator delete[]( void* pMem ) { delete[] pMem; }
-		void			operator delete( void* pMem, bool assert_on_fail ) { delete pMem; }
-		void			operator delete[]( void* pMem, bool assert_on_fail ) { delete[] pMem; }
-		void			operator delete( void* pMem, Mem::Allocator* pAlloc, bool assert_on_fail ) { delete pMem; }
-		void			operator delete[]( void* pMem, Mem::Allocator* pAlloc, bool assert_on_fail) { delete[] pMem; }
-		void			operator delete( void* pMem, void* pLocation ) { delete pMem; }
-		void			operator delete[]( void* pMem, void* pLocation ) { delete[] pMem; }
-	
+		void operator delete(void *pMem);
+		void operator delete[](void *pMem);
+		void operator delete(void *pMem, bool assert_on_fail);
+		void operator delete[](void *pMem, bool assert_on_fail);
+		void operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail);
+		void operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail);
+		void operator delete(void *pMem, void *pLocation);
+		void operator delete[](void *pMem, void *pLocation);
 	#endif // ZERO_CLASS_MEM
 };
 

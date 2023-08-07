@@ -33,11 +33,6 @@
 
 #include <gel/collision/collenums.h>
 
-#ifdef __PLAT_NGC__
-#include <sys/ngc/p_vector.h>
-#include <sys/ngc/p_gx.h>
-#endif
-
 #include <gfx/nxscene.h>
 
 /*****************************************************************************
@@ -154,7 +149,7 @@ protected:
 		uint8				m_split_axis;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
 		uint8				m_pad1;
 		uint16				m_num_faces;		// number in faces in face array
-#endif __PLAT_NGC__
+#endif // __PLAT_NGC__
 		FaceIndex *			mp_face_idx_array;	// leaf
 	};
 

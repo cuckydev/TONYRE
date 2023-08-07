@@ -228,7 +228,14 @@ void* 	Class::operator new[]( size_t size, void* pLocation )
 	return pLocation;
 }
 
-
+void Class::operator delete(void *pMem) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete[](void *pMem) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete(void *pMem, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete[](void *pMem, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete(void *pMem, void *pLocation) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete[](void *pMem, void *pLocation) { Mem::Manager::sHandle().Delete(pMem); }
 
 /******************************************************************/
 /*                                                                */

@@ -122,13 +122,8 @@ unsigned char
 #endif
 
 
-#ifdef __PRE_ARAM__
-#define	ReadInto(x)		if (!Len) break; Len--; x = get_byte( p_buffer ) 
-#define	ReadInto2(x)	Len--; x = get_byte( p_buffer ) 	  // version that knows Len is Ok
-#else
 #define	ReadInto(x)		if (!Len) break; Len--; x = *pIn++ 
 #define	ReadInto2(x)	Len--; x = *pIn++ 	  // version that knows Len is Ok
-#endif		// __PRE_ARAM__
 
 
 // Decode an LZSS encoded stream
@@ -136,39 +131,6 @@ unsigned char
 // a 32x CD would run at 4.8MB/sec, although we seem to get a lot less than this
 // with our current file system, more like 600K per seconds.....
 // Need to write a fast streaming file system....
-
-#ifdef __PRE_ARAM__
-#define INPUT_BUFFER_SIZE (16 * 1024)
-static uint32 p_aram_in;
-static int aram_len = 0;
-static int buffer_bytes = 0;
-static int buffer_offset = 0;
-static unsigned char get_byte( unsigned char * p_buffer )
-{
-	if ( buffer_bytes == 0 )
-	{
-		int toread;
-		if ( aram_len >= INPUT_BUFFER_SIZE )
-		{
-			toread = INPUT_BUFFER_SIZE;
-		}
-		else
-		{
-			toread = aram_len;
-		}
-
-		NsDMA::toMRAM( p_buffer, p_aram_in, toread );
-		p_aram_in += INPUT_BUFFER_SIZE;
-		aram_len -= INPUT_BUFFER_SIZE;
-		buffer_bytes = toread; 
-		buffer_offset = 0;
-	}
-	unsigned char bb = p_buffer[buffer_offset];
-	buffer_bytes--;
-	buffer_offset++;
-	return bb;
-}
-#endif		// __PRE_ARAM__
 
 void DecodeLZSS(unsigned char *pIn, unsigned char *pOut, int Len)	/* Just the reverse of Encode(). */
 {
@@ -185,11 +147,6 @@ void DecodeLZSS(unsigned char *pIn, unsigned char *pOut, int Len)	/* Just the re
 	{
 		while( 1 );
 	}
-#ifdef __PRE_ARAM__
-	unsigned char p_buffer[INPUT_BUFFER_SIZE];
-	p_aram_in = (uint32)pIn;
-	aram_len = Len;
-#endif		// __PRE_ARAM__
 
 
 //	int basetime =  (int) Tmr::ElapsedTime(0);
@@ -289,43 +246,20 @@ PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
 
 	mp_buffer = p_file_buffer;
 	#ifdef __NOPT_ASSERT__
-#ifdef __PRE_ARAM__
-	uint version;
-	NsDMA::toMRAM( &version, (uint32)mp_buffer + 4, 4 );
-#else
 	uint version = 	*((int *) (mp_buffer + 4));
-#endif		// __PRE_ARAM__
 	Dbg_MsgAssert(version == CURRENT_PRE_VERSION,( "PRE file version (%x) not current (%x)",version,CURRENT_PRE_VERSION));
 	#endif
-#ifdef __PRE_ARAM__
-	NsDMA::toMRAM( &m_numEntries, (uint32)mp_buffer + 8, 4 );
-#else
 	m_numEntries = *((int *)(mp_buffer + 8));
-#endif		// __PRE_ARAM__
 
 	uint8 *pEntry = mp_buffer + 12;
 	for (int i = 0; i < m_numEntries; i++)
 	{
-#ifdef __PRE_ARAM__
-		int data_size;
-		int compressed_data_size;
-		short text_size;
-		NsDMA::toMRAM( &data_size, (uint32)pEntry, 4 );
-		NsDMA::toMRAM( &compressed_data_size, (uint32)pEntry + 4, 4 );
-		NsDMA::toMRAM( &text_size, (uint32)pEntry + 8, 2 );
-#else
 		int data_size 				= *((int *) pEntry);
 		int compressed_data_size 	= *((int *) (pEntry + 4));
 		int text_size	 			= *((short *) (pEntry + 8));
-#endif		// __PRE_ARAM__
 		int actual_data_size = (compressed_data_size != 0) ? compressed_data_size : data_size;
-			
-#ifdef __PRE_ARAM__
-		char pName[1024];
-		NsDMA::toMRAM( pName, (uint32)pEntry + PRE_NAME_OFFSET, text_size );
-#else
+		
 		char *pName = (char *) pEntry + PRE_NAME_OFFSET;
-#endif		// __PRE_ARAM__
 		uint8 *pCompressedData = pEntry + PRE_NAME_OFFSET + text_size;
 		
 		_File *pFile;
@@ -373,11 +307,7 @@ PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
 
 PreFile::~PreFile()
 {
-#ifdef __PRE_ARAM__
-	NsARAM::free( (uint32)mp_buffer );
-#else
 	delete mp_buffer;
-#endif		// __PRE_ARAM__
 	mp_table->HandleCallback(s_delete_file, nullptr);
 	mp_table->FlushAllItems();
 
@@ -428,23 +358,6 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 			// need to uncompress data
 			DecodeLZSS(mp_activeFile->pCompressedData, mp_activeFile->pData, mp_activeFile->compressedDataSize);	
 		}
-#ifdef __PRE_ARAM__
-		else
-		{
-			// Just DMA to main RAM.
-			Mem::PushMemProfile((char*)pName);
-			if (m_use_bottom_up_heap)
-			{
-				mp_activeFile->pData = new (Mem::Manager::sHandle().BottomUpHeap()) uint8[mp_activeFile->m_filesize];
-			}
-			else
-			{
-				mp_activeFile->pData = new (Mem::Manager::sHandle().TopDownHeap()) uint8[mp_activeFile->m_filesize];
-			}	
-			Mem::PopMemProfile();
-			NsDMA::toMRAM( mp_activeFile->pData, (uint32)mp_activeFile->pCompressedData, mp_activeFile->m_filesize );
-		}
-#endif		// __PRE_ARAM__
 	}
 
 	
@@ -491,12 +404,7 @@ void *PreFile::LoadContainedFile(const char *pName,int *p_size, void *p_dest)
 		}
 		else
 		{
-#ifdef __PRE_ARAM__
-			// Just DMA to main RAM.
-			NsDMA::toMRAM( p_dest, (uint32)pFile->pCompressedData, pFile->m_filesize );
-#else
 			memcpy(p_dest,(void*)pFile->pCompressedData,pFile->m_filesize);
-#endif		// __PRE_ARAM__
 		}
 	}
 	else
@@ -550,10 +458,7 @@ uint32 PreFile::Read(void *addr, uint32 count)
 
 	int seek_offs = mp_activeFile->m_position;
 	unsigned int limit = mp_activeFile->m_filesize - seek_offs;
-	int copy_number = (count <= limit) ? count : limit; 
-#ifdef __PRE_ARAM__
-	memcpy(addr, mp_activeFile->pData + mp_activeFile->m_position, copy_number);
-#else
+	int copy_number = (count <= limit) ? count : limit;
 	if (mp_activeFile->compressedDataSize)
 	{
 		Dbg_MsgAssert(mp_activeFile->pData,( "file not uncompressed"));
@@ -563,7 +468,6 @@ uint32 PreFile::Read(void *addr, uint32 count)
 	{
 		memcpy(addr, mp_activeFile->pCompressedData + mp_activeFile->m_position, copy_number);
 	}
-#endif		// __PRE_ARAM__
 
 	mp_activeFile->m_position += copy_number;
 
@@ -812,10 +716,6 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 		async = false;
 	}
 
-#ifdef __PRE_ARAM__
-	Dbg_MsgAssert(!async, ("Async loading not implemented for ARAM transfer"));
-#endif
-
 	if( !async && Pcm::UsingCD() )
 	{
 		Dbg_MsgAssert( 0,( "File access forbidden while PCM audio is in progress." ));
@@ -831,15 +731,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 	char fullname[256];
 	sprintf(fullname, "pre\\%s", pFilename);
 
-#	ifdef __PLAT_XBOX__
-	// Replace the .pre extension (if one exists) with .prx for Xbox PRE file.
-	if( strrchr( pFilename, '.' ) && ( strlen( fullname ) > 4 ))
-	{
-		fullname[strlen( fullname ) - 1] = 'x';
-	}
-#	endif
-
-#	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
+#if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
 	Tmr::Time basetime = Tmr::ElapsedTime(0);
 #endif
 
@@ -919,48 +811,6 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 			}
 
 
-#ifdef __PRE_ARAM__
-			File::Read(&file_size, 4, 1, fp);
-			Dbg_MsgAssert(file_size > 0,( "%s has incorrect file size\n", fullname));
-			if (Config::CD())
-			{
-				if (file_size <= 0) printf("%s has incorrect file size\n", fullname);
-			}	
-
-			// Stream the file into ARAM.
-			#define PRE_BUFFER_SIZE (16 * 1024)
-			char p_buffer[PRE_BUFFER_SIZE];
-
-			uint32 p_aram;
-			if (useBottomUpHeap)
-			{
-				p_aram = NsARAM::alloc( file_size, NsARAM::BOTTOMUP );
-			}
-			else
-			{
-				p_aram = NsARAM::alloc( file_size, NsARAM::TOPDOWN );
-			}	
-			if ( p_aram )
-			{
-				int adjust = 4;
-				uint32 toread = file_size;
-				uint32 current_aram_offset = p_aram;
-				while ( toread )
-				{
-					uint32 thistime = PRE_BUFFER_SIZE;
-					if ( toread < PRE_BUFFER_SIZE ) thistime = toread;
-
-					File::Read(&p_buffer[adjust], 1, thistime - adjust, fp);
-					DCFlushRange ( p_buffer, thistime );
-					NsDMA::toARAM( current_aram_offset, p_buffer, thistime );
-					toread -= thistime;
-					current_aram_offset += thistime;
-					adjust = 0;
-				}
-				File::Close(fp);
-				pFile = (uint8 *)p_aram;
-			}
-#else
 			file_size = File::GetFileSize(fp);
 		// Now allocates the .PRE file from the top of the heap, to avoid fragmentation.
 			Mem::PushMemProfile((char*)fullname);
@@ -984,7 +834,6 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 			}
 
 			File::Close(fp);
-#endif		// __PRE_ARAM__
 		}
 
 #	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
