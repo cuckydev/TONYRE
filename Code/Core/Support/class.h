@@ -51,14 +51,14 @@ class Class
 		void *operator new( size_t size, void* pLocation );
 		void *operator new[]( size_t size, void* pLocation );
 
-		void operator delete(void *pMem);
-		void operator delete[](void *pMem);
-		void operator delete(void *pMem, bool assert_on_fail);
-		void operator delete[](void *pMem, bool assert_on_fail);
-		void operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail);
-		void operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail);
-		void operator delete(void *pMem, void *pLocation);
-		void operator delete[](void *pMem, void *pLocation);
+		void operator delete(void *pMem) noexcept;
+		void operator delete[](void *pMem) noexcept;
+		void operator delete(void *pMem, bool assert_on_fail) noexcept;
+		void operator delete[](void *pMem, bool assert_on_fail) noexcept;
+		void operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) noexcept;
+		void operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) noexcept;
+		void operator delete(void *pMem, void *pLocation) noexcept;
+		void operator delete[](void *pMem, void *pLocation) noexcept;
 	#endif // ZERO_CLASS_MEM
 };
 

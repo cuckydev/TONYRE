@@ -18,12 +18,6 @@
 
 #include <sys/mem/memman.h>
 
-#ifdef __PLAT_NGC__
-#include <gel/music/music.h>
-#include <sys/ngc/p_aram.h>
-#include <sys/ngc/p_dma.h>
-#endif		// __PLAT_NGC__
-
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/
@@ -207,6 +201,7 @@ bool CFileLibrary::PostLoad( bool assertOnFail, int file_size )
 		Dbg_Message( "File %d @ %08x %s [%d bytes]", i, m_fileInfo[i].fileNameChecksum, Script::FindChecksumName(m_fileInfo[i].fileExtensionChecksum), m_fileInfo[i].fileSize );
 	}
 	
+#if 0
 #ifndef __PLAT_NGC__
 	// to reduce the amount of temp memory needed, we first load the LIB file
 	// on the bottom up heap, and then copy sub-file individually onto the top
@@ -246,6 +241,7 @@ bool CFileLibrary::PostLoad( bool assertOnFail, int file_size )
 	mp_baseBuffer = nullptr;
 	mp_fileBuffer = nullptr;
 #endif		// __PLAT_NGC__
+#endif
 
 	// if the data is ready to be accessed
 	m_dataLoaded = true;
@@ -575,7 +571,7 @@ bool CFileLibrary::ClearFile( uint32 name, uint32 extension )
 	{
 		if ( m_fileInfo[index].fileNameChecksum == name && m_fileInfo[index].fileExtensionChecksum == extension )
 		{
-			Mem::Free( mp_filePointers[index] );
+			// Mem::Free( mp_filePointers[index] );
 			mp_filePointers[index] = nullptr;
 			success = true;
 		}

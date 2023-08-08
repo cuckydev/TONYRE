@@ -169,7 +169,7 @@ bool	CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_add
 #endif // FIXED_POINT_VERTICES
 #endif		// __PLAT_NGC__
 
-	mp_faces = (SFace *)((int) mp_faces + (int) p_base_face_addr);
+	mp_faces = (SFace *)((int)mp_faces + (int) p_base_face_addr);
 
 	//Dbg_Message ( "Object has %d verts sizeof %d", m_num_verts, sizeof(SReadVertex));
 	//Dbg_Message ( "Object has %d faces sizeof %d", m_num_faces, sizeof(SReadFace) );
@@ -178,7 +178,7 @@ bool	CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_add
 #endif
 
 	// Init BSP tree
-	mp_bsp_tree = (CCollBSPNode *)((int) mp_bsp_tree + (int) p_base_node_addr);
+	mp_bsp_tree = (CCollBSPNode *)((int)mp_bsp_tree + (int)p_base_node_addr);
 	s_init_tree(mp_bsp_tree, p_base_node_addr, p_base_face_idx_addr);
 
 	return true;
@@ -515,8 +515,6 @@ bool	CCollObjTriData::s_init_tree(CCollBSPNode *p_tree, void *p_base_node_addr, 
 		p_tree->m_leaf.mp_face_idx_array = (FaceIndex *) p_base_face_idx_addr;
 		p_tree->m_leaf.mp_face_idx_array += face_idx;
 	} else {
-		Dbg_MsgAssert(p_tree->GetSplitAxis() < 3, ("BSP split axis is %d", p_tree->GetSplitAxis()));
-
 		// Set branch pointers
 		p_tree->m_node.m_children.SetBasePointer((CCollBSPNode*)((int)p_tree->m_node.m_children.GetBasePointer() + (int)p_base_node_addr));
 

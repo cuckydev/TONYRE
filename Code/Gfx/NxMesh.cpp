@@ -88,8 +88,15 @@ bool			CMesh::LoadCollision(const char *p_name)
 
 	Mem::PushMemProfile((char*)m_coll_filename);
 
-	uint8 *p_base_addr = (uint8 *) Pip::Load(m_coll_filename);
-	if (p_base_addr)
+	uint8 *p_base_addr = (uint8*)Pip::Load(m_coll_filename);
+	size_t p_base_size = Pip::GetFileSize(m_coll_filename);
+	void *p_base_end = p_base_addr + p_base_size;
+
+	FILE *fp = fopen("Test.bin", "wb");
+	fwrite(p_base_addr, 1, p_base_size, fp);
+	fclose(fp);
+
+	if (p_base_addr != nullptr)
 	{
 		Nx::CCollObjTriData::SReadHeader *p_header = (Nx::CCollObjTriData::SReadHeader *) p_base_addr;
 		p_base_addr += sizeof(Nx::CCollObjTriData::SReadHeader);
@@ -131,24 +138,25 @@ bool			CMesh::LoadCollision(const char *p_name)
 		uint8 *p_node_array_size = p_base_face_addr + (p_header->m_total_num_faces_large * Nx::CCollObjTriData::GetFaceElemSize() +
 													   p_header->m_total_num_faces_small * Nx::CCollObjTriData::GetFaceSmallElemSize());
 		p_node_array_size += ( p_header->m_total_num_faces_large & 1 ) ? 2 : 0;
+		Dbg_Assert((p_node_array_size + sizeof(int)) <= p_base_end);
 #else
 		uint8 *p_node_array_size = p_base_face_addr + ( p_header->m_total_num_faces * Nx::CCollObjTriData::GetFaceElemSize() );
 		p_node_array_size += ( p_header->m_total_num_faces & 1 ) ? 2 : 0;
 #endif		// __PLAT_NGC__
+		int node_array_size = *((int *)p_node_array_size);
 		uint8 *p_base_node_addr = p_node_array_size + 4;
-		uint8 *p_base_face_idx_addr = p_base_node_addr + *((int *) p_node_array_size);
+		uint8 *p_base_face_idx_addr = p_base_node_addr + node_array_size;
+
+		// Dbg_Assert((p_base_node_addr + sizeof(CCollBSPNode)) <= p_base_end);
 
 		// Read objects
 		for (int oidx = 0; oidx < p_header->m_num_objects; oidx++)
 		{
-#ifdef __PLAT_NGC__
-			CScene * p_scene = static_cast<CScene*>( (static_cast<CNgcMesh*>( this ))->GetScene() );
-			mp_coll_objects[oidx].InitCollObjTriData(p_scene, p_base_vert_addr, nullptr, p_base_face_addr, p_base_node_addr, p_base_face_idx_addr);
-#else
-			mp_coll_objects[oidx].InitCollObjTriData(nullptr, p_base_vert_addr, p_base_intensity_addr, p_base_face_addr,
-													 p_base_node_addr, p_base_face_idx_addr);
-#endif		// __PLAT_NGC__
-			mp_coll_objects[oidx].InitBSPTree();
+			if (node_array_size != 0)
+			{
+				mp_coll_objects[oidx].InitCollObjTriData(nullptr, p_base_vert_addr, p_base_intensity_addr, p_base_face_addr, p_base_node_addr, p_base_face_idx_addr);
+				mp_coll_objects[oidx].InitBSPTree();
+			}
 
 			// Add to mesh bbox
 			m_collision_bbox.AddPoint(mp_coll_objects[oidx].GetBBox().GetMin());

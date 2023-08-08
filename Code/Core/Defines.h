@@ -304,7 +304,11 @@ inline void	operator delete[]( void* pAddr, Mem::Allocator* pAlloc )
 /******************************************************************/
 inline void *operator new(size_t size)
 {
-	return malloc(size);
+	if (size == 0)
+		size++;
+	if (void *ptr = malloc(size))
+		return ptr;
+	throw std::bad_alloc{};
 }
 /******************************************************************/
 /*                                                                */
@@ -313,7 +317,11 @@ inline void *operator new(size_t size)
 
 inline void *operator new[](size_t size)
 {
-	return malloc(size);
+	if (size == 0)
+		size++;
+	if (void *ptr = malloc(size))
+		return ptr;
+	throw std::bad_alloc{};
 }
 
 /******************************************************************/
@@ -323,7 +331,11 @@ inline void *operator new[](size_t size)
 
 inline void *operator new(size_t size, bool assert_on_fail)
 {
-	return malloc(size);
+	if (size == 0)
+		size++;
+	if (void *ptr = malloc(size))
+		return ptr;
+	throw std::bad_alloc{};
 }
 
 /******************************************************************/
@@ -333,7 +345,11 @@ inline void *operator new(size_t size, bool assert_on_fail)
 
 inline void *operator new[](size_t size, bool assert_on_fail)
 {
-	return malloc(size);
+	if (size == 0)
+		size++;
+	if (void *ptr = malloc(size))
+		return ptr;
+	throw std::bad_alloc{};
 }
 
 /******************************************************************/
@@ -343,7 +359,11 @@ inline void *operator new[](size_t size, bool assert_on_fail)
 
 inline void *operator new(size_t size, Mem::Allocator *pAlloc, bool assert_on_fail = true)
 {
-	return malloc(size);
+	if (size == 0)
+		size++;
+	if (void *ptr = malloc(size))
+		return ptr;
+	throw std::bad_alloc{};
 }
 /******************************************************************/
 /*                                                                */
@@ -352,7 +372,11 @@ inline void *operator new(size_t size, Mem::Allocator *pAlloc, bool assert_on_fa
 
 inline void *operator new[](size_t size, Mem::Allocator *pAlloc, bool assert_on_fail = true)
 {
-	return malloc(size);
+	if (size == 0)
+		size++;
+	if (void *ptr = malloc(size))
+		return ptr;
+	throw std::bad_alloc{};
 }
 
 /******************************************************************/

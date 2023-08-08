@@ -69,20 +69,20 @@ public:
 
 	// These functions allow us to have "virtual" functionality with an instance.  We can safely
 	// cast a pointer to CCollBSPLeaf if isLeaf() returns true.
-	uint8				GetSplitAxis() const { return m_leaf.m_split_axis & 0x3; }
-	void				SetSplitAxis(int axis);
-	bool				IsNode() const { return (GetSplitAxis() != 3); }
-	bool				IsLeaf() const { return (GetSplitAxis() == 3); }
+	uint8 GetSplitAxis() const { return m_leaf.m_split_axis & 0x3; }
+	void SetSplitAxis(int axis);
+	bool IsNode() const { return (GetSplitAxis() != 3); }
+	bool IsLeaf() const { return (GetSplitAxis() == 3); }
 
-	CCollBSPNode *		GetLessBranch() { Dbg_Assert(IsNode()); return m_node.m_children.GetLessBranch(); }
-	CCollBSPNode *		GetGreaterBranch() { Dbg_Assert(IsNode()); return m_node.m_children.GetGreaterBranch(); }
+	CCollBSPNode *GetLessBranch() { Dbg_Assert(IsNode()); return m_node.m_children.GetLessBranch(); }
+	CCollBSPNode *GetGreaterBranch() { Dbg_Assert(IsNode()); return m_node.m_children.GetGreaterBranch(); }
 
-	FaceIndex *			GetFaceIndexArray() { Dbg_Assert(IsLeaf()); return m_leaf.mp_face_idx_array; }
+	FaceIndex *GetFaceIndexArray() { Dbg_Assert(IsLeaf()); return m_leaf.mp_face_idx_array; }
 
-	int					GetSplitPoint() const { return m_node.m_split_point >> NUM_AXIS_BITS; }
-	void				SetSplitPoint(int ipoint) { m_node.m_split_point = (ipoint << NUM_AXIS_BITS) | GetSplitAxis(); }
-	float				GetFSplitPoint() const { return ((float) GetSplitPoint()) * COLLISION_RECIPROCAL_SUB_INCH_PRECISION; }
-	void				SetFSplitPoint(float point) { SetSplitPoint(point * COLLISION_SUB_INCH_PRECISION); }
+	int GetSplitPoint() const { return m_node.m_split_point >> NUM_AXIS_BITS; }
+	void SetSplitPoint(int ipoint) { m_node.m_split_point = (ipoint << NUM_AXIS_BITS) | GetSplitAxis(); }
+	float GetFSplitPoint() const { return ((float) GetSplitPoint()) * COLLISION_RECIPROCAL_SUB_INCH_PRECISION; }
+	void SetFSplitPoint(float point) { SetSplitPoint(point * COLLISION_SUB_INCH_PRECISION); }
 
 private:
 	////////////////////////////////////////////////////////////////
@@ -97,29 +97,29 @@ private:
 		void			Init() { m_left_child_and_flags = 0; }
 
 		// Actual branches
-		CCollBSPNode *	GetLeftBranch() const { return GetBasePointer(); }
-		CCollBSPNode *	GetRightBranch() const { return GetBasePointer() + 1; }
+		CCollBSPNode *GetLeftBranch() const { return GetBasePointer(); }
+		CCollBSPNode *GetRightBranch() const { return GetBasePointer() + 1; }
 
 		// Figures out which branch is which
-		CCollBSPNode *	GetLessBranch() const { return IsLeftGreater() ? GetRightBranch() : GetLeftBranch(); }
-		CCollBSPNode *	GetGreaterBranch() const { return IsLeftGreater() ? GetLeftBranch() : GetRightBranch(); }
+		CCollBSPNode *GetLessBranch() const { return IsLeftGreater() ? GetRightBranch() : GetLeftBranch(); }
+		CCollBSPNode *GetGreaterBranch() const { return IsLeftGreater() ? GetLeftBranch() : GetRightBranch(); }
 
 		// These two are needed for the cloning function
-		CCollBSPNode *	GetBasePointer() const { return (CCollBSPNode *) (m_left_child_and_flags & ~0x3); }
-		void			SetBasePointer(CCollBSPNode *p_base) { m_left_child_and_flags = ((uint32) p_base) | (m_left_child_and_flags & 0x3); }
+		CCollBSPNode *GetBasePointer() const { return (CCollBSPNode*)(m_left_child_and_flags & ~0x3); }
+		void SetBasePointer(CCollBSPNode *p_base) { m_left_child_and_flags = ((uint32) p_base) | (m_left_child_and_flags & 0x3); }
 
-		bool			IsLeftGreater() const { return m_left_child_and_flags & mLEFT_IS_GREATER; }
-		void			SetLeftGreater(bool greater);
+		bool IsLeftGreater() const { return m_left_child_and_flags & mLEFT_IS_GREATER; }
+		void SetLeftGreater(bool greater);
 
 	private:
 
 		// Constants
 		enum
 		{
-			mLEFT_IS_GREATER = 0x01,			// Indicates that the left branch is the greater branch
+			mLEFT_IS_GREATER = 0x01, // Indicates that the left branch is the greater branch
 		};
 
-		uint32			m_left_child_and_flags; // points to left branch, right branch one node over
+		uint32 m_left_child_and_flags = 0; // points to left branch, right branch one node over
 	};		
 
 protected:

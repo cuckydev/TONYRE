@@ -251,19 +251,11 @@ void LoadPre(const char *p_preFileName)
 	{
 		// Open the file & get its file size
 		void *p_file = File::Open(p_full_pre_name, "rb");
+		Dbg_AssertPtr(p_file);
 
-		if (!p_file)
-		{
-			Dbg_MsgAssert(0,("Could not open file %s",p_full_pre_name));
-		}
-
-		original_file_size=File::GetFileSize(p_file);
-		if (!original_file_size)
-		{
-			Dbg_MsgAssert(0,("Zero file size for file %s",p_full_pre_name));
-		}
-
-
+		original_file_size = File::GetFileSize(p_file);
+		Dbg_MsgAssert(original_file_size != 0, ("Zero file size for file %s", p_full_pre_name));
+		
 		// Allocate memory.
 		// Just to be safe, make sure the buffer is at least the file size rounded up to the
 		// next multiple of 2048, cos maybe loading a file off CD will always load
@@ -276,15 +268,11 @@ void LoadPre(const char *p_preFileName)
 		Dbg_MsgAssert(p_old_file_data,("Could not allocate memory for file %s",p_full_pre_name));
 
 		// Copy in the pre name at the start of the buffer.
-		strcpy(p_old_file_data,p_preFileName);
+		strcpy(p_old_file_data, p_preFileName);
 
 		// Load the file into memory then close the file.
-		#ifdef __NOPT_ASSERT__
-		long bytes_read=File::Read(p_old_file_data+name_size, 1, original_file_size, p_file);
-		Dbg_MsgAssert(bytes_read<=(long)original_file_size,("bytes_read>original_file_size ?"));
-		#else
-		File::Read(p_old_file_data+name_size, 1, original_file_size, p_file);
-		#endif
+		long bytes_read = File::Read(p_old_file_data + name_size, 1, original_file_size, p_file);
+		Dbg_MsgAssert(bytes_read <= (long)original_file_size,("bytes_read>original_file_size ?"));
 
 		File::Close(p_file);
 	}
@@ -294,7 +282,6 @@ void LoadPre(const char *p_preFileName)
 	// Note that even if no decompression is required, the new buffer will probably need to
 	// be bigger than the old, because the contained files need to be moved so that they all start
 	// on 16 byte boundaries. This is required by the collision code for example.
-
 	uint32 new_pre_buffer_size = name_size;
 	new_pre_buffer_size += sizeof(SPreHeader);
 
@@ -371,10 +358,10 @@ void LoadPre(const char *p_preFileName)
 	p_old_file_data = p_new_file_data + new_pre_buffer_size - old_pre_buffer_size;
 
 	// Copy the pre name down.
-	for (int i=0; i<name_size; ++i)
-	{
-		p_new_file_data[i]=p_old_file_data[i];
-	}
+	// for (int i=0; i<name_size; ++i)
+	// {
+	// 	p_new_file_data[i] = p_old_file_data[i];
+	// }
 
 	// Write in the new pre header
 	SPreHeader *p_source_header=(SPreHeader*)(p_old_file_data+name_size);
@@ -446,7 +433,8 @@ void LoadPre(const char *p_preFileName)
 
 	//printf("Wasted space = %d\n",new_pre_buffer_size-((uint32)p_dest_contained-(uint32)p_new_file_data));
 
-	spp_pre_files[spare_index]=p_new_file_data;
+	spp_pre_files[spare_index] = p_new_file_data;
+
 	#ifdef __NOPT_ASSERT__
 	printf("Done\n");
 	#endif
@@ -917,10 +905,10 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 
 	// Mick 2/19/2003 - Removed code that stripped project specific headers
 	// as this is now handled at the gs_file level
-	
 	int	file_size = 0;
-// Perhaps the file is in a PRE file,  so try loading it directly, as that will be quickest
-	uint8 *p_file_data = (uint8*)File::PreMgr::Instance()->LoadFile(p_fileName,&file_size, p_dest);
+
+	// Perhaps the file is in a PRE file,  so try loading it directly, as that will be quickest
+	uint8 *p_file_data = (uint8*)File::PreMgr::Instance()->LoadFile(p_fileName, &file_size, p_dest);
 	if (!p_file_data)
 	{
 		// nope, so try loading "Quickly" (basically if we are on a CD)
@@ -972,13 +960,14 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 				// next multiple of 2048, cos maybe loading a file off CD will always load
 				// whole numbers of sectors.
 				// Haven't checked that though.
-				p_file_data=(uint8*)Mem::Malloc((file_size+2047)&~2047);
+				p_file_data=(uint8*)Mem::Malloc(file_size);
 				Dbg_MsgAssert(p_file_data,("Could not allocate memory for file %s",p_fileName));
 			}
 			else
 			{
 				p_file_data = (uint8*)p_dest;
 			}
+
 			// Load the file into memory then close the file.
 			#ifdef __NOPT_ASSERT__
 			long bytes_read=File::Read(p_file_data, 1, file_size, p_file);
@@ -988,11 +977,6 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 			#endif
 
 			File::Close(p_file);
-		}
-		// Shrink memory back down to accurate usage - saves 43K total in the school!!!
-		if (!p_dest && p_file_data)
-		{
-			Mem::ReallocateShrink(file_size,p_file_data);
 		}
 	}
 	if (p_filesize)
