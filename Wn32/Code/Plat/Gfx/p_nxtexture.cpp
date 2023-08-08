@@ -366,14 +366,8 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 			// Check if this iteration of table size is sufficient, or if we have hit the maximum size.
 			if(( optimal_table_size <= test ) || ( size >= 12 ))
 			{
-				Mem::Allocator::BlockHeader*	p_bheader	= Mem::Allocator::BlockHeader::sRead( p_texture_table );
-				Mem::Allocator*					p_allocater	= p_bheader->mpAlloc;
-
 				delete p_texture_table;
-
-				Mem::Manager::sHandle().PushContext( p_allocater );
 				p_texture_table = new Lst::HashTable<Nx::CTexture>( size );
-				Mem::Manager::sHandle().PopContext();
 				break;
 			}
 		}
@@ -527,14 +521,8 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 			// Check if this iteration of table size is sufficient, or if we have hit the maximum size.
 			if(( optimal_table_size <= test ) || ( size >= 12 ))
 			{
-				Mem::Allocator::BlockHeader*	p_bheader	= Mem::Allocator::BlockHeader::sRead( p_texture_table );
-				Mem::Allocator*					p_allocater	= p_bheader->mpAlloc;
-
 				delete p_texture_table;
-
-				Mem::Manager::sHandle().PushContext( p_allocater );
 				p_texture_table = new Lst::HashTable<Nx::CTexture>( size );
-				Mem::Manager::sHandle().PopContext();
 				break;
 			}
 		}

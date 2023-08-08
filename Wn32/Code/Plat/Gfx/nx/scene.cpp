@@ -429,15 +429,9 @@ void sScene::HidePolys( uint32 mask, sCASData *p_cas_data, uint32 num_entries )
 			}
 
 			// Create new index buffer, on the same heap as the existing index buffer.
-			Mem::Allocator::BlockHeader*	p_bheader	= Mem::Allocator::BlockHeader::sRead( p_mesh->mp_index_buffer[0] );
-			Mem::Allocator*					p_allocater	= p_bheader->mpAlloc;
-			Mem::Manager::sHandle().PushContext( p_allocater );
-
 			delete [] p_mesh->mp_index_buffer[0];
 			p_mesh->m_num_indices[0]	= (uint16)new_indices_index;
 			p_mesh->mp_index_buffer[0]	= new uint16[p_mesh->m_num_indices[0]];
-
-			Mem::Manager::sHandle().PopContext();
 
 			// And copy in the new indices from the workbuffer.
 			CopyMemory( p_mesh->mp_index_buffer[0], index_workbuffer, sizeof( uint16 ) * p_mesh->m_num_indices[0] );
