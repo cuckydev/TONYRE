@@ -15,6 +15,7 @@ namespace Pip
 {
 void	LoadPre(const char *p_preFileName);
 bool	UnloadPre(const char *p_preFileName);
+void	UnloadUnusedPres();
 
 void*	Load(const char *p_fileName);
 void	Unload(const char *p_fileName);
