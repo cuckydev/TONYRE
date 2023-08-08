@@ -41,19 +41,6 @@
 #include <sys/config/config.h>
 #include <sys/replay/replay.h>
 
-#ifdef __PLAT_NGPS__
-//    #include <sif.h>
-//    #include <sifdev.h>
-    #include <libcdvd.h>
-	//#include <libscf.h>
-	#include <gfx/ngps/nx/nx_init.h>
-#endif
-
-#ifdef __PLAT_NGC__
-#include <sys/ngc/p_render.h>
-#include <gfx/ngc/nx/nx_init.h>
-#endif
-
 #include <Plat/Gfx/p_memview.h>
 
 #include <gfx/gfxman.h>
@@ -12320,11 +12307,14 @@ bool ScriptCheckForHoles( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | OnXbox |
 bool ScriptOnXbox( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	/*
 #ifdef __PLAT_XBOX__
 	return true;
 #else
 	return false;
 #endif	// __PLAT_XBOX__
+	*/
+	return true;
 }
 
 /******************************************************************/

@@ -65,12 +65,6 @@
 #include <sk/ParkEditor2/ParkEd.h>
 #include <sk/objects/gap.h>
 
-
-
-#ifdef __PLAT_NGC__
-#include <sys/ngc/p_display.h>
-#endif		// __PLAT_NGC__
-			  
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/

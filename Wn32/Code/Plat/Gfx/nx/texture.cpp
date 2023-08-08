@@ -171,7 +171,6 @@ sTexture *LoadTexture( const char *p_filename )
 	};
 
 	void *p_FH = File::Open( p_filename, "rb" );
-	Dbg_AssertPtr(p_FH);
 	
 	if( p_FH != nullptr)
 	{

@@ -95,8 +95,6 @@ void		CSprite::Initialize(CTexture *p_tex, float xpos, float ypos,
 
 void		CSprite::SetHidden(bool hide)
 {
-	Dbg_AssertPtr(mp_texture);
-
 	m_hidden = hide;
 
 	plat_update_hidden();
@@ -110,7 +108,7 @@ void		CSprite::SetHidden(bool hide)
 void		CSprite::SetTexture(CTexture *p_texture)
 {
 	mp_texture = p_texture;
-	if (p_texture)
+	if (p_texture != nullptr)
 	{
 		m_width = p_texture->GetWidth();
 		m_height = p_texture->GetHeight();

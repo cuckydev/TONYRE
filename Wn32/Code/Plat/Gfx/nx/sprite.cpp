@@ -351,6 +351,10 @@ sSprite::~sSprite()
 /******************************************************************/
 void sSprite::BeginDraw( void )
 {
+	// Check texture
+	if (mp_texture == nullptr)
+		return;
+
 	// Check if we need to change the render state
 	if (mp_texture->GLTexture != SDraw2D::sp_current_texture)
 	{
@@ -382,6 +386,10 @@ void sSprite::BeginDraw( void )
 /******************************************************************/
 void sSprite::Draw( void )
 {
+	// Check texture
+	if (mp_texture == nullptr)
+		return;
+	
 	// Get UVs
 	float u0 = 0.0f;
 	float v0 = 1.0f;
