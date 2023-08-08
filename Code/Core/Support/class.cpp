@@ -124,7 +124,7 @@ namespace Spt
 
 void* 	Class::operator new( size_t size )
 {
-	void*		p_ret = Mem::Manager::sHandle().New( size );
+	void *p_ret = malloc(size); //  Mem::Manager::sHandle().New(size);
 
 	if ( p_ret )
 	{
@@ -137,7 +137,7 @@ void* 	Class::operator new( size_t size )
 
 void* 	Class::operator new[] ( size_t size )
 {
-	void*		p_ret = Mem::Manager::sHandle().New( size );
+	void *p_ret = malloc(size); //  Mem::Manager::sHandle().New(size);
 
 	if ( p_ret )
 	{
@@ -151,7 +151,7 @@ void* 	Class::operator new[] ( size_t size )
 
 void* 	Class::operator new( size_t size, bool assert_on_fail )
 {
-	void*		p_ret = Mem::Manager::sHandle().New( size, assert_on_fail );
+	void *p_ret = malloc(size); //  Mem::Manager::sHandle().New(size);
 
 	if ( p_ret )
 	{
@@ -165,7 +165,7 @@ void* 	Class::operator new( size_t size, bool assert_on_fail )
 
 void* 	Class::operator new[] ( size_t size, bool assert_on_fail )
 {
-	void*	p_ret = Mem::Manager::sHandle().New( size, assert_on_fail );
+	void *p_ret = malloc(size); //  Mem::Manager::sHandle().New(size);
 
 	if ( p_ret )
 	{
@@ -179,7 +179,7 @@ void* 	Class::operator new[] ( size_t size, bool assert_on_fail )
 
 void*	Class::operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail )
 {
-	void*	p_ret = Mem::Manager::sHandle().New( size, assert_on_fail, pAlloc );
+	void *p_ret = malloc(size); //  Mem::Manager::sHandle().New(size);
 
 	if ( p_ret )
 	{
@@ -192,8 +192,8 @@ void*	Class::operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_f
 }
 
 void*	Class::operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail )
-{       
-	void*	p_ret = Mem::Manager::sHandle().New( size, assert_on_fail, pAlloc );
+{
+	void *p_ret = malloc(size); //  Mem::Manager::sHandle().New(size);
 
 	if ( p_ret )
 	{
@@ -228,14 +228,14 @@ void* 	Class::operator new[]( size_t size, void* pLocation )
 	return pLocation;
 }
 
-void Class::operator delete(void *pMem) { Mem::Manager::sHandle().Delete(pMem); }
-void Class::operator delete[](void *pMem) { Mem::Manager::sHandle().Delete(pMem); }
-void Class::operator delete(void *pMem, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
-void Class::operator delete[](void *pMem, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
-void Class::operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
-void Class::operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) { Mem::Manager::sHandle().Delete(pMem); }
-void Class::operator delete(void *pMem, void *pLocation) { Mem::Manager::sHandle().Delete(pMem); }
-void Class::operator delete[](void *pMem, void *pLocation) { Mem::Manager::sHandle().Delete(pMem); }
+void Class::operator delete(void *pMem) { free(pMem); }
+void Class::operator delete[](void *pMem) { free(pMem); }
+void Class::operator delete(void *pMem, bool assert_on_fail) { free(pMem); }
+void Class::operator delete[](void *pMem, bool assert_on_fail) { free(pMem); }
+void Class::operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) { free(pMem); }
+void Class::operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) { free(pMem); }
+void Class::operator delete(void *pMem, void *pLocation) { free(pMem); }
+void Class::operator delete[](void *pMem, void *pLocation) { free(pMem); }
 
 /******************************************************************/
 /*                                                                */

@@ -130,27 +130,27 @@ protected:
 		NUM_AXIS_BITS = 2,			// Number of bits used in fixed split_point for the axis identification
 	};
 
-						~CCollBSPNode();
+	~CCollBSPNode();
 
 	// m_split axis must always be in line with the low byte of m_split_point
 	struct SNode
 	{
-		int32				m_split_point;		// the point on the axis (low 2 bits is the axis itself)
-		CCollBSPChildren	m_children;			// 32-bit value points to left branch, right branch one node over
+		int32				m_split_point = 0;		// the point on the axis (low 2 bits is the axis itself)
+		CCollBSPChildren	m_children = {};			// 32-bit value points to left branch, right branch one node over
 	};
 
 	struct SLeaf
 	{
 #ifdef __PLAT_NGC__		// Big endian on NGC
-		uint16				m_num_faces;		// number in faces in face array
-		uint8				m_pad1;
-		uint8				m_split_axis;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
+		uint16				m_num_faces = 0;		// number in faces in face array
+		uint8				m_pad1 = 0;
+		uint8				m_split_axis = 0;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
 #else
-		uint8				m_split_axis;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
-		uint8				m_pad1;
-		uint16				m_num_faces;		// number in faces in face array
+		uint8				m_split_axis = 0;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
+		uint8				m_pad1 = 0;
+		uint16				m_num_faces = 0;		// number in faces in face array
 #endif // __PLAT_NGC__
-		FaceIndex *			mp_face_idx_array;	// leaf
+		FaceIndex *			mp_face_idx_array = nullptr;	// leaf
 	};
 
 	// Clone functions
@@ -167,8 +167,8 @@ protected:
 	// The split axis data MUST be in the same place in both SNode and SLeaf
 	union
 	{
-		SNode			m_node;
-		SLeaf			m_leaf;
+		SNode m_node;
+		SLeaf m_leaf = {};
 	};
 
 	// Friends
@@ -332,39 +332,39 @@ protected:
 
 	//////////////////////////////////////////////////
 	// Members
-	uint32				m_checksum;			// checksum of sector
-	uint16				m_Flags;			// Sector-level flags
-	uint16				m_num_verts;
-	uint16				m_num_faces;
-	uint8				m_use_face_small;	// Set to 1 if using SFaceSmall below
-	uint8				m_use_fixed_verts;
+	uint32				m_checksum = 0;			// checksum of sector
+	uint16				m_Flags = 0;			// Sector-level flags
+	uint16				m_num_verts = 0;
+	uint16				m_num_faces = 0;
+	uint8				m_use_face_small = 0;	// Set to 1 if using SFaceSmall below
+	uint8				m_use_fixed_verts = 0;
 
 	union {
-		SFace *			mp_faces;			// array of faces
+		SFace *			mp_faces = nullptr;			// array of faces
 		SFaceSmall *	mp_face_small;		// array of small faces
 	};
 
-	Mth::CBBox			m_bbox;				// bounding box of sector
+	Mth::CBBox			m_bbox = {};				// bounding box of sector
 
 #ifdef __PLAT_NGC__
-	NsVector *			mp_raw_vert_pos;
+	NsVector *			mp_raw_vert_pos = nullptr;
 #else
 	union {
 #ifndef FIXED_POINT_VERTICES
 		Mth::Vector *	mp_vert_pos;			// array of 32-bit vertices
 		SOverlay *		mp_vert_rgba_overlay;	// overlay array of vertex colors for 32-bit vertices
 #endif
-		SFloatVert *	mp_float_vert;			// array of 32-bit vertices
+		SFloatVert *	mp_float_vert = nullptr;			// array of 32-bit vertices
 		SFixedVert *	mp_fixed_vert;			// array of 16-bit vertices
 	};
 #endif
 
-	CCollBSPNode *		mp_bsp_tree;		// head of BSP tree
-	uint8 *				mp_intensity;		// Intensity list
+	CCollBSPNode *		mp_bsp_tree = nullptr;		// head of BSP tree
+	uint8 *				mp_intensity = nullptr;		// Intensity list
 #ifdef __PLAT_NGC__
-	NsVector *			mp_cloned_vert_pos;
+	NsVector *			mp_cloned_vert_pos = nullptr;
 #else
-	uint32				m_pad1;				// padding
+	uint32				m_pad1 = 0;				// padding
 #endif		// __PLAT_NGC__
 
 	SFaceInfo *			get_face_info(int face_idx) const;

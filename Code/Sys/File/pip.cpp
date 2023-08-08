@@ -225,6 +225,8 @@ void LoadPre(const char *p_preFileName)
 
 	if (original_file_size)
 	{
+		Dbg_Assert(0); // NOT SUPPORTED !!
+		/*
 		// Goody! It can be loaded quickly.
 
 		old_pre_buffer_size=(original_file_size+2047)&~2047;
@@ -243,6 +245,7 @@ void LoadPre(const char *p_preFileName)
 			Mem::Free(p_old_file_data);
 			p_old_file_data=nullptr;
 		}
+		*/
 	}
 	else
 	{
@@ -292,30 +295,31 @@ void LoadPre(const char *p_preFileName)
 	// be bigger than the old, because the contained files need to be moved so that they all start
 	// on 16 byte boundaries. This is required by the collision code for example.
 
-	uint32 new_pre_buffer_size=name_size;
-	new_pre_buffer_size+=sizeof(SPreHeader);
+	uint32 new_pre_buffer_size = name_size;
+	new_pre_buffer_size += sizeof(SPreHeader);
 
-	SPreHeader *p_pre_header=sSkipOverPreName(p_old_file_data);
-	uint32 num_files=p_pre_header->mNumFiles;
-	SPreContained *p_contained=(SPreContained*)(p_pre_header+1);
-	for (uint32 f=0; f<num_files; ++f)
+	SPreHeader *p_pre_header = sSkipOverPreName(p_old_file_data);
+	uint32 num_files = p_pre_header->mNumFiles;
+
+	SPreContained *p_contained = (SPreContained*)(p_pre_header + 1);
+	for (uint32 f = 0; f < num_files; f++)
 	{
 		// Do a quick check to make sure that all the usage values are initially zero.
 		// They should be, because the namesize member should never be bigger than 65535 ...
-		Dbg_MsgAssert(p_contained->mUsage==0,("The file %s in %s has mUsage=%d ??",p_contained->mpName,p_preFileName,p_contained->mUsage));
+		Dbg_MsgAssert(p_contained->mUsage==0, ("The file %s in %s has mUsage=%d ??",p_contained->mpName,p_preFileName,p_contained->mUsage));
 
-		new_pre_buffer_size+=(uint32)p_contained->mpName-(uint32)p_contained;
-		new_pre_buffer_size+=p_contained->mNameSize;
+		new_pre_buffer_size += (uint32)p_contained->mpName-(uint32)p_contained;
+		new_pre_buffer_size += p_contained->mNameSize;
 
-		new_pre_buffer_size=(new_pre_buffer_size+15)&~15;
+		new_pre_buffer_size = (new_pre_buffer_size + 15) & ~15;
 
-		new_pre_buffer_size+=(p_contained->mDataSize+3)&~3;
+		new_pre_buffer_size += (p_contained->mDataSize + 3) & ~3;
 
-		p_contained=sSkipToNextPreContained(p_contained,NOT_QUAD_WORD_ALIGNED);
+		p_contained = sSkipToNextPreContained(p_contained, NOT_QUAD_WORD_ALIGNED);
 	}
 
 	// Need to add a small margin to prevent decompressed data overtaking the compressed data.
-	new_pre_buffer_size+=IN_PLACE_DECOMPRESSION_MARGIN;
+	new_pre_buffer_size += IN_PLACE_DECOMPRESSION_MARGIN;
 
 	// At this point we have:
 	//
@@ -339,46 +343,32 @@ void LoadPre(const char *p_preFileName)
 	// did not overrun the end of the buffer. I think file loading may only load a whole
 	// number of sectors.
 
-
 	// Reallocate the buffer.
-	char *p_new_file_data=nullptr;
-	if (Mem::Manager::sHandle().GetContextDirection()==Mem::Allocator::vTOP_DOWN)
+	char *p_new_file_data = (char*)Mem::ReallocateUp(new_pre_buffer_size, p_old_file_data);
+	p_old_file_data = p_new_file_data;
+	Dbg_MsgAssert(p_new_file_data,("ReallocateUp failed!"));
+
+	// Now need to move the data up so that it can be decompressed into the gap below.
+	uint32 *p_source=(uint32*)(p_old_file_data + old_pre_buffer_size);
+	uint32 *p_dest=(uint32*)(p_new_file_data + new_pre_buffer_size);
+	// Loading backwards cos the destination overlaps the source.
+
+	// Note: Did some timing tests to see if this was was slow, but it's not really.
+	// To load all the pre files in the game, one after the other, takes an average of
+	// 32.406 seconds when the top down heap is used. When using the bottom up, which
+	// necessitates doing this copy, it takes 33.518 seconds.
+	// So per pre file that isn't much. (There's about 60 pre files)
+	Dbg_MsgAssert((old_pre_buffer_size&3)==0,("old_pre_buffer_size not a multiple of 4 ?"));
+	uint32 num_longs=old_pre_buffer_size/4;
+	for (uint32 i=0; i<num_longs; ++i)
 	{
-		// If using the top-down heap expand the buffer downwards ...
-
-		// p_new_file_data will become a pointer lower down in memory than p_old_file_data.
-		// The old data pointed to by p_old_file_data will still be there.
-		// The memory between p_new_file_data and p_old_file_data is all free to use. Hoorah!
-		p_new_file_data=(char*)Mem::ReallocateDown(new_pre_buffer_size,p_old_file_data);
+		--p_source;
+		--p_dest;
+		*p_dest=*p_source;
 	}
-	else
-	{
-		// If using the top-down heap expand the buffer upwards ...
-		p_new_file_data=(char*)Mem::ReallocateUp(new_pre_buffer_size,p_old_file_data);
-		Dbg_MsgAssert(p_new_file_data,("ReallocateUp failed!"));
 
-		// Now need to move the data up so that it can be decompressed into the gap below.
-		uint32 *p_source=(uint32*)(p_old_file_data+old_pre_buffer_size);
-		uint32 *p_dest=(uint32*)(p_new_file_data+new_pre_buffer_size);
-		// Loading backwards cos the destination overlaps the source.
-
-		// Note: Did some timing tests to see if this was was slow, but it's not really.
-		// To load all the pre files in the game, one after the other, takes an average of
-		// 32.406 seconds when the top down heap is used. When using the bottom up, which
-		// necessitates doing this copy, it takes 33.518 seconds.
-		// So per pre file that isn't much. (There's about 60 pre files)
-		Dbg_MsgAssert((old_pre_buffer_size&3)==0,("old_pre_buffer_size not a multiple of 4 ?"));
-		uint32 num_longs=old_pre_buffer_size/4;
-		for (uint32 i=0; i<num_longs; ++i)
-		{
-			--p_source;
-			--p_dest;
-			*p_dest=*p_source;
-		}
-
-		// Now update p_old_file_data to point where it should.
-		p_old_file_data=p_new_file_data+new_pre_buffer_size-old_pre_buffer_size;
-	}
+	// Now update p_old_file_data to point where it should.
+	p_old_file_data = p_new_file_data + new_pre_buffer_size - old_pre_buffer_size;
 
 	// Copy the pre name down.
 	for (int i=0; i<name_size; ++i)

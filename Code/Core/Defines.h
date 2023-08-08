@@ -198,6 +198,7 @@ typedef	sint64				nID64;
 
 #include <Plat/Gfx/p_memview.h>
 
+#if 0
 /******************************************************************/
 /* Global new/delete operators                                    */
 /*                                                                */
@@ -294,3 +295,104 @@ inline void	operator delete[]( void* pAddr, Mem::Allocator* pAlloc )
 {
 	Mem::Manager::sHandle().Delete( pAddr );
 }
+
+#else
+
+/******************************************************************/
+/* Global new/delete operators                                    */
+/*                                                                */
+/******************************************************************/
+inline void *operator new(size_t size)
+{
+	return malloc(size);
+}
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void *operator new[](size_t size)
+{
+	return malloc(size);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void *operator new(size_t size, bool assert_on_fail)
+{
+	return malloc(size);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void *operator new[](size_t size, bool assert_on_fail)
+{
+	return malloc(size);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void *operator new(size_t size, Mem::Allocator *pAlloc, bool assert_on_fail = true)
+{
+	return malloc(size);
+}
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void *operator new[](size_t size, Mem::Allocator *pAlloc, bool assert_on_fail = true)
+{
+	return malloc(size);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void operator delete(void *pAddr)
+{
+	free(pAddr);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void operator delete[](void *pAddr)
+{
+	free(pAddr);
+}
+
+/******************************************************************/
+/* only used when exception is thrown in constructor              */
+/*                                                                */
+/******************************************************************/
+
+inline void	operator delete(void *pAddr, Mem::Allocator *pAlloc)
+{
+	free(pAddr);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void	operator delete[](void *pAddr, Mem::Allocator *pAlloc)
+{
+	free(pAddr);
+}
+
+#endif

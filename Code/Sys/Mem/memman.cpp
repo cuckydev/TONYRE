@@ -1266,6 +1266,7 @@ bool Manager::DeleteNamedHeap( uint32 name, bool assertOnFail )
 	return false;
 }
 
+#if 0
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -1375,6 +1376,91 @@ void*	Calloc( size_t numObj, size_t sizeObj )
 	
 	return Mem::Manager::sHandle().New(( numObj * sizeObj ), true );
 }
+#else
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+void *Malloc(size_t size)
+{
+	return malloc(size);
+}
+
+int		Available()
+{
+	return Mem::Manager::sHandle().Available();
+}
+
+void *ReallocateDown(size_t newSize, void *pOld)
+{
+	return realloc(pOld, newSize);
+}
+
+void *ReallocateUp(size_t newSize, void *pOld)
+{
+	return realloc(pOld, newSize);
+}
+
+void *ReallocateShrink(size_t newSize, void *pOld)
+{
+	return realloc(pOld, newSize);
+}
+
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+void	Free(void *pAddr)
+{
+	free(pAddr);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+bool	Valid(void *pAddr)
+{
+	return true;
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+size_t	GetAllocSize(void *pAddr)
+{
+	Dbg_Assert(0);
+	return 0;
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+void *Realloc(void *mem, size_t newSize)
+{
+	return realloc(mem, newSize);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+void *Calloc(size_t numObj, size_t sizeObj)
+{
+	return calloc(numObj, sizeObj);
+}
+
+#endif
 
 /******************************************************************/
 /*                                                                */

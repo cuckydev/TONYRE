@@ -514,16 +514,11 @@ bool	CCollObjTriData::s_init_tree(CCollBSPNode *p_tree, void *p_base_node_addr, 
 		int face_idx = (int) p_tree->m_leaf.mp_face_idx_array;
 		p_tree->m_leaf.mp_face_idx_array = (FaceIndex *) p_base_face_idx_addr;
 		p_tree->m_leaf.mp_face_idx_array += face_idx;
-
-		//Dbg_Assert(((int) p_leaf->mp_less_branch) == -1);
-		//Dbg_Assert(((int) p_leaf->mp_greater_branch) == -1);
-
-		//p_leaf->mp_less_branch = nullptr;
-		//p_leaf->mp_greater_branch = nullptr;
 	} else {
 		Dbg_MsgAssert(p_tree->GetSplitAxis() < 3, ("BSP split axis is %d", p_tree->GetSplitAxis()));
+
 		// Set branch pointers
-		p_tree->m_node.m_children.SetBasePointer((CCollBSPNode *)((int) p_tree->m_node.m_children.GetBasePointer() + (int) p_base_node_addr));
+		p_tree->m_node.m_children.SetBasePointer((CCollBSPNode*)((int)p_tree->m_node.m_children.GetBasePointer() + (int)p_base_node_addr));
 
 		// And init branches
 		s_init_tree(p_tree->GetLessBranch(), p_base_node_addr, p_base_face_idx_addr);
