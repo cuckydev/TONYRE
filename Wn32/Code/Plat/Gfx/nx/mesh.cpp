@@ -947,6 +947,7 @@ void sMesh::SetupVAO(void)
 /******************************************************************/
 void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector & pivot_axis )
 {
+	#if 0
 	Dbg_Assert( mp_billboard_data == nullptr );
 
 	// Create the billboard data.
@@ -979,6 +980,7 @@ void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector 
 	{
 		mp_billboard_data->m_pivot_axis	= pivot_axis;
 	}
+	#endif
 
 	/*
 	// We need to go through at a low level and rebuild the vertex buffer. In all cases the

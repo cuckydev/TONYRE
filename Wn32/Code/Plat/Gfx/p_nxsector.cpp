@@ -476,8 +476,9 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		// Set up as a billboard if required.
 		if( m_flags & 0x00800000UL )
 		{
-			p_mesh->SetBillboardData( billboard_type, billboard_pivot_pos, billboard_pivot_axis );
-			NxWn32::BillboardManager.AddEntry( p_mesh );
+			// TODO: BILLBOARD dISABLED!!!
+			// p_mesh->SetBillboardData( billboard_type, billboard_pivot_pos, billboard_pivot_axis );
+			// NxWn32::BillboardManager.AddEntry( p_mesh );
 		}
 
 		// Flag the mesh as being a shadow volume if applicable.

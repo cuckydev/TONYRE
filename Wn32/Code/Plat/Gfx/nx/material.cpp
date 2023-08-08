@@ -568,7 +568,7 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 	uint32 new_materials;
 	MemoryRead( &new_materials, sizeof( uint32 ), 1, p_data );
 	
-	Lst::HashTable< sMaterial >* pMaterialTable;
+	Lst::HashTable<sMaterial> *pMaterialTable;
 
 	// Create table, dynamically sizing it based on the number of new materials.
 	uint32 optimal_table_size	= new_materials * 2;
@@ -882,7 +882,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 	uint32 new_materials;
 	File::Read( &new_materials, sizeof( uint32 ), 1, p_FH );
 	
-	Lst::HashTable< sMaterial >* pMaterialTable;
+	Lst::HashTable<sMaterial> *pMaterialTable;
 
 	// Create table, dynamically sizing it based on the number of new materials.
 	uint32 optimal_table_size	= new_materials * 2;
@@ -894,7 +894,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 		// Check if this iteration of table size is sufficient, or if we have hit the maximum size.
 		if(( optimal_table_size < test ) || ( size >= 12 ))
 		{
-			pMaterialTable = new Lst::HashTable< sMaterial >( size );
+			pMaterialTable = new Lst::HashTable<sMaterial>(size);
 			break;
 		}
 	}
@@ -1174,6 +1174,7 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 			}
 		}
 	}
+
 	return pMaterialTable;
 }
 

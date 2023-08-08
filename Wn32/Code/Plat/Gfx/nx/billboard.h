@@ -35,9 +35,9 @@ struct sBillboardEntry
 /******************************************************************/
 struct sBillboardMaterialBatch
 {
-	int							m_entry_size;		// Push buffer size of each billboard entry (bytes).
+	int							m_entry_size = 0; // Push buffer size of each billboard entry (bytes).
 	sMaterial					*mp_material = nullptr;
-	Lst::Head <sBillboardEntry> *mp_entries[3] = {};		// One entry each for screen aligned, y axis aligned, and arbitrary aligned.
+	Lst::Head <sBillboardEntry> *mp_entries[3] = {}; // One entry each for screen aligned, y axis aligned, and arbitrary aligned.
 
 								sBillboardMaterialBatch( sMaterial *p_material );
 								~sBillboardMaterialBatch( void );
