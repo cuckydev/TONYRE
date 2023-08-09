@@ -506,7 +506,7 @@ int main ( sint argc, char** argv )
 			// We create the symbol hash table early, as it's kind of used my Music::Init, which I think
 			// is called both at startup (when the scripts are invalid), and later (when they are valid)
 			Script::CreateSymbolHashTable();
-								
+			
 			
 			/***********************************************
 			General startup section
@@ -576,20 +576,6 @@ int main ( sint argc, char** argv )
 			#endif
 			Mem::PopMemProfile();
 
-#ifdef __PLAT_NGC__
-extern uint8 * RES_gamecube;
-			Spt::SingletonPtr< Script::CScriptCache>			script_cache( true );
-			Script::ParseQB( "scripts\\engine\\gamecube.qb", RES_gamecube );
-
-			if ( ( VIGetTvFormat() == VI_NTSC ) || ( VIGetTvFormat() == VI_MPAL ) )
-			{
-				NsDisplay::Check480P();
-			}
-			else
-			{
-				NsDisplay::Check60Hz();
-			}
-#endif		// __PLAT_NGC__
 			SkateScript::Preload();
 			Mem::PopMemProfile();
 			

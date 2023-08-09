@@ -23,6 +23,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
+#include <SDL.h>
+
 #include <core/defines.h>
 
 #include <sys/sioman.h>
@@ -30,16 +32,15 @@
 #include <sys/sio/keyboard.h>
 
 #include <gel/module.h>
-#include <gel/soundfx/soundfx.h>
-#include <gel/soundfx/xbox/p_sfx.h>
-#include <gel/music/music.h>
+
+#include <Gel/Music/music.h>
 
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/
 
 extern int KeyboardInit(void);
-	   
+
 namespace SIO
 {
 
@@ -120,6 +121,9 @@ Device* Manager::create_device( int index, int port, int slot )
 /******************************************************************/
 Manager::Manager ( void )
 {
+	// Initialize SDL
+	Dbg_MsgAssert(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0, ("Failed to initialize SDL: %s", SDL_GetError()));
+
 	m_process_devices_task = new Tsk::Task< DeviceList >(Manager::process_devices, m_devices);
 
 	// Create devices
@@ -132,6 +136,13 @@ Manager::Manager ( void )
 			m_devices.AddToTail(p_device->m_node);
 			p_device->Acquire();
 		}
+	}
+
+	// Initialize music
+	// TODO: This should be moved elsewhere
+	if (!Pcm::NoMusicPlease())
+	{
+		Pcm::Init();
 	}
 
 	/*

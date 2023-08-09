@@ -48,16 +48,7 @@
 
 #include <gfx/debuggfx.h>
 
-#ifdef __PLAT_NGPS__
-#include <gel/music/ngps/p_music.h>
-#include <gel/music/ngps/pcm/pcm.h>
-#elif defined( __PLAT_XBOX__ )
-#include <gel/music/xbox/p_music.h>
-#include <gel/music/xbox/p_soundtrack.h>
-#elif defined( __PLAT_NGC__ )
-#include <gel/music/ngc/p_music.h>
-#include <gel/music/ngc/pcm/pcm.h>
-#endif
+#include <Plat/Gel/Music/p_music.h>
 
 #include <sys/config/config.h>
 #include <sys/replay/replay.h>
@@ -75,46 +66,17 @@ static bool streams_hed_there = true;	// if hed is not there, then these get set
 
 bool NoMusicPlease()
 {
-	/*
-	#if NO_MUSIC_PLEASE
-	return true;
-	#else
-	// Cannot have music if building for proview, because there is not enough IOP memory
-	// (ProView uses up some IOP memory with it's monitor)
-	if (Config::GetHardware()==Config::HARDWARE_PS2_PROVIEW)
-	{
-		return true;
-	}
-	
-	return !music_hed_there;	
-	#endif
-	*/
-	return true;
+	return false;
 }
 
 bool StreamsDisabled()
 {
-	/*
-	#if DISABLE_STREAMS
-	return true;
-	#else
-	// Cannot have music if building for proview, because there is not enough IOP memory
-	// (ProView uses up some IOP memory with it's monitor)
-	if (Config::GetHardware()==Config::HARDWARE_PS2_PROVIEW)
-	{
-		return true;
-	}
-	
-	return !streams_hed_there;	
-	#endif
-	*/
-	return true;
+	return false;
 }
 
 // prototypes...
 bool TrackIsPlaying( int whichList, int whichTrack );
 
-/*
 static int gLastStreamChannelPlayed = 0;
 
 CurrentStreamInfo gCurrentStreamInfo[ NUM_STREAMS ];
@@ -161,12 +123,11 @@ static bool     shuffle_random_songs=true;
 static int      num_random_songs = 1;
 static int      random_song_index = 0;
 static int		sp_random_song_order[MAX_USER_SONGS];
-*/
+
 
 // Stream ID functions
 bool IDAvailable(uint32 id)
 {
-	/*
 	for ( int i = 0; i < NUM_STREAMS; i++ )
 	{
 		if ( (gCurrentStreamInfo[ i ].uniqueID == id) && (PCMAudio_GetStreamStatus(gCurrentStreamInfo[ i ].voice) != PCM_STATUS_FREE))
@@ -174,13 +135,12 @@ bool IDAvailable(uint32 id)
 			return false;
 		}
 	}
-	*/
+
 	return true;
 }
 
 int GetChannelFromID(uint32 id, bool assert_if_duplicate = true)
 {
-	/*
 	int i;
 
 	for ( i = 0; i < NUM_STREAMS; i++ )
@@ -199,25 +159,21 @@ int GetChannelFromID(uint32 id, bool assert_if_duplicate = true)
 			return i;
 		}
 	}
-	*/
+
 	return -1;
 }
 
 uint32 GenerateUniqueID(uint32 id)
 {
-	/*
 	// Keep incrementing ID until one works.
 	while (!IDAvailable(id))
 		id++;
 
 	return id;
-	*/
-	return 0;
 }
 
 void StopMusic( void )
 {
-	/*
 	if (NoMusicPlease()) return;
 	
 	// the counter has to reach SONG_UPDATE_INTERVAL before a new song is played...
@@ -225,7 +181,6 @@ void StopMusic( void )
 	sCounter = 1;
 	gMusicStreamType = MUSIC_STREAM_TYPE_NONE;		// In case we were in this mode
 	PCMAudio_StopMusic( true );
-	*/
 }
 
 // If a channel is specified, stop a specific stream (might be a streaming soundFX on an object that's getting
@@ -233,7 +188,6 @@ void StopMusic( void )
 // If channel parameter is -1, stop all non-music streams!
 void StopStreams( int channel )
 {
-	/*
 	Replay::WriteStopStream(channel);
 	if (StreamsDisabled()) return;
 	
@@ -246,13 +200,11 @@ void StopStreams( int channel )
 	{
 		PCMAudio_StopStream( channel );
 	}
-	*/
 }
 
 // if uniqueID isn't specified, stop whatever stream is playing!
 void StopStreamFromID( uint32 streamID )
 {
-	/*
 	if (StreamsDisabled()) return;
 	
 	int channel = GetChannelFromID(streamID);
@@ -272,13 +224,12 @@ void StopStreamFromID( uint32 streamID )
 				if ( gpStreamingObj[ i ]->mStreamingID[ j ] == streamID )
 				{
 					gpStreamingObj[ i ]->mStreamingID[ j ] = 0;
-					gpStreamingObj[ i ] = nullptr;
+					gpStreamingObj[ i ] = NULL;
 					return;
 				}
 			}
 		}
 	}
-	*/
 }
 
 /******************************************************************/
@@ -288,27 +239,19 @@ void StopStreamFromID( uint32 streamID )
 
 bool SetStreamVolumeFromID( uint32 streamID, Sfx::sVolume *p_volume )
 {
-	/*
 	if (StreamsDisabled()) return true;
 	
 	int channel = GetChannelFromID(streamID);
 
 	if (channel >= 0)
 	{
-#		ifdef __PLAT_XBOX__
 		PCMAudio_SetStreamVolume( p_volume, channel );
-#		else
-		PCMAudio_SetStreamVolume( p_volume->GetChannelVolume( 0 ), p_volume->GetChannelVolume( 1 ), channel );
-#		endif
-
 		return true;
 	}
 	else
 	{
 		return false;
 	}
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -318,7 +261,6 @@ bool SetStreamVolumeFromID( uint32 streamID, Sfx::sVolume *p_volume )
 
 bool SetStreamPitchFromID( uint32 streamID, float pitch )
 {
-	/*
 	if (StreamsDisabled()) return true;
 	
 	int channel = GetChannelFromID(streamID);
@@ -326,15 +268,12 @@ bool SetStreamPitchFromID( uint32 streamID, float pitch )
 	if (channel >= 0)
 	{
 		PCMAudio_SetStreamPitch( pitch, channel );
-
 		return true;
 	}
 	else
 	{
 		return false;
 	}
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -344,7 +283,6 @@ bool SetStreamPitchFromID( uint32 streamID, float pitch )
 #ifdef __PLAT_XBOX__
 static void sGenerateRandomSongOrder( void )
 {
-	/*
 	int num_songs=Pcm::GetSoundtrackNumSongs( s_xbox_user_soundtrack );
 
 	if( num_songs == 0 )
@@ -406,7 +344,6 @@ static void sGenerateRandomSongOrder( void )
 		sp_xbox_randomized_songs[a]=sp_xbox_randomized_songs[b];
 		sp_xbox_randomized_songs[b]=temp;
 	}
-	*/
 }
 #endif // __PLAT_XBOX__
 
@@ -418,7 +355,6 @@ static void sGenerateRandomSongOrder( void )
 /******************************************************************/
 void UseUserSoundtrack( int soundtrack )
 {
-	/*
 #	ifdef __PLAT_XBOX__
 
 	Dbg_MsgAssert(soundtrack>=0 && soundtrack<Pcm::GetNumSoundtracks(),("Bad soundtrack"));
@@ -436,7 +372,6 @@ void UseUserSoundtrack( int soundtrack )
 		s_xbox_user_soundtrack_song=0;
 	}	
 #	endif // __PLAT_XBOX__
-	*/
 }
 
 
@@ -447,11 +382,9 @@ void UseUserSoundtrack( int soundtrack )
 /******************************************************************/
 void UseStandardSoundtrack( void )
 {
-	/*
 #	ifdef __PLAT_XBOX__
 	s_xbox_play_user_soundtracks = false;
 #	endif
-	*/
 }
 
 
@@ -462,14 +395,11 @@ void UseStandardSoundtrack( void )
 /******************************************************************/
 bool UsingUserSoundtrack( void )
 {
-	/*
 #	ifdef __PLAT_XBOX__
 	return s_xbox_play_user_soundtracks;
 #	else
 	return false;
 #	endif
-	*/
-	return false;
 }
 
 
@@ -480,9 +410,8 @@ bool UsingUserSoundtrack( void )
 /******************************************************************/
 void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 {
-	/*
 #	ifdef __PLAT_XBOX__
-	Dbg_MsgAssert( pStuff,("nullptr pStuff"));
+	Dbg_MsgAssert( pStuff,("NULL pStuff"));
 		
 	if (s_xbox_play_user_soundtracks)
 	{
@@ -502,7 +431,6 @@ void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 		pStuff->AddComponent(Script::GenerateCRC("UserSoundtrackName"),ESYMBOLTYPE_STRING,p_buf);
 	}	
 #	endif // __PLAT_XBOX__
-	*/
 }
 
 
@@ -513,9 +441,8 @@ void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 /******************************************************************/
 void GetSoundtrackFromStructure( Script::CStruct *pStuff)
 {
-	/*
 #	ifdef __PLAT_XBOX__
-	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
+	Dbg_MsgAssert(pStuff,("NULL pStuff"));
 	
 	int user_soundtrack_index=0;
 	if (pStuff->GetInteger("UserSoundtrackIndex",&user_soundtrack_index))
@@ -550,14 +477,12 @@ void GetSoundtrackFromStructure( Script::CStruct *pStuff)
 	// Oh well, use the standard soundtrack instead.
 	UseStandardSoundtrack();
 #	endif	// __PLAT_XBOX__
-	*/
 }
 
 
 
 bool _PlayMusicTrack( const char *filename, float volume )
 {
-	/*
 	if (NoMusicPlease()) return false;
 	
 	Dbg_MsgAssert( gPcmInitialized,( "Calling playtrack %s, when PCM Audio not initialized.", filename ));
@@ -619,8 +544,6 @@ bool _PlayMusicTrack( const char *filename, float volume )
 //	}
 	PCMAudio_SetMusicVolume( volume );
 	return ( true );
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -630,7 +553,6 @@ bool _PlayMusicTrack( const char *filename, float volume )
 
 bool _PlayMusicStream( uint32 checksum, float volume )
 {
-	/*
 	if (NoMusicPlease()) return false;
 	
 	Dbg_MsgAssert( gPcmInitialized,( "Calling playtrack %s, when PCM Audio not initialized.", Script::FindChecksumName(checksum) ));
@@ -649,8 +571,6 @@ bool _PlayMusicStream( uint32 checksum, float volume )
 	PCMAudio_SetMusicVolume( volume );
 
 	return true;
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -660,7 +580,6 @@ bool _PlayMusicStream( uint32 checksum, float volume )
 // returns -1 on failure, otherwise the index into which voice played the sound.
 int _PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int priority, uint32 controlID, bool preload_only )
 {
-	/*
 	if (StreamsDisabled()) return -1;
 	
 #	ifdef __PLAT_XBOX__
@@ -679,23 +598,12 @@ int _PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int prior
 		if ( PCMAudio_GetStreamStatus( i ) == PCM_STATUS_FREE )
 		{
 			if (preload_only)
-			{
 				success = PCMAudio_PreLoadStream( checksum, i );
-			}
 			else
-			{
-//				success = PCMAudio_PlayStream( checksum, i, volumeL, volumeR, pitch );
-#				ifdef __PLAT_XBOX__
 				success = PCMAudio_PlayStream( checksum, i, p_volume, pitch );
-#				else
-				success = PCMAudio_PlayStream( checksum, i, p_volume->GetChannelVolume( 0 ), p_volume->GetChannelVolume( 1 ), pitch );
-#				endif
-			}
 
-			if ( !success )
-			{
-				return ( -1 );
-			}
+			if (!success)
+				return -1;
 
 	   		gCurrentStreamInfo[ i ].controlID = controlID;
 	   		gCurrentStreamInfo[ i ].uniqueID = GenerateUniqueID(controlID);
@@ -730,18 +638,9 @@ int _PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int prior
 		return ( -1 );
 	#else
 		if (preload_only)
-		{
 			success = PCMAudio_PreLoadStream( checksum, lowest_priority_channel );
-		}
 		else
-		{
-//			success = PCMAudio_PlayStream( checksum, lowest_priority_channel, volumeL, volumeR, pitch );
-#			ifdef __PLAT_XBOX__
 			success = PCMAudio_PlayStream( checksum, lowest_priority_channel, p_volume, pitch );
-#			else
-			success = PCMAudio_PlayStream( checksum, lowest_priority_channel, p_volume->GetChannelVolume( 0 ), p_volume->GetChannelVolume( 1 ), pitch );
-#			endif
-		}
 
 		if ( !success )
 		{
@@ -759,7 +658,6 @@ int _PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int prior
 		return ( lowest_priority_channel );
 	}
 
-	*/
 	return ( -1 );
 }
 
@@ -770,14 +668,11 @@ int _PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int prior
 
 bool _PreLoadMusicStream( uint32 checksum )
 {
-	/*
 	if (NoMusicPlease()) return false;
 
 	Dbg_MsgAssert( gPcmInitialized,( "Calling _PreLoadMusicStream %s, when PCM Audio not initialized.", Script::FindChecksumName(checksum) ));
 
 	return PCMAudio_PreLoadMusicStream( checksum );
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -787,14 +682,13 @@ bool _PreLoadMusicStream( uint32 checksum )
 
 bool _StartPreLoadedMusicStream( float volume )
 {
-	/*
 	if( !PCMAudio_StartPreLoadedMusicStream( ))
 	{
 		return false;
 	}
 
 	PCMAudio_SetMusicVolume( volume );
-	*/
+
 	return true;
 }
 
@@ -810,7 +704,6 @@ bool _StartPreLoadedMusicStream( float volume )
 uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNameChecksum, float dropoff, float volume,
 							 float pitch, int priority, int use_pos_info, EDropoffFunc dropoffFunc, uint32 controlID )
 {
-	/*
 	Sfx::CSfxManager * sfx_manager = Sfx::CSfxManager::Instance();
 
 	// Don't start a stream if it won't be heard
@@ -837,7 +730,7 @@ uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNam
 		if (pCamera)
 		{
 			Mth::Vector dropoff_pos;
-			Mth::Vector *p_dropoff_pos = nullptr;
+			Mth::Vector *p_dropoff_pos = NULL;
 			if (pComponent->GetClosestDropoffPos(pCamera, dropoff_pos))
 			{
 				p_dropoff_pos = &dropoff_pos;
@@ -853,7 +746,7 @@ uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNam
 		// Seems strange to cancel out a stream if it starting low
 		if( fabsf( vol.GetLoudestChannel()) < MIN_STREAM_VOL )
 		{
-			if( Script::GetInteger( 0xd7bb618d, Script::NO_ASSERT ))
+			if( Script::GetInteger( 0xd7bb618d /* DebugSoundFx */, Script::NO_ASSERT ))
 			{
 				Dbg_Message("I wanted to cancel stream %s", Script::FindChecksumName(streamNameChecksum));
 			}
@@ -877,7 +770,7 @@ uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNam
 			// the object might not have called StreamUpdate yet, so the slot might
 			// still think it's in use... clear the slot if that's the case:
 			gpStreamingObj[ gLastStreamChannelPlayed ]->mStreamingID[ gLastStreamChannelPlayed ] = 0;
-			gpStreamingObj[ gLastStreamChannelPlayed ] = nullptr;
+			gpStreamingObj[ gLastStreamChannelPlayed ] = NULL;
 		}
 //		Dbg_MsgAssert( !gpStreamingObj[ gLastStreamChannelPlayed ], ( "Have Matt fix object streams... Kick him in the nutsack while you're at it." ) );
 //		Dbg_MsgAssert( !pObject->mStreamingID[ gLastStreamChannelPlayed ], ( "Have Matt fix object streams... Hell, fire matt!!!" ) );
@@ -921,8 +814,6 @@ uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNam
 		}
 	}
 	return ( uniqueID );
-	*/
-	return -1;
 }
 
 /******************************************************************/
@@ -931,7 +822,6 @@ uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNam
 /******************************************************************/
 uint32 PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int priority, uint32 controlID, bool record_in_replay )
 {
-	/*
 	if (record_in_replay)
 	{
 		Replay::WritePlayStream( checksum, p_volume, pitch, priority );
@@ -962,7 +852,6 @@ uint32 PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int pri
 	}
 
 //	Dbg_MsgAssert( 0,( "Tried to play track %s not in header.", Script::FindChecksumName( checksum ) ));
-	*/
 	return ( 0 );
 }
 
@@ -973,7 +862,6 @@ uint32 PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int pri
 
 uint32 PreLoadStream( uint32 checksum, int priority )
 {
-	/*
 	if (StreamsDisabled()) return 0;
 	
 	// Since this isn't hooked up to a script, we just supply the checksum
@@ -997,7 +885,6 @@ uint32 PreLoadStream( uint32 checksum, int priority )
 	}
 
 //	Dbg_MsgAssert( 0,( "Tried to play track %s not in header.", Script::FindChecksumName( checksum ) ));
-	*/
 	return ( 0 );
 }
 
@@ -1008,7 +895,6 @@ uint32 PreLoadStream( uint32 checksum, int priority )
 
 bool PreLoadStreamDone( uint32 streamID )
 {
-	/*
 	if (StreamsDisabled()) {
 		return false;
 	}
@@ -1027,7 +913,6 @@ bool PreLoadStreamDone( uint32 streamID )
 	}
 
 	// Couldn't find stream
-	*/
 	return false;
 }
 
@@ -1037,7 +922,6 @@ bool PreLoadStreamDone( uint32 streamID )
 /******************************************************************/
 bool StartPreLoadedStream( uint32 streamID, Sfx::sVolume *p_volume, float pitch )
 {
-	/*
 	if (StreamsDisabled()) return false;
 	
 	int channel = GetChannelFromID(streamID);
@@ -1048,16 +932,10 @@ bool StartPreLoadedStream( uint32 streamID, Sfx::sVolume *p_volume, float pitch 
 		Dbg_Message("StartPreLoadStream for stream %s on channel %d", Script::FindChecksumName( streamID ), channel);
 #endif 
 
-//		return PCMAudio_StartPreLoadedStream( channel, volumeL, volumeR, pitch );
-#		ifdef __PLAT_XBOX__
 		return PCMAudio_StartPreLoadedStream( channel, p_volume, pitch );
-#		else
-		return PCMAudio_StartPreLoadedStream( channel, p_volume->GetChannelVolume( 0 ), p_volume->GetChannelVolume( 1 ), pitch );
-#		endif
 	}
 
 	// Couldn't find stream
-	*/
 	return false;
 }
 
@@ -1068,7 +946,6 @@ bool StartPreLoadedStream( uint32 streamID, Sfx::sVolume *p_volume, float pitch 
 
 bool PreLoadMusicStream( uint32 checksum )
 {
-	/*
 	if (NoMusicPlease()) return false;
 
 	Dbg_MsgAssert( gPcmInitialized,( "Calling Pcm::PlayMusicStream '%s', when PCM Audio not initialized.", Script::FindChecksumName(checksum) ));
@@ -1088,9 +965,8 @@ bool PreLoadMusicStream( uint32 checksum )
 #endif // WAIT_AFTER_STOP_STREAM
 
 	gMusicStreamType = MUSIC_STREAM_TYPE_PRELOAD;
+
 	return success;
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -1100,12 +976,10 @@ bool PreLoadMusicStream( uint32 checksum )
 
 bool PreLoadMusicStreamDone( void )
 {
-	/*
 	if (NoMusicPlease()) return false;
 	Dbg_MsgAssert( gMusicStreamType == MUSIC_STREAM_TYPE_PRELOAD,( "Calling Pcm::PreLoadMusicStreamDone while in normal music mode." ));
+
 	return PCMAudio_PreLoadMusicStreamDone( );
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -1115,7 +989,6 @@ bool PreLoadMusicStreamDone( void )
 
 bool StartPreLoadedMusicStream( float volume )
 {
-	/*
 	if (NoMusicPlease()) return false;
 
 	Dbg_MsgAssert( gMusicStreamType == MUSIC_STREAM_TYPE_PRELOAD,( "Calling Pcm::StartPreLoadedMusicStream while in normal music mode." ));
@@ -1126,8 +999,6 @@ bool StartPreLoadedMusicStream( float volume )
 	}
 	
 	return _StartPreLoadedMusicStream( volume );
-	*/
-	return true;
 }
 
 /******************************************************************/
@@ -1137,13 +1008,12 @@ bool StartPreLoadedMusicStream( float volume )
 
 bool SetStreamVolume( int objStreamIndex )
 {
-	/*
 	if ( StreamsDisabled() ) return false;
 	
 	Obj::CStreamComponent *pComp;
 	pComp = gpStreamingObj[ objStreamIndex ];
 
-	CurrentStreamInfo *pInfo = nullptr;
+	CurrentStreamInfo *pInfo = NULL;
 
 	int i;
 	for ( i = 0; i < NUM_STREAMS; i++ )
@@ -1167,7 +1037,7 @@ bool SetStreamVolume( int objStreamIndex )
 				if (pCamera)
 				{
 					Mth::Vector dropoff_pos;
-					Mth::Vector *p_dropoff_pos = nullptr;
+					Mth::Vector *p_dropoff_pos = NULL;
 					if (pComp->GetClosestDropoffPos(pCamera, dropoff_pos))
 					{
 						p_dropoff_pos = &dropoff_pos;
@@ -1191,26 +1061,20 @@ bool SetStreamVolume( int objStreamIndex )
 				vol.PercentageAdjustment( pInfo->volume );
 			}
 
-#			ifdef __PLAT_XBOX__
 			// We need the sign-correct version for Xbox to calculate proper 5.1 values.
 			PCMAudio_SetStreamVolume( &vol, pInfo->voice );
-#			else
-			PCMAudio_SetStreamVolume( vol.GetChannelVolume( 0 ), vol.GetChannelVolume( 1 ), pInfo->voice );
-#			endif
 			return ( true );
 		}
 	}
-	*/
 	return ( false );
 }
 
 void Init( void )
 {
-	/*
 	// Zero these out at startup.
 	for( int s = 0; s < NUM_STREAMS; ++s )
 	{
-		gpStreamingObj[s] = nullptr;
+		gpStreamingObj[s] = NULL;
 	}
 
 	if (NoMusicPlease() && StreamsDisabled()) return;
@@ -1242,11 +1106,10 @@ void Init( void )
 	}
 	for ( i = 0; i < NUM_STREAMS; i++ )
 	{
-		gpStreamingObj[ i ] = nullptr;
+		gpStreamingObj[ i ] = NULL;
 		gCurrentStreamInfo[ i ].controlID = 0;
 		gCurrentStreamInfo[ i ].uniqueID = 0;
 	}
-	*/
 } // end of Init( )
 
 
@@ -1255,7 +1118,7 @@ void Init( void )
 // CD.
 bool UsingCD( void )
 {
-	/*
+	
 	#if defined( __PLAT_NGC__ )
 	if ( !( gPcmInitialized ) )
 	{
@@ -1277,14 +1140,13 @@ bool UsingCD( void )
 		StopStreams( );
 	}	
 	#endif
-	*/
+		
 	return ( false );
 } // end of UsingCD( )
 
 // plays a music track.
 void PlayTrack( const char *filename, bool loop )
 {
-	/*
 	if (NoMusicPlease()) return;
 
 	if (gMusicStreamType)
@@ -1340,13 +1202,11 @@ void PlayTrack( const char *filename, bool loop )
 			}
 		}	
 	}
-	*/
 }
 
 // Plays a stereo stream through the music channels
 void PlayMusicStream( uint32 checksum, float volume )
 {
-	/*
 	if (NoMusicPlease()) return;
 
 	Dbg_MsgAssert( gPcmInitialized,( "Calling Pcm::PlayMusicStream '%s', when PCM Audio not initialized.", Script::FindChecksumName(checksum) ));
@@ -1369,13 +1229,12 @@ void PlayMusicStream( uint32 checksum, float volume )
 #endif
 
 	gMusicStreamType = MUSIC_STREAM_TYPE_NORMAL;
-	*/
 }
 
 static bool sMusicIsPaused=false;
 void PauseMusic( int pause )
 {
-	/*
+	
 	
 	static bool wasPaused = false;
 
@@ -1406,20 +1265,17 @@ void PauseMusic( int pause )
 			Dbg_MsgAssert( 0, ( "Unknown pause state %d", pause ) );
 			break;
 	}
-	*/
 }
 
 bool MusicIsPaused()
 {
-	/*
 	return sMusicIsPaused;
-	*/
-	return false;
 }
 	
 void PauseStream( int pause )
 {
-	/*
+	
+	
 	static bool paused = false;
 	static bool wasPaused = false;
 
@@ -1450,12 +1306,11 @@ void PauseStream( int pause )
 			Dbg_MsgAssert( 0, ( "Unknown pause state %d", pause ) );
 			break;
 	}
-	*/
 }
 
 void SetVolume( float volume )
 {
-	/*
+	
 	if (NoMusicPlease()) return;
 	
 	Dbg_MsgAssert( gPcmInitialized,( "Calling Pcm::SetVolume, when PCM Audio not initialized." ));
@@ -1482,20 +1337,16 @@ void SetVolume( float volume )
 			PCMAudio_SetMusicVolume( volume );
 		}
 	}
-	*/
 }
 
 float GetVolume( void )
 {
-	/*
+	
 	return ( gMusicVolume );
-	*/
-	return 1.0f;
 }
 
 void SetMusicStreamVolume( float volume )
 {
-	/*
 	if (NoMusicPlease()) return;
 	
 	Dbg_MsgAssert( gPcmInitialized,( "Calling Pcm::SetVolume, when PCM Audio not initialized." ));
@@ -1513,20 +1364,16 @@ void SetMusicStreamVolume( float volume )
 			PCMAudio_SetMusicVolume( volume );
 		}
 	}
-	*/
 }
 
 float GetMusicStreamVolume( void )
 {
-	/*
 	return gMusicStreamVolume;
-	*/
-	return 1.0f;
 }
 
 void AddTrackToPlaylist( const char *trackName, int whichList, const char *trackTitle )
 {
-	/*
+	
 	if (NoMusicPlease()) return;
 	
 
@@ -1584,12 +1431,11 @@ void AddTrackToPlaylist( const char *trackName, int whichList, const char *track
 	}	
 	pTrackList->allTracksForbidden = false;
     pTrackList->numTracks++;
-	*/
 }
 
 void ClearPlaylist( int whichList )
 {
-	/*
+	
 	if (NoMusicPlease()) return;
 	
 	Dbg_MsgAssert( whichList < NUM_TRACKLISTS,( "Dumbshit." ));
@@ -1602,12 +1448,11 @@ void ClearPlaylist( int whichList )
     pTrackList->trackPlayed1 = 0;
 	
 	gNumStreams = 0;
-	*/
 }
 
 void SkipMusicTrack( void )
 {
-	/*
+	
 	if (NoMusicPlease()) return;
 	
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
@@ -1622,12 +1467,10 @@ void SkipMusicTrack( void )
 		// cause music to continue with the next track...
 		StopMusic( );
 	}
-	*/
 }
 
 void SetRandomMode( int randomModeOn )
 {
-	/*
 	if (NoMusicPlease()) return;
 
 	gMusicInRandomMode = randomModeOn;
@@ -1647,24 +1490,21 @@ void SetRandomMode( int randomModeOn )
 	TrackList *pTrackList = &gTrackLists[ gCurrentTrackList ];
 	pTrackList->trackPlayed0=0;
     pTrackList->trackPlayed1=0;
-	*/
 }
 
 int GetRandomMode( void )
 {
-	// return ( gMusicInRandomMode );
-	return true;
+	return ( gMusicInRandomMode );
 }
 
 void SetLoopingMode( bool loop )
 {
-	// gMusicLooping = loop;
+	gMusicLooping = loop;
 }
 
 #if WAIT_AFTER_STOP_STREAM
 static void _StartMusicStream()
 {
-	/*
 	switch (gMusicStreamType)
 	{
 	case MUSIC_STREAM_TYPE_NORMAL:
@@ -1682,13 +1522,11 @@ static void _StartMusicStream()
 
 	// No longer waiting
 	gMusicStreamWaitingToStart = false;
-	*/
 }
 #endif // WAIT_AFTER_STOP_STREAM
 
 static void sSetCorrectMusicVolume()
 {
-	/*
 	#ifdef __PLAT_XBOX__
 	if (s_xbox_play_user_soundtracks)
 	{
@@ -1714,12 +1552,11 @@ static void sSetCorrectMusicVolume()
 		PCMAudio_SetMusicVolume( sfx_manager->GetMainVolume() );
 	}
 	#endif
-	*/
 }
 
 void RandomTrackUpdate( void )
 {
-	/*
+	
 	TrackList *pTrackList = &gTrackLists[ gCurrentTrackList ];
 	
 	if (NoMusicPlease()) return;
@@ -1890,12 +1727,11 @@ void RandomTrackUpdate( void )
 			}
 		}
 	}
-	*/
 }
 
 void TrackUpdate( void )
 {
-	/*
+	
 
 	if (NoMusicPlease()) return;
 	
@@ -1978,7 +1814,6 @@ void TrackUpdate( void )
 		pTrackList->trackPlayed0 = 0;
         pTrackList->trackPlayed1 = 0;
 	}
-	*/
 }
 
 //powers of 2 please...
@@ -1989,7 +1824,7 @@ void TrackUpdate( void )
 // keeps tracks playing during levels and shit like that...
 void Update( void )
 {
-	/*
+	
 	//static int streamingObjToUpdate = 0;
 
 	if (NoMusicPlease() && StreamsDisabled()) return;
@@ -2021,7 +1856,7 @@ void Update( void )
 			if ( !SetStreamVolume( streamingObjToUpdate ) )
 			{
 				gpStreamingObj[ streamingObjToUpdate ]->mStreamingID[ streamingObjToUpdate ] = 0;
-				gpStreamingObj[ streamingObjToUpdate ] = nullptr;
+				gpStreamingObj[ streamingObjToUpdate ] = NULL;
 			}
 		}
 		//// update the other one next time...
@@ -2039,7 +1874,7 @@ void Update( void )
 		{
 			Dbg_Message("Clearing StreamFrameAmp %s", Script::FindChecksumName(gCurrentStreamInfo[i].controlID));
 			CStreamFrameAmpManager::sFreeFrameAmp(gCurrentStreamInfo[i].p_frame_amp);
-			gCurrentStreamInfo[i].p_frame_amp = nullptr;
+			gCurrentStreamInfo[i].p_frame_amp = NULL;
 		}
 	}
 	
@@ -2076,12 +1911,14 @@ void Update( void )
 	// is_frontend to 0 in case that broke something else.		
 	
 	// don't play music in the frontend: <- old comment
-	// Mdl::Skate * skate_mod = Mdl::Skate::Instance();
-	// if ( skate_mod->GetGameMode( )->IsFrontEnd( ) )
-	// {
-	// 	TrackUpdate( );
-	// 	return;
-	// }
+	/*
+	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
+	if ( skate_mod->GetGameMode( )->IsFrontEnd( ) )
+	{
+		TrackUpdate( );
+		return;
+	}
+	*/
 
 		
 	// if song is finished, start a new one playing...
@@ -2089,29 +1926,23 @@ void Update( void )
 		RandomTrackUpdate( );
 	else
 		TrackUpdate( );
-	*/
 }
 
 void GetPlaylist( uint64* flags1, uint64* flags2 )
 {
-	/*
     *flags1 = gTrackLists[ TRACKLIST_PERM ].trackForbidden0;
     *flags2 = gTrackLists[ TRACKLIST_PERM ].trackForbidden1;
-	*/
-	*flags1 = 0;
-	*flags2 = 0;
 }
 
 void SetPlaylist( uint64 flags1, uint64 flags2 )
 {
-	//gTrackLists[ TRACKLIST_PERM ].trackForbidden0 = flags1;
-    //gTrackLists[ TRACKLIST_PERM ].trackForbidden1 = flags2;
+	gTrackLists[ TRACKLIST_PERM ].trackForbidden0 = flags1;
+    gTrackLists[ TRACKLIST_PERM ].trackForbidden1 = flags2;
 }
 
 // Ambient volume is the same as SoundFX volume...
 void SetAmbientVolume( float volPercent )
 {
-	/*
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	if ( skate_mod->GetGameMode( )->IsFrontEnd( ) )
 	{
@@ -2121,13 +1952,11 @@ void SetAmbientVolume( float volPercent )
 	{
 		PCMAudio_SetMusicVolume( volPercent );
 	}
-	*/
 }
 
 // set a particular song as 'forbidden' (don't play it, the player hates that song...)
 void SetTrackForbiddenStatus( int trackNum, bool forbidden, int whichList )
 {
-	/*
     if (NoMusicPlease()) return;
 	
     shuffle_random_songs=true;
@@ -2172,7 +2001,6 @@ void SetTrackForbiddenStatus( int trackNum, bool forbidden, int whichList )
         pTrackList->trackForbidden1 &= ~( ((uint64)1) << (trackNum-64) );
     }
 	pTrackList->allTracksForbidden = false;
-	*/
 }
 
 /*void CheckLockedTracks()
@@ -2187,7 +2015,7 @@ void SetTrackForbiddenStatus( int trackNum, bool forbidden, int whichList )
 
 bool TrackIsPlaying( int whichList, int whichTrack )
 {
-	/*
+	
 	if (NoMusicPlease()) return false;
 	
 	Dbg_MsgAssert( gPcmInitialized,( "Calling Pcm func when PCM Audio not initialized." ));
@@ -2199,13 +2027,12 @@ bool TrackIsPlaying( int whichList, int whichTrack )
 	// can't do a strcmp, because files in gTrackName have been converted to all uppercase...
 	if ( Script::GenerateCRC( gTrackName ) == Script::GenerateCRC( gTrackLists[ whichList ].trackInfo[ whichTrack ].trackName ) )
 		return ( true );
-	*/
 	return ( false );
 }
 
 int GetNumTracks( int whichList )
 {
-	/*
+	
 
 	if (NoMusicPlease()) return 0;
 	
@@ -2213,13 +2040,11 @@ int GetNumTracks( int whichList )
 	Dbg_MsgAssert( whichList < NUM_TRACKLISTS,( "Dumbass." ));
 	TrackList *pTrackList = &gTrackLists[ whichList ];
 	return ( pTrackList->numTracks );
-	*/
-	return 1;
 }
 
 int GetTrackForbiddenStatus( int trackNum, int whichList )
 {
-	/*
+	
 
 	if (NoMusicPlease()) return 1;
 	
@@ -2250,13 +2075,11 @@ int GetTrackForbiddenStatus( int trackNum, int whichList )
     		return false;
     	}
     }
-	*/
-	return false;
 }
 
 const char *GetTrackName( int trackNum, int whichList )
 {
-	/*
+	
 
 	if (NoMusicPlease())
 	{
@@ -2281,14 +2104,12 @@ const char *GetTrackName( int trackNum, int whichList )
 	if ( ( pText[ i ] == '\\' ) || ( pText[ i ] == '/' ) )
 		pRet = &pText[ i + 1 ];
 	return ( pRet );
-	*/
-	return "";
 }
 
 // Ambient (TRACKLIST_LEVEL_SPECIFIC) or music (TRACKLIST_PERM)
 void SetActiveTrackList( int whichList )
 {
-	/*
+	
 
 	if (NoMusicPlease()) return;
 	
@@ -2302,68 +2123,54 @@ void SetActiveTrackList( int whichList )
 		}
 	}
 	gCurrentTrackList = whichList;
-	*/
 }
 
 // A user can choose to listen to music or ambience during gameplay.
 int GetActiveTrackList( void )
 {
-	/*
+	
 	return ( gCurrentTrackList );
-	*/
-	return 0;
 }
 
 // A music header contains the names and sizes of all the music files available:
 bool LoadMusicHeader( const char *nameOfFile )
 {
-	/*
 	if (NoMusicPlease()) return false;
 	
 	music_hed_there =( PCMAudio_LoadMusicHeader( nameOfFile ) );
 	
 	return	music_hed_there; 
-	*/
-	return true;
 }
 
 // Headers contain all available streams (probably will be one header per level).
 bool LoadStreamHeader( const char *nameOfFile )
 {
-	/*
 	if (StreamsDisabled()) return false;
 	
 	streams_hed_there = PCMAudio_LoadStreamHeader( nameOfFile );
 
 	return streams_hed_there;
-	*/
-	return true;
 }
 
 int GetNumStreamsAvailable( void )
 {
-	/*
 	return ( NUM_STREAMS );
-	*/
-	return 1;
 }
 
 bool StreamAvailable( int whichStream )
 {
-	/*
 	if (StreamsDisabled()) return false;
 	
 	if ( PCMAudio_GetStreamStatus( whichStream ) == PCM_STATUS_FREE )
 	{
 		return ( true );
 	}
-	*/
 	return ( false );
 }
 
 bool StreamAvailable( void )
 {
-	/*
+
 	if (StreamsDisabled()) return false;
 	
 	if (!(Config::CD() || TEST_FROM_CD))
@@ -2386,23 +2193,18 @@ bool StreamAvailable( void )
 			return ( true );
 		}
 	}
-	*/
 	return ( false );
 }
 
 bool StreamExists( uint32 streamChecksum )
 {
-	/*
 	// try to find the name in the header file using the checksum:
 	uint32 streamName = PCMAudio_FindNameFromChecksum( streamChecksum, EXTRA_CHANNEL );
-	return ( streamName != nullptr );
-	*/
-	return false;
+	return ( streamName != NULL );
 }
 
 bool StreamLoading( uint32 streamID )
 {
-	/*
 	if (StreamsDisabled()) return false;
 	
 	if (!(Config::CD() || TEST_FROM_CD))
@@ -2421,13 +2223,12 @@ bool StreamLoading( uint32 streamID )
 	{
 		return ( PCMAudio_GetStreamStatus( channel ) == PCM_STATUS_LOADING );
 	}
-	*/
+
 	return ( false );
 }
 
 bool StreamPlaying( uint32 streamID )
 {
-	/*
 	if (StreamsDisabled()) return false;
 	
 	int channel = GetChannelFromID(streamID, false);
@@ -2436,24 +2237,18 @@ bool StreamPlaying( uint32 streamID )
 	{
 		return true;	// Even if it is in loading state
 	}
+
 	return false;
-	*/
-	return true;
 }
 
 int GetCurrentTrack()
 {
-	/*
     return ( current_music_track );
-	*/
-	return 0;
 }
 
 void SetCurrentTrack( int value )
 {
-	/*
     current_music_track=value;
-	*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -2618,14 +2413,14 @@ CStreamFrameAmp *	CStreamFrameAmpManager::sLoadFrameAmp(uint32 stream_checksum)
 			{
 				// If we got here, there weren't any free slots
 				Dbg_MsgAssert(0, ("Couldn't load StreamFrameAmp %s", Script::FindChecksumName(stream_checksum)));
-				return nullptr;
+				return NULL;
 			}
 		}
 	}
 
 	// If we got here, there weren't any free slots
 	Dbg_MsgAssert(0, ("Can't load StreamFrameAmp %s: no free slots", Script::FindChecksumName(stream_checksum)));
-	return nullptr;
+	return NULL;
 }
 
 /******************************************************************/
@@ -2643,7 +2438,7 @@ CStreamFrameAmp *	CStreamFrameAmpManager::sGetFrameAmp(uint32 stream_checksum)
 		}
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 /******************************************************************/
