@@ -976,7 +976,7 @@ bool Matrix::PatchOrthogonality (   )
 	ly = (*(Vector*)(row[Y])).Length();
 	lz = (*(Vector*)(row[Z])).Length();
 
-	const float	near1 = 0.99;
+	const float	near1 = 0.99f;
 	
 	if (lx < near1)
 	{

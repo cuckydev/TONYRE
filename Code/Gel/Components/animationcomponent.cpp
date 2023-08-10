@@ -2199,25 +2199,25 @@ void CAnimationComponent::update_procedural_bones()
 		if ( p_current_procedural_bone->transEnabled )
 		{
 			p_current_procedural_bone->currentTrans += p_current_procedural_bone->deltaTrans;
-			p_current_procedural_bone->currentTrans[X] = (int)p_current_procedural_bone->currentTrans[X] & 0xfff;
-			p_current_procedural_bone->currentTrans[Y] = (int)p_current_procedural_bone->currentTrans[Y] & 0xfff;
-			p_current_procedural_bone->currentTrans[Z] = (int)p_current_procedural_bone->currentTrans[Z] & 0xfff;
+			p_current_procedural_bone->currentTrans[X] = (float)((int)p_current_procedural_bone->currentTrans[X] & 0xfff);
+			p_current_procedural_bone->currentTrans[Y] = (float)((int)p_current_procedural_bone->currentTrans[Y] & 0xfff);
+			p_current_procedural_bone->currentTrans[Z] = (float)((int)p_current_procedural_bone->currentTrans[Z] & 0xfff);
 		}
 
 		if ( p_current_procedural_bone->rotEnabled )
 		{
 			p_current_procedural_bone->currentRot += p_current_procedural_bone->deltaRot;
-			p_current_procedural_bone->currentRot[X] = (int)p_current_procedural_bone->currentRot[X] & 0xfff;
-			p_current_procedural_bone->currentRot[Y] = (int)p_current_procedural_bone->currentRot[Y] & 0xfff;
-			p_current_procedural_bone->currentRot[Z] = (int)p_current_procedural_bone->currentRot[Z] & 0xfff;
+			p_current_procedural_bone->currentRot[X] = (float)((int)p_current_procedural_bone->currentRot[X] & 0xfff);
+			p_current_procedural_bone->currentRot[Y] = (float)((int)p_current_procedural_bone->currentRot[Y] & 0xfff);
+			p_current_procedural_bone->currentRot[Z] = (float)((int)p_current_procedural_bone->currentRot[Z] & 0xfff);
 		}
 
 		if ( p_current_procedural_bone->scaleEnabled )
 		{
 			p_current_procedural_bone->currentScale += p_current_procedural_bone->deltaScale;
-			p_current_procedural_bone->currentScale[X] = (int)p_current_procedural_bone->currentScale[X] & 0xfff;
-			p_current_procedural_bone->currentScale[Y] = (int)p_current_procedural_bone->currentScale[Y] & 0xfff;
-			p_current_procedural_bone->currentScale[Z] = (int)p_current_procedural_bone->currentScale[Z] & 0xfff;
+			p_current_procedural_bone->currentScale[X] = (float)((int)p_current_procedural_bone->currentScale[X] & 0xfff);
+			p_current_procedural_bone->currentScale[Y] = (float)((int)p_current_procedural_bone->currentScale[Y] & 0xfff);
+			p_current_procedural_bone->currentScale[Z] = (float)((int)p_current_procedural_bone->currentScale[Z] & 0xfff);
 		}
 
 		p_current_procedural_bone++;

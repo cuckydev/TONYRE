@@ -1685,7 +1685,7 @@ float Skate::GetHandicap( int id )
 
 	int val = 0;
 	pStructure->GetInteger( "time", &val );	// stored in the time field...  ugly!
-	return val;
+	return (float)val;
 }
 
 /******************************************************************/

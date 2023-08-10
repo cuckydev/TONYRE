@@ -1178,10 +1178,10 @@ void CParkEditor::s_input_logic_code ( const Inp::Handler < CParkEditor >& handl
 	//if (!mdl.mp_map || mdl.GameGoingOrOutsideEditor() || mdl.InMenu() || !mdl.m_initialized) return;
 	
 	// translate m_Input data to module-specific commands
-	mdl.m_rightStick.m_X = handler.m_Input->m_Event[Inp::Data::vA_RIGHT_X] - 128;
-	mdl.m_rightStick.m_Y = handler.m_Input->m_Event[Inp::Data::vA_RIGHT_Y] - 128;
-	mdl.m_leftStick.m_X = handler.m_Input->m_Event[Inp::Data::vA_LEFT_X] - 128;
-	mdl.m_leftStick.m_Y = handler.m_Input->m_Event[Inp::Data::vA_LEFT_Y] - 128;
+	mdl.m_rightStick.m_X = (float)handler.m_Input->m_Event[Inp::Data::vA_RIGHT_X] - 128.0f;
+	mdl.m_rightStick.m_Y = (float)handler.m_Input->m_Event[Inp::Data::vA_RIGHT_Y] - 128.0f;
+	mdl.m_leftStick.m_X = (float)handler.m_Input->m_Event[Inp::Data::vA_LEFT_X] - 128.0f;
+	mdl.m_leftStick.m_Y = (float)handler.m_Input->m_Event[Inp::Data::vA_LEFT_Y] - 128.0f;
 
 #ifdef __PLAT_NGC__
 	if( handler.m_Input->m_Makes & Inp::Data::mD_TRIANGLE )

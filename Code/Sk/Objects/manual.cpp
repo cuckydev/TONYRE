@@ -484,10 +484,11 @@ void CManual::DoManualPhysics()
 		// the ramping is only in effect if you press in the direction opposite 
 		// from what you need to get more upright
 		// so it prevents you from becoming more unbalanced
+		// NOTE: This cast is wrong!! But it changes how the game plays..
 		float mult = 1.0f;
 		if (mManualLean < 0.0f && elapsed_time < safe_period)
 		{
-			mult =  elapsed_time / safe_period; 
+			mult = (float)(elapsed_time / safe_period);
 		}
 		
 		mManualLeanDir -= scale_with_frame_length(frame_length, mpSkaterBalanceTrickComponent->GetBalanceStat(Crc::ConstCRC("Lean_Acc"))) * mult;
@@ -497,7 +498,7 @@ void CManual::DoManualPhysics()
 		float mult = 1.0f;
 		if (mManualLean > 0.0f && elapsed_time < safe_period)
 		{
-			mult =  elapsed_time / safe_period; 
+			mult = (float)(elapsed_time / safe_period);
 		}
 		mManualLeanDir += scale_with_frame_length(frame_length, mpSkaterBalanceTrickComponent->GetBalanceStat(Crc::ConstCRC("Lean_Acc"))) * mult;
 	}

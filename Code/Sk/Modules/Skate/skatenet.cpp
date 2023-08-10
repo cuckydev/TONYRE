@@ -1614,12 +1614,12 @@ int	Skate::handle_projectile( Net::MsgHandlerContext* context )
 
 	pParams = new Script::CStruct;
 	pParams->AddChecksum( Crc::ConstCRC("owner_id"), msg->m_Id );
-	pParams->AddInteger( Crc::ConstCRC("x"), pos[X] );
-	pParams->AddInteger( Crc::ConstCRC("y"), pos[Y] );
-	pParams->AddInteger( Crc::ConstCRC("z"), pos[Z] );
-	pParams->AddInteger( Crc::ConstCRC("scaled_x"), msg->m_Vel[X] );
-	pParams->AddInteger( Crc::ConstCRC("scaled_y"), msg->m_Vel[Y] );
-	pParams->AddInteger( Crc::ConstCRC("scaled_z"), msg->m_Vel[Z] );
+	pParams->AddInteger( Crc::ConstCRC("x"), (int)pos[X] );
+	pParams->AddInteger( Crc::ConstCRC("y"), (int)pos[Y] );
+	pParams->AddInteger( Crc::ConstCRC("z"), (int)pos[Z] );
+	pParams->AddInteger( Crc::ConstCRC("scaled_x"), (int)msg->m_Vel[X] );
+	pParams->AddInteger( Crc::ConstCRC("scaled_y"), (int)msg->m_Vel[Y] );
+	pParams->AddInteger( Crc::ConstCRC("scaled_z"), (int)msg->m_Vel[Z] );
 	pParams->AddInteger( Crc::ConstCRC("radius"), msg->m_Radius );
 	pParams->AddFloat( Crc::ConstCRC("scale"), msg->m_Scale );
 	
@@ -2032,7 +2032,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 			if( skater )
 			{
 				latest_event = skater->GetStateHistory()->GetLatestAnimEvent();
-                latest_event->m_MsgId = GameNet::MSG_ID_CLEAR_ROTATE_DISPLAY;
+                latest_event->m_MsgId = (char)GameNet::MSG_ID_CLEAR_ROTATE_DISPLAY;
 				latest_event->SetTime( skater->GetStateHistory()->GetLastPosEvent()->GetTime());
 				latest_event->m_ObjId = msg->m_ObjId;
 

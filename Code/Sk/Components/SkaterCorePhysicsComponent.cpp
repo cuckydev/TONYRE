@@ -4424,7 +4424,7 @@ bool CSkaterCorePhysicsComponent::check_for_wallride (   )
 	// Allow a wall-ride attempt if triangle being pressed & long enough after the last wall-ride.	
 	if ((mp_trick_component->GetButtonState(Crc::ConstCRC("Triangle")) || mp_trick_component->TriggeredInLastNMilliseconds(
 			Crc::ConstCRC("Triangle"),
-			1000 * GetPhysicsFloat(Crc::ConstCRC("Wall_Ride_Triangle_Window"))
+			(uint32)(1000 * GetPhysicsFloat(Crc::ConstCRC("Wall_Ride_Triangle_Window")))
 		)) && static_cast< int >(Tmr::ElapsedTime(mWallrideTime)) > 1000 * GetPhysicsFloat(Crc::ConstCRC("Wall_Ride_Delay")))
 	{
 		////////////////////////////////////////////////
@@ -4612,11 +4612,11 @@ void CSkaterCorePhysicsComponent::check_leaning_into_wall (   )
 	float time;
 	if (control_pad.m_left.GetPressed())
 	{
-		time = control_pad.m_left.GetPressedTime();
+		time = (float)control_pad.m_left.GetPressedTime();
 	}
 	else if (control_pad.m_right.GetPressed())
 	{
-		time = control_pad.m_right.GetPressedTime();
+		time = (float)control_pad.m_right.GetPressedTime();
 	}
 	else
 	{
@@ -5548,12 +5548,12 @@ void CSkaterCorePhysicsComponent::handle_air_rotation (   )
 		// If in vert air, only count the spin if it is at least 360, because getting 180 is too easy.
 		if (Mth::Abs(mp_trick_component->mTallyAngles) >= 360.0f - GetPhysicsFloat(Crc::ConstCRC("spin_count_slop")) + 0.1f)
 		{
-			mp_score_component->GetScore()->UpdateSpin(mp_trick_component->mTallyAngles);
+			mp_score_component->GetScore()->UpdateSpin((int)mp_trick_component->mTallyAngles);
 		}	
 	}
 	else
 	{
-		mp_score_component->GetScore()->UpdateSpin(mp_trick_component->mTallyAngles);
+		mp_score_component->GetScore()->UpdateSpin((int)mp_trick_component->mTallyAngles);
 	}	
 	
 	// End of Part 3
@@ -7714,7 +7714,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 	  
 	// Add mGrindTweak to the score.
 	// adjusted by the robot rail mult (1.0 to 0.1, depending on how much you've ground the rail)
-	mp_score_component->GetScore()->TweakTrick(mGrindTweak * mp_score_component->GetScore()->GetRobotRailMult());
+	mp_score_component->GetScore()->TweakTrick((int)(mGrindTweak * mp_score_component->GetScore()->GetRobotRailMult()));
 
 	// if we've already started doing a trick, then start remembering our trick chain
 	{
@@ -8176,7 +8176,7 @@ void CSkaterCorePhysicsComponent::do_jump ( Script::CStruct *pParams )
 		}
 	}	
 	
-	float jump_speed = Mth::LinearMap(min_jump_speed, max_jump_speed, m_tense_time, 0.0f, max_tense_time);
+	float jump_speed = Mth::LinearMap(min_jump_speed, max_jump_speed, (float)m_tense_time, 0.0f, (float)max_tense_time);
 	
 	// If any speed param is specified, then use that instead. Need by Zac for when small skater is doing scripted jumps in the front end.
 	pParams->GetFloat(Crc::ConstCRC("speed"), &jump_speed);

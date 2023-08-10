@@ -669,7 +669,7 @@ bool CMovingObject::ObjectWithinRange( Script::CStruct* pParams, Script::CScript
 	if ( pParams->GetChecksum( 0xa1dc81f9, &nameChecksum ) ) // "name"
 	{
 		int nodeNum = SkateScript::FindNamedNode( nameChecksum );
-		return ( ObjectFromNodeWithinRange( nodeNum, radiusSqr, pBox ) );
+		return ( ObjectFromNodeWithinRange( nodeNum, (int)radiusSqr, pBox ) );
 	}
     const char* pPrefix;
 	if ( pParams->GetText( 0x6c4e7971, &pPrefix ) ) // checksum 'prefix'
@@ -680,7 +680,7 @@ bool CMovingObject::ObjectWithinRange( Script::CStruct* pParams, Script::CScript
 		int i;
 		for ( i = 0; i < numNodes; i++ )
 		{
-			if ( ObjectFromNodeWithinRange( pMatchingNodes[ i ], radiusSqr, pBox ) )
+			if ( ObjectFromNodeWithinRange( pMatchingNodes[ i ], (int)radiusSqr, pBox ) )
 			{
 				//printf("Oof old\n");
 				return true;

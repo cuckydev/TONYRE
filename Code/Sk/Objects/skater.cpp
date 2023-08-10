@@ -1592,16 +1592,16 @@ void CSkater::UpdateStats( CSkaterProfile* pSkaterProfile )
 	// GJ:  apply the stats contained in the skater profile;  we'll need
 	// need to override them after this function, if we're applying cheats
 	
-	this->SetStat( STATS_AIR, pSkaterProfile->GetStatValue((Crc::ConstCRC("air"))) );
-	this->SetStat( STATS_RUN, pSkaterProfile->GetStatValue((Crc::ConstCRC("run"))) );
-	this->SetStat( STATS_OLLIE, pSkaterProfile->GetStatValue((Crc::ConstCRC("ollie"))) );
-	this->SetStat( STATS_SPEED, pSkaterProfile->GetStatValue((Crc::ConstCRC("speed"))) );
-	this->SetStat( STATS_SPIN, pSkaterProfile->GetStatValue((Crc::ConstCRC("spin"))) );
-	this->SetStat( STATS_FLIPSPEED, pSkaterProfile->GetStatValue((Crc::ConstCRC("flip_speed"))) );
-	this->SetStat( STATS_SWITCH, pSkaterProfile->GetStatValue((Crc::ConstCRC("switch"))) );
-	this->SetStat( STATS_RAILBALANCE, pSkaterProfile->GetStatValue((Crc::ConstCRC("rail_balance"))) );
-	this->SetStat( STATS_LIPBALANCE, pSkaterProfile->GetStatValue((Crc::ConstCRC("lip_balance"))) );
-	this->SetStat( STATS_MANUAL, pSkaterProfile->GetStatValue((Crc::ConstCRC("manual_balance"))) );
+	this->SetStat( STATS_AIR, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("air"))) );
+	this->SetStat( STATS_RUN, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("run"))) );
+	this->SetStat( STATS_OLLIE, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("ollie"))) );
+	this->SetStat( STATS_SPEED, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("speed"))) );
+	this->SetStat( STATS_SPIN, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("spin"))) );
+	this->SetStat( STATS_FLIPSPEED, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("flip_speed"))) );
+	this->SetStat( STATS_SWITCH, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("switch"))) );
+	this->SetStat( STATS_RAILBALANCE, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("rail_balance"))) );
+	this->SetStat( STATS_LIPBALANCE, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("lip_balance"))) );
+	this->SetStat( STATS_MANUAL, (float)pSkaterProfile->GetStatValue((Crc::ConstCRC("manual_balance"))) );
 
 #ifdef __USER_GARY__
 	dodgy_test(); printf("Air    %2.2f\n",GetStat(STATS_AIR));		

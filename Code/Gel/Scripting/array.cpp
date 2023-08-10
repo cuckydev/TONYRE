@@ -462,7 +462,7 @@ float CArray::GetFloat(uint32 index) const
 		}
 		else
 		{
-			return m_integer;
+			return (float)m_integer;
 		}	
 	}
 	else
@@ -475,7 +475,7 @@ float CArray::GetFloat(uint32 index) const
 		}	
 		else
 		{
-			return mp_integers[index];	
+			return (float)mp_integers[index];	
 		}	
 	}	
 }

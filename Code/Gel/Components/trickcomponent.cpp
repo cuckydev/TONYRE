@@ -3489,7 +3489,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 			
 			Dbg_MsgAssert(mpTrickMappings,("nullptr mpTrickMappings"));
 			// This will just replace the slot if it exists already.
-			mpTrickMappings->AddComponent(Slot,(uint8)ESYMBOLTYPE_NAME,Trick);
+			mpTrickMappings->AddComponent(Slot, (float)ESYMBOLTYPE_NAME, (float)Trick);
 			break;
 		}
 
@@ -3617,7 +3617,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 					mTallyAngles+=spin;
 					if (GetSkater()->IsLocalClient())
 					{
-						pScore->UpdateSpin(mTallyAngles);
+						pScore->UpdateSpin((int)mTallyAngles);
 					}	
 				}
 				else
@@ -3668,12 +3668,12 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 								// If vert, only count it if the spin is at least 360
 								if (Mth::Abs(mTallyAngles)>=360.0f-GetPhysicsFloat(Crc::ConstCRC("spin_count_slop")) + 0.1f)
 								{
-									pScore->SetSpin(mTallyAngles);
+									pScore->SetSpin((int)mTallyAngles);
 								}
 							}
 							else
 							{
-								pScore->SetSpin(mTallyAngles);
+								pScore->SetSpin((int)mTallyAngles);
 							}
 						}
 						else
@@ -3728,7 +3728,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 						{
 							// add the deferred trick to the series
 							pScore->Trigger(mpDeferredTrickName, mDeferredTrickScore, mDeferredTrickFlags);
-							pScore->SetSpin(mTallyAngles);
+							pScore->SetSpin((int)mTallyAngles);
 						}	
 					}
 					else
@@ -3738,7 +3738,7 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 						{
 							// add the deferred trick to the series
 							pScore->Trigger(mpDeferredTrickName, mDeferredTrickScore, mDeferredTrickFlags);
-							pScore->SetSpin(mTallyAngles);
+							pScore->SetSpin((int)mTallyAngles);
 						}	
 					}
 						

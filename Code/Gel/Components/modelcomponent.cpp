@@ -1694,14 +1694,14 @@ float SDisplayRotation::CalculateNewAngle()
 	
 	if (mDispRotating)
 	{
-		float t=Tmr::ElapsedTime(0)-mDispStartTime;
-		if (t>mDispDuration)
+		float t = (float)Tmr::ElapsedTime(0) - (float)mDispStartTime;
+		if (t > mDispDuration)
 		{
 			if (mHoldOnLastAngle)
 			{
 				// Stick forever on the end angle, until the mHoldOnLastAngle gets reset
 				// by a CancelRotateDisplay script command.
-				new_angle=mDispStartAngle+mDispChangeInAngle;
+				new_angle = mDispStartAngle+mDispChangeInAngle;
 			}
 			else
 			{

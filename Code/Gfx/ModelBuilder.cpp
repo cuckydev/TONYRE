@@ -789,7 +789,7 @@ bool CModelBuilder::geom_modulate_color( Script::CStruct* pParams )
 				 && pActualStruct->GetInteger( Crc::ConstCRC("default_v"), &v, Script::NO_ASSERT ) )
 			{
 				// set the default color that's specified in the actual structure
-				mp_model->SetColor( pParams, h, (float)s / 100.0f, (float)v / 100.0f );
+				mp_model->SetColor( pParams, (float)h, (float)s / 100.0f, (float)v / 100.0f );
 			}
 			else
 			{
@@ -807,7 +807,7 @@ bool CModelBuilder::geom_modulate_color( Script::CStruct* pParams )
 				 && pVirtualStruct->GetInteger( vCHECKSUM_VALUE, &v, false ) )
 			{
 				// set the non-default color that's specified in the virtual structure
-				mp_model->SetColor( pParams, h, (float)s / 100.0f, (float)v / 100.0f );
+				mp_model->SetColor( pParams, (float)h, (float)s / 100.0f, (float)v / 100.0f );
 			}
 		}
 	}

@@ -5426,9 +5426,9 @@ bool ScriptGetSkaterPosition( Script::CStruct* pParams, Script::CScript* pScript
     	float y = pos.GetY();
     	float z = pos.GetZ();
     
-        pScript->GetParams()->AddInteger("x", x);
-        pScript->GetParams()->AddInteger("y", y);
-        pScript->GetParams()->AddInteger("z", z);
+        pScript->GetParams()->AddInteger("x", (int)x);
+        pScript->GetParams()->AddInteger("y", (int)y);
+        pScript->GetParams()->AddInteger("z", (int)z);
     
         return true;
     }
@@ -5459,9 +5459,9 @@ bool ScriptGetSkaterVelocity( Script::CStruct* pParams, Script::CScript* pScript
 		
 		pParams->GetFloat( Crc::ConstCRC("skew_angle"), &skew_angle );
 
-        pScript->GetParams()->AddInteger(Crc::ConstCRC("vel_x"), x);
-        pScript->GetParams()->AddInteger(Crc::ConstCRC("vel_y"), y);
-        pScript->GetParams()->AddInteger(Crc::ConstCRC("vel_z"), z);
+        pScript->GetParams()->AddInteger(Crc::ConstCRC("vel_x"), (int)x);
+        pScript->GetParams()->AddInteger(Crc::ConstCRC("vel_y"), (int)y);
+        pScript->GetParams()->AddInteger(Crc::ConstCRC("vel_z"), (int)z);
 
 		pParams->GetFloat( Crc::ConstCRC("scale"), &scale );
 
@@ -5481,9 +5481,9 @@ bool ScriptGetSkaterVelocity( Script::CStruct* pParams, Script::CScript* pScript
 				vel = rot_mat.Transform( vel );
 			}
 
-			pScript->GetParams()->AddInteger("scaled_x", vel[X] * scale );
-			pScript->GetParams()->AddInteger("scaled_y", vel[Y] * scale );
-			pScript->GetParams()->AddInteger("scaled_z", vel[Z] * scale );
+			pScript->GetParams()->AddInteger("scaled_x", (int)(vel[X] * scale) );
+			pScript->GetParams()->AddInteger("scaled_y", (int)(vel[Y] * scale) );
+			pScript->GetParams()->AddInteger("scaled_z", (int)(vel[Z] * scale) );
 		}
 		else
 		{
@@ -5501,9 +5501,9 @@ bool ScriptGetSkaterVelocity( Script::CStruct* pParams, Script::CScript* pScript
 				facing = rot_mat[Mth::AT];
 			}
 
-			pScript->GetParams()->AddInteger(Crc::ConstCRC("scaled_x"), facing[X] * scale );
-			pScript->GetParams()->AddInteger(Crc::ConstCRC("scaled_y"), facing[Y] * scale );
-			pScript->GetParams()->AddInteger(Crc::ConstCRC("scaled_z"), facing[Z] * scale );
+			pScript->GetParams()->AddInteger(Crc::ConstCRC("scaled_x"), (int)(facing[X] * scale) );
+			pScript->GetParams()->AddInteger(Crc::ConstCRC("scaled_y"), (int)(facing[Y] * scale) );
+			pScript->GetParams()->AddInteger(Crc::ConstCRC("scaled_z"), (int)(facing[Z] * scale) );
 		}
     
         return true;

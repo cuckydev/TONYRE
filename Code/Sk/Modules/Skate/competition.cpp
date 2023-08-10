@@ -443,9 +443,9 @@ void CCompetition::EndRun(int score)
 	m_score[1] = (float)( (int) (m_score[1] * 10.0f)) /10.0f + 0.0001f;
 	m_score[2] = (float)( (int) (m_score[2] * 10.0f)) /10.0f + 0.0001f;
 	
-	m_score[0] = (int)Mth::Round(m_score[0]);
-	m_score[1] = (int)Mth::Round(m_score[1]);
-	m_score[2] = (int)Mth::Round(m_score[2]);
+	m_score[0] = Mth::Round(m_score[0]);
+	m_score[1] = Mth::Round(m_score[1]);
+	m_score[2] = Mth::Round(m_score[2]);
 
 	if ( m_score[0] > 99 )
 		m_score[0] = 99;
@@ -456,7 +456,7 @@ void CCompetition::EndRun(int score)
 	
 	// recalculate the total score
 	m_total_score = ((float)(m_score[0]) + (float)(m_score[1]) + (float)(m_score[2])) / 3;
-	m_total_score = (int)Mth::Round( m_total_score );
+	m_total_score = Mth::Round( m_total_score );
 	if ( m_total_score > 99 )
 		m_total_score = 99;
 	// m_judge_score[m_current_round] = (int)(10.0f * m_total_score + 0.5f);

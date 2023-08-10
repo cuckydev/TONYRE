@@ -136,7 +136,7 @@ void CSpriteElement::update()
 		// -screen W,H of sprite (if needed): m_summed_props.scale * m_base_w, m_summed_props.scale * m_base_h
 		//mp_sprite->SetPos(m_summed_props.ulx, m_summed_props.uly);
 		mp_sprite->SetPos(m_summed_props.GetScreenPosX(), m_summed_props.GetScreenPosY());
-		mp_sprite->SetSize(m_base_w, m_base_h);
+		mp_sprite->SetSize((uint16)m_base_w, (uint16)m_base_h);
 		mp_sprite->SetAnchor(m_just_x, m_just_y);
 		mp_sprite->SetScale(m_summed_props.GetScaleX(), m_summed_props.GetScaleY());
 		

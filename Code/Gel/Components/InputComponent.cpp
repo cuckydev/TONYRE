@@ -307,7 +307,7 @@ void CInputComponent::Debounce ( uint32 Checksum, float time, bool clear )
 		p_trick_component->Debounce(Inp::GetButtonIndex(Checksum), debounce_time);
 	}
 	
-	button->SetDebounce(static_cast< int >(debounce_time));
+	button->SetDebounce(debounce_time);
 	
 	if (clear)
 	{

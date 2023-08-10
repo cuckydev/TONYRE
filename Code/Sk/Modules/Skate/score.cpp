@@ -918,7 +918,7 @@ void Score::SetSpin(int spin_degrees)
 
         Obj::CStatsManagerComponent* pStatsManagerComponent = GetStatsManagerComponentFromObject( pSkater );
         Dbg_Assert( pStatsManagerComponent );
-        pStatsManagerComponent->SetSpin( (spin_index*180) );
+        pStatsManagerComponent->SetSpin((float)(spin_index * 180));
 		
 		m_scorePotState = SHOW_ACTUAL_SCORE_POT;
 		dispatch_score_pot_value_to_screen(m_scorePot, m_currentMult);
@@ -2818,8 +2818,8 @@ float	Score::GetRobotMult()
 	if ((m_num_robot_landed_combo - m_num_robot_unique_combo) > min_robot_effect && m_num_robot_unique_combo < m_num_robot_landed_combo)
 	{
 #	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
-		float landed = m_num_robot_landed_combo - min_robot_effect;
-		float dupes = m_num_robot_landed_combo - m_num_robot_unique_combo - min_robot_effect;
+		float landed = (float)(m_num_robot_landed_combo - min_robot_effect);
+		float dupes = (float)(m_num_robot_landed_combo - m_num_robot_unique_combo - min_robot_effect);
 //		float first =  m_num_robot_first_combo;
 		
 //		robot_scale = 0.1f * logf(landed);   // with min of 10, 10=0, 50 =1.6, 100 = 1.95 

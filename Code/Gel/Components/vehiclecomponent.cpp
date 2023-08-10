@@ -609,7 +609,7 @@ void CVehicleComponent::Finalize (   )
 	{
 		center_of_mass += mp_wheels[n].pos;
 	}
-	center_of_mass /= m_num_wheels;
+	center_of_mass /= (float)m_num_wheels;
 	center_of_mass[Y] = lowest_collider_height;
 	center_of_mass[W] = 0.0f;
 	

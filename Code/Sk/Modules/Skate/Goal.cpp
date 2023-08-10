@@ -566,7 +566,7 @@ bool CGoal::Activate()
 			if ( pParentGoal )
 			{
 				if ( m_inherited_flags & GOAL_INHERITED_FLAGS_ONE_TIMER )
-					SetTimer( pParentGoal->GetTimeLeft() / 1000.0f );
+					SetTimer((int)(pParentGoal->GetTimeLeft() / 1000.0f));
 				else
 					SetTimer();
 
@@ -2324,7 +2324,7 @@ bool CGoal::CheckDistanceRecord()
 		mp_params->GetInteger( Crc::ConstCRC("minigame_record"), &record, Script::NO_ASSERT );		
 		if ( distance > record )
 		{
-			mp_params->AddInteger( Crc::ConstCRC("minigame_record"), distance );
+			mp_params->AddInteger( Crc::ConstCRC("minigame_record"), (int)distance );
 		
 			mp_params->AddInteger( Crc::ConstCRC("record_feet"), feet );
 			mp_params->AddInteger( Crc::ConstCRC("record_inches"), inches );

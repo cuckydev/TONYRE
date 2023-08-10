@@ -1270,7 +1270,7 @@ void CSkaterNonLocalNetLogicComponent::interpolate_client_position (   )
 
 							if( idx > 0 )
 							{
-								GetObj()->m_vel = total_vel / idx;
+								GetObj()->m_vel = total_vel / (float)idx;
 							}
 						}
 
@@ -1408,7 +1408,7 @@ void CSkaterNonLocalNetLogicComponent::do_client_animation_update(   )
 			
 							if( event->m_Flags & 1 )
 							{
-								mp_model_component->mpDisplayRotationInfo[0].SetUp(event->m_Duration,
+								mp_model_component->mpDisplayRotationInfo[0].SetUp((float)event->m_Duration,
 															   start_time,
 															   event->m_StartAngle,
 															   event->m_DeltaAngle,
@@ -1417,7 +1417,7 @@ void CSkaterNonLocalNetLogicComponent::do_client_animation_update(   )
 							}	
 							if( event->m_Flags & 2 )
 							{
-								mp_model_component->mpDisplayRotationInfo[1].SetUp(event->m_Duration,
+								mp_model_component->mpDisplayRotationInfo[1].SetUp((float)event->m_Duration,
 															   start_time,
 															   event->m_StartAngle,
 															   event->m_DeltaAngle,
@@ -1426,7 +1426,7 @@ void CSkaterNonLocalNetLogicComponent::do_client_animation_update(   )
 							}	
 							if( event->m_Flags & 4 )
 							{
-								mp_model_component->mpDisplayRotationInfo[2].SetUp(event->m_Duration,
+								mp_model_component->mpDisplayRotationInfo[2].SetUp((float)event->m_Duration,
 															   start_time,
 															   event->m_StartAngle,
 															   event->m_DeltaAngle,

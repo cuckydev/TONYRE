@@ -516,7 +516,7 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 						--size_check;
 						#endif
 						
-						*p_float++=Read4Bytes(p_token).mInt;
+						*p_float++ = (float)Read4Bytes(p_token).mInt;
 						p_token+=4;
 						break;
 					case ESCRIPTTOKEN_FLOAT:
@@ -525,7 +525,7 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 						--size_check;
 						#endif
 						
-						*p_float++=Read4Bytes(p_token).mFloat;
+						*p_float++ = Read4Bytes(p_token).mFloat;
 						p_token+=4;
 						break;
 					default:

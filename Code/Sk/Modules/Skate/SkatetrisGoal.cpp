@@ -563,12 +563,12 @@ void CSkatetrisGoal::AddTetrisTrick( int num_to_add )
 			p_screen_elem_man->RegisterObject( *p_container );
 
 			// figure the dims
-			int y_dim = 20;
+			float y_dim = 20.0f;
 			if ( add_combo && tricks_in_group == 1 )
 			{
 				y_dim *= 2;
 			}
-			p_container_params->AddPair( Crc::ConstCRC("dims"), 100, y_dim );
+			p_container_params->AddPair( Crc::ConstCRC("dims"), 100.0f, y_dim );
 
 			p_container->SetProperties( p_container_params );
 			

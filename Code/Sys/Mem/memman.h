@@ -74,11 +74,11 @@ public:
 	}
 
 public:
-	Region*		mp_region;
-	Heap*		mp_heap;
-	uint32		m_name;
-	char		mp_heap_name[vMAX_HEAP_NAME_LEN];
-	bool		m_used;
+	Region*		mp_region = nullptr;
+	Heap*		mp_heap = nullptr;
+	uint32		m_name = 0;
+	char		mp_heap_name[vMAX_HEAP_NAME_LEN] = {};
+	bool		m_used = false;
 };
 
 class Manager : public Spt::Class			
@@ -173,22 +173,22 @@ public:
 	Allocator*					GetContextAllocator();
 
 
-								~Manager( void );
+	~Manager( void );
 private :
-								Manager( void );								   
-																 
-	Mem::Heap *					m_heap_list[vMAX_HEAPS]; 
-	int							m_num_heaps;   							
+	Manager( void );
+	
+	Mem::Heap *m_heap_list[vMAX_HEAPS] = {};
+	int m_num_heaps = 0;
 
-	static char 				s_manager_buffer[];
-	static char 				s_region_buffer[];
-	static char 				s_debug_region_buffer[];
-	static char 				s_script_region_buffer[];
-	static char 				s_profiler_region_buffer[];
-	static char 				s_debug_heap_buffer[];
-	static char 				s_top_heap_buffer[];
-	static char 				s_bot_heap_buffer[];
-	static bool					s_initialized;
+	static char s_manager_buffer[];
+	static char s_region_buffer[];
+	static char s_debug_region_buffer[];
+	static char s_script_region_buffer[];
+	static char s_profiler_region_buffer[];
+	static char s_debug_heap_buffer[];
+	static char s_top_heap_buffer[];
+	static char s_bot_heap_buffer[];
+	static bool s_initialized;
 		
 	class MemManContext
 	{
@@ -196,73 +196,73 @@ private :
 		friend class Manager;
 	
 	private:
-		Allocator*						mp_alloc;
+		Allocator *mp_alloc = nullptr;
 	};
 
 
-	Ptr< MemManContext > 		mp_context;
+	Ptr< MemManContext > mp_context = nullptr;
 
 	// Mick: Contexts are now statically allocated off this 
 	// array, rather than off the heap, as that was causing fragmentation
 	// in rare but crash-worthy circumstances			
-	MemManContext				m_contexts[vMAX_CONTEXT];
-	int							m_pushed_context_count;
+	MemManContext m_contexts[vMAX_CONTEXT] = {};
+	int m_pushed_context_count = 0;
 
 
-	Region*						mp_region;
-	Heap*						mp_top_heap;
-	Heap*						mp_bot_heap;
+	Region* mp_region = nullptr;
+	Heap *mp_top_heap = nullptr;
+	Heap *mp_bot_heap = nullptr;
 	
-	Region*						mp_frontend_region;
-	Heap*						mp_frontend_heap;
+	Region *mp_frontend_region = nullptr;
+	Heap *mp_frontend_heap = nullptr;
 
-	Region*						mp_script_region;
-	Heap*						mp_script_heap;
+	Region *mp_script_region = nullptr;
+	Heap *mp_script_heap = nullptr;
 
-	Region*						mp_network_region;
-	Heap*						mp_network_heap;
+	Region *mp_network_region = nullptr;
+	Heap *mp_network_heap = nullptr;
 
-	Region*						mp_net_misc_region;
-	Heap*						mp_net_misc_heap;
+	Region *mp_net_misc_region = nullptr;
+	Heap *mp_net_misc_heap = nullptr;
 
-	Region*						mp_internet_region;
-	Heap*						mp_internet_top_heap;
-	Heap*						mp_internet_bottom_heap;
+	Region *mp_internet_region = nullptr;
+	Heap *mp_internet_top_heap = nullptr;
+	Heap *mp_internet_bottom_heap = nullptr;
 
-	Region*						mp_cutscene_region;
-	Heap*						mp_cutscene_top_heap;
-	Heap*						mp_cutscene_bottom_heap;
+	Region *mp_cutscene_region = nullptr;
+	Heap *mp_cutscene_top_heap = nullptr;
+	Heap *mp_cutscene_bottom_heap = nullptr;
 
 #ifdef __PLAT_NGC__
-	Region*						mp_audio_region;
-	Heap*						mp_audio_heap;
+	Region *mp_audio_region = nullptr;
+	Heap *mp_audio_heap = nullptr;
 #endif		// __PLAT_NGC__
 
-	Region*						mp_debug_region;
-	Heap*						mp_debug_heap;
+	Region *mp_debug_region = nullptr;
+	Heap *mp_debug_heap = nullptr;
 
-	Region*						mp_profiler_region;
-	Heap*						mp_profiler_heap;
+	Region *mp_profiler_region = nullptr;
+	Heap *mp_profiler_heap = nullptr;
 
-	Region*						mp_skater_region[NUM_SKATER_HEAPS];
-	Heap*						mp_skater_heap[NUM_SKATER_HEAPS];
+	Region *mp_skater_region[NUM_SKATER_HEAPS] = {};
+	Heap *mp_skater_heap[NUM_SKATER_HEAPS] = {};
 	
-	Region*						mp_skater_geom_region[NUM_SKATER_HEAPS];
-	Heap*						mp_skater_geom_heap[NUM_SKATER_HEAPS];
+	Region *mp_skater_geom_region[NUM_SKATER_HEAPS] = {};
+	Heap *mp_skater_geom_heap[NUM_SKATER_HEAPS] = {};
 
-	CNamedHeapInfo				m_named_heap_info[NUM_NAMED_HEAPS];
+	CNamedHeapInfo m_named_heap_info[NUM_NAMED_HEAPS] = {};
 
-	Region*						mp_skater_info_region;
-	Heap*						mp_skater_info_heap;
+	Region *mp_skater_info_region = nullptr;
+	Heap *mp_skater_info_heap = nullptr;
 
-    Region*						mp_theme_region;
-	Heap*						mp_theme_heap;
+    Region *mp_theme_region = nullptr;
+	Heap *mp_theme_heap = nullptr;
 
-	Pcs::Manager*				mp_process_man;
-	uint						m_current_id;
+	Pcs::Manager *mp_process_man = nullptr;
+	uint m_current_id = 0;
 
 protected:
-	CNamedHeapInfo*				find_named_heap_info( uint32 name );
+	CNamedHeapInfo *find_named_heap_info( uint32 name );
 };
 
 /*****************************************************************************

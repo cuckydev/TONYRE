@@ -1507,7 +1507,7 @@ bool CStruct::GetFloat(uint32 nameChecksum, float *p_floatValue, EAssertType ass
 	SWhatever value;
 	if (search_for(nameChecksum,ESYMBOLTYPE_FLOAT,&value))
 	{
-		*p_floatValue=value.mFloatValue;
+		*p_floatValue = value.mFloatValue;
 		return true;
 	}
 	// If a float was not found, check for any int's with the same name, and if found cast to a float.
@@ -1516,7 +1516,7 @@ bool CStruct::GetFloat(uint32 nameChecksum, float *p_floatValue, EAssertType ass
 	// down the other Get... functions. Need to do some tests to see what is best.
 	if (search_for(nameChecksum,ESYMBOLTYPE_INTEGER,&value))
 	{
-		*p_floatValue=value.mIntegerValue;
+		*p_floatValue = (float)value.mIntegerValue;
 		return true;
 	}
 	if (assert)

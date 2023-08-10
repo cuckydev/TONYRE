@@ -91,15 +91,15 @@ bool LineCollidesWithBox( const Mth::Vector &pStart, const Mth::Vector &pEnd, co
 	// avoid divide by zeros.
 	if ( !dx )
 	{
-		dx = ( 0.000001 );
+		dx = ( 0.000001f );
 	}
 	if ( !dy )
 	{
-		dy = ( 0.000001 );
+		dy = ( 0.000001f );
 	}
 	if ( !dz )
 	{
-		dz = ( 0.000001 );
+		dz = ( 0.000001f );
 	}
 
 	// Check the max-x face.

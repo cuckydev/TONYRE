@@ -269,18 +269,18 @@ void CClipboardEntry::ShowMeta(uint8 centre_x, int raiseAmount, uint8 centre_z, 
 	}
 
 	// Get the vector (in cell units) from the centre of the selection area to the piece.
-	float vector_x=mX-centre_x;
-	float vector_z=mZ-centre_z;
+	float vector_x = (float)(mX - centre_x);
+	float vector_z = (float)(mZ - centre_z);
 
 	// Calculate the vector, in world coords, from the centre of the selection to the centre of the piece.	
 	Mth::Vector p(0.0f,0.0f,0.0f);
-	p[X]=vector_x*CParkGenerator::CELL_WIDTH+(mWidth-1)*CParkGenerator::CELL_WIDTH/2.0f;
-	p[Z]=vector_z*CParkGenerator::CELL_LENGTH+(mLength-1)*CParkGenerator::CELL_LENGTH/2.0f;
+	p[X] = vector_x * CParkGenerator::CELL_WIDTH+(mWidth-1)*CParkGenerator::CELL_WIDTH/2.0f;
+	p[Z] = vector_z * CParkGenerator::CELL_LENGTH+(mLength-1)*CParkGenerator::CELL_LENGTH/2.0f;
 
 	// Rotate by rot degrees	
-	float rad=rot*3.141592654f/180.0f;
-	float s=sinf(rad);
-	float c=cosf(rad);
+	float rad = rot * 3.141592654f / 180.0f;
+	float s = sinf(rad);
+	float c = cosf(rad);
 
 	Mth::Vector rotated;
 	rotated[X]=c*p[X]+s*p[Z];

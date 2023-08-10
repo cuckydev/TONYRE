@@ -216,7 +216,7 @@ void CLockObjComponent::GetDebugInfo(Script::CStruct *p_info)
 	p_info->AddFloat("m_lag_factor_range_b",m_lag_factor_range_b);
 	p_info->AddFloat("m_lag_freq_a",m_lag_freq_a);
 	p_info->AddFloat("m_lag_freq_b",m_lag_freq_b);
-	p_info->AddFloat("m_lag_phase",m_lag_phase);
+	p_info->AddFloat("m_lag_phase",(float)m_lag_phase);
 	p_info->AddChecksum("m_lag",m_lag ? 0x203b372/*True*/:0xd43297cf/*False*/);
 	p_info->AddChecksum("m_no_rotation",m_no_rotation ? 0x203b372/*True*/:0xd43297cf/*False*/);
 	p_info->AddChecksum("m_lock_enabled",m_lock_enabled ? 0x203b372/*True*/:0xd43297cf/*False*/);

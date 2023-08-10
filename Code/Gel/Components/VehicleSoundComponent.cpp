@@ -300,7 +300,7 @@ void CVehicleSoundComponent::update_engine_sounds (   )
 		Mth::LinearMap(
 			get_global_param(Crc::ConstCRC("gear_shift_min_vol_factor")),
 			1.0f,
-			Tmr::ElapsedTime(m_gear_shift_time_stamp),
+			(float)Tmr::ElapsedTime(m_gear_shift_time_stamp),
 			0.0f,
 			get_global_param(Crc::ConstCRC("gear_shift_vol_adjustment_duration"))
 		),

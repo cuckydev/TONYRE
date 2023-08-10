@@ -203,20 +203,20 @@ bool			CFaceTexMassager::sAdjustTextureToModel(CTexture *p_face_texture, const S
 	int texture_eyeline_y = ((texture_points.m_left_eye[Y] + texture_points.m_right_eye[Y]) >> 1) + y_offset;
 
 	// Calculate the ratios to find how much we need to pull/push a texture section
-	float left_eye_to_nose_width = texture_points.m_nose[X] - texture_points.m_left_eye[X];
-	float left_nose_width = texture_points.m_nose[X] + x_offset;
+	float left_eye_to_nose_width = (float)(texture_points.m_nose[X] - texture_points.m_left_eye[X]);
+	float left_nose_width = (float)(texture_points.m_nose[X] + x_offset);
 	float left_eye_ratio = left_nose_width / left_eye_to_nose_width;
 
-	float right_eye_to_nose_width = texture_points.m_right_eye[X] - texture_points.m_nose[X];
-	float right_nose_width = p_face_texture->GetWidth() - (texture_points.m_nose[X] + x_offset);
+	float right_eye_to_nose_width = (float)(texture_points.m_right_eye[X] - texture_points.m_nose[X]);
+	float right_nose_width = (float)(p_face_texture->GetWidth() - (texture_points.m_nose[X] + x_offset));
 	float right_eye_ratio = right_nose_width / right_eye_to_nose_width;
 
-	float eyeline_to_nose_height = (texture_points.m_nose[Y] + y_offset) - texture_eyeline_y;
-	float top_nose_height = texture_points.m_nose[Y] + y_offset;
+	float eyeline_to_nose_height = (float)((texture_points.m_nose[Y] + y_offset) - texture_eyeline_y);
+	float top_nose_height = (float)(texture_points.m_nose[Y] + y_offset);
 	float eyeline_ratio = top_nose_height / eyeline_to_nose_height;
 
-	float lips_to_nose_height = texture_points.m_lips[Y] - texture_points.m_nose[Y];
-	float bottom_nose_height = p_face_texture->GetHeight() - (texture_points.m_nose[Y] + y_offset);
+	float lips_to_nose_height = (float)(texture_points.m_lips[Y] - texture_points.m_nose[Y]);
+	float bottom_nose_height = (float)(p_face_texture->GetHeight() - (texture_points.m_nose[Y] + y_offset));
 	float lips_ratio = bottom_nose_height / lips_to_nose_height;
 
 	// Move the left eye along the X axis

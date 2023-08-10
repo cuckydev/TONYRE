@@ -25,7 +25,7 @@ endif()
 
 # I'm feeling lucky, treat warnings as errors
 if (MSVC)
-	target_compile_options(TonyRE.Common INTERFACE /WX)
+	target_compile_options(TonyRE.Common INTERFACE /W2 /WX)
 else()
 	target_compile_options(TonyRE.Common INTERFACE -Werror)
 endif()

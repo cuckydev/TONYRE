@@ -81,8 +81,8 @@ public:
 
 	int GetSplitPoint() const { return m_node.m_split_point >> NUM_AXIS_BITS; }
 	void SetSplitPoint(int ipoint) { m_node.m_split_point = (ipoint << NUM_AXIS_BITS) | GetSplitAxis(); }
-	float GetFSplitPoint() const { return ((float) GetSplitPoint()) * COLLISION_RECIPROCAL_SUB_INCH_PRECISION; }
-	void SetFSplitPoint(float point) { SetSplitPoint(point * COLLISION_SUB_INCH_PRECISION); }
+	float GetFSplitPoint() const { return ((float)GetSplitPoint()) * COLLISION_RECIPROCAL_SUB_INCH_PRECISION; }
+	void SetFSplitPoint(float point) { SetSplitPoint((int)(point * COLLISION_SUB_INCH_PRECISION)); }
 
 private:
 	////////////////////////////////////////////////////////////////

@@ -742,9 +742,9 @@ void CRigidBodyComponent::GetDebugInfo(Script::CStruct *p_info)
 	
 	p_info->AddVector("m_model_offset", m_model_offset);
 	
-	p_info->AddFloat("CollideMuteDelay", m_sound_setup.collide_mute_delay);
+	p_info->AddFloat("CollideMuteDelay", (float)m_sound_setup.collide_mute_delay);
 	
-	p_info->AddFloat("GlobalCollideMuteDelay", m_sound_setup.global_collide_mute_delay);
+	p_info->AddFloat("GlobalCollideMuteDelay", (float)m_sound_setup.global_collide_mute_delay);
 	
 	p_info->AddFloat("BounceVelocityCallbackThreshold", m_sound_setup.bounce_velocity_callback_threshold);
 	

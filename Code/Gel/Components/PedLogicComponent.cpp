@@ -2261,7 +2261,7 @@ void CPedLogicComponent::DoGrab( Script::CStruct* pNodeData, bool is_vert )
 			float jumpSpeed = Script::GetFloat( Crc::ConstCRC( "ped_skater_jump_speed" ), Script::ASSERT );
 			float jumpGravity = Script::GetFloat( Crc::ConstCRC( "ped_skater_jump_gravity" ), Script::ASSERT );
 			float time = 2 * sqrtf( Mth::Sqr( jumpSpeed ) / Mth::Sqr( jumpGravity ) );
-			pScriptParams->AddInteger( Crc::ConstCRC( "jumpTime" ), time );
+			pScriptParams->AddInteger( Crc::ConstCRC( "jumpTime" ), (int)time );
 			pScriptParams->AddInteger( Crc::ConstCRC( "is_jumping" ), 0 );
 		}
 	}

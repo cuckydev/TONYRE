@@ -141,10 +141,10 @@ void	CViewer::s_input_logic_code ( const Inp::Handler < CViewer >& handler )
 //	mdl.m_commands.ClearAll();
 
 	// translate m_Input data to module-specific commands
-	mdl.m_right[X] = handler.m_Input->m_Event[Inp::Data::vA_RIGHT_X_UNCLAMPED] - 128;
-	mdl.m_right[Y] = handler.m_Input->m_Event[Inp::Data::vA_RIGHT_Y_UNCLAMPED] - 128;
-	mdl.m_left[X] = handler.m_Input->m_Event[Inp::Data::vA_LEFT_X_UNCLAMPED] - 128;
-	mdl.m_left[Y] = handler.m_Input->m_Event[Inp::Data::vA_LEFT_Y_UNCLAMPED] - 128;
+	mdl.m_right[X] = (float)handler.m_Input->m_Event[Inp::Data::vA_RIGHT_X_UNCLAMPED] - 128.0f;
+	mdl.m_right[Y] = (float)handler.m_Input->m_Event[Inp::Data::vA_RIGHT_Y_UNCLAMPED] - 128.0f;
+	mdl.m_left[X] = (float)handler.m_Input->m_Event[Inp::Data::vA_LEFT_X_UNCLAMPED] - 128.0f;
+	mdl.m_left[Y] = (float)handler.m_Input->m_Event[Inp::Data::vA_LEFT_Y_UNCLAMPED] - 128.0f;
 
 
 	if (Script::GetInt(Crc::ConstCRC("viewer_buttons_enabled")))

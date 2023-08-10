@@ -145,10 +145,10 @@ void CSkaterPad::Update ( Inp::Data* input )
 		m_scaled_leftY = (in + (in > 0 ? -Inp::vANALOGUE_TOL : Inp::vANALOGUE_TOL)) / (127.0f - Inp::vANALOGUE_TOL);
 	}
 	
-	m_rightX = input->m_Event[Inp::Data::vA_RIGHT_X_UNCLAMPED] - 128;
-	m_rightY = input->m_Event[Inp::Data::vA_RIGHT_Y_UNCLAMPED] - 128;
-	m_leftX = input->m_Event[Inp::Data::vA_LEFT_X_UNCLAMPED] - 128;
-	m_leftY = input->m_Event[Inp::Data::vA_LEFT_Y_UNCLAMPED] - 128;
+	m_rightX = (float)input->m_Event[Inp::Data::vA_RIGHT_X_UNCLAMPED] - 128.0f;
+	m_rightY = (float)input->m_Event[Inp::Data::vA_RIGHT_Y_UNCLAMPED] - 128.0f;
+	m_leftX = (float)input->m_Event[Inp::Data::vA_LEFT_X_UNCLAMPED] - 128.0f;
+	m_leftY = (float)input->m_Event[Inp::Data::vA_LEFT_Y_UNCLAMPED] - 128.0f;
 	
 	// Calculate the direction, and the amount
 
