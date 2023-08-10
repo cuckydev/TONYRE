@@ -174,10 +174,10 @@ protected:
 	void						clear_flag(EFlags flag) {m_flags = EFlags(m_flags & ~flag);}
 	
 	// takes into account current rotation
-	GridDims					m_cell_area;			//  6 ( 8) + 2
+	GridDims					m_cell_area; // 6 ( 8) + 2
 									
-	EFlags 						m_flags;   				// 	4 (only uses 17 bits, grr)
-	int							m_rot;					//  4 (only uses  2 bits, grr)   +4 (if combined)
+	EFlags 						m_flags = (EFlags)0; // 4 (only uses 17 bits, grr)
+	int							m_rot = 0; // 4 (only uses  2 bits, grr)   +4 (if combined)
 	
 	/* 
 		-See comment above SMetaDescriptor declaration for details on what descriptors are
@@ -189,15 +189,19 @@ protected:
 		USUAL_NUM_DESCRIPTORS =	2
 	};
 	
-	SMetaDescriptor 			m_first_desc_tab[USUAL_NUM_DESCRIPTORS];  //  9 (12), + 9 (12)	  + 6
-	SMetaDescriptor *			mp_additional_desc_tab;	  				  //  4	
-	uint						m_total_entries;						  //  2 (4) 			  + 2
-	uint 						m_num_used_entries;						  //  2 (4) 			  +2
-	
-	uint32						m_name_checksum; 						  //  4
+	// 9 (12), + 9 (12) + 6
+	SMetaDescriptor m_first_desc_tab[USUAL_NUM_DESCRIPTORS] = {};
+	// 4
+	SMetaDescriptor *mp_additional_desc_tab;
+	// 2 (4) + 2
+	uint m_total_entries = 0;
+	// 2 (4) + 2
+	uint m_num_used_entries = 0;
+	// 4
+	uint32 m_name_checksum = 0;
 };
 
-// Total 													
+// Total
 
 
 
@@ -258,18 +262,18 @@ class CMapListNode : public Mem::CPoolable<CMapListNode>
 	friend class CCursor;
 
 public:
-	CMetaPiece *				GetMeta();
-	CConcreteMetaPiece *		GetConcreteMeta() {return GetMeta()->CastToConcreteMeta();}
-	CAbstractMetaPiece *		GetAbstractMeta() {return GetMeta()->CastToAbstractMeta();}
-	CMapListNode *				GetNext() {return mp_next;}
-	void						DestroyList();
-	void						VerifyIntegrity();
+	CMetaPiece *GetMeta();
+	CConcreteMetaPiece *GetConcreteMeta() {return GetMeta()->CastToConcreteMeta();}
+	CAbstractMetaPiece *GetAbstractMeta() {return GetMeta()->CastToAbstractMeta();}
+	CMapListNode *GetNext() {return mp_next;}
+	void DestroyList();
+	void VerifyIntegrity();
 
-	int							mSlideAmount;
+	int mSlideAmount = 0;
 
 private:
-	CMetaPiece *				mp_meta;
-	CMapListNode *				mp_next;
+	CMetaPiece *mp_meta = nullptr;
+	CMapListNode *mp_next = nullptr;
 };
 
 
@@ -281,14 +285,14 @@ public:
 	CMapListTemp(CMapListNode *p_list);
 	~CMapListTemp();
 	
-	bool						IsEmpty() {return (mp_list == nullptr);}
-	bool						IsSingular() {return (mp_list->GetNext() == nullptr);}
-	CMapListNode *				GetList();
-	void						PrintContents();
+	bool IsEmpty() { return (mp_list == nullptr); }
+	bool IsSingular() { return (mp_list->GetNext() == nullptr); }
+	CMapListNode *GetList();
+	void PrintContents();
 
 private:
 
-	CMapListNode *				mp_list;
+	CMapListNode *mp_list = nullptr;
 };
 
 

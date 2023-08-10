@@ -402,12 +402,12 @@ inline void operator delete[](void *pAddr)
 }
 
 #endif
+
 /******************************************************************/
-/* only used when exception is thrown in constructor              */
+/*                                                                */
 /*                                                                */
 /******************************************************************/
-
-inline void	operator delete(void *pAddr, Mem::Allocator *pAlloc)
+inline void operator delete(void *pAddr, bool assert_on_fail)
 {
 	free(pAddr);
 }
@@ -417,7 +417,27 @@ inline void	operator delete(void *pAddr, Mem::Allocator *pAlloc)
 /*                                                                */
 /******************************************************************/
 
-inline void	operator delete[](void *pAddr, Mem::Allocator *pAlloc)
+inline void operator delete[](void *pAddr, bool assert_on_fail)
+{
+	free(pAddr);
+}
+
+/******************************************************************/
+/* only used when exception is thrown in constructor              */
+/*                                                                */
+/******************************************************************/
+
+inline void	operator delete(void *pAddr, Mem::Allocator *pAlloc, bool assert_on_fail)
+{
+	free(pAddr);
+}
+
+/******************************************************************/
+/*                                                                */
+/*                                                                */
+/******************************************************************/
+
+inline void	operator delete[](void *pAddr, Mem::Allocator *pAlloc, bool assert_on_fail)
 {
 	free(pAddr);
 }
