@@ -144,7 +144,7 @@ EAssetType CAssMan::FindAssetType( const char *p_assetName )
 	while ( p_lookup->p_extension != nullptr )
 	{
 		// note, ignoring case
-		if ( strcmpi( p_lookup->p_extension, p_ext ) == 0 )	
+		if ( _strcmpi( p_lookup->p_extension, p_ext ) == 0 )	
 		{
 			return p_lookup->type;
 		}

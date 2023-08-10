@@ -542,7 +542,7 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 							{
 								const char* p_model_name;
 								pNode->GetText( Crc::ConstCRC("model"), &p_model_name, true );
-								if (stricmp("none",p_model_name) != 0)
+								if (_stricmp("none",p_model_name) != 0)
 								{		   
 									Str::String fullModelName;
 									fullModelName = Gfx::GetModelFileName(p_model_name, ".mdl");
@@ -1191,8 +1191,8 @@ bool ScriptSetPreferencesFromUI(Script::CStruct *pParams, Script::CScript *pScri
 	pParams->GetChecksum( "checksum", &checksum );
 	pTempStructure->AddComponent( Script::GenerateCRC("checksum"), ESYMBOLTYPE_NAME, (int) checksum );
 
-	if( ( stricmp( pFieldName, "time_limit" ) == 0 ) ||
-		( stricmp( pFieldName, "horse_time_limit" ) == 0 ))
+	if( ( _stricmp( pFieldName, "time_limit" ) == 0 ) ||
+		( _stricmp( pFieldName, "horse_time_limit" ) == 0 ))
 	{
 		int time;
 
@@ -1201,7 +1201,7 @@ bool ScriptSetPreferencesFromUI(Script::CStruct *pParams, Script::CScript *pScri
 		pTempStructure->AddComponent( Script::GenerateCRC("time"), ESYMBOLTYPE_INTEGER, time );
 	}
 
-	if( stricmp( pFieldName, "target_score" ) == 0 )
+	if(_stricmp( pFieldName, "target_score" ) == 0 )
 	{
 		int score;
 

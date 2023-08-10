@@ -649,12 +649,12 @@ void SText::Draw( void )
 		});
 
 		// Push indices
-		m_indices.push_back(vi + 0);
-		m_indices.push_back(vi + 1);
-		m_indices.push_back(vi + 2);
-		m_indices.push_back(vi + 0);
-		m_indices.push_back(vi + 2);
-		m_indices.push_back(vi + 3);
+		m_indices.push_back((GLushort)(vi + 0));
+		m_indices.push_back((GLushort)(vi + 1));
+		m_indices.push_back((GLushort)(vi + 2));
+		m_indices.push_back((GLushort)(vi + 0));
+		m_indices.push_back((GLushort)(vi + 2));
+		m_indices.push_back((GLushort)(vi + 3));
 
 		/*
 		p_vert->x	= x0;

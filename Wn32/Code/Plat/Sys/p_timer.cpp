@@ -125,7 +125,7 @@ uint64 GetTimeInCPUCycles(void)
 
 Time GetTime ( void )
 {
-	return GetTickCount64();
+	return (Time)GetTickCount64();
 }
 
 MicroSeconds GetTimeInUSeconds( void )

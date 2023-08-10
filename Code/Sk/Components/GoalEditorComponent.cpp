@@ -2044,7 +2044,7 @@ CEditGoal *CGoalEditorComponent::find_goal(const char *p_name)
 	{
 		if (mp_goals[i].Used() && 
 			mp_goals[i].GetLevel()==current_level && 
-			stricmp(mp_goals[i].GetGoalName(),p_name)==0)
+			_stricmp(mp_goals[i].GetGoalName(),p_name)==0)
 		{
 			return &mp_goals[i];
 		}

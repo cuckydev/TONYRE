@@ -621,8 +621,7 @@ inline Mth::Vector CWalkComponent::GetCameraCollisionTargetOffset (   )
 			return -18.0f * m_facing;
 		
 		case WALKING_AIR:
-			if ((m_previous_state == WALKING_HANG || m_previous_state ==WALKING_LADDER || m_previous_state ==WALKING_LADDER)
-				&& Tmr::ElapsedTime(m_state_timestamp) < 150)
+			if ((m_previous_state == WALKING_HANG || m_previous_state == WALKING_LADDER) && Tmr::ElapsedTime(m_state_timestamp) < 150)
 			{
 				return -18.0f * m_facing;
 			}

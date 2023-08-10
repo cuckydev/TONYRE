@@ -1708,7 +1708,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 			{
 				if( msg->m_Index == i )
 				{
-					if( stricmp( msg->m_Name, player->m_Name ) == 0 )
+					if( _stricmp( msg->m_Name, player->m_Name ) == 0 )
 					{
 						target_player = player;
 					}

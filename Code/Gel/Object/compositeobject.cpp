@@ -213,7 +213,7 @@ void CCompositeObject::Update()
 		}
 #ifdef __NOPT_ASSERT__
 		// Convert to microseconds by dividing by 150
-		m_total_script_update_time=(Tmr::GetTimeInCPUCycles()-time_before)/150;
+		m_total_script_update_time = (int)((Tmr::GetTimeInCPUCycles() - time_before) / 150);
 #endif
 
 		// transition-only function call,
@@ -228,7 +228,7 @@ void CCompositeObject::Update()
 		DoGameLogic();
 #ifdef __NOPT_ASSERT__
 		// Convert to microseconds by dividing by 150
-		m_do_game_logic_time=(Tmr::GetTimeInCPUCycles()-time_before)/150;
+		m_do_game_logic_time = (int)((Tmr::GetTimeInCPUCycles() - time_before) / 150);
 #endif
 
 	}
@@ -246,7 +246,7 @@ void CCompositeObject::Update()
 			
 			#ifdef __NOPT_ASSERT__
 			// Convert to microseconds by dividing by 150
-			pComponent->m_update_time=(Tmr::GetTimeInCPUCycles()-time_before_components)/150;
+			pComponent->m_update_time = (int)((Tmr::GetTimeInCPUCycles() - time_before_components) / 150);
 			#endif
 
 			// If a component update has killed the object

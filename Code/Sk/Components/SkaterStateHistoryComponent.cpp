@@ -97,12 +97,7 @@ void CSkaterStateHistoryComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterStateHistoryComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-	switch ( Checksum )
-	{
-		default:
-			return CBaseComponent::MF_NOT_EXECUTED;
-	}
-    return CBaseComponent::MF_TRUE;
+	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
 /******************************************************************/
@@ -623,7 +618,7 @@ int	CSkaterStateHistoryComponent::sHandleCollision( Net::MsgHandlerContext* cont
 
 Mth::Vector	CSkaterStateHistoryComponent::get_vel (   )
 {
-	return GetObj()->m_vel * Tmr::UncappedFrameLength();
+	return GetObj()->m_vel * (float)Tmr::UncappedFrameLength();
 }
 
 /******************************************************************/

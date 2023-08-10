@@ -1466,7 +1466,7 @@ bool		Manager::ServerAlreadyInList( char* name, int ip )
 	for( server = sh.FirstItem( m_servers ); server; server = sh.NextItem())
 	{
 		if(	( server->m_Ip == ip ) &&
-			( stricmp( server->m_Name, name ) == 0 ))
+			( _stricmp( server->m_Name, name ) == 0 ))
 		{
 			return true;
 		}
@@ -1475,7 +1475,7 @@ bool		Manager::ServerAlreadyInList( char* name, int ip )
 	for( server = sh.FirstItem( m_temp_servers ); server; server = sh.NextItem())
 	{
 		if(	( server->m_Ip == ip ) &&
-			( stricmp( server->m_Name, name ) == 0 ))
+			( _stricmp( server->m_Name, name ) == 0 ))
 		{
 			return true;
 		}

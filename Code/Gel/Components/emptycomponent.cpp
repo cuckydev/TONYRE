@@ -159,31 +159,7 @@ void CEmptyComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CEmptyComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-	switch ( Checksum )
-	{
-/*
-        // @script | DoSomething | does some functionality
-		case 0xbb4ad101:		// DoSomething
-			DoSomething();
-			break;
-
-        // @script | ValueIsTrue | returns a boolean value
-		case 0x769260f7:		// ValueIsTrue
-		{
-			return ValueIsTrue() ? CBaseComponent::MF_TRUE : CBaseComponent::MF_FALSE;
-		}
-		break;
-*/
-
-		default:
-			return CBaseComponent::MF_NOT_EXECUTED;
-	}
-
-	// the "default" case of the switch statement handles
-	// unrecognized functions;  if we make it down here,
-	// that means that the component already handled it
-	// somehow
-    return CBaseComponent::MF_TRUE;
+	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
 /******************************************************************/

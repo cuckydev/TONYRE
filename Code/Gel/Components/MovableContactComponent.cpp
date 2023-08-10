@@ -86,12 +86,7 @@ void CMovableContactComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CMovableContactComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-	switch ( Checksum )
-	{
-		default:
-			return CBaseComponent::MF_NOT_EXECUTED;
-	}
-    return CBaseComponent::MF_TRUE;
+	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
 /******************************************************************/

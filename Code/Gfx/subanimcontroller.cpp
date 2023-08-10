@@ -645,13 +645,7 @@ void CIKController::GetDebugInfo( Script::CStruct* p_info )
 
 EAnimFunctionResult CIKController::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-	switch ( Checksum )
-	{
-		default:
-			return AF_NOT_EXECUTED;
-	}
-
-	return AF_TRUE;
+	return AF_NOT_EXECUTED;
 }
 
 /******************************************************************/

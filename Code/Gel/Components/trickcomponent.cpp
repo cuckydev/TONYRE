@@ -2886,7 +2886,7 @@ bool CTrickComponent::IsExcluded(Script::CStruct *pTrick, const char *pIgnoreNam
 			Dbg_MsgAssert(pIgnoreName,("nullptr pIgnoreName"));
 			// Compare pName and pIgnoreName.
 			// If they match, return true so that the trick gets excluded.
-			if (stricmp(pName,pIgnoreName)==0)
+			if (_stricmp(pName,pIgnoreName)==0)
 			{
 				return true;
 			}	

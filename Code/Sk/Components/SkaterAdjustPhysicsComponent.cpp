@@ -139,12 +139,7 @@ void CSkaterAdjustPhysicsComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterAdjustPhysicsComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-	switch ( Checksum )
-	{
-		default:
-			return CBaseComponent::MF_NOT_EXECUTED;
-	}
-    return CBaseComponent::MF_TRUE;
+	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
 /******************************************************************/

@@ -396,7 +396,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 	}
 		
 	// if not set (or set to default), calculate the center of mass
-	if (center_of_mass[X] == 0.0f && center_of_mass[Y] == 0.0f && center_of_mass[Z] == 0.0f);
+	if (center_of_mass[X] == 0.0f && center_of_mass[Y] == 0.0f && center_of_mass[Z] == 0.0f)
 	{
 		for (int n = m_num_contacts; n--; )
 		{

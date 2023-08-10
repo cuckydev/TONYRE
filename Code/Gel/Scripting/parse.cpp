@@ -1573,27 +1573,27 @@ S2Bytes Read2Bytes(const uint8 *p_short)
 // Moved to parse.cpp just so that all these byte reading/writing functions are in one place.
 uint8 *Write4Bytes(uint8 *p_buffer, uint32 val)
 {
-	*p_buffer++=val;
-	*p_buffer++=val>>8;
-	*p_buffer++=val>>16;
-	*p_buffer++=val>>24;
+	*p_buffer++ = (uint8)(val);
+	*p_buffer++ = (uint8)(val >> 8);
+	*p_buffer++ = (uint8)(val >> 16);
+	*p_buffer++ = (uint8)(val >> 24);
 	return p_buffer;
 }
 
 uint8 *Write4Bytes(uint8 *p_buffer, float floatVal)
 {
 	uint32 val=*(uint32*)&floatVal;
-	*p_buffer++=val;
-	*p_buffer++=val>>8;
-	*p_buffer++=val>>16;
-	*p_buffer++=val>>24;
+	*p_buffer++ = (uint8)(val);
+	*p_buffer++ = (uint8)(val >> 8);
+	*p_buffer++ = (uint8)(val >> 16);
+	*p_buffer++ = (uint8)(val >> 24);
 	return p_buffer;
 }
 
 uint8 *Write2Bytes(uint8 *p_buffer, uint16 val)
 {
-	*p_buffer++=val;
-	*p_buffer++=val>>8;
+	*p_buffer++ = (uint8)(val);
+	*p_buffer++ = (uint8)(val >> 8);
 	return p_buffer;
 }
 
@@ -1650,11 +1650,11 @@ void ReleaseStoredRandoms(CScript *p_script)
 
 void CStoredRandom::InitIndices()
 {
-	Dbg_MsgAssert(mNumItems<=MAX_RANDOM_INDICES,("mNumItems too big"));
+	Dbg_MsgAssert(mNumItems <= MAX_RANDOM_INDICES,("mNumItems too big"));
 	
-	for (uint16 i=0; i<mNumItems; ++i)
+	for (uint16 i = 0; i < mNumItems; ++i)
 	{
-		mpIndices[i]=i;
+		mpIndices[i] = (uint8)i;
 	}	
 }
 

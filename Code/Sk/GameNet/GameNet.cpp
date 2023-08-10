@@ -7486,7 +7486,7 @@ bool Manager::ScriptCreatePlayerOptions(Script::CScriptStructure *pParams, Scrip
 	{
 		if( index == 0 )
 		{
-			if( stricmp( player->m_Name, name ) == 0 )
+			if( _stricmp( player->m_Name, name ) == 0 )
 			{
 				player->m_flags.SetMask( PlayerInfo::mMARKED_PLAYER );
 
@@ -7635,7 +7635,7 @@ bool Manager::ScriptRemovePlayer(Script::CScriptStructure *pParams, Script::CScr
 	{
 		if( index == 0 )
 		{
-			if( stricmp( player->m_Name, name ) == 0 )
+			if( _stricmp( player->m_Name, name ) == 0 )
 			{
 				player->m_flags.SetMask( PlayerInfo::mMARKED_PLAYER );
 

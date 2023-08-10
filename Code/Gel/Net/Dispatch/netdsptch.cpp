@@ -203,7 +203,7 @@ int	Dispatcher::DispatchMsgHandlers( Conn *conn, int flags )
 			Dbg_Assert( size_known );
 
 			memcpy( &embedded_msg_id, data + 5, sizeof( unsigned char ));
-			embedded_msg_length = msg_context.m_MsgLength - Manager::vMSG_SEQ_HEADER_LENGTH;
+			embedded_msg_length = (unsigned short)(msg_context.m_MsgLength - Manager::vMSG_SEQ_HEADER_LENGTH);
 						
 			conn->GetInboundMetrics()->AddMessage( embedded_msg_id, msg_context.m_MsgLength );
 #ifdef NET_PRINT_MESSAGES

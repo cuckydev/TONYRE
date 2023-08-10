@@ -235,7 +235,7 @@ class MusicDecoder : public Streamer
 			// Read from decoder
 			ma_uint64 frames_read = 0;
 			ma_decoder_read_pcm_frames(&decoder, p, bytes / 4, &frames_read);
-			return frames_read * 4;
+			return (size_t)(frames_read * 4);
 		}
 };
 

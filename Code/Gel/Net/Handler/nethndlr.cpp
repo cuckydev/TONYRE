@@ -383,7 +383,7 @@ int	App::handle_sequenced_messages( MsgHandlerContext *context )
 	memcpy( &msg_id, data, sizeof( unsigned char ));
 	data += sizeof( unsigned char );
 
-	msg_len = context->m_MsgLength - Manager::vMSG_SEQ_HEADER_LENGTH;
+	msg_len = (unsigned short)(context->m_MsgLength - Manager::vMSG_SEQ_HEADER_LENGTH);
 	
 	queued_msg = new QueuedMsgSeq( msg_id, msg_len, data, group_id );
 

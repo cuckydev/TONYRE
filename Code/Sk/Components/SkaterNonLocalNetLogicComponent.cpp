@@ -135,7 +135,7 @@ void CSkaterNonLocalNetLogicComponent::Update()
 	GameNet::PlayerInfo* local_player;
 	GameNet::Manager* gamenet_man = GameNet::Manager::Instance();
 
-	m_frame_length = Tmr::UncappedFrameLength();
+	m_frame_length = (float)Tmr::UncappedFrameLength();
 
 	bool BeganFrameInLipState = mp_state_component->GetState() == LIP;
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
@@ -233,12 +233,7 @@ void CSkaterNonLocalNetLogicComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterNonLocalNetLogicComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-	switch ( Checksum )
-	{
-		default:
-			return CBaseComponent::MF_NOT_EXECUTED;
-	}
-    return CBaseComponent::MF_TRUE;
+	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
 /******************************************************************/

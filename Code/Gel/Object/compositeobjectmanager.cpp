@@ -350,7 +350,7 @@ void CCompositeObjectManager::Update()
 				#ifdef __NOPT_ASSERT__
 				Dbg_MsgAssert(p_smart_object, ("Object %s has deleted itself in its Update() function", Script::FindChecksumName(obj_id)));
 				// Convert to microseconds by dividing by 150
-				static_cast< CCompositeObject* >(pObject)->SetUpdateTime((Tmr::GetTimeInCPUCycles() - time_before) / 150);
+				static_cast< CCompositeObject* >(pObject)->SetUpdateTime((int)((Tmr::GetTimeInCPUCycles() - time_before) / 150));
 				#endif
 				
 				if (m_list_changed & stamp_mask) break;

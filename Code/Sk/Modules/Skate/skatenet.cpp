@@ -928,7 +928,7 @@ int	Skate::handle_msg_relay( Net::MsgHandlerContext* context )
 		}
 
 		msg_desc.m_Data = context->m_Msg;
-		msg_desc.m_Length = context->m_MsgLength;
+		msg_desc.m_Length = (unsigned short)context->m_MsgLength;
 		msg_desc.m_Id = context->m_MsgId;
 		if( ( context->m_MsgId == GameNet::MSG_ID_BLOOD_OFF ) ||
 			( context->m_MsgId == GameNet::MSG_ID_CHAT ) ||
@@ -1021,7 +1021,7 @@ int	Skate::handle_selective_msg_relay( Net::MsgHandlerContext* context )
 			Net::MsgDesc msg_desc;
 
 			msg_desc.m_Data = context->m_Msg;
-			msg_desc.m_Length = context->m_MsgLength;
+			msg_desc.m_Length = (unsigned short)context->m_MsgLength;
 			msg_desc.m_Id = context->m_MsgId;
 			context->m_App->EnqueueMessage( player->GetConnHandle(), &msg_desc );
 		}
@@ -1060,7 +1060,7 @@ int	Skate::handle_script_relay( Net::MsgHandlerContext* context )
 		}
 
 		msg_desc.m_Data = context->m_Msg;
-		msg_desc.m_Length = context->m_MsgLength;
+		msg_desc.m_Length = (unsigned short)context->m_MsgLength;
 		msg_desc.m_Id = context->m_MsgId;
 		msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 		msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;

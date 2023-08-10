@@ -841,7 +841,7 @@ bool ScriptArrayContains(Script::CStruct *pParams, Script::CScript *pScript)
 				pParams->GetText( "contains", &pDesiredString, true );
 				// Changed to use stricmp instead of GenerateCRC because GenerateCRC sees \ and / as
 				// being the same character.
-				if (stricmp(pDesiredString, pArray->GetString( i )) == 0)
+				if (_stricmp(pDesiredString, pArray->GetString( i )) == 0)
 					return true;
 				break;
 			}
@@ -5216,7 +5216,7 @@ bool ScriptLoadScene(Script::CStruct *pParams, Script::CScript *pScript)
 	#ifdef	__NOPT_ASSERT__
 	const char *p_fallback = "nj_sky";
 	// Some debug code to load the NJ sky if default_sky does not exists
-	if (stricmp(texture_dict_name,"levels\\default_sky\\default_sky.tex")==0)
+	if (_stricmp(texture_dict_name,"levels\\default_sky\\default_sky.tex")==0)
 	{
 		printf ("TRYING TO LAOD DEFUALT SKY\n");
 		printf ("TRYING TO LAOD DEFUALT SKY\n");
@@ -10991,7 +10991,7 @@ bool ScriptSendChatMessage(Script::CStruct *pParams, Script::CScript *pScript)
 #if ( ENGLISH == 0 )
 	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( stricmp( p_string, Script::GetLocalString( "kc_str_empty" ) ) ) )
 #else
-	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( stricmp( p_string, "--EMPTY--" ) ) )
+	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( _stricmp( p_string, "--EMPTY--" ) ) )
 #endif
 	{
 		 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();

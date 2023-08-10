@@ -125,7 +125,7 @@ void CMovieManager::setup_last_movie_camera( CMovieDetails* pDetails )
 		 (Mdl::Skate::Instance()->m_cur_level != Crc::ConstCRC("Load_Skateshop") ) )
 	{
 		m_last_movie_camera = *(pDetails->GetCamera());
-		m_last_movie_frame = Tmr::GetRenderFrame() + 1;		// End it one frame later so there aren't any glitches
+		m_last_movie_frame = (uint32)(Tmr::GetRenderFrame() + 1); // End it one frame later so there aren't any glitches
 		m_use_last_movie_camera = true;
 	}
 	else

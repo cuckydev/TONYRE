@@ -39,7 +39,7 @@ static bool sIsPrefixedWith(const char *p_string, const char *p_prefix)
 	Dbg_MsgAssert(string_len<100,("String too long for buffer"));
 	strcpy(p_buf,p_string);
 	p_buf[prefix_len]=0;
-	if (stricmp(p_buf,p_prefix)==0)
+	if (_stricmp(p_buf,p_prefix)==0)
 	{
 		return true;
 	}
@@ -113,7 +113,7 @@ bool CommandLineContainsFlag(const char *p_name, sint argc, char** argv)
 	
 	for (int i=0; i<argc; ++i)
 	{
-		if (stricmp(argv[i],p_name)==0)
+		if (_stricmp(argv[i],p_name)==0)
 		{
 			return true;
 		}	

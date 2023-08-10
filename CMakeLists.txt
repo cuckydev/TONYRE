@@ -25,7 +25,8 @@ endif()
 
 # I'm feeling lucky, treat warnings as errors
 if (MSVC)
-	target_compile_options(TonyRE.Common INTERFACE /W2 /WX)
+	target_compile_definitions(TonyRE.Common INTERFACE _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS)
+	target_compile_options(TonyRE.Common INTERFACE /W3 /WX)
 else()
 	target_compile_options(TonyRE.Common INTERFACE -Werror)
 endif()

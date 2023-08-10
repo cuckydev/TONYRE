@@ -321,17 +321,7 @@ void CProjectileCollisionComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CProjectileCollisionComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-	switch ( Checksum )
-	{
-		default:
-			return CBaseComponent::MF_NOT_EXECUTED;
-	}
-
-	// the "default" case of the switch statement handles
-	// unrecognized functions;  if we make it down here,
-	// that means that the component already handled it
-	// somehow
-    return CBaseComponent::MF_TRUE;
+	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
 /******************************************************************/

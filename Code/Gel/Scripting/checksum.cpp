@@ -169,7 +169,7 @@ void AddChecksumName(uint32 checksum, const char *p_name)
 		if (p_first->mChecksum==checksum)
 		{
 			// It does! Check whether it is the same name.
-			if (stricmp(p_first->mpName,p_name)==0)
+			if (_stricmp(p_first->mpName,p_name)==0)
 			{
 				// Phew, the name matches. No need to do anything.
 				return;

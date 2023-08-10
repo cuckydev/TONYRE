@@ -48,7 +48,7 @@ Dbg_DefineProject ( GfxLib, "Graphics Library" )
 **								  Externals									**
 *****************************************************************************/
 
-uint32 Gfx_LastVBlank = 0;
+uint64 Gfx_LastVBlank = 0;
 
 namespace Gfx
 {
