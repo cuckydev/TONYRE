@@ -63,14 +63,13 @@ public :
 	virtual		~Region();
 
 protected :
-				Region( void ){};
-				Region( void* pStart, void* pEnd );
+	Region( void ) {};
+	Region( void* pStart, void* pEnd );
 
-	void		init ( void* pStart, void* pEnd );
-	void*		mp_start;
+	void init( void* pStart, void* pEnd );
 
-
-	int			m_min_free;		// minimum amount of free memory
+	void* mp_start = nullptr;
+	int m_min_free = 0; // minimum amount of free memory
 
 private :
 	
@@ -81,9 +80,9 @@ private :
 		vMAX_ALLOCS
 	};
 
-	void*		mp_end;
+	void *mp_end = nullptr;
 
-	Allocator*	m_alloc[vMAX_ALLOCS];
+	Allocator *m_alloc[vMAX_ALLOCS] = {};
 
 };
 

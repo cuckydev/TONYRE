@@ -43,8 +43,7 @@ DefineSingletonClass( CParkEditor, "Park editor module" );
 
 
 
-CParkEditor::CParkEditor() :
-	mp_park_manager(true)
+CParkEditor::CParkEditor() : mp_park_manager(true)
 {
 	m_logic_task 	= new Tsk::Task< CParkEditor > ( CParkEditor::s_logic_code, *this );
 	m_display_task 	= new Tsk::Task< CParkEditor > ( CParkEditor::s_display_code, *this, Tsk::BaseTask::Node::vDISPLAY_TASK_PRIORITY_CPARKEDITOR_DISPLAY );

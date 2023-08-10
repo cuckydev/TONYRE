@@ -305,7 +305,7 @@ void CSkaterNonLocalNetLogicComponent::snap_to_ground( void  )
 		uint16 flags = feeler.GetFlags();
 		float drop_dist = movement.Length();
 		float drop_sign = Mth::DotProduct(GetObj()->m_matrix[Y], movement); // might be approx +/- 0.00001f
-		if(	(!flags & mFD_SKATABLE ) || ( flags & mFD_NOT_SKATABLE ) || (!flags & mFD_VERT) || 
+		if(!(flags & mFD_SKATABLE ) || ( flags & mFD_NOT_SKATABLE ) || !(flags & mFD_VERT) ||
 			(flags & mFD_WALL_RIDABLE) ||
 			(feeler.GetNormal()[Y] < sinf(Mth::DegToRad(GetPhysicsFloat(Crc::ConstCRC("Wall_Non_Skatable_Angle"))))))
 		{

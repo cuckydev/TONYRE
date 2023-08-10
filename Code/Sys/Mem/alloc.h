@@ -159,20 +159,20 @@ public :
 		
 				union
 				{
-					Allocator*		mpAlloc;
+					Allocator*		mpAlloc = nullptr;
 					BlockHeader*	mpNext;
 				};
 
 #ifndef __EFFICIENT__
-				uint				mSize;
+				uint				mSize = 0;
 #endif
-				uint				mId;
+				uint				mId = 0;
 #ifdef __EFFICIENT__
 #ifdef __NOPT_ASSERT__
-				CMemProfile	*		mp_profile;
+				CMemProfile	*		mp_profile = nullptr;
 #endif		// __NOPT_ASSERT__
 #else
-				CMemProfile	*		mp_profile;
+				CMemProfile	*		mp_profile = nullptr;
 #endif // __EFFICIENT__
 
 
@@ -181,10 +181,10 @@ public :
 
 #ifdef	__LINKED_LIST_HEAP__    
 
-				BlockHeader*		mp_prev_used;
-				BlockHeader*		mp_next_used;
+				BlockHeader*		mp_prev_used = nullptr;
+				BlockHeader*		mp_next_used = nullptr;
 				
-				void *				mp_debug_data;		// added for tracking callstacks for each allocation
+				void *				mp_debug_data = nullptr;		// added for tracking callstacks for each allocation
 
 #endif // __NOPT_DEBUG__
 
@@ -208,10 +208,10 @@ public :
 								~Context( void );
 	
 		Lst::Node< Context >	m_node;
-		BlockHeader*			mp_free_list;
+		BlockHeader*			mp_free_list = nullptr;
 	
 	#ifdef	__LINKED_LIST_HEAP__    
-		BlockHeader*			mp_used_list;
+		BlockHeader*			mp_used_list = nullptr;
 	#endif
 	
 	};
@@ -219,12 +219,12 @@ public :
 									Allocator( Region* region, Direction dir, const char *p_name );
 	virtual							~Allocator( void );
 	
-			Region*					mp_region;
-			Direction				m_dir;
-			void*					mp_top;
-			Context*				mp_context;
+			Region*					mp_region = nullptr;
+			Direction				m_dir = (Direction)0;
+			void*					mp_top = nullptr;
+			Context*				mp_context = nullptr;
 
-			const char *			mp_name;		// debugging name, for checking
+			const char *			mp_name = nullptr;		// debugging name, for checking
 
 			Lst::Head< Context >	m_context_stack;
 

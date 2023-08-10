@@ -41,17 +41,39 @@
 
 #include <core/math/slerp.h>
 
-#define MESSAGE(a) { printf("M:%s:%i: %s\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPI(a) { printf("D:%s:%i: " #a " = %i\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPF(a) { printf("D:%s:%i: " #a " = %g\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPE(a) { printf("D:%s:%i: " #a " = %e\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPS(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPP(a) { printf("D:%s:%i: " #a " = %p\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPV(a) { printf("D:%s:%i: " #a " = %g, %g, %g\n", __FILE__ + 15, __LINE__, (a)[X], (a)[Y], (a)[Z]); }
-#define DUMP4(a) { printf("D:%s:%i: " #a " = %g, %g, %g, %g\n", __FILE__ + 15, __LINE__, (a)[X], (a)[Y], (a)[Z], (a)[W]); }
+#ifndef MESSAGE
+#define MESSAGE(a) { printf("M:%s:%u: %s\n", __FILE__, __LINE__, a); }
+#endif
+#ifndef DUMPI
+#define DUMPI(a) { printf("D:%s:%u: " #a " = %i\n", __FILE__, __LINE__, a); }
+#endif
+#ifndef DUMPF
+#define DUMPF(a) { printf("D:%s:%u: " #a " = %g\n", __FILE__, __LINE__, a); }
+#endif
+#ifndef DUMPE
+#define DUMPE(a) { printf("D:%s:%u: " #a " = %e\n", __FILE__, __LINE__, a); }
+#endif
+#ifndef DUMPS
+#define DUMPS(a) { printf("D:%s:%u: " #a " = %s\n", __FILE__, __LINE__, a); }
+#endif
+#ifndef DUMPP
+#define DUMPP(a) { printf("D:%s:%u: " #a " = %p\n", __FILE__, __LINE__, a); }
+#endif
+#ifndef DUMPV
+#define DUMPV(a) { printf("D:%s:%u: " #a " = %g, %g, %g\n", __FILE__, __LINE__, (a)[X], (a)[Y], (a)[Z]); }
+#endif
+#ifndef DUMP4
+#define DUMP4(a) { printf("D:%s:%u: " #a " = %g, %g, %g, %g\n", __FILE__, __LINE__, (a)[X], (a)[Y], (a)[Z], (a)[W]); }
+#endif
+#ifndef DUMPM
 #define DUMPM(a) { DUMP4(a[X]); DUMP4(a[Y]); DUMP4(a[Z]); DUMP4(a[W]); }
-#define MARK { printf("K:%s:%i: %s\n", __FILE__ + 15, __LINE__, __PRETTY_FUNCTION__); }
+#endif
+#ifndef MARK
+#define MARK { printf("K:%s:%u: %s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__); }
+#endif
+#ifndef PERIODIC
 #define PERIODIC(n) for (static int p__ = 0; (p__ = ++p__ % (n)) == 0; )
+#endif
 
 // THOUGHTS:
 //

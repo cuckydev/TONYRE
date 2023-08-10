@@ -38,32 +38,13 @@ namespace Mth
 // which we can check for later (and some platforms will check automatically)
 
 
-#ifdef	__INITIALIZE_VECTORS__
-inline Vector::Vector (  )
-{	
+inline Vector::Vector()
+{
 	col[X] = 0.0f;
 	col[Y] = 0.0f;
 	col[Z] = 0.0f;
 	col[W] = 1.0f;
 }
-#else
-#ifdef		DEBUG_UNINIT_VECTORS
-inline Vector::Vector (  )
-{	
-	*((uint32*)(&col[X])) = 0x7F800001;				// Positive NANS (Not A Number - Signaling)
-	*((uint32*)(&col[Y])) = 0x7F800002;				// Positive NANS (Not A Number - Signaling)
-	*((uint32*)(&col[Z])) = 0x7F800003;				// Positive NANS (Not A Number - Signaling)
-	*((uint32*)(&col[W])) = 0x7F800004;				// Positive NANS (Not A Number - Signaling)
-}
-#else
-inline Vector::Vector (  )
-{	
-}
-
-#endif
-#endif
-
-
 
 inline Vector::Vector ( ENoInitType )
 {
@@ -79,7 +60,7 @@ inline Vector::Vector ( float cx, float cy, float cz)
 }
 
 
-inline Vector::Vector ( float cx, float cy, float cz, float cw )
+inline Vector::Vector(float cx, float cy, float cz, float cw)
 {			
 	col[X] = cx;
 	col[Y] = cy;

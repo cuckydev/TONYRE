@@ -641,10 +641,15 @@ out vec4 f_col;
 
 uniform mat4 u_mvp;
 
+float rand(vec2 co){
+	return 0.5f + 0.5f * fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
 void main()
 {
 	gl_Position = u_mvp * vec4(i_pos, 1.0f);
-	f_col = vec4(vec3(0.5f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.5f), 1.0f);
+	vec4 rng = vec4(rand(i_pos.xy), rand(i_pos.zy), rand(i_pos.xz), 1.0f);
+	f_col = vec4(vec3(0.5f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.5f), 1.0f) * rng;
 }
 	)";
 	static const char *test_f = R"(#version 330 core

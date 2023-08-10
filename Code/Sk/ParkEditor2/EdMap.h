@@ -39,11 +39,11 @@ class CAbstractMetaPiece;
 */
 struct SMetaDescriptor
 {
-	uint8						mX;
-	uint8						mY;
-	uint8						mZ;
-	uint8						mRot;
-	uint8						mRiser; // true if a riser
+	uint8						mX = 0;
+	uint8						mY = 0;
+	uint8						mZ = 0;
+	uint8						mRot = 0;
+	uint8						mRiser = 0; // true if a riser
 	
 	/* 
 		The piece pointer is active within a concrete metapiece, the name in an abstract one.
@@ -52,7 +52,7 @@ struct SMetaDescriptor
 	union
 	{
 		uint32					mPieceName;
-		CPiece *				mpPiece;
+		CPiece *				mpPiece = nullptr;
 	};
 };
 

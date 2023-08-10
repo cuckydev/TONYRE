@@ -97,86 +97,88 @@ public:
 				NO_INIT
 			};
 
-			Vector ( );
-			Vector ( ENoInitType ); 			/// A constructor that doesn't init the members.
-			Vector ( float cx, float cy, float cz );
-			Vector ( float cx, float cy, float cz, float cw );
-//			Vector ( float cx = 0.0f, float cy = 0.0f, float cz = 0.0f, float cw = 1.0f );
-			Vector ( const Vector& v );
+			Vector( );
+			Vector( ENoInitType ); 			/// A constructor that doesn't init the members.
+			Vector( float cx, float cy, float cz );
+			Vector( float cx, float cy, float cz, float cw );
+//			Vector( float cx = 0.0f, float cy = 0.0f, float cz = 0.0f, float cw = 1.0f );
+			Vector( const Vector& v );
 	
 
-			Vector& 		operator=	( const Vector& v );
-			bool			operator==  ( const Vector& v ) const;
-			bool			operator!=  ( const Vector& v ) const;
-        	Vector&			operator+=	( const Vector& v );
-        	Vector&			operator-=	( const Vector& v );
-        	Vector&			operator*=	( const float s );
-			Vector&			operator/=	( float s );
-			Vector&			operator*=	( const Vector& v );
-			Vector&			operator/=	( const Vector& v );
-			Vector&			operator*=	( const Matrix& mat );
-	const	float&			operator[]	( sint i ) const;
-			float&			operator[]	( sint i );
+			Vector &operator=( const Vector& v );
+			bool operator==( const Vector& v ) const;
+			bool operator!=( const Vector& v ) const;
+        	Vector &operator+=( const Vector& v );
+        	Vector &operator-=( const Vector& v );
+        	Vector &operator*=( const float s );
+			Vector &operator/=( float s );
+			Vector &operator*=( const Vector& v );
+			Vector &operator/=( const Vector& v );
+			Vector &operator*=( const Matrix& mat );
+	const	float &operator[]( sint i ) const;
+			float &operator[]( sint i );
 	
-			Vector&			Set 		( float cx = 0.0f, float cy = 0.0f, float cz = 0.0f, float cw = 1.0f );
-			float			Length		( void ) const;
-			float			LengthSqr	( void ) const;
-        	Vector&			Negate		( void );						// this = -this
-			Vector&			Negate 		( const Vector& src ); 			// this = -src
-        	Vector&			Normalize	( );							// faster version normlaizes to 1
-        	Vector&			Normalize	( float len);
+			Vector &Set( float cx = 0.0f, float cy = 0.0f, float cz = 0.0f, float cw = 1.0f );
+			float Length( void ) const;
+			float LengthSqr( void ) const;
 
-			Vector&			ShearX		( float shy, float shz );
-			Vector&			ShearY		( float shx, float shz );
-			Vector&			ShearZ		( float shx, float shy );
+			Vector &Negate( void ); // this = -this
+			Vector &Negate( const Vector& src ); // this = -src
 
-			Vector&			RotateX		( float s, float c );
-			Vector&			RotateY		( float s, float c );
-			Vector&			RotateZ		( float s, float c );
-
-			Vector&			RotateX		( float angle );
-			Vector&			RotateY		( float angle );
-			Vector&			RotateZ		( float angle );
-			
-			Vector&			Rotate		( const Quat& quat );
-			Vector&			Rotate		( const Matrix& matrix );
-			Vector&			Rotate		( const Vector& axis, const float angle );
+			Vector &Normalize( ); // faster version normlaizes to 1
+			Vector &Normalize( float len);
+ 
+			Vector &ShearX( float shy, float shz );
+			Vector &ShearY( float shx, float shz );
+			Vector &ShearZ( float shx, float shy );
+ 
+			Vector &RotateX( float s, float c );
+			Vector &RotateY( float s, float c );
+			Vector &RotateZ( float s, float c );
+ 
+			Vector &RotateX( float angle );
+			Vector &RotateY( float angle );
+			Vector &RotateZ( float angle );
+			 
+			Vector &Rotate( const Quat& quat );
+			Vector &Rotate( const Matrix& matrix );
+			Vector &Rotate( const Vector& axis, const float angle );
 			
 			// 90 degree increment Rotation (uses no multiplication)
-			Vector&			RotateY90	( ERot90 angle );
+			Vector &RotateY90	( ERot90 angle );
 
-			Vector&			Scale		( float scale );
-			Vector&			Scale		( const Vector& scale );
+			Vector &Scale( float scale );
+			Vector &Scale( const Vector& scale );
 
-			Vector&			RotateToPlane(const Vector& normal);
-			Vector&			RotateToNormal(const Vector& normal);
-			Vector&			ProjectToPlane(const Vector& normal);
-			Vector&			ProjectToNormal(const Vector& normal);
+			Vector &RotateToPlane(const Vector& normal);
+			Vector &RotateToNormal(const Vector& normal);
+			Vector &ProjectToPlane(const Vector& normal);
+			Vector &ProjectToNormal(const Vector& normal);
+			
+			Vector &ZeroIfShorterThan( float length );
+			
+			Vector &ClampMin( float min );
+			Vector &ClampMax( float max );
+			Vector &Clamp( float min = 0.0f, float max = 1.0f );
+			Vector &ClampMin( Vector& min );
+			Vector &ClampMax( Vector& max );
+			Vector &Clamp( Vector& min, Vector& max );
 
-			Vector&			ZeroIfShorterThan	( float length );				 
-													 
-			Vector&			ClampMin	( float min );
-			Vector&			ClampMax	( float max );
-			Vector&			Clamp		( float min = 0.0f, float max = 1.0f );
-			Vector&			ClampMin	( Vector& min );
-			Vector&			ClampMax	( Vector& max );
-			Vector&			Clamp		( Vector& min, Vector& max );
+			float GetX( void ) const;
+			float GetY( void ) const;
+			float GetZ( void ) const;
+			float GetW( void ) const;
+			float GetMaxAxis( int *whichAxis = nullptr );
 
-			float			GetX		( void ) const;
-			float			GetY		( void ) const;
-			float			GetZ		( void ) const;
-			float 			GetW		( void ) const;
-			float			GetMaxAxis	( int *whichAxis = nullptr );
-
-			void			DegreesToRadians( void );
-			void			RadiansToDegrees( void );
-			void			FeetToInches( void );
+			void DegreesToRadians( void );
+			void RadiansToDegrees( void );
+			void FeetToInches( void );
 			// convert to 3d studio max coords ( Z+ up, Y- forward, X to the right... )
-			void			ConvertToMaxCoords( void );
-			void			ConvertFromMaxCoords( void );
+			void ConvertToMaxCoords( void );
+			void ConvertFromMaxCoords( void );
 			
 			// debug info
-			void			PrintContents() const;
+			void PrintContents() const;
 			
 private:
 
@@ -185,7 +187,7 @@ private:
 				NUM_ELEMENTS = 4
 			};
 		
-			float				col[NUM_ELEMENTS];
+			float col[NUM_ELEMENTS];
 };
 
 /*****************************************************************************

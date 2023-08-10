@@ -71,7 +71,7 @@ public:
 
 private:
 
-	uint		flag;
+	uint		flag = 0;
 };
 
 

@@ -121,25 +121,23 @@ namespace Spt
 template< class _T >
 class SingletonPtr : public Spt::Class							
 {
+	public:
+		SingletonPtr( bool create = false );
+		virtual ~SingletonPtr( void );
 
-public:
+		// template copy contructor
+		template < class _NewT >
+		SingletonPtr( const SingletonPtr< _NewT >& rhs ); // needed to support inheritance correctly
 
-							SingletonPtr( bool create = false );
-	virtual					~SingletonPtr( void );
+		template < class _NewT >
+		SingletonPtr< _T > &operator=( const SingletonPtr< _NewT >& rhs ); // template assignment operator
 
+		_T *operator->() const;
+		_T &operator*() const;
 
-template < class _NewT >						                    			// template copy contructor
-							SingletonPtr( const SingletonPtr< _NewT >& rhs ); 	// needed to support inheritance correctly
-
-template < class _NewT > 	
-	SingletonPtr< _T >&		operator= ( const SingletonPtr< _NewT >& rhs );		// template assignment operator
-
-	_T*						operator-> () const;
-	_T&						operator* () const;
-
-private:
+	private:
 	
-	Mem::Ptr< _T >			mp_instance;
+		Mem::Ptr< _T > mp_instance;
 };
 
 /******************************************************************/
@@ -148,8 +146,7 @@ private:
 /******************************************************************/
 	
 template < class _T > inline
-SingletonPtr< _T >::SingletonPtr( bool create )
-: mp_instance ( _T::sSgltnInstance( create ) )
+SingletonPtr< _T >::SingletonPtr( bool create ) : mp_instance ( _T::sSgltnInstance( create ) )
 {
 	
 #ifdef __NOPT_FULL_DEBUG__

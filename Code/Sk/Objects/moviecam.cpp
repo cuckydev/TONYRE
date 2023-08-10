@@ -221,7 +221,7 @@ void CMovieManager::CleanupMovie( CMovieDetails* pDetails )
 	pDetails->Cleanup();
 	pDetails->Remove();
 	delete pDetails;
-	printf( "Details have been removed %ld\n", Tmr::GetRenderFrame() );
+	printf( "Details have been removed %" PRIu64 "\n", Tmr::GetRenderFrame() );
 	
 	// GJ:  run the exit script AFTER we delete it
 	// need to do it after the details are deleted

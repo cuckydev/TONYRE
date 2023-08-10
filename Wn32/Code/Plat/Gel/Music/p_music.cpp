@@ -73,7 +73,7 @@ class Streamer
 		
 		std::mutex db_mutex;
 		std::condition_variable db_cv;
-		size_t db_cv_i;
+		size_t db_cv_i = 0;
 
 		std::thread db_thread = std::thread([this]() {
 			while (1)
@@ -183,6 +183,8 @@ class Streamer
 					}
 				}
 			}
+
+			return bytes;
 		}
 
 		virtual size_t Stream(char *p, size_t bytes) = 0;

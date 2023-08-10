@@ -53,18 +53,18 @@
 #define		STICKY_WALLRIDES		 // attempt to snap sideways to wallrides
 
 // temp debug macros
-#define MESSAGE(a) { printf("M:%s:%i: %s\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPI(a) { printf("D:%s:%i: " #a " = %i\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPB(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__ + 15, __LINE__, a ? "true" : "false"); }
-#define DUMPF(a) { printf("D:%s:%i: " #a " = %g\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPE(a) { printf("D:%s:%i: " #a " = %e\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPS(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPP(a) { printf("D:%s:%i: " #a " = %p\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPC(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__ + 15, __LINE__, Script::FindChecksumName(a)); }
-#define DUMPV(a) { printf("D:%s:%i: " #a " = %g, %g, %g\n", __FILE__ + 15, __LINE__, (a)[X], (a)[Y], (a)[Z]); }
-#define DUMP4(a) { printf("D:%s:%i: " #a " = %g, %g, %g, %g\n", __FILE__ + 15, __LINE__, (a)[X], (a)[Y], (a)[Z], (a)[W]); }
+#define MESSAGE(a) { printf("M:%s:%u: %s\n", __FILE__, __LINE__, a); }
+#define DUMPI(a) { printf("D:%s:%u: " #a " = %i\n", __FILE__, __LINE__, a); }
+#define DUMPB(a) { printf("D:%s:%u: " #a " = %s\n", __FILE__, __LINE__, a ? "true" : "false"); }
+#define DUMPF(a) { printf("D:%s:%u: " #a " = %g\n", __FILE__, __LINE__, a); }
+#define DUMPE(a) { printf("D:%s:%u: " #a " = %e\n", __FILE__, __LINE__, a); }
+#define DUMPS(a) { printf("D:%s:%u: " #a " = %s\n", __FILE__, __LINE__, a); }
+#define DUMPP(a) { printf("D:%s:%u: " #a " = %p\n", __FILE__, __LINE__, a); }
+#define DUMPC(a) { printf("D:%s:%u: " #a " = %s\n", __FILE__, __LINE__, Script::FindChecksumName(a)); }
+#define DUMPV(a) { printf("D:%s:%u: " #a " = %g, %g, %g\n", __FILE__, __LINE__, (a)[X], (a)[Y], (a)[Z]); }
+#define DUMP4(a) { printf("D:%s:%u: " #a " = %g, %g, %g, %g\n", __FILE__, __LINE__, (a)[X], (a)[Y], (a)[Z], (a)[W]); }
 #define DUMPM(a) { DUMP4(a[X]); DUMP4(a[Y]); DUMP4(a[Z]); DUMP4(a[W]); }
-#define MARK { printf("K:%s:%i: %s\n", __FILE__ + 15, __LINE__, __PRETTY_FUNCTION__); }
+#define MARK { printf("K:%s:%u: %s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__); }
 #define PERIODIC(n) for (static int p__ = 0; (p__ = ++p__ % (n)) == 0; )
 
 #define RED MAKE_RGB(255, 0, 0)
@@ -76,7 +76,7 @@
 
 // skater specific debug defines
 #ifdef __NOPT_ASSERT__
-#define HEADER { printf("%i:%s:%i: ", Tmr::GetRenderFrame(), __FILE__ + 15, __LINE__); }
+#define HEADER { printf("%" PRIu64 ":%s:%u: ", Tmr::GetRenderFrame(), __FILE__, __LINE__); }
 #define DUMP_VELOCITY { if (Script::GetInteger(Crc::ConstCRC("debug_skater_vel"))) { HEADER; printf("m_vel = %g, %g, %g (%g)\n", GetObj()->m_vel[X], GetObj()->m_vel[Y], GetObj()->m_vel[Z], GetObj()->m_vel.Length()); } }
 #define DUMP_POSITION { if (Script::GetInteger(Crc::ConstCRC("debug_skater_pos"))) { HEADER; printf("m_pos = %g, %g, %g\n", GetObj()->m_pos[X], GetObj()->m_pos[Y], GetObj()->m_pos[Z]); } }
 #define DUMP_SPOSITION { if (Script::GetInteger(Crc::ConstCRC("debug_skater_pos"))) { HEADER; printf("m_pos = %g, %g, %g\n", m_pos[X], m_pos[Y], m_pos[Z]); } }

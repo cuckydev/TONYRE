@@ -23,6 +23,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_compile_definitions(TonyRE.Common INTERFACE __NOPT_DEBUG__)
 endif()
 
+# I'm feeling lucky, treat warnings as errors
+if (MSVC)
+	target_compile_options(TonyRE.Common INTERFACE /WX)
+else()
+	target_compile_options(TonyRE.Common INTERFACE -Werror)
+endif()
+
 # Compile TonyRE executable
 add_executable(TonyRE WIN32
 	# Com

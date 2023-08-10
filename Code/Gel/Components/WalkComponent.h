@@ -22,7 +22,7 @@
 #include <sk/engine/feeler.h>
 
 #ifdef __NOPT_ASSERT__
-#define WHEADER { printf("%i:%s:%i: ", Tmr::GetRenderFrame(), __FILE__ + 15, __LINE__); }
+#define WHEADER { printf("%" PRIu64 ":%s:%u: ", Tmr::GetRenderFrame(), __FILE__, __LINE__); }
 #define DUMP_WPOSITION { if (Script::GetInteger(Crc::ConstCRC("debug_skater_pos"))) { WHEADER; printf("m_pos = %g, %g, %g\n", m_pos[X], m_pos[Y], m_pos[Z]); } }
 #else
 #define DUMP_WPOSITION {   }

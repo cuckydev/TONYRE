@@ -69,7 +69,7 @@ public :
 		const _T*				Addr( void ) const;								// Retrieve 'dumb' pointer
 		
 protected:
-		_T *m_ptr;
+		_T *m_ptr = nullptr;
 };
 
 /******************************************************************/

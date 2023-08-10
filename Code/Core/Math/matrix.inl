@@ -67,33 +67,7 @@ inline Matrix&		Matrix::Ident ( void )
 
 inline Matrix::Matrix( void )
 {
-
-#ifdef		DEBUG_UNINIT_VECTORS
-// For debugging uninitialized vectors, we set them to a magic value
-// and then the vector code should assert when they are accessed
-// via the [] operator, which casts a row to a vector	
-	*((uint32*)(&row[X][X])) = 0x7F800010;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[X][Y])) = 0x7F800011;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[X][Z])) = 0x7F800012;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[X][W])) = 0x7F800013;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Y][X])) = 0x7F800014;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Y][Y])) = 0x7F800015;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Y][Z])) = 0x7F800016;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Y][W])) = 0x7F800017;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Z][X])) = 0x7F800018;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Z][Y])) = 0x7F800019;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Z][Z])) = 0x7F80001a;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[Z][W])) = 0x7F80001b;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[W][X])) = 0x7F80001c;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[W][Y])) = 0x7F80001d;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[W][Z])) = 0x7F80001e;				// Positive NANS (Not A Number - Signaling)	
-	*((uint32*)(&row[W][W])) = 0x7F80001f;				// Positive NANS (Not A Number - Signaling)	
-#else
-#ifdef	__INITIALIZE_VECTORS__
-	Ident();	
-
-#endif
-#endif
+	Ident();
 }
 
 /******************************************************************/

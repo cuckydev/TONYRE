@@ -657,7 +657,7 @@ bool CTracker::LaunchEvent(uint32 type, uint32 target, uint32 source, Script::CS
 				
 				if (!p_script)
 				{
-					m_event_log.Print(256);
+					m_event_log.Print(false, 256);
 					#ifdef __NOPT_ASSERT__			
 					mp_hash_table->PrintContents();
 					#endif

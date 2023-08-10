@@ -32,7 +32,7 @@
 
 //char foo[sizeof(Script::SReturnAddress)/0];
 
-#define SEND_SCRIPT_NAMES_TO_DEBUGGER
+// #define SEND_SCRIPT_NAMES_TO_DEBUGGER
 
 DefinePoolableClass(Script::CScript);
 

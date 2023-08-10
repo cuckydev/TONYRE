@@ -28,6 +28,7 @@
 #include <iostream>
 #include <cstdint>
 #include <cstring>
+#include <cinttypes>
 
 /*****************************************************************************
 **								   Defines									**
@@ -298,6 +299,7 @@ inline void	operator delete[]( void* pAddr, Mem::Allocator* pAlloc )
 
 #else
 
+#if 0
 /******************************************************************/
 /* Global new/delete operators                                    */
 /*                                                                */
@@ -323,7 +325,7 @@ inline void *operator new[](size_t size)
 		return ptr;
 	throw std::bad_alloc{};
 }
-
+#endif
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -383,7 +385,7 @@ inline void *operator new[](size_t size, Mem::Allocator *pAlloc, bool assert_on_
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-
+#if 0
 inline void operator delete(void *pAddr)
 {
 	free(pAddr);
@@ -399,6 +401,7 @@ inline void operator delete[](void *pAddr)
 	free(pAddr);
 }
 
+#endif
 /******************************************************************/
 /* only used when exception is thrown in constructor              */
 /*                                                                */
