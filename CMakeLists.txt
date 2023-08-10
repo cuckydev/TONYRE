@@ -26,6 +26,7 @@ endif()
 # Compile TonyRE executable
 add_executable(TonyRE WIN32
 	# Com
+	"Code/Com/miniaudio.cpp"
 	"Code/Com/texturedecode.cpp"
 	"Code/Com/texturedecode.h"
 
@@ -736,6 +737,13 @@ add_executable(TonyRE WIN32
 
 target_link_libraries(TonyRE PRIVATE TonyRE.Common)
 
+# Include miniaudio
+target_include_directories(TonyRE.Common INTERFACE "External/miniaudio")
+
+# Compile GameSpy SDK
+add_subdirectory("GameSpy" EXCLUDE_FROM_ALL)
+target_link_libraries(TonyRE PRIVATE GameSpy)
+
 # Send compiled executable to Game folder
 set(BUILD_DIRECTORY ${CMAKE_SOURCE_DIR}/Game)
 set_target_properties(TonyRE PROPERTIES
@@ -745,10 +753,6 @@ set_target_properties(TonyRE PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${BUILD_DIRECTORY}
 	RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIRECTORY}
 )
-
-# Compile GameSpy SDK
-add_subdirectory("GameSpy" EXCLUDE_FROM_ALL)
-target_link_libraries(TonyRE PRIVATE GameSpy)
 
 # Platform select
 if(TRUE) # If WIN32

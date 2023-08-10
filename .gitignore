@@ -5,6 +5,7 @@
 # Ignore build directories
 build
 out
+CMakeSettings.json
 
 # Ignore Game directory
 Game

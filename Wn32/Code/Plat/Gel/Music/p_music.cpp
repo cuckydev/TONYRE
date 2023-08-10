@@ -35,9 +35,14 @@
 #include <sys/config/config.h>
 #include <gel/soundfx/soundfx.h>
 
-/*****************************************************************************
-**								DBG Information								**
-*****************************************************************************/
+#include <miniaudio.h>
+
+#include <string>
+#include <vector>
+#include <memory>
+#include <thread>
+#include <atomic>
+#include <functional>
 
 /*****************************************************************************
 **								  Externals									**
@@ -46,13 +51,190 @@
 namespace Pcm
 {
 
+// Music decoder using miniaudio
+class Streamer
+{
+	private:
+		std::unique_ptr<char> buffer[2];
+		size_t buffer_size[2] = {};
+		size_t buffer_read[2] = {};
+
+		size_t new_buffer_size = 0;
+
+		size_t db_i = 0, db_point = 0, db_left = 0;
+		bool db_streaming[2] = {};
+
+		const std::function<void(size_t)> db_lambda = [this](size_t i) {
+			buffer_read[i] = Stream(buffer[i].get(), buffer_size[i]);
+			db_thread_busy = false;
+		};
+		std::thread db_thread;
+		std::atomic<bool> db_thread_busy;
+
+		bool stopped = false;
+
+	public:
+		~Streamer()
+		{
+			// Join threads
+			if (db_thread.joinable())
+				db_thread.join();
+		}
+
+		size_t Request(char *out, size_t bytes)
+		{
+			// If stopped, return 0
+			if (stopped)
+				return 0;
+
+			// Set next buffer size
+			size_t want_new_buffer_size = bytes * 32;
+			if (want_new_buffer_size > new_buffer_size)
+				new_buffer_size = want_new_buffer_size;
+
+			// If current buffer isn't ready, start streaming in
+			if (!buffer[db_i])
+				StartStream(db_i);
+
+			// Read in buffers
+			size_t to_read = bytes;
+
+			while (to_read > 0)
+			{
+				// Wait for this buffer to be ready
+				if (db_streaming[db_i])
+				{
+					// Wait for thread to finish
+					if (db_thread_busy)
+						break;
+
+					// Check if no data was read
+					if (buffer_read[db_i] == 0)
+					{
+						stopped = true;
+						return 0;
+					}
+
+					// Start streaming
+					db_streaming[db_i] = false;
+					db_point = 0;
+					db_left = buffer_read[db_i];
+				}
+				
+				// If next buffer isn't ready, start streaming in
+				if (!db_streaming[db_i ^ 1])
+					StartStream(db_i ^ 1);
+
+				// Read the rest of the current buffer in
+				if (db_left > 0)
+				{
+					// Get bytes we can read from the current buffer
+					size_t db_out = bytes;
+					if (db_out > db_left)
+						db_out = db_left;
+
+					// Copy them to the output buffer
+					std::copy(buffer[db_i].get() + db_point, buffer[db_i].get() + db_point + db_out, out);
+					db_point += db_out;
+					db_left -= db_out;
+
+					// Update the output pointer and bytes left to read
+					to_read -= db_out;
+					out += db_out;
+				}
+
+				// If buffer is completed, swap
+				if (db_left == 0)
+				{
+					db_i ^= 1;
+					if (buffer_read[db_i] < buffer_size[db_i])
+					{
+						stopped = true;
+						return bytes - to_read;
+					}
+				}
+			}
+		}
+
+		virtual size_t Stream(char *p, size_t bytes) = 0;
+
+	private:
+		void StartStream(size_t i)
+		{
+			// If buffer is smaller than our new buffer size, resize it
+			if (buffer_size[i] < new_buffer_size)
+			{
+				buffer[i].reset();
+				buffer[i].reset(new char[new_buffer_size]);
+				buffer_size[i] = new_buffer_size;
+			}
+
+			// Close old thread
+			if (db_thread.joinable())
+				db_thread.join();
+
+			// Start streaming thread
+			db_streaming[i] = true;
+			db_thread_busy = true;
+			db_thread = std::move(std::thread(db_lambda, i));
+		}
+};
+
+class MusicDecoder : public Streamer
+{
+	private:
+		ma_decoder decoder;
+
+	public:
+		MusicDecoder(const char *name)
+		{
+			ma_decoder_config config = ma_decoder_config_init(ma_format_s16, 2, 48000);
+			ma_decoder_init_file(name, &config, &decoder);
+		}
+
+	private:
+		size_t Stream(char *p, size_t bytes) override
+		{
+			// Read from decoder
+			ma_uint64 frames_read = 0;
+			ma_decoder_read_pcm_frames(&decoder, p, bytes / 4, &frames_read);
+			return frames_read * 4;
+		}
+};
+
+// Audio device
+SDL_AudioDeviceID s_audio_device;
+
+MusicDecoder decoder("Ozo.flac");
+
+// Audio callback
+void AudioCallback(void *userdata, Uint8 *stream, int len)
+{
+	// Clear the stream
+	memset(stream, 0, len);
+	decoder.Request((char *)stream, len);
+}
+
 /******************************************************************/
 /*                                                                */
 /*                                                                */
 /******************************************************************/
 void PCMAudio_Init( void )
 {
-	Dbg_Assert(SDL_WasInit(0) != 0);
+	// Audio device spec
+	SDL_AudioSpec s_wanted_spec = {};
+	s_wanted_spec.format = AUDIO_S16SYS;
+	s_wanted_spec.freq = 48000;
+	s_wanted_spec.channels = 2;
+	s_wanted_spec.samples = 1024;
+	s_wanted_spec.callback = AudioCallback;
+
+	// Open audio device
+	s_audio_device = SDL_OpenAudioDevice(nullptr, 0, &s_wanted_spec, nullptr, SDL_AUDIO_ALLOW_SAMPLES_CHANGE);
+	Dbg_Assert(s_audio_device > 0);
+
+	// Start audio
+	SDL_PauseAudioDevice(s_audio_device, 0);
 }
 
 

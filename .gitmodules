@@ -7,3 +7,6 @@
 [submodule "External/glm"]
 	path = External/glm
 	url = https://github.com/g-truc/glm
+[submodule "External/miniaudio"]
+	path = External/miniaudio
+	url = https://github.com/mackron/miniaudio
