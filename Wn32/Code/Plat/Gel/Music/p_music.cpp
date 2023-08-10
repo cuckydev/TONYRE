@@ -25,6 +25,8 @@
 
 #include <SDL.h>
 
+#include <Windows.h>
+
 #include <core/macros.h>
 #include <core/defines.h>
 #include <core/math.h>
@@ -40,8 +42,13 @@
 #include <string>
 #include <vector>
 #include <memory>
+
 #include <thread>
 #include <atomic>
+
+#include <mutex>
+#include <condition_variable>
+
 #include <functional>
 
 /*****************************************************************************
@@ -63,28 +70,50 @@ class Streamer
 
 		size_t db_i = 0, db_point = 0, db_left = 0;
 		bool db_streaming[2] = {};
+		
+		std::mutex db_mutex;
+		std::condition_variable db_cv;
+		size_t db_cv_i;
 
-		const std::function<void(size_t)> db_lambda = [this](size_t i) {
-			buffer_read[i] = Stream(buffer[i].get(), buffer_size[i]);
-			db_thread_busy = false;
-		};
-		std::thread db_thread;
+		std::thread db_thread = std::thread([this]() {
+			while (1)
+			{
+				// Wait to be given a new index
+				size_t i;
+				{
+					std::unique_lock<std::mutex> db_lock(db_mutex);
+					db_cv.wait(db_lock);
+					i = db_cv_i;
+				}
+				if (i == 2)
+					return;
+
+				// Stream into index
+				buffer_read[i] = Stream(buffer[i].get(), buffer_size[i]);
+				db_thread_busy = false;
+			}
+		});
 		std::atomic<bool> db_thread_busy;
 
-		bool stopped = false;
+		bool paused = false;
+		bool playing = true;
 
 	public:
 		~Streamer()
 		{
-			// Join threads
-			if (db_thread.joinable())
-				db_thread.join();
+			// Kill thread
+			{
+				std::unique_lock<std::mutex> db_lock(db_mutex);
+				db_cv_i = 2;
+				db_cv.notify_all();
+			}
+			db_thread.detach();
 		}
 
 		size_t Request(char *out, size_t bytes)
 		{
-			// If stopped, return 0
-			if (stopped)
+			// If stopped or paused, return 0
+			if (!playing || paused)
 				return 0;
 
 			// Set next buffer size
@@ -111,7 +140,7 @@ class Streamer
 					// Check if no data was read
 					if (buffer_read[db_i] == 0)
 					{
-						stopped = true;
+						playing = false;
 						return 0;
 					}
 
@@ -149,7 +178,7 @@ class Streamer
 					db_i ^= 1;
 					if (buffer_read[db_i] < buffer_size[db_i])
 					{
-						stopped = true;
+						playing = false;
 						return bytes - to_read;
 					}
 				}
@@ -157,6 +186,11 @@ class Streamer
 		}
 
 		virtual size_t Stream(char *p, size_t bytes) = 0;
+
+		void Pause() { paused = true; }
+		void Resume() { paused = false; }
+		bool IsPaused() const { return paused; }
+		bool IsPlaying() const { return playing; }
 
 	private:
 		void StartStream(size_t i)
@@ -169,14 +203,15 @@ class Streamer
 				buffer_size[i] = new_buffer_size;
 			}
 
-			// Close old thread
-			if (db_thread.joinable())
-				db_thread.join();
-
 			// Start streaming thread
+			{
+				std::lock_guard<std::mutex> lock(db_mutex);
+				db_cv_i = i;
+				db_cv.notify_all();
+			}
+
 			db_streaming[i] = true;
 			db_thread_busy = true;
-			db_thread = std::move(std::thread(db_lambda, i));
 		}
 };
 
@@ -205,14 +240,15 @@ class MusicDecoder : public Streamer
 // Audio device
 SDL_AudioDeviceID s_audio_device;
 
-MusicDecoder decoder("Ozo.flac");
+MusicDecoder *decoder = nullptr;
 
 // Audio callback
 void AudioCallback(void *userdata, Uint8 *stream, int len)
 {
 	// Clear the stream
 	memset(stream, 0, len);
-	decoder.Request((char *)stream, len);
+	if (decoder != nullptr)
+		decoder->Request((char *)stream, len);
 }
 
 /******************************************************************/
@@ -258,7 +294,13 @@ int PCMAudio_Update( void )
 /******************************************************************/
 void PCMAudio_StopMusic( bool waitPlease )
 {
-	
+	SDL_LockAudioDevice(s_audio_device);
+	if (decoder != nullptr)
+	{
+		delete decoder;
+		decoder = nullptr;
+	}
+	SDL_UnlockAudioDevice(s_audio_device);
 }
 
 
@@ -373,7 +415,12 @@ bool PCMAudio_StartPreLoadedMusicStream( void )
 /******************************************************************/
 int PCMAudio_GetMusicStatus( void )
 {
-	return PCM_STATUS_PLAYING;
+	if (decoder == nullptr)
+		return PCM_STATUS_FREE;
+	else if (decoder->IsPlaying())
+		return PCM_STATUS_PLAYING;
+	else
+		return PCM_STATUS_FREE;
 }
 
 
@@ -395,7 +442,18 @@ int PCMAudio_GetStreamStatus( int whichStream )
 /******************************************************************/
 void PCMAudio_Pause( bool pause, int ch )
 {
-	
+	SDL_LockAudioDevice(s_audio_device);
+	if (ch == MUSIC_CHANNEL)
+	{
+		if (decoder != nullptr)
+		{
+			if (pause)
+				decoder->Pause();
+			else
+				decoder->Resume();
+		}
+	}
+	SDL_UnlockAudioDevice(s_audio_device);
 }
 
 
@@ -493,6 +551,13 @@ bool PCMAudio_PlayMusicTrack( uint32 checksum )
 /******************************************************************/
 bool PCMAudio_PlayMusicTrack( const char *filename )
 {
+	// Play song
+	SDL_LockAudioDevice(s_audio_device);
+	if (decoder != nullptr)
+		delete decoder;
+	std::string name = std::string(filename) + ".flac";
+	decoder = new MusicDecoder(name.c_str());
+	SDL_UnlockAudioDevice(s_audio_device);
 	return true;
 }
 
