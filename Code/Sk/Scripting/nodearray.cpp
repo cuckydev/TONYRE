@@ -66,21 +66,21 @@ void CreateNodeNameHashTable()
 	Dbg_MsgAssert(p_node_array,("CreateNodeNameHashTable could not find NodeArray"));
 
 	// Scan through each node, getting it's name, and if it has a name add it in to the hash table.	
-	for (uint32 i=0; i<p_node_array->GetSize(); ++i)
+	for (size_t i = 0; i < p_node_array->GetSize(); ++i)
 	{
 		CStruct *p_node=p_node_array->GetStructure(i);
 		
-		uint32 name_checksum=0;
+		uint32 name_checksum = 0;
 		if (p_node->GetChecksum("Name",&name_checksum))
 		{
-			uint16 hash = (uint16)(name_checksum & HASH_MASK );
+			uint16 hash = (uint16)(name_checksum & HASH_MASK);
 
-			while ( node_hash[hash] != -1 )
+			while (node_hash[hash] != -1)
 			{
 				hash++;
 				hash &= HASH_MASK;
 			}
-			node_hash[hash] = i;
+			node_hash[hash] = (short)i;
 		}
 	}
 }
@@ -551,13 +551,13 @@ static void sConvertTempNodes()
 		sp_prefix_lookups[i].mpNodeList=p_buf;
 		
 		// First entry is the count.		
-		*p_buf++=count;
+		*p_buf++ = (uint16)count;
 		// Copy in all the node indices.
-		p_node=p_first;
+		p_node = p_first;
 		while (p_node)
 		{
 			*p_buf++ = (uint16)p_node->mNodeIndex;
-			p_node=p_node->mpNext;
+			p_node = p_node->mpNext;
 		}
 		
 		// Update the space used. The +1 is for the count.

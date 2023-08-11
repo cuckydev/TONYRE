@@ -174,9 +174,9 @@ void DecodeLZSS(unsigned char *pIn, unsigned char *pOut, int Len)	/* Just the re
 		{
 			ReadInto(c);
 			//			putc(c, outfile);
-			WriteOut(c);
+			WriteOut((unsigned char)c);
 			#if USE_BUFFER
-			text_buf[r++] = c;
+			text_buf[r++] = (unsigned char)c;
 			r &= (RINGBUFFERSIZE - 1);
 			#else
 			r++;
@@ -207,8 +207,8 @@ void DecodeLZSS(unsigned char *pIn, unsigned char *pOut, int Len)	/* Just the re
 			for (k = 0; k <= j; k++)					// just copy the bytes
 			{
 				c =  text_buf[(i+k) & (RINGBUFFERSIZE - 1)]; 
-				WriteOut(c);
-				text_buf[r++] = c;
+				WriteOut((unsigned char)c);
+				text_buf[r++] = (unsigned char)c;
 				r &= (RINGBUFFERSIZE - 1);
 			}
 			#endif
@@ -229,6 +229,8 @@ void EndOfDecodeLZSS( void )
 
 void PreFile::s_delete_file(_File *pFile, void *pData)
 {
+	(void)pData;
+
 	Dbg_Assert(pFile);
 	delete pFile;
 }
@@ -857,6 +859,8 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 // Finishes the loading sequence
 void   	PreMgr::postLoadPre(CAsyncFileHandle *p_file_handle, uint8 *pData, int size)
 {
+	(void)size;
+
 	// Find entry in pending list
 	for (int i = 0; i < m_num_pending_pre_files; i++)
 	{
@@ -1161,11 +1165,11 @@ size_t PreMgr::pre_fread(void *addr, size_t size, size_t count, PreFile::FileHan
 
 size_t  PreMgr::pre_fwrite(const void *addr, size_t size, size_t count, PreFile::FileHandle *fptr)
 {
-		
-	#ifdef __NOPT_ASSERT__
-	uint8 *pData = 
-	#endif
-	sp_mgr->getContainedFileByHandle(fptr);
+	(void)addr;
+	(void)size;
+	(void)count;
+
+	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "can't write to a PRE file"));
 	
 //	if ( Pcm::UsingCD( ) )
@@ -1182,12 +1186,10 @@ size_t  PreMgr::pre_fwrite(const void *addr, size_t size, size_t count, PreFile:
 
 char *PreMgr::pre_fgets(char *buffer, int maxLen, PreFile::FileHandle *fptr)
 {
-		
+	(void)buffer;
+	(void)maxLen;
 
-	#ifdef __NOPT_ASSERT__
-	uint8 *pData = 
-	#endif
-	sp_mgr->getContainedFileByHandle(fptr);
+	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "can't do string ops on a PRE file"));
 	
 	s_lastExecuteSuccess = false;
@@ -1198,12 +1200,9 @@ char *PreMgr::pre_fgets(char *buffer, int maxLen, PreFile::FileHandle *fptr)
 
 int PreMgr::pre_fputs(const char *buffer, PreFile::FileHandle *fptr)
 {
-		
+	(void)buffer;
 
-	#ifdef __NOPT_ASSERT__
-	uint8 *pData = 
-	#endif
-	sp_mgr->getContainedFileByHandle(fptr);
+	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "can't do string ops on a PRE file"));
 	
 	s_lastExecuteSuccess = false;
@@ -1313,6 +1312,8 @@ int PreMgr::pre_get_file_position(PreFile::FileHandle *fptr)
 // @uparm "string" | filename
 bool ScriptInPreFile(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *pFilename;
 	pParams->GetText(NONAME, &pFilename, true);
 
@@ -1329,6 +1330,8 @@ bool ScriptInPreFile(Script::CStruct *pParams, Script::CScript *pScript)
 // @flag use_bottom_up_heap | 
 bool ScriptLoadPreFile(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *pFilename;
 	pParams->GetText(NONAME, &pFilename, true);
 
@@ -1348,7 +1351,7 @@ bool ScriptLoadPreFile(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm "string" | filename
 bool ScriptUnloadPreFile(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	
+	(void)pScript;
 
 	PreMgr* pre_mgr = PreMgr::Instance();
 	
@@ -1372,6 +1375,8 @@ bool ScriptUnloadPreFile(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm "string" | filename
 bool ScriptIsLoadPreFinished(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	PreMgr* pre_mgr = PreMgr::Instance();
 
 	const char *pFilename;
@@ -1383,6 +1388,9 @@ bool ScriptIsLoadPreFinished(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | AllLoadPreFinished | Returns true if all LoadPre commands have completed
 bool ScriptAllLoadPreFinished(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	PreMgr* pre_mgr = PreMgr::Instance();
 
 	return pre_mgr->AllLoadPreFinished();
@@ -1392,6 +1400,8 @@ bool ScriptAllLoadPreFinished(Script::CStruct *pParams, Script::CScript *pScript
 // @uparm "string" | filename
 bool ScriptWaitLoadPre(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	PreMgr* pre_mgr = PreMgr::Instance();
 
 	const char *pFilename;
@@ -1404,6 +1414,9 @@ bool ScriptWaitLoadPre(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | WaitAllLoadPre | Waits for all Pre files to finished loading
 bool ScriptWaitAllLoadPre(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	PreMgr* pre_mgr = PreMgr::Instance();
 
 	pre_mgr->WaitAllLoadPre();

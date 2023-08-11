@@ -76,7 +76,7 @@ namespace Flx
 
 void PMovies_PlayMovie( const char* pName )
 {
-	
+	(void)pName;
 }
 
 } // namespace Flx

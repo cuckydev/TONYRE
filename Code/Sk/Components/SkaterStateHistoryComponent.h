@@ -56,7 +56,7 @@ public:
 	uint16			LoTime;
 	uint16			HiTime;
 	ETerrainType	Terrain;
-	sint16			RailNode;
+	size_t			RailNode;
 };
 
 class SAnimEvent

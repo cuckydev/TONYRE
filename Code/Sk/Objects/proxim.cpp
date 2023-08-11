@@ -151,7 +151,7 @@ void Proxim_AddNode(int node,bool active)
 		// Set the script active flag for each skater that exists
 		Obj::CObject *p_obj;
 		int object_id = 0;
-		while ((p_obj  = Obj::CCompositeObjectManager::Instance()->GetObjectByID(object_id)) && (object_id < 32))
+		while ((p_obj  = Obj::CCompositeObjectManager::Instance()->GetObjectByID(object_id)) != nullptr && (object_id < 32))
 		{
 			Obj::CSkater *p_skater = (Obj::CSkater *) p_obj;
 			if (p_skater->IsLocalClient())

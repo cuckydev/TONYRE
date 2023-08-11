@@ -142,7 +142,7 @@ void CManual::Reset()
 	mManualLean=0.0f;
 	mManualLeanDir=0.0f;
 	mManualReleased=false;
-	mOldRailNode=-1;
+	mOldRailNode= Obj::vNULL_RAIL;
 	mWobbleEnabled=false;
 }
 
@@ -228,7 +228,7 @@ void CManual::SetUp(uint32 ButtonAChecksum, uint32 ButtonBChecksum, int Tweak, b
 		
 		Dbg_MsgAssert(p_rail_node,("What, nullptr mp_rail_node ??"));
 		
-		if (mOldRailNode==-1)
+		if (mOldRailNode == Obj::vNULL_RAIL)
 		{
 			// This is a fresh rail.
 		}

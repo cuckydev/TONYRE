@@ -937,7 +937,7 @@ void CParkEditor::Update()
 			{
 				Script::RunScript(Crc::ConstCRC("CreateMemStatsScreenElements"));
 				
-				Front::CScreenElementManager* p_elem_man = Front::CScreenElementManager::Instance();
+				// Front::CScreenElementManager* p_elem_man = Front::CScreenElementManager::Instance();
 				Front::CTextElement *p_park_free_elem = (Front::CTextElement *) p_elem_man->GetElement(Crc::ConstCRC("parked_mem_stats_park_free"), Front::CScreenElementManager::ASSERT).Convert();
 				char park_free_text[128];
 				sprintf(park_free_text, "park heap free:\\c2 %s", Str::PrintThousands(usage_info.mParkHeapFree));
@@ -1359,6 +1359,8 @@ void CParkEditor::s_logic_code ( const Tsk::Task< CParkEditor >& task )
 
 void CParkEditor::s_display_code ( const Tsk::Task< CParkEditor >& task )
 {
+	(void)task;
+
 	//CParkEditor &mdl = task.GetData();
 	//if (!mdl.mp_map || mdl.GameGoingOrOutsideEditor() || !mdl.m_initialized) return;
 	
@@ -2737,7 +2739,7 @@ void CCursor::ForceInBounds()
 			{
 				dx=park_x_right-x_right;
 			}	
-			m_cell_dims[X]+=dx;
+			m_cell_dims[X] = (uint8)(m_cell_dims[X] + dx);
 			
 			int dz=0;
 			int park_z_top=m_manager->GetParkNearBounds().GetZ();
@@ -2755,7 +2757,7 @@ void CCursor::ForceInBounds()
 				dz=park_z_bottom-z_bottom;
 			}	
 			
-			m_cell_dims[Z]+=dz;
+			m_cell_dims[Z] = (uint8)(m_cell_dims[Z] + dz);
 		}	
 	}
 	
@@ -2773,8 +2775,8 @@ void CCursor::change_cell_pos(int incX, int incZ)
 	ForceInBounds();
 	GridDims old_pos = m_cell_dims;
 	
-	m_cell_dims[X] += incX;
-	m_cell_dims[Z] += incZ;
+	m_cell_dims[X] = (uint8)(m_cell_dims[X] + incX);
+	m_cell_dims[Z] = (uint8)(m_cell_dims[Z] + incZ);
 
 	ForceInBounds();
 
@@ -2782,8 +2784,8 @@ void CCursor::change_cell_pos(int incX, int incZ)
 	{
 		if (mp_current_clipboard)
 		{
-			m_clipboard_y=mp_current_clipboard->FindMaxFloorHeight(this);
-			m_cell_dims[Y]=m_clipboard_y;
+			m_clipboard_y = mp_current_clipboard->FindMaxFloorHeight(this);
+			m_cell_dims[Y] = (uint8)m_clipboard_y;
 		}	
 		else
 		{
@@ -2794,7 +2796,7 @@ void CCursor::change_cell_pos(int incX, int incZ)
 	{
 		int current_floor_height = m_manager->GetFloorHeight(m_cell_dims);
 		int floor_height_old_pos = m_manager->GetFloorHeight(old_pos);
-		m_cell_dims[Y] = (current_floor_height > floor_height_old_pos) ? current_floor_height : floor_height_old_pos;
+		m_cell_dims[Y] = (uint8)((current_floor_height > floor_height_old_pos) ? current_floor_height : floor_height_old_pos);
 	}
 		
 	//Ryan("cursor at %d,%d\n", m_cell_dims[X], m_cell_dims[Z]);	 
@@ -3162,6 +3164,8 @@ void CUpperMenuManager::Disable()
 
 bool ScriptSetParkEditorTimeOfDay(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 tod_script=0;
 	pParams->GetChecksum(Crc::ConstCRC("tod_script"),&tod_script);
 	Ed::CParkEditor::Instance()->SetTimeOfDayScript(tod_script);
@@ -3170,6 +3174,9 @@ bool ScriptSetParkEditorTimeOfDay(Script::CStruct *pParams, Script::CScript *pSc
 
 bool ScriptGetParkEditorTimeOfDayScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 tod_script=Ed::CParkEditor::Instance()->GetTimeOfDayScript();
 	if (tod_script)
 	{
@@ -3183,12 +3190,18 @@ bool ScriptGetParkEditorTimeOfDayScript(Script::CStruct *pParams, Script::CScrip
 // cursor will not be able to detect kill polys (unless a test play had been done)
 bool ScriptRebuildParkNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Ed::CParkManager::sInstance()->RebuildNodeArray();	
 	return true;
 }
 	
 bool ScriptFreeUpMemoryForPlayingPark(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	// The following will free up everything on the park editor heap, then delete the
 	// heap itself.
 
@@ -3206,12 +3219,17 @@ bool ScriptFreeUpMemoryForPlayingPark(Script::CStruct *pParams, Script::CScript 
 
 bool ScriptCalibrateMemoryGauge(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	// Old
 	return true;
 }
 
 bool ScriptGetParkEditorCursorPos(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	CParkEditor* p_editor = CParkEditor::Instance();
 	Mth::Vector pos=p_editor->GetCursorPos();
 	pScript->GetParams()->AddVector(Crc::ConstCRC("pos"),pos[X],pos[Y],pos[Z]);
@@ -3220,6 +3238,9 @@ bool ScriptGetParkEditorCursorPos(Script::CStruct *pParams, Script::CScript *pSc
 
 bool ScriptSwitchToParkEditorCamera(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	// Create the park editor camera if it does not exist, then switch to it.
 	Obj::CCompositeObject * p_obj = (Obj::CCompositeObject *) Obj::CCompositeObjectManager::Instance()->GetObjectByID(Crc::ConstCRC("parked_cam"));
 	if (!p_obj)
@@ -3258,6 +3279,8 @@ bool ScriptSwitchToParkEditorCamera(Script::CStruct *pParams, Script::CScript *p
 */
 bool ScriptSetParkEditorState(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	ParkEd("CCursor::ScriptSetParkEditorState()");
 	#if DEBUG_THIS_DAMN_THING
 	Script::PrintContents(pParams, 4);
@@ -3314,6 +3337,9 @@ bool ScriptSetParkEditorState(Script::CStruct *pParams, Script::CScript *pScript
 
 bool ScriptSetParkEditorPauseMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	ParkEd("CCursor::ScriptSetParkEditorPauseMode()");
 	#if DEBUG_THIS_DAMN_THING
 	Script::PrintContents(pParams, 4);
@@ -3334,6 +3360,8 @@ bool ScriptSetParkEditorPauseMode(Script::CStruct *pParams, Script::CScript *pSc
 
 bool ScriptCustomParkMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CParkEditor* p_editor = CParkEditor::Instance();
 	if (pParams->ContainsFlag("editing"))
 	{
@@ -3354,6 +3382,8 @@ bool ScriptCustomParkMode(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptSetParkEditorMaxPlayers(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int max_players=1;
 	pParams->GetInteger(NONAME,&max_players);
 	Dbg_MsgAssert(max_players>=1 && max_players<=8,("\n%s\nBad value of %d sent to SetParkEditorMaxPlayers",pScript->GetScriptInfo(),max_players));
@@ -3365,12 +3395,16 @@ bool ScriptSetParkEditorMaxPlayers(Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptGetParkEditorMaxPlayers(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	pScript->GetParams()->AddInteger("MaxPlayers",CParkManager::Instance()->GetGenerator()->GetMaxPlayers());
 	return true;
 }	
 
 bool ScriptGetParkEditorMaxPlayersPossible(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	pScript->GetParams()->AddInteger("MaxPlayersPossible",CParkManager::Instance()->GetGenerator()->GetMaxPlayersPossible());
 	return true;
 }	
@@ -3397,10 +3431,10 @@ GridDims ComputeResizedDims(Script::CStruct *pParams)
 	if (pParams->GetInteger("inc_l", &l_diff))
 		l = new_bounds.GetL() + l_diff;
 	
-	new_bounds[X] = new_bounds[X] - w_diff / 2;
-	new_bounds[Z] = new_bounds[Z] - l_diff / 2;
-	new_bounds[W] = w;
-	new_bounds[L] = l;
+	new_bounds[X] = (uint8)(new_bounds[X] - w_diff / 2);
+	new_bounds[Z] = (uint8)(new_bounds[Z] - l_diff / 2);
+	new_bounds[W] = (uint8)w;
+	new_bounds[L] = (uint8)l;
 
 	
 	return new_bounds;
@@ -3426,6 +3460,8 @@ bool IsWithinParkBoundaries(Mth::Vector pos, float margin)
 
 bool ScriptCanCleanlyResizePark(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	GridDims new_bounds;
 	
 	Script::CStruct *p_new_bounds=nullptr;
@@ -3436,8 +3472,8 @@ bool ScriptCanCleanlyResizePark(Script::CStruct *pParams, Script::CScript *pScri
 		p_new_bounds->GetInteger(Crc::ConstCRC("z"),&z);
 		p_new_bounds->GetInteger(Crc::ConstCRC("w"),&w);
 		p_new_bounds->GetInteger(Crc::ConstCRC("l"),&l);
-		new_bounds.SetXYZ(x,0,z);
-		new_bounds.SetWHL(w,1,l);
+		new_bounds.SetXYZ((uint8)x, 0, (uint8)z);
+		new_bounds.SetWHL((uint8)w, 1, (uint8)l);
 		
 		bool can_resize=true;
 		if (CParkManager::sInstance()->AreMetasOutsideBounds(new_bounds))
@@ -3500,8 +3536,8 @@ bool ScriptResizePark(Script::CStruct *pParams, Script::CScript *pScript)
 		p_new_bounds->GetInteger(Crc::ConstCRC("z"),&z);
 		p_new_bounds->GetInteger(Crc::ConstCRC("w"),&w);
 		p_new_bounds->GetInteger(Crc::ConstCRC("l"),&l);
-		new_bounds.SetXYZ(x,0,z);
-		new_bounds.SetWHL(w,1,l);
+		new_bounds.SetXYZ((uint8)x, 0, (uint8)z);
+		new_bounds.SetWHL((uint8)w, 1, (uint8)l);
 	}
 	else
 	{
@@ -3602,7 +3638,7 @@ bool ScriptSaveParkToDisk(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptLoadParkFromDisk(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	(void)pParams;
+	(void)pScript;
 
 	int slot = 0;
 	pParams->GetInteger("slot", &slot, Script::ASSERT);
@@ -3664,7 +3700,7 @@ bool ScriptSetEditedParkGapInfo(Script::CStruct *pParams, Script::CScript *pScri
 
 bool ScriptGetEditedParkGapName(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	(void)pScript;
+	(void)pParams;
 
 	pScript->GetParams()->AddString("name", CCursor::sInstance()->GetGapName());
 

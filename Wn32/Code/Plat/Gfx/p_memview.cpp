@@ -125,7 +125,7 @@ static int MemView_Active = 0;
 
 static float step = 128.0f;
 
-
+#if 0
 static char HexByte(char a)
 {
 	if (a >= '0' && a <='9')
@@ -147,6 +147,7 @@ static char HexByte(char a)
 	
 	
 }
+#endif
 
 
 static int doneonce = 0;
@@ -154,6 +155,8 @@ static int doneonce = 0;
 
 char *MemView_GetFunctionName(int pc, int *p_size)
 {
+	(void)pc;
+	(void)p_size;
 	return "UNKNOWN";
 	
 }
@@ -163,6 +166,8 @@ char *MemView_GetFunctionName(int pc, int *p_size)
 // seems to work much better (and faster too)
 int DumpUnwindStack( int iMaxDepth, int *pDest )
 {
+	(void)iMaxDepth;
+	(void)pDest;
 	return 0;
 }
 				   
@@ -195,6 +200,7 @@ void MemViewToggle()
 
 void MemView_Alloc( void *v)
 {
+	(void)v;
 #ifdef	__LINKED_LIST_HEAP__
 
 
@@ -207,6 +213,7 @@ void MemView_Alloc( void *v)
 
 void MemView_Free( void *v)
 {
+	(void)v;
 #ifdef	__LINKED_LIST_HEAP__
 #endif	
 }
@@ -361,6 +368,7 @@ void 		MemView_Display()
 }
 
 
+#if 0
 #ifdef	__LINKED_LIST_HEAP__
 
 static int num_used;
@@ -446,6 +454,7 @@ static void ScanRegion(uint32 *p_start, uint32 *p_end)
 	}
 #endif
 }
+#endif
 #endif
 
 #ifdef	__LINKED_LIST_HEAP__
@@ -586,6 +595,8 @@ void MemView_FindLeaks()
 // we can't find another reference, or the address is not in a block
 void MemView_DumpRefs(int addr)
 {
+	(void)addr;
+
 #ifdef	__LINKED_LIST_HEAP__
 #if 0
 	printf ("\n\nDumping references for %p\n",(void*)addr);
@@ -918,6 +929,8 @@ static int bbb = 0;	   	// compiler patch var, see below
 
 void MemView_AnalyzeBlocks(uint32 mask)
 {
+	(void)mask;
+
 #ifdef	__LINKED_LIST_HEAP__
 #if 0
 	SBlockType  *pBlocks = (SBlockType  *)_mem_dump_start;	// temp memory
@@ -975,6 +988,9 @@ void MemView_MarkBlocks(uint32 mask)
 
 void MemView_Input(uint buttons, uint makes, uint breaks)
 {
+	(void)buttons;
+	(void)makes;
+	(void)breaks;
 
 	if (Config::CD())
 	{

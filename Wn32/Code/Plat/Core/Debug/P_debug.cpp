@@ -115,6 +115,7 @@ void	default_print ( char *text )
 
 void	default_trap ( char* message )
 {
+	(void)message;
 
 #ifdef __CC_VISUALC__
 #ifdef __ALLOW_CONTINUE__

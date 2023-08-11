@@ -237,6 +237,7 @@ sMesh::~sMesh( void )
 /******************************************************************/
 void sMesh::PushVertexShader( uint32 shader_id )
 {
+	(void)shader_id;
 	/*
 	for( uint32 i = sMesh::VERTEX_SHADER_STACK_SIZE - 1; i > 0; --i )
 	{
@@ -1166,6 +1167,8 @@ void sMesh::Initialize( int				num_vertices,
 						uint32			*p_weights,
 						char			*p_vc_wibble_anims )
 {
+	(void)p_vc_wibble_anims;
+
 	// First thing to do is grab the material pointer for this mesh
 	mp_material	= ((sScene*)p_scene)->GetMaterial(material_checksum);
 	Dbg_AssertPtr(mp_material);
@@ -1248,7 +1251,7 @@ void sMesh::Initialize( int				num_vertices,
 			p_weight_read++;
 		}
 
-		m_weights_offset = vertex_size;
+		m_weights_offset = (uint8)vertex_size;
 		vertex_size	+= sizeof(uint32);
 	}
 
@@ -1257,7 +1260,7 @@ void sMesh::Initialize( int				num_vertices,
 	{
 		Dbg_AssertPtr(p_weights);
 
-		m_matindices_offset = vertex_size;
+		m_matindices_offset = (uint8)vertex_size;
 		vertex_size	+= sizeof(uint16) * 4;
 	}
 	
@@ -1291,7 +1294,7 @@ void sMesh::Initialize( int				num_vertices,
 
 	if (tex_coord_pass > 0)
 	{
-		m_uv0_offset = vertex_size;
+		m_uv0_offset = (uint8)vertex_size;
 		vertex_size += 2 * sizeof(float) * tex_coord_pass;
 	}
 
@@ -1302,7 +1305,7 @@ void sMesh::Initialize( int				num_vertices,
 	{
 		// Need to include normals
 		use_normals	= true;
-		m_normal_offset = vertex_size;
+		m_normal_offset = (uint8)vertex_size;
 		vertex_size	+= sizeof(float) * 3;
 	}
 
@@ -1311,12 +1314,12 @@ void sMesh::Initialize( int				num_vertices,
 	if (p_colors != nullptr)
 	{
 		use_colors = true;
-		m_diffuse_offset = vertex_size;
+		m_diffuse_offset = (uint8)vertex_size;
 		vertex_size += 4;
 	}
 
 	// Create VAO
-	m_vertex_stride = vertex_size;
+	m_vertex_stride = (uint8)vertex_size;
 
 	glGenVertexArrays(1, &mp_vao);
 	glBindVertexArray(mp_vao);

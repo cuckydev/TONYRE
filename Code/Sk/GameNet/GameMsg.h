@@ -37,7 +37,7 @@ namespace GameNet
 
 						
 
-enum
+enum : unsigned char
 {
 	MSG_ID_SKATER_INPUT	= Net::MSG_ID_USER,	//	= 32 : C->S The Client's Pad Input
 	MSG_ID_YOUR_PLAYER_CREATE,				//	= 33 : S->C Create local skater

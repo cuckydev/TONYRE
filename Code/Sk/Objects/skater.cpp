@@ -948,6 +948,9 @@ void CSkater::UnPause()
 // Ken: Factored this out so that the replay code can call it too.
 void CSkater::UpdateShadow(const Mth::Vector& pos, const Mth::Matrix& matrix)
 {
+	(void)pos;
+	(void)matrix;
+
 #ifndef __PLAT_NGPS__
 	static Mth::Vector ground_dir( 0.8f, -0.8f, 0.3f );
 	static Mth::Vector air_dir( 0.0f, -1.0f, 0.0f );
@@ -1049,6 +1052,8 @@ int			CSkater::GetHeapIndex( void )
 CSkater::CSkater ( int player_num, CBaseManager* p_obj_manager, bool local_client, int obj_id,
 						int heap_num, bool should_tristrip ) : m_link_node( this ), m_local_client( local_client )
 {
+	(void)should_tristrip;
+
 	m_type = SKATE_TYPE_SKATER;
 	
 	m_in_world = false;
@@ -2393,8 +2398,6 @@ bool CSkater::_function1( uint32 Checksum, Script::CStruct *pParams, Script::CSc
 				}
 			}
 			break;
-
-  			Dbg_MsgAssert(0,("Forgot a break?"));		
 		
 		default:
 			return CMovingObject::CallMemberFunction( Checksum, pParams, pScript );

@@ -841,6 +841,8 @@ void print_ps2_data(NxPs2::CGeomNode *p_node)
 */
 void CParkGenerator::InitializeMasterPieces(int parkW, int parkH, int parkL, int theme)
 {
+	(void)theme;
+
 	if (flag_on(mMASTER_STUFF_LOADED))
 		UnloadMasterPieces();
 	
@@ -876,7 +878,7 @@ void CParkGenerator::InitializeMasterPieces(int parkW, int parkH, int parkL, int
 
 //	printf("Setting up park editor source pieces:\n");
 	p_sector_list->IterateStart();
-	while ((p_sector = p_sector_list->IterateNext()))
+	while ((p_sector = p_sector_list->IterateNext()) != nullptr)
 	{
 		Mem::Manager::sHandle().PushContext(mp_mem_heap);
 		CSourcePiece *p_new_piece = new CSourcePiece();
@@ -1092,6 +1094,8 @@ void CParkGenerator::GenerateCollisionInfo(bool assert)
 
 void CParkGenerator::RemoveOuterShellPieces(int theme)
 {
+	(void)theme;
+
 	uint32 shell_id=CParkManager::Instance()->GetShellSceneID();
 	
 	Nx::CScene *p_scene = Nx::CEngine::sGetScene(shell_id);
@@ -1483,7 +1487,7 @@ void CParkGenerator::CalculateLighting(CClonedPiece *p_piece)
 
 	//
 	// Do renderable geometry
-	int verts = p_geom->GetNumRenderVerts();
+	size_t verts = p_geom->GetNumRenderVerts();
 	Dbg_MsgAssert(verts == p_source_geom->GetNumRenderVerts(),("source and clone have differing no of verts (%d, %d)\n",verts,p_source_geom->GetNumRenderVerts()));
 
 	if (verts)
@@ -1495,7 +1499,7 @@ void CParkGenerator::CalculateLighting(CClonedPiece *p_piece)
 	
 		Image::RGBA *p_color = p_colors;
 		Mth::Vector *p_vert = p_verts;
-		for (int i = 0; i < verts; i++)
+		for (size_t i = 0; i < verts; i++)
 		{
 			CalculateVertexLighting(*p_vert, *p_color);
 
@@ -1554,7 +1558,7 @@ void CParkGenerator::CalculateLighting(CClonedPiece *p_piece)
 	Image::RGBA color;
 	unsigned char intensity;
 	unsigned int avg_color;
-	for (int i = 0; i < verts; i++)
+	for (size_t i = 0; i < verts; i++)
 	{
 		intensity = p_source_coll_tri_data->GetVertexIntensity(i);
 
@@ -1566,7 +1570,7 @@ void CParkGenerator::CalculateLighting(CClonedPiece *p_piece)
 		CalculateVertexLighting(p_coll_tri_data->GetRawVertexPos(i), color);
 
 		avg_color = (color.r + color.g + color.b) / 3;
-		p_coll_tri_data->SetVertexIntensity(i, avg_color);
+		p_coll_tri_data->SetVertexIntensity(i, (unsigned char)avg_color);
 
 	}
 #endif // __PLAT_NGC__
@@ -2940,6 +2944,8 @@ void CParkGenerator::ClearAutomaticRestarts()
 */
 CClonedPiece *CParkGenerator::CreateGapPiece(Mth::Vector &pos, float length, int rot)
 {
+	(void)length;
+
 	// maken der gapen piece
 	CClonedPiece *p_gap_piece = ClonePiece(GetMasterPiece(Script::GenerateCRC("Sk4Ed_Gap_10x10"), true), CPiece::mNO_FLAGS);
 	p_gap_piece->SetDesiredPos(pos, CClonedPiece::CHANGE_SECTOR);

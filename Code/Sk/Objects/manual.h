@@ -79,7 +79,7 @@ public:								// for debugging
 	
 	int mTweak;
 	
-	int mOldRailNode;
+	size_t mOldRailNode;
 	
 	bool mWobbleEnabled;
 	bool mNeverShowMeters;

@@ -194,7 +194,7 @@ enum ObserverCommand
 	vOBSERVER_COMMAND_NEXT,
 };
 
-enum HostMode
+enum HostMode : char
 {
 	vHOST_MODE_SERVE,
 	vHOST_MODE_AUTO_SERVE,
@@ -313,7 +313,7 @@ public:
 																		// state we sent to each skater
 	char			m_LastDrivingUpdate[Mdl::Skate::vMAX_SKATERS];		// The last "driving"
 																		// state we sent to each skater
-	sint16			m_LastRailNodeUpdate[Mdl::Skate::vMAX_SKATERS];		// The last rail node sent to each skater
+	size_t			m_LastRailNodeUpdate[Mdl::Skate::vMAX_SKATERS];		// The last rail node sent to each skater
 };
 
 /******************************************************************/
@@ -811,7 +811,7 @@ public:
 	void				LoadGoals( uint32 level );
 	uint32				GetGoalsLevel( void );
 	char*				GetGoalsData( void );
-	int					GetGoalsDataSize( void );
+	size_t				GetGoalsDataSize( void );
 	void				SetGoalsData( char* data, uint32 level, int size );
 
 	LobbyMan*			mpLobbyMan;
@@ -999,7 +999,7 @@ private:
 	int						m_leading_team;
 
 	char					m_goals_data[vMAX_GOAL_SIZE];
-	int						m_goals_data_size;
+	size_t					m_goals_data_size;
 	uint32					m_goals_level;
 
 	char					m_net_thread_stack[ vNET_THREAD_STACK_SIZE ];

@@ -2,12 +2,12 @@
 // nxflags.h - flag definitions that used to be in nxplugin
 //
 
-#ifndef	__GFX_NXFLAGS_H
-#define	__GFX_NXFLAGS_H
+#pragma once
 
+#include <Core/Defines.h>
 
 // Face flags
-enum
+enum : uint32
 {
 	mFD_SKATABLE			= 0x00000001,
 	mFD_NOT_SKATABLE		= 0x00000002,
@@ -35,7 +35,7 @@ enum
 };
 
 // Object flags
-enum
+enum : uint16
 {
 	mSD_INVISIBLE			= 0x0001,	// Invisible in primary viewport
 	mSD_NON_COLLIDABLE		= 0x0002,
@@ -50,7 +50,7 @@ enum
 
 
 // Material flags
-enum ETerrainType
+enum ETerrainType : uint8
 {
 	// If you change any of these,
 	// don't forget to change terrain.q
@@ -119,7 +119,3 @@ enum ETerrainType
 	// If anyone adds a new terrain so that vNUM_TERRAIN_TYPES > 64, let Steve G know
 	vNUM_TERRAIN_TYPES
 };
-
-
-#endif
-

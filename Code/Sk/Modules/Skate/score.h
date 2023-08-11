@@ -171,7 +171,7 @@ public:
 	
 	static int						s_handle_score_message ( Net::MsgHandlerContext* context );
 
-	void							UpdateRobotDetection(int node);
+	void							UpdateRobotDetection(size_t node);
 	float							GetRobotMult();
 	float							GetRobotRailMult() {return m_robot_rail_mult;}
 	

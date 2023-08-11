@@ -262,6 +262,7 @@ void InitialiseEngine( void )
 /******************************************************************/
 void FatalFileError( uint32 error )
 {
+	(void)error;
 
 	/*
 	static char*	p_error_message_english[2]	= {	"There's a problem with the disc you're using.",

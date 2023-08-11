@@ -177,6 +177,11 @@ Dbg_DefineProject( PS2, "Test Project" )
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
+	(void)hInstance;
+	(void)hPrevInstance;
+	(void)lpCmdLine;
+	(void)nCmdShow;
+
 	// Get argc and argv
 	int argc;
 	LPWSTR *argvW = CommandLineToArgvW( GetCommandLineW(), &argc );

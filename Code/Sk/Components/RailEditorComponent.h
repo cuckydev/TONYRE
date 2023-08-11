@@ -236,7 +236,7 @@ public:
 
 public:
 	uint8 *							GetCompressedRailsBuffer();
-	int								GetCompressedRailsBufferSize() {return COMPRESSED_RAILS_BUFFER_SIZE;}
+	size_t							GetCompressedRailsBufferSize() {return COMPRESSED_RAILS_BUFFER_SIZE;}
 	void							SetCompressedRailsBuffer(uint8 *p_buffer);
 	void							InitUsingCompressedRailsBuffer();
 	

@@ -368,6 +368,7 @@ void *Manager::ReallocateShrink( size_t newSize, void *pOld, Allocator* pAlloc )
 
 void Manager::PushMemoryMarker( uint32 uiID )
 {
+	(void)uiID;
 }
 /******************************************************************/
 /*                                                                */
@@ -376,6 +377,7 @@ void Manager::PushMemoryMarker( uint32 uiID )
 
 void Manager::PopMemoryMarker( uint32 uiID )
 {
+	(void)uiID;
 }
 
 /******************************************************************/
@@ -1426,6 +1428,7 @@ void	Free(void *pAddr)
 
 bool	Valid(void *pAddr)
 {
+	(void)pAddr;
 	return true;
 }
 
@@ -1436,6 +1439,7 @@ bool	Valid(void *pAddr)
 
 size_t	GetAllocSize(void *pAddr)
 {
+	(void)pAddr;
 	Dbg_Assert(0);
 	return 0;
 }
@@ -1469,6 +1473,8 @@ void *Calloc(size_t numObj, size_t sizeObj)
 // enable multiple threads to access the memory manager at once
 void	SetThreadSafe(bool safe)
 {
+	(void)safe;
+
 	#ifdef	__PLAT_NGPS__
 		s_use_semaphore = safe;	
 	#endif

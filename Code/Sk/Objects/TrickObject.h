@@ -139,7 +139,7 @@ class  CTrickObjectManager  : public Spt::Class
 		void			TrickOffAllObjects( uint32 skater_id );
 		uint8			GetCompressedTrickObjectIndex( uint32 name_checksum );
 		uint32			GetUncompressedTrickObjectChecksum( uint8 compressed_index );
-		uint32			SetInitGraffitiStateMessage( void* pMsg );
+		size_t			SetInitGraffitiStateMessage( void* pMsg );
 		void			SetObserverGraffitiState( Script::CStruct* pScriptStructure );
 		void			ApplyObserverGraffitiState( void );
 		CTrickCluster*	GetTrickCluster( uint32 name_checksum );

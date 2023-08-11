@@ -123,6 +123,8 @@ CTrickObject::CTrickObject( uint32 name_checksum ) : Lst::Node< CTrickObject >(t
 
 bool CTrickObject::InitializeTrickObjectColor( int seqIndex )
 {
+	(void)seqIndex;
+
 	// Garrett: shouldn't need to do anything except clear color here
 	// checks for the wibbling data, and creates
 	// it if it doesn't already exist
@@ -164,9 +166,9 @@ bool CTrickObject::ModulateTrickObjectColor( int seqIndex )
 	
 	Image::RGBA color;
 
-	color.r = p_entry->GetInteger( 0 );
-	color.g = p_entry->GetInteger( 1 );
-	color.b = p_entry->GetInteger( 2 );
+	color.r = (uint8)p_entry->GetInteger( 0 );
+	color.g = (uint8)p_entry->GetInteger( 1 );
+	color.b = (uint8)p_entry->GetInteger( 2 );
 	color.a = 128;
 
 	p_sector->SetColor(color);
@@ -196,9 +198,9 @@ bool CTrickObject::ClearTrickObjectColor( int seqIndex )
 
 	Image::RGBA color;
 
-	color.r = p_entry->GetInteger( 0 );
-	color.g = p_entry->GetInteger( 1 );
-	color.b = p_entry->GetInteger( 2 );
+	color.r = (uint8)p_entry->GetInteger( 0 );
+	color.g = (uint8)p_entry->GetInteger( 1 );
+	color.b = (uint8)p_entry->GetInteger( 2 );
 	color.a = 128;
 
 	Image::RGBA orig_color = p_sector->GetColor();
@@ -745,7 +747,7 @@ void MyLogTrickObject( int skater_id, int score, uint32 num_pending_tricks, uint
 		memcpy( msg.m_PendingTrickBuffer, p_pending_tricks, actual_pending_trick_buffer_size );
 
 		msg_desc.m_Data = &msg;
-		msg_desc.m_Length = sizeof( GameNet::MsgScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size;
+		msg_desc.m_Length = (unsigned short)(sizeof( GameNet::MsgScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size);
 		msg_desc.m_Id = GameNet::MSG_ID_SCORE;
 		msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 		msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;
@@ -766,7 +768,7 @@ void MyLogTrickObject( int skater_id, int score, uint32 num_pending_tricks, uint
 		memcpy( obs_msg.m_PendingTrickBuffer, p_pending_tricks, actual_pending_trick_buffer_size );
 
 		msg_desc.m_Data = &obs_msg;
-		msg_desc.m_Length = sizeof( GameNet::MsgObsScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size;
+		msg_desc.m_Length = (unsigned short)(sizeof( GameNet::MsgObsScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size);
 		msg_desc.m_Id = GameNet::MSG_ID_OBSERVER_LOG_TRICK_OBJ;
 		// tell observers to change their colors
 		for( player = gamenet_man->FirstPlayerInfo( sh, true ); player; 
@@ -937,7 +939,7 @@ bool CTrickObjectManager::clear_trick_clusters( int seqIndex )
 
 	m_TrickClusterList.IterateStart();
 	CTrickCluster *p_cluster;
-	while ((p_cluster = m_TrickClusterList.IterateNext()))
+	while ((p_cluster = m_TrickClusterList.IterateNext()) != nullptr)
 	{
 		if (!p_cluster->ClearCluster(seqIndex))
 		{
@@ -1091,7 +1093,7 @@ bool CTrickObjectManager::AddTrickAlias( uint32 alias_checksum, uint32 cluster_c
 
 void delete_trick_cluster(CTrickCluster* pCluster, void* pData)
 {
-	
+	(void)pData;
 
 	Dbg_AssertPtr(pCluster);
 
@@ -1295,7 +1297,7 @@ uint32 CTrickObjectManager::GetUncompressedTrickObjectChecksum( uint8 compressed
 struct SInitGraffitiStateInfo
 {
 	uint32 skater_id;
-	int num_trick_objects;
+	size_t num_trick_objects;
 	GameNet::MsgInitGraffitiState* pMsg;
 	Obj::CTrickObjectManager* pManager;
 };
@@ -1378,7 +1380,7 @@ void CTrickObjectManager::ApplyObserverGraffitiState( void )
 /*                                                                */
 /******************************************************************/
 
-uint32 CTrickObjectManager::SetInitGraffitiStateMessage( void* pData )
+size_t CTrickObjectManager::SetInitGraffitiStateMessage( void* pData )
 {
 	
 
@@ -1424,9 +1426,9 @@ bool CTrickObjectManager::ResetAllTrickObjects( void )
 		Dbg_Assert( pCluster );
 		pCluster->Reset();
 	}
-#endif
-	
+
 	return false;
+#endif
 }
 
 /******************************************************************/
@@ -1436,16 +1438,11 @@ bool CTrickObjectManager::ResetAllTrickObjects( void )
 
 void CTrickObjectManager::PrintContents( void )
 {
-	
-
-	// Remove this line if you need to see the contents
-	return;
-
+#if 0
 	printf("**********************\n");
 	printf("* TRICK CLUSTER LIST:\n");
 	printf("**********************\n");
 
-#if 0
 	uint32 i;
 
 	// call the reset function on each trick object in the scene

@@ -67,7 +67,7 @@ private:
 	char							m_last_sent_doing_trick;
 	char							m_last_sent_walking;
 	char							m_last_sent_driving;
-	sint16							m_last_sent_rail;
+	size_t							m_last_sent_rail;
 	
 private:
 	CSkaterStateComponent*			mp_state_component;

@@ -153,11 +153,11 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 		pChar->Baseline							= ((uint16 *)pData)[0];
 		sint16 ascii_val = ((sint16 *)pData)[1];
 		if (ascii_val >= 0)
-			pFont->Map[(uint8) ascii_val] = i;
+			pFont->Map[(uint8) ascii_val] = (uint8)i;
 		else
 		{
 			Dbg_Assert(ascii_val >= -32)
-			pFont->SpecialMap[(uint8) (-ascii_val - 1)] = i;
+			pFont->SpecialMap[(uint8)(-ascii_val - 1)] = (uint8)i;
 		}
 	}
 
@@ -757,6 +757,10 @@ void SText::EndDraw( void )
 /******************************************************************/
 void SetTextWindow( uint16 x0, uint16 x1, uint16 y0, uint16 y1 )
 {
+	(void)x0;
+	(void)x1;
+	(void)y0;
+	(void)y1;
 }
 
 } // namespace Xbox

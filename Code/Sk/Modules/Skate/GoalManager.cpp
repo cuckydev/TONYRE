@@ -269,7 +269,7 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 			{
 				// printf("got a last name: %s\n", Script::FindChecksumName( pro_name ) );
 				// get the current skater's name
-				Mdl::Skate * skate_mod = Mdl::Skate::Instance();
+				// Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 				Obj::CPlayerProfileManager* pPlayerProfileManager = skate_mod->GetPlayerProfileManager();
 				Obj::CSkaterProfile* pSkaterProfile = pPlayerProfileManager->GetCurrentProfile();
 				uint32 current_skater = pSkaterProfile->GetSkaterNameChecksum();
@@ -1909,6 +1909,8 @@ int CGoalManager::NumGoalsBeaten()
 	
 int CGoalManager::NumGoalsBeatenInLevel( int levelNum, bool count_pro_specific_challenges )
 {
+	(void)count_pro_specific_challenges;
+
     // store all the goal info in the goalmanager's struct
     // so we can grab it all in one place
     LevelUnload();
@@ -2382,12 +2384,12 @@ void CGoalManager::AddViewGoalsList()
 		uint32 record_type;
 		if ( pGoal->HasWonGoal() )
 		{
-			int record = 0;
 			char record_string[128];
 
 			// special case for competition
 			if ( pGoal->IsCompetition() )
 			{
+				int record = 0;
 				pGoalParams->GetInteger( Crc::ConstCRC("win_record"), &record, Script::NO_ASSERT );
 				sprintf( record_string, "%i", record );
 				switch ( record )
@@ -2413,6 +2415,7 @@ void CGoalManager::AddViewGoalsList()
 				// I've left some repeated code within each block.
 				if ( record_type == ( Crc::ConstCRC("score") ) )
 				{
+					int record = 0;
 					pGoalParams->GetInteger( Crc::ConstCRC("win_record"), &record, Script::NO_ASSERT );
 					sprintf( record_string, "%s", Str::PrintThousands( record ) );
 
@@ -3370,6 +3373,8 @@ void CGoalManager::FindCircularLinks( uint32 parent, uint32 child )
 
 bool CGoalManager::CallMemberFunction( uint32 checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( checksum )
 	{
 		case 0x3ae9211b: // IsRootNode
@@ -3829,6 +3834,8 @@ CGoalManager* GetGoalManager()
 // @parm structure | params | goal parameters
 bool ScriptAddGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -3850,6 +3857,8 @@ bool ScriptAddGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptRemoveGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -3869,6 +3878,9 @@ bool ScriptRemoveGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptGetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#if 0
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
@@ -3905,6 +3917,8 @@ bool ScriptGetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm structure | params | structure to append
 bool ScriptEditGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -3928,6 +3942,8 @@ bool ScriptEditGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // to assert if it can't find the specified goal (not recommended)
 bool ScriptActivateGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -3951,6 +3967,8 @@ bool ScriptActivateGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptDeactivateGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -3967,6 +3985,9 @@ bool ScriptDeactivateGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GoalManager_DeactivateGoal | 
 bool ScriptClearLastGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -3983,6 +4004,8 @@ bool ScriptClearLastGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptWinGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	#ifdef	__NOPT_ASSERT__
 	bool had_object = false;
 	uint32	old_id = 0;
@@ -4022,6 +4045,7 @@ bool ScriptWinGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptLoseGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
 	
 	#ifdef	__NOPT_ASSERT__
 	bool had_object = false;
@@ -4065,6 +4089,9 @@ bool ScriptLoseGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // destroying them.
 bool ScriptRemoveAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->RemoveAllGoals();
@@ -4080,6 +4107,8 @@ bool ScriptRemoveAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GoalManager_DeactivateAllGoals | 
 bool ScriptDeactivateAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	bool including_net_goals;
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
@@ -4103,6 +4132,9 @@ bool ScriptDeactivateAllGoals(Script::CStruct *pParams, Script::CScript *pScript
 // @script | UninitializeAllGoals |
 bool ScriptUninitializeAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->UninitializeAllGoals();
@@ -4119,6 +4151,8 @@ bool ScriptUninitializeAllGoals(Script::CStruct *pParams, Script::CScript *pScri
 // @parm name | name | the goal id
 bool ScriptUninitializeGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	uint32 goalId;
@@ -4142,6 +4176,9 @@ bool ScriptUninitializeGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GoalManager_InitializeAllGoals | 
 bool ScriptInitializeAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->InitializeAllGoals();
@@ -4157,6 +4194,9 @@ bool ScriptInitializeAllGoals(Script::CStruct *pParams, Script::CScript *pScript
 // @script | GoalManager_InitializeAllSelectedGoals | 
 bool ScriptInitializeAllSelectedGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->InitializeAllSelectedGoals();
@@ -4173,6 +4213,9 @@ bool ScriptInitializeAllSelectedGoals(Script::CStruct *pParams, Script::CScript 
 // an update cycle.
 bool ScriptUpdateAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->Update();
@@ -4189,6 +4232,8 @@ bool ScriptUpdateAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 // active goal (excluding minigames and other goals that don't count towards the total)
 bool ScriptHasActiveGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -4207,6 +4252,8 @@ bool ScriptHasActiveGoals(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptGoalIsActive(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -4225,6 +4272,8 @@ bool ScriptGoalIsActive(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptSetGoalTimer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -4243,6 +4292,8 @@ bool ScriptSetGoalTimer(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptZeroGoalTimer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -4260,6 +4311,9 @@ bool ScriptZeroGoalTimer(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GoalManager_PauseAllGoals | 
 bool ScriptPauseAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4276,6 +4330,9 @@ bool ScriptPauseAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GoalManager_UnPauseAllGoals | 
 bool ScriptUnPauseAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4295,6 +4352,8 @@ bool ScriptUnPauseAllGoals(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 1 | value to use 
 bool ScriptSetGoalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	
@@ -4323,6 +4382,8 @@ bool ScriptSetGoalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptHasSeenGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4341,6 +4402,9 @@ bool ScriptHasSeenGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // It will fail silently if there is no goal to retry
 bool ScriptRestartLastGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4383,6 +4447,8 @@ bool ScriptCreateGoalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptAllFlagsSet(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4403,6 +4469,8 @@ bool ScriptAllFlagsSet(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | flag | the name of the flag to check
 bool ScriptGoalFlagSet(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -4424,6 +4492,9 @@ bool ScriptGoalFlagSet(Script::CStruct *pParams, Script::CScript *pScript)
 // to retry
 bool ScriptCanRetryGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4462,6 +4533,9 @@ bool ScriptGetGoalParams(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptCanStartGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4480,6 +4554,8 @@ bool ScriptCanStartGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptNextRaceWaypoint(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4499,6 +4575,8 @@ bool ScriptNextRaceWaypoint(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptNextTourSpot(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4517,6 +4595,8 @@ bool ScriptNextTourSpot(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the goal id
 bool ScriptInitTrickObjects( Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
     
@@ -4610,6 +4690,8 @@ bool ScriptCreateGoalName( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | GoalManager_GetLevelPrefix | returns the current level's prefix in level_prefix
 bool ScriptGetLevelPrefix( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	Script::CStruct* p_level_structure = Script::GetStructure( pGoalManager->GetLevelStructureName(), Script::ASSERT );
@@ -4630,6 +4712,8 @@ bool ScriptGetLevelPrefix( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparmopt 1 | turn on or off with 1 or 0
 bool ScriptSetGraffitiMode( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
 
     int mode = 1;
@@ -4648,6 +4732,8 @@ bool ScriptSetGraffitiMode( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | name | the goal id
 bool ScriptHasWonGoal( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4664,6 +4750,8 @@ bool ScriptHasWonGoal( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptGoalIsSelected(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4680,6 +4768,8 @@ bool ScriptGoalIsSelected(Script::CStruct* pParams, Script::CScript* pScript)
 
 bool ScriptToggleGoalSelection(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4698,6 +4788,9 @@ bool ScriptToggleGoalSelection(Script::CStruct* pParams, Script::CScript* pScrip
 
 bool ScriptGoalsAreSelected(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4713,6 +4806,8 @@ bool ScriptGoalsAreSelected(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptGotCounterObject( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
     uint32 goalId;
     if ( pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::NO_ASSERT ) )
     {
@@ -4738,6 +4833,8 @@ bool ScriptGotCounterObject( Script::CStruct* pParams, Script::CScript* pScript 
 // @parm name | name | the goal id
 bool ScriptCounterGoalDone(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
     uint32 goalId;
     pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -4754,6 +4851,9 @@ bool ScriptCounterGoalDone(Script::CStruct* pParams, Script::CScript* pScript)
 // @script | GoalManager_AddGoalPoint | adds one goal point
 bool ScriptAddGoalPoint(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->AddGoalPoint();
@@ -4769,6 +4869,8 @@ bool ScriptAddGoalPoint(Script::CStruct* pParams, Script::CScript* pScript)
 // @uparm 1 | number to spend
 bool ScriptSpendGoalPoints(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4788,6 +4890,8 @@ bool ScriptSpendGoalPoints(Script::CStruct* pParams, Script::CScript* pScript)
 // @uparm 1 | number to check for
 bool ScriptHasGoalPoints(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4804,6 +4908,9 @@ bool ScriptHasGoalPoints(Script::CStruct* pParams, Script::CScript* pScript)
 
 bool ScriptClearGoalPoints(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4844,6 +4951,8 @@ bool ScriptGetNumberOfGoalPoints(Script::CStruct* pParams, Script::CScript* pScr
 // @uparm 1 | amount of cash to give
 bool ScriptAddCash(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4863,6 +4972,8 @@ bool ScriptAddCash(Script::CStruct* pParams, Script::CScript* pScript)
 // @uparm 1 | amount to spend
 bool ScriptSpendCash(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4901,6 +5012,8 @@ bool ScriptGetCash(Script::CStruct* pParams, Script::CScript* pScript)
 // @uparm "string" | the proset_prefix you wanna check
 bool ScriptHasBeatenGoalWithProset(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
     const char* p_proset_prefix;
     pParams->GetString( NONAME, &p_proset_prefix, Script::ASSERT );
 
@@ -4948,6 +5061,9 @@ bool ScriptGetProsetNotPrefix(Script::CStruct* pParams, Script::CScript* pScript
 // Loads data about goals seen, completed, etc. in a previous game
 bool ScriptLevelLoad(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -4965,6 +5081,9 @@ bool ScriptLevelLoad(Script::CStruct* pParams, Script::CScript* pScript)
 // Prompts the goal manager to save state data about all goals
 bool ScriptLevelUnload(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -5004,6 +5123,9 @@ bool ScriptNumGoalsBeatenInLevel(Script::CStruct* pParams, Script::CScript* pScr
 // @script | GoalManager_UnlockAllGoals | Unlocks all locked goals
 bool ScriptUnlockAllGoals(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     CGoalManager* pGoalManager = GetGoalManager();
     Dbg_Assert( pGoalManager );
 
@@ -5022,6 +5144,8 @@ bool ScriptUnlockAllGoals(Script::CStruct* pParams, Script::CScript* pScript)
 // @uparm 100 | the value you want to check against the current record
 bool ScriptCheckMinigameRecord(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5043,6 +5167,9 @@ bool ScriptCheckMinigameRecord(Script::CStruct* pParams, Script::CScript* pScrip
 // active goal (this function cannot always be trusted).
 bool ScriptDeactivateCurrentGoal(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5060,6 +5187,8 @@ bool ScriptDeactivateCurrentGoal(Script::CStruct* pParams, Script::CScript* pScr
 // @parm name | name | the goal id
 bool ScriptSetStartTime(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 	
@@ -5079,6 +5208,8 @@ bool ScriptSetStartTime(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptUpdateComboTimer(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5099,6 +5230,8 @@ bool ScriptUpdateComboTimer(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptSetStartHeight(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5118,6 +5251,8 @@ bool ScriptSetStartHeight(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptCheckHeightRecord(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5136,6 +5271,8 @@ bool ScriptCheckHeightRecord(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptCheckDistanceRecord(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5155,6 +5292,8 @@ bool ScriptCheckDistanceRecord(Script::CStruct* pParams, Script::CScript* pScrip
 // @parm name | name | the goal id
 bool ScriptPlayGoalStartStream(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5171,6 +5310,8 @@ bool ScriptPlayGoalStartStream(Script::CStruct* pParams, Script::CScript* pScrip
 // @parm name | name | the goal id
 bool ScriptPlayGoalWaitStream(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5191,6 +5332,8 @@ bool ScriptPlayGoalWaitStream(Script::CStruct* pParams, Script::CScript* pScript
 // @parm name | name | the goal ID
 bool ScriptPlayGoalWinStream(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5208,6 +5351,8 @@ bool ScriptPlayGoalWinStream(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal ID
 bool ScriptStopCurrentStream(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5228,6 +5373,9 @@ bool ScriptStopCurrentStream(Script::CStruct* pParams, Script::CScript* pScript)
 // the pro goals, and runs the "you just turned pro" script
 bool ScriptTurnPro(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5243,6 +5391,9 @@ bool ScriptTurnPro(Script::CStruct* pParams, Script::CScript* pScript)
 // @script | GoalManager_DeactivateAllMinigames | 
 bool ScriptDeactivateAllMinigames(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5258,6 +5409,9 @@ bool ScriptDeactivateAllMinigames(Script::CStruct* pParams, Script::CScript* pSc
 // @script | GoalManager_InitializeAllMinigames | 
 bool ScriptInitializeAllMinigames(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5274,6 +5428,8 @@ bool ScriptInitializeAllMinigames(Script::CStruct* pParams, Script::CScript* pSc
 // @parm name | name | the goal id
 bool ScriptPauseGoal( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5293,6 +5449,8 @@ bool ScriptPauseGoal( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | name | the goal id
 bool ScriptUnPauseGoal( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5313,6 +5471,8 @@ bool ScriptUnPauseGoal( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | name | the goal id
 bool ScriptPauseCompetition( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5334,6 +5494,8 @@ bool ScriptPauseCompetition( Script::CStruct* pParams, Script::CScript* pScript 
 // @parm name | name | the goal id
 bool ScriptUnPauseCompetition( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5355,6 +5517,9 @@ bool ScriptUnPauseCompetition( Script::CStruct* pParams, Script::CScript* pScrip
 // reload the level to re-initialize the goals, however
 bool ScriptUnBeatAllGoals( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_MsgAssert( pGoalManager, ("couldn't get goal manager") );
 
@@ -5373,6 +5538,9 @@ bool ScriptUnBeatAllGoals( Script::CStruct* pParams, Script::CScript* pScript )
 // script.
 bool ScriptAddViewGoalsList( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_MsgAssert( pGoalManager, ("couldn't get goal manager") );
 
@@ -5389,6 +5557,8 @@ bool ScriptAddViewGoalsList( Script::CStruct* pParams, Script::CScript* pScript 
 // @script | GoalManager_AddGoalChoices | Adds the list of available goals to the "Choose Goals" menu
 bool ScriptAddGoalChoices( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	bool selected_only;
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_MsgAssert( pGoalManager, ("couldn't get goal manager") );
@@ -5409,6 +5579,8 @@ bool ScriptAddGoalChoices( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | name | the goal id
 bool ScriptGoalIsLocked( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5428,6 +5600,8 @@ bool ScriptGoalIsLocked( Script::CStruct* pParams, Script::CScript* pScript )
 // in a competition
 bool ScriptIsInCompetition( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5453,6 +5627,9 @@ bool ScriptIsInCompetition( Script::CStruct* pParams, Script::CScript* pScript )
 // @parmopt string | type | | the goal state - wait, start, midgoal, or success
 bool ScriptGetGoalAnimations( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5476,6 +5653,8 @@ bool ScriptGetGoalAnimations( Script::CStruct* pParams, Script::CScript* pScript
 // @parm name | name | the goal id
 bool ScriptPlayGoalStream( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5493,6 +5672,8 @@ bool ScriptPlayGoalStream( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | name | the goal id
 bool ScriptEndRunCalled(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5514,6 +5695,8 @@ bool ScriptEndRunCalled(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptClearEndRun(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 	
@@ -5534,6 +5717,8 @@ bool ScriptClearEndRun(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptFinishedEndOfRun(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5553,6 +5738,8 @@ bool ScriptFinishedEndOfRun(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptStartedEndOfRun(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5572,6 +5759,8 @@ bool ScriptStartedEndOfRun(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptEndBetAttempt(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5599,6 +5788,8 @@ bool ScriptEndBetAttempt(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptStartBetAttempt(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5626,6 +5817,8 @@ bool ScriptStartBetAttempt(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptWinBet(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5652,6 +5845,9 @@ bool ScriptWinBet(Script::CStruct* pParams, Script::CScript* pScript)
 // an offer
 bool ScriptBetOffered( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5674,6 +5870,9 @@ bool ScriptBetOffered( Script::CStruct* pParams, Script::CScript* pScript )
 // guy bet
 bool ScriptBetRefused( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5698,6 +5897,9 @@ bool ScriptBetRefused( Script::CStruct* pParams, Script::CScript* pScript )
 // moving where the skater could see him).
 bool ScriptMoveBettingGuyNow( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5719,6 +5921,9 @@ bool ScriptMoveBettingGuyNow( Script::CStruct* pParams, Script::CScript* pScript
 // @script | GoalManager_BetAccepted | called when the player accepts a bet
 bool ScriptBetAccepted(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5742,6 +5947,8 @@ bool ScriptBetAccepted(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptBetIsActive(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -5769,6 +5976,8 @@ bool ScriptBetIsActive(Script::CStruct* pParams, Script::CScript* pScript)
 // @uparm 1 | the amount of time to add in seconds
 bool ScriptAddMinigameTime(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );	
 	
@@ -5794,6 +6003,8 @@ bool ScriptAddMinigameTime(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptAddTempSpecialTrick(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5816,6 +6027,8 @@ bool ScriptAddTempSpecialTrick(Script::CStruct* pParams, Script::CScript* pScrip
 // @parm name | name | the goal id
 bool ScriptRemoveTempSpecialTrick(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5953,6 +6166,8 @@ bool ScriptGetTrickFromKeyCombo(Script::CStruct* pParams, Script::CScript* pScri
 // @parm name | name | the goal id
 bool ScriptUnlockGoal(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5974,6 +6189,8 @@ bool ScriptUnlockGoal(Script::CStruct* pParams, Script::CScript* pScript)
 // @flag dontAssert | used by autotester
 bool ScriptQuickStartGoal(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -5996,6 +6213,8 @@ bool ScriptQuickStartGoal(Script::CStruct* pParams, Script::CScript* pScript)
 // @parm name | name | the goal id
 bool ScriptInitializeGoal( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6021,6 +6240,8 @@ bool ScriptInitializeGoal( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparm 10 | time to add, in seconds
 bool ScriptAddTime( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6167,6 +6388,9 @@ bool ScriptGetNumberOfFlags( Script::CStruct* pParams, Script::CScript* pScript 
 // @script | GoalManager_IsPro | returns true if you're pro
 bool ScriptIsPro( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6182,6 +6406,8 @@ bool ScriptIsPro( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | GoalManager_ResetGoalFlags | resets all of the goals flags
 bool ScriptResetGoalFlags( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6205,6 +6431,8 @@ bool ScriptResetGoalFlags( Script::CStruct* pParams, Script::CScript* pScript )
 // @parmopt int | skater | 0 | the skater num
 bool ScriptColorTrickObjects( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6233,6 +6461,9 @@ bool ScriptColorTrickObjects( Script::CStruct* pParams, Script::CScript* pScript
 // @parm name | name | the goal id
 bool ScriptGetNumberOfTimesGoalStarted( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6253,6 +6484,8 @@ bool ScriptGetNumberOfTimesGoalStarted( Script::CStruct* pParams, Script::CScrip
 // @parm name | name | the goal id
 bool ScriptGoalExists( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6272,6 +6505,8 @@ bool ScriptGoalExists( Script::CStruct* pParams, Script::CScript* pScript )
 // goal has been lost, and stores all the data in your times_lost_info
 bool ScriptGetGoalAttemptInfo( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	pScript->GetParams()->AddStructurePointer( Crc::ConstCRC("goal_attempt_info"), pGoalManager->GetGoalAttemptInfo() );
 	return true;
@@ -6288,6 +6523,8 @@ bool ScriptGetGoalAttemptInfo( Script::CStruct* pParams, Script::CScript* pScrip
 // @parmopt int | | 1 | 0 to block new goals
 bool ScriptSetCanStartGoal( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6307,6 +6544,8 @@ bool ScriptSetCanStartGoal( Script::CStruct* pParams, Script::CScript* pScript )
 // or beat the last goal, the function will return false.
 bool ScriptGetLastGoalId( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6328,6 +6567,8 @@ bool ScriptGetLastGoalId( Script::CStruct* pParams, Script::CScript* pScript )
 // tetris tricks.
 bool ScriptClearTetrisTricks( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6387,6 +6628,8 @@ bool ScriptSkaterHasBeatenProSpecificChallenge( Script::CStruct* pParams, Script
 
 bool ScriptAnnounceGoalStarted( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Net::Client* client;
 	CGoalManager* pGoalManager = GetGoalManager();
@@ -6439,6 +6682,8 @@ bool ScriptAnnounceGoalStarted( Script::CStruct* pParams, Script::CScript* pScri
 // @flag none | don't use end of run
 bool ScriptSetEndRunType( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6468,6 +6713,8 @@ bool ScriptSetEndRunType( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparm 1 | 0 for no, anything else for yes
 bool ScriptSetShouldDeactivateOnExpire( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6491,6 +6738,8 @@ bool ScriptSetShouldDeactivateOnExpire( Script::CStruct* pParams, Script::CScrip
 // Returns false if there are no active goals
 bool ScriptGetActiveGoalId( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	uint32 goalId = 0;
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
@@ -6523,6 +6772,8 @@ bool ScriptGetActiveGoalId( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparm 25 | amount of cash to award
 bool ScriptAwardMinigameCash( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -6547,6 +6798,9 @@ bool ScriptAwardMinigameCash( Script::CStruct* pParams, Script::CScript* pScript
 // @script | GoalManager_ResetCareer | 
 bool ScriptResetCareer( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6561,6 +6815,9 @@ bool ScriptResetCareer( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptAwardAllGoalCash( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6576,6 +6833,9 @@ bool ScriptAwardAllGoalCash( Script::CStruct* pParams, Script::CScript* pScript 
 // @script | GoalManager_UpdateFamilyTrees |
 bool ScriptUpdateFamilyTrees( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6624,6 +6884,8 @@ bool ScriptIsRootNode( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptSuspendGoalPedLogic( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6641,6 +6903,8 @@ bool ScriptSuspendGoalPedLogic( Script::CStruct* pParams, Script::CScript* pScri
 
 bool ScriptRememberLevelStructureName( Script::CStruct *pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6660,6 +6924,8 @@ bool ScriptRememberLevelStructureName( Script::CStruct *pParams, Script::CScript
 // @uparm 1 | difficulty level (starts at 0)
 bool ScriptSetDifficultyLevel( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	int level;
 	pParams->GetInteger( NONAME, &level, Script::ASSERT );
 	Dbg_MsgAssert( level >= 0 && level <= vMAXDIFFICULTYLEVEL, ( "GoalManager_SetDifficultyLevel called with level of %i", level ) );
@@ -6679,6 +6945,8 @@ bool ScriptSetDifficultyLevel( Script::CStruct* pParams, Script::CScript* pScrip
 // difficulty level as an integer param called difficulty_level
 bool ScriptGetDifficultyLevel( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	int level = (int)pGoalManager->GetDifficultyLevel();
@@ -6743,6 +7011,9 @@ bool ScriptGetGoalParam( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | GoalManager_RestartStage | restarts the current/last stage
 bool ScriptRestartStage( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->RestartStage();
@@ -6759,6 +7030,9 @@ bool ScriptRestartStage( Script::CStruct* pParams, Script::CScript* pScript )
 // can retry a goal stage.
 bool ScriptCanRestartStage( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	return pGoalManager->CanRestartStage();
@@ -6772,6 +7046,9 @@ bool ScriptCanRestartStage( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptSetGoalChaptersAndStages( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->SetGoalChaptersAndStages();
@@ -6792,6 +7069,8 @@ bool ScriptSetGoalChaptersAndStages( Script::CStruct* pParams, Script::CScript* 
 // than the number returned by searching through the goals.
 bool ScriptAdvanceStage( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	uint32 just_won_goal_id = 0;
@@ -6808,6 +7087,8 @@ bool ScriptAdvanceStage( Script::CStruct* pParams, Script::CScript* pScript )
 // current chapter and stage as currentChapter and currentStage
 bool ScriptGetCurrentChapterAndStage( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	int chapter = pGoalManager->GetCurrentChapter();
@@ -6835,6 +7116,8 @@ bool ScriptGetCurrentChapterAndStage( Script::CStruct* pParams, Script::CScript*
 // @parmopt int | stage | current |
 bool ScriptSetCurrentChapterAndStage( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	int chapter = pGoalManager->GetCurrentChapter();
@@ -6857,6 +7140,8 @@ bool ScriptSetCurrentChapterAndStage( Script::CStruct* pParams, Script::CScript*
 // @parm name | name | the goal_id
 bool ScriptFilmGoalCheckpoint( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	CFilmGoal* pFilmGoal = (CFilmGoal*)pGoalManager->GetGoal( pParams, true );
@@ -6873,6 +7158,8 @@ bool ScriptFilmGoalCheckpoint( Script::CStruct* pParams, Script::CScript* pScrip
 // @parm name | name | the goal_id
 bool ScriptStartFilming( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	CFilmGoal* pFilmGoal = (CFilmGoal*)pGoalManager->GetGoal( pParams, true );
@@ -6889,6 +7176,9 @@ bool ScriptStartFilming( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | GoalManager_GoalShouldExpire | setup for endrun exceptions
 bool ScriptGoalShouldExpire( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	if ( pGoalManager )
@@ -6917,6 +7207,8 @@ bool ScriptGoalShouldExpire( Script::CStruct* pParams, Script::CScript* pScript 
 // @uparm sponsor_name | the checksum of the sponsor name
 bool ScriptSetSponsor( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6935,6 +7227,8 @@ bool ScriptSetSponsor( Script::CStruct* pParams, Script::CScript* pScript )
 // the sponsor will be 0 if not set
 bool ScriptGetSponsor( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 
@@ -6952,6 +7246,8 @@ bool ScriptGetSponsor( Script::CStruct* pParams, Script::CScript* pScript )
 // named num_team_members
 bool ScriptGetTeam( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	Script::CStruct* pTeam = pGoalManager->GetTeam();
@@ -6984,6 +7280,8 @@ bool ScriptGetTeam( Script::CStruct* pParams, Script::CScript* pScript )
 // @flag remove | use this flag to remove the pro - will add by default
 bool ScriptSetTeamMember( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	uint32 pro;
@@ -7003,6 +7301,9 @@ bool ScriptSetTeamMember( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | GoalManager_KillTeamMembers | removes all team members
 bool ScriptKillTeamMembers( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->KillTeamMembers( );
@@ -7018,6 +7319,8 @@ bool ScriptKillTeamMembers( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparm "team name" | team name
 bool ScriptSetTeamName( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	const char* p_string;
@@ -7033,6 +7336,9 @@ bool ScriptSetTeamName( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptRunLastStageScript( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	pGoalManager->RunLastStageScript();
@@ -7050,6 +7356,8 @@ bool ScriptRunLastStageScript( Script::CStruct* pParams, Script::CScript* pScrip
 // @parm name | name | goal id
 bool ScriptGoalInitialized( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -7072,6 +7380,8 @@ bool ScriptGoalInitialized( Script::CStruct* pParams, Script::CScript* pScript )
 // will return
 bool ScriptUnloadLastFam( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -7094,6 +7404,8 @@ bool ScriptUnloadLastFam( Script::CStruct* pParams, Script::CScript* pScript )
 // for a cam anim
 bool ScriptStopLastSream( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 goalId;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &goalId, Script::ASSERT );
 
@@ -7116,6 +7428,8 @@ bool ScriptStopLastSream( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparm 0 | 0 to unhide, anything else to hide
 bool ScriptHideAllGoalPeds( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	CGoalManager* pGoalManager = GetGoalManager();
 	Dbg_Assert( pGoalManager );
 	int hide;

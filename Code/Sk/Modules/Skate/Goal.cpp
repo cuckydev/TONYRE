@@ -860,7 +860,7 @@ bool CGoal::Win( void )
 
 		return true;
 	}
-	return false;
+	// return false;
 }
 
 /******************************************************************/
@@ -3013,6 +3013,11 @@ bool fill_trick_and_key_combo_arrays( Script::CArray* p_key_combos, Script::CArr
 				// Script::PrintContents( pCreatedTrick->mp_other_params );
 				pCreatedTrick->mp_other_params->GetString( Crc::ConstCRC( "name" ), &p_trick_name, Script::ASSERT );
 			}
+			else
+			{
+				Dbg_MsgAssert(0, ("cant find trick name"));
+				return false;
+			}
 		}
 		else
 		{
@@ -3199,7 +3204,7 @@ bool CGoal::ReplaceTrickText()
 		size = p_string_array->GetSize();
 		Script::CArray* p_new_string_array = new Script::CArray();
 		p_new_string_array->SetSizeAndType( size, ESYMBOLTYPE_STRING );
-		for ( int i = 0; i < size; i++ )
+		for ( size_t i = 0; i < size; i++ )
 		{
 			p_string = p_string_array->GetString( i );
 			find_and_replace_trick_string( p_string, new_string, p_key, p_trick, Game::NEW_STRING_LENGTH );

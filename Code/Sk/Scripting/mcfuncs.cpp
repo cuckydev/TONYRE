@@ -310,10 +310,10 @@ static const char *s_generate_ascii_checksum(char *p_dest, const char *p_string,
 	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
 	
 	uint32 Checksum=Script::GenerateCRC(p_string);
-	for (int i=0; i<8; ++i)
+	for (int i = 0; i < 8; ++i)
 	{
 		int Rem=Checksum%26;
-		p_dest[i]='a'+Rem;
+		p_dest[i] = (char)('a' + Rem);
 		Checksum=(Checksum-Rem)/26;
 	}	
 	// Check that mathematics is still working ok
@@ -395,6 +395,7 @@ static uint32 s_determine_file_type(char c)
 /******************************************************************/
 
 
+#if 0
 #ifndef __PLAT_NGC__
 static unsigned short s_ascii_to_sjis(unsigned char ascii_code)
 {
@@ -474,6 +475,7 @@ static unsigned short s_ascii_to_sjis(unsigned char ascii_code)
 	return sjis_code;
 }
 #endif		// __PLAT_NGC__
+#endif
 
 static void s_insert_global_info(CStruct *p_struct)
 {
@@ -999,6 +1001,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 	}	
 }
 
+#if 0
 static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script)
 {
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
@@ -1153,7 +1156,9 @@ static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script)
 		pSkaterProfile->SetCASFileName(pCASFileName);
 	}
 }
+#endif
 	
+#if 0
 static void s_read_story_info(CStruct *p_storyInfo)
 {
 	// Load in the goal manager parameters.
@@ -1175,7 +1180,9 @@ static void s_read_story_info(CStruct *p_storyInfo)
 	// Refresh the goal manager with the new params.
 	p_goal_manager->LevelLoad();
 }
+#endif
 
+#if 0
 static void s_read_story_skater_info(CStruct *p_storySkaterInfo, CStruct *p_customSkater)
 {
 	// Which skater are we loading?
@@ -1193,7 +1200,9 @@ static void s_read_story_skater_info(CStruct *p_storySkaterInfo, CStruct *p_cust
     
     pPlayerProfileManager->LoadCASProfileInfo(p_customSkater, true);
 }
+#endif
 
+#if 0
 static void s_read_custom_skater_info(CStruct *p_customSkater)
 {
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
@@ -1213,9 +1222,11 @@ static void s_read_custom_skater_info(CStruct *p_customSkater)
     }
     
 }
+#endif
 
-uint32 s_apply_flags=0;
-bool s_did_apply_custom_skater_info=false;
+uint32 s_apply_flags = 0;
+bool s_did_apply_custom_skater_info = false;
+#if 0
 static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p_script)
 {
 	Dbg_MsgAssert(p_struct,("nullptr p_struct"));
@@ -1373,6 +1384,7 @@ static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p
 		}		
 	}
 }
+#endif
 
 /******************************************************************/
 /*                                                                */
@@ -2145,6 +2157,11 @@ static bool s_make_ps2_dir_and_icons(	Mc::Card *p_card,
 										char *p_card_file_name,
 										bool *p_insufficientSpace)
 {
+	(void)p_card;
+	(void)fileType;
+	(void)p_name;
+	(void)p_card_file_name;
+	(void)p_insufficientSpace;
 	return false;
 }
 #endif // #ifdef __PLAT_NGPS__
@@ -2337,6 +2354,11 @@ static bool s_insert_ngc_icon(	SMcFileHeader *p_fileHeader,
 								uint32 fileType,
 								const char *p_name)
 {
+	(void)p_fileHeader;
+	(void)p_card;
+	(void)p_file;
+	(void)fileType;
+	(void)p_name;
 	return false;
 }
 #endif // #ifdef __PLAT_NGC__
@@ -2513,6 +2535,8 @@ bool ScriptGetMostRecentSave(Script::CStruct *pParams, Script::CScript *pScript)
 // into the parameter SpaceAvailable. Units are K for the PS2
 bool ScriptGetMemCardSpaceAvailable(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("SpaceAvailable"),0);
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("FilesLeft"),1000000);
 
@@ -2656,6 +2680,8 @@ bool ScriptMemCardFileExists(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptDeleteMemCardFile(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	if ( Config::GetHardware() != Config::HARDWARE_XBOX)
 	{
 		Pcm::PauseMusic(true);
@@ -2756,7 +2782,7 @@ bool ScriptDeleteMemCardFile(Script::CStruct *pParams, Script::CScript *pScript)
 			}
 										   
 			int len=strlen(p_full_file_name);
-			uint32 file_type=s_determine_file_type(p_full_file_name[len-1]);
+			uint32 this_file_type=s_determine_file_type(p_full_file_name[len-1]);
 		
 			// Generate the directory name.
 			Dbg_MsgAssert(len<100,("File name too long"));
@@ -2787,7 +2813,7 @@ bool ScriptDeleteMemCardFile(Script::CStruct *pParams, Script::CScript *pScript)
 			}	
 			
 			// Delete the .ico file.
-			switch (file_type)
+			switch (this_file_type)
 			{
 				case 0xffc529f4: // Cas
 				{
@@ -2876,6 +2902,9 @@ bool ScriptDeleteMemCardFile(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | FormatCard | Formats the memory card
 bool ScriptFormatCard(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Pcm::PauseMusic(true);
 	Pcm::PauseStream(true);
 	
@@ -2900,6 +2929,9 @@ bool ScriptFormatCard(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | CardIsInSlot | returns true if the memory card is in the slot
 bool ScriptCardIsInSlot(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mc::Manager * mc_man = Mc::Manager::Instance();
 	Mc::Card* p_card=mc_man->GetCard(0,0);
 	if (p_card)
@@ -2934,6 +2966,9 @@ bool ScriptCardIsInSlot(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | CardIsFormatted | returns true if the memory card is formatted
 bool ScriptCardIsFormatted(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mc::Manager * mc_man = Mc::Manager::Instance();
 	Mc::Card* p_card=mc_man->GetCard(0,0);
 	if (p_card)
@@ -2955,6 +2990,9 @@ bool ScriptCardIsFormatted(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SaveFailedDueToInsufficientSpace | 
 bool ScriptSaveFailedDueToInsufficientSpace(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	return s_insufficient_space;
 }
 		
@@ -3053,6 +3091,8 @@ static uint32 sGetFixedFileSize(uint32 fileType)
 // @script | SaveToMemoryCard | 
 bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	if (Config::GetHardware() == Config::HARDWARE_NGC)
 	{
 		// On the GameCube, the temp mem card pools only exist for the duration of this function,
@@ -3579,6 +3619,9 @@ McError:
 
 bool ScriptSetSectionsToApplyWhenLoading(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     printf("ScriptSetSectionsToApplyWhenLoading was called.........................\n");
     // These flags only apply when loading type OptionsAndPros.
 	// They allow for only certain sections of the file being applied to the game state.
@@ -3615,6 +3658,9 @@ bool ScriptSetSectionsToApplyWhenLoading(Script::CStruct *pParams, Script::CScri
 // @parm name | Type | The type of the file (cas, network, park, etc.)
 bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifndef __PLAT_WN32__
 	Dbg_MsgAssert(!Config::Bootstrap(),("Can't use memory card from bootstrap demo"));
 
@@ -3934,12 +3980,18 @@ McError:
 
 bool ScriptLoadedCustomSkater(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	return s_did_apply_custom_skater_info;
 }	
 
 // Functions required for when loading a file of mem card for uploading to the net.
 bool ScriptGetMemCardDataForUpload(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_MsgAssert(spVaultData,("\n%s\nNo mem card data present",pScript->GetScriptInfo()));
 	
 	pScript->GetParams()->AddStructure(Crc::ConstCRC("DataForUpload"),spVaultData);
@@ -3949,6 +4001,9 @@ bool ScriptGetMemCardDataForUpload(Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptClearMemCardDataForUpload(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	if (spVaultData)
 	{
 		delete spVaultData;
@@ -3960,6 +4015,9 @@ bool ScriptClearMemCardDataForUpload(Script::CStruct *pParams, Script::CScript *
 
 bool ScriptNeedToLoadReplayBuffer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #if __USE_REPLAYS__
 	return sNeedToLoadReplayBuffer;
 #else
@@ -3969,6 +4027,9 @@ bool ScriptNeedToLoadReplayBuffer(Script::CStruct *pParams, Script::CScript *pSc
 
 bool ScriptLoadReplayData(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #if __USE_REPLAYS__
 	Dbg_MsgAssert(!Config::Bootstrap(),("Can't use memory card from bootstrap demo"));
 
@@ -4113,6 +4174,9 @@ McError:
 
 bool ScriptGetMaxTHPS4FilesAllowed(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	pScript->GetParams()->AddInteger("MaxTHPS4FilesAllowed",MAX_THPS4_FILES_ALLOWED);
 	return true;
 }
@@ -4125,6 +4189,9 @@ bool ScriptGetMaxTHPS4FilesAllowed(Script::CStruct *pParams, Script::CScript *pS
 static uint8 spSummaryInfoBuffer[sizeof(SMcFileHeader)+MAX_SUMMARY_INFO_SIZE];
 bool ScriptGetMemCardDirectoryListing(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifndef __PLAT_WN32__
 	pScript->GetParams()->RemoveComponent("DirectoryListing");
 	pScript->GetParams()->RemoveComponent("FilesLimitReached");
@@ -4469,6 +4536,9 @@ bool ScriptGetMemCardDirectoryListing(Script::CStruct *pParams, Script::CScript 
 // If it's a PS2 build, it will just return true.
 bool ScriptSectorSizeOK(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef __PLAT_NGC__
 	Spt::SingletonPtr< Mc::Manager > mc_man;
 	Mc::Card* pCard=mc_man->GetCard(0,0);
@@ -4491,6 +4561,9 @@ bool ScriptSectorSizeOK(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptCardIsDamaged(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef __PLAT_NGC__
 	Spt::SingletonPtr< Mc::Manager > mc_man;
 	Mc::Card* pCard=mc_man->GetCard(0,0);
@@ -4513,6 +4586,9 @@ bool ScriptCardIsDamaged(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptCardIsForeign(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef __PLAT_NGC__
 	Spt::SingletonPtr< Mc::Manager > mc_man;
 	Mc::Card* pCard=mc_man->GetCard(0,0);
@@ -4528,6 +4604,9 @@ bool ScriptCardIsForeign(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptBadDevice(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef __PLAT_NGC__
 	Spt::SingletonPtr< Mc::Manager > mc_man;
 	Mc::Card* pCard=mc_man->GetCard(0,0);
@@ -4579,6 +4658,9 @@ bool ScriptGetSaveInfo(Script::CStruct *pParams, Script::CScript *pScript)
 // It is safe to call this multiple times.
 bool ScriptCreateTemporaryMemCardPools(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifndef __PLAT_WN32__
 	// If the pools exist already, do nothing.
 	CComponent::SSwitchToNextPool();
@@ -4657,6 +4739,9 @@ bool ScriptCreateTemporaryMemCardPools(Script::CStruct *pParams, Script::CScript
 // It is safe to call this multiple times.
 bool ScriptRemoveTemporaryMemCardPools(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifndef __PLAT_WN32__
 	Dbg_MsgAssert(CComponent::SGetCurrentPoolIndex()==0,("Bad current CComponent pool"));
 	CComponent::SSwitchToNextPool();
@@ -4690,6 +4775,9 @@ bool ScriptRemoveTemporaryMemCardPools(Script::CStruct *pParams, Script::CScript
 
 bool ScriptSwitchToTempPoolsIfTheyExist(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifndef __PLAT_WN32__
 	Dbg_MsgAssert(CComponent::SGetCurrentPoolIndex()==0 && CStruct::SGetCurrentPoolIndex()==0 && CVector::SGetCurrentPoolIndex()==0, ("Expected current pools to be 0"));
 	CComponent::SSwitchToNextPool();
@@ -4709,6 +4797,9 @@ bool ScriptSwitchToTempPoolsIfTheyExist(Script::CStruct *pParams, Script::CScrip
 
 bool ScriptSwitchToRegularPools(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifndef __PLAT_WN32__
 	if (CComponent::SGetCurrentPoolIndex()==0 && 
 		CStruct::SGetCurrentPoolIndex()==0 &&
@@ -4727,6 +4818,10 @@ bool ScriptSwitchToRegularPools(Script::CStruct *pParams, Script::CScript *pScri
 // Saves any old data file to mem card
 bool SaveDataFile(const char *p_name, uint8 *p_data, uint32 size)
 {
+	(void)p_name;
+	(void)p_data;
+	(void)size;
+
 	#ifndef __PLAT_WN32__
 	Dbg_MsgAssert(p_name,("nullptr p_name"));
 	Dbg_MsgAssert(p_data,("nullptr p_data"));

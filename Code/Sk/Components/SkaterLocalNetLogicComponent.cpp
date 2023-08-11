@@ -219,7 +219,7 @@ int	CSkaterLocalNetLogicComponent::get_update_flags()
 	int i;
 	bool on_server, force_send;   
 	int update_flags;
-	sint16 rail_node;
+	size_t rail_node;
 	Obj::CSkaterEndRunComponent* p_skater_endrun_component;
 
 	update_flags = 0;
@@ -340,7 +340,7 @@ void CSkaterLocalNetLogicComponent::network_update ( void )
 	Flags< int > skater_flags;
 	Flags< int > end_run_flags;
 	int i, msg_len;
-	sint16 rail_node;
+	size_t rail_node;
 	int update_flags;
 	bool on_server, force_send;   
 	Net::MsgDesc msg_desc;
@@ -513,7 +513,7 @@ void CSkaterLocalNetLogicComponent::network_update ( void )
 	if( update_flags & GameNet::mUPDATE_FIELD_RAIL_NODE )
 	{
 		m_last_sent_rail = rail_node;
-		stream.WriteValue( rail_node, sizeof( sint16 ) * 8 );
+		stream.WriteValue((int)rail_node, sizeof( sint16 ) * 8 );
 	}
 
 	stream.Flush();

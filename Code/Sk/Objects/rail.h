@@ -20,6 +20,8 @@ namespace Script
 namespace Obj
 {
 
+	static constexpr size_t vNULL_RAIL = ~((size_t)0);
+
 class	CRailManager;
 class	CWalkComponent;
 struct	SHangRailData;
@@ -43,7 +45,7 @@ enum ERailNodeFlag
 class	CRailLinks
 {
 	friend class CRailManager;
-	sint16 m_link[MAX_RAIL_LINKS];	// link numbers	
+	size_t m_link[MAX_RAIL_LINKS];	// link numbers	
 };
 
 class CRailNode : public Spt::Class
@@ -51,18 +53,18 @@ class CRailNode : public Spt::Class
 	friend class  CRailManager;
 
 public:						  
-	bool 			ProbablyOnSameRailAs(int SearchNode) const;
+	bool 			ProbablyOnSameRailAs(size_t SearchNode) const;
 	int				Side(const Mth::Vector &vel) const;
 	
 	const CRailNode	*	GetNextLink() const				{return m_pNextLink;}	
 	const CRailNode	*	GetPrevLink() const				{return m_pPrevLink;}	
-	const sint16			GetNode() const 	  				{return m_node;}
-//	const sint16			GetLink() const	  				{return m_link;}
+	const size_t			GetNode() const 	  		{return m_node;}
+//	const sint16			GetLink() const	  			{return m_link;}
 	const ETerrainType	GetTerrain() const	  			{return (ETerrainType) m_terrain_type;}
 	
-	void				SetActive(bool active)		{if (active) SetFlag(ACTIVE); else ClearFlag(ACTIVE);}
-	const bool			GetActive() const					{return GetFlag(ACTIVE);}
-	const bool			IsActive() const					{return GetActive();}
+	void				SetActive(bool active)			{if (active) SetFlag(ACTIVE); else ClearFlag(ACTIVE);}
+	const bool			GetActive() const				{return GetFlag(ACTIVE);}
+	const bool			IsActive() const				{return GetActive();}
 
 	void			SetFlag(ERailNodeFlag flag) {m_flags.Set(flag);}
 	void			ClearFlag(ERailNodeFlag flag) {m_flags.Clear(flag);}
@@ -84,7 +86,7 @@ protected:
 
 	Flags< ERailNodeFlag > m_flags; // flags for rail segment
 	
-	sint16 m_node;				// Number of the node in the trigger array	
+	size_t m_node;				// Number of the node in the trigger array	
 	uint8 m_terrain_type;		// play the correct grind sound on the rail...
 	
     
@@ -113,7 +115,7 @@ public:
 	void 			Cleanup();
 								 
 	void			AddRailsFromNodeArray(Script::CArray * p_node_array);
-	void 			AddRailNode(int node_number, Script::CStruct *p_node_struct);
+	void 			AddRailNode(size_t node_number, Script::CStruct *p_node_struct);
 	void 			AddedAll();
 	
 	void			UpdateTransform(Mth::Matrix& transform);
@@ -125,28 +127,28 @@ public:
 	bool			CheckForCoincidentRailNode ( const CRailNode* p_node, uint32 ignore_mask, const CRailNode** pp_next_node );
     bool 			StickToRail(const Mth::Vector &pos1, const Mth::Vector &pos2, Mth::Vector *p_point, Obj::CRailNode **pp_rail_node, const Obj::CRailNode *p_ignore_node = nullptr, float min_dot = 1.0f, int side = 0);
 	
-	void 			SetActive( int node, int active, bool wholeRail );
-	bool 			IsActive( int node );
+	void 			SetActive(size_t node, int active, bool wholeRail );
+	bool 			IsActive(size_t node );
 	bool			IsMoving(){return m_is_transformed;}
 
-	void 			MoveNode( int node, Mth::Vector &pos );
+	void 			MoveNode(size_t node, Mth::Vector &pos );
 
 	
 	void			DebugRender(Mth::Matrix *p_transform = nullptr);
 	void			RemoveOverlapping();
 	
-	int				GetNumNodes(){return m_num_nodes;}
+	size_t			GetNumNodes() { return m_num_nodes; }
 	
-	Script::CArray *	GetNodeArray(){return mp_node_array;}
-	void				SetNodeArray(Script::CArray *p_nodeArray){mp_node_array = p_nodeArray;}
+	Script::CArray *GetNodeArray() { return mp_node_array; }
+	void			SetNodeArray(Script::CArray *p_nodeArray){mp_node_array = p_nodeArray;}
 
 	void			NewLink(CRailNode *p_from, CRailNode *p_to);
 
 	void			AutoGenerateRails(Script::CStruct* pParams);
 
-	CRailNode*		GetRailNodeByNodeNumber( int node_num );
+	CRailNode*		GetRailNodeByNodeNumber(size_t node_num);
 	
-	int				GetNodeIndex(const CRailNode *p_node) {return (((int)(p_node)-(int(mp_nodes)))/sizeof(CRailNode));}
+	size_t			GetNodeIndex(const CRailNode *p_node) { return p_node - mp_nodes; }
 	
 // accessor functions for the rail node
 // we only access their positions via the rail manager
@@ -168,8 +170,8 @@ private:
 	CRailNode*  		mp_nodes;				// pointer to array of nodes
 	CRailLinks*			mp_links;				// pointer to temp array of links
 	Script::CArray *	mp_node_array;
-	int					m_num_nodes;
-	int					m_current_node;
+	size_t				m_num_nodes;
+	size_t				m_current_node;
 	bool				m_is_transformed;
 	
 };

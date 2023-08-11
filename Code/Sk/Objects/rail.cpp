@@ -92,7 +92,6 @@ CRailManager::CRailManager()
 	m_num_nodes = 0;
 	m_is_transformed = false;
 	mp_node_array = nullptr;
-	
 }
 
 CRailManager::~CRailManager()
@@ -108,7 +107,7 @@ void CRailManager::Cleanup()
 //		delete mp_first_node;
 //		mp_first_node = pNext;			
 //	}    
-	
+
 	m_num_nodes = 0;
 	
 	Mem::Free(mp_nodes);
@@ -190,7 +189,7 @@ void CRailManager::NewLink(CRailNode *p_from, CRailNode *p_to)
 }
 
 
-void CRailManager::AddRailNode(int node_number, Script::CStruct *p_node_struct)
+void CRailManager::AddRailNode(size_t node_number, Script::CStruct *p_node_struct)
 {
 
 							
@@ -215,7 +214,7 @@ void CRailManager::AddRailNode(int node_number, Script::CStruct *p_node_struct)
 	pRailNode->m_pPrevLink = nullptr;
 	for (int i=0;i<MAX_RAIL_LINKS;i++)
 	{
-		pLinkNode->m_link[i] = -1;						// say it's not linked to anything, initially
+		pLinkNode->m_link[i] = vNULL_RAIL;				// say it's not linked to anything, initially
 	}
 	pRailNode->m_node = node_number;			// The node_number is use primarily for calculating links
 	pRailNode->m_flags = 0;						// all flags off by default
@@ -343,11 +342,11 @@ void	CRailManager::RemoveOverlapping()
 {
 	printf ("Starting overlapping rail removal\n");
 	
-	int	removed =0;
+	size_t	removed =0;
 //	CRailNode *pRailNode = mp_first_node;
 //	while (pRailNode)
 //	{
-	for (int node=0;node<m_num_nodes;node++)
+	for (size_t node=0;node < m_num_nodes; node++)
 	{
 		CRailNode *pRailNode = &mp_nodes[node];
 		if (pRailNode->m_pNextLink)	   	// it's a segment
@@ -370,9 +369,9 @@ void	CRailManager::RemoveOverlapping()
 			bb_max[Z] += 16.0f;
 			
 			
-			int check_node = node+1;
+			size_t check_node = node + 1;
 //			CRailNode *pCheckNode = pRailNode->m_pNext;
-			while (check_node<m_num_nodes && pRailNode->IsActive())
+			while (check_node < m_num_nodes && pRailNode->IsActive())
 			{
 				CRailNode *pCheckNode = &mp_nodes[check_node];
 				if (pCheckNode->m_pNextLink)	   	// it's a segment
@@ -491,12 +490,12 @@ void CRailManager::AddedAll()
 	
 }			   
 
-void CRailManager::SetActive( int node, int active, bool wholeRail )
+void CRailManager::SetActive(size_t node, int active, bool wholeRail )
 {
 	
 //	CRailNode *pRailNode = mp_first_node;
 //	while (pRailNode)
-	for (int check_node = 0;check_node<m_num_nodes;check_node++)
+	for (size_t check_node = 0;check_node<m_num_nodes; check_node++)
 	{
 		CRailNode *pRailNode = &mp_nodes[check_node];
 		
@@ -518,16 +517,16 @@ void CRailManager::SetActive( int node, int active, bool wholeRail )
 	}				 
 }
 
-bool CRailManager::IsActive( int node )
+bool CRailManager::IsActive(size_t node)
 {
 //	CRailNode *pRailNode = mp_first_node;
 //	while (pRailNode)
-	for (int check_node = 0;check_node<m_num_nodes;check_node++)
+	for (size_t check_node = 0; check_node < m_num_nodes; check_node++)
 	{
 		CRailNode *pRailNode = &mp_nodes[check_node];
 		if (pRailNode->m_node == node)
 		{
-			return ( pRailNode->GetActive() );
+			return (pRailNode->GetActive());
 		}
 //		pRailNode = pRailNode->m_pNext;
 	}
@@ -540,9 +539,9 @@ bool CRailManager::IsActive( int node )
 // and update bounding boxes as needed 
 //
 
-void CRailManager::MoveNode( int node, Mth::Vector &pos )
+void CRailManager::MoveNode(size_t node, Mth::Vector &pos)
 {
-	for (int check_node = 0;check_node<m_num_nodes;check_node++)
+	for (size_t check_node = 0; check_node < m_num_nodes; check_node++)
 	{
 		CRailNode *pRailNode = &mp_nodes[check_node];
 		
@@ -567,7 +566,7 @@ void CRailManager::MoveNode( int node, Mth::Vector &pos )
 				// There is one, but there might be more that one
 				// the only way to know, is to go through all the nodes and see if any points to this one
 				// 
-				for (int from_node = 0;from_node<m_num_nodes;from_node++)
+				for (size_t from_node = 0; from_node < m_num_nodes; from_node++)
 				{
 					CRailNode *p_from = &mp_nodes[check_node];
 					if (p_from->GetNextLink() == pRailNode)
@@ -731,7 +730,7 @@ bool CRailManager::CheckForAirGrabLadderRail ( const Mth::Vector& start_pos, con
 	
 	float closest_dist_sqr = 10000000.0f * 10000000.0f;
 
-	for (int check_node = 0; check_node < m_num_nodes; check_node++)
+	for (size_t check_node = 0; check_node < m_num_nodes; check_node++)
 	{
 		CRailNode* pRailNode = &mp_nodes[check_node];
 		if (!pRailNode->GetFlag(LADDER) || !pRailNode->GetActive() || !pRailNode->m_pNextLink) continue;
@@ -884,7 +883,7 @@ bool CRailManager::CheckForHangRail ( const Mth::Vector& start_pos, const Mth::V
 	
 	float closest_dist_sqr = 10000000.0f * 10000000.0f;
 
-	for (int check_node = 0; check_node < m_num_nodes; check_node++)
+	for (size_t check_node = 0; check_node < m_num_nodes; check_node++)
 	{
 		CRailNode* pRailNode = &mp_nodes[check_node];
 		if (pRailNode->GetFlag(LADDER) || pRailNode->GetFlag(NO_CLIMBING) || !pRailNode->GetActive() || !pRailNode->m_pNextLink) continue;
@@ -946,7 +945,7 @@ bool CRailManager::RailNodesAreCoincident ( const CRailNode* p_node_a, const CRa
 // look for another rail node within a few inches of the given node's position
 bool CRailManager::CheckForCoincidentRailNode ( const CRailNode* p_node, uint32 ignore_mask, const CRailNode** pp_next_node )
 {
-	for (int check_node = 0; check_node<m_num_nodes; check_node++)
+	for (size_t check_node = 0; check_node < m_num_nodes; check_node++)
 	{
 		CRailNode *pRailNode = &mp_nodes[check_node];
 		
@@ -1017,7 +1016,7 @@ bool CRailManager::StickToRail(const Mth::Vector &pos1, const Mth::Vector &pos2,
 
 //	CRailNode *pRailNode = mp_first_node;
 //	while (pRailNode)
-	for (int check_node = 0;check_node<m_num_nodes;check_node++)
+	for (size_t check_node = 0; check_node < m_num_nodes; check_node++)
 	{
 		CRailNode *pRailNode = &mp_nodes[check_node];
 		if (!pRailNode->GetFlag(ONLY_CLIMBING) && pRailNode != p_ignore_node && pRailNode->GetActive())
@@ -1185,10 +1184,8 @@ bool CRailManager::StickToRail(const Mth::Vector &pos1, const Mth::Vector &pos2,
 // we now detect loops by traversign the list with two pointers
 // one moving at half the speed of the other
 
-bool CRailNode::ProbablyOnSameRailAs(int SearchNode) const
-{		
-	
-
+bool CRailNode::ProbablyOnSameRailAs(size_t SearchNode) const
+{
 	// First check if this node is the required node.
 	if (m_node==SearchNode)
 	{
@@ -1200,7 +1197,7 @@ bool CRailNode::ProbablyOnSameRailAs(int SearchNode) const
 	// MICK:  Modified to return true only if on the same rail segment
 	
 	return false;
-
+	#if 0
 
 	
 
@@ -1240,7 +1237,7 @@ bool CRailNode::ProbablyOnSameRailAs(int SearchNode) const
 	pNode=m_pPrevLink;
 	while (pNode)
 	{
-		if (pNode->m_node==SearchNode)
+		if (pNode->m_node == SearchNode)
 		{
 			// Found it.
 			return true;
@@ -1263,6 +1260,7 @@ bool CRailNode::ProbablyOnSameRailAs(int SearchNode) const
 	}
 	
 	return false;
+	#endif
 }
 
 
@@ -1478,6 +1476,8 @@ bool  Rail_ValidInEditor(Mth::Vector Start, Mth::Vector End)
 
 void	CRailManager::DebugRender(Mth::Matrix *p_transform)
 {
+	(void)p_transform;
+
 #ifdef	__DEBUG_CODE__
 	
 	#ifdef	__PLAT_NGPS__	
@@ -1701,7 +1701,7 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 
 	
-	uint32 i;	
+	size_t i;	
 	
 
 	Dbg_MsgAssert(m_num_nodes == 0,("Can only addd nodes once, already %d there\n",m_num_nodes));										  
@@ -1710,7 +1710,7 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 	// First iterate over the node array, and count the number of nodes needed
 
 
-	for (i=0; i<p_nodearray->GetSize(); ++i)
+	for (i = 0; i < p_nodearray->GetSize(); ++i)
 	{
 		Script::CStruct *p_node_struct=p_nodearray->GetStructure(i);
 		Dbg_MsgAssert(p_node_struct,("Error getting node from node array for rail generation"));
@@ -1744,7 +1744,7 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 	m_current_node = 0;	
 	
 	 
-	for (i=0; i<p_nodearray->GetSize(); ++i)
+	for (i=0; i < p_nodearray->GetSize(); ++i)
 	{
 		Script::CStruct *p_node_struct=p_nodearray->GetStructure(i);
 		Dbg_MsgAssert(p_node_struct,("Error getting node from node array for rail generation"));
@@ -1794,21 +1794,21 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 
 
 	
-	int num_nodes  = p_nodearray->GetSize();   
+	size_t num_nodes  = p_nodearray->GetSize();
 	
 	// we are creating a table of all nodes, and the pointer to the CRailNode
 	// for that node, so we can do a reverse lookup
 	
 	CRailNode **pp_railnodes = (CRailNode **) Mem::Malloc(num_nodes * sizeof(CRailNode*));
-	for (int i=0;i<num_nodes;i++)
+	for (size_t j = 0; j < num_nodes; j++)
 	{
-		pp_railnodes[i] = nullptr;
+		pp_railnodes[j] = nullptr;
 	}
 
 	// now fill it in	
 	CRailNode *p_node; // = mp_first_node;
 //	while (p_node)
-	for (int node=0;node<m_num_nodes;node++)
+	for (size_t node=0;node<m_num_nodes;node++)
 	{
 		p_node = &mp_nodes[node];
 		pp_railnodes[p_node->GetNode()] = p_node;
@@ -1817,18 +1817,18 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 
 	// now go through all the node	
 //	p_node = mp_first_node;
-	for (int node=0;node<m_num_nodes;node++)
+	for (size_t node=0;node<m_num_nodes;node++)
 	{
 		p_node = &mp_nodes[node];
-		for (int i=0;i<MAX_RAIL_LINKS;i++)
+		for (size_t l = 0; l < MAX_RAIL_LINKS; l++)
 		{
-			if (mp_links[node].m_link[i] != - 1)
+			if (mp_links[node].m_link[l] != - 1)
 			{
-				Dbg_MsgAssert(mp_links[node].m_link[i] < num_nodes, ("Node %d,Rail link node (%d) out of range (0 .. %d). Bad Node array?",
-												p_node->m_node, mp_links[node].m_link[i], num_nodes));
-				Dbg_MsgAssert(pp_railnodes[mp_links[node].m_link[i]], ("RailNode %d linked to something (node %d) that is not a RailNode",
-												p_node->m_node, mp_links[node].m_link[i]));
-				NewLink(p_node,pp_railnodes[mp_links[node].m_link[i]]);
+				Dbg_MsgAssert(mp_links[node].m_link[l] < num_nodes, ("Node %d,Rail link node (%d) out of range (0 .. %d). Bad Node array?",
+												p_node->m_node, mp_links[node].m_link[l], num_nodes));
+				Dbg_MsgAssert(pp_railnodes[mp_links[node].m_link[l]], ("RailNode %d linked to something (node %d) that is not a RailNode",
+												p_node->m_node, mp_links[node].m_link[l]));
+				NewLink(p_node,pp_railnodes[mp_links[node].m_link[l]]);
 			}
 		}
 //		p_node = p_node->m_pNext;
@@ -1837,9 +1837,6 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 	
 	Mem::Free(mp_links);
 	mp_links = nullptr;
-	
-	//printf ("THERE ARE %d rails\n",m_num_nodes);
-	
 }
 
 Mth::Vector CRailManager::LocalToWorldTransform ( const Mth::Vector& vector ) const
@@ -2153,8 +2150,8 @@ struct SAutoRailEndpoint {
 	// endpoint position
 	Mth::Vector p;
 
-	// connection at this end; -1 is no connection
-	int connection;
+	// connection at this end; vNULL_RAIL is no connection
+	size_t connection;
 };
 
 struct SAutoRail {
@@ -2164,8 +2161,8 @@ struct SAutoRail {
 	// unit vector along rail
 	Mth::Vector	para;
 
-	// railset id; -1 for solo rail
-	int railset;
+	// railset id; vNULL_RAIL for solo rail
+	size_t railset;
 
 	// rail length
 	float length;
@@ -2191,9 +2188,9 @@ struct SAutoRailGeneratorState {
 	// hash of rail endpoints; most rails are in hash twice, keyed off endpoint's X*Y rounded to nearest inch
 	BinTable* p_rail_endpoint_list;
 
-	int	num_rails;	
-	int num_active_rails;
-	int num_railsets;
+	size_t num_rails;	
+	size_t num_active_rails;
+	size_t num_railsets;
 };
 
 // collect all the algorithm's input parameters into a structure
@@ -2265,9 +2262,9 @@ inline bool add_rail ( const Mth::Vector& pa, const Mth::Vector& pb, SAutoRailGe
 
 	arg.p_rails[arg.num_rails].endpoints[START].p = pa;
 	arg.p_rails[arg.num_rails].endpoints[END].p = pb;
-	arg.p_rails[arg.num_rails].endpoints[START].connection = -1;
-	arg.p_rails[arg.num_rails].endpoints[END].connection = -1;
-	arg.p_rails[arg.num_rails].railset = -1;
+	arg.p_rails[arg.num_rails].endpoints[START].connection = vNULL_RAIL;
+	arg.p_rails[arg.num_rails].endpoints[END].connection = vNULL_RAIL;
+	arg.p_rails[arg.num_rails].railset = vNULL_RAIL;
 	arg.p_rails[arg.num_rails].disabled = false;
 
 	arg.p_rails[arg.num_rails].para = pb - pa;
@@ -2424,9 +2421,9 @@ inline bool consider_rail ( const Mth::Vector& pa, const Mth::Vector& pb, int ma
 	return true;
 }
 
-CRailNode* CRailManager::GetRailNodeByNodeNumber( int node_num )
+CRailNode* CRailManager::GetRailNodeByNodeNumber(size_t node_num)
 {
-	int i;
+	size_t i;
 
 	if( mp_nodes )
 	{
@@ -2677,7 +2674,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 							if (!arp.remove_old_rails)
 							{
 								// loop over all old rails and check for degeneracy
-								int check_node = 0;
+								size_t check_node = 0;
 								for (check_node = 0; check_node < m_num_nodes; check_node++)
 								{
 									CRailNode *pRailNode = &mp_nodes[check_node];
@@ -2773,7 +2770,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 	// note that the connectivity is not perfect in the sense that it can make loops but not loops with tails
 
 	// loop through rail set
-	for (int r = 0; r < arg.num_rails; r++)
+	for (size_t r = 0; r < arg.num_rails; r++)
 	{
 		SAutoRail& rail = arg.p_rails[r];
 
@@ -2781,7 +2778,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 		for (int endpoint = START; endpoint <= END; endpoint++)
 		{
 			// if the endpoint is connected
-			if (rail.endpoints[endpoint].connection != -1) continue;
+			if (rail.endpoints[endpoint].connection != vNULL_RAIL) continue;
 
 			// now we'll check for connections
 
@@ -2799,7 +2796,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				if (&match_rail == &rail) continue;
 	
 				// check only rails with unconnected endpoints
-				if (match_rail.endpoints[START].connection != -1 && match_rail.endpoints[END].connection != -1) continue;
+				if (match_rail.endpoints[START].connection != vNULL_RAIL && match_rail.endpoints[END].connection != vNULL_RAIL) continue;
 
 				// rails connect only if the angle between them is small; this should be adjusted or adjustable
 				float dot = Mth::DotProduct(rail.para, match_rail.para);
@@ -2808,7 +2805,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				bool reverse_connection = false;
 
 				// see if the start of the match rail is connected to our endpoint
-				if (match_rail.endpoints[START].connection == -1
+				if (match_rail.endpoints[START].connection == vNULL_RAIL
 					&& very_close(rail.endpoints[endpoint].p, match_rail.endpoints[START].p, arp))
 				{
 					// rails connect only for obtuse angles
@@ -2827,8 +2824,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				}
 
 				// else see if the end of the match rail is connected to our endpoint
-				else if (match_rail.endpoints[END].connection == -1
-					&& very_close(rail.endpoints[endpoint].p, match_rail.endpoints[END].p, arp))
+				else if (match_rail.endpoints[END].connection == vNULL_RAIL && very_close(rail.endpoints[endpoint].p, match_rail.endpoints[END].p, arp))
 				{
 					// rails connect only for obtuse angles
 					if (endpoint == END)
@@ -2846,12 +2842,12 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				} // END ifelse determining connectivity
 
 				// if this endpoint of the rail is not found to be connected, continue
-				if (rail.endpoints[endpoint].connection == -1) continue;
+				if (rail.endpoints[endpoint].connection == vNULL_RAIL) continue;
 
 				// otherwise, we'll add the rail to a railset
 
 				// if both rails are not in railset
-				if (match_rail.railset == -1 && rail.railset == -1)
+				if (match_rail.railset == vNULL_RAIL && rail.railset == vNULL_RAIL)
 				{
 					if (arg.num_railsets == MAX_NUM_RAILSETS)
 					{
@@ -2878,7 +2874,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 
 				// if only match_rail has a railset
 				}
-				else if (match_rail.railset != -1 && rail.railset == -1)
+				else if (match_rail.railset != vNULL_RAIL && rail.railset == vNULL_RAIL)
 				{
 					// add rail to match_rail's railset
 					rail.railset = match_rail.railset;
@@ -2894,7 +2890,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 
 				// if only rail has a railset
 				}
-				else if (match_rail.railset == -1 && rail.railset != -1)
+				else if (match_rail.railset == vNULL_RAIL && rail.railset != vNULL_RAIL)
 				{
 					// add match_rail to rail's railset
 					match_rail.railset = rail.railset;
@@ -2937,7 +2933,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 						int traversal_direction = endpoint ^ 1;
 
 						// traverse the rail's railset
-						for (int s = r; s != -1; s = arg.p_rails[s].endpoints[traversal_direction].connection)
+						for (int s = r; s != vNULL_RAIL; s = arg.p_rails[s].endpoints[traversal_direction].connection)
 						{
 							SAutoRailEndpoint temp = arg.p_rails[s].endpoints[START];
 							arg.p_rails[s].endpoints[START] = arg.p_rails[s].endpoints[END];
@@ -2953,12 +2949,12 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 	printf("culling short rails...\n");
 
 	// now we have rails grouped into railsets; we can cull rails based on their length or the length of their railset
-	for (int r = 0; r < arg.num_rails; r++)
+	for (size_t r = 0; r < arg.num_rails; r++)
 	{
 		SAutoRail& rail = arg.p_rails[r];
 
 		// solo rails
-		if (rail.railset == -1)
+		if (rail.railset == vNULL_RAIL)
 		{
 			// cull short solo rails
 			if (rail.length < arp.min_railset_length)
@@ -2996,7 +2992,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 		int new_num_nodes = arg.num_active_rails;
 		for (int r = arg.num_rails; r--; )
 		{
-			if (!arg.p_rails[r].disabled && arg.p_rails[r].endpoints[END].connection == -1)
+			if (!arg.p_rails[r].disabled && arg.p_rails[r].endpoints[END].connection == vNULL_RAIL)
 			{
 				new_num_nodes++;
 			}
@@ -3010,7 +3006,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 		CRailNode* p_new_nodes = (CRailNode*)Mem::Malloc(new_num_nodes * sizeof(CRailNode));
 	
 		// add the old rails to the new data structure
-		int next_node = 0;
+		size_t next_node = 0;
 		if (!arp.remove_old_rails)
 		{
 			// loop over the old nodes
@@ -3040,28 +3036,28 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 	
 		// iterate over the nodes and add the new rails to the array; each time we hit a railset, we move to the head, then traverse the set, adding the
 		// rails; not the most optimal algorithm but simple; we skip previously added rails and we move through the array
-		for (int r = 0; r < arg.num_rails; r++)
+		for (size_t r = 0; r < arg.num_rails; r++)
 		{
 			// because we add whole railsets at once, we may already have added any given rail
 			if (arg.p_rails[r].disabled) continue;
 
 			// traverse to start of this rail's railset watching for a loop
-			int s = r;
-			while (arg.p_rails[s].endpoints[START].connection != -1)
+			size_t s = r;
+			while (arg.p_rails[s].endpoints[START].connection != vNULL_RAIL)
 			{
 				s = arg.p_rails[s].endpoints[START].connection;
 				if (s == r) break;
 			}
 
 			// traverse the railset, adding nodes as we go
-			int starting_rail = s;
+			size_t starting_rail = s;
 			CRailNode* p_starting_node = &p_new_nodes[next_node];
 			int last_s;
 			do {
 				CRailNode* pRailNode = &p_new_nodes[next_node];
 				pRailNode->m_node = next_node;
 
-				if (arg.p_rails[s].endpoints[START].connection != -1)
+				if (arg.p_rails[s].endpoints[START].connection != vNULL_RAIL)
 				{
 					pRailNode->m_pPrevLink = &p_new_nodes[next_node - 1];
 				}
@@ -3083,7 +3079,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				pRailNode->m_flags = 0;
 				pRailNode->SetActive(true);
 				pRailNode->m_pos = arg.p_rails[s].endpoints[START].p;
-				if (arg.p_rails[s].railset == -1)
+				if (arg.p_rails[s].railset == vNULL_RAIL)
 					pRailNode->m_terrain_type = vTERRAIN_CONCSMOOTH; // red
 				else
 					pRailNode->m_terrain_type = vTERRAIN_METALSMOOTH; // blue
@@ -3095,7 +3091,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 
 				last_s = s;
 				s = arg.p_rails[s].endpoints[END].connection;
-			} while (s != -1 && s != starting_rail);
+			} while (s != vNULL_RAIL && s != starting_rail);
 
 			// if not a loop
 			if (s != starting_rail)
@@ -3103,7 +3099,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 				// add extra ending node of railset
 
 				CRailNode* pRailNode = &p_new_nodes[next_node];
-				pRailNode->m_node = next_node;
+				pRailNode->m_node = (sint16)next_node;
 	
 				pRailNode->m_pPrevLink = &p_new_nodes[next_node - 1];
 				pRailNode->m_pNextLink = nullptr;

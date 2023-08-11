@@ -127,7 +127,7 @@ public:
 	void							StopSkitch (   );
 	bool							IsSwitched (   );
 	void							ResetGrindTweak (   );
-	sint16							GetRailNode( void );
+	size_t							GetRailNode( void );
 	
 	void							CollideWithOtherSkaterLost ( CCompositeObject* p_other_skater );
 	
@@ -579,15 +579,15 @@ inline ETerrainType CSkaterCorePhysicsComponent::GetTerrain (   )
 /*                                                                */
 /******************************************************************/
 
-inline sint16	CSkaterCorePhysicsComponent::GetRailNode( void )
+inline size_t CSkaterCorePhysicsComponent::GetRailNode( void )
 {
-	if( mp_rail_node )
+	if (mp_rail_node)
 	{
 		return mp_rail_node->GetNode();
 	}
 	else
 	{
-		return -1;
+		return vNULL_RAIL;
 	}
 }
 

@@ -114,6 +114,8 @@ CSkaterCorePhysicsComponent::~CSkaterCorePhysicsComponent()
 
 void CSkaterCorePhysicsComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CSkaterCorePhysicsComponent added to non-skater composite object"));
 	
 	m_rolling_friction = GetPhysicsFloat(Crc::ConstCRC("Physics_Rolling_Friction"));
@@ -1402,6 +1404,8 @@ void CSkaterCorePhysicsComponent::ReverseFacing (   )
 
 void CSkaterCorePhysicsComponent::CollideWithOtherSkaterLost ( CCompositeObject* p_other_skater )
 {
+	(void)p_other_skater;
+
 	// reset all flags except FLIPPED
 	ResetFlags();
 
@@ -2321,8 +2325,8 @@ void CSkaterCorePhysicsComponent::move_to_skitch_point (   )
 		GetPos() += con_move;
 		DUMP_POSITION;
 
-		Mth::Vector dir = target - GetPos();
-		float dir_length_sqr = dir.LengthSqr();
+		Mth::Vector target_dir = target - GetPos();
+		float dir_length_sqr = target_dir.LengthSqr();
 		float suck_speed = GetPhysicsFloat(Crc::ConstCRC("skitch_suck_speed")) * m_frame_length;
 
 		// if skater is stuck in a wall, then end the skitch when car is fifteen feet away 														 
@@ -2341,8 +2345,8 @@ void CSkaterCorePhysicsComponent::move_to_skitch_point (   )
 		}							   
 		else
 		{
-			dir *= suck_speed / sqrtf(dir_length_sqr);
-			GetPos() += dir;
+			target_dir *= suck_speed / sqrtf(dir_length_sqr);
+			GetPos() += target_dir;
 			DUMP_POSITION;
 		}
 	}
@@ -2452,14 +2456,14 @@ void CSkaterCorePhysicsComponent::bounce_off_wall ( const Mth::Vector& normal )
 		{
 			#ifdef	__NOPT_ASSERT__
 			{
-				Mth::Vector	up_offset = GetMatrix()[Y] * GetPhysicsFloat(Crc::ConstCRC("Skater_First_Forward_Collision_Height"));
-				Mth::Vector start = up_offset+GetOldPos();
-				Mth::Vector end = up_offset+GetPos();
-				TrackingLine(1, start, end);	  // 1 = wall bounce flail
+				Mth::Vector	track_up_offset = GetMatrix()[Y] * GetPhysicsFloat(Crc::ConstCRC("Skater_First_Forward_Collision_Height"));
+				Mth::Vector track_start = track_up_offset+GetOldPos();
+				Mth::Vector track_end = track_up_offset+GetPos();
+				TrackingLine(1, track_start, track_end);	  // 1 = wall bounce flail
 			}
 			#endif
 			
-			if ((angle < 0.0f) ^ (GetFlag(FLIPPED)))														   
+			if ((angle < 0.0f) != (GetFlag(FLIPPED)))														   
 			{
 				FLAGEXCEPTION(Crc::ConstCRC("FlailLeft"));
 			}
@@ -6618,7 +6622,7 @@ void CSkaterCorePhysicsComponent::maybe_stick_to_rail ( bool override_air )
 		p_railmanager_component;
 		p_railmanager_component = static_cast< CRailManagerComponent* >(p_railmanager_component->GetNextSameType()))
 	{
-		CRailManager* p_rail_man = p_railmanager_component->GetRailManager();
+		CRailManager* p_this_rail_man = p_railmanager_component->GetRailManager();
 		
 		Mth::Matrix	total_mat = p_railmanager_component->UpdateRailManager();
 		Mth::Matrix	inv = total_mat;
@@ -6631,14 +6635,14 @@ void CSkaterCorePhysicsComponent::maybe_stick_to_rail ( bool override_air )
 		Mth::Vector local_a = inv.Transform(a);
 		Mth::Vector local_b = inv.Transform(b);
 
-		if (p_rail_man->StickToRail(local_a, local_b, &rail_pos, &pNode, nullptr, min_dot))
+		if (p_this_rail_man->StickToRail(local_a, local_b, &rail_pos, &pNode, nullptr, min_dot))
 		{
 			// transform from object space to world space
 			rail_pos[W] = 1.0f;
 			rail_pos = total_mat.Transform(rail_pos);
-			if (will_take_rail(pNode, p_rail_man))
+			if (will_take_rail(pNode, p_this_rail_man))
 			{
-				got_rail(rail_pos, pNode, p_rail_man); 
+				got_rail(rail_pos, pNode, p_this_rail_man);
 				mp_movable_contact_component->ObtainContact(p_railmanager_component->GetObj());
 				
 				GetVel() -= mp_movable_contact_component->GetContact()->GetObj()->GetVel();
@@ -6655,6 +6659,8 @@ void CSkaterCorePhysicsComponent::maybe_stick_to_rail ( bool override_air )
 
 bool CSkaterCorePhysicsComponent::will_take_rail ( const CRailNode* pNode, CRailManager* p_rail_man, bool from_walk )
 {
+	(void)p_rail_man;
+
 	// no grinding if we're in an acid drop which was generated from an ollie out of a grind; prevents acid-grind-acid-grind repetition
 	if (GetState() == AIR && GetFlag(IN_ACID_DROP) && GetFlag(OLLIED_FROM_RAIL)
 		&& (mp_rail_node == pNode || mp_rail_node == pNode->GetNextLink() || mp_rail_node == pNode->GetPrevLink()))
@@ -6723,7 +6729,7 @@ void CSkaterCorePhysicsComponent::got_rail ( const Mth::Vector& rail_pos, const 
 	// if it's a "new" rail, then tell the robot detector about it
 	if (mp_rail_node != pNode)
 	{
-		int rail_index = p_rail_man->GetNodeIndex(pNode);		
+		size_t rail_index = p_rail_man->GetNodeIndex(pNode);		
 		mp_score_component->GetScore()->UpdateRobotDetection(rail_index);
 	}
 
@@ -6776,8 +6782,8 @@ void CSkaterCorePhysicsComponent::got_rail ( const Mth::Vector& rail_pos, const 
 		
 		// get the rail node name
 		Script::CArray* pNodeArray = mp_rail_man->GetNodeArray();
-		Script::CStruct* pNode = pNodeArray->GetStructure(mp_rail_node->GetNode());
-		pNode->GetChecksum(Crc::ConstCRC("Name"), &m_last_rail_node_name, Script::ASSERT);
+		Script::CStruct* pRailNode = pNodeArray->GetStructure(mp_rail_node->GetNode());
+		pRailNode->GetChecksum(Crc::ConstCRC("Name"), &m_last_rail_node_name, Script::ASSERT);
 		
 		mp_trick_component->TrickOffObject(m_last_rail_node_name);
 
@@ -6786,7 +6792,7 @@ void CSkaterCorePhysicsComponent::got_rail ( const Mth::Vector& rail_pos, const 
 		uint32 trigger_script = 0;
 		
 		// no need to call maybe_trip_rail_trigger for a single node rail
-		if (pNode->GetChecksum(Crc::ConstCRC("TriggerScript"), &trigger_script))
+		if (pRailNode->GetChecksum(Crc::ConstCRC("TriggerScript"), &trigger_script))
 		{
 			mp_trigger_component->TripTrigger(
 				TRIGGER_LAND_ON,
@@ -7465,7 +7471,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 			}
 			else
 			{
-				last_segment = true;			
+				last_segment = true;
 			}
 		}
 		else
@@ -7520,9 +7526,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 			// gone off the end of the segment
 			if (sign < 0.0f)
 			{
-				if (pStart->GetPrevLink()
-					&& pStart->GetPrevLink()->IsActive()
-					&& Rail_ValidInEditor(mp_rail_man->GetPos(pStart), mp_rail_man->GetPos(pStart->GetPrevLink())))
+				if (pStart->GetPrevLink() && pStart->GetPrevLink()->IsActive() && Rail_ValidInEditor(mp_rail_man->GetPos(pStart), mp_rail_man->GetPos(pStart->GetPrevLink())))
 				{
 					if (!last_segment)
 					{
@@ -7545,9 +7549,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 			}
 			else
 			{
-				if (pEnd->GetNextLink()
-					&& pEnd->IsActive()
-					&& Rail_ValidInEditor(mp_rail_man->GetPos(pEnd), mp_rail_man->GetPos(pEnd->GetNextLink())))
+				if (pEnd->GetNextLink() && pEnd->IsActive() && Rail_ValidInEditor(mp_rail_man->GetPos(pEnd), mp_rail_man->GetPos(pEnd->GetNextLink())))
 				{
 					if (!last_segment)
 					{
@@ -7555,7 +7557,7 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 						DUMP_POSITION;
 						mp_rail_node = pEnd;					
 						set_terrain(mp_rail_node->GetTerrain());
-						maybe_trip_rail_trigger(TRIGGER_SKATE_ONTO);						
+						maybe_trip_rail_trigger(TRIGGER_SKATE_ONTO);
 					}		   
 					else
 					{
@@ -7572,21 +7574,21 @@ void CSkaterCorePhysicsComponent::do_rail_physics (   )
 		if (GetState() == RAIL)
 		{
 			// recalculate start, end, dir, as we might be on a new segment
-			const CRailNode* pStart = mp_rail_node;
-			const CRailNode* pEnd = pStart->GetNextLink();
+			pStart = mp_rail_node;
+			pEnd = pStart->GetNextLink();
 			
-			Mth::Vector	dir = mp_rail_man->GetPos(pEnd) - mp_rail_man->GetPos(pStart);
+			dir = mp_rail_man->GetPos(pEnd) - mp_rail_man->GetPos(pStart);
 			dir.Normalize();
 
 		    // sign also may have changed, now that we are auto-linking rail segments
 			
 			// sign is which way we are going along the rail
-			float sign = Mth::Sgn(Mth::DotProduct(dir,GetVel()));
+			sign = Mth::Sgn(Mth::DotProduct(dir, GetVel()));
 
 			m_rail_time = Tmr::GetTime();
 								
 			GetVel().RotateToNormal(dir);
-			GetVel() *= sign;						   						// sign won't be on a new segment
+			GetVel() *= sign; // sign won't be on a new segment
 			DUMP_VELOCITY;
 
 			float facing_sign = mRail_Backwards ? -sign : sign;
@@ -7759,7 +7761,7 @@ void CSkaterCorePhysicsComponent::ollie_off_rail_rotate (   )
 /*                                                                */
 /******************************************************************/
 
-void CSkaterCorePhysicsComponent::skate_off_rail ( const Mth::Vector& off_point )
+void CSkaterCorePhysicsComponent::skate_off_rail( const Mth::Vector& off_point)
 {
 	// we have skated off a rail; either it was the end of a rail or we hit a sharp corner
 	// we need to see if there is another rail in front of us that we can continue skating on
@@ -7796,22 +7798,10 @@ void CSkaterCorePhysicsComponent::skate_off_rail ( const Mth::Vector& off_point 
 	// Note: we are now passing in Rail_Side() of the current rail and velocity
 	// so we can see if we switch from a rail on a left facing ledge to a rail on a right facing ledge, and try to inhibit that type of transition
 	// in favour of one that retains the same side
-	if (mp_rail_man->StickToRail(
-			a,
-			b, 
-			&rail_pos,
-			&pNode,
-			mp_rail_node,
-			min_dot,
-			mp_rail_node->Side(GetVel())
-		))
-	{		
+	if (mp_rail_man->StickToRail(a, b, &rail_pos, &pNode, mp_rail_node, min_dot, mp_rail_node->Side(GetVel())))
+	{
 		// Mick, in park editor, we also disallow this if the rail is the next or the prev rail node from our current node
-		if (mp_rail_node != pNode && (
-				!Ed::CParkEditor::Instance()->UsingCustomPark()
-				|| mp_rail_node->GetNextLink() != pNode
-				&& mp_rail_node->GetPrevLink() != pNode
-			))
+		if (mp_rail_node != pNode && (!Ed::CParkEditor::Instance()->UsingCustomPark() || mp_rail_node->GetNextLink() != pNode && mp_rail_node->GetPrevLink() != pNode))
 		{
 			const CRailNode* pNewStart = pNode;
 			const CRailNode* pNewEnd = pNewStart->GetNextLink();	
@@ -7823,7 +7813,7 @@ void CSkaterCorePhysicsComponent::skate_off_rail ( const Mth::Vector& off_point 
 			float mid_dot = Mth::DotProduct(to_start, to_end);
 
 			// In game, the point must actualy be in the line, so mid dot will be negative
-			bool ok = mid_dot < 0.0f;					
+			bool ok = mid_dot < 0.0f;
 			
 			// Park Editor specific rail joining			
 			if (!ok && Ed::CParkEditor::Instance()->UsingCustomPark())

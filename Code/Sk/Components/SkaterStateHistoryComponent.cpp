@@ -68,6 +68,7 @@ CSkaterStateHistoryComponent::~CSkaterStateHistoryComponent()
 
 void CSkaterStateHistoryComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/
@@ -97,6 +98,9 @@ void CSkaterStateHistoryComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterStateHistoryComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
@@ -280,7 +284,7 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
 			Net::MsgDesc msg_desc;
 
 			// basically a one-byte message explaining "You've been knocked down by ID"
-			lost_msg.m_Id = p_other_skater->GetID();
+			lost_msg.m_Id = (char)p_other_skater->GetID();
 			lost_msg.m_Id |= (1 << 7) * other_driving;
 			lost_msg.m_Offset = my_pt - other_pt;
 
@@ -298,7 +302,7 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
 			p_server->EnqueueMessage(p_player->GetConnHandle(), &msg_desc);
 
 			// basically a one-byte message explaining "You knocked someone down"
-			won_msg.m_Data = GetObj()->GetID();
+			won_msg.m_Data = (char)GetObj()->GetID();
 			won_msg.m_Data |= (1 << 7) * my_driving;
 
 			msg_desc.m_Id = GameNet::MSG_ID_SKATER_COLLIDE_WON;
@@ -328,23 +332,21 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
 			p_other_player->MarkAsKing(true);
 			
 			Lst::Search< GameNet::PlayerInfo > search;
-			for (GameNet::PlayerInfo* p_player = GameNet::Manager::Instance()->FirstPlayerInfo(search, true);
-				p_player;
-				p_player = GameNet::Manager::Instance()->NextPlayerInfo(search, true))
+			for (GameNet::PlayerInfo* p_aplayer = GameNet::Manager::Instance()->FirstPlayerInfo(search, true); p_aplayer != nullptr; p_aplayer = GameNet::Manager::Instance()->NextPlayerInfo(search, true))
 			{
 				// Already marked the king for the local p_player (above)
-				if (p_player->IsLocalPlayer()) continue;
+				if (p_aplayer->IsLocalPlayer()) continue;
 				
 				GameNet::MsgByteInfo msg;
 				Net::MsgDesc msg_desc;
 				
-				msg.m_Data = p_other_skater->GetID();
+				msg.m_Data = (char)p_other_skater->GetID();
 				msg_desc.m_Data = &msg;
 				msg_desc.m_Id = GameNet::MSG_ID_NEW_KING;
 				msg_desc.m_Length = sizeof(GameNet::MsgByteInfo);
 				msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 				msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;
-				p_server->EnqueueMessage(p_player->GetConnHandle(), &msg_desc);
+				p_server->EnqueueMessage(p_aplayer->GetConnHandle(), &msg_desc);
 			}
 		}
 		else if (Mdl::Skate::Instance()->GetGameMode()->GetNameChecksum() == Crc::ConstCRC("netctf"))
@@ -365,8 +367,8 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
 			GameNet::MsgFlagMsg msg;
 			Net::MsgDesc msg_desc;
 
-			msg.m_ObjId = p_other_skater->GetID();
-			msg.m_Team = p_player->HasWhichFlag();
+			msg.m_ObjId = (char)p_other_skater->GetID();
+			msg.m_Team = (char)p_player->HasWhichFlag();
 
 			bool retrieve = p_player->HasWhichFlag() == p_other_player->m_Team;
 

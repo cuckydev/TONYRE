@@ -87,6 +87,7 @@ CSkaterNonLocalNetLogicComponent::~CSkaterNonLocalNetLogicComponent()
 
 void CSkaterNonLocalNetLogicComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CSkaterNonLocalNetLogicComponent added to non-skater composite object"));
 	Dbg_MsgAssert(!GetSkater()->IsLocalClient(), ("CSkaterNonLocalNetLogicComponent added to non-local skater"));
 }
@@ -233,6 +234,9 @@ void CSkaterNonLocalNetLogicComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterNonLocalNetLogicComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
@@ -579,16 +583,16 @@ CRailNode*	CSkaterNonLocalNetLogicComponent::travel_on_rail( CRailNode* start_no
 	if( on_rail ) // If still on the rail     GetState() == RAIL)
 	{
 		// recalculate start, end, dir, as we might be on a new segment
-		const CRailNode* pStart = start_node;
-		const CRailNode* pEnd = pStart->GetNextLink();
+		pStart = start_node;
+		pEnd = pStart->GetNextLink();
 		
-		Mth::Vector	dir = p_rail_man->GetPos(pEnd) - p_rail_man->GetPos(pStart);
+		dir = p_rail_man->GetPos(pEnd) - p_rail_man->GetPos(pStart);
 		dir.Normalize();
 
 		// sign also may have changed, now that we are auto-linking rail segments
 		
 		// sign is which way we are going along the rail
-		float sign = Mth::Sgn(Mth::DotProduct(dir,GetObj()->m_vel));
+		sign = Mth::Sgn(Mth::DotProduct(dir,GetObj()->m_vel));
 
 		//m_rail_time = Tmr::GetTime();
 							
@@ -1086,7 +1090,7 @@ void CSkaterNonLocalNetLogicComponent::interpolate_client_position (   )
 	
 	SPosEvent* p_pos_history = mp_state_history_component->GetPosHistory();
 
-	if(( client = gamenet_man->GetClient( 0 )))
+	if(( client = gamenet_man->GetClient( 0 )) != nullptr)
 	{   
 		// Wait for the object update buffer to fill up
 		if( mp_state_history_component->GetNumPosUpdates() >= CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS )
@@ -1317,7 +1321,7 @@ void CSkaterNonLocalNetLogicComponent::do_client_animation_update(   )
 
 	Dbg_Assert( mp_animation_component );
 
-	if(( client = gamenet_man->GetClient( 0 )))
+	if(( client = gamenet_man->GetClient( 0 )) != nullptr)
 	{   
 		// Wait for the object update buffer to fill up
 		if( mp_state_history_component->GetNumPosUpdates() >= CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS )

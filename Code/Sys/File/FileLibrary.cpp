@@ -141,6 +141,8 @@ bool CFileLibrary::LoadFinished() const
 
 bool CFileLibrary::PostLoad( bool assertOnFail, int file_size )
 {
+	(void)assertOnFail;
+
 	// Handle end of async, if that was used
 	if ( mp_fileHandle )
 	{
@@ -277,8 +279,7 @@ bool CFileLibrary::Load( const char* p_fileName, bool assertOnFail, bool async_l
 	Mem::Manager::sHandle().PopContext();
 	
 	return PostLoad(assertOnFail, file_size);
-#endif
-
+#else
 #ifdef __PLAT_NGC__
 	// Make sure music is off here as we really need the memory.
 //	Pcm::StopMusic();
@@ -412,6 +413,7 @@ bool CFileLibrary::Load( const char* p_fileName, bool assertOnFail, bool async_l
 
 		return PostLoad(assertOnFail, file_size);
 	}
+#endif
 }
 
 /******************************************************************/

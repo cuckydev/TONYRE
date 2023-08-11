@@ -410,6 +410,8 @@ void	Manager::free_all_pending_players( void )
 
 void	PlayerInfo::s_observer_logic_code ( const Tsk::Task< PlayerInfo >& task )
 {
+	(void)task;
+
 	Manager * gamenet_man = Manager::Instance();
 
 	// Dan: Proxim_Update use is now done through CProximTriggerComponents attached to the camera CCompositeObjects.  Thus, the observer's
@@ -534,6 +536,8 @@ void	Manager::s_auto_server_code( const Tsk::Task< Manager >& task )
 
 void	Manager::s_enter_chat_code( const Tsk::Task< Manager >& task )
 {
+	(void)task;
+
 	int num_chars;
 	char makes[256];
 	static Tmr::Time s_last_taunt_time = 0;
@@ -735,6 +739,8 @@ void	Manager::s_join_state_code( const Tsk::Task< Manager >& task )
 
 void	Manager::s_ctf_logic_code( const Tsk::Task< Manager >& task )
 {
+	(void)task;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
@@ -1171,7 +1177,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 		{
 			// Send the new player's create skater command in such a way that he knows it's his own skater
 			new_player_msg.m_ObjId = new_info->ObjID;
-			new_player_msg.m_Team = new_player->m_Team;
+			new_player_msg.m_Team = (char)new_player->m_Team;
 			new_player_msg.m_Profile = new_player->m_Profile;
 			new_player_msg.m_Rating = new_player->m_Rating;
 			new_player_msg.m_VehicleControlType = new_player->m_VehicleControlType;
@@ -1214,7 +1220,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 				{   
 					new_player_msg.m_ObjId = new_info->ObjID;
 					new_player_msg.m_Flags = 0;
-					new_player_msg.m_Team = new_player->m_Team;
+					new_player_msg.m_Team = (char)new_player->m_Team;
 					new_player_msg.m_Profile = new_player->m_Profile;
 					new_player_msg.m_Rating = new_player->m_Rating;
 					new_player_msg.m_VehicleControlType = new_player->m_VehicleControlType;
@@ -1224,7 +1230,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 					uint32 data_size = new_player->mp_SkaterProfile->WriteToBuffer(new_player_msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE );
 
 					msg_desc.m_Data = &new_player_msg;
-					msg_desc.m_Length = sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size;
+					msg_desc.m_Length = (unsigned short)(sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size);
 					msg_desc.m_Id = MSG_ID_PLAYER_CREATE;
 					msg_desc.m_Priority = Net::NORMAL_PRIORITY;
 					msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
@@ -1244,9 +1250,9 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 				if( ( new_player != player ) &&
 					( player->m_jump_in_frame == new_player->m_jump_in_frame ))
 				{   
-					new_player_msg.m_ObjId = player->m_Skater->GetID();
+					new_player_msg.m_ObjId = (char)player->m_Skater->GetID();
 					new_player_msg.m_Flags = ( player->m_flags & ( PlayerInfo::mKING_OF_THE_HILL | PlayerInfo::mHAS_ANY_FLAG ));
-					new_player_msg.m_Team = player->m_Team;
+					new_player_msg.m_Team = (char)player->m_Team;
 					new_player_msg.m_Profile = player->m_Profile;
 					new_player_msg.m_Rating = player->m_Rating;
 					new_player_msg.m_VehicleControlType = player->m_VehicleControlType;
@@ -1257,7 +1263,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 																	vMAX_APPEARANCE_DATA_SIZE, narrowband );
 
 					msg_desc.m_Data = &new_player_msg;
-					msg_desc.m_Length = sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size;
+					msg_desc.m_Length = (unsigned short)(sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size);
 					msg_desc.m_Id = MSG_ID_PLAYER_CREATE;
 					msg_desc.m_Priority = Net::NORMAL_PRIORITY;
 					msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
@@ -1277,9 +1283,9 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 				if( ( new_player != player ) &&
 					( !new_player->IsLocalPlayer()))
 				{   
-					new_player_msg.m_ObjId = player->m_Skater->GetID();
+					new_player_msg.m_ObjId = (char)player->m_Skater->GetID();
 					new_player_msg.m_Flags = ( player->m_flags & ( PlayerInfo::mKING_OF_THE_HILL | PlayerInfo::mHAS_ANY_FLAG ));
-					new_player_msg.m_Team = player->m_Team;
+					new_player_msg.m_Team = (char)player->m_Team;
 					new_player_msg.m_Profile = player->m_Profile;
 					new_player_msg.m_Rating = player->m_Rating;
 					new_player_msg.m_VehicleControlType = player->m_VehicleControlType;
@@ -1290,7 +1296,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 																		vMAX_APPEARANCE_DATA_SIZE, narrowband );
 
 					msg_desc.m_Data = &new_player_msg;
-					msg_desc.m_Length = sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size;
+					msg_desc.m_Length = (unsigned short)(sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size);
 					msg_desc.m_Id = MSG_ID_PLAYER_CREATE;
 					msg_desc.m_Priority = Net::NORMAL_PRIORITY;
 					msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
@@ -1309,13 +1315,8 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 				{
 					Ed::CParkManager::sInstance()->WriteCompressedMapBuffer();
 
-					man.m_server->StreamMessage( new_player->GetConnHandle(), MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, 
-							   Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", vSEQ_GROUP_PLAYER_MSGS,
-												 false, true );
-												 
-					man.m_server->StreamMessage( new_player->GetConnHandle(), MSG_ID_RAIL_DATA, Obj::GetRailEditor()->GetCompressedRailsBufferSize(), 
-							   Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS,
-												 false, true );
+					man.m_server->StreamMessage( new_player->GetConnHandle(), MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", vSEQ_GROUP_PLAYER_MSGS, false, true );
+					man.m_server->StreamMessage( new_player->GetConnHandle(), MSG_ID_RAIL_DATA, (unsigned short)Obj::GetRailEditor()->GetCompressedRailsBufferSize(), Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS, false, true );
 												 
 				}
 			}
@@ -1602,11 +1603,11 @@ void	Manager::s_timeout_connections_code( const Tsk::Task< Manager >& task )
 	else
 	{
 		Net::Conn* server_conn;
-		Lst::Search< Net::Conn > sh;
+		Lst::Search< Net::Conn > conn_sh;
 		
 		if( man.m_client[0] )
 		{   
-            server_conn = man.m_client[0]->FirstConnection( &sh );
+            server_conn = man.m_client[0]->FirstConnection( &conn_sh );
 			if( server_conn == nullptr )
 			{
 				return;
@@ -2845,7 +2846,7 @@ void	Manager::ReattemptJoinWithPassword( char* password )
 	}
 
 	msg_desc.m_Data = &msg;
-	msg_desc.m_Length = sizeof(MsgJoinInfo) - vMAX_APPEARANCE_DATA_SIZE + size;
+	msg_desc.m_Length = (unsigned short)(sizeof(MsgJoinInfo) - vMAX_APPEARANCE_DATA_SIZE + size);
 	msg_desc.m_Id = MSG_ID_JOIN_REQ;
 	msg_desc.m_Queue = Net::QUEUE_IMPORTANT;
 	m_client[0]->EnqueueMessageToServer( &msg_desc );
@@ -4171,7 +4172,7 @@ NewPlayerInfo*		Manager::GetNewPlayerInfoByObjectID(uint32 obj_id )
 
 	for( player = FirstNewPlayerInfo( sh ); player; player = NextNewPlayerInfo( sh ))
 	{
-		if( player->ObjID == obj_id )
+		if( (uint32)player->ObjID == obj_id )
 		{
 			return player;
 		}
@@ -4411,7 +4412,7 @@ void	Manager::DropPlayer( PlayerInfo* info, DropReason reason )
 					MsgPlayerQuit msg;
 					Net::MsgDesc msg_desc;
 					
-					msg.m_ObjId = info->m_Skater->GetID();
+					msg.m_ObjId = (char)info->m_Skater->GetID();
 					msg.m_Reason = (char) reason;
 			
 					msg_desc.m_Data = &msg;
@@ -4729,10 +4730,10 @@ void	Manager::UsePreferences( void )
 	{
 		for( i = 0; i < (int)pArray->GetSize(); i++ )
 		{   
-			Script::CStruct* pStructure = pArray->GetStructure( i );
-			Dbg_Assert( pStructure );
+			Script::CStruct*pArrayStructure = pArray->GetStructure( i );
+			Dbg_Assert(pArrayStructure);
             
-			pStructure->GetText( "name", &ip, true );
+			pArrayStructure->GetText( "name", &ip, true );
 			strcpy( m_master_servers[ i ], ip );
 		}
 	}
@@ -4763,10 +4764,10 @@ void	Manager::UsePreferences( void )
 		// Now tack on our default servers, just in case
 		for( i = 0; i < (int)pArray->GetSize(); i++ )
 		{   
-			Script::CStruct* pStructure = pArray->GetStructure( i );
-			Dbg_Assert( pStructure );
+			Script::CStruct* pArrayStructure = pArray->GetStructure( i );
+			Dbg_Assert(pArrayStructure);
             
-			pStructure->GetText( "name", &ip, true );
+			pArrayStructure->GetText( "name", &ip, true );
 			strcpy( m_master_servers[ num_servers + i ], ip );
 		}
 	}
@@ -5149,7 +5150,7 @@ void	Manager::LoadPendingPlayers( void )
 			num_new_players++;
 
 			strcpy( new_player.Name, player->m_Name );
-			new_player.ObjID = GetNextPlayerObjectId();
+			new_player.ObjID = (char)GetNextPlayerObjectId();
 			new_player.Conn = player->m_Conn;
 			new_player.Flags = PlayerInfo::mJUMPING_IN;
 			new_player.Profile = player->m_Profile;
@@ -5387,7 +5388,7 @@ void Manager::StartNetworkGame( void )
 		game_info_msg.m_GameId = 1 + (unsigned char) Mth::Rnd( 255 );
 	} while( game_info_msg.m_GameId == m_last_end_of_run_game_id );
 
-	game_info_msg.m_CrownSpawnPoint = m_crown_spawn_point;
+	game_info_msg.m_CrownSpawnPoint = (char)m_crown_spawn_point;
 	memcpy( game_info_msg.m_StartPoints, m_skater_starting_points, Mdl::Skate::vMAX_SKATERS * sizeof( int ));
 
 	msg_desc.m_Data = &game_info_msg;
@@ -5656,6 +5657,9 @@ void	Manager::RemoveModemStateTask( void )
 
 bool	Manager::ConnectToInternet( uint32 success_script, uint32 failure_script )
 {
+	(void)success_script;
+	(void)failure_script;
+
 #ifdef __PLAT_NGPS__
 	Net::Manager * net_man = Net::Manager::Instance();
 	Mlp::Manager * mlp_man = Mlp::Manager::Instance();
@@ -5777,10 +5781,10 @@ void	Manager::DisconnectFromInternet( uint32 callback_script )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::CreateNetPanelMessage( bool broadcast, uint32 message_checksum, char* string_parm_1,
-										char* string_parm_2, Obj::CMovingObject* object, char* properties, bool important,
-										int time )
+void	Manager::CreateNetPanelMessage( bool broadcast, uint32 message_checksum, char* string_parm_1, char* string_parm_2, Obj::CMovingObject* object, char* properties, bool important, int time )
 {
+	(void)object;
+
 	if( broadcast )
 	{
 		PlayerInfo* player;
@@ -6057,13 +6061,13 @@ void	Manager::SendChatMessage( char* message )
 	}
 	else
 	{
-		msg.m_ObjId = player->m_Skater->GetID();
+		msg.m_ObjId = (char)player->m_Skater->GetID();
 	}
 
 	size = sizeof( char ) + ( vMAX_PLAYER_NAME_LEN + 1 ) + strlen( message ) + 1;
 
 	msg_desc.m_Data = &msg;
-	msg_desc.m_Length = size;
+	msg_desc.m_Length = (unsigned short)size;
 	msg_desc.m_Id = MSG_ID_CHAT;
 	msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 	msg_desc.m_GroupId = vSEQ_GROUP_PLAYER_MSGS;
@@ -6404,6 +6408,9 @@ void			Manager::ToggleProSet( char bit, uint32 param_id )
 
 bool		Manager::ScriptStartCTFGame(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Mlp::Manager * mlp_man = Mlp::Manager::Instance();
 
@@ -6418,6 +6425,9 @@ bool		Manager::ScriptStartCTFGame(Script::CScriptStructure *pParams, Script::CSc
 
 bool		Manager::ScriptEndCTFGame(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 
 	gamenet_man->m_ctf_logic_task->Remove();
@@ -6431,6 +6441,8 @@ bool		Manager::ScriptEndCTFGame(Script::CScriptStructure *pParams, Script::CScri
 
 bool	Manager::ScriptTookFlag(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player, *capture_player;
 	Net::Server* server;
@@ -6478,6 +6490,8 @@ bool	Manager::ScriptTookFlag(Script::CScriptStructure *pParams, Script::CScript 
 
 bool	Manager::ScriptCapturedFlag(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player, *capture_player;
 	Net::Server* server;
@@ -6533,6 +6547,8 @@ bool	Manager::ScriptCapturedFlag(Script::CScriptStructure *pParams, Script::CScr
 
 bool	Manager::ScriptRetrievedFlag(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player, *retrieve_player;
 	Net::Server* server;
@@ -6580,6 +6596,8 @@ bool	Manager::ScriptRetrievedFlag(Script::CScriptStructure *pParams, Script::CSc
 
 bool	Manager::ScriptHasFlag(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 	int obj_id;
@@ -6602,6 +6620,9 @@ bool	Manager::ScriptHasFlag(Script::CScriptStructure *pParams, Script::CScript *
 
 bool	Manager::ScriptDisplayFlagBaseWarning(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	static Tmr::Time s_last_show = 0;
 
 	if(( Tmr::GetTime() - s_last_show ) > Tmr::Seconds( 3 ))
@@ -6620,6 +6641,8 @@ bool	Manager::ScriptDisplayFlagBaseWarning(Script::CScriptStructure *pParams, Sc
 
 bool	Manager::ScriptTeamFlagTaken(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
@@ -6646,6 +6669,9 @@ bool	Manager::ScriptTeamFlagTaken(Script::CScriptStructure *pParams, Script::CSc
 // @script | SpawnCrown | spawn the king of the hill crown
 bool	Manager::ScriptSpawnCrown(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 
@@ -6718,6 +6744,9 @@ bool	Manager::ScriptSpawnCrown(Script::CStruct *pParams, Script::CScript *pScrip
 // @script | NetworkGamePending | 
 bool Manager::ScriptNetworkGamePending(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
     
 	return gamenet_man->m_game_pending;
@@ -6731,6 +6760,9 @@ bool Manager::ScriptNetworkGamePending(Script::CStruct *pParams, Script::CScript
 // @script | StartNetworkGame | 
 bool Manager::ScriptStartNetworkGame(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mlp::Manager * mlp_man = Mlp::Manager::Instance();
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Manager * gamenet_man = Manager::Instance();
@@ -6841,7 +6873,7 @@ bool Manager::ScriptStartNetworkGame(Script::CStruct *pParams, Script::CScript *
 		data += sizeof( uint32 );
 
 		msg_desc.m_Data = &msg;
-		msg_desc.m_Length = (int) ( data - msg.m_Data );
+		msg_desc.m_Length = (unsigned short)( data - msg.m_Data );
 		msg_desc.m_Id = MSG_ID_SELECT_GOALS;
 		msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 		msg_desc.m_GroupId = vSEQ_GROUP_PLAYER_MSGS;
@@ -6867,6 +6899,9 @@ bool Manager::ScriptStartNetworkGame(Script::CStruct *pParams, Script::CScript *
 
 bool	Manager::ScriptSendGameOverToObservers(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
 	Manager * gamenet_man = Manager::Instance();
@@ -6902,6 +6937,9 @@ bool	Manager::ScriptSendGameOverToObservers(Script::CScriptStructure *pParams, S
 
 bool		Manager::ScriptEndNetworkGame(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
 	Manager * gamenet_man = Manager::Instance();
@@ -6954,6 +6992,8 @@ bool		Manager::ScriptEndNetworkGame(Script::CScriptStructure *pParams, Script::C
 // @uparm 1 | mode (0 for play, anything else for observe)
 bool Manager::ScriptSetJoinMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	int mode = 0;
     
@@ -6980,6 +7020,8 @@ bool Manager::ScriptSetJoinMode(Script::CStruct *pParams, Script::CScript *pScri
 // @uparm 1 | mode (0 for server, 1 for auto_serve, 2 for fcfs)
 bool Manager::ScriptSetHostMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	int mode = 0;
     
@@ -6998,6 +7040,8 @@ bool Manager::ScriptSetHostMode(Script::CStruct *pParams, Script::CScript *pScri
 
 bool Manager::ScriptGetNumTeams(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Script::CStruct* pass_back_params;
 	int num_teams;
@@ -7036,6 +7080,8 @@ bool Manager::ScriptGetNumPlayersOnTeam(Script::CStruct *pParams, Script::CScrip
 
 bool Manager::ScriptGetMyTeam(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	Manager * gamenet_man = Manager::Instance();
 	Script::CStruct* pass_back_params;
 	PlayerInfo *player;
@@ -7057,6 +7103,8 @@ bool Manager::ScriptGetMyTeam(Script::CStruct *pParams, Script::CScript *pScript
 
 bool Manager::ScriptSetNumTeams(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	PlayerInfo* team_player, *player;
@@ -7077,7 +7125,7 @@ bool Manager::ScriptSetNumTeams(Script::CStruct *pParams, Script::CScript *pScri
 
 		client = gamenet_man->GetClient( 0 );
 
-		team_msg.m_Data = num_teams;
+		team_msg.m_Data = (char)num_teams;
 		Dbg_Printf( "Telling server to create %d teams\n", num_teams );
 
 		msg_desc.m_Data = &team_msg;
@@ -7110,7 +7158,7 @@ bool Manager::ScriptSetNumTeams(Script::CStruct *pParams, Script::CScript *pScri
 		return true;
 	}
 
-	num_teams_msg.m_Data = num_teams;
+	num_teams_msg.m_Data = (char)num_teams;
 
 	team_msg_desc.m_Data = &num_teams_msg;
 	team_msg_desc.m_Length = sizeof( MsgByteInfo );
@@ -7161,6 +7209,8 @@ bool Manager::ScriptSetNumTeams(Script::CStruct *pParams, Script::CScript *pScri
 
 bool Manager::ScriptJoinTeam(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 	MsgChangeTeam msg;
@@ -7221,6 +7271,9 @@ bool Manager::ScriptJoinTeam(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool Manager::ScriptConnectedToPeer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_NGPS__
 	Manager * gamenet_man = Manager::Instance();
 	PEER peer;
@@ -7240,6 +7293,9 @@ bool Manager::ScriptConnectedToPeer(Script::CStruct *pParams, Script::CScript *p
 
 bool Manager::ScriptInGroupRoom(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifndef __PLAT_NGPS__
 	return false;
 #else
@@ -7255,6 +7311,9 @@ bool Manager::ScriptInGroupRoom(Script::CStruct *pParams, Script::CScript *pScri
 
 bool Manager::ScriptIsHost(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 
@@ -7284,6 +7343,9 @@ bool Manager::ScriptIsHost(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool	Manager::ScriptIsAutoServing(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 		
 	if( gamenet_man->InNetGame() == false )
@@ -7308,6 +7370,9 @@ bool	Manager::ScriptIsAutoServing(Script::CStruct *pParams, Script::CScript *pSc
 
 bool	Manager::ScriptChangeLevelPending(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	
 	return( gamenet_man->m_change_level_task->InList());
@@ -7320,6 +7385,9 @@ bool	Manager::ScriptChangeLevelPending(Script::CStruct *pParams, Script::CScript
 
 bool Manager::ScriptDownloadMotd(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 
 	gamenet_man->SetNextServerListState( vSERVER_LIST_STATE_STARTING_MOTD );
@@ -7335,6 +7403,9 @@ bool Manager::ScriptDownloadMotd(Script::CScriptStructure *pParams, Script::CScr
 
 bool Manager::ScriptAlreadyGotMotd(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_NGPS__
 	Manager * gamenet_man = Manager::Instance();
 
@@ -7351,6 +7422,9 @@ bool Manager::ScriptAlreadyGotMotd(Script::CScriptStructure *pParams, Script::CS
 
 bool Manager::ScriptAlreadySignedIn(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_XBOX__
 	Manager * gamenet_man = Manager::Instance();
 
@@ -7367,6 +7441,9 @@ bool Manager::ScriptAlreadySignedIn(Script::CScriptStructure *pParams, Script::C
 
 bool Manager::ScriptSignOut(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_XBOX__
 	Manager * gamenet_man = Manager::Instance();
 
@@ -7383,6 +7460,9 @@ bool Manager::ScriptSignOut(Script::CScriptStructure *pParams, Script::CScript *
 
 bool Manager::ScriptAllPlayersAreReady(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Lst::Search< PlayerInfo > sh;
 	PlayerInfo* player;
@@ -7408,6 +7488,9 @@ bool Manager::ScriptAllPlayersAreReady(Script::CScriptStructure *pParams, Script
 
 bool Manager::ScriptJoinServerComplete(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 
 	return gamenet_man->ReadyToPlay();
@@ -7420,6 +7503,9 @@ bool Manager::ScriptJoinServerComplete(Script::CScriptStructure *pParams, Script
 
 bool Manager::ScriptJustStartedNetGame(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	if(( Tmr::GetTime() - s_time_to_start_game ) < Tmr::Seconds( 5 ))
 	{
 		return true;
@@ -7435,6 +7521,9 @@ bool Manager::ScriptJustStartedNetGame(Script::CScriptStructure *pParams, Script
 
 bool Manager::ScriptEnteredNetworkGame(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Mlp::Manager * mlp_manager = Mlp::Manager::Instance();
     
@@ -7452,6 +7541,9 @@ bool Manager::ScriptEnteredNetworkGame(Script::CScriptStructure *pParams, Script
 
 bool Manager::ScriptChooseAccount(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_XBOX__
 	Manager * gamenet_man = Manager::Instance();
 	int index;
@@ -7470,6 +7562,8 @@ bool Manager::ScriptChooseAccount(Script::CScriptStructure *pParams, Script::CSc
 
 bool Manager::ScriptCreatePlayerOptions(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Script::CScriptStructure* pStructure;
 	PlayerInfo* player;
@@ -7619,6 +7713,8 @@ bool Manager::ScriptFillPlayerListMenu( Script::CStruct* pParams, Script::CScrip
 
 bool Manager::ScriptRemovePlayer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Script::CScriptStructure* pStructure;
 	PlayerInfo* player;
@@ -7662,6 +7758,9 @@ bool Manager::ScriptRemovePlayer(Script::CScriptStructure *pParams, Script::CScr
 
 bool Manager::ScriptCancelRemovePlayer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
@@ -7681,6 +7780,9 @@ bool Manager::ScriptCancelRemovePlayer(Script::CScriptStructure *pParams, Script
 
 bool Manager::ScriptKickPlayer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
@@ -7715,7 +7817,7 @@ bool Manager::ScriptKickPlayer(Script::CScriptStructure *pParams, Script::CScrip
 				Dbg_Assert( client );
 
 				msg.m_Ban = 0;
-				msg.m_Index = i;
+				msg.m_Index = (char)i;
 				strcpy( msg.m_Name, player->m_Name );
 
 				msg_desc.m_Data = &msg;
@@ -7741,6 +7843,9 @@ bool Manager::ScriptKickPlayer(Script::CScriptStructure *pParams, Script::CScrip
 
 bool Manager::ScriptBanPlayer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
@@ -7776,7 +7881,7 @@ bool Manager::ScriptBanPlayer(Script::CScriptStructure *pParams, Script::CScript
 				Dbg_Assert( client );
 
 				msg.m_Ban = 1;
-				msg.m_Index = i;
+				msg.m_Index = (char)i;
 				strcpy( msg.m_Name, player->m_Name );
 
 				msg_desc.m_Data = &msg;
@@ -7803,6 +7908,9 @@ bool Manager::ScriptBanPlayer(Script::CScriptStructure *pParams, Script::CScript
 
 bool	Manager::ScriptFCFSRequestStartGame(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	MsgStartGameRequest msg;
 	Net::MsgDesc msg_desc;
 	Manager * gamenet_man = Manager::Instance();
@@ -7846,6 +7954,8 @@ bool	Manager::ScriptFCFSRequestStartGame(Script::CScriptStructure *pParams, Scri
 
 bool	Manager::ScriptFCFSRequestChangeLevel(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 level;
 	Manager * gamenet_man = Manager::Instance();
 	MsgIntInfo msg;
@@ -7867,11 +7977,9 @@ bool	Manager::ScriptFCFSRequestChangeLevel(Script::CScriptStructure *pParams, Sc
 
 	if( level == Crc::ConstCRC("Load_Sk5Ed_gameplay"))
 	{
-		client->StreamMessageToServer( MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, 
-						   Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", vSEQ_GROUP_PLAYER_MSGS );
+		client->StreamMessageToServer( MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", vSEQ_GROUP_PLAYER_MSGS );
 						   
-		client->StreamMessageToServer( MSG_ID_RAIL_DATA, Obj::GetRailEditor()->GetCompressedRailsBufferSize(), 
-						   Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS );
+		client->StreamMessageToServer( MSG_ID_RAIL_DATA, (unsigned short)Obj::GetRailEditor()->GetCompressedRailsBufferSize(), Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS );
     
 	}
 
@@ -7892,6 +8000,9 @@ bool	Manager::ScriptFCFSRequestChangeLevel(Script::CScriptStructure *pParams, Sc
 
 bool	Manager::ScriptFoundServers(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	
 	return( gamenet_man->m_servers.CountItems() > 0 );
@@ -7904,6 +8015,9 @@ bool	Manager::ScriptFoundServers(Script::CScriptStructure *pParams, Script::CScr
 
 bool	Manager::ScriptCancelJoinServer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 
 	gamenet_man->CancelJoinServer();
@@ -7919,6 +8033,9 @@ bool	Manager::ScriptCancelJoinServer(Script::CScriptStructure *pParams, Script::
 
 bool	Manager::ScriptReattemptJoinServer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 
 	gamenet_man->ReattemptJoin( gamenet_man->GetClient( 0 ));
@@ -7933,6 +8050,9 @@ bool	Manager::ScriptReattemptJoinServer(Script::CScriptStructure *pParams, Scrip
 
 bool	Manager::ScriptDropPendingPlayers(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 
 	gamenet_man->DropPartiallyLoadedPlayers();
@@ -7947,6 +8067,8 @@ bool	Manager::ScriptDropPendingPlayers(Script::CScriptStructure *pParams, Script
 
 bool	Manager::ScriptToggleProSet(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int bit;
 	uint32 param_id;
 	Manager * gamenet_man = Manager::Instance();
@@ -7954,7 +8076,7 @@ bool	Manager::ScriptToggleProSet(Script::CScriptStructure *pParams, Script::CScr
 	pParams->GetInteger( "bit", &bit, Script::ASSERT );
 	pParams->GetChecksum( "param_id", &param_id, Script::ASSERT );
     
-	gamenet_man->ToggleProSet( bit, param_id );
+	gamenet_man->ToggleProSet( (char)bit, param_id );
 	
 	return true;
 }
@@ -7966,6 +8088,8 @@ bool	Manager::ScriptToggleProSet(Script::CScriptStructure *pParams, Script::CScr
 
 bool	Manager::ScriptFCFSRequestToggleProSet(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Net::Client* client;
 	MsgToggleProSet msg;
@@ -7979,7 +8103,7 @@ bool	Manager::ScriptFCFSRequestToggleProSet(Script::CScriptStructure *pParams, S
 	client = gamenet_man->GetClient( 0 );
 	Dbg_Assert( client );
 
-	msg.m_Bit = bit;
+	msg.m_Bit = (char)bit;
 	msg.m_ParamId = param_id;
 
 	msg_desc.m_Data = &msg;
@@ -7999,6 +8123,8 @@ bool	Manager::ScriptFCFSRequestToggleProSet(Script::CScriptStructure *pParams, S
 
 bool	Manager::ScriptFCFSRequestToggleGoalSelection(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
     uint32 goalId;
 	Manager * gamenet_man = Manager::Instance();
 	Net::Client* client;
@@ -8029,13 +8155,15 @@ bool	Manager::ScriptFCFSRequestToggleGoalSelection(Script::CScriptStructure *pPa
 
 bool	Manager::ScriptResetProSetFlags(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
-	int i;
+	char i;
 
 	for( i = 0; i < vMAX_NUM_PROSETS; i++ )
 	{
-		Script::CStruct* pSetParams;
-		pSetParams = new Script::CStruct;
+		Script::CStruct *pSetParams = new Script::CStruct;
 
 		pSetParams->AddInteger( "flag", Script::GetInt( "FLAG_PROSET1_GEO_ON" ) + i );
 		if( gamenet_man->m_proset_flags.Test( i ))
@@ -8060,6 +8188,9 @@ bool	Manager::ScriptResetProSetFlags(Script::CScriptStructure *pParams, Script::
 
 bool	Manager::ScriptHasSignedDisclaimer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	Prefs::Preferences*	prefs;
 	
@@ -8076,6 +8207,9 @@ bool	Manager::ScriptHasSignedDisclaimer(Script::CScriptStructure *pParams, Scrip
 
 bool	Manager::ScriptEnterSurveyorMode(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Inp::Manager * inp_manager = Inp::Manager::Instance();
 	Mlp::Manager* mlp_man = Mlp::Manager::Instance();
 	Manager * gamenet_man = Manager::Instance();
@@ -8111,6 +8245,9 @@ bool	Manager::ScriptEnterSurveyorMode(Script::CScriptStructure *pParams, Script:
 
 bool	Manager::ScriptExitSurveyorMode(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager * gamenet_man = Manager::Instance();
 	PlayerInfo* local_player;
 
@@ -8249,7 +8386,7 @@ char*		Manager::GetGoalsData( void )
 /*                                                                */
 /******************************************************************/
 
-int			Manager::GetGoalsDataSize( void )
+size_t Manager::GetGoalsDataSize( void )
 {
 	return m_goals_data_size;
 }

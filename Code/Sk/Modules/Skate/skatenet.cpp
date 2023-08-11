@@ -60,6 +60,7 @@
 #include <objects/skater.h>
 #include <objects/skaterprofile.h>
 #include <sk/objects/skatercareer.h>
+#include <sk/objects/rail.h>
 
 #include <sk/gamenet/gamenet.h>
 #include <sk/components/skaterstatehistorycomponent.h>
@@ -219,13 +220,13 @@ static	int		s_get_update_flags( GameNet::PlayerInfo* player,
 	char state, doing_trick, terrain, walking, driving;
 	bool forced_send;
 	unsigned char id;
-	sint16 rail_node;
+	size_t rail_node;
 
 	update_flags = 0;
 
 	// Force an object update every N frames
 	forced_send = !( gamenet_man->GetServer()->m_FrameCounter % vFORCE_UPDATE_INTERVAL ); 
-	id = skater_id;
+	id = (unsigned char)skater_id;
 
 	for( i = 0; i < 3; i++ )
 	{
@@ -572,7 +573,7 @@ void		Skate::s_object_update_code ( const Tsk::Task< Skate >& task )
 				Net::MsgDesc msg_desc;
 
 				msg_desc.m_Data = &update_msg;
-				msg_desc.m_Length = length;
+				msg_desc.m_Length = (unsigned short)length;
 				msg_desc.m_Id = GameNet::MSG_ID_OBJ_UPDATE_STREAM;
 				server->EnqueueMessage( player->GetConnHandle(), &msg_desc );
 			}
@@ -661,7 +662,7 @@ void		Skate::SendScoreUpdates( bool final )
 						(( sizeof( char ) + sizeof( int )) * num_scores );
 
 			msg_desc.m_Data = &score_msg;
-			msg_desc.m_Length = length;
+			msg_desc.m_Length = (unsigned short)length;
 			msg_desc.m_Id = GameNet::MSG_ID_SCORE_UPDATE;
 			// If it's the final tally or if it's reporting cheats, it HAS to get there
 			if( final || ( score_msg.m_Cheats != 0 ))
@@ -950,7 +951,7 @@ int	Skate::handle_msg_relay( Net::MsgHandlerContext* context )
 				if( ( msg->m_Scale <= 10.0f ) &&
 					( msg->m_Radius <= 240 ))
 				{
-					msg->m_Id = orig_player->m_Skater->GetID();
+					msg->m_Id = (char)orig_player->m_Skater->GetID();
 					msg->m_Latency = context->m_Conn->GetAveLatency();
 				}
 			}
@@ -1136,7 +1137,7 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 	Flags< int > end_run_flags;
 	short pos[3];
 	Mth::Vector eulers;
-	sint16 rail_node;
+	size_t rail_node;
     short fixed;
 	int update_flags;
 	Obj::SPosEvent* latest_state, *previous_state;
@@ -1227,7 +1228,7 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 		previous_state = &skater->GetStateHistory()->GetPosHistory()[last_index];
 
         doing_trick = previous_state->DoingTrick;
-		state = previous_state->State;
+		state = (char)previous_state->State;
 		skater_flags = previous_state->SkaterFlags;
 		end_run_flags = previous_state->EndRunFlags;
 		terrain = previous_state->Terrain;
@@ -1252,7 +1253,7 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 		terrain = 0;
 		walking = 0;
 		driving = 0;
-		rail_node = -1;
+		rail_node = Obj::vNULL_RAIL;
 		for( i = 0; i < 3; i++ )
 		{
 			pos[i] = 0;
@@ -1267,40 +1268,40 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 	stream.SetInputData( context->m_Msg, 1024 );
 
 	// Read in timestamp
-	timestamp = stream.ReadUnsignedValue( sizeof( int ) * 8 );
-	update_flags = stream.ReadUnsignedValue( 9 );
+	timestamp = (unsigned int)stream.ReadUnsignedValue( sizeof( int ) * 8 );
+	update_flags = (int)stream.ReadUnsignedValue( 9 );
 	
 	// Read in fixed point position
 	if( update_flags & GameNet::mUPDATE_FIELD_POS_X )
 	{
-		pos[X] = stream.ReadSignedValue( sizeof( short ) * 8 );
+		pos[X] = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 		//pos[X] = stream.ReadFloatValue();
 	}
 	if( update_flags & GameNet::mUPDATE_FIELD_POS_Y )
 	{
-		pos[Y] = stream.ReadSignedValue( sizeof( short ) * 8 );
+		pos[Y] = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 		//pos[Y] = stream.ReadFloatValue();
 	}
 	if( update_flags & GameNet::mUPDATE_FIELD_POS_Z )
 	{
-		pos[Z] = stream.ReadSignedValue( sizeof( short ) * 8 );
+		pos[Z] = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 		//pos[Z] = stream.ReadFloatValue();
 	}   
 			
 	// Read in fixed point eulers
 	if( update_flags & GameNet::mUPDATE_FIELD_ROT_X )
 	{
-		fixed = stream.ReadSignedValue( sizeof( short ) * 8 );
+		fixed = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 		eulers[X] = ((float) fixed ) / 4096.0f;
 	}
 	if( update_flags & GameNet::mUPDATE_FIELD_ROT_Y )
 	{
-		fixed = stream.ReadSignedValue( sizeof( short ) * 8 );
+		fixed = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 		eulers[Y] = ((float) fixed ) / 4096.0f;
 	}
 	if( update_flags & GameNet::mUPDATE_FIELD_ROT_Z )
 	{
-		fixed = stream.ReadSignedValue( sizeof( short ) * 8 );
+		fixed = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 		eulers[Z] = ((float) fixed ) / 4096.0f;
 	}
 
@@ -1309,26 +1310,26 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 	{   
 		char mask;
 
-		mask = stream.ReadUnsignedValue( 4 );
+		mask = (char)stream.ReadUnsignedValue( 4 );
 
 		state = mask & GameNet::mSTATE_MASK;
 		doing_trick = (( mask & GameNet::mDOING_TRICK_MASK ) != 0 );
 		
-		terrain = stream.ReadUnsignedValue( 6 );
+		terrain = (char)stream.ReadUnsignedValue( 6 );
 		
-		walking = stream.ReadUnsignedValue( 1 );
-		driving = stream.ReadUnsignedValue( 1 );
+		walking = (char)stream.ReadUnsignedValue( 1 );
+		driving = (char)stream.ReadUnsignedValue( 1 );
 	}
 
 	if( update_flags & GameNet::mUPDATE_FIELD_FLAGS )
 	{
-		skater_flags = stream.ReadUnsignedValue( 5 );
-		end_run_flags = stream.ReadUnsignedValue( 3 );
+		skater_flags = (uint)stream.ReadUnsignedValue( 5 );
+		end_run_flags = (uint)stream.ReadUnsignedValue( 3 );
 	}                           
 
 	if( update_flags & GameNet::mUPDATE_FIELD_RAIL_NODE )
 	{
-		rail_node = stream.ReadSignedValue( sizeof( sint16 ) * 8 );
+		rail_node = (size_t)stream.ReadSignedValue( sizeof( sint16 ) * 8 );
 	}                           
 	
 
@@ -1734,7 +1735,6 @@ int	s_get_num_flips( uint32 new_time, uint32 old_time )
 int Skate::handle_anims( Net::MsgHandlerContext* context )
 {
 	Obj::SAnimEvent* latest_event;
-	Obj::CMovingObject* obj;
 	Obj::CSkater* skater;
 	Skate* mod;
     
@@ -1764,7 +1764,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		memcpy( &anim_msg.m_Speed, stream, sizeof( unsigned short ));
 		stream += sizeof( unsigned short );
 
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( anim_msg.m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( anim_msg.m_ObjId );
 		if( obj )
 		{
 			GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
@@ -1778,7 +1778,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 			// Only blend skaters that we are observing
 			if ( gamenet_man->InNetGame() )
 			{
-				GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
+				// GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 				GameNet::PlayerInfo* observed_player, *anim_player;
 
 				anim_player = gamenet_man->GetPlayerByObjectID( obj->GetID() );
@@ -1812,7 +1812,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		GameNet::MsgSetWobbleTarget* msg;
 
 		msg = (GameNet::MsgSetWobbleTarget *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{   
 			skater = static_cast< Obj::CSkater *> ( obj );
@@ -1835,7 +1835,7 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 		GameNet::MsgRotateSkateboard* msg;
 
 		msg = (GameNet::MsgRotateSkateboard *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
@@ -1857,10 +1857,8 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	{
 		GameNet::MsgSetWobbleDetails* msg;
 
-		Obj::CMovingObject* obj;
-
 		msg = (GameNet::MsgSetWobbleDetails *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
@@ -1887,10 +1885,8 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	{
 		GameNet::MsgSetLoopingType* msg;
 
-		Obj::CMovingObject* obj;
-
 		msg = (GameNet::MsgSetLoopingType *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
@@ -1913,10 +1909,8 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	{
 		GameNet::MsgHideAtomic* msg;
 
-		Obj::CMovingObject* obj;
-
 		msg = (GameNet::MsgHideAtomic *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
@@ -1939,10 +1933,8 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	{
 		GameNet::MsgSetAnimSpeed* msg;
 
-		Obj::CMovingObject* obj;
-
 		msg = (GameNet::MsgSetAnimSpeed *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = static_cast< Obj::CSkater *> ( obj );
@@ -1965,10 +1957,8 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	{
 		GameNet::MsgFlipAnim* msg;
 
-		Obj::CMovingObject* obj;
-		
 		msg = (GameNet::MsgFlipAnim *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = mod->GetSkaterById( msg->m_ObjId );
@@ -1993,10 +1983,8 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	{
 		GameNet::MsgRotateDisplay* msg;
 
-		Obj::CMovingObject* obj;
-		
 		msg = (GameNet::MsgRotateDisplay *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = mod->GetSkaterById( msg->m_ObjId );
@@ -2022,10 +2010,8 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	{
 		GameNet::MsgObjMessage* msg;
 
-		Obj::CMovingObject* obj;
-		
 		msg = (GameNet::MsgObjMessage *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = mod->GetSkaterById( msg->m_ObjId );
@@ -2042,11 +2028,10 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	}
 	else if( context->m_MsgId == GameNet::MSG_ID_CREATE_SPECIAL_ITEM )
 	{    
-		Obj::CMovingObject* obj;
 		GameNet::MsgSpecialItem* msg;
 
 		msg = (GameNet::MsgSpecialItem *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = mod->GetSkaterById( msg->m_ObjId );
@@ -2066,11 +2051,10 @@ int Skate::handle_anims( Net::MsgHandlerContext* context )
 	}
 	else if( context->m_MsgId == GameNet::MSG_ID_DESTROY_SPECIAL_ITEM )
 	{
-		Obj::CMovingObject* obj;
 		GameNet::MsgSpecialItem* msg;
 
 		msg = (GameNet::MsgSpecialItem *) context->m_Msg;
-		obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+		Obj::CMovingObject *obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
 		if( obj )
 		{
 			skater = mod->GetSkaterById( msg->m_ObjId );
@@ -2199,6 +2183,8 @@ static bool HostQuitDialogHandler( Front::EDialogBoxResult result )
 
 int Skate::handle_disconn_accepted( Net::MsgHandlerContext* context )
 {
+	(void)context;
+
 	GameNet::Manager* gamenet_man = GameNet::Manager::Instance();
 
 	Dbg_Message( "Logging off of server\n" );
@@ -2488,7 +2474,7 @@ int	Skate::handle_score_update( Net::MsgHandlerContext* context )
 	GameNet::MsgScoreUpdate* msg;
 	Obj::CMovingObject *obj;
 	Skate* mod;
-	int i, score;
+	int i;
 	char* data;
 	char id;
     
@@ -2505,6 +2491,7 @@ int	Skate::handle_score_update( Net::MsgHandlerContext* context )
 	{           
 		id = *data;
 		data++;
+		int score;
 		memcpy( &score, data, sizeof( int ));
 		data += sizeof( int );
 
@@ -2760,11 +2747,10 @@ int	Skate::handle_blood( Net::MsgHandlerContext* context )
 	Obj::CMovingObject *obj;
 	GameNet::MsgObjMessage* msg;
 
-	
-
 	mod = (Skate *) context->m_Data;
 	msg = (GameNet::MsgObjMessage* ) context->m_Msg;
 	obj = (Obj::CMovingObject *) mod->GetObjectManager()->GetObjectByID( msg->m_ObjId );
+
 	if( obj )
 	{
 		Obj::CSkater* skater_obj;
@@ -2777,17 +2763,17 @@ int	Skate::handle_blood( Net::MsgHandlerContext* context )
 			{
 				case GameNet::MSG_ID_BLOOD_ON:
 				{
-					GameNet::MsgBlood *msg;
+					GameNet::MsgBlood *blood_msg;
 
-					msg = (GameNet::MsgBlood *) context->m_Msg;
+					blood_msg = (GameNet::MsgBlood *) context->m_Msg;
 //					skater_obj->BloodOn( msg->m_BodyPart, msg->m_Size, msg->m_Frequency, msg->m_RandomRadius );
 					break;
 				}
 				case GameNet::MSG_ID_BLOOD_OFF:
 				{
-					GameNet::MsgBloodOff *msg;
+					GameNet::MsgBloodOff *blood_msg;
 
-					msg = (GameNet::MsgBloodOff *) context->m_Msg;
+					blood_msg = (GameNet::MsgBloodOff *) context->m_Msg;
 //					skater_obj->BloodOff( msg->m_BodyPart );
 					break;
 				}
@@ -2866,11 +2852,13 @@ int	Skate::handle_start_info( Net::MsgHandlerContext* context )
 	
 	// set up the game mode for the client cause we're now in the lobby
 	// anything that's lobby-dependent should go after this line
-	Script::CScriptStructure* pTempStructure = new Script::CScriptStructure;
-	pTempStructure->Clear();
-	pTempStructure->AddComponent( Script::GenerateCRC("level"), ESYMBOLTYPE_NAME, (int)msg->m_LevelId );					
-	Script::RunScript( "request_level", pTempStructure, nullptr );
-	delete pTempStructure;
+	{
+		Script::CScriptStructure *pTempStructure = new Script::CScriptStructure;
+		pTempStructure->Clear();
+		pTempStructure->AddComponent(Script::GenerateCRC("level"), ESYMBOLTYPE_NAME, (int)msg->m_LevelId);
+		Script::RunScript("request_level", pTempStructure, nullptr);
+		delete pTempStructure;
+	}
 
 	Script::RunScript( "leave_front_end" );
 	Script::RunScript( "cleanup_before_loading_level" );
@@ -3011,7 +2999,7 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
      
 	mod = (Skate *) context->m_Data;
 	stream.SetInputData( context->m_Msg, 1024 );
-	obj_id_mask = stream.ReadUnsignedValue( sizeof( char ) * 8 );
+	obj_id_mask = (unsigned char)stream.ReadUnsignedValue( sizeof( char ) * 8 );
 	
 	for( obj_id = 0; obj_id < vMAX_SKATERS; obj_id++ )
 	{
@@ -3023,7 +3011,7 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
 		char doing_trick, state, terrain, walking, driving;
 		Flags< int > skater_flags;
 		Flags< int > end_run_flags;
-		sint16 rail_node;
+		size_t rail_node;
 		int i;
 		unsigned short timestamp;
 		 
@@ -3036,8 +3024,8 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
 
 		//Dbg_Printf( "================ Got update for player %d\n", obj_id );
 
-    	timestamp = stream.ReadUnsignedValue( sizeof( uint16 ) * 8 );
-		update_flags = stream.ReadUnsignedValue( 9 );
+    	timestamp = (unsigned short)stream.ReadUnsignedValue( sizeof( uint16 ) * 8 );
+		update_flags = (int)stream.ReadUnsignedValue( 9 );
 		
 		//Dbg_Printf( "Got Object Update For %d, Time: %d Mask %d\n", obj_id, timestamp, obj_id_mask );
 
@@ -3048,62 +3036,60 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
 		terrain = 0;
 		walking = 0;
 		driving = 0;
-		rail_node = -1;
+		rail_node = Obj::vNULL_RAIL;
         
 		if( update_flags & GameNet::mUPDATE_FIELD_POS_X )
 		{   
-			pos[X] = stream.ReadSignedValue( sizeof( short ) * 8 );
+			pos[X] = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 			//pos[X] = stream.ReadFloatValue();
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_POS_Y )
 		{
-			pos[Y] = stream.ReadSignedValue( sizeof( short ) * 8 );
+			pos[Y] = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 			//pos[Y] = stream.ReadFloatValue();
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_POS_Z )
 		{
-			pos[Z] = stream.ReadSignedValue( sizeof( short ) * 8 );
+			pos[Z] = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 			//pos[Z] = stream.ReadFloatValue();
 		}   
 				
 		if( update_flags & GameNet::mUPDATE_FIELD_ROT_X )
 		{
-			fixed = stream.ReadSignedValue( sizeof( short ) * 8 );
+			fixed = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 			eulers[X] = ((float) fixed ) / 4096.0f;
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_ROT_Y )
 		{
-			fixed = stream.ReadSignedValue( sizeof( short ) * 8 );
+			fixed = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 			eulers[Y] = ((float) fixed ) / 4096.0f;
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_ROT_Z )
 		{
-			fixed = stream.ReadSignedValue( sizeof( short ) * 8 );
+			fixed = (short)stream.ReadSignedValue( sizeof( short ) * 8 );
 			eulers[Z] = ((float) fixed ) / 4096.0f;
 		}
         
 		if( update_flags & GameNet::mUPDATE_FIELD_STATE )
 		{   
-			char mask;
-
-			mask = stream.ReadUnsignedValue( 4 );
+			char mask = (char)stream.ReadUnsignedValue( 4 );
 		
 			state = mask & GameNet::mSTATE_MASK;
 			doing_trick = (( mask & GameNet::mDOING_TRICK_MASK ) != 0 );
-			terrain = stream.ReadUnsignedValue( 6 );
-			walking = stream.ReadUnsignedValue( 1 );
-			driving = stream.ReadUnsignedValue( 1 );
+			terrain = (char)stream.ReadUnsignedValue( 6 );
+			walking = (char)stream.ReadUnsignedValue( 1 );
+			driving = (char)stream.ReadUnsignedValue( 1 );
 		}
 
 		if( update_flags & GameNet::mUPDATE_FIELD_FLAGS )
 		{
-			skater_flags = stream.ReadUnsignedValue( 5 );
-			end_run_flags = stream.ReadUnsignedValue( 3 );
+			skater_flags = (uint)stream.ReadUnsignedValue( 5 );
+			end_run_flags = (uint)stream.ReadUnsignedValue( 3 );
 		}
 
 		if( update_flags & GameNet::mUPDATE_FIELD_RAIL_NODE )
 		{
-			rail_node = stream.ReadSignedValue( sizeof( sint16 ) * 8 );
+			rail_node = (size_t)stream.ReadSignedValue( sizeof( sint16 ) * 8 );
 			//Dbg_Printf( "Got rail node %d\n", rail_node );
 		}
 
@@ -3133,11 +3119,11 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
 				else
 				{
 					Mth::Matrix obj_matrix;
-					Mth::Vector eulers;
+					Mth::Vector angle;
 					last_index = 0;
 
 					obj_matrix = skater_obj->GetMatrix();
-					obj_matrix.GetEulers( eulers );
+					obj_matrix.GetEulers(angle);
 					for( i = 0; i < 3; i++ )
 					{
 						if( i == Y )
@@ -3150,7 +3136,7 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
 							p_pos_history[0].ShortPos[i] = (short) ( skater_obj->m_pos[i] * 2.0f );
 							//p_pos_history[0].ShortPos[i] = skater_obj->m_pos[i];
 						}
-						p_pos_history[0].Eulers[i] = eulers[i];
+						p_pos_history[0].Eulers[i] = angle[i];
 					}
 				}
 				
@@ -3212,7 +3198,7 @@ int Skate::handle_object_update_relay( Net::MsgHandlerContext* context )
 
 				if( !( update_flags & GameNet::mUPDATE_FIELD_STATE ))
 				{
-					state = p_pos_history[last_index].State;
+					state = (char)p_pos_history[last_index].State;
 					doing_trick = p_pos_history[last_index].DoingTrick;
 					terrain = p_pos_history[last_index].Terrain;
 					walking = p_pos_history[last_index].Walking;
@@ -3577,7 +3563,7 @@ void	Skate::SendCheatList( GameNet::PlayerInfo* player )
 	// the client side
 	msg_desc.m_Id = GameNet::MSG_ID_CHEAT_LIST;
 	msg_desc.m_Data = &cheat_msg;
-	msg_desc.m_Length = sizeof( int ) +( sizeof( uint32 ) * cheat_msg.m_NumCheats );
+	msg_desc.m_Length = (unsigned short)(sizeof( int ) +( sizeof( uint32 ) * cheat_msg.m_NumCheats ));
 
 	msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 	msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;

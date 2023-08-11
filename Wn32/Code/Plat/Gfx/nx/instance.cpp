@@ -210,7 +210,7 @@ void render_instances( uint32 flags )
 		for( ; i < current_index; ++i )
 		{
 			// Calculate the distance from the current camera to the instance.
-			float dist_squared = Mth::DistanceSqr( p_instances[i]->GetTransform()->GetPos(), current_cam_pos );
+			// float dist_squared = Mth::DistanceSqr( p_instances[i]->GetTransform()->GetPos(), current_cam_pos );
 
 			// At forty feet, environment mapping is turned off.
 			// EngineGlobals.allow_envmapping = ( dist_squared > env_map_disable_distance ) ? false : true;
@@ -468,7 +468,7 @@ void CInstance::Render( uint32 flags )
 			
 			pLastBoneTransforms = GetBoneTransforms();
 
-			int num_bones = ( GetNumBones() < MAX_SUPPORTED_BONES ) ? GetNumBones() : MAX_SUPPORTED_BONES;
+			// int num_bones = ( GetNumBones() < MAX_SUPPORTED_BONES ) ? GetNumBones() : MAX_SUPPORTED_BONES;
 		}
 				
 		root_matrix[0]	= GetTransform()->GetRight()[X];

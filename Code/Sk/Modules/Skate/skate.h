@@ -185,7 +185,7 @@ public:
 	void							HideSkater( Obj::CSkater* skater, bool should_hide = true );
 	Obj::CSkater*					add_skater( Obj::CSkaterProfile* pSkaterProfile, bool local_client, int obj_id, int player_num );
 	void							remove_skater( Obj::CSkater* skater );	// Remove a specific skater
-	int								find_restart_node( int index );
+	int								find_restart_node( uint32 index );
 	void							skip_to_restart_point( Obj::CSkater* skater, int node = -1, bool walk = false );
 	void							move_to_restart_point( Obj::CSkater* skater );
 	

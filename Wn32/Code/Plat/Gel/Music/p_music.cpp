@@ -107,7 +107,7 @@ class Streamer
 				db_cv_i = 2;
 				db_cv.notify_all();
 			}
-			db_thread.detach();
+			db_thread.join();
 		}
 
 		size_t Request(char *out, size_t bytes)
@@ -247,6 +247,8 @@ MusicDecoder *decoder = nullptr;
 // Audio callback
 void AudioCallback(void *userdata, Uint8 *stream, int len)
 {
+	(void)userdata;
+
 	// Clear the stream
 	memset(stream, 0, len);
 	if (decoder != nullptr)
@@ -296,6 +298,7 @@ int PCMAudio_Update( void )
 /******************************************************************/
 void PCMAudio_StopMusic( bool waitPlease )
 {
+	(void)waitPlease;
 	SDL_LockAudioDevice(s_audio_device);
 	if (decoder != nullptr)
 	{
@@ -313,7 +316,8 @@ void PCMAudio_StopMusic( bool waitPlease )
 /******************************************************************/
 void PCMAudio_StopStream( int whichStream, bool waitPlease )
 {
-	
+	(void)whichStream;
+	(void)waitPlease;
 }
 
 
@@ -345,6 +349,8 @@ static uint32 sPreLoadMusicChecksum;
 /******************************************************************/
 bool PCMAudio_PreLoadStream( uint32 checksum, int whichStream )
 {
+	(void)checksum;
+	(void)whichStream;
 	return true;
 }
 
@@ -359,6 +365,7 @@ bool PCMAudio_PreLoadStream( uint32 checksum, int whichStream )
 /******************************************************************/
 bool PCMAudio_PreLoadStreamDone( int whichStream )
 {
+	(void)whichStream;
 	return true;
 }
 
@@ -373,6 +380,9 @@ bool PCMAudio_PreLoadStreamDone( int whichStream )
 /******************************************************************/
 bool PCMAudio_StartPreLoadedStream( int whichStream, Sfx::sVolume *p_volume, float pitch )
 {
+	(void)whichStream;
+	(void)p_volume;
+	(void)pitch;
 	return true;
 }
 
@@ -384,6 +394,7 @@ bool PCMAudio_StartPreLoadedStream( int whichStream, Sfx::sVolume *p_volume, flo
 /******************************************************************/
 bool PCMAudio_PreLoadMusicStream( uint32 checksum )
 {
+	(void)checksum;
 	return true;
 }
 
@@ -433,6 +444,7 @@ int PCMAudio_GetMusicStatus( void )
 /******************************************************************/
 int PCMAudio_GetStreamStatus( int whichStream )
 {
+	(void)whichStream;
 	return PCM_STATUS_PLAYING;
 }
 
@@ -444,6 +456,9 @@ int PCMAudio_GetStreamStatus( int whichStream )
 /******************************************************************/
 void PCMAudio_Pause( bool pause, int ch )
 {
+	(void)pause;
+	(void)ch;
+
 	SDL_LockAudioDevice(s_audio_device);
 	if (ch == MUSIC_CHANNEL)
 	{
@@ -466,6 +481,9 @@ void PCMAudio_Pause( bool pause, int ch )
 /******************************************************************/
 bool PCMAudio_TrackExists( const char *pTrackName, int ch )
 {
+	(void)pTrackName;
+	(void)ch;
+
 	return true;
 }
 
@@ -477,6 +495,7 @@ bool PCMAudio_TrackExists( const char *pTrackName, int ch )
 /******************************************************************/
 bool PCMAudio_LoadMusicHeader( const char *nameOfFile )
 {
+	(void)nameOfFile;
 	// Legacy call left over from PS2 code.
 	return true;
 }
@@ -489,6 +508,7 @@ bool PCMAudio_LoadMusicHeader( const char *nameOfFile )
 /******************************************************************/
 bool PCMAudio_LoadStreamHeader( const char *nameOfFile )
 {
+	(void)nameOfFile;
 	// Legacy call left over from PS2 code.
 	return true;
 }
@@ -500,6 +520,8 @@ bool PCMAudio_LoadStreamHeader( const char *nameOfFile )
 /******************************************************************/
 uint32 PCMAudio_FindNameFromChecksum( uint32 checksum, int ch )
 {
+	(void)checksum;
+	(void)ch;
 	return 0;
 }
 
@@ -511,6 +533,8 @@ uint32 PCMAudio_FindNameFromChecksum( uint32 checksum, int ch )
 /******************************************************************/
 bool PCMAudio_SetStreamVolume( Sfx::sVolume *p_volume, int whichStream )
 {
+	(void)p_volume;
+	(void)whichStream;
 	return true;
 }
 
@@ -522,6 +546,7 @@ bool PCMAudio_SetStreamVolume( Sfx::sVolume *p_volume, int whichStream )
 /******************************************************************/
 int PCMAudio_SetMusicVolume( float volume )
 {
+	(void)volume;
 	return true;
 }
 
@@ -533,6 +558,8 @@ int PCMAudio_SetMusicVolume( float volume )
 /******************************************************************/
 bool PCMAudio_SetStreamPitch( float fPitch, int whichStream )
 {
+	(void)fPitch;
+	(void)whichStream;
 	return true;
 }
 
@@ -542,6 +569,7 @@ bool PCMAudio_SetStreamPitch( float fPitch, int whichStream )
 /******************************************************************/
 bool PCMAudio_PlayMusicTrack( uint32 checksum )
 {
+	(void)checksum;
 	return false;
 }
 
@@ -571,6 +599,8 @@ bool PCMAudio_PlayMusicTrack( const char *filename )
 /******************************************************************/
 bool PCMAudio_PlaySoundtrackMusicTrack( int soundtrack, int track )
 {
+	(void)soundtrack;
+	(void)track;
 	return true;
 }
 
@@ -582,6 +612,7 @@ bool PCMAudio_PlaySoundtrackMusicTrack( int soundtrack, int track )
 /******************************************************************/
 bool PCMAudio_StartStream( int whichStream )
 {
+	(void)whichStream;
 	return true;
 }
 
@@ -593,6 +624,11 @@ bool PCMAudio_StartStream( int whichStream )
 /******************************************************************/
 bool PCMAudio_PlayStream( uint32 checksum, int whichStream, Sfx::sVolume *p_volume, float fPitch, bool preload )
 {
+	(void)checksum;
+	(void)whichStream;
+	(void)p_volume;
+	(void)fPitch;
+	(void)preload;
 	return true;
 }
 

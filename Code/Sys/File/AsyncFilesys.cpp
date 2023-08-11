@@ -517,6 +517,7 @@ size_t				CAsyncFileHandle::plat_write(void *p_buffer, size_t size, size_t count
 {
 	(void)p_buffer;
 	(void)size;
+	(void)count;
 
 	printf ("STUB: CAsyncFileHandle::Write\n");
 

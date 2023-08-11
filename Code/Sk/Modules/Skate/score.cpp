@@ -785,6 +785,8 @@ void Score::SetSpin(int spin_degrees)
 
 	int spin_position = spin_degrees;
     const char *p_direction = "";
+	static const char *p_direction_bs = "BS";
+	static const char *p_direction_fs = "FS";
 
     Mdl::Skate * skate_mod = Mdl::Skate::Instance();
     Obj::CSkater* pSkater = skate_mod->GetSkaterById( m_skaterId );
@@ -799,22 +801,22 @@ void Score::SetSpin(int spin_degrees)
         spin_position = -spin_position;
         if ( is_flipped )
         {
-            p_direction = "BS";
+            p_direction = p_direction_bs;
         }
         else
         {
-            p_direction = "FS";
+            p_direction = p_direction_fs;
         }
     }
     else
     {
         if ( is_flipped )
         {
-            p_direction = "FS";
+            p_direction = p_direction_fs;
         }
         else
         {
-            p_direction = "BS";
+            p_direction = p_direction_bs;
         }
     }
 
@@ -851,13 +853,13 @@ void Score::SetSpin(int spin_degrees)
         {
             if ( (spin_index%2) == 1 )
             {
-                if ( p_direction == "FS")
+                if ( p_direction == p_direction_fs)
                 {
-                    p_direction = "BS";
+                    p_direction = p_direction_bs;
                 }
                 else
                 {
-                    p_direction = "FS";
+                    p_direction = p_direction_fs;
                 }
             }
         }
@@ -981,7 +983,6 @@ void Score::TweakTrick(int tweak_value )
 void Score::Land( void )
 {
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
-	Net::Client* client;
     
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Game::CGameMode* pGameMode = skate_mod->GetGameMode();
@@ -1144,7 +1145,7 @@ void Score::Land( void )
 					msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 					msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;
 
-					client = gamenet_man->GetClient( pSkater->GetSkaterNumber());
+					Net::Client *client = gamenet_man->GetClient( pSkater->GetSkaterNumber());
 					Dbg_Assert( client );
 					
 					client->EnqueueMessageToServer( &msg_desc );
@@ -1334,10 +1335,10 @@ void Score::setSpecialBarColors()
 	{
 		Script::CArray *p_rgba = p_special_bar_colors->GetArray(i);
 
-		m_special_rgba[i].r = p_rgba->GetInteger(0);
-		m_special_rgba[i].g = p_rgba->GetInteger(1);
-		m_special_rgba[i].b = p_rgba->GetInteger(2);
-		m_special_rgba[i].a = p_rgba->GetInteger(3);
+		m_special_rgba[i].r = (uint8)p_rgba->GetInteger(0);
+		m_special_rgba[i].g = (uint8)p_rgba->GetInteger(1);
+		m_special_rgba[i].b = (uint8)p_rgba->GetInteger(2);
+		m_special_rgba[i].a = (uint8)p_rgba->GetInteger(3);
 	}
 	m_special_interpolator_rate = Script::GetFloat("special_bar_iterpolator_rate", Script::ASSERT);
 
@@ -1867,7 +1868,7 @@ void Score::LogTrickObjectRequest( int score )
 	printf( "Client -> server %d tricks\n", msg.m_NumPendingTricks );
 
 	msg_desc.m_Data = &msg;
-	msg_desc.m_Length = sizeof( GameNet::MsgScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size;
+	msg_desc.m_Length = (unsigned short)(sizeof( GameNet::MsgScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size);
 	msg_desc.m_Id = GameNet::MSG_ID_SCORE;
 	msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 	msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;
@@ -1984,7 +1985,7 @@ void Score::LogTrickObject( int skater_id, int score, uint32 num_pending_tricks,
 		Net::MsgDesc score_msg_desc;
 
 		score_msg_desc.m_Data = &msg;
-		score_msg_desc.m_Length = sizeof( GameNet::MsgScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size;
+		score_msg_desc.m_Length = (unsigned short)(sizeof( GameNet::MsgScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size);
 		score_msg_desc.m_Id = GameNet::MSG_ID_SCORE;
 		score_msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 		score_msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;
@@ -2005,7 +2006,7 @@ void Score::LogTrickObject( int skater_id, int score, uint32 num_pending_tricks,
 		memcpy( obs_msg.m_PendingTrickBuffer, p_pending_tricks, actual_pending_trick_buffer_size );
 
 		score_msg_desc.m_Data = &obs_msg;
-		score_msg_desc.m_Length = sizeof( GameNet::MsgObsScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size;
+		score_msg_desc.m_Length = (unsigned short)(sizeof( GameNet::MsgObsScoreLogTrickObject ) - max_pending_trick_buffer_size + actual_pending_trick_buffer_size);
 		score_msg_desc.m_Id = GameNet::MSG_ID_OBSERVER_LOG_TRICK_OBJ;
 		// tell observers to change their colors
 		for( player = gamenet_man->FirstPlayerInfo( sh, true ); player; 
@@ -2602,6 +2603,9 @@ inline void GetTrickInfoFromTrickArray( Script::CArray* pTricks, int trick_array
 
 int Score::GetCurrentNumberOfOccurrences( Script::CArray* pTricks, int start_trick_index )
 {
+	(void)pTricks;
+	(void)start_trick_index;
+
 	Dbg_Message("DEPRECATED! Tell Brad if you need this.\n");
 	return 0;
 
@@ -2738,7 +2742,7 @@ void Score::reset_robot_detection_combo()
 
 }
 	
-void Score::UpdateRobotDetection(int node)
+void Score::UpdateRobotDetection(size_t node)
 {
 
 // Mick:  Most levels fit inside the curretn 2500 limit
@@ -2810,7 +2814,7 @@ float	Score::GetRobotMult()
 //	float reward = logf(m_num_robot_unique_combo) - logf(robot);
 //	printf ("robot = %2.3f, punish = x%2.3f, reward = x%2.3f\n",robot, punish, reward);	
 
-	int	min_robot_effect = 3;  // number of repetitions at which "robot" adjustment begins
+	// int	min_robot_effect = 3;  // number of repetitions at which "robot" adjustment begins
 
 	float sub = 0.0f;
 

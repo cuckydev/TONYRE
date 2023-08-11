@@ -216,7 +216,7 @@ int Manager::s_handle_player_info_ack_req( Net::MsgHandlerContext* context )
 		{
 			Net::Client* client;
 	
-			if(( client = gamenet_man->GetClient( i )))
+			if(( client = gamenet_man->GetClient( i )) != nullptr)
 			{
 				skate_mod->AddNetworkMsgHandlers( client, i );
 			}
@@ -256,7 +256,7 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 	
 			player->m_flags.SetMask( PlayerInfo::mHAS_PLAYER_INFO );
 			
-			start_info_msg.m_MaxPlayers = gamenet_man->GetMaxPlayers();
+			start_info_msg.m_MaxPlayers = (char)gamenet_man->GetMaxPlayers();
 			if( player->IsLocalPlayer())
 			{
 				gamenet_man->SetReadyToPlay(true);
@@ -282,8 +282,8 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 				start_info_msg.m_GameId = gamenet_man->GetNetworkGameId();
 				start_info_msg.m_LevelId = gamenet_man->GetNetworkLevelId();
 				start_info_msg.m_TeamMode = skate_mod->GetGameMode()->NumTeams();
-				start_info_msg.m_CrownSpawnPoint = gamenet_man->m_crown_spawn_point;
-				start_info_msg.m_ProSetFlags = gamenet_man->m_proset_flags;
+				start_info_msg.m_CrownSpawnPoint = (char)gamenet_man->m_crown_spawn_point;
+				start_info_msg.m_ProSetFlags = (char)gamenet_man->m_proset_flags;
 				memcpy( start_info_msg.m_StartPoints, gamenet_man->m_skater_starting_points, 
 						Mdl::Skate::vMAX_SKATERS * sizeof( int ));
 				if( net_man->GetConnectionType() == Net::vCONN_TYPE_MODEM )
@@ -305,9 +305,7 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 				if( gamenet_man->UsingCreatedGoals())
 				{
 					gamenet_man->LoadGoals( gamenet_man->GetNetworkLevelId());
-					gamenet_man->m_server->StreamMessage( player->GetConnHandle(), MSG_ID_GOALS_DATA, gamenet_man->GetGoalsDataSize(), 
-												 gamenet_man->GetGoalsData(), "goals data", vSEQ_GROUP_PLAYER_MSGS,
-												 false, true );
+					gamenet_man->m_server->StreamMessage( player->GetConnHandle(), MSG_ID_GOALS_DATA, (unsigned short)gamenet_man->GetGoalsDataSize(), gamenet_man->GetGoalsData(), "goals data", vSEQ_GROUP_PLAYER_MSGS, false, true );
 				}
 
 				// tell them to execute the queue of scripts
@@ -346,13 +344,12 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 						Dbg_Printf( "Sending graffiti state message %d\n", msg_size );
 		
 						obs_msg_desc.m_Data = &init_graffiti_state_msg;
-						obs_msg_desc.m_Length = msg_size;
+						obs_msg_desc.m_Length = (unsigned short)msg_size;
 						obs_msg_desc.m_Id = MSG_ID_OBSERVER_INIT_GRAFFITI_STATE;
 						obs_msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 						obs_msg_desc.m_GroupId = vSEQ_GROUP_PLAYER_MSGS;
 
-						gamenet_man->m_server->StreamMessage( player->GetConnHandle(), obs_msg_desc.m_Id, obs_msg_desc.m_Length, 
-						   obs_msg_desc.m_Data, "TrickObj Buffer", GameNet::vSEQ_GROUP_PLAYER_MSGS );
+						gamenet_man->m_server->StreamMessage( player->GetConnHandle(), obs_msg_desc.m_Id, obs_msg_desc.m_Length, obs_msg_desc.m_Data, "TrickObj Buffer", GameNet::vSEQ_GROUP_PLAYER_MSGS );
 						//gamenet_man->m_server->EnqueueMessage( 	player->GetConnHandle(), &obs_msg_desc );
                         
 					}
@@ -391,7 +388,7 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 					data += sizeof( uint32 );
 			
 					msg_desc.m_Data = &msg;
-					msg_desc.m_Length = (int) ( data - msg.m_Data );
+					msg_desc.m_Length = (unsigned short)(data - msg.m_Data);
 					msg_desc.m_Id = MSG_ID_SELECT_GOALS;
 					msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 					msg_desc.m_GroupId = vSEQ_GROUP_PLAYER_MSGS;
@@ -399,7 +396,7 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 				}
 				
 				// Update the player with the king of the hill status
-				if(( king = gamenet_man->GetKingOfTheHill()))
+				if(( king = gamenet_man->GetKingOfTheHill()) != nullptr)
 				{
 					GameNet::MsgByteInfo msg;
 					Net::MsgDesc msg_desc;
@@ -408,7 +405,7 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 								   skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC("king") ,
 									( "King exists in non-king of the hill game" ));
 	
-					msg.m_Data = king->m_Skater->GetID();
+					msg.m_Data = (char)king->m_Skater->GetID();
 
 					msg_desc.m_Data = &msg;
 					msg_desc.m_Length = sizeof( GameNet::MsgByteInfo );
@@ -523,11 +520,11 @@ int Manager::s_handle_find_server( Net::MsgHandlerContext* context )
 	server = gamenet_man->GetServer();
 	Dbg_Assert( server != nullptr );
 
-	msg.m_SkillLevel = gamenet_man->GetSkillLevel();
-	msg.m_NumPlayers = gamenet_man->GetNumPlayers();
-	msg.m_MaxPlayers = gamenet_man->GetMaxPlayers();
-	msg.m_NumObservers = gamenet_man->GetNumObservers();
-	msg.m_MaxObservers = gamenet_man->GetMaxObservers();
+	msg.m_SkillLevel = (char)gamenet_man->GetSkillLevel();
+	msg.m_NumPlayers = (char)gamenet_man->GetNumPlayers();
+	msg.m_MaxPlayers = (char)gamenet_man->GetMaxPlayers();
+	msg.m_NumObservers = (char)gamenet_man->GetNumObservers();
+	msg.m_MaxObservers = (char)gamenet_man->GetMaxObservers();
     
 	// Handle the cases where you've just changed the limits and your current number of players/observers
 	// exceeds the limits
@@ -642,17 +639,16 @@ int	Manager::s_handle_connection( Net::MsgHandlerContext* context )
 		
 		if( !gamenet_man->ok_to_join( reason, connect_msg, context->m_Conn ))
 		{
-			MsgEmbedded msg;
+			MsgEmbedded embedded_msg;
 	
-			msg.m_SubMsgId = reason;
+			embedded_msg.m_SubMsgId = (char)reason;
 
-			context->m_App->SendMessageTo( MSG_ID_JOIN_REFUSED, sizeof( MsgEmbedded ), &msg, 
-										   context->m_Conn->GetIP(), context->m_Conn->GetPort(), 0 );
+			context->m_App->SendMessageTo( MSG_ID_JOIN_REFUSED, sizeof( MsgEmbedded ), &embedded_msg, context->m_Conn->GetIP(), context->m_Conn->GetPort(), 0 );
 			return Net::HANDLER_HALT;
 		}
 
 		Dbg_Printf( "Sending Join Proceed Message to IP: %x Port: %d MaxPlayers: %d\n", context->m_Conn->GetIP(), context->m_Conn->GetPort(), gamenet_man->GetNumPlayers());
-		msg.m_MaxPlayers = gamenet_man->GetMaxPlayers();
+		msg.m_MaxPlayers = (char)gamenet_man->GetMaxPlayers();
 		if(	net_man->GetConnectionType() == Net::vCONN_TYPE_MODEM )
 		{
 			msg.m_Broadband = 0;
@@ -684,7 +680,7 @@ int	Manager::s_handle_connection( Net::MsgHandlerContext* context )
 		MsgProceed msg;
 		Net::MsgDesc msg_desc;
 
-		msg.m_MaxPlayers = gamenet_man->GetMaxPlayers();
+		msg.m_MaxPlayers = (char)gamenet_man->GetMaxPlayers();
 		msg_desc.m_Id = MSG_ID_JOIN_PROCEED;
 		msg_desc.m_Data = &msg;
 		msg_desc.m_Length = sizeof( MsgProceed );
@@ -750,7 +746,7 @@ int	Manager::s_handle_join_request( Net::MsgHandlerContext* context )
 				MsgEmbedded msg;
 				Net::MsgDesc msg_desc;
 		
-				msg.m_SubMsgId = reason;
+				msg.m_SubMsgId = (char)reason;
 		
 				msg_desc.m_Data = &msg;
 				msg_desc.m_Length = sizeof( MsgEmbedded );
@@ -768,7 +764,7 @@ int	Manager::s_handle_join_request( Net::MsgHandlerContext* context )
 	}
 	
 	strcpy( new_player.Name, join_msg->m_Name );
-	new_player.ObjID = gamenet_man->GetNextPlayerObjectId();
+	new_player.ObjID = (char)gamenet_man->GetNextPlayerObjectId();
 	new_player.Conn = context->m_Conn;
 	new_player.Flags = 0;
 	new_player.Profile = join_msg->m_Profile;
@@ -1199,7 +1195,7 @@ int Manager::s_handle_join_proceed( Net::MsgHandlerContext* context )
 	{
 		// GJ:  transmit the way you look (slot 0 of the
 		// skater profile manager) to the server
-		Mdl::Skate * skate_mod = Mdl::Skate::Instance();
+		// Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 		Obj::CSkaterProfile* pSkaterProfile = skate_mod->GetProfile(0);
 		Net::Conn *server_conn;
 		Lst::Search< Net::Conn > sh;
@@ -1218,7 +1214,7 @@ int Manager::s_handle_join_proceed( Net::MsgHandlerContext* context )
 	}
 
 	msg_desc.m_Data = &msg;
-	msg_desc.m_Length = sizeof(MsgJoinInfo) - vMAX_APPEARANCE_DATA_SIZE + size;
+	msg_desc.m_Length = (unsigned short)(sizeof(MsgJoinInfo) - vMAX_APPEARANCE_DATA_SIZE + size);
 	msg_desc.m_Id = MSG_ID_JOIN_REQ;
 	if( context->m_Conn->IsRemote())
 	{
@@ -1450,8 +1446,8 @@ int	Manager::s_handle_player_restarted( Net::MsgHandlerContext* context )
 			Script::RunScript( "flag_returned", pParams );
 	
 			delete pParams;
-			msg.m_Team = team;
-			msg.m_ObjId = player->m_Skater->GetID();
+			msg.m_Team = (char)team;
+			msg.m_ObjId = (char)player->m_Skater->GetID();
 
 			// If it's me, remove the message that says "return the flag to your base"
 			if( player->IsLocalPlayer())
@@ -1521,6 +1517,8 @@ int	Manager::s_handle_player_restarted( Net::MsgHandlerContext* context )
 
 int	Manager::s_handle_auto_server_notification( Net::MsgHandlerContext* context )
 {
+	(void)context;
+
 	Script::RunScript( "launch_auto_server_notification" );
 	return Net::HANDLER_CONTINUE;
 }
@@ -1565,6 +1563,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 	gamenet_man = (Manager *) context->m_Data;
 
 	Dbg_Printf( "GOT FCFS REQUEST\n" );
+
 	// First, ensure we even have an fcfs server
 	player = gamenet_man->GetServerPlayer();
 	if( player == nullptr )
@@ -1696,7 +1695,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 		case MSG_ID_FCFS_BAN_PLAYER:
 		{
 			MsgRemovePlayerRequest* msg;
-			PlayerInfo* player, *target_player;
+			PlayerInfo *target_player;
 			Lst::Search< PlayerInfo > sh;
 			int i;
 
@@ -1704,13 +1703,13 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 
 			i = 0;
 			target_player = nullptr;
-			for( player = gamenet_man->FirstPlayerInfo( sh, true ); player; player = gamenet_man->NextPlayerInfo( sh, true ))
+			for(PlayerInfo *player_i = gamenet_man->FirstPlayerInfo( sh, true ); player_i != nullptr; player_i = gamenet_man->NextPlayerInfo( sh, true ))
 			{
 				if( msg->m_Index == i )
 				{
-					if( _stricmp( msg->m_Name, player->m_Name ) == 0 )
+					if( _stricmp( msg->m_Name, player_i->m_Name ) == 0 )
 					{
-						target_player = player;
+						target_player = player_i;
 					}
 					break;
 				}
@@ -2047,20 +2046,13 @@ int	Manager::s_handle_request_level( Net::MsgHandlerContext* context )
 	server = (Net::Server*) context->m_App;
 	Dbg_Printf( "************** STREAMING LEVEL DATA ***************\n" );
 	
-	server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, 
-						   Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", vSEQ_GROUP_PLAYER_MSGS,
-						   false, true );
-						   
-	server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_RAIL_DATA, Obj::GetRailEditor()->GetCompressedRailsBufferSize(), 
-						   Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS,
-						   false, true );
-						   
-						   
+	server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", vSEQ_GROUP_PLAYER_MSGS, false, true );
+	server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_RAIL_DATA, (unsigned short)Obj::GetRailEditor()->GetCompressedRailsBufferSize(), Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS, false, true );
+	
 	if( gamenet_man->UsingCreatedGoals())
 	{
 		gamenet_man->LoadGoals( msg->m_LevelId );
-		server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_GOALS_DATA, gamenet_man->GetGoalsDataSize(),
-							   gamenet_man->GetGoalsData(), "goals data", vSEQ_GROUP_PLAYER_MSGS, false, true );
+		server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_GOALS_DATA, (unsigned short)gamenet_man->GetGoalsDataSize(), gamenet_man->GetGoalsData(), "goals data", vSEQ_GROUP_PLAYER_MSGS, false, true );
 	}
 
 	if( msg->m_Source == MSG_ID_CHANGE_LEVEL )
@@ -2196,7 +2188,6 @@ int Manager::s_handle_goals_data( Net::MsgHandlerContext* context )
 	uint32 level;
 	uint8* goals_data;
 	Manager* gamenet_man;
-	Script::CStruct* params;
 	Net::MsgDesc msg_desc;
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();
 
@@ -2207,7 +2198,6 @@ int Manager::s_handle_goals_data( Net::MsgHandlerContext* context )
 	{
 		if( skate_mod->m_cur_level == Crc::ConstCRC("Load_Skateshop"))
 		{
-			Script::CStruct* params;
 			Dbg_Printf( "************** received bad goals data!! Cancelling join server.\n" );
 
 			// Set it back to the joining state so that cancel_join_server does not
@@ -2215,7 +2205,7 @@ int Manager::s_handle_goals_data( Net::MsgHandlerContext* context )
 			gamenet_man->m_join_state_task->Remove();
 			gamenet_man->SetJoinState( vJOIN_STATE_JOINING );
 
-			params = new Script::CStruct;
+			Script::CStruct *params = new Script::CStruct;
 			params->AddChecksum( NONAME, Crc::ConstCRC("show_timeout"));
 			Script::RunScript( Crc::ConstCRC("cancel_join_server" ), params );
 			delete params;
@@ -2243,12 +2233,12 @@ int Manager::s_handle_goals_data( Net::MsgHandlerContext* context )
 	goals_data = (uint8*) ( context->m_Msg + sizeof( uint32 ));
 	Obj::GetGoalEditor()->ReadFromBuffer( level, goals_data );
 
-	
-
-	params = new Script::CStruct;
-	params->AddChecksum( NONAME, Crc::ConstCRC("DoNotCreateGoalPeds"));
-	Script::RunScript( Crc::ConstCRC("InitialiseCreatedGoals"), params );
-	delete params;
+	{
+		Script::CStruct *params = new Script::CStruct;
+		params->AddChecksum(NONAME, Crc::ConstCRC("DoNotCreateGoalPeds"));
+		Script::RunScript(Crc::ConstCRC("InitialiseCreatedGoals"), params);
+		delete params;
+	}
 
 	return Net::HANDLER_CONTINUE;
 }
@@ -2260,6 +2250,8 @@ int Manager::s_handle_goals_data( Net::MsgHandlerContext* context )
 
 int	Manager::s_handle_new_level( Net::MsgHandlerContext* context )
 {
+	(void)context;
+
 	Dbg_Printf( "***************** Handling new level!!!\n" );
 	return Net::HANDLER_CONTINUE;
 }
@@ -2341,6 +2333,8 @@ int Manager::s_handle_change_level( Net::MsgHandlerContext* context )
 
 int Manager::s_handle_kill_flags( Net::MsgHandlerContext* context )
 {
+	(void)context;
+
 	Script::RunScript( "Kill_Team_Flags" );
 	return Net::HANDLER_CONTINUE;
 }
@@ -2693,6 +2687,8 @@ int	Manager::s_handle_game_over( Net::MsgHandlerContext* context )
 
 int	Manager::s_handle_end_game( Net::MsgHandlerContext* context )
 {   
+	(void)context;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Obj::CTrickObjectManager* manager = skate_mod->GetTrickObjectManager();
 
@@ -2718,7 +2714,7 @@ int	Manager::s_handle_object_update( Net::MsgHandlerContext* context )
      
 	gamenet_man = (Manager *) context->m_Data;
 	stream.SetInputData( context->m_Msg, 1024 );
-	obj_id_mask = stream.ReadUnsignedValue( sizeof( char ) * 8 );
+	obj_id_mask = (unsigned char)stream.ReadUnsignedValue( sizeof( char ) * 8 );
 		
 	for( obj_id = 0; obj_id < Mdl::Skate::vMAX_SKATERS; obj_id++ )
 	{
@@ -2987,7 +2983,7 @@ int Manager::s_handle_beat_goal( Net::MsgHandlerContext* context )
 						Net::MsgDesc msg_desc;
 
 						goal_msg.m_GoalId = msg->m_GoalId;
-						goal_msg.m_ObjId = player->m_Skater->GetID();
+						goal_msg.m_ObjId = (char)player->m_Skater->GetID();
 						
 						msg_desc.m_Data = &goal_msg;
 						msg_desc.m_Length = sizeof( MsgBeatGoalRelay );
@@ -3011,7 +3007,7 @@ int Manager::s_handle_beat_goal( Net::MsgHandlerContext* context )
 					pGoal->MarkBeatenBy( player->m_Skater->GetID());
 
 					goal_msg.m_GoalId = msg->m_GoalId;
-					goal_msg.m_ObjId = player->m_Skater->GetID();
+					goal_msg.m_ObjId = (char)player->m_Skater->GetID();
 
 					msg_desc.m_Data = &goal_msg;
 					msg_desc.m_Length = sizeof( MsgBeatGoalRelay );
@@ -3198,7 +3194,7 @@ int Manager::s_handle_started_goal( Net::MsgHandlerContext* context )
 			Net::MsgDesc msg_desc;
 
 			goal_msg.m_GoalId = msg->m_GoalId;
-			goal_msg.m_ObjId = player->m_Skater->GetID();
+			goal_msg.m_ObjId = (char)player->m_Skater->GetID();
 
 			msg_desc.m_Data = &goal_msg;
 			msg_desc.m_Length = sizeof( MsgStartedGoalRelay );
@@ -3391,6 +3387,8 @@ int	Manager::s_handle_cheat_checksum_request( Net::MsgHandlerContext* context )
 
 int	Manager::s_handle_challenge( Net::MsgHandlerContext* context )
 {
+	(void)context;
+
 #ifdef __PLAT_NGPS__
 	Net::MsgDesc msg_desc;
 	char* challenge;
@@ -3424,6 +3422,8 @@ int	Manager::s_handle_challenge( Net::MsgHandlerContext* context )
 
 int	Manager::s_handle_challenge_response( Net::MsgHandlerContext* context )
 {
+	(void)context;
+
 #ifdef __PLAT_NGPS__
 	PlayerInfo* player;
 	Manager* gamenet_man;
@@ -3453,18 +3453,14 @@ int Manager::s_handle_level_data_request( Net::MsgHandlerContext* context )
 	if( context->m_MsgId == MSG_ID_REQUEST_RAILS_DATA )
 	{
 		Dbg_Printf( "***** Client requested rails data\n" );
-		server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_RAIL_DATA, Obj::GetRailEditor()->GetCompressedRailsBufferSize(), 
-							   Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS,
-							   false, true );
-							   
+		server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_RAIL_DATA, (unsigned short)Obj::GetRailEditor()->GetCompressedRailsBufferSize(), Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", vSEQ_GROUP_PLAYER_MSGS, false, true );
 	}
 	else if( context->m_MsgId == MSG_ID_REQUEST_GOALS_DATA )
 	{
 		Dbg_Printf( "***** Client requested goals data\n" );
 		if( gamenet_man->UsingCreatedGoals())
 		{
-			server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_GOALS_DATA, gamenet_man->GetGoalsDataSize(),
-								   gamenet_man->GetGoalsData(), "goals data", vSEQ_GROUP_PLAYER_MSGS, false, true );
+			server->StreamMessage( context->m_Conn->GetHandle(), MSG_ID_GOALS_DATA, (unsigned short)gamenet_man->GetGoalsDataSize(), gamenet_man->GetGoalsData(), "goals data", vSEQ_GROUP_PLAYER_MSGS, false, true );
 		}
 	}
 
@@ -3529,7 +3525,7 @@ void	Manager::s_change_level_code( const Tsk::Task< Manager >& task )
 	skate_mod->ChangeLevel( man.m_level_id );
 
 	// Clear the king of the hill
-	if(( player = man.GetKingOfTheHill()))
+	if(( player = man.GetKingOfTheHill()) != nullptr)
 	{
 		player->MarkAsKing( false );
 	}

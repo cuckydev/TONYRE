@@ -421,7 +421,7 @@ int				Skate::GetNextUnusedSkaterHeapIndex( bool for_local_skater )
 
 Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool local_client, int obj_id, int player_num )
 {
-	Lst::Node< Obj::CSkater > *node;
+	Lst::Node< Obj::CSkater > *skater_node;
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	int heap_index;
     
@@ -484,10 +484,10 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 				{   
 					Score* score;
 	
-					node = skater->GetLinkNode();
-					node->SetPri( obj_id );
-					node->Remove();
-					m_skaters.AddUniqueSequence( node );
+					skater_node = skater->GetLinkNode();
+					skater_node->SetPri( obj_id );
+					skater_node->Remove();
+					m_skaters.AddUniqueSequence(skater_node);
 	
 ////////////////////////////////////////////////////////////////////////////////////					
 // Changing the id means we have to destroy and re-create the particle systems
@@ -577,9 +577,9 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 
     // This bit of code will order our skaters in the linked list according to their object id
 	// so the order will be consistent across all clients
-	node = skater->GetLinkNode();
-	node->SetPri( skater->GetID() );
-	m_skaters.AddUniqueSequence( node );
+	skater_node = skater->GetLinkNode();
+	skater_node->SetPri( skater->GetID() );
+	m_skaters.AddUniqueSequence(skater_node);
 
 	if ( GetGameMode()->IsFrontEnd() )
 	{
@@ -638,21 +638,21 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 
 void Skate::GetNextStartingPointData( Mth::Vector* pos, Mth::Matrix* matrix, int obj_id )
 {   
-    int node;
+    int reset_node;
 
 	pos->Set( 0.0f, 0.0f, 0.0f, 0.0f );
 	matrix->Ident();
 
-	node = find_restart_node( obj_id );
+	reset_node = find_restart_node( obj_id );
 
     // ...and jump to it
-	if (node != -1)
+	if (reset_node != -1)
 	{
 		Mth::Vector rot;
 
-		printf ("Got restart node %d\n",node);
+		printf ("Got restart node %d\n", reset_node);
 		
-		SkateScript::GetAngles( node, &rot );
+		SkateScript::GetAngles(reset_node, &rot );
 		if ( rot[ X ] || rot[ Y ] || rot[ Z ] )
 		{
 			// 3DSMAX_ANGLES Mick: 3/19/03 - Changed all rotation orders to X,Y,Z
@@ -661,7 +661,7 @@ void Skate::GetNextStartingPointData( Mth::Vector* pos, Mth::Matrix* matrix, int
 			matrix->RotateZ( rot[ Z ] );
 		}
 
-		SkateScript::GetPosition( node, pos );
+		SkateScript::GetPosition(reset_node, pos );
 	}
 }
 
@@ -670,9 +670,9 @@ void Skate::GetNextStartingPointData( Mth::Vector* pos, Mth::Matrix* matrix, int
 /*                                                                */
 /******************************************************************/
 
-int Skate::find_restart_node( int index )
+int Skate::find_restart_node( uint32 index )
 {
-	int node = -1;
+	int reset_node = -1;
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	// get appropriate restart point...
@@ -682,7 +682,7 @@ int Skate::find_restart_node( int index )
 		{
 			if( GetGameMode()->GetNameChecksum() == Script::GenerateCRC( "netlobby" ))
 			{
-				node = Obj::GetRestartNode( Script::GenerateCRC( "team" ), 0 );
+				reset_node = Obj::GetRestartNode( Script::GenerateCRC( "team" ), 0 );
 			}
 			else if( GetGameMode()->GetNameChecksum() == Script::GenerateCRC( "netctf" ))
 			{
@@ -694,16 +694,16 @@ int Skate::find_restart_node( int index )
 					switch( player->m_Team )
 					{
 						case GameNet::vTEAM_RED:
-							node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Red" );
+							reset_node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Red" );
 							break;
 						case GameNet::vTEAM_BLUE:
-							node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Blue" );
+							reset_node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Blue" );
 							break;
 						case GameNet::vTEAM_GREEN:
-							node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Green" );
+							reset_node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Green" );
 							break;
 						case GameNet::vTEAM_YELLOW:
-							node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Yellow" );
+							reset_node = SkateScript::FindNamedNode( "TRG_CTF_Restart_Yellow" );
 							break;
 					}
 				}
@@ -711,13 +711,13 @@ int Skate::find_restart_node( int index )
 			else
 			{
 				index = gamenet_man->GetSkaterStartingPoint( index );
-				node = Obj::GetRestartNode( Script::GenerateCRC( "Multiplayer" ), index );
+				reset_node = Obj::GetRestartNode( Script::GenerateCRC( "Multiplayer" ), index );
 				// if we did not find one, then try the first generic restart
-				if (node == -1)
+				if (reset_node == -1)
 				{
 					printf ("\n\nWARNING - no multiplayer restart point, trying player1\n\n");
 					// If no Playern, then try player1
-					node = Obj::GetRestartNode( Script::GenerateCRC( "Player1" ), 0 );
+					reset_node = Obj::GetRestartNode( Script::GenerateCRC( "Player1" ), 0 );
 				}
 			}
 		}
@@ -727,45 +727,45 @@ int Skate::find_restart_node( int index )
 			char buff[32];
 
 			sprintf( buff, "Player%d", index + 1 );
-			node = Obj::GetRestartNode( Script::GenerateCRC( buff ), 0 );
+			reset_node = Obj::GetRestartNode( Script::GenerateCRC( buff ), 0 );
 		}
 		else if ( GetGameMode()->IsTrue( "is_horse" ) )
 		{
 			// grab the current horse node
-			node = Obj::GetRestartNode( Script::GenerateCRC( "horse" ), GetHorse()->GetCurrentRestartIndex() );
+			reset_node = Obj::GetRestartNode( Script::GenerateCRC( "horse" ), GetHorse()->GetCurrentRestartIndex() );
 		}
 		else
 		{
 			index = gamenet_man->GetSkaterStartingPoint( index );
-			node = Obj::GetRestartNode( Script::GenerateCRC( "Multiplayer" ), index );
+			reset_node = Obj::GetRestartNode( Script::GenerateCRC( "Multiplayer" ), index );
 			// if we did not find one, then try the first generic restart
-			if (node == -1)
+			if (reset_node == -1)
 			{
 				printf ("\n\nWARNING - no multiplayer restart point, trying player1\n\n");
 				// If no Playern, then try player1
-				node = Obj::GetRestartNode( Script::GenerateCRC( "Player1" ), 0 );
+				reset_node = Obj::GetRestartNode( Script::GenerateCRC( "Player1" ), 0 );
 			}
 		}
 	}
 	else
 	{
-		node = Obj::GetRestartNode( Script::GenerateCRC( "Player1" ), index );
+		reset_node = Obj::GetRestartNode( Script::GenerateCRC( "Player1" ), index );
 	}
 		
 	// If No player 1, then use generic
-	if (node == -1)
+	if (reset_node == -1)
 	{		
 		printf ("\n\nWARNING - no Player1 restart point, trying Generic\n\n");
-		node = Obj::GetRestartNode( 0, 0 );
+		reset_node = Obj::GetRestartNode( 0, 0 );
 	}
 
 	// If No player 1, then use generic
-	if( node == -1 )
+	if(reset_node == -1 )
 	{
 		printf( "\n\nWARNING - No restart points found\n\n" );
 	}
 
-	return node;
+	return reset_node;
 }
 
 /******************************************************************/
@@ -773,17 +773,17 @@ int Skate::find_restart_node( int index )
 /*                                                                */
 /******************************************************************/
 
-void Skate::skip_to_restart_point( Obj::CSkater* skater, int node, bool walk )
+void Skate::skip_to_restart_point( Obj::CSkater* skater, int reset_node, bool walk )
 {
-	if (node == -1)
+	if (reset_node == -1)
 	{
-		node = find_restart_node( skater->GetID() );
+		reset_node = find_restart_node( skater->GetID() );
 	}
 
 	// ...and jump to it
-	if (node != -1)
+	if (reset_node != -1)
 	{
-		skater->SkipToRestart( node, walk );
+		skater->SkipToRestart(reset_node, walk );
 	}
 }
 
@@ -1026,7 +1026,9 @@ void Skate::BeepTimer(float time, float beep_time, float beep_speed, const char 
 /******************************************************************/
 
 static void 	do_CheckModelActive(Obj::CObject *pOb, void *pVoidData)
-{	
+{
+	(void)pVoidData;
+
 	Obj::CCompositeObject* pCompositeObject = (Obj::CCompositeObject*)pOb;
 	Obj::CSuspendComponent* pSuspendComponent = GetSuspendComponentFromObject( pCompositeObject );
 	if ( pSuspendComponent )
@@ -1308,6 +1310,8 @@ void Skate::SetTimeLimit( int seconds )
 // @script | SetTimeLimit | sets the time limit
 // @parmopt int | seconds | 120 | number of seconds for time limit
 bool ScriptSetTimeLimit(Script::CStruct *pParams, Script::CScript *pScript) {
+	(void)pScript;
+
     int seconds = 120;
 
     pParams->GetInteger( "seconds", &seconds );
@@ -1506,14 +1510,14 @@ Skate::~Skate ( void )
 /*                                                                */
 /******************************************************************/
 
-void Skate::SetSpinTaps(int index, bool state)
+void Skate::SetSpinTaps(int index, bool spintap_state)
 {
 	Dbg_MsgAssert(index>=0 && index<vMAX_SKATERS,("Bad index"));
-	mp_controller_preferences[index].SpinTapsOn=state;
+	mp_controller_preferences[index].SpinTapsOn= spintap_state;
 	Obj::CSkater *p_skater = GetSkater(index);
 	if (p_skater)
 	{
-		GetSkaterCorePhysicsComponentFromObject(p_skater)->m_spin_taps=state;
+		GetSkaterCorePhysicsComponentFromObject(p_skater)->m_spin_taps= spintap_state;
 	}
 }	
 
@@ -1522,14 +1526,14 @@ void Skate::SetSpinTaps(int index, bool state)
 /*                                                                */
 /******************************************************************/
 
-void Skate::SetAutoKick(int index, bool state)
+void Skate::SetAutoKick(int index, bool autokick_state)
 {
 	Dbg_MsgAssert(index>=0 && index<vMAX_SKATERS,("Bad index"));
-	mp_controller_preferences[index].AutoKickOn=state;
+	mp_controller_preferences[index].AutoKickOn= autokick_state;
 	Obj::CSkater *p_skater = GetSkater(index);
 	if (p_skater)
 	{
-		GetSkaterCorePhysicsComponentFromObject(p_skater)->m_auto_kick=state;
+		GetSkaterCorePhysicsComponentFromObject(p_skater)->m_auto_kick= autokick_state;
 	}
 }	
 
@@ -1538,17 +1542,17 @@ void Skate::SetAutoKick(int index, bool state)
 /*                                                                */
 /******************************************************************/
 
-void Skate::SetVibration(int index, bool state)
+void Skate::SetVibration(int index, bool vib_state)
 {
 	Dbg_MsgAssert(index>=0 && index<vMAX_SKATERS,("Bad index"));
-	mp_controller_preferences[index].VibrationOn=state;
+	mp_controller_preferences[index].VibrationOn= vib_state;
 	Obj::CSkater *p_skater = GetSkater(index);
 	if (p_skater)
 	{
 		Obj::CVibrationComponent* p_vibration_component = GetVibrationComponentFromObject(p_skater);
 		if (p_vibration_component)
 		{
-			p_vibration_component->SetActiveState(state);
+			p_vibration_component->SetActiveState(vib_state);
 		}
 	}
 }	
@@ -2214,7 +2218,7 @@ void Skate::ResetLevel()
 /******************************************************************/
 
 
-void Skate::ResetSkaters(int node, bool walk)
+void Skate::ResetSkaters(int reset_node, bool walk)
 {
     // Skip skaters to restart points (will also reset their physics states)
     for (uint32 i=0;i<GetNumSkaters();i++)
@@ -2223,7 +2227,7 @@ void Skate::ResetSkaters(int node, bool walk)
         Dbg_MsgAssert ( pSkater,( "No skater" ));
         if ( pSkater->IsLocalClient() )
         {
-             skip_to_restart_point( pSkater, node, walk );			
+             skip_to_restart_point( pSkater, reset_node, walk );
         }
 
         // We Resync() the skater here, as he has just restarted
@@ -2295,7 +2299,7 @@ void Skate::LaunchGame()
 	// Clear the king of the hill
 	GameNet::PlayerInfo* player;
 	Lst::Search< GameNet::PlayerInfo > sh;
-	if(( player = gamenet_man->GetKingOfTheHill()))
+	if(( player = gamenet_man->GetKingOfTheHill()) != nullptr)
 	{
 		player->MarkAsKing( false );
 	}
@@ -2396,7 +2400,7 @@ void Skate::CheckSkaterCollisions( void )
 						server = gamenet_man->GetServer();
 						Dbg_Assert( server );
 						
-						msg.m_Data = subject->GetID();
+						msg.m_Data = (char)subject->GetID();
 
 						msg_desc.m_Data = &msg;
 						msg_desc.m_Length = sizeof( GameNet::MsgByteInfo );
@@ -2512,6 +2516,8 @@ Gfx::EShadowType Skate::GetShadowMode( void ) const
 // @uparm name | Game type
 bool ScriptSetGameType(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Skate* skate = Skate::Instance();
 	uint32 game_type;
 	pParams->GetChecksum(NONAME, &game_type, true);
@@ -2529,6 +2535,8 @@ bool ScriptSetGameType(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | Game type
 bool ScriptTestGameType(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 game_type;
 	pParams->GetChecksum(NONAME, &game_type, true);
 	
@@ -2543,6 +2551,9 @@ bool ScriptTestGameType(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptInTeamGame(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Skate* skate = Skate::Instance();
 
 	return skate->GetGameMode()->IsTeamGame();
@@ -2560,6 +2571,8 @@ bool ScriptInTeamGame(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | Game type
 bool ScriptTestRequestedGameType(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 game_type;
 	pParams->GetChecksum(NONAME, &game_type, true);
 	
@@ -2576,8 +2589,10 @@ bool ScriptTestRequestedGameType(Script::CStruct *pParams, Script::CScript *pScr
 // @parm string | level | The level to change to
 bool ScriptChangeLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	
-	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
+	(void)pParams;
+	(void)pScript;
+
+	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	bool show_warning;
 	uint32 level;
 
@@ -2619,13 +2634,8 @@ bool ScriptChangeLevel(Script::CStruct *pParams, Script::CScript *pScript)
 		{
 			if( level == Crc::ConstCRC("Load_Sk5Ed_gameplay"))
 			{
-				server->StreamMessage( player->GetConnHandle(), GameNet::MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, 
-									   Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", 
-									   GameNet::vSEQ_GROUP_PLAYER_MSGS, false, true );
-						   
-				server->StreamMessage( player->GetConnHandle(), GameNet::MSG_ID_RAIL_DATA, Obj::GetRailEditor()->GetCompressedRailsBufferSize(), 
-									   Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", 
-									   GameNet::vSEQ_GROUP_PLAYER_MSGS, false, true );
+				server->StreamMessage( player->GetConnHandle(), GameNet::MSG_ID_LEVEL_DATA, Ed::CParkManager::COMPRESSED_MAP_SIZE, Ed::CParkManager::sInstance()->GetCompressedMapBuffer(), "level data", GameNet::vSEQ_GROUP_PLAYER_MSGS, false, true );
+				server->StreamMessage( player->GetConnHandle(), GameNet::MSG_ID_RAIL_DATA, (unsigned short)Obj::GetRailEditor()->GetCompressedRailsBufferSize(), Obj::GetRailEditor()->GetCompressedRailsBuffer(), "rail data", GameNet::vSEQ_GROUP_PLAYER_MSGS, false, true );
 						   
 			}
 		}
@@ -2642,8 +2652,7 @@ bool ScriptChangeLevel(Script::CStruct *pParams, Script::CScript *pScript)
 			if( gamenet_man->UsingCreatedGoals())
 			{
 				gamenet_man->LoadGoals( level );
-				server->StreamMessage( player->GetConnHandle(), GameNet::MSG_ID_GOALS_DATA, gamenet_man->GetGoalsDataSize(),
-							   gamenet_man->GetGoalsData(), "goals data", GameNet::vSEQ_GROUP_PLAYER_MSGS, false, true );
+				server->StreamMessage( player->GetConnHandle(), GameNet::MSG_ID_GOALS_DATA, (unsigned short)gamenet_man->GetGoalsDataSize(), gamenet_man->GetGoalsData(), "goals data", GameNet::vSEQ_GROUP_PLAYER_MSGS, false, true );
 			}
 		}
 
@@ -2676,6 +2685,9 @@ bool ScriptChangeLevel(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | LaunchLevel | launches currently requested level
 bool ScriptLaunchLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Skate* skate_mod = Skate::Instance();
 	uint32 level = skate_mod->m_requested_level;
 	skate_mod->OpenLevel(level);
@@ -2692,7 +2704,9 @@ bool ScriptLaunchLevel(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | level to request
 bool ScriptRequestLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
+	(void)pScript;
+
+	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	Skate* skate_mod = Skate::Instance();
 	uint32 level;
 
@@ -2732,6 +2746,9 @@ bool ScriptRequestLevel(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | Retry | retry current level
 bool ScriptRetry(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Skate* skate_mod = Skate::Instance();
 	
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
@@ -2748,6 +2765,9 @@ bool ScriptRetry(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | LaunchGame | 
 bool ScriptLaunchGame(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 	Skate::Instance()->LaunchGame();	
 	Mem::Manager::sHandle().PopContext();
@@ -2761,8 +2781,11 @@ bool ScriptLaunchGame(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptFillRankingScreen(Script::CStruct *pParams, Script::CScript *pScript)
 {
-	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
-	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
+	(void)pParams;
+	(void)pScript;
+
+	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
+	Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	Lst::Search< GameNet::PlayerInfo > sh;
 	GameNet::PlayerInfo* player;
 	Lst::Head< GameNet::ScoreRank > rank_list;
@@ -2989,6 +3012,9 @@ bool ScriptFillRankingScreen(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | InitSkaterHeaps | 
 bool ScriptInitSkaterHeaps(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 	
 	
@@ -3028,6 +3054,8 @@ bool ScriptInitSkaterHeaps(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ResetLevel | resets the level
 bool ScriptResetLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	Skate* skate_mod = Skate::Instance();
 
 	// A hacky way of preserving the running script, since skate's cleanup will destroy all
@@ -3183,6 +3211,7 @@ static float text_width(const char *p_string, const char *p_font)
 // and into the script strings
 void Skate::GetRecordsText(int level)
 {
+	(void)level;
 #if 0
 #ifndef __PLAT_NGC__
 	
@@ -3376,8 +3405,6 @@ Prefs::Preferences* GetPreferences( Script::CStruct* pParams, bool assert_on_fai
 	pParams->GetChecksum( "prefs", &checksum, true );
 
 	return GetPreferences( checksum, assert_on_fail );
-
-	return nullptr;
 }
 
 /******************************************************************/
