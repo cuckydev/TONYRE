@@ -104,6 +104,7 @@ void CXboxSprite::plat_update_priority()
 
 void				CSprite::plat_enable_constant_z_value(bool enable)
 {
+	(void)enable;
 	//NxPs2::SSprite::EnableConstantZValue(enable);
 }
 
@@ -114,6 +115,7 @@ void				CSprite::plat_enable_constant_z_value(bool enable)
 
 void				CSprite::plat_set_constant_z_value(Nx::ZBufferValue z)
 {
+	(void)z;
 	//NxPs2::SSprite::SetConstantZValue(z);
 }
 

@@ -67,7 +67,7 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	MemoryRead( &bsphere[0], sizeof( float ), 4, p_data );
 		
 	// Read billboard data if present.
-	uint32		billboard_type;
+	uint32		billboard_type = 0;
 	Mth::Vector	billboard_origin;
 	Mth::Vector billboard_pivot_pos;
 	Mth::Vector billboard_pivot_axis;
@@ -160,12 +160,12 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		NxWn32::sMesh*	p_mesh = new NxWn32::sMesh;
 
 		// Read bounding sphere and box data.
-		float		rad;
-		Mth::Vector inf, sup, cen;
-		MemoryRead( &cen[X], sizeof( float ), 3, p_data );
-		MemoryRead( &rad, sizeof( float ), 1, p_data );
-		MemoryRead( &inf[X], sizeof( float ), 3, p_data );
-		MemoryRead( &sup[X], sizeof( float ), 3, p_data );
+		float		mesh_rad;
+		Mth::Vector mesh_inf, mesh_sup, mesh_cen;
+		MemoryRead( &mesh_cen[X], sizeof( float ), 3, p_data );
+		MemoryRead( &mesh_rad, sizeof( float ), 1, p_data );
+		MemoryRead( &mesh_inf[X], sizeof( float ), 3, p_data );
+		MemoryRead( &mesh_sup[X], sizeof( float ), 3, p_data );
 
 		// Read and deal with flags, including skater shadow flag.
 		MemoryRead( &flags, sizeof( uint32 ), 1, p_data );
@@ -201,7 +201,7 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		}
 
 		// Set the load order of this mesh.
-		p_mesh->m_load_order = m;
+		p_mesh->m_load_order = (uint16)m;
 
 		// Set up the mesh.
 		p_mesh->Initialize(	num_vertices,
@@ -220,11 +220,11 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 							( flags & 0x800 ) ? p_vc_wibble_indices : nullptr );
 		
 		// Set the bounding data (sphere and box) for the mesh.
-		p_mesh->SetBoundingData( cen, rad, inf, sup );
+		p_mesh->SetBoundingData(mesh_cen, mesh_rad, mesh_inf, mesh_sup );
 
 		// Add the bounding data to the scene.
-		p_geom->mp_scene->GetEngineScene()->m_bbox.AddPoint( inf );
-		p_geom->mp_scene->GetEngineScene()->m_bbox.AddPoint( sup );
+		p_geom->mp_scene->GetEngineScene()->m_bbox.AddPoint( mesh_inf );
+		p_geom->mp_scene->GetEngineScene()->m_bbox.AddPoint( mesh_sup );
 
 		// Set up as a billboard if required.
 		if( m_flags & 0x00800000UL )
@@ -243,7 +243,7 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		p_geom->AddMesh( p_mesh );
 
 		// Set the mesh bone index (mostly not applicable).
-		p_mesh->SetBoneIndex( bone_idx );
+		p_mesh->SetBoneIndex((int8)bone_idx);
 	
 		// Test code - if the mesh is mapped with a grass texture, add grass meshes.
 		// AddGrass( p_geom, p_mesh );
@@ -448,7 +448,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		}
 
 		// Set the load order of this mesh.
-		p_mesh->m_load_order = m;
+		p_mesh->m_load_order = (uint16)m;
 
 		// Set up the mesh.
 		p_mesh->Initialize(	num_vertices,
@@ -488,10 +488,10 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		}
 
 		// Add the mesh to the attached CXboxGeom.
-		p_geom->AddMesh( p_mesh );
+		p_geom->AddMesh(p_mesh);
 
 		// Set the mesh bone index (mostly not applicable).
-		p_mesh->SetBoneIndex( bone_idx );
+		p_mesh->SetBoneIndex((int8)bone_idx);
 	
 		// Test code - if the mesh is mapped with a grass texture, add grass meshes.
 		// AddGrass( p_geom, p_mesh );
@@ -596,6 +596,7 @@ char *p_ok_sectors[] = { "CP_telephonepole43",
 /******************************************************************/
 void CXboxSector::plat_set_visibility(uint32 mask)
 {
+	(void)mask;
 /*
 	// Set values
 	m_visible = mask;
@@ -619,6 +620,7 @@ void CXboxSector::plat_set_visibility(uint32 mask)
 /******************************************************************/
 void CXboxSector::plat_set_active( bool on )
 {
+	(void)on;
 /*
 	// Set values
 	m_active = on;
@@ -642,6 +644,7 @@ void CXboxSector::plat_set_active( bool on )
 /******************************************************************/
 void CXboxSector::plat_set_color( Image::RGBA rgba )
 {
+	(void)rgba;
 /*
 	if( m_mesh_array == nullptr )
 	{
@@ -689,6 +692,7 @@ void CXboxSector::plat_clear_color( void )
 /******************************************************************/
 void CXboxSector::plat_set_world_position( const Mth::Vector& pos )
 {
+	(void)pos;
 /*
 	Mth::Vector new_offset = pos - m_pos_offset;
 
@@ -748,11 +752,12 @@ void CXboxSector::plat_set_shatter( bool on )
 /******************************************************************/
 CSector *CXboxSector::plat_clone( bool instance, CScene *p_dest_scene )
 {
+	(void)instance;
+	(void)p_dest_scene;
+
 	CXboxSector *p_xbox_sector = new CXboxSector();
 
 	/*
-
-
 	// Copies over much of the standard stuff, individual stuff will be overwritten later.
 	CopyMemory( p_xbox_sector, this, sizeof( CXboxSector ));
 

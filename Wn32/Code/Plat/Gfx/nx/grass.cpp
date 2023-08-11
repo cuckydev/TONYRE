@@ -183,6 +183,7 @@ HRESULT LoadBumpTextures( void )
 /******************************************************************/
 void CreateWaterMaterial( NxWn32::sMaterial *p_material )
 {
+	(void)p_material;
 	/*
 	// Set texture 0 to be the first bump texture.
 	p_material->mp_tex[0]			= &waterTextures[0];

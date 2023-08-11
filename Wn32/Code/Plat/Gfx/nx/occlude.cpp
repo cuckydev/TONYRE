@@ -277,6 +277,9 @@ void RemoveAllOcclusionPolys( void )
 /******************************************************************/
 void CheckForOptimalOccluders( Mth::Vector &cam_pos, Mth::Vector &view_direction )
 {
+	(void)cam_pos;
+	(void)view_direction;
+
 	if( NumOcclusionPolys > 0 )
 	{
 		uint32 added	= 0;

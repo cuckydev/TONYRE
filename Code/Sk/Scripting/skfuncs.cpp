@@ -153,7 +153,10 @@ static void s_preload_ped_part( uint32 partChecksum )
 // Score queries:
 
 static int s_get_score_from_params( Script::CStruct *pParams, Script::CScript *pScript )
-{  
+{
+	(void)pParams;
+	(void)pScript;
+  
 	int score;
 	if ( !pParams->GetInteger( NONAME, &score ) )
 	{
@@ -187,7 +190,9 @@ static Mdl::Score* s_get_score_struct( void )
 // Local function to return a career, given a flag number
 static Obj::CSkaterCareer* s_get_career( int flag, Script::CStruct *pParams )
 {
-// Now this always just returns the global career, just kept for convenience	
+	(void)flag;
+	(void)pParams;
+	// Now this always just returns the global career, just kept for convenience	
 	return Mdl::Skate::Instance()->GetCareer();
 }
 
@@ -207,7 +212,9 @@ static Obj::CSkaterCareer* s_get_career( int flag, Script::CStruct *pParams )
 
 // @script | CurrentSkaterIsPro | Checks if the current skater is pro
 bool ScriptCurrentSkaterIsPro(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	Obj::CSkaterProfile *pSkaterProfile = Mdl::Skate::Instance()->GetCurrentProfile(pParams);
 	return ( pSkaterProfile && pSkaterProfile->IsPro() );
 }
@@ -219,7 +226,9 @@ bool ScriptCurrentSkaterIsPro(Script::CStruct *pParams, Script::CScript *pScript
 
 // @script | GetGoalsCompleted | Returns goals (competitions) completed
 bool ScriptGetGoalsCompleted(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	Obj::CSkaterCareer* pCareer = Mdl::Skate::Instance()->GetCareer();
 	Dbg_MsgAssert(pCareer,("nullptr pCareer"));
 	
@@ -241,7 +250,9 @@ bool ScriptGetGoalsCompleted(Script::CStruct *pParams, Script::CScript *pScript)
 
 // @script | GetNextLevelRequirements | Gets number of goals needed for next level
 bool ScriptGetNextLevelRequirements(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	Obj::CSkaterCareer* pCareer = Mdl::Skate::Instance()->GetCareer();
 	Dbg_MsgAssert(pCareer,("nullptr pCareer"));
 	
@@ -308,7 +319,9 @@ bool ScriptGetNextLevelRequirements(Script::CStruct *pParams, Script::CScript *p
 // @script | SetCurrentSkaterProfile | 
 // @uparmopt 0 | Skater profile index - must be 0 or 1
 bool ScriptSetCurrentSkaterProfile(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	int Profile=0;
 	pParams->GetInteger(NONAME,&Profile);
 	Dbg_MsgAssert(Profile==0 || Profile==1,("\n%s\nBad index sent to SetCurrentSkaterProfile, must be 0 or 1",pScript->GetScriptInfo()));
@@ -329,7 +342,9 @@ bool ScriptSetCurrentSkaterProfile(Script::CStruct *pParams, Script::CScript *pS
 // equal to index value passed in
 // @uparmopt 0 | Index value - must be 0 or 1
 bool ScriptCurrentSkaterProfileIs(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	int Profile=0;
 	pParams->GetInteger(NONAME,&Profile);
 	Dbg_MsgAssert(Profile==0 || Profile==1,("\n%s\nBad index sent to CurrentSkaterProfileIs, must be 0 or 1",pScript->GetScriptInfo()));
@@ -349,6 +364,8 @@ bool ScriptCurrentSkaterProfileIs(Script::CStruct *pParams, Script::CScript *pSc
 // @parm name | name | The name of the profile
 bool ScriptAddSkaterProfile(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=Mdl::Skate::Instance()->GetPlayerProfileManager();
 	return pPlayerProfileManager->AddNewProfile( pParams );
@@ -363,6 +380,8 @@ bool ScriptAddSkaterProfile(Script::CStruct *pParams, Script::CScript *pScript)
 // (used for credits, to temporarily hijack the skater profile
 bool ScriptAddTemporaryProfile(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 profileName;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &profileName, Script::ASSERT );
 	
@@ -378,6 +397,8 @@ bool ScriptAddTemporaryProfile(Script::CStruct *pParams, Script::CScript *pScrip
 // @script | RememberTemporaryAppearance | 
 bool ScriptRememberTemporaryAppearance(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 profileName;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &profileName, Script::ASSERT );
 	
@@ -431,6 +452,8 @@ bool ScriptRememberTemporaryAppearance(Script::CStruct *pParams, Script::CScript
 // @script | RestoreTemporaryAppearance | 
 bool ScriptRestoreTemporaryAppearance(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 profileName;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &profileName, Script::ASSERT );
 	
@@ -471,6 +494,8 @@ bool ScriptRestoreTemporaryAppearance(Script::CStruct *pParams, Script::CScript 
 // @script | SyncPlayer2Profile | 
 bool ScriptSyncPlayer2Profile(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Obj::CPlayerProfileManager*	pPlayerProfileManager=Mdl::Skate::Instance()->GetPlayerProfileManager();
 	pPlayerProfileManager->SyncPlayer2();
@@ -485,6 +510,11 @@ bool ScriptSyncPlayer2Profile(Script::CStruct *pParams, Script::CScript *pScript
 // @script | PreloadModels | 
 bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
+	(void)pParams;
+	(void)pScript;
 	// Load all the files to get them into the asset manager, 
 	// while the PRE file is still in memory
 
@@ -581,6 +611,9 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | PreloadPedestrians | 
 bool ScriptPreloadPedestrians( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 //	Tmr::Time baseTime = Tmr::ElapsedTime(0);
 
 	// should be skipped for net game?
@@ -705,6 +738,9 @@ bool ScriptPreloadPedestrians( Script::CStruct *pParams, Script::CScript *pScrip
 // Example: PreselectRandomPedestrians part=ped_f_legs list=sch_ped_f_legs num=4
 bool ScriptPreselectRandomPedestrians( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 fullPartChecksum;
 	pParams->GetChecksum( Crc::ConstCRC("part"), &fullPartChecksum, Script::ASSERT );
 
@@ -955,6 +991,9 @@ bool ScriptPreselectRandomPedestrians( Script::CStruct *pParams, Script::CScript
 
 bool ScriptReplaceCarTextures( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// this is a highly-specific function used for quickly changing
 	// a car's headlight textures for time-of-day stuff
 	// (the previous implementation was too slow, 
@@ -1046,6 +1085,8 @@ bool ScriptReplaceCarTextures( Script::CStruct *pParams, Script::CScript *pScrip
 // @flag mask_password | if set, all letters are replaced with stars 
 bool ScriptSetUIFromPreferences(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// gets either network or splitscreen prefs, as appropriate
 	Prefs::Preferences* pPreferences = Mdl::GetPreferences( pParams );
 	
@@ -1112,7 +1153,9 @@ bool ScriptSetUIFromPreferences(Script::CStruct *pParams, Script::CScript *pScri
 // @parmopt name | control_id | | 
 // @parmopt name | slider_id | |
 bool ScriptSetUIFromSkaterProfile(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	/*
 	uint32 field_id;
 	pParams->GetChecksum( "field_id", &field_id, true );
@@ -1171,6 +1214,8 @@ bool ScriptSetUIFromSkaterProfile(Script::CStruct *pParams, Script::CScript *pSc
 // @parmopt name | level_checksum | | 
 bool ScriptSetPreferencesFromUI(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// gets either network or splitscreen prefs, as appropriate
 	Prefs::Preferences* pPreferences = Mdl::GetPreferences( pParams );
 
@@ -1231,6 +1276,9 @@ bool ScriptSetPreferencesFromUI(Script::CStruct *pParams, Script::CScript *pScri
 // @script | ResetAllToDefaultStats | 
 bool ScriptResetAllToDefaultStats( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 //	Tmr::Time baseTime = Tmr::ElapsedTime(0);
 
 	Script::CArray* pMasterSkaterArray = Script::GetArray( "master_skater_list", Script::ASSERT );
@@ -1295,6 +1343,9 @@ bool ScriptResetAllToDefaultStats( Script::CStruct *pParams, Script::CScript *pS
 // @script | ResetToDefaultProfile | 
 bool ScriptResetToDefaultProfile( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 //	Tmr::Time baseTime = Tmr::ElapsedTime(0);
 
 	uint32 resetThisSkaterName;
@@ -1343,6 +1394,9 @@ bool ScriptResetToDefaultProfile( Script::CStruct *pParams, Script::CScript *pSc
 // @script | ResetAllToDefaultProfile | 
 bool ScriptResetAllToDefaultProfile( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 //	Tmr::Time baseTime = Tmr::ElapsedTime(0);
 
 	Script::CArray* pMasterSkaterArray = Script::GetArray( "master_skater_list", Script::ASSERT );
@@ -1376,6 +1430,9 @@ bool ScriptResetAllToDefaultProfile( Script::CStruct *pParams, Script::CScript *
 // @script | ForEachSkaterName | 
 bool ScriptForEachSkaterName( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 //	Tmr::Time baseTime = Tmr::ElapsedTime(0);
 
 	uint32 scriptToRun;
@@ -1415,6 +1472,9 @@ bool ScriptForEachSkaterName( Script::CStruct *pParams, Script::CScript *pScript
 // @script | ForEachSkaterProfile | 
 bool ScriptForEachSkaterProfile( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 //	Tmr::Time baseTime = Tmr::ElapsedTime(0);
 
 	uint32 scriptToRun;
@@ -1453,6 +1513,9 @@ bool ScriptForEachSkaterProfile( Script::CStruct *pParams, Script::CScript *pScr
 // @parm name | name | the name to search for
 bool ScriptGetSkaterProfileInfoByName( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::ASSERT );
 	
@@ -1487,6 +1550,9 @@ bool ScriptGetSkaterProfileInfoByName( Script::CStruct *pParams, Script::CScript
 // @parm structure | params | the params structure to append to the skater profile
 bool ScriptSetSkaterProfileInfoByName( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::ASSERT );
 
@@ -1520,7 +1586,10 @@ bool ScriptSetSkaterProfileInfoByName( Script::CStruct *pParams, Script::CScript
 // @script | ResetDefaultAppearance | 
 // @parm int | skater | the skater to reset
 bool ScriptResetDefaultAppearance( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 
 	Obj::CSkaterProfile* pSkaterProfile;
 	pSkaterProfile = Mdl::Skate::Instance()->GetCurrentProfile(pParams);
@@ -1536,7 +1605,10 @@ bool ScriptResetDefaultAppearance( Script::CStruct *pParams, Script::CScript *pS
 // @script | ResetDefaultTricks | 
 // @parm int | skater | the skater to reset
 bool ScriptResetDefaultTricks( Script::CStruct *pParams, Script::CScript *pScript )
-{	
+{
+	(void)pParams;
+	(void)pScript;
+	
 
 	Obj::CSkaterProfile* pSkaterProfile;
 	pSkaterProfile = Mdl::Skate::Instance()->GetCurrentProfile(pParams);
@@ -1552,7 +1624,10 @@ bool ScriptResetDefaultTricks( Script::CStruct *pParams, Script::CScript *pScrip
 // @script | ResetDefaultStats | 
 // @parm int | skater | the skater to reset
 bool ScriptResetDefaultStats( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 
 	Obj::CSkaterProfile* pSkaterProfile;
 	pSkaterProfile = Mdl::Skate::Instance()->GetCurrentProfile(pParams);
@@ -1568,7 +1643,10 @@ bool ScriptResetDefaultStats( Script::CStruct *pParams, Script::CScript *pScript
 // @script | RandomizeAppearance | 
 // @parm int | skater | the skater to randomize
 bool ScriptRandomizeAppearance( Script::CStruct *pParams, Script::CScript *pScript )
-{  
+{
+	(void)pParams;
+	(void)pScript;
+  
 	Dbg_Message( "STUB:  RandomizeAppearance" );
 
 	/*
@@ -1595,7 +1673,9 @@ bool ScriptRandomizeAppearance( Script::CStruct *pParams, Script::CScript *pScri
 // @script | PrintCurrentAppearance | 
 // @parm int | skater | the skater num
 bool ScriptPrintCurrentAppearance(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 
 	
 	Obj::CSkaterProfile* pSkaterProfile;
@@ -1622,6 +1702,8 @@ bool ScriptPrintCurrentAppearance(Script::CStruct *pParams, Script::CScript *pSc
 // @parm structure | info | current info structure
 bool ScriptSetNeversoftSkater(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 
 	// debug info:
@@ -1679,6 +1761,8 @@ bool ScriptSetNeversoftSkater(Script::CStruct *pParams, Script::CScript *pScript
 // @parm int | skater | the skater num
 bool ScriptCurrentProfileIsLocked(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	Obj::CSkaterProfile* pSkaterProfile;
 	pSkaterProfile = Mdl::Skate::Instance()->GetCurrentProfile(pParams);
@@ -1697,6 +1781,8 @@ bool ScriptCurrentProfileIsLocked(Script::CStruct *pParams, Script::CScript *pSc
 // @parmopt name | node_name |  | name of a node to skip the skater to 
 bool ScriptResetSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int node = -1;
 	if (!pParams->GetInteger("node_number",&node))
 	{
@@ -1723,6 +1809,8 @@ bool ScriptResetSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm structure | params | the stuff to set
 bool ScriptSetSkaterProfileInfo(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// now append appropriate data
 	int 	playerNum;
 	pParams->GetInteger( Crc::ConstCRC("player"), &playerNum, Script::ASSERT );
@@ -1749,6 +1837,8 @@ bool ScriptSetSkaterProfileInfo(Script::CStruct *pParams, Script::CScript *pScri
 // @parm float | value | value 
 bool ScriptGetSkaterProfileInfo(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int 	playerNum;
 	pParams->GetInteger( Crc::ConstCRC("player"), &playerNum, Script::ASSERT );	
 	
@@ -1772,7 +1862,9 @@ bool ScriptGetSkaterProfileInfo(Script::CStruct *pParams, Script::CScript *pScri
 // @parm int | stat | the stat to set
 // @parm float | value | value 
 bool ScriptSetSkaterProfileProperty(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	int 	playerNum;
 	pParams->GetInteger( Crc::ConstCRC("player"), &playerNum, Script::ASSERT );
 
@@ -1826,6 +1918,8 @@ bool ScriptSetSkaterProfileProperty(Script::CStruct *pParams, Script::CScript *p
 // normally, so it might not be immediately obvious that you switched it off. 
 bool ScriptToggleAlwaysSpecial(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	bool on = pParams->ContainsFlag("on");
 	bool off = pParams->ContainsFlag("off");
 	
@@ -1862,6 +1956,9 @@ bool ScriptToggleAlwaysSpecial(Script::CStruct *pParams, Script::CScript *pScrip
 // @parm float | speed | Speed to check against
 bool ScriptSkaterSpeedGreaterThan( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	float speed;
 	if ( pParams->GetFloat( NONAME, &speed ) )
 	{
@@ -1888,7 +1985,10 @@ bool ScriptSkaterSpeedGreaterThan( Script::CStruct *pParams, Script::CScript *pS
 // not fall when the skater is stationary
 // @parm float | speed | Speed to check against
 bool ScriptSkaterSpeedLessThan( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	float speed;
 	if ( pParams->GetFloat( NONAME, &speed ) )
 	{
@@ -1915,7 +2015,10 @@ bool ScriptSkaterSpeedLessThan( Script::CStruct *pParams, Script::CScript *pScri
 // Example: if SkaterLastScoreLandedGreaterThan 2000 --do cool stuff-- endif
 // @uparm 1 | Score (int)
 bool ScriptLastScoreLandedGreaterThan( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	int score;
 	score = s_get_score_from_params( pParams, pScript );
 	Mdl::Score *pScore;
@@ -1938,7 +2041,10 @@ bool ScriptLastScoreLandedGreaterThan( Script::CStruct *pParams, Script::CScript
 // Example: if SkaterLastScoreLandedLessThan 2000 --do cool stuff-- endif
 // @uparm 1 | Score (int)
 bool ScriptLastScoreLandedLessThan( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	int score;
 	score = s_get_score_from_params( pParams, pScript );
 	
@@ -1964,6 +2070,9 @@ bool ScriptLastScoreLandedLessThan( Script::CStruct *pParams, Script::CScript *p
 // @uparm 1 | Score (int)
 bool ScriptAnyTotalScoreAtLeast( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	
 	GameNet::PlayerInfo* player;
@@ -2019,6 +2128,9 @@ bool ScriptAnyTotalScoreAtLeast( Script::CStruct *pParams, Script::CScript *pScr
 
 bool ScriptOnlyOneSkaterLeft( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	
 	GameNet::PlayerInfo* player;
@@ -2111,6 +2223,9 @@ bool ScriptOnlyOneSkaterLeft( Script::CStruct *pParams, Script::CScript *pScript
 // @uparm 1 | Score (int)
 bool ScriptTotalScoreGreaterThan( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	int score;
 	score = s_get_score_from_params( pParams, pScript );
@@ -2134,7 +2249,10 @@ bool ScriptTotalScoreGreaterThan( Script::CStruct *pParams, Script::CScript *pSc
 // Example: if SkaterTotalScoreLessThan 2000 --do cool stuff-- endif
 // @uparm 1 | Score (int)
 bool ScriptTotalScoreLessThan( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	int score;
 	score = s_get_score_from_params( pParams, pScript );
 	Mdl::Score *pScore;
@@ -2157,7 +2275,10 @@ bool ScriptTotalScoreLessThan( Script::CStruct *pParams, Script::CScript *pScrip
 // Example: if SkaterCurrentScorePotGreaterThan 2000 --do cool stuff-- endif
 // @uparm 1 | Score (int)
 bool ScriptCurrentScorePotGreaterThan( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	int score;
 	int scale;
 	
@@ -2186,7 +2307,10 @@ bool ScriptCurrentScorePotGreaterThan( Script::CStruct *pParams, Script::CScript
 // Example: if SkaterCurrentScorePotLessThan 2000 --do cool stuff-- endif
 // @uparm 1 | Score (int)
 bool ScriptCurrentScorePotLessThan( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	int score;
 	score = s_get_score_from_params( pParams, pScript );
 	Mdl::Score *pScore;
@@ -2203,7 +2327,10 @@ bool ScriptCurrentScorePotLessThan( Script::CStruct *pParams, Script::CScript *p
 
 // @script | SkaterGetScoreInfo | Adds the parameters ScorePot, TotalScore and LastScoreLanded to the script's parameters.
 bool ScriptSkaterGetScoreInfo( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	Mdl::Score *p_score=s_get_score_struct( );
 	
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("ScorePot"),p_score->GetScorePotValue());
@@ -2220,7 +2347,10 @@ bool ScriptSkaterGetScoreInfo( Script::CStruct *pParams, Script::CScript *pScrip
 // @script | GoalGreaterThan | Counts the number of goals you have got.
 // @uparm 1.0 | value to check
 bool ScriptGoalsGreaterThan( Script::CStruct *pParams, Script::CScript *pScript )
-{														     
+{
+	(void)pParams;
+	(void)pScript;
+														     
 	float num;
 	if ( pParams->GetFloat( NONAME, &num ) )
 	{
@@ -2242,7 +2372,10 @@ bool ScriptGoalsGreaterThan( Script::CStruct *pParams, Script::CScript *pScript 
 // @script | GoalsEqualTo | Counts the number of goals you have got. 
 // @uparm 1.0 | number of goals
 bool ScriptGoalsEqualTo( Script::CStruct *pParams, Script::CScript *pScript )
-{  
+{
+	(void)pParams;
+	(void)pScript;
+  
 	float num;
 	if ( pParams->GetFloat( NONAME, &num ) )
 	{
@@ -2265,7 +2398,10 @@ bool ScriptGoalsEqualTo( Script::CStruct *pParams, Script::CScript *pScript )
 // is just the number of levels you have gotten a medal in, so it will be 0 - 3.
 // @uparm 1.0 | number of medals
 bool ScriptMedalsGreaterThan( Script::CStruct *pParams, Script::CScript *pScript )
-{														     
+{
+	(void)pParams;
+	(void)pScript;
+														     
 	float num;
 	if ( pParams->GetFloat( NONAME, &num ) )
 	{
@@ -2288,7 +2424,10 @@ bool ScriptMedalsGreaterThan( Script::CStruct *pParams, Script::CScript *pScript
 // is just the number of levels you have gotten a medal in, so it will be 0 - 3.
 // @uparm 1.0 | number of medals
 bool ScriptMedalsEqualTo( Script::CStruct *pParams, Script::CScript *pScript )
-{														  
+{
+	(void)pParams;
+	(void)pScript;
+														  
 	float num;
 	if ( pParams->GetFloat( NONAME, &num ) )
 	{
@@ -2311,6 +2450,8 @@ bool ScriptMedalsEqualTo( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm int | skater | 
 bool ScriptToggleSkaterCamMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int skater;
 	pParams->GetInteger( Crc::ConstCRC("skater"), &skater );
 
@@ -2361,6 +2502,9 @@ bool ScriptToggleSkaterCamMode(Script::CStruct *pParams, Script::CScript *pScrip
 
 bool ScriptGetSkaterID( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// in this context, skater really means "viewport"
 	int skaterId;
 	Obj::CSkater* pSkater = nullptr;
@@ -2388,6 +2532,9 @@ bool ScriptGetSkaterID( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptGetCurrentSkaterID( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_Assert( pScript->mpObject );
 
 	Obj::CSkater* pSkater = static_cast <Obj::CSkater*>( pScript->mpObject.Convert() );
@@ -2411,7 +2558,10 @@ bool ScriptGetCurrentSkaterID( Script::CStruct* pParams, Script::CScript* pScrip
 // @script | SetSkaterCamLerpReductionTimer | 
 // @parmopt float | time | 0.0 | time value
 bool ScriptSetSkaterCamLerpReductionTimer( Script::CStruct *pParams, Script::CScript *pScript )
-{  
+{
+	(void)pParams;
+	(void)pScript;
+  
 /*	
 	Obj::CSkater* p_skater = static_cast <Obj::CSkater*>( pScript->mpObject.Convert() );
 	Dbg_Assert( p_skater );
@@ -2459,6 +2609,9 @@ bool ScriptSetSkaterCamLerpReductionTimer( Script::CStruct *pParams, Script::CSc
 // @parmopt vector | positionOffset | | overrides the camera position with the specified offset from the specified targetID
 bool ScriptPlaySkaterCamAnim( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	if ( pParams->ContainsFlag( Crc::ConstCRC("use_last_camera") ) )
 	{
 		// used so that we don't go back to the skatercam
@@ -2536,6 +2689,9 @@ bool ScriptPlaySkaterCamAnim( Script::CStruct *pParams, Script::CScript *pScript
 // @parmopt int | skippable | 0 | set to anything greater than 0 to set anim to skippable
 bool ScriptSetSkaterCamAnimSkippable( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// in this context, skater really means "viewport"
 	uint32 skaterId;
 	int skaterIndex = 0;
@@ -2579,6 +2735,9 @@ bool ScriptSetSkaterCamAnimSkippable( Script::CStruct *pParams, Script::CScript 
 // @parmopt int | skater | 0 | the skater index
 bool ScriptSetSkaterCamAnimShouldPause( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 skaterId;
 	int skaterIndex = 0;
 	Obj::CSkater* pSkater = nullptr;
@@ -2616,6 +2775,9 @@ bool ScriptSetSkaterCamAnimShouldPause( Script::CStruct *pParams, Script::CScrip
 // @script | GetCurrentSkaterCamAnimName | returns the name of the current skater cam (if any)
 bool ScriptGetCurrentSkaterCamAnimName( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	uint32 movieName = skate_mod->GetMovieManager()->GetCurrentMovieName();
 	if ( movieName != 0 )
@@ -2636,6 +2798,9 @@ bool ScriptGetCurrentSkaterCamAnimName( Script::CStruct *pParams, Script::CScrip
 // @script | GetSkaterCamAnimParams | returns the params of the current skater cam 
 bool ScriptGetSkaterCamAnimParams( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name = 0;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::NO_ASSERT );
 	
@@ -2679,6 +2844,9 @@ bool ScriptGetSkaterCamAnimParams( Script::CStruct *pParams, Script::CScript *pS
 // @parmopt int | cam | 1 | the camera number 
 bool ScriptSkaterCamAnimFinished( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// in this context, skater really means "viewport"
 	uint32 skaterId;
 	int skaterIndex = 0;
@@ -2716,7 +2884,10 @@ bool ScriptSkaterCamAnimFinished( Script::CStruct *pParams, Script::CScript *pSc
 // @parmopt int | skater | 0 | the skater
 // @parmopt name | skater | | the id of the skater
 bool ScriptSkaterCamAnimHeld( Script::CStruct *pParams, Script::CScript *pScript )
-{	
+{
+	(void)pParams;
+	(void)pScript;
+	
 	// in this context, skater really means "viewport"
 	uint32 skaterId;
 	int skaterIndex = 0;
@@ -2757,6 +2928,9 @@ bool ScriptSkaterCamAnimHeld( Script::CStruct *pParams, Script::CScript *pScript
 // @flag all | kill all cam anims
 bool ScriptKillSkaterCamAnim( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	bool success = true;
 
 	// in this context, skater really means "viewport"
@@ -2828,6 +3002,9 @@ bool ScriptKillSkaterCamAnim( Script::CStruct *pParams, Script::CScript *pScript
 // @script | ReloadSkaterCamAnim | undocumented
 bool ScriptReloadSkaterCamAnim( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	if ( !Config::GotExtraMemory() )
 	{
 		Dbg_Message( "ReloadSkaterCamAnim:  This function only works with the extra debug heap.  (Otherwise, it would fragment the bottom-up heap.)" );
@@ -2876,6 +3053,9 @@ bool ScriptReloadSkaterCamAnim( Script::CStruct* pParams, Script::CScript* pScri
 // @script | PlayCutscene | Play a cutscene
 bool ScriptPlayCutscene( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	if( pParams->ContainsFlag( "stop" ))
 	{
 		Dbg_MsgAssert( 0, ( "stop parameter doesn't work with PlayCutscene" ) );
@@ -2908,6 +3088,9 @@ bool ScriptPlayCutscene( Script::CStruct *pParams, Script::CScript *pScript )
 // (after loading data)
 bool ScriptHasMovieStarted( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	return skate_mod->GetMovieManager()->HasMovieStarted();
 }
@@ -2921,6 +3104,9 @@ bool ScriptHasMovieStarted( Script::CStruct *pParams, Script::CScript *pScript )
 // regardless of whether the video has started
 bool ScriptIsMovieQueued( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	return skate_mod->GetMovieManager()->IsMovieQueued();
 }
@@ -2933,6 +3119,9 @@ bool ScriptIsMovieQueued( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | PlayMovingObjectAnim | Play an scene-based animation (earthquake, for instance)
 bool ScriptPlayMovingObjectAnim( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	if( pParams->ContainsFlag( "stop" ))
 	{
 		Dbg_MsgAssert( 0, ( "stop parameter doesn't work with PlayMovingObjectAnim" ) );
@@ -2960,6 +3149,9 @@ bool ScriptPlayMovingObjectAnim( Script::CStruct *pParams, Script::CScript *pScr
 // @parmopt int | skippable | 0 | set to anything greater than 0 to set anim to skippable
 bool ScriptSetMovingObjectAnimSkippable( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 movieName = 0;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &movieName );
 
@@ -2981,6 +3173,9 @@ bool ScriptSetMovingObjectAnimSkippable( Script::CStruct *pParams, Script::CScri
 // If the pause mode is set to false, the cam will play even if the game is paused
 bool ScriptSetMovingObjectAnimShouldPause( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 movieName = 0;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &movieName );
 
@@ -3004,6 +3199,9 @@ bool ScriptSetMovingObjectAnimShouldPause( Script::CStruct *pParams, Script::CSc
 // @parmopt int | cam | 1 | the camera number 
 bool ScriptMovingObjectAnimFinished( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 movieName = 0;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &movieName );
 
@@ -3019,7 +3217,10 @@ bool ScriptMovingObjectAnimFinished( Script::CStruct *pParams, Script::CScript *
 // @script | MovingObjectAnimHeld | returns true if anim is held
 // @parm int | skater | the skater
 bool ScriptMovingObjectAnimHeld( Script::CStruct *pParams, Script::CScript *pScript )
-{	
+{
+	(void)pParams;
+	(void)pScript;
+	
 	uint32 movieName = 0;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &movieName );
 		
@@ -3038,6 +3239,9 @@ bool ScriptMovingObjectAnimHeld( Script::CStruct *pParams, Script::CScript *pScr
 // @flag all | kill all cam anims
 bool ScriptKillMovingObjectAnim( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Obj::CMovieManager* pObjectAnimManager = skate_mod->GetObjectAnimManager(); 
 
@@ -3068,6 +3272,9 @@ bool ScriptKillMovingObjectAnim( Script::CStruct *pParams, Script::CScript *pScr
 // @script | ReloadMovingObjectAnim | undocumented
 bool ScriptReloadMovingObjectAnim( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	if ( !Config::GotExtraMemory() )
 	{
 		Dbg_Message( "ReloadMovingObjectAnim:  This function only works with the extra debug heap.  (Otherwise, it would fragment the bottom-up heap.)" );
@@ -3114,7 +3321,9 @@ bool ScriptReloadMovingObjectAnim( Script::CStruct* pParams, Script::CScript* pS
 /******************************************************************/
 // @script | SkaterDebugOn | sets debug to on
 bool ScriptSkaterDebugOn(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	Obj::DebugSkaterScripts=true;
 	return true;
 }	
@@ -3126,7 +3335,9 @@ bool ScriptSkaterDebugOn(Script::CStruct *pParams, Script::CScript *pScript)
 
 // @script | SkaterDebugOff | sets debug to off
 bool ScriptSkaterDebugOff(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	Obj::DebugSkaterScripts=false;
 	return true;
 }	
@@ -3141,6 +3352,8 @@ bool ScriptSkaterDebugOff(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 0 | the player 
 bool ScriptVibrationIsOn(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to VibrationIsOn",i));
@@ -3157,6 +3370,8 @@ bool ScriptVibrationIsOn(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 0 | player
 bool ScriptVibrationOn(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to VibrationOn",i));
@@ -3175,6 +3390,8 @@ bool ScriptVibrationOn(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 0 | the player 
 bool ScriptVibrationOff(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to VibrationOn",i));
@@ -3191,7 +3408,9 @@ bool ScriptVibrationOff(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | AutoKickIsOn | returns true if autokick is on for the specified skater
 // @uparmopt 0 | skater
 bool ScriptAutoKickIsOn(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to AutoKickIsOn",i));
@@ -3207,7 +3426,9 @@ bool ScriptAutoKickIsOn(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | AutoKickOn | turns on autokick for the specified player
 // @uparmopt 0 | the skater
 bool ScriptAutoKickOn(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to AutoKickOn",i));
@@ -3224,7 +3445,9 @@ bool ScriptAutoKickOn(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | AutoKickOff | turns off autokick for the specified player
 // @uparmopt 0 | skater
 bool ScriptAutoKickOff(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to AutoKickOff",i));
@@ -3241,7 +3464,9 @@ bool ScriptAutoKickOff(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SpinTapsAreOn | returns true if spin taps are on
 // @uparmopt 0 | skater
 bool ScriptSpinTapsAreOn(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to SpinTapsAreOn",i));
@@ -3259,6 +3484,8 @@ bool ScriptSpinTapsAreOn(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt 0 | skater
 bool ScriptSpinTapsOn(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to SpinTapsOn",i));
@@ -3275,7 +3502,9 @@ bool ScriptSpinTapsOn(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SpinTapsOff | turns off spin taps for the specified skater
 // @uparmopt 0 | skater
 bool ScriptSpinTapsOff(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	int i=0;
 	pParams->GetInteger(NONAME,&i);
 	Dbg_MsgAssert(i>=0 && i<Mdl::Skate::vMAX_SKATERS, ("Bad index of %d sent to SpinTapsOff",i));
@@ -3292,6 +3521,8 @@ bool ScriptSpinTapsOff(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GetCurrentProDisplayInfo | 
 bool ScriptGetCurrentProDisplayInfo(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Obj::CSkaterProfile* pSkaterProfile = Mdl::Skate::Instance()->GetCurrentProfile();
 
@@ -3309,7 +3540,9 @@ bool ScriptGetCurrentProDisplayInfo(Script::CStruct *pParams, Script::CScript *p
 // @parmopt int | player | 0 | index of player whose appearance you want to edit
 // @parmopt name | appearance_structure | | the name of the profile
 bool ScriptSetPlayerAppearance(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
 	
@@ -3332,6 +3565,8 @@ bool ScriptSetPlayerAppearance(Script::CStruct *pParams, Script::CScript *pScrip
 // @parm int | player | 0 | index of player
 bool ScriptGetPlayerFacePoints(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
 	
@@ -3377,6 +3612,8 @@ bool ScriptGetPlayerFacePoints(Script::CStruct *pParams, Script::CScript *pScrip
 // @parmopt struct | face_points | face points structure
 bool ScriptSetPlayerFacePoints(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
 	
@@ -3411,6 +3648,8 @@ bool ScriptSetPlayerFacePoints(Script::CStruct *pParams, Script::CScript *pScrip
 // @script | SetPlayerFaceTexture |
 bool ScriptSetPlayerFaceTexture(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
 	
@@ -3443,6 +3682,8 @@ bool ScriptSetPlayerFaceTexture(Script::CStruct *pParams, Script::CScript *pScri
 // @script | SetPlayerFaceOverlayTexture |
 bool ScriptSetPlayerFaceOverlayTexture(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
 	
@@ -3469,6 +3710,8 @@ bool ScriptSetPlayerFaceOverlayTexture(Script::CStruct *pParams, Script::CScript
 // @script | ClearPlayerFaceTexture |
 bool ScriptClearPlayerFaceTexture(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef __PLAT_NGPS__
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
@@ -3492,6 +3735,8 @@ bool ScriptClearPlayerFaceTexture(Script::CStruct *pParams, Script::CScript *pSc
 // @script | PlayerFaceIsValid | returns whether the player has already loaded or downloaded a face
 bool ScriptPlayerFaceIsValid(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
 	
@@ -3522,7 +3767,9 @@ bool ScriptPlayerFaceIsValid(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt name | name | | the name of the profile
 // @uparmopt name | name of the profile
 bool ScriptSelectCurrentSkater(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	uint32 profileName;
 	if ( !pParams->GetChecksum( Crc::ConstCRC("name"), &profileName, false ) )
 	{
@@ -3564,6 +3811,8 @@ bool ScriptSelectCurrentSkater(Script::CStruct *pParams, Script::CScript *pScrip
 // @parm int | level | the level to start
 bool ScriptCareerStartLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int level; 		
 	pParams->GetInteger("level", &level, true);  		// Note we assert if "level" is missing
 	Mdl::Skate::Instance()->GetCareer()->StartLevel(level);
@@ -3584,6 +3833,8 @@ bool ScriptCareerStartLevel(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 1 | level to check
 bool ScriptCareerLevelIs(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int level; 		
 	pParams->GetInteger(NONAME, &level, true);	// Note we assert if the level value is missing
 	
@@ -3602,6 +3853,8 @@ bool ScriptCareerLevelIs(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | level | | level num (default is current level)
 bool ScriptGetRecordText(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int level; 	  
 	  
 
@@ -3624,6 +3877,8 @@ bool ScriptGetRecordText(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | UpdateRecords | 
 bool ScriptUpdateRecords(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	Mdl::Skate::Instance()->UpdateRecords();	
 	return true;	
@@ -3641,6 +3896,8 @@ bool ScriptUpdateRecords(Script::CStruct *pParams, Script::CScript *pScript)
 // level = ???" to set the correct level. See ResetLevelGoals for more
 bool ScriptCareerReset(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	Obj::CSkaterCareer* pCareer = Mdl::Skate::Instance()->GetCareer();
 
@@ -3659,6 +3916,8 @@ bool ScriptCareerReset(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | goal | the goal num
 bool ScriptSetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int goal; 		
 	pParams->GetInteger("goal", &goal, true);  		// Note we assert if "goal" is missing
 	
@@ -3687,6 +3946,8 @@ bool ScriptSetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | goal | goal flag to clear
 bool ScriptUnSetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int goal; 		
 	pParams->GetInteger("goal", &goal, true);  		// Note we assert if "goal" is missing
 	
@@ -3716,6 +3977,8 @@ bool ScriptUnSetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | goal | the goal to check
 bool ScriptGetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int goal; 		
 	pParams->GetInteger("goal", &goal, true);  		// Note we assert if "goal" is missing
 	
@@ -3741,6 +4004,8 @@ bool ScriptGetGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | goal | goal th check
 bool ScriptJustGotGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int goal; 		
 	pParams->GetInteger("goal", &goal, true);  		// Note we assert if "goal" is missing
 	
@@ -3760,6 +4025,8 @@ bool ScriptJustGotGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | flag | the flag to set
 bool ScriptSetFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int flag; 		
 	pParams->GetInteger("flag", &flag, true);  		// Note we assert if "flag" is missing
 	
@@ -3786,6 +4053,8 @@ bool ScriptSetFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | level | | level number
 bool ScriptUnSetFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int flag; 		
 	pParams->GetInteger("flag", &flag, true);  		// Note we assert if "flag" is missing
 	
@@ -3811,6 +4080,8 @@ bool ScriptUnSetFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // no level number is given, it will use the current level number
 bool ScriptGetFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int flag;
 	pParams->GetInteger("flag", &flag, true);  		// Note we assert if "flag" is missing
 	
@@ -3834,6 +4105,8 @@ bool ScriptGetFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | flag | the flag to check
 bool ScriptJustGotFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int flag; 		
 	pParams->GetInteger("flag", &flag, true);  		// Note we assert if "flag" is missing
 	
@@ -3851,6 +4124,8 @@ bool ScriptJustGotFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | flag | the global flag to set
 bool ScriptSetGlobalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef __NOPT_ASSERT__
 	if (!pParams->ContainsComponentNamed("flag"))
 	{
@@ -3876,6 +4151,8 @@ bool ScriptSetGlobalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | flag | the flag to unset
 bool ScriptUnSetGlobalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef __NOPT_ASSERT__
 	if (!pParams->ContainsComponentNamed("flag"))
 	{
@@ -3903,6 +4180,8 @@ bool ScriptUnSetGlobalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | flag | the flag to get
 bool ScriptGetGlobalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef __NOPT_ASSERT__
 	if (!pParams->ContainsComponentNamed("flag"))
 	{
@@ -3931,6 +4210,8 @@ bool ScriptGetGlobalFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt name | stance | | check for this stance
 bool ScriptProfileEquals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// look for the specified skater (0 by default)
 	Obj::CSkater* pSkater;
 	
@@ -3967,6 +4248,8 @@ bool ScriptProfileEquals(Script::CStruct *pParams, Script::CScript *pScript)
 // career mode
 bool ScriptIsCareerMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 
 	return Mdl::Skate::Instance()->GetGameMode()->IsTrue( Crc::ConstCRC("is_career") );
@@ -3980,6 +4263,8 @@ bool ScriptIsCareerMode(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ClearScoreGoals | clears all the score goals
 bool ScriptClearScoreGoals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	Mdl::Skate::Instance()->ClearScoreGoals();
 	return true;
@@ -3998,6 +4283,8 @@ bool ScriptClearScoreGoals(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm int | goal | goal number
 bool ScriptSetScoreGoal(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int score;
 	pParams->GetInteger("score", &score, true);
 	uint32	script;
@@ -4025,6 +4312,8 @@ bool ScriptSetScoreGoal(Script::CStruct *pParams, Script::CScript *pScript)
 // used by the "end run" selection in the pause menu)
 bool ScriptEndRun(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	Mdl::Skate::Instance()->EndRun();
 	return true;
@@ -4039,6 +4328,8 @@ bool ScriptEndRun(Script::CStruct *pParams, Script::CScript *pScript)
 // of the end conditions for this game mode have been met
 bool ScriptShouldEndRun(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	// if "end run" was selected from the menu or the
 	// end conditions for this game mode have been met
@@ -4052,7 +4343,9 @@ bool ScriptShouldEndRun(Script::CStruct *pParams, Script::CScript *pScript)
 
 // @script | InitializeSkaters | 
 bool ScriptInitializeSkaters(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 
 	for ( unsigned int i = 0; i < Mdl::Skate::Instance()->GetNumSkaters(); i++)
 	{
@@ -4075,6 +4368,8 @@ bool ScriptInitializeSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | EndRunSelected | true if "end run" was selected from the menu
 bool ScriptEndRunSelected(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	// if "end run" was selected from the menu
 	return Mdl::Skate::Instance()->EndRunSelected();
@@ -4088,6 +4383,8 @@ bool ScriptEndRunSelected(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | AllSkatersAreIdle | true if all skaters are idle
 bool ScriptAllSkatersAreIdle(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return Mdl::Skate::Instance()->SkatersAreIdle();
 }
@@ -4100,6 +4397,8 @@ bool ScriptAllSkatersAreIdle(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | FirstTrickStarted | should only be called in horse mode.  
 bool ScriptFirstTrickStarted(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return Mdl::Skate::Instance()->FirstTrickStarted();
 }
@@ -4112,6 +4411,8 @@ bool ScriptFirstTrickStarted(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | FirstTrickCompleted | should only be called in horse mode
 bool ScriptFirstTrickCompleted(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return Mdl::Skate::Instance()->FirstTrickCompleted();
 }
@@ -4124,6 +4425,8 @@ bool ScriptFirstTrickCompleted(Script::CStruct *pParams, Script::CScript *pScrip
 // @script | CalculateFinalScores | final scores for all skaters on server
 bool ScriptCalculateFinalScores(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	
 
@@ -4144,6 +4447,8 @@ bool ScriptCalculateFinalScores(Script::CStruct *pParams, Script::CScript *pScri
 // @script | ReinsertSkaters | adds all skaters to the current world
 bool ScriptReinsertSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
     // For now, this is commented out, until I can get the
     // skin model functionality over into the new CModel class.
 	
@@ -4169,6 +4474,8 @@ bool ScriptReinsertSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | UnhookSkaters | Unhook the skaters from the world, so it can be unloaded
 bool ScriptUnhookSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	for ( uint32 i = 0; i < Mdl::Skate::Instance()->GetNumSkaters(); i++ )
 	{   
 		Obj::CSkater* pSkater = Mdl::Skate::Instance()->GetSkater( i );
@@ -4186,6 +4493,8 @@ bool ScriptUnhookSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 // game type, time limit, etc.
 bool ScriptApplySplitScreenOptions(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Prefs::Preferences* pPreferences;
 
@@ -4280,7 +4589,9 @@ bool ScriptApplySplitScreenOptions(Script::CStruct *pParams, Script::CScript *pS
 // @parm float | bronze_score | 
 // @parm float | bail | 
 bool ScriptStartCompetition(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	
 //	float bronze, float silver, float gold, float bronze_score, float silver_score, float gold_score, float bail)
 	float	gold,silver,bronze;
@@ -4340,6 +4651,8 @@ bool ScriptStartCompetition(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | StartCompetitionRun | 
 bool ScriptStartCompetitionRun(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Mdl::Skate::Instance()->GetCompetition()->StartRun();
 	return true;
@@ -4353,6 +4666,8 @@ bool ScriptStartCompetitionRun(Script::CStruct *pParams, Script::CScript *pScrip
 // @script | EndCompetitionRun | 
 bool ScriptEndCompetitionRun(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Obj::CSkater *pSkater = Mdl::Skate::Instance()->GetLocalSkater();						   
 	Mdl::Score *pScore=pSkater->GetScoreObject();
@@ -4376,6 +4691,8 @@ bool ScriptEndCompetitionRun(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 1 | judge num
 bool ScriptIsTopJudge(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	int judge;
 	pParams->GetInteger(NONAME,&judge);
@@ -4394,6 +4711,8 @@ bool ScriptIsTopJudge(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 1 | place
 bool ScriptPlaceIs(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int place;
 	pParams->GetInteger(NONAME,&place);
 
@@ -4411,6 +4730,8 @@ bool ScriptPlaceIs(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 1 | round
 bool ScriptRoundIs(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int round;
 	pParams->GetInteger(NONAME,&round);
 
@@ -4427,6 +4748,8 @@ bool ScriptRoundIs(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | EndCompetition | 
 bool ScriptEndCompetition(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 	Mdl::Skate::Instance()->GetCompetition()->EndCompetition();
@@ -4443,6 +4766,8 @@ bool ScriptEndCompetition(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | CompetitionEnded | true if the comp has ended
 bool ScriptCompetitionEnded(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return Mdl::Skate::Instance()->GetCompetition()->CompetitionEnded();
 }
@@ -4456,6 +4781,8 @@ bool ScriptCompetitionEnded(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | StartHorse |
 bool ScriptStartHorse(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Mdl::Skate::Instance()->GetHorse()->Init();
 	return true;
@@ -4469,6 +4796,8 @@ bool ScriptStartHorse(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | EndHorse | 
 bool ScriptEndHorse(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return true;
 }
 
@@ -4479,7 +4808,9 @@ bool ScriptEndHorse(Script::CStruct *pParams, Script::CScript *pScript)
 
 // @script | HorseEnded | true if horse has ended
 bool ScriptHorseEnded(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	
 	return Mdl::Skate::Instance()->GetHorse()->Ended();
 }
@@ -4499,6 +4830,8 @@ bool ScriptHorseEnded(Script::CStruct *pParams, Script::CScript *pScript)
 // @flag Terminator |
 bool ScriptHorseStatusEquals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return Mdl::Skate::Instance()->GetHorse()->StatusEquals( pParams );
 }
@@ -4511,6 +4844,8 @@ bool ScriptHorseStatusEquals(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | StartHorseRun | 
 bool ScriptStartHorseRun(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Mdl::Skate::Instance()->GetHorse()->StartRun();
 	return true;
@@ -4524,6 +4859,8 @@ bool ScriptStartHorseRun(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | EndHorseRun | 
 bool ScriptEndHorseRun(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Mdl::Skate::Instance()->GetHorse()->EndRun();
 	return true;
@@ -4537,6 +4874,8 @@ bool ScriptEndHorseRun(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SwitchHorsePlayers | switches to the next valid player
 bool ScriptSwitchHorsePlayers(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Mdl::Skate::Instance()->GetHorse()->SwitchPlayers();
 	return true;
@@ -4552,6 +4891,8 @@ bool ScriptSwitchHorsePlayers(Script::CStruct *pParams, Script::CScript *pScript
 // @parm name | whichString | the string to apply to
 bool ScriptApplyToHorsePanelString(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 whichString, id;
 	pParams->GetChecksum( "whichString", &whichString, true );
 	pParams->GetChecksum( "id", &id, true );
@@ -4579,6 +4920,8 @@ bool ScriptApplyToHorsePanelString(Script::CStruct *pParams, Script::CScript *pS
 // @parmopt int | skater | 0 | the skater we're applying to (default is 0)
 bool ScriptGetHorseString(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 whichString;
 	Script::CStruct* p_return_parms;
 	pParams->GetChecksum( "whichString", &whichString, true );
@@ -4601,6 +4944,8 @@ bool ScriptGetHorseString(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 1 | skater id
 bool ScriptIsCurrentHorseSkater(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int skaterId;
 	if( pParams->GetInteger( NONAME, &skaterId, false ) == false )
 	{
@@ -4623,7 +4968,9 @@ bool ScriptIsCurrentHorseSkater(Script::CStruct *pParams, Script::CScript *pScri
 // @parmopt name | keyboard_id | | value specified in a string
 // @parmopt name | value | | specific value (in the absence of slider or keyboard)
 bool ScriptApplyToSkaterProfile(Script::CStruct *pParams, Script::CScript *pScript)
-{   
+{
+	(void)pParams;
+	(void)pScript;   
 	/*
 	Obj::CSkaterProfile* pProfile = nullptr;
 
@@ -4697,6 +5044,8 @@ bool ScriptApplyToSkaterProfile(Script::CStruct *pParams, Script::CScript *pScri
 // skater with the color in the skater profile, in case it's changed
 bool ScriptRefreshSkaterColors(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int profile = 0;
 	int skater = 0;
 	
@@ -4725,6 +5074,8 @@ bool ScriptRefreshSkaterColors(Script::CStruct *pParams, Script::CScript *pScrip
 // skater with the scale in the skater profile, in case it's changed
 bool ScriptRefreshSkaterScale(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int profile = 0;
 	int skater = 0;
 	
@@ -4754,6 +5105,8 @@ bool ScriptRefreshSkaterScale(Script::CStruct *pParams, Script::CScript *pScript
 // (such as in the invisible man cheat
 bool ScriptRefreshSkaterVisibility(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int profile = 0;
 	int skater = 0;
 	
@@ -4782,6 +5135,8 @@ bool ScriptRefreshSkaterVisibility(Script::CStruct *pParams, Script::CScript *pS
 // skater with the UVs in the skater profile, in case it's changed
 bool ScriptRefreshSkaterUV(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int profile = 0;
 	int skater = 0;
 	
@@ -4810,6 +5165,8 @@ bool ScriptRefreshSkaterUV(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt 1 | increment value (can be negative)
 bool ScriptAwardStatPoint(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Obj::CSkaterProfile* pSkaterProfile = Mdl::Skate::Instance()->GetCurrentProfile();
 
@@ -4831,6 +5188,8 @@ bool ScriptAwardStatPoint(Script::CStruct *pParams, Script::CScript *pScript)
 // @flag all | award a trickslot to all profiles
 bool ScriptAwardSpecialTrickSlot(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Obj::CPlayerProfileManager* pPlayerProfileManager = Mdl::Skate::Instance()->GetPlayerProfileManager();
 	if ( pParams->ContainsFlag( "all" ) )
 	{
@@ -4857,6 +5216,8 @@ bool ScriptAwardSpecialTrickSlot(Script::CStruct *pParams, Script::CScript *pScr
 // @script | UpdateSkaterStats | 
 bool ScriptUpdateSkaterStats(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int player;
 	pParams->GetInteger(Crc::ConstCRC("player"), &player, Script::ASSERT);	
 		
@@ -4876,7 +5237,10 @@ bool ScriptUpdateSkaterStats(Script::CStruct *pParams, Script::CScript *pScript)
 
 // @script | UpdateInitials | 
 bool ScriptUpdateInitials( Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+   
 	
 	int level = Mdl::Skate::Instance()->GetCareer()->GetLevel();
 	Records::CGameRecords *pGameRecords=Mdl::Skate::Instance()->GetGameRecords();	
@@ -4892,7 +5256,9 @@ bool ScriptUpdateInitials( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | NewRecord | return true if the last call to UpdateRecords made
 // there be a new record
 bool ScriptNewRecord(  Script::CStruct *pParams, Script::CScript *pScript )
-{      
+{
+	(void)pParams;
+	(void)pScript;
 	return Mdl::Skate::Instance()->m_new_record;
 }
 
@@ -4905,6 +5271,9 @@ bool ScriptNewRecord(  Script::CStruct *pParams, Script::CScript *pScript )
 // @uparmopt 0 | skater id (0 is default)
 bool ScriptTrickOffAllObjects( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// a cheat for getting all the graffiti objects
 
 	if (!Config::CD())
@@ -4926,6 +5295,9 @@ bool ScriptTrickOffAllObjects( Script::CStruct *pParams, Script::CScript *pScrip
 // @uparm 1 | should degrade amount
 bool ScriptGameModeSetScoreDegradation( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
     
 	
 	int should_degrade = 1;
@@ -4946,6 +5318,9 @@ bool ScriptGameModeSetScoreDegradation( Script::CStruct* pParams, Script::CScrip
 // @uparm 1 | should accumulate amount
 bool ScriptGameModeSetScoreAccumulation( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
     
 	
 	int should_accumulate = 1;
@@ -4974,6 +5349,9 @@ bool ScriptGameModeSetScoreAccumulation( Script::CStruct* pParams, Script::CScri
 // @script | ResetScore |
 bool ScriptResetScore(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	
 	Dbg_Printf( "******** RESET SCORE\n" );
@@ -5011,6 +5389,9 @@ bool ScriptResetScore(Script::CScriptStructure *pParams, Script::CScript *pScrip
 // @script | UpdateScore |
 bool ScriptUpdateScore(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	
     for (uint32 i=0;i<skate_mod->GetNumSkaters();i++)
@@ -5036,6 +5417,9 @@ bool ScriptUpdateScore(Script::CScriptStructure *pParams, Script::CScript *pScri
 // @script | ResetScoreDegradation | doesn't seem to do anything...
 bool ScriptResetScoreDegradation( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return true;
 }
 
@@ -5047,6 +5431,9 @@ bool ScriptResetScoreDegradation( Script::CStruct* pParams, Script::CScript* pSc
 // @script | SkaterIsBraking | returns true if the local skater is braking
 bool ScriptSkaterIsBraking( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
     
     Obj::CCompositeObject *pSkater = Mdl::Skate::Instance()->GetLocalSkater();						   
     Dbg_Assert( pSkater );
@@ -5061,6 +5448,9 @@ bool ScriptSkaterIsBraking( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | LocalSkaterExists | returns true if the local skater exists
 bool ScriptLocalSkaterExists( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
     Obj::CSkater *pSkater = Mdl::Skate::Instance()->GetLocalSkater();						   
     
@@ -5077,6 +5467,8 @@ bool ScriptLocalSkaterExists( Script::CStruct* pParams, Script::CScript* pScript
 // profile
 bool ScriptInitSkaterModel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	int player_num = 0;
 	pParams->GetInteger( NONAME, &player_num );
@@ -5111,7 +5503,9 @@ bool ScriptInitSkaterModel(Script::CStruct *pParams, Script::CScript *pScript)
 // profile
 // If there is a composite object called "bailboard" that will be destroyed
 bool ScriptRefreshSkaterModel(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	int profile = 0;
 	int skater = 0;
 	int no_name = 0;
@@ -5169,8 +5563,10 @@ bool ScriptRefreshSkaterModel(Script::CStruct *pParams, Script::CScript *pScript
 		pre_mgr->LoadPre( "skaterparts.pre", false);
 	}
 #endif
-	Obj::CModelComponent* pModelComponent = GetModelComponentFromObject( pSkater );
-	pModelComponent->InitModelFromProfile( pAppearance, false, pSkater->GetHeapIndex() );
+	{
+		Obj::CModelComponent *pModelComponent = GetModelComponentFromObject(pSkater);
+		pModelComponent->InitModelFromProfile(pAppearance, false, pSkater->GetHeapIndex());
+	}
 #ifdef __PLAT_NGC__
 	if ( !loaded )
 	{
@@ -5234,7 +5630,9 @@ bool ScriptRefreshSkaterModel(Script::CStruct *pParams, Script::CScript *pScript
 // @parm name | target | name of script that gets run on the player's appearance
 // @parmopt structure | targetParams | | extra parameters sent to the target script
 bool ScriptEditPlayerAppearance(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	int profile_num = 0;
 	int no_name = 0;
 	
@@ -5269,6 +5667,8 @@ bool ScriptEditPlayerAppearance(Script::CStruct *pParams, Script::CScript *pScri
 // @parm int | currentSkaterProfileIndex | index of currently selected profile (return value)
 bool ScriptGetCurrentSkaterProfileIndex(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Obj::CPlayerProfileManager*	pPlayerProfileManager = Mdl::Skate::Instance()->GetPlayerProfileManager();
 	int index = pPlayerProfileManager->GetCurrentProfileIndex();
@@ -5285,6 +5685,8 @@ bool ScriptGetCurrentSkaterProfileIndex(Script::CStruct *pParams, Script::CScrip
 // @script | GetCustomSkaterName | 
 bool ScriptGetCustomSkaterName(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Obj::CPlayerProfileManager*	pPlayerProfileManager = Mdl::Skate::Instance()->GetPlayerProfileManager();
 	const char* name = pPlayerProfileManager->GetProfileTemplate(Crc::ConstCRC("custom"))->GetDisplayName();
@@ -5302,6 +5704,9 @@ bool ScriptGetCustomSkaterName(Script::CStruct *pParams, Script::CScript *pScrip
 // This currently just calls the Bail member func of the score object...
 bool ScriptResetScorePot(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	
 	bool useBailStyle = pParams->ContainsFlag(Crc::ConstCRC("UseBailStyle"));
@@ -5329,6 +5734,9 @@ bool ScriptResetScorePot(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @script | ScriptPrintSkaterStats | prints the specified skater's stats
 bool ScriptPrintSkaterStats( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __NOPT_ASSERT__
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();
     for (uint32 i=0;i<skate_mod->GetNumSkaters();i++)
@@ -5361,6 +5769,9 @@ bool ScriptPrintSkaterStats( Script::CStruct* pParams, Script::CScript* pScript 
 // @script | ScriptPrintSkaterStats | prints the specified skater's stats
 bool ScriptPrintSkaterStats2( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __NOPT_ASSERT__
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();
     for (uint32 i=0;i<skate_mod->GetNumSkaters();i++)
@@ -5394,6 +5805,9 @@ bool ScriptPrintSkaterStats2( Script::CStruct* pParams, Script::CScript* pScript
 // @script | PrintSkaterPosition | prints the local skater's current position
 bool ScriptPrintSkaterPosition( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __NOPT_ASSERT__
 	Obj::CSkater *pSkater = Mdl::Skate::Instance()->GetLocalSkater();
 	
@@ -5416,6 +5830,9 @@ bool ScriptPrintSkaterPosition( Script::CStruct* pParams, Script::CScript* pScri
 // @script | GetSkaterPosition | prints the local skater's current position
 bool ScriptGetSkaterPosition( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
     Obj::CSkater* pSkater = static_cast< Obj::CSkater* >(pScript->mpObject.Convert());
 	
@@ -5444,6 +5861,9 @@ bool ScriptGetSkaterPosition( Script::CStruct* pParams, Script::CScript* pScript
 // @script | GetSkaterPosition | prints the local skater's current position
 bool ScriptGetSkaterVelocity( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
     Obj::CSkater* pSkater = static_cast< Obj::CSkater* >(pScript->mpObject.Convert());
 	
@@ -5524,6 +5944,9 @@ bool ScriptGetSkaterVelocity( Script::CStruct* pParams, Script::CScript* pScript
 // provide a name, the current skater's profile will be returned
 bool ScriptGetStatValue( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 stat;
 	pParams->GetChecksum( NONAME, &stat, Script::ASSERT );
 
@@ -5553,6 +5976,9 @@ bool ScriptGetStatValue( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm int | player | the player number to check 
 bool ScriptGetNumStatPointsAvailable( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int player;
 	pParams->GetInteger( Crc::ConstCRC("player"), &player, Script::ASSERT );
 
@@ -5574,6 +6000,9 @@ bool ScriptGetNumStatPointsAvailable( Script::CStruct* pParams, Script::CScript*
 // @parm name | skater | the name of the locked character to unlock
 bool ScriptUnlockSkater( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::ASSERT );
 
@@ -5612,6 +6041,9 @@ bool ScriptUnlockSkater( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptGetActualCASOptionStruct( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 partChecksum;
 	pParams->GetChecksum(Crc::ConstCRC("part"), &partChecksum, Script::ASSERT);
 	
@@ -5632,6 +6064,9 @@ bool ScriptGetActualCASOptionStruct( Script::CStruct* pParams, Script::CScript* 
 
 bool ScriptGetActualPlayerAppearancePart( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int player_num = 0;
 	pParams->GetInteger(Crc::ConstCRC("player"), &player_num);
 	
@@ -5660,7 +6095,10 @@ bool ScriptGetActualPlayerAppearancePart( Script::CStruct* pParams, Script::CScr
 /******************************************************************/
 
 bool ScriptGetPlayerAppearancePart( Script::CStruct* pParams, Script::CScript* pScript )
-{	
+{
+	(void)pParams;
+	(void)pScript;
+	
 	int player_num = 0;
 	pParams->GetInteger(Crc::ConstCRC("player"), &player_num);
 	
@@ -5690,6 +6128,9 @@ bool ScriptGetPlayerAppearancePart( Script::CStruct* pParams, Script::CScript* p
 
 bool ScriptSetPlayerAppearanceColor( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int player_num = 0;
 	pParams->GetInteger(Crc::ConstCRC("player"), &player_num);
 	
@@ -5733,6 +6174,9 @@ bool ScriptSetPlayerAppearanceColor( Script::CStruct* pParams, Script::CScript* 
 
 bool ScriptSetPlayerAppearanceScale( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int player_num = 0;
 	pParams->GetInteger(Crc::ConstCRC("player"), &player_num);
 	
@@ -5788,6 +6232,9 @@ bool ScriptSetPlayerAppearanceScale( Script::CStruct* pParams, Script::CScript* 
 
 bool ScriptSetPlayerAppearanceUV( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int player_num = 0;
 	pParams->GetInteger(Crc::ConstCRC("player"), &player_num);
 	
@@ -5903,6 +6350,9 @@ Script::CStruct* GetPrevUndisqualified( Script::CArray* pPartArray, int startInd
 // and also avoid fragmentation
 bool ScriptFlushDeadObjects( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate::Instance()->GetObjectManager()->FlushDeadObjects();
 	return true;
 }
@@ -5920,6 +6370,9 @@ bool ScriptFlushDeadObjects( Script::CStruct* pParams, Script::CScript* pScript 
 // This should only be 0 in a split screen game
 bool ScriptBindTrickToKeyCombo( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 key_combo;
 	pParams->GetChecksum( "key_combo", &key_combo, Script::ASSERT );
 
@@ -6057,12 +6510,15 @@ static uint32 s_find_cat_in_mapping( Script::CStruct* pMapping, int cat_num )
 // @parm name | trick | trick to look for
 bool ScriptGetKeyComboBoundToTrick( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 trick_checksum = 0;
-    int cat_num;
-    if (!pParams->GetChecksum( Crc::ConstCRC("trick"), &trick_checksum, Script::NO_ASSERT) )
-    {
-        pParams->GetInteger( Crc::ConstCRC("cat_num"), &cat_num, Script::ASSERT );
-    }
+    int cat_num = 0;
+	if (!pParams->GetChecksum(Crc::ConstCRC("trick"), &trick_checksum, Script::NO_ASSERT))
+		pParams->GetInteger(Crc::ConstCRC("cat_num"), &cat_num, Script::ASSERT);
+	else
+		trick_checksum = 0;
 	
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	Obj::CSkaterProfile* pSkaterProfile = pSkate->GetCurrentProfile();
@@ -6071,7 +6527,7 @@ bool ScriptGetKeyComboBoundToTrick( Script::CStruct* pParams, Script::CScript* p
 	bool found_special = false;
 	int special_index = 0;
 	
-    if (trick_checksum)
+    if (trick_checksum != 0)
     {
         if ( !pParams->ContainsFlag( Crc::ConstCRC("special") ) )
     	{
@@ -6140,6 +6596,9 @@ bool ScriptGetKeyComboBoundToTrick( Script::CStruct* pParams, Script::CScript* p
 // @parmopt name | skaterId | | the id of the skater
 bool ScriptUpdateTrickMappings( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 
@@ -6190,6 +6649,9 @@ bool ScriptUpdateTrickMappings( Script::CStruct* pParams, Script::CScript* pScri
 // @flag special | search for special tricks of this type
 bool ScriptGetConfigurableTricksFromType( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 type = 0;
 	pParams->GetChecksum( "type", &type, Script::NO_ASSERT );
 
@@ -6261,8 +6723,8 @@ bool ScriptGetConfigurableTricksFromType( Script::CStruct* pParams, Script::CScr
         Obj::CSkater* pSkater = pSkate->GetLocalSkater();
 	    if ( pSkater )
         {
-            int size = Game::vMAX_CREATED_TRICKS;
-            for ( int i = 1; i < size; i++ )    // start at one because 0 is just a clipboard!
+            int cat_size = Game::vMAX_CREATED_TRICKS;
+            for ( int i = 1; i < cat_size; i++ )    // start at one because 0 is just a clipboard!
         	{
                 int full = 0;
                 if ( pSkater->m_created_trick[i]->mp_other_params->GetInteger( Crc::ConstCRC("full"), &full, Script::NO_ASSERT ) )
@@ -6314,6 +6776,9 @@ bool ScriptGetConfigurableTricksFromType( Script::CStruct* pParams, Script::CScr
 // @parm name | trick | the trick name
 bool ScriptTrickIsLocked( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 trick;
 	pParams->GetChecksum( "trick", &trick, Script::ASSERT );
 
@@ -6367,6 +6832,9 @@ bool ScriptTrickIsLocked( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | trick | the trick name
 bool ScriptGetTrickDisplayText( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 trick;
 	pParams->GetChecksum( "trick", &trick, Script::ASSERT );
 
@@ -6423,6 +6891,9 @@ bool ScriptGetTrickDisplayText( Script::CStruct* pParams, Script::CScript* pScri
 // @parm int | index | the special trick slot
 bool ScriptGetSpecialTrickInfo( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int index;
 	pParams->GetInteger( "index", &index, Script::ASSERT );
 
@@ -6457,6 +6928,9 @@ bool ScriptGetSpecialTrickInfo( Script::CStruct* pParams, Script::CScript* pScri
 // @parm name | trick | the name of the trick
 bool ScriptGetTrickType( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 trick_checksum;
 	pParams->GetChecksum( "trick", &trick_checksum, Script::ASSERT );
 
@@ -6491,6 +6965,9 @@ bool ScriptGetTrickType( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | value | value param should have for a match
 bool ScriptGetIndexOfItemContaining( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 array_name;
 	pParams->GetChecksum( "array", &array_name, Script::ASSERT );
 	Script::CArray* p_array = Script::GetArray( array_name, Script::ASSERT );
@@ -6532,6 +7009,9 @@ bool ScriptGetIndexOfItemContaining( Script::CStruct* pParams, Script::CScript* 
 // @script | GetLevelRecords | appends the records to the calling script's params
 bool ScriptGetLevelRecords( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	
 	int levelNum;
@@ -6552,6 +7032,9 @@ bool ScriptGetLevelRecords( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | ResetComboRecords | resets the score object's combo records
 bool ScriptResetComboRecords( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 	Obj::CSkater* pSkater = pSkate->GetLocalSkater();
 	if( pSkater )
@@ -6573,6 +7056,9 @@ bool ScriptResetComboRecords( Script::CStruct* pParams, Script::CScript* pScript
 // @parm string | TrickText | trick string to look for
 bool ScriptGetNumberOfTrickOccurrences( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	const char* p_trick;
 	pParams->GetString( "TrickText", &p_trick, Script::ASSERT );
 	uint32 trick = Script::GenerateCRC( p_trick );
@@ -6595,6 +7081,9 @@ bool ScriptGetNumberOfTrickOccurrences( Script::CStruct *pParams, Script::CScrip
 // in the numSoundtracks param
 bool ScriptGetNumSoundtracks( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_MsgAssert( Config::GetHardware() == Config::HARDWARE_XBOX, ( "GetNumSoundtracks can only be called on XBox" ) );
 	int numSoundtracks = Nx::CEngine::sGetNumSoundtracks();
 	pScript->GetParams()->AddInteger( "numSoundtracks", numSoundtracks );
@@ -6608,6 +7097,9 @@ bool ScriptGetNumSoundtracks( Script::CStruct *pParams, Script::CScript *pScript
 
 bool ScriptGetSoundtrackName( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_MsgAssert( Config::GetHardware() == Config::HARDWARE_XBOX, ( "GetNumSoundtracks can only be called on XBox" ) );
 	int soundtrack_number;
 	pParams->GetInteger( NONAME, &soundtrack_number, Script::ASSERT );
@@ -6627,6 +7119,9 @@ bool ScriptGetSoundtrackName( Script::CStruct *pParams, Script::CScript *pScript
 // @parm int | skater_heap_index | the skater num
 bool ScriptBindControllerToSkater( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int controller;
 	pParams->GetInteger( "controller", &controller, Script::ASSERT );
 
@@ -6649,6 +7144,9 @@ bool ScriptBindControllerToSkater( Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptBindFrontEndToController( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int controller;
 	pParams->GetInteger( "controller", &controller, Script::ASSERT );
 
@@ -6683,6 +7181,9 @@ bool ScriptBindFrontEndToController( Script::CStruct *pParams, Script::CScript *
 // @parm int | skater | 
 bool ScriptControllerBoundToDifferentSkater( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int skater;
 	pParams->GetInteger( Crc::ConstCRC("skater"), &skater, Script::ASSERT );
 
@@ -6714,6 +7215,9 @@ bool ScriptControllerBoundToDifferentSkater( Script::CStruct *pParams, Script::C
 
 bool ScriptControllerBoundToSkater( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int controller;
 	pParams->GetInteger( "controller", &controller, Script::ASSERT );
 
@@ -6734,6 +7238,9 @@ bool ScriptControllerBoundToSkater( Script::CStruct* pParams, Script::CScript* p
 // @parm array | tricks | array of trick names, eg [Trick_KickFlip Trick_HeelFlip]
 bool ScriptGetKeyComboArrayFromTrickArray( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Script::CArray* pTricks;
 	pParams->GetArray( "tricks", &pTricks, Script::ASSERT );
 
@@ -6786,6 +7293,9 @@ bool ScriptGetKeyComboArrayFromTrickArray( Script::CStruct *pParams, Script::CSc
 // disconnected controllers until this is called
 bool ScriptFirstInputReceived( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate::Instance()->FirstInputReceived();
 	return true;
 }
@@ -6801,6 +7311,9 @@ bool ScriptFirstInputReceived( Script::CStruct *pParams, Script::CScript *pScrip
 // @parm int | percent |
 bool ScriptVibrateController( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int port;
 	pParams->GetInteger( "port", &port, Script::ASSERT );
 
@@ -6830,6 +7343,9 @@ bool ScriptVibrateController( Script::CStruct *pParams, Script::CScript *pScript
 // @script | LockCurrentSkaterProfileIndex | 
 bool ScriptLockCurrentSkaterProfileIndex( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int locked = true;
 	pParams->GetInteger( NONAME, &locked, Script::ASSERT );
 
@@ -6854,6 +7370,9 @@ bool ScriptLockCurrentSkaterProfileIndex( Script::CStruct *pParams, Script::CScr
 // @flag update_mappings | 
 bool ScriptSetSpecialTrickInfo( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int slot;
 	pParams->GetInteger( "slot", &slot, Script::ASSERT );
 
@@ -6936,6 +7455,9 @@ static float make_angle_in_range(float a)
 // the number 10 to 350, it will go from 10 backwards through 0 and 359 to 350.
 bool ScriptInterpolateParameters( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Script::CStruct *p_new_structure=new Script::CStruct;
 	
 	Script::CStruct *p_a=nullptr;
@@ -7059,6 +7581,9 @@ bool ScriptInterpolateParameters( Script::CStruct *pParams, Script::CScript *pSc
 // @parmopt int | num_possible | 10 | the maximum number of streams to search for
 bool ScriptPlaySkaterStream ( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_Assert(pScript->mpObject);
 	Dbg_MsgAssert(pScript->mpObject->GetType() == SKATE_TYPE_SKATER, ("PlaySkaterStream may only be called on a skater object"));
 	
@@ -7151,6 +7676,9 @@ bool ScriptPlaySkaterStream ( Script::CStruct *pParams, Script::CScript *pScript
 // @parm string | path | path of file including file name
 bool ScriptGetTextureFromPath( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	const char* p_path;
     char new_string[32];
     int i, t=0;
@@ -7188,6 +7716,9 @@ bool ScriptGetTextureFromPath( Script::CStruct *pParams, Script::CScript *pScrip
 // @script | GetVramUsage | 
 bool ScriptGetVramUsage( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #	ifdef __PLAT_NGPS__
 	//printf("FontVramStart = %uK \n", (NxPs2::FontVramStart/4) );
     //printf("FontVramBase = %uK \n", (NxPs2::FontVramBase/4) );
@@ -7205,6 +7736,9 @@ bool ScriptGetVramUsage( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | CompositeObjectExists | 
 bool ScriptCompositeObjectExists ( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::ASSERT );
 	Obj::CObject* pObj = Obj::ResolveToObject( name );
@@ -7218,6 +7752,9 @@ bool ScriptCompositeObjectExists ( Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptClearPowerups( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int i;
 	Mdl::Skate * pSkate = Mdl::Skate::Instance();
 
@@ -7241,6 +7778,9 @@ bool ScriptClearPowerups( Script::CStruct *pParams, Script::CScript *pScript )
 
 bool ScriptBroadcastProjectile( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 type;
 	Mth::Vector pos, vel;
 	int radius;
@@ -7262,7 +7802,7 @@ bool ScriptBroadcastProjectile( Script::CStruct *pParams, Script::CScript *pScri
 		Net::MsgDesc msg_desc;
 		GameNet::MsgProjectile msg;
 		
-		msg.m_Id = id;
+		msg.m_Id = (char)id;
 		msg.m_Pos = pos;
 		msg.m_Vel = vel;
 		msg.m_Radius = radius;
@@ -7289,6 +7829,9 @@ bool ScriptBroadcastProjectile( Script::CStruct *pParams, Script::CScript *pScri
 
 bool ScriptBroadcastEnterVehicle ( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 id;
 	uint32 control_type;
 	GameNet::Manager* gamenet_man = GameNet::Manager::Instance();
@@ -7303,7 +7846,7 @@ bool ScriptBroadcastEnterVehicle ( Script::CStruct *pParams, Script::CScript *pS
 		Net::MsgDesc msg_desc;
 		GameNet::MsgEnterVehicle msg;
 		
-		msg.m_Id = id;
+		msg.m_Id = (char)id;
 		msg.m_ControlType = control_type;
 
 		msg_desc.m_Id = GameNet::MSG_ID_ENTER_VEHICLE;
@@ -7325,6 +7868,9 @@ bool ScriptBroadcastEnterVehicle ( Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptGetCollidingPlayerAndTeam( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int team = -1;
 	int player_id = -1;
     Script::CStruct* p_pass_back_params = pScript->GetParams();
@@ -7380,6 +7926,9 @@ bool ScriptGetCollidingPlayerAndTeam( Script::CStruct *pParams, Script::CScript 
 
 bool ScriptLobbyCheckKeyboard( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int num_chars;
 	char makes[256];
     
@@ -7390,17 +7939,17 @@ bool ScriptLobbyCheckKeyboard( Script::CStruct *pParams, Script::CScript *pScrip
 		// Space brings up the chat interface
 		if( makes[0] == 32 )
 		{
-			Script::CStruct* pParams;
+			Script::CStruct* pObjParams;
 			
 			// Enter and space act as "choose" only if you're not currently using the on-screen keyboard
-            pParams = new Script::CStruct;
-			pParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "keyboard_anchor" ));
-            if( Obj::ScriptObjectExists( pParams, nullptr ) == false )
+			pObjParams = new Script::CStruct;
+			pObjParams->AddChecksum( Script::GenerateCRC( "id" ), Script::GenerateCRC( "keyboard_anchor" ));
+            if( Obj::ScriptObjectExists(pObjParams, nullptr ) == false )
 			{
                 Script::RunScript( "lobby_enter_kb_chat" );
                 SIO::KeyboardClear();
 			}
-            delete pParams;
+            delete pObjParams;
 		}
     }
     return true;
@@ -7414,6 +7963,9 @@ bool ScriptLobbyCheckKeyboard( Script::CStruct *pParams, Script::CScript *pScrip
 /*
 bool ScriptMarkRestarts ( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// Green:	Player1
 	// Purple:	Multiplayer
 	// Cyan:	Horse

@@ -94,6 +94,7 @@ int KeyboardDeinit(void)
 
 int KeyboardRead( char* makes )
 {
+	(void)makes;
 	return 0;
 }
 

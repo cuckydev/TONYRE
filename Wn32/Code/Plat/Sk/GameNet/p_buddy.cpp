@@ -70,7 +70,7 @@ namespace GameNet
 
 void	BuddyMan::SpawnBuddyList( int user_index )
 {
-
+	(void)user_index;
 }
 
 /******************************************************************/

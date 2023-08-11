@@ -56,6 +56,8 @@ CXboxAsyncFileHandle::~CXboxAsyncFileHandle()
 /******************************************************************/
 bool CXboxAsyncFileHandle::plat_open( const char *filename )
 {
+	(void)filename;
+
 	m_position = 0;
 
 	// The following code duplicates that in prefopen(). At some point the filenme modification code
@@ -101,7 +103,7 @@ bool CXboxAsyncFileHandle::plat_open( const char *filename )
 		p_skip = filename;
 	}
 
-	while( nameConversionBuffer[index] = *p_skip )
+	while ((nameConversionBuffer[index] = *p_skip) != '\0')
 	{
 		// Switch forward slash directory separators to the supported backslash.
 		if( nameConversionBuffer[index] == '/' )
@@ -387,6 +389,7 @@ bool CXboxAsyncFileHandle::plat_is_eof( void ) const
 /******************************************************************/
 void CXboxAsyncFileHandle::plat_set_priority( int priority )
 {
+	(void)priority;
 }
 
 
@@ -397,6 +400,7 @@ void CXboxAsyncFileHandle::plat_set_priority( int priority )
 /******************************************************************/
 void CXboxAsyncFileHandle::plat_set_stream( bool stream )
 {
+	(void)stream;
 }
 
 
@@ -407,6 +411,7 @@ void CXboxAsyncFileHandle::plat_set_stream( bool stream )
 /******************************************************************/
 void CXboxAsyncFileHandle::plat_set_destination( EAsyncMemoryType destination )
 {
+	(void)destination;
 }
 
 
@@ -417,6 +422,7 @@ void CXboxAsyncFileHandle::plat_set_destination( EAsyncMemoryType destination )
 /******************************************************************/
 void CXboxAsyncFileHandle::plat_set_buffer_size( size_t buffer_size )
 {
+	(void)buffer_size;
 }
 
 
@@ -427,6 +433,7 @@ void CXboxAsyncFileHandle::plat_set_buffer_size( size_t buffer_size )
 /******************************************************************/
 void CXboxAsyncFileHandle::plat_set_blocking( bool block )
 {
+	(void)block;
 }
 
 
@@ -501,6 +508,9 @@ size_t CXboxAsyncFileHandle::plat_read( void *p_buffer, size_t size, size_t coun
 /******************************************************************/
 size_t CXboxAsyncFileHandle::plat_write( void *p_buffer, size_t size, size_t count )
 {
+	(void)p_buffer;
+	(void)size;
+	(void)count;
 	Dbg_Assert( 0 );
 	return 0;
 }
@@ -513,6 +523,8 @@ size_t CXboxAsyncFileHandle::plat_write( void *p_buffer, size_t size, size_t cou
 /******************************************************************/
 char *CXboxAsyncFileHandle::plat_get_s( char *p_buffer, int maxlen )
 {
+	(void)p_buffer;
+	(void)maxlen;
 	Dbg_Assert( 0 );
 	return nullptr;
 }
@@ -525,6 +537,8 @@ char *CXboxAsyncFileHandle::plat_get_s( char *p_buffer, int maxlen )
 /******************************************************************/
 int CXboxAsyncFileHandle::plat_seek( long offset, int origin )
 {
+	(void)offset;
+	(void)origin;
 	Dbg_Assert( 0 );
 	return 0;
 }
@@ -633,6 +647,8 @@ bool CAsyncFileLoader::s_plat_exist( const char *filename )
 /******************************************************************/
 CAsyncFileHandle *CAsyncFileLoader::s_plat_open( const char *filename, int priority )
 {
+	(void)priority;
+
 	CXboxAsyncFileHandle *p_handle = new CXboxAsyncFileHandle();
 	p_handle->plat_init();
 

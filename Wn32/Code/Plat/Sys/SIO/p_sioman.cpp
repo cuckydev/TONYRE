@@ -131,7 +131,7 @@ Manager::Manager ( void )
 	{
 		Device *p_device;
 
-		if ((p_device = create_device(i, i, 0)))
+		if ((p_device = create_device(i, i, 0)) != nullptr)
 		{
 			m_devices.AddToTail(p_device->m_node);
 			p_device->Acquire();

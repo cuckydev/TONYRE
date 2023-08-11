@@ -112,6 +112,7 @@ sXboxShatterInstanceDetails::~sXboxShatterInstanceDetails( void )
 /******************************************************************/
 sXboxSplatInstanceDetails * getDetailsForTextureSplat( NxWn32::sTexture *p_texture )
 {
+	(void)p_texture;
 	/*
 	sXboxSplatInstanceDetails *p_xbox_details;
 
@@ -174,6 +175,8 @@ sXboxSplatInstanceDetails * getDetailsForTextureSplat( NxWn32::sTexture *p_textu
 /******************************************************************/
 bool subdivide_tri_stack( uint8 **p_write, NxWn32::sMesh *p_mesh )
 {
+	(void)p_write;
+	(void)p_mesh;
 	/*
 	// Three temporary buffers.
 	static uint8 v0[128];
@@ -310,6 +313,7 @@ bool subdivide_tri_stack( uint8 **p_write, NxWn32::sMesh *p_mesh )
 /******************************************************************/
 void plat_screen_flash_render( sScreenFlashDetails *p_details )
 {
+	(void)p_details;
 	/*
 	// Get viewport details.
 	CViewport *p_vp = CViewportManager::sGetActiveViewport( p_details->m_viewport );
@@ -418,6 +422,8 @@ void plat_texture_splat_cleanup( void )
 /******************************************************************/
 void plat_texture_splat_reset_poly( sSplatInstanceDetails *p_details, int index )
 {
+	(void)p_details;
+	(void)index;
 	/*
 	// Cast the details to Xbox details.
 	sXboxSplatInstanceDetails *p_xbox_details = static_cast<sXboxSplatInstanceDetails *>( p_details );
@@ -590,6 +596,14 @@ static inline bool tri_texture_intersect( float u0, float v0, float u1, float v1
 /******************************************************************/
 bool plat_texture_splat( Nx::CSector **pp_sectors, Nx::CCollStatic **pp_collision, Mth::Vector& start, Mth::Vector& end, float size, float lifetime, Nx::CTexture *p_texture, Nx::sSplatTrailInstanceDetails *p_trail_details )
 {
+	(void)pp_sectors;
+	(void)pp_collision;
+	(void)start;
+	(void)end;
+	(void)size;
+	(void)lifetime;
+	(void)p_texture;
+	(void)p_trail_details;
 	/*
 	XGMATRIX view_matrix, ortho_matrix, projection_matrix;
 
@@ -959,6 +973,7 @@ void plat_shatter_cleanup( void )
 /******************************************************************/
 void plat_shatter( CGeom *p_geom )
 {
+	(void)p_geom;
 	/*
 	CXboxGeom *p_xbox_geom = static_cast<CXboxGeom*>( p_geom );
 
@@ -1091,6 +1106,8 @@ void plat_shatter( CGeom *p_geom )
  *****************************************************************************/
 void plat_shatter_update( sShatterInstanceDetails *p_details, float framelength )
 {
+	(void)p_details;
+	(void)framelength;
 	/*
 	sXboxShatterInstanceDetails *p_xbox_details = static_cast<sXboxShatterInstanceDetails*>( p_details );
 	
@@ -1174,6 +1191,7 @@ void plat_shatter_update( sShatterInstanceDetails *p_details, float framelength 
  *****************************************************************************/
 void plat_shatter_render( sShatterInstanceDetails *p_details )
 {
+	(void)p_details;
 	/*
 	sXboxShatterInstanceDetails *p_xbox_details = static_cast<sXboxShatterInstanceDetails*>( p_details );
 
@@ -1199,6 +1217,7 @@ void plat_shatter_render( sShatterInstanceDetails *p_details )
 /******************************************************************/
 void CFog::s_plat_enable_fog( bool enable )
 {
+	(void)enable;
 	/*
 	if( enable != (bool)NxWn32::EngineGlobals.fog_enabled )
 	{
@@ -1216,6 +1235,7 @@ void CFog::s_plat_enable_fog( bool enable )
 /******************************************************************/
 void CFog::s_plat_set_fog_near_distance( float distance )
 {
+	(void)distance;
 	/*
 	NxWn32::EngineGlobals.fog_start	= -distance;
 
@@ -1235,6 +1255,7 @@ void CFog::s_plat_set_fog_near_distance( float distance )
 /******************************************************************/
 void CFog::s_plat_set_fog_exponent( float exponent )
 {
+	(void)exponent;
 	// This is no longer a valid call.
 //	if( exponent > 0.0f )
 //	{
@@ -1279,6 +1300,7 @@ void CFog::s_plat_fog_update( void )
 /******************************************************************/
 void CFog::s_plat_set_fog_rgba( Image::RGBA rgba )
 {
+	(void)rgba;
 	/*
 	// Alpha effectively determines the fog density, with zero alpha meaning no fog.
 	if( rgba.a == 0 )

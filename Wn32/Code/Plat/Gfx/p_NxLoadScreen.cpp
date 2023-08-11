@@ -42,6 +42,7 @@ static uint32		loadingBarBorderColor;
 /*                                                                */
 /*                                                                */
 /******************************************************************/
+#if 0
 void CALLBACK loadingBarTimerCallback( UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2 )
 {
 	/*
@@ -119,13 +120,13 @@ void CALLBACK loadingBarTimerCallback( UINT uTimerID, UINT uMsg, DWORD_PTR dwUse
 	}
 	*/
 }
-
-
+#endif
 
 /******************************************************************/
 /*                                                                */
 /*                                                                */
 /******************************************************************/
+#if 0
 static bool is_power_of_two( uint32 a )
 {
 	if( a == 0 )
@@ -134,8 +135,7 @@ static bool is_power_of_two( uint32 a )
 	}
 	return (( a & ( a - 1 )) == 0 );
 }
-
-
+#endif
 
 /******************************************************************/
 /*                                                                */
@@ -143,6 +143,9 @@ static bool is_power_of_two( uint32 a )
 /******************************************************************/
 void CLoadScreen::s_plat_display(const char* filename, bool just_freeze, bool blank)
 {
+	(void)filename;
+	(void)just_freeze;
+	(void)blank;
 	/*
 	// Wait for asyncronous rendering to finish.
 	NxWn32::EngineGlobals.p_Device->BlockUntilIdle();
@@ -367,6 +370,7 @@ void CLoadScreen::s_plat_clear()
 /******************************************************************/
 void CLoadScreen::s_plat_start_loading_bar( float seconds )
 {
+	(void)seconds;
 	/*
 	loadingBarTotalSeconds		= seconds * 0.6f;
 	loadingBarCurrentSeconds	= 0.0f;

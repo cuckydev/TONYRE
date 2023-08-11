@@ -205,6 +205,8 @@ NxWn32::sScene* CXboxGeom::GenerateScene( void )
 /******************************************************************/
 bool CXboxGeom::plat_load_geom_data( CMesh *pMesh, CModel *pModel, bool color_per_material )
 {
+	(void)color_per_material;
+
 	// The skeleton must exist by this point (unless it's a hacked up car).
 	int			numBones = pModel->GetNumBones();
 	Mth::Matrix	temp;
@@ -216,7 +218,7 @@ bool CXboxGeom::plat_load_geom_data( CMesh *pMesh, CModel *pModel, bool color_pe
 	// Store a pointer to the CXboxMesh, used for obtaining CAS poly removal data.
 	mp_mesh = p_xbox_mesh;
 
-	CXboxModel *p_xbox_model = static_cast<CXboxModel*>( pModel );
+	// CXboxModel *p_xbox_model = static_cast<CXboxModel*>( pModel );
 
 	NxWn32::CInstance *p_instance = new NxWn32::CInstance( p_xbox_mesh->GetScene()->GetEngineScene(), temp, numBones, pModel->GetBoneTransforms());
 	
@@ -363,19 +365,17 @@ const Mth::CBBox & CXboxGeom::plat_get_bounding_box( void ) const
 /******************************************************************/
 void CXboxGeom::plat_set_bounding_sphere( const Mth::Vector& boundingSphere )
 {
-	/*
-	if( mp_instance )
+	if (mp_instance)
 	{
 		NxWn32::sScene *p_scene = mp_instance->GetScene();
 		if( p_scene )
 		{
-			p_scene->m_sphere_center.x	= boundingSphere[X];
-			p_scene->m_sphere_center.y	= boundingSphere[Y];
-			p_scene->m_sphere_center.z	= boundingSphere[Z];
-			p_scene->m_sphere_radius	= boundingSphere[W];
+			p_scene->m_sphere_center.x = boundingSphere[X];
+			p_scene->m_sphere_center.y = boundingSphere[Y];
+			p_scene->m_sphere_center.z = boundingSphere[Z];
+			p_scene->m_sphere_radius = boundingSphere[W];
 		}
 	}
-	*/
 }
 
 
@@ -493,6 +493,9 @@ void CXboxGeom::plat_rotate_y( Mth::ERot90 rot )
 /******************************************************************/
 bool CXboxGeom::plat_render(Mth::Matrix* pRootMatrix, Mth::Matrix* pBoneMatrices, int numBones)
 {
+	(void)pBoneMatrices;
+	(void)numBones;
+
 	if( mp_instance )
 	{
 		mp_instance->SetTransform( *pRootMatrix );
@@ -683,7 +686,7 @@ bool CXboxGeom::plat_set_material_color( uint32 mat_name_checksum, int pass, Ima
 				else if(( p_mat->m_name_checksum > mat_name_checksum ) && (( p_mat->m_name_checksum - mat_name_checksum ) <= 0x7F ))
 				{
 					uint32 checksum_diff		= p_mat->m_name_checksum - mat_name_checksum;
-					uint32 render_separate_pass	= checksum_diff & 0x07;
+					int render_separate_pass	= (int)(checksum_diff & 0x07);
 					uint32 pass_flags			= checksum_diff >> 3;
 
 					if( render_separate_pass )
@@ -800,6 +803,8 @@ size_t CXboxGeom::plat_get_num_render_verts( void )
 /******************************************************************/
 void CXboxGeom::plat_get_render_verts( Mth::Vector *p_verts )
 {
+	(void)p_verts;
+
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
 	/*
@@ -834,6 +839,8 @@ void CXboxGeom::plat_get_render_verts( Mth::Vector *p_verts )
 /******************************************************************/
 void CXboxGeom::plat_get_render_colors( Image::RGBA *p_colors )
 {
+	(void)p_colors;
+
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
 	/*
@@ -872,6 +879,8 @@ void CXboxGeom::plat_get_render_colors( Image::RGBA *p_colors )
 /******************************************************************/
 void CXboxGeom::plat_set_render_verts( Mth::Vector *p_verts )
 {
+	(void)p_verts;
+
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
 	/*
@@ -921,6 +930,8 @@ void CXboxGeom::plat_set_render_verts( Mth::Vector *p_verts )
 /******************************************************************/
 void CXboxGeom::plat_set_render_colors( Image::RGBA *p_colors )
 {
+	(void)p_colors;
+
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
 	/*
@@ -966,6 +977,8 @@ void CXboxGeom::plat_set_render_colors( Image::RGBA *p_colors )
 /******************************************************************/
 void CXboxGeom::plat_set_scale( const Mth::Vector & scale )
 {
+	(void)scale;
+
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
 	/*
@@ -1055,6 +1068,8 @@ void CXboxGeom::plat_set_uv_wibble_params( float u_vel, float u_amp, float u_fre
 /******************************************************************/
 void CXboxGeom::plat_use_explicit_uv_wibble( bool yes )
 {
+	(void)yes;
+
 	if( mp_instance && mp_instance->GetScene())
 	{
 		for( int m = 0; m < mp_instance->GetScene()->m_num_mesh_entries; ++m )
@@ -1115,6 +1130,10 @@ void CXboxGeom::plat_set_uv_wibble_offsets( float u_offset, float v_offset )
 /******************************************************************/
 bool CXboxGeom::plat_set_uv_wibble_offsets( uint32 mat_name_checksum, int pass, float u_offset, float v_offset )
 {
+	(void)pass;
+	(void)u_offset;
+	(void)v_offset;
+
 	if( m_mesh_array )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
@@ -1174,7 +1193,7 @@ bool CXboxGeom::plat_set_uv_matrix( uint32 mat_name_checksum, int pass, const Mt
 				else if(( p_mat->m_name_checksum > mat_name_checksum ) && (( p_mat->m_name_checksum - mat_name_checksum ) <= 0x7F ))
 				{
 					uint32 checksum_diff		= p_mat->m_name_checksum - mat_name_checksum;
-					uint32 render_separate_pass	= checksum_diff & 0x07;
+					int render_separate_pass	= (int)(checksum_diff & 0x07);
 					uint32 pass_flags			= checksum_diff >> 3;
 
 					if( render_separate_pass )
@@ -1284,7 +1303,7 @@ bool CXboxGeom::plat_allocate_uv_matrix_params( uint32 mat_name_checksum, int pa
 				else if(( p_mat->m_name_checksum > mat_name_checksum ) && (( p_mat->m_name_checksum - mat_name_checksum ) <= 0x7F ))
 				{
 					uint32 checksum_diff		= p_mat->m_name_checksum - mat_name_checksum;
-					uint32 render_separate_pass	= checksum_diff & 0x07;
+					int render_separate_pass	= (int)(checksum_diff & 0x07);
 					uint32 pass_flags			= checksum_diff >> 3;
 
 					if( render_separate_pass )
@@ -1347,6 +1366,7 @@ bool CXboxGeom::plat_allocate_uv_matrix_params( uint32 mat_name_checksum, int pa
 /******************************************************************/
 void CXboxGeom::plat_set_model_lights( CModelLights* p_model_lights )
 {
+	(void)p_model_lights;
 }
 
 
@@ -1492,8 +1512,8 @@ CXboxGeom* CXboxGeom::plat_clone( bool instance, CModel* p_dest_model )
 	temp.Identity();
 	NxWn32::CInstance* p_instance	= new NxWn32::CInstance( p_scene, temp, num_bones, p_bones );
 	
-	Nx::CXboxModel* p_xbox_model	= static_cast<CXboxModel*>( p_dest_model );
-	((CXboxModel*)p_dest_model )->SetInstance( p_instance );
+	Nx::CXboxModel* p_xbox_model = static_cast<CXboxModel*>( p_dest_model );
+	p_xbox_model->SetInstance( p_instance );
 
 	// This instance will be the only object maintaining a reference to the attached scene, so we want to delete
 	// the scene when the instance gets removed.

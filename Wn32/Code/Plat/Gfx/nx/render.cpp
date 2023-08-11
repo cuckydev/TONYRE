@@ -286,6 +286,7 @@ uint32 sVisibilityTestFIFO::GetStatus( void )
 /******************************************************************/
 DWORD get_pixel_shader( sMaterial *p_material )
 {
+	(void)p_material;
 	/*
 	const  int	PIXEL_SHADER_BUFFER_SIZE	= 64 * 1024;
 	static char pixel_shader_buffer[PIXEL_SHADER_BUFFER_SIZE];
@@ -1075,6 +1076,8 @@ void create_pixel_shaders( void )
 /******************************************************************/
 void GetPixelShader( sMaterial *p_material, uint32 *p_pixel_shader_id )
 {
+	(void)p_material;
+	(void)p_pixel_shader_id;
 	/*
 	if( p_material->m_passes == 1 )
 	{
@@ -1152,6 +1155,7 @@ void set_texture( uint32 pass, IDirect3DTexture8 *p_texture, IDirect3DPalette8 *
 /******************************************************************/
 void set_blend_mode( uint32 mode )
 {
+	(void)mode;
 	/*
 	if( NxWn32::EngineGlobals.blend_mode_override )
 	{
@@ -1343,6 +1347,7 @@ void set_blend_mode( uint32 mode )
 /******************************************************************/
 void set_vertex_shader( DWORD shader_id )
 {
+	(void)shader_id;
 	/*
 	if( EngineGlobals.vertex_shader_override == 0 )
 	{
@@ -1364,6 +1369,7 @@ void set_vertex_shader( DWORD shader_id )
 /******************************************************************/
 void set_pixel_shader( uint32 shader_id )
 {
+	(void)shader_id;
 	/*
 	if( EngineGlobals.pixel_shader_override == 0 )
 	{
@@ -1397,6 +1403,8 @@ void set_pixel_shader( uint32 shader_id )
 /******************************************************************/
 void set_pixel_shader( uint32 shader_id, uint32 num_passes )
 {
+	(void)shader_id;
+	(void)num_passes;
 	/*
 	if( EngineGlobals.pixel_shader_override == 0 )
 	{
@@ -1431,6 +1439,8 @@ void set_pixel_shader( uint32 shader_id, uint32 num_passes )
 /******************************************************************/
 void set_render_state( uint32 type, uint32 state )
 {
+	(void)type;
+	(void)state;
 	/*
 	switch( type )
 	{
@@ -1704,6 +1714,9 @@ void set_render_state( uint32 type, uint32 state )
 /******************************************************************/
 void create_texture_projection_details( sTexture *p_texture, Nx::CXboxModel *p_model, sScene *p_scene )
 {
+	(void)p_texture;
+	(void)p_model;
+	(void)p_scene;
 	/*
 	sTextureProjectionDetails *p_details = new sTextureProjectionDetails;
 
@@ -1726,6 +1739,7 @@ void create_texture_projection_details( sTexture *p_texture, Nx::CXboxModel *p_m
 /******************************************************************/
 void destroy_texture_projection_details( sTexture *p_texture )
 {
+	(void)p_texture;
 	/*
 	sTextureProjectionDetails *p_details = pTextureProjectionDetailsTable->GetItem((uint32)p_texture );
 	if( p_details )
@@ -1895,6 +1909,8 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 /******************************************************************/
 bool IsVisible( Mth::Vector &center, float radius )
 {
+	(void)center;
+	(void)radius;
 	/*
 	glm::vec4 test_out = glm::vec4( center[X], center[Y], center[Z], 1.0f ) * EngineGlobals.view_matrix;
 
@@ -1979,6 +1995,9 @@ float get_bounding_sphere_nearest_z( void )
 /******************************************************************/
 bool frustum_check_sphere( const glm::vec3 &p_center, float radius )
 {
+	(void)p_center;
+	(void)radius;
+
 	// TODO: broken and idk how to properly convert dx to gl math
 
 	glm::vec4 test_out;
@@ -2030,6 +2049,7 @@ bool frustum_check_sphere( const glm::vec3 &p_center, float radius )
 /******************************************************************/
 bool frustum_check_box( Mth::CBBox *p_bbox )
 {
+	(void)p_bbox;
 	/*
 	XGVECTOR3	test_in, test_out;
 	XGVECTOR4	test_mid;
@@ -2295,6 +2315,9 @@ void render_shadow_targets( void )
 /******************************************************************/
 void render_shadow_meshes( sScene *p_scene, sMesh **p_mesh_indices, int num_meshes )
 {
+	(void)p_scene;
+	(void)p_mesh_indices;
+	(void)num_meshes;
 	/*
 	// No anisotropic filtering for the base texture.
 	DWORD stage_zero_minfilter;
@@ -2466,6 +2489,8 @@ static bool debug_shadow_volumes = false;
 /******************************************************************/
 void render_shadow_volumes( sScene *p_scene, uint32 viewport )
 {
+	(void)p_scene;
+	(void)viewport;
 	/*
 	// Switch viewport from value to bitfield value.
 	viewport = ( 1 << viewport );
@@ -2858,6 +2883,7 @@ void render_scene(sScene *p_scene, uint32 flags, uint32 viewport)
 /******************************************************************/
 void render_light_glows( bool test )
 {
+	(void)test;
 	/*
 	struct sLightGlowVert
 	{

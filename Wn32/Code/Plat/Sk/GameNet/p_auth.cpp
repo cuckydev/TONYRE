@@ -69,6 +69,7 @@ namespace GameNet
 **							  Private Functions								**
 *****************************************************************************/
 
+	#if 0
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -119,6 +120,7 @@ static DWORD	s_get_mem_unit_mask( DWORD i )
 	#endif
 	return 0;
 }
+#endif
 
 /******************************************************************/
 /*                                                                */
@@ -419,6 +421,7 @@ void	AuthMan::CancelLogon( void )
 
 void	AuthMan::SelectAccount( int index )
 {
+	(void)index;
 	// m_chosen_account = index;
 
 #	if 0
@@ -441,6 +444,7 @@ void	AuthMan::SelectAccount( int index )
 
 void	AuthMan::PinAttempt( BYTE* pin )
 {	
+	(void)pin;
 #	if 0
 	if(( memcmp( pin, m_user_list[m_chosen_account].pin, XONLINE_PIN_LENGTH ) == 0 ))
 	{
@@ -462,6 +466,7 @@ void	AuthMan::PinAttempt( BYTE* pin )
 
 void	AuthMan::SetState( LogonState state )
 {
+	(void)state;
 	// m_state = state;
 }
 
@@ -496,6 +501,8 @@ void	AuthMan::SignOut( void )
 
 void	PinEntry::s_pin_entry_input_logic_code ( const Inp::Handler < PinEntry >& handler )
 {
+	(void)handler;
+
 	#	if 0
 	PinEntry&	entry = handler.GetData();
 
@@ -583,6 +590,7 @@ void	PinEntry::s_pin_entry_input_logic_code ( const Inp::Handler < PinEntry >& h
 
 void	PinEntry::s_pin_entry_logic_code( const Tsk::Task< PinEntry >& task )
 {
+	(void)task;
 #	if 0
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	PinEntry& entry = task.GetData();
@@ -632,6 +640,8 @@ void	PinEntry::ClearInput( void )
 
 void	PinEntry::BeginInput( int controller )
 {
+	(void)controller;
+
 #	if 0
 	int i;
 

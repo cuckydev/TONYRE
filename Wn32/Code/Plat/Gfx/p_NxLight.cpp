@@ -63,6 +63,8 @@ void CXboxModelLights::plat_update_brightness()
 /******************************************************************/
 void CXboxModelLights::plat_update_engine( Mth::Vector & pos, bool add_scene_light )
 {
+	(void)pos;
+	(void)add_scene_light;
 	/*
 	if( m_flags & mUSE_MODEL_AMBIENT )
 	{
@@ -153,6 +155,7 @@ void CXboxModelLights::plat_update_engine( Mth::Vector & pos, bool add_scene_lig
 /******************************************************************/
 bool CXboxModelLights::plat_set_light_ambient_color( const Image::RGBA &rgba )
 {
+	(void)rgba;
 	// m_ambient_color = rgba;
 	return true;
 }
@@ -176,6 +179,8 @@ Image::RGBA	CXboxModelLights::plat_get_light_ambient_color() const
 /******************************************************************/
 bool CXboxModelLights::plat_set_light_direction( int light_index, const Mth::Vector &direction )
 {
+	(void)light_index;
+	(void)direction;
 	// m_diffuse_direction[light_index] = direction;
 	return true;
 }
@@ -188,6 +193,7 @@ bool CXboxModelLights::plat_set_light_direction( int light_index, const Mth::Vec
 /******************************************************************/
 const Mth::Vector &	CXboxModelLights::plat_get_light_direction( int light_index ) const
 {
+	(void)light_index;
 	/*
 	if( plat_is_diffuse_light_enabled( light_index ))
 		return m_diffuse_direction[light_index];
@@ -206,6 +212,8 @@ const Mth::Vector &	CXboxModelLights::plat_get_light_direction( int light_index 
 /******************************************************************/
 bool CXboxModelLights::plat_set_light_diffuse_color( int light_index, const Image::RGBA &rgba )
 {
+	(void)light_index;
+	(void)rgba;
 	// m_diffuse_color[light_index] = rgba;
 	return true;
 }
@@ -218,6 +226,7 @@ bool CXboxModelLights::plat_set_light_diffuse_color( int light_index, const Imag
 /******************************************************************/
 Image::RGBA	CXboxModelLights::plat_get_light_diffuse_color( int light_index ) const
 {
+	(void)light_index;
 	// return m_diffuse_color[light_index];
 	return Image::RGBA();
 }
@@ -230,6 +239,7 @@ Image::RGBA	CXboxModelLights::plat_get_light_diffuse_color( int light_index ) co
 /******************************************************************/
 void CXboxModelLights::plat_enable_ambient_light( bool enable )
 {
+	(void)enable;
 	/*
 	if( enable )
 		m_flags |= mUSE_MODEL_AMBIENT;
@@ -246,6 +256,8 @@ void CXboxModelLights::plat_enable_ambient_light( bool enable )
 /******************************************************************/
 void CXboxModelLights::plat_enable_diffuse_light( int light_index, bool enable )
 {
+	(void)light_index;
+	(void)enable;
 	/*
 	if( enable )
 		m_flags |= ( light_index == 0 ) ? mUSE_MODEL_DIFFUSE_0 : mUSE_MODEL_DIFFUSE_1;
@@ -274,6 +286,7 @@ bool CXboxModelLights::plat_is_ambient_light_enabled() const
 /******************************************************************/
 bool CXboxModelLights::plat_is_diffuse_light_enabled( int light_index ) const
 {
+	(void)light_index;
 	return true;
 	// return (( light_index == 0 ) ? (( m_flags & mUSE_MODEL_DIFFUSE_0 ) > 0 ) : (( m_flags & mUSE_MODEL_DIFFUSE_1 ) > 0 ));
 }

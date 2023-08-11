@@ -57,6 +57,9 @@ void CXboxTexture::SetEngineTexture( NxWn32::sTexture *p_texture )
 /******************************************************************/
 bool CXboxTexture::plat_load_texture( const char *p_texture_name, bool sprite, bool alloc_vram )
 {
+	(void)alloc_vram;
+	(void)sprite;
+
 	char filename[256];
 
 	strcpy( filename, p_texture_name );
@@ -77,10 +80,11 @@ bool CXboxTexture::plat_load_texture( const char *p_texture_name, bool sprite, b
 /******************************************************************/
 bool CXboxTexture::plat_replace_texture( CTexture *p_texture )
 {
-	CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>(p_texture);
+	(void)p_texture;
+	// CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>(p_texture);
 
 	// Go through and copy the texture.
-	NxWn32::sTexture *p_src = p_xbox_texture->GetEngineTexture();
+	// NxWn32::sTexture *p_src = p_xbox_texture->GetEngineTexture();
 	NxWn32::sTexture *p_dst = GetEngineTexture();
 
 	// TODO: actually copy
@@ -183,6 +187,7 @@ bool	CXboxTexture::plat_is_transparent() const
 
 CXboxTexDict::CXboxTexDict( uint32 checksum ) : CTexDict( checksum )
 {
+	(void)checksum;
 	// Load nothing
 }
 
@@ -284,6 +289,8 @@ bool CXboxTexDict::UnloadTextureDictionary( void )
 /******************************************************************/
 CTexture *CXboxTexDict::plat_load_texture( const char *p_texture_name, bool sprite, bool alloc_vram )
 {
+	(void)alloc_vram;
+
 	CXboxTexture *p_texture = new CXboxTexture;
 	if( !p_texture->LoadTexture( p_texture_name, sprite ))
 	{
@@ -300,6 +307,7 @@ CTexture *CXboxTexDict::plat_load_texture( const char *p_texture_name, bool spri
 /******************************************************************/
 CTexture *CXboxTexDict::plat_reload_texture( const char *p_texture_name )
 {
+	(void)p_texture_name;
 	return nullptr;
 }
 
@@ -324,6 +332,7 @@ bool CXboxTexDict::plat_unload_texture( CTexture *p_texture )
 /******************************************************************/
 void CXboxTexDict::plat_add_texture( CTexture *p_texture )
 {
+	(void)p_texture;
 }
 
 
@@ -334,6 +343,7 @@ void CXboxTexDict::plat_add_texture( CTexture *p_texture )
 /******************************************************************/
 bool CXboxTexDict::plat_remove_texture( CTexture *p_texture )
 {
+	(void)p_texture;
 	return false;
 }
 
@@ -430,6 +440,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 			else
 			{
 				Dbg_Assert(0);
+				return nullptr;
 			}
 		}
 		else if (p_texture->TexelDepth == 8)
@@ -455,6 +466,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		else
 		{
 			Dbg_Assert(0);
+			return nullptr;
 		}
 		
 		// Decode texture
@@ -585,6 +597,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 			else
 			{
 				Dbg_Assert( 0 );
+				return nullptr;
 			}
 		}
 		else if( p_texture->TexelDepth == 8 )
@@ -610,6 +623,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		else
 		{
 			Dbg_Assert( 0 );
+			return nullptr;
 		}
 
 		// Decode texture

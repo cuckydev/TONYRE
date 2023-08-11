@@ -102,6 +102,7 @@ Manager::~Manager( void )
 
 int	Manager::GetMaxSlots( int port )
 {
+	(void)port;
 	return vMAX_SLOT;
 }
 
@@ -112,6 +113,8 @@ int	Manager::GetMaxSlots( int port )
 
 Card* Manager::GetCard( int port, int slot )
 {
+	(void)port;
+	(void)slot;
 	// Ignore port and slot, since on the XBox we're only using the hard drive.
 	return &m_hard_drive;
 }
@@ -354,6 +357,7 @@ bool Card::MaxFilesReached()
 // Note: dir_name must no longer start with a backslash, it should just be "Career2-Career" etc.
 bool Card::MakeDirectory( const char* dir_name )
 {
+	(void)dir_name;
 	/*
 	char	output_dir[vDIRECTORY_NAME_BUF_SIZE];
 	WCHAR	input_name[vDIRECTORY_NAME_BUF_SIZE];
@@ -386,6 +390,7 @@ bool Card::MakeDirectory( const char* dir_name )
 /******************************************************************/
 const char *Card::ConvertDirectory( const char* dir_name )
 {
+	(void)dir_name;
 	/*
 	static char	output_dir[vDIRECTORY_NAME_BUF_SIZE];
 	WCHAR	input_name[vDIRECTORY_NAME_BUF_SIZE];
@@ -520,6 +525,7 @@ bool Card::DeleteDirectory( const char* dir_name )
 // The name must not be preceded with a backslash, ie should be "Career12-Career" for example.
 bool Card::DeleteDirectory( const char* dir_name )
 {
+	(void)dir_name;
 	/*
 	WCHAR	input_name[64];
 	wsprintfW( input_name, L"%hs", dir_name );
@@ -539,6 +545,7 @@ bool Card::DeleteDirectory( const char* dir_name )
 /******************************************************************/
 bool Card::ChangeDirectory( const char* dir_name )
 {
+	(void)dir_name;
 	return true;
 }
 
@@ -693,6 +700,7 @@ int	Card::GetNumFreeClusters( void )
 /******************************************************************/
 int	Card::GetNumFreeEntries( const char* path )
 {
+	(void)path;
 	return 0;
 }
 
@@ -704,6 +712,7 @@ int	Card::GetNumFreeEntries( const char* path )
 /******************************************************************/
 bool Card::Delete( const char* filename )
 {
+	(void)filename;
 	return true;
 }
 
@@ -715,6 +724,8 @@ bool Card::Delete( const char* filename )
 /******************************************************************/
 bool Card::Rename( const char* old_name, const char* new_name )
 {
+	(void)old_name;
+	(void)new_name;
 	return true;
 }
 
@@ -726,6 +737,10 @@ bool Card::Rename( const char* old_name, const char* new_name )
 /******************************************************************/
 File* Card::Open( const char* filename, int mode, int size )
 {
+	(void)filename;
+	(void)mode;
+	(void)size;
+
 	Dbg_Assert( m_mounted_drive_letter != 0 );
 
 	m_last_error=0;
@@ -738,7 +753,7 @@ File* Card::Open( const char* filename, int mode, int size )
 	cardFilenameBuffer[1] = ':';
 
 	int index = 2;
-	while( cardFilenameBuffer[index] = *filename )
+	while ((cardFilenameBuffer[index] = *filename) != '\0')
 	{
 		// Switch forward slash directory separators to the supported backslash.
 		if( cardFilenameBuffer[index] == '/' )
@@ -838,6 +853,8 @@ File* Card::Open( const char* filename, int mode, int size )
 /******************************************************************/
 bool Card::GetFileList( const char* mask, Lst::Head< File > &file_list )
 {
+	(void)mask;
+	(void)file_list;
 	/*
 	HANDLE			handle;
 	XGAME_FIND_DATA	find_data;
@@ -952,7 +969,7 @@ bool File::Flush( void )
 /*                                                                */
 /******************************************************************/
 
-int	File::Write( void* data, int len )
+int	File::Write( void* buffer, int len )
 {
 	Dbg_Assert( m_fd != 0 );
 
@@ -963,10 +980,10 @@ int	File::Write( void* data, int len )
 
 	DWORD bytes_written;
 	BOOL rv = WriteFile(	(HANDLE)m_fd,		// handle to file
-							data,				// data buffer
+							buffer,				// data buffer
 							len,				// number of bytes to write
 							&bytes_written,		// number of bytes written
-							nullptr );				// overlapped buffer
+							nullptr );			// overlapped buffer
 							
 //	Skate3 code, disabled for now.
 #	if 0

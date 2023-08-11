@@ -202,10 +202,10 @@ void Device::read_data ( void )
 	int rdown = keystate[SDL_SCANCODE_KP_2] ? 1 : 0;
 	int rleft = keystate[SDL_SCANCODE_KP_4] ? 1 : 0;
 
-	m_data.m_control_data[4] = (0x80 + (rright - rleft) * 0x7F); // Analog stick right (X direction).
-	m_data.m_control_data[5] = (0x80 + (rdown - rup) * 0x7F); // Analog stick right (Y direction).
-	m_data.m_control_data[6] = (0x80 + (right - left) * 0x7F); // Analog stick left (X direction).
-	m_data.m_control_data[7] = (0x80 + (down - up) * 0x7F); // Analog stick left (Y direction).
+	m_data.m_control_data[4] = (unsigned char)((0x80 + (rright - rleft) * 0x7F)); // Analog stick right (X direction).
+	m_data.m_control_data[5] = (unsigned char)((0x80 + (rdown - rup) * 0x7F)); // Analog stick right (Y direction).
+	m_data.m_control_data[6] = (unsigned char)((0x80 + (right - left) * 0x7F)); // Analog stick left (X direction).
+	m_data.m_control_data[7] = (unsigned char)((0x80 + (down - up) * 0x7F)); // Analog stick left (Y direction).
 
 	m_data.m_control_data[20] = 0;
 	if (keystate[SDL_SCANCODE_Q] && keystate[SDL_SCANCODE_E])
@@ -589,6 +589,9 @@ void Device::Unacquire ( void )
 /******************************************************************/
 void Device::ActivateActuator( int act_num, int percent )
 {
+	(void)act_num;
+	(void)percent;
+
 	/*
 	// Do nothing if the actuators are disabled.
 	if( m_data.m_actuators_disabled )

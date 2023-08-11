@@ -5225,7 +5225,7 @@ void Manager::StartNetworkLobby( void )
 	Dbg_Printf( "Starting network lobby\n" );
 	
 	// Clear the king of the hill
-	if(( player = GetKingOfTheHill()))
+	if(( player = GetKingOfTheHill()) != nullptr)
 	{
 		player->MarkAsKing( false );
 	}
@@ -5411,7 +5411,7 @@ void Manager::StartNetworkGame( void )
 	}
 
 	// Clear the king of the hill
-	if(( player = GetKingOfTheHill()))
+	if(( player = GetKingOfTheHill()) != nullptr)
 	{
 		player->MarkAsKing( false );
 	}
@@ -5832,7 +5832,7 @@ void	Manager::CreateNetPanelMessage( bool broadcast, uint32 message_checksum, ch
 
 		text = Script::GetLocalString( message_checksum );
 		strcpy( temp_msg, text );
-		if(( format_start = strstr( temp_msg, "%s0" )))
+		if(( format_start = strstr( temp_msg, "%s0" )) != nullptr)
 		{
 			*format_start = '\0';
 

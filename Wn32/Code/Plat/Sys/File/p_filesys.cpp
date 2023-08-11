@@ -90,6 +90,8 @@ BOOL OkayToUseUtilityDrive = FALSE;
 /******************************************************************/
 static void* prefopen( const char *filename, const char *mode )
 {
+	(void)mode;
+
 	// Used for prepending the root data directory on filesystem calls.
 	static char	modulePath[MAX_PATH];
 	static int sModuleIndex = 0;
@@ -138,7 +140,7 @@ static void* prefopen( const char *filename, const char *mode )
 		p_skip = filename;
 	}
 
-	while( nameConversionBuffer[index] = *p_skip )
+	while ((nameConversionBuffer[index] = *p_skip) != '\0')
 	{
 		// Switch forward slash directory separators to the supported backslash.
 		if( nameConversionBuffer[index] == '/' )
@@ -351,6 +353,7 @@ void InitQuickFileSystem( void )
 /******************************************************************/
 uint32	CanFileBeLoadedQuickly( const char* filename )
 {
+	(void)filename;
 	return 0;
 }
 
@@ -362,6 +365,8 @@ uint32	CanFileBeLoadedQuickly( const char* filename )
 /******************************************************************/
 bool LoadFileQuicklyPlease( const char* filename, uint8 *addr )
 {
+	(void)filename;
+	(void)addr;
 	return false;
 }
 

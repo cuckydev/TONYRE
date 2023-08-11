@@ -125,6 +125,10 @@ namespace NxWn32
 /******************************************************************/
 DWORD GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_used )
 {
+	(void)vertex_colors;
+	(void)specular;
+	(void)max_weights_used;
+
 	/*
 	Dbg_Assert( max_weights_used > 0 );
 	
@@ -316,6 +320,9 @@ void CreateWeightedMeshVertexShaders( void )
 /******************************************************************/
 void setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matrices, int num_bone_matrices )
 {
+	(void)p_root_matrix;
+	(void)p_bone_matrices;
+	(void)num_bone_matrices;
 	/*
 	XGMATRIX	dest_matrix;
 	XGMATRIX	inverse_view_matrix;

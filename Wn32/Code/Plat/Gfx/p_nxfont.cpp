@@ -72,9 +72,9 @@ bool CXboxFont::plat_load(const char *filename)
 
 void CXboxFont::plat_set_spacings(int charSpacing, int spaceSpacing)
 {
-	mp_plat_font->mCharSpacing = charSpacing;
+	mp_plat_font->mCharSpacing = (sint16)charSpacing;
 	if (spaceSpacing > 0)
-		mp_plat_font->mSpaceSpacing = spaceSpacing;
+		mp_plat_font->mSpaceSpacing = (sint16)spaceSpacing;
 }
 
 /******************************************************************/

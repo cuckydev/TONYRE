@@ -334,6 +334,7 @@ void CXboxWeather::plat_update_grid( void )
 /******************************************************************/
 void CXboxWeather::plat_process( float delta_time )
 {
+	(void)delta_time;
 	/*
 	if( !m_system_active ) return;
 
@@ -445,6 +446,8 @@ inline DWORD FtoDW( FLOAT f ) { return *((DWORD*)&f); }
 /******************************************************************/
 void CXboxWeather::plat_render_snow( float skx, float skz )
 {
+	(void)skx;
+	(void)skz;
 	/*
 	// Early out if no drops to draw.
 	if( !m_active_drops ) return;
@@ -644,6 +647,8 @@ void CXboxWeather::plat_render_snow( float skx, float skz )
 /******************************************************************/
 void CXboxWeather::plat_render_rain( float skx, float skz )
 {
+	(void)skx;
+	(void)skz;
 	/*
 	// Early out if no drops to draw.
 	if ( !m_active_drops ) return;
@@ -840,6 +845,8 @@ void CXboxWeather::plat_render_rain( float skx, float skz )
 /******************************************************************/
 void CXboxWeather::plat_render_splashes( float skx, float skz )
 {
+	(void)skx;
+	(void)skz;
 	/*
 	// Create a new splash if required.
 	float last = m_splash_rate;
@@ -1055,6 +1062,8 @@ void CXboxWeather::plat_render( void )
 /******************************************************************/
 void CXboxWeather::plat_set_rain_blend_mode( uint32 blendmode_checksum, int fix )
 {
+	(void)blendmode_checksum;
+	(void)fix;
 	// m_rain_blend = NxXbox::GetBlendMode( blendmode_checksum ) | ((uint32)fix << 24 );
 }
 
@@ -1066,6 +1075,8 @@ void CXboxWeather::plat_set_rain_blend_mode( uint32 blendmode_checksum, int fix 
 /******************************************************************/
 void CXboxWeather::plat_set_splash_blend_mode( uint32 blendmode_checksum, int fix )
 {
+	(void)blendmode_checksum;
+	(void)fix;
 	// m_splash_blend = NxXbox::GetBlendMode( blendmode_checksum ) | ((uint32)fix << 24 );
 }
 
@@ -1077,6 +1088,8 @@ void CXboxWeather::plat_set_splash_blend_mode( uint32 blendmode_checksum, int fi
 /******************************************************************/
 void CXboxWeather::plat_set_snow_blend_mode( uint32 blendmode_checksum, int fix )
 {
+	(void)blendmode_checksum;
+	(void)fix;
 	// m_snow_blend = NxXbox::GetBlendMode( blendmode_checksum ) | ((uint32)fix << 24 );
 }
 

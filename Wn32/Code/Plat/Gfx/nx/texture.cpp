@@ -72,6 +72,7 @@ sTexture::~sTexture()
 /******************************************************************/
 void sTexture::Set( int pass )
 {
+	(void)pass;
 	// Set this texture as the active texture for a specific pass.
 	// set_texture( pass, pD3DTexture, pD3DPalette );
 }
@@ -84,6 +85,10 @@ void sTexture::Set( int pass )
 /******************************************************************/
 bool sTexture::SetRenderTarget( int width, int height, int depth, int z_depth )
 {
+	(void)width;
+	(void)height;
+	(void)depth;
+	(void)z_depth;
 	/*
 	HRESULT		hr;
 	
@@ -220,14 +225,14 @@ sTexture *LoadTexture( const char *p_filename )
 		{
 			// Read clut bitmap data.
 			Dbg_Assert(header.palette_data_size <= sizeof( pal ));
-			int len	= File::Read( pal, header.palette_data_size, 1, p_FH );
+			size_t len	= File::Read( pal, header.palette_data_size, 1, p_FH );
 			Dbg_MsgAssert( len == header.palette_data_size, ( "Couldn't read clut from texture file %s", p_filename ));
 		}
 
 		// Read texture bitmap data
 		size_t num_bytes = (((header.bit_depth / 8) * (header.width) * (header.height)) + 3) & 0xFFFFFFFC;
 		uint8 *source_data = new uint8[num_bytes];
-		int len = File::Read(source_data, num_bytes, 1, p_FH);
+		size_t len = File::Read(source_data, num_bytes, 1, p_FH);
 		Dbg_MsgAssert(len == num_bytes, ("couldn't read texture data from texture file %s", p_filename));
 		File::Close(p_FH);
 
@@ -273,10 +278,10 @@ sTexture *LoadTexture( const char *p_filename )
 			delete[] unswizzled_texture_data;
 
 			// Set size
-			p_texture->BaseWidth = header.width;
-			p_texture->BaseHeight = header.height;
-			p_texture->ActualWidth = header.original_width;
-			p_texture->ActualHeight = header.original_height;
+			p_texture->BaseWidth = (uint16)header.width;
+			p_texture->BaseHeight = (uint16)header.height;
+			p_texture->ActualWidth = (uint16)header.original_width;
+			p_texture->ActualHeight = (uint16)header.original_height;
 		}
 		else
 		{
@@ -285,10 +290,10 @@ sTexture *LoadTexture( const char *p_filename )
 			delete[] texture_data;
 
 			// Set size
-			p_texture->BaseWidth = header.original_width;
-			p_texture->BaseHeight = header.original_height;
-			p_texture->ActualWidth = header.original_width;
-			p_texture->ActualHeight = header.original_height;
+			p_texture->BaseWidth = (uint16)header.original_width;
+			p_texture->BaseHeight = (uint16)header.original_height;
+			p_texture->ActualWidth = (uint16)header.original_width;
+			p_texture->ActualHeight = (uint16)header.original_height;
 		}
 
 		// Set up some member values

@@ -450,6 +450,8 @@ void sScene::HidePolys( uint32 mask, sCASData *p_cas_data, uint32 num_entries )
 /******************************************************************/
 sScene *LoadScene( const char *Filename, sScene *pScene )
 {
+	(void)Filename;
+	(void)pScene;
 	return nullptr;
 }
 

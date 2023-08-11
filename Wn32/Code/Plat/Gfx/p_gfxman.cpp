@@ -110,6 +110,7 @@ void Manager::DumpVRAMUsage( void )
 
 void Manager::ScreenShot( const char *fileroot )
 {
+	(void)fileroot;
 	/*
 	// Called twice per frame - once to request the screenshot, and once (post Swap()), to actually perform it.
 	if( NxWn32::EngineGlobals.screenshot_name[0] == 0 )

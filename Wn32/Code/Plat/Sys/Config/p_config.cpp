@@ -6,6 +6,9 @@ namespace Config
 
 void Plat_Init(sint argc, char** argv)
 {
+	(void)argc;
+	(void)argv;
+
 	gHardware = HARDWARE_XBOX;
 	gLanguage = LANGUAGE_ENGLISH;	
 

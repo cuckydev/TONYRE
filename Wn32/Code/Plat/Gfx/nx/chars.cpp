@@ -90,8 +90,10 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	SFont*	pFont;
 	SChar*	pChar;
 	uint8*	pData;
-	void*	p_FH;
-	int		i,Len,NumChars,Width,Height,Depth,NumBytes;
+	void*	p_FH = nullptr;
+	uint32 i;
+	uint32 NumChars, Width, Height, Depth, NumBytes;
+	size_t Len;
 
 	// Build the full filename.
 	char filename[128];

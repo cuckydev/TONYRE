@@ -186,6 +186,7 @@ static uint32 s_level_specific_qbs[MAX_LEVEL_QBS];
 
 ///////////////////////////////////////////////////////////////////
 // some temp debugging functions
+#if 0
 #define	DUMP_LEN	1024
 static void * dump_handle;	
 static char p_buffer[1024];
@@ -246,6 +247,7 @@ void dump_close()
 	File::Close( dump_handle );
 	dumping_printfs = 0;
 }
+#endif
 
 /*****************************************************************************
 **								DBG Information								**
@@ -402,6 +404,8 @@ static void		test_network_task( const Tsk::Task< Tmr::Time >& task )
 
 static	void	s_second_controller_check_code( const Tsk::Task< int > &task )
 {
+	(void)task;
+
 	// Get the second controller.
 	 SIO::Manager * pSioMan =  SIO::Manager::Instance();
 	SIO::Device *pFirstController=pSioMan->GetDeviceByIndex(0);
@@ -513,6 +517,9 @@ static bool SetupNetworkDeviceDialogHandler( Front::EDialogBoxResult Result )
 
 bool ScriptDummyCommand(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	return true;
 }
 
@@ -614,6 +621,8 @@ bool SetActiveCamera(uint32 id, int viewport, bool move_to_current)
 // @flag gameframes | measure time in gameframes 
 bool ScriptWait(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	float Period=0.0f;
 	pParams->GetFloat(NONAME,&Period);
 	
@@ -655,6 +664,8 @@ bool ScriptWait(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | IsZero | added for testing if statements.  may be useful
 bool ScriptIsZero(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	
 	int Val=0;
@@ -680,6 +691,8 @@ bool ScriptIsZero(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt name | The name of the parameter to be cast down
 bool ScriptCastToInteger(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 param_name=0;
 	if (!pParams->GetChecksum(NONAME,&param_name))
 	{
@@ -706,6 +719,8 @@ bool ScriptCastToInteger(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt name | The name of the string parameter to be converted.
 bool ScriptStringToInteger(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 param_name=0;
 	if (!pParams->GetChecksum(NONAME,&param_name))
 	{
@@ -746,6 +761,8 @@ bool ScriptStringToInteger(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | b | 0 | Second value
 bool ScriptIntegerEquals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int a = 0;
 	pParams->GetInteger( Crc::ConstCRC("a"), &a );
 	
@@ -765,6 +782,8 @@ bool ScriptIntegerEquals(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt name | b | 0 (checksum value) | Second name
 bool ScriptChecksumEquals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	uint32 a=0;
@@ -785,6 +804,8 @@ bool ScriptChecksumEquals(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm string | b | Secnond string
 bool ScriptStringEquals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	const char* a;
@@ -808,6 +829,8 @@ bool ScriptStringEquals(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm | contains | The element to search for.  Must match array type
 bool ScriptArrayContains(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	Script::CArray* pArray;
@@ -864,6 +887,8 @@ bool ScriptArrayContains(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm | array_size | return value for array size
 bool ScriptGetArraySize(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::CArray* pArray;
 	
 	pParams->GetArray( NONAME, &pArray, Script::ASSERT );
@@ -904,6 +929,8 @@ bool ScriptGetArraySize(Script::CStruct *pParams, Script::CScript *pScript)
 // the array it will assert.
 bool ScriptSetArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// TODO: Most of this code should really be in the CArray class. Need to go over that
 	// class to make it easier to manipulate arrays safely. (resize, etc)
 	
@@ -1038,6 +1065,8 @@ bool ScriptSetArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | Get2DarrayData | 
 bool ScriptGet2DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 array_name=0;
 	pParams->GetChecksum(Crc::ConstCRC("ArrayName"),&array_name,Script::ASSERT);
 	Script::CArray *p_array1=nullptr;
@@ -1119,6 +1148,8 @@ bool ScriptGet2DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | Get3DarrayData | 
 bool ScriptGet3DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 array_name=0;
 	pParams->GetChecksum(Crc::ConstCRC("ArrayName"),&array_name,Script::ASSERT);
 	Script::CArray *p_array1=nullptr;
@@ -1207,6 +1238,8 @@ bool ScriptGet3DArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GetNDarrayData | 
 bool ScriptGetNDArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 array_name=0;
 	pParams->GetChecksum(Crc::ConstCRC("ArrayName"),&array_name,Script::ASSERT);
 	Script::CArray *p_array=nullptr;
@@ -1292,6 +1325,8 @@ bool ScriptGetNDArrayData(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt {} | structure to append to params
 bool ScriptAddParams(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	pScript->GetParams()->AppendStructure(pParams);
 	return true;
 }
@@ -1305,6 +1340,8 @@ bool ScriptAddParams(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | name of component to remove
 bool ScriptRemoveComponent(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 name;
 	if ( !pParams->GetChecksum("name", &name, Script::NO_ASSERT) )
 	{
@@ -1337,6 +1374,8 @@ static uint32 s_get_bottom_up_free(bool includeFrag)
 // @script | SetScriptString | 
 bool ScriptSetScriptString(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int index=0;
 	pParams->GetInteger(Crc::ConstCRC("index"),&index);
 	
@@ -1350,6 +1389,8 @@ bool ScriptSetScriptString(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | GetScriptString | 
 bool ScriptGetScriptString(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int index=0;
 	pParams->GetInteger(Crc::ConstCRC("index"),&index);
 	
@@ -1360,6 +1401,8 @@ bool ScriptGetScriptString(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | KenTest1 | old test of ken's
 bool ScriptKenTest1(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	static bool s_got_main_heap_free_edit=false;
 	static uint32 s_main_heap_free_edit=0;
 	
@@ -1392,6 +1435,8 @@ bool ScriptKenTest1(Script::CStruct *pParams, Script::CScript *pScript)
 // MaxChars.
 bool ScriptAppendSuffix(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	enum
 	{
 		BUFFER_SIZE=100,
@@ -1437,6 +1482,8 @@ bool ScriptAppendSuffix(Script::CStruct *pParams, Script::CScript *pScript)
 // If it were not called, this would only find the nearest edited-rail point.
 bool ScriptFindNearestRailPoint(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mth::Vector pos;
 	pParams->GetVector(Crc::ConstCRC("Pos"),&pos,Script::ASSERT);
 	
@@ -1496,6 +1543,8 @@ bool ScriptFindNearestRailPoint(Script::CStruct *pParams, Script::CScript *pScri
 
 bool ScriptGetTime(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef __PLAT_NGPS__
 /*
 	sceCdCLOCK rtc;
@@ -1511,6 +1560,8 @@ bool ScriptGetTime(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetDate(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef __PLAT_NGPS__
 /*
 	sceCdCLOCK rtc;
@@ -1532,6 +1583,8 @@ bool ScriptGetDate(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetObNearestScreenCoord(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return true;
 }
 
@@ -1542,6 +1595,8 @@ bool ScriptGetObNearestScreenCoord(Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptRandomize(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mth::InitialRand(Tmr::ElapsedTime(0));
 	return true;
 }
@@ -1554,6 +1609,8 @@ bool ScriptRandomize(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | KenTest2 | old test of Ken's
 bool ScriptKenTest2(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	//Ed::CParkEditor::Instance()->PlayModeGapManagerChecks();
 	return true;
 }
@@ -1566,6 +1623,8 @@ bool ScriptKenTest2(Script::CStruct *pParams, Script::CScript *pScript)
 static Tmr::Time sStartTime=0;
 bool ScriptResetTimer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	sStartTime=Tmr::ElapsedTime(0);
 	return true;
 }
@@ -1577,6 +1636,8 @@ bool ScriptResetTimer(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptTimeGreaterThan(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	float t=0.0f;
 	pParams->GetFloat(NONAME,&t);
 	
@@ -1594,6 +1655,8 @@ bool ScriptTimeGreaterThan(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetStartTime(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("StartTime"), Tmr::GetTime());
 	return true;	
 }
@@ -1605,6 +1668,8 @@ bool ScriptGetStartTime(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetElapsedTime(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int start_time;
 	pParams->GetInteger(Crc::ConstCRC("StartTime"), &start_time);
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("ElapsedTime"), Tmr::ElapsedTime(start_time));
@@ -1621,6 +1686,8 @@ bool ScriptGetElapsedTime(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt name | The name of the parameter to be removed
 bool ScriptRemoveParameter(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 name=0;
 	pParams->GetChecksum(NONAME,&name);
 	
@@ -1654,6 +1721,8 @@ bool ScriptRemoveParameter(Script::CStruct *pParams, Script::CScript *pScript)
 // integers instead of floats in this case. 
 bool ScriptGetRandomValue(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 param_name=0;
 	pParams->GetChecksum(Crc::ConstCRC("Name"),&param_name);
 		
@@ -1704,6 +1773,8 @@ bool ScriptGetRandomValue(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | FrameRate | | Frame rate to use, 50 or 60
 bool ScriptSetConfig(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 language_checksum=0;
 	pParams->GetChecksum(Crc::ConstCRC("Language"),&language_checksum);
 	
@@ -1780,6 +1851,8 @@ bool ScriptSetConfig(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | PrintConfig | Prints the current system configuration, whether it is CD, PAL, etc.
 bool ScriptPrintConfig(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	printf("\n");
 	printf("System Configuration:\n\n");
 	printf("Hardware       = %s\n",Config::GetHardwareName());
@@ -1801,30 +1874,40 @@ bool ScriptPrintConfig(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | German | Returns true if the current language is German
 bool ScriptGerman(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Config::GetLanguage()==Config::LANGUAGE_GERMAN;
 }
 
 // @script | French | Returns true if the current language is French
 bool ScriptFrench(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Config::GetLanguage()==Config::LANGUAGE_FRENCH;
 }
 
 // @script | Spanish | Returns true if the current language is Spanish
 bool ScriptSpanish(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Config::GetLanguage()==Config::LANGUAGE_SPANISH;
 }
 
 // @script | Italian | Returns true if the current language is Italian
 bool ScriptItalian(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Config::GetLanguage()==Config::LANGUAGE_ITALIAN;
 }
 
 // @script | English | Returns true if the current language is English
 bool ScriptEnglish(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Config::GetLanguage()==Config::LANGUAGE_ENGLISH;
 }
 
@@ -1838,6 +1921,8 @@ static Tmr::CPUCycles sStopwatchStartTime=0;
 
 bool ScriptResetStopwatch(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef		__USE_PROFILER__			
 	sStopwatchStartTime=Tmr::GetTimeInCPUCycles();
 #endif	
@@ -1851,6 +1936,8 @@ bool ScriptResetStopwatch(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptPrintStopwatchTime(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #ifdef		__USE_PROFILER__			
 	Tmr::CPUCycles diff=Tmr::GetTimeInCPUCycles()-sStopwatchStartTime; 
 	printf("Stopwatch time = %.3f seconds\n",(float)diff/150000000.0f);
@@ -1866,6 +1953,8 @@ bool ScriptPrintStopwatchTime(Script::CStruct *pParams, Script::CScript *pScript
 // @script | CustomSkaterFilenameDefined | Doesn't appear to be supported
 bool ScriptCustomSkaterFilenameDefined(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	 Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Obj::CSkaterProfile* pSkaterProfile=pSkate->GetCurrentProfile();
@@ -1889,6 +1978,8 @@ bool ScriptCustomSkaterFilenameDefined(Script::CStruct *pParams, Script::CScript
 // @script | GetCustomSkaterFilename | Gets the filename for the current CAS
 bool ScriptGetCustomSkaterFilename(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Obj::CSkaterProfile* pSkaterProfile=pSkate->GetCurrentProfile();
@@ -1906,6 +1997,8 @@ bool ScriptGetCustomSkaterFilename(Script::CStruct *pParams, Script::CScript *pS
 // @script | SetCustomSkaterFilename | Sets the filename for the current CAS
 bool ScriptSetCustomSkaterFilename(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Obj::CSkaterProfile* pSkaterProfile=pSkate->GetCurrentProfile();
 	Dbg_MsgAssert(pSkaterProfile,("nullptr pSkaterProfile"));
@@ -1924,6 +2017,8 @@ bool ScriptSetCustomSkaterFilename(Script::CStruct *pParams, Script::CScript *pS
 // @script | EditingPark | Returns true of we're in the park editor
 bool ScriptEditingPark(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #if 0
 	Ed::ParkEditor * pParkEd =  Ed::ParkEditor::Instance();
 	if (pParkEd->IsInitialized() && !pParkEd->GameGoingOrOutsideEditor())
@@ -1947,6 +2042,8 @@ static char spParkName[PARK_NAME_BUF_SIZE]={0};
 // @script | GetParkName | Gets the current park name
 bool ScriptGetParkName(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	pScript->GetParams()->AddString(Crc::ConstCRC("ParkName"),spParkName);
 	return false;
 }
@@ -1959,6 +2056,8 @@ bool ScriptGetParkName(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SetParkName | Sets the current park name
 bool ScriptSetParkName(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *p_name="";
 	pParams->GetString(NONAME,&p_name);
 	Dbg_MsgAssert(strlen(p_name)<PARK_NAME_BUF_SIZE,("Park name '%s' too long",p_name));
@@ -1975,6 +2074,8 @@ bool ScriptSetParkName(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ParkEditorThemeWasSwitched | Check if theme changed
 bool ScriptParkEditorThemeWasSwitched(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #if 0
 	Ed::ParkEditor * pParkEd =  Ed::ParkEditor::Instance();
 	return pParkEd->m_themeWasAutoSwitched;
@@ -1989,6 +2090,7 @@ bool ScriptParkEditorThemeWasSwitched(Script::CStruct *pParams, Script::CScript 
 
 static bool MenuIsShown(uint32 id)
 {
+	(void)id;
 /*
 	 Front::MenuFactory * pMenuFactory =  Front::MenuFactory::Instance();
 	Front::MenuElement *pMenuElement=pMenuFactory->GetMenuElement(id,false); // false means don't assert
@@ -2010,6 +2112,8 @@ static bool MenuIsShown(uint32 id)
 // @script | MenuIsShown | Checks array of names (pArray) is shown
 bool ScriptMenuIsShown(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// If there is an array of names, check them.		
 	Script::CArray *pArray=nullptr;
 	if (pParams->GetArray(NONAME,&pArray))
@@ -2043,7 +2147,7 @@ bool ScriptMenuIsShown(Script::CStruct *pParams, Script::CScript *pScript)
 
 static bool MenuIsSelected(uint32 id)
 {
-	
+	(void)id;
 	/*
 	 Front::MenuFactory * pMenuFactory =  Front::MenuFactory::Instance();
 	Front::MenuElement *pMenuElement=pMenuFactory->GetMenuElement(id,false); // false means don't assert
@@ -2068,6 +2172,8 @@ static bool MenuIsSelected(uint32 id)
 // merged onto each of those in the array
 bool ScriptForEachIn(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 ScriptChecksum=0;
 	pParams->GetChecksum(Crc::ConstCRC("Do"),&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nScript name missing in call to ForEachIn\n(eg, ForEachIn AnArray Do=AScript)",pScript->GetScriptInfo()));
@@ -2130,6 +2236,8 @@ bool ScriptForEachIn(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm [] | The array of which we're finding the size
 bool ScriptSizeOf(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 	
@@ -2153,6 +2261,8 @@ bool ScriptSizeOf(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | Index | 0 | The index value of the array element
 bool ScriptGetElement(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 
@@ -2210,6 +2320,8 @@ bool ScriptGetElement(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm [] | the array
 bool ScriptGetNextArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 
@@ -2292,6 +2404,8 @@ bool ScriptGetNextArrayElement(Script::CStruct *pParams, Script::CScript *pScrip
 // @uparm [] | the array
 bool ScriptGetRandomArrayElement(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	pScript->GetParams()->RemoveComponent(Crc::ConstCRC("Element"));
 	pScript->GetParams()->RemoveComponent(Crc::ConstCRC("index"));
 
@@ -2356,6 +2470,8 @@ bool ScriptGetRandomArrayElement(Script::CStruct *pParams, Script::CScript *pScr
 // So the NewArrayName parameter is not required in this case, it will be ignored.
 bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::CArray *p_source_array=nullptr;
 	pParams->GetArray("Array",&p_source_array);
 	
@@ -2441,6 +2557,9 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetGammaValues( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #	if defined( __PLAT_XBOX__ )
 	 Gfx::Manager * gfx_man =  Gfx::Manager::Instance();
 	float gamma_r;
@@ -2470,6 +2589,9 @@ bool ScriptGetGammaValues( Script::CStruct *pParams, Script::CScript *pScript )
 // Called from script in gamemenu.q
 bool ScriptApplyChangeGamma( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 #	if defined( __PLAT_XBOX__ )	
 	// get the current values
@@ -2527,6 +2649,8 @@ bool ScriptApplyChangeGamma( Script::CStruct *pParams, Script::CScript *pScript 
 // @uparm name | The name of the param to check for
 bool ScriptGotParam(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	uint32 FlagChecksum=0;
 	pParams->GetChecksum(NONAME,&FlagChecksum);
@@ -2557,6 +2681,9 @@ Tmr::Time gButtonDebounceTime[PAD_NUMBUTTONS];  // PAD_NUMBUTTONS defined in ska
 // @parmopt float | time | 1.0 | 
 bool ScriptControllerDebounce( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	uint32 Checksum = 0;
 	float time=1.0f;
@@ -2753,6 +2880,8 @@ bool CheckButton(Inp::Handler< Mdl::FrontEnd >* pHandler, uint32 button)
 // @uparmopt 0 | controller index
 bool ScriptControllerPressed(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mdl::FrontEnd* pFront = Mdl::FrontEnd::Instance();
 
 	int controller;
@@ -2785,6 +2914,8 @@ bool ScriptControllerPressed(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | Controller | 0 | Controller index
 bool ScriptGetAnalogueInfo(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mdl::FrontEnd* pFront = Mdl::FrontEnd::Instance();
 
 	int controller=0;
@@ -2815,6 +2946,9 @@ bool ScriptGetAnalogueInfo(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt 100.0 | volume
 bool ScriptSetVolume( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	float Volume = 100.0f;
     
@@ -2835,6 +2969,9 @@ bool ScriptSetVolume( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparmopt 100.0 | volume level
 bool ScriptSetMusicVolume( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	float Volume = 100.0f;
     
@@ -2853,6 +2990,9 @@ bool ScriptSetMusicVolume( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparmopt 100.0 | volume level
 bool ScriptSetMusicStreamVolume( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	float Volume = 100.0f;
     
@@ -2870,6 +3010,9 @@ bool ScriptSetMusicStreamVolume( Script::CStruct *pParams, Script::CScript *pScr
 // @script | StopMusic | 
 bool ScriptStopMusic( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	Pcm::StopMusic( );
 	return ( true );
@@ -2885,6 +3028,9 @@ bool ScriptStopMusic( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | PauseMusic | 
 bool ScriptPauseMusic( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	int pausePlease = 1;
 	pParams->GetInteger( NONAME, &pausePlease );
@@ -2901,6 +3047,9 @@ bool ScriptPauseMusic( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 1 | 0 to unpause, 1 to pause
 bool ScriptPauseStream( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	int pausePlease = 1;
 	pParams->GetInteger( NONAME, &pausePlease );
@@ -2919,6 +3068,9 @@ bool ScriptPauseStream( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm "string" | name of header/wad file
 bool ScriptLoadMusicHeader( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	const char *pName = nullptr;
 	pParams->GetText( NONAME, &pName );
@@ -2943,6 +3095,9 @@ bool ScriptLoadMusicHeader( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm "string" | name of header/wad file (minus extension)
 bool ScriptLoadStreamHeader( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	const char *pName = nullptr;
 	pParams->GetText( NONAME, &pName );
@@ -2966,6 +3121,9 @@ bool ScriptLoadStreamHeader( Script::CStruct *pParams, Script::CScript *pScript 
 // @parm int | | which stream 
 bool ScriptStreamIsAvailable( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	if ( !skate_mod->GetGameMode()->IsFrontEnd() )
@@ -3006,6 +3164,9 @@ bool ScriptStreamIsAvailable( Script::CStruct *pParams, Script::CScript *pScript
 // otherwise track is a level-specific ambient type. <nl>
 bool ScriptAddMusicTrack( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	const char *pTrackName = nullptr;
 	const char *pTrackTitle = nullptr;
@@ -3031,6 +3192,8 @@ bool ScriptAddMusicTrack( Script::CStruct *pParams, Script::CScript *pScript )
 // @flag Off | Disable the specified track. If omitted, it will enable the track.
 bool ScriptChangeTrackState(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int track_num=0;
 	pParams->GetInteger(NONAME,&track_num);
 	
@@ -3042,6 +3205,8 @@ bool ScriptChangeTrackState(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt 0 | The index of the track
 bool ScriptTrackEnabled(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int track_num=0;
 	pParams->GetInteger(NONAME,&track_num);
 
@@ -3075,6 +3240,8 @@ bool ScriptTrackEnabled(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptMusicIsPaused(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Pcm::MusicIsPaused();
 }	
 
@@ -3088,6 +3255,9 @@ bool ScriptMusicIsPaused(Script::CStruct *pParams, Script::CScript *pScript)
 // the permanent list, otherwise clear level specific list
 bool ScriptClearMusicTrackList( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	int whichList = Pcm::TRACKLIST_LEVEL_SPECIFIC;
 	if ( pParams->ContainsFlag( CHECKSUM_FLAG_PERM ) )
@@ -3107,6 +3277,9 @@ bool ScriptClearMusicTrackList( Script::CStruct *pParams, Script::CScript *pScri
 // Play next track in the list ( or if in random mode, pick another random track )
 bool ScriptSkipMusicTrack( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	Pcm::SkipMusicTrack( );
 	return ( true );
@@ -3122,6 +3295,9 @@ bool ScriptSkipMusicTrack( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 1 | 1 for music on, 0 for music off/ ambience on
 bool ScriptSetMusicMode( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	int musicOn = 1;  // 1 for music on, 0 for music off/ambience on
 	pParams->GetInteger( NONAME, &musicOn );
@@ -3138,6 +3314,9 @@ bool ScriptSetMusicMode( Script::CStruct *pParams, Script::CScript *pScript )
 // Play tracks in Random mode or play tracks in order.
 bool ScriptSetRandomMode( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	int randomModeOn = 1;
 	pParams->GetInteger( NONAME, &randomModeOn );
@@ -3155,6 +3334,9 @@ bool ScriptSetRandomMode( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 1 | 1 enables looping, 0 disables looping
 bool ScriptSetMusicLooping( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	int loopingModeOn = 1;
 	pParams->GetInteger( NONAME, &loopingModeOn );
@@ -3171,6 +3353,9 @@ bool ScriptSetMusicLooping( Script::CStruct *pParams, Script::CScript *pScript )
 // Gets the index of the currently playing music track.
 bool ScriptGetCurrentTrack( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
     int track = Pcm::GetCurrentTrack();
     pScript->GetParams()->AddInteger( "current_track", track );
     return ( true );
@@ -3185,6 +3370,9 @@ bool ScriptGetCurrentTrack( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm "string" | movie name
 bool ScriptPlayMovie( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	const char *pMovieName;
 
@@ -3208,6 +3396,9 @@ bool ScriptPlayMovie( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt name | refChecksum | 0 | skeleton name
 bool ScriptUnloadAnim( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// get the assman
 	Ass::CAssMan * ass_man = Ass::CAssMan::Instance();
 
@@ -3286,6 +3477,9 @@ bool ScriptUnloadAnim( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm string | name | asset name
 bool ScriptLoadAsset( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Ass::CAssMan * ass_man =  Ass::CAssMan::Instance();
 
 	const char* p_asset_filename;
@@ -3335,6 +3529,9 @@ bool ScriptLoadAsset( Script::CStruct *pParams, Script::CScript *pScript )
 // returns true if a reference is generated.  false if a reference already exists
 bool ScriptLoadAnim( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Ass::CAssMan * ass_man =  Ass::CAssMan::Instance();
 
 	// an anim is just like an asset, except it has a reference added to it
@@ -3370,6 +3567,9 @@ bool ScriptLoadAnim( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm string | desc | description
 bool ScriptLoadSkeleton( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Ass::CAssMan* ass_man =  Ass::CAssMan::Instance();
 
 	const char* nameBuf;
@@ -3402,6 +3602,9 @@ bool ScriptLoadSkeleton( Script::CStruct *pParams, Script::CScript *pScript )
 
 bool ScriptAssManSetReferenceChecksum( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Ass::CAssMan * ass_man =  Ass::CAssMan::Instance();
 
 	uint32 checksum;
@@ -3422,6 +3625,9 @@ bool ScriptAssManSetReferenceChecksum( Script::CStruct *pParams, Script::CScript
 
 bool ScriptAssManSetDefaultPermanent( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Ass::CAssMan * ass_man =  Ass::CAssMan::Instance();
 
 	int permanent;
@@ -3455,6 +3661,9 @@ bool ScriptAssManSetDefaultPermanent( Script::CStruct *pParams, Script::CScript 
 // @flag NoReverb | reverb effect disabled for this sound
 bool ScriptLoadSound( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	const char *pSfxName;
 	if ( pParams->GetText( NONAME, &pSfxName, true ) )
 	{
@@ -3511,6 +3720,9 @@ bool ScriptLoadSound( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt int | lipsync | 0 | set to 1 to load lipsync data
 bool ScriptPlayStream( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	uint32 streamNameChecksum = 0;
 	if ( pParams->GetChecksum( NONAME, &streamNameChecksum ) )
@@ -3564,6 +3776,9 @@ bool ScriptPlayStream( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm name | stream name (or control ID, if one was supplied with PlayStream)
 bool ScriptStopStream( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	uint32 id;
 	if (pParams->GetChecksum( NONAME, &id ))
@@ -3587,6 +3802,9 @@ bool ScriptStopStream( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm name | stream name (or control ID, if one was supplied with PlayStream)
 bool ScriptIsStreamPlaying( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 id = 0;
     
 	if (pParams->GetChecksum( NONAME, &id ))
@@ -3614,6 +3832,9 @@ bool ScriptIsStreamPlaying( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt float | pitch | 100.0 | pitch
 bool ScriptSetStreamParams( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 id = 0;
     
 	if (pParams->GetChecksum( NONAME, &id ))
@@ -3678,6 +3899,9 @@ bool ScriptSetStreamParams( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt int | loop | 0 | continuously play the track if set to non-zero
 bool ScriptPlayTrack( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	const char *songName = nullptr;
 	char p_calculated_track_name[MAX_TRACKNAME_STRING_LENGTH];
@@ -3716,6 +3940,9 @@ bool ScriptPlayTrack( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt float | volume | -1.0 | volume in percent; negative value uses music volume
 bool ScriptPlayMusicStream( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	uint32 streamNameChecksum = 0;
 	if ( pParams->GetChecksum( NONAME, &streamNameChecksum ) )
@@ -3738,6 +3965,9 @@ bool ScriptPlayMusicStream( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm name | stream name
 bool ScriptLoadStreamFrameAmp( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 streamNameChecksum = 0;
 	if ( pParams->GetChecksum( NONAME, &streamNameChecksum ) )
 	{
@@ -3756,6 +3986,9 @@ bool ScriptLoadStreamFrameAmp( Script::CStruct *pParams, Script::CScript *pScrip
 // @uparm name | stream name
 bool ScriptFreeStreamFrameAmp( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 streamNameChecksum = 0;
 	if ( pParams->GetChecksum( NONAME, &streamNameChecksum ) )
 	{
@@ -3780,6 +4013,8 @@ bool ScriptFreeStreamFrameAmp( Script::CStruct *pParams, Script::CScript *pScrip
 // @parmopt name | id | 0 | control ID (used instead of sound name for script control purposes)
 bool ScriptPlaySfx(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 SoundChecksum = 0;
 	uint32 id = 0;
 	float Volume = 100.0f;
@@ -3824,6 +4059,9 @@ bool ScriptPlaySfx(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | sound name (or control ID, if one was supplied with PlaySound)
 bool ScriptStopSound( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 id;
 	if (pParams->GetChecksum( NONAME, &id ))
 	{
@@ -3853,6 +4091,8 @@ bool ScriptStopSound( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | StopAllSounds | 
 bool ScriptStopAllSounds(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Sfx::CSfxManager* sfx_manager = Sfx::CSfxManager::Instance();
     sfx_manager->StopAllSounds();
 
@@ -3872,6 +4112,9 @@ bool ScriptStopAllSounds(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt float | pitch | 100.0 | pitch of sound
 bool ScriptSetSoundParams( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 id = 0;
     
 	if (pParams->GetChecksum( NONAME, &id ))
@@ -3928,6 +4171,9 @@ bool ScriptSetSoundParams( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm name | sound name (or control ID, if one was supplied with PlaySound)
 bool ScriptIsSoundPlaying( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 id = 0;
     
 	if (pParams->GetChecksum( NONAME, &id ))
@@ -3959,6 +4205,9 @@ bool ScriptIsSoundPlaying( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparmopt name | reverb mode
 bool ScriptSetReverb( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	float reverb = 0.0f;
 	int reverbMode = 0;
@@ -3998,13 +4247,16 @@ bool ScriptSetReverb( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 1.0 | Dropoff distance
 bool ScriptSetDropoff( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	float dropoffDist = DEFAULT_DROPOFF_DIST;
 
 	pParams->GetFloat( NONAME, &dropoffDist );
 	if ( dropoffDist <= 0.0f )
 	{
-		Dbg_MsgAssert( 0.0f,( "Can't have dropoff zero or less." ));
+		Dbg_MsgAssert(0, ( "Can't have dropoff zero or less." ));
 		return ( false );
 	}
 	
@@ -4225,6 +4477,9 @@ void	nudge_vertex_colors(Nx::CScene * p_scene, float amount)
 
 bool ScriptSetSceneColor( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	uint32 color;
 	
@@ -4337,6 +4592,9 @@ bool ScriptSetSceneColor( Script::CStruct *pParams, Script::CScript *pScript )
 /******************************************************************/
 bool ScriptCompressVC( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	float target = 0.0f;
 	pParams->GetFloat( "target", (float*)&target, TRUE );
@@ -4370,6 +4628,9 @@ bool ScriptCompressVC( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt integer | red | none | The new red component of the light color (also green, blue)
 bool ScriptFakeLights( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// If an id is supplied, we want to apply the effect to just one light.
 	uint32 id = 0; 
 	if( pParams->GetChecksum( Crc::ConstCRC("id"), &id ))
@@ -4402,6 +4663,9 @@ bool ScriptFakeLights( Script::CStruct *pParams, Script::CScript *pScript )
 /******************************************************************/
 bool ScriptNudgeVC( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	float amount = 0.0f;
 	pParams->GetFloat( "percent", (float*)&amount, true );
@@ -4519,6 +4783,9 @@ void	center_camera_on_scene(Nx::CScene * p_scene, float scale, float x_rot, floa
 
 bool ScriptCenterCamera( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// This is only interend to be used in the fly around modes
 	// so kill it during menus
 
@@ -4571,6 +4838,9 @@ bool ScriptCenterCamera( Script::CStruct *pParams, Script::CScript *pScript )
 
 bool ScriptLoadTerrainSounds( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 terrain_checksum;
 
 	if (!pParams->GetChecksum(CHECKSUM_TERRAIN, &terrain_checksum))
@@ -4595,6 +4865,8 @@ bool ScriptLoadTerrainSounds( Script::CStruct *pParams, Script::CScript *pScript
 // @parmopt structure | Params | | parameter list to pass to the new script
 bool ScriptGoto(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	uint32 ScriptChecksum=0;
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
@@ -4618,6 +4890,8 @@ bool ScriptGoto(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt structure | Params | | additional parameters to pass to script
 bool ScriptGotoPreserveParams(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	uint32 ScriptChecksum=0;
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
@@ -4655,6 +4929,8 @@ bool ScriptGotoPreserveParams(Script::CStruct *pParams, Script::CScript *pScript
 
 bool ScriptGotoRandomScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	
 	Script::CArray *pArray=nullptr;
@@ -4683,6 +4959,8 @@ bool ScriptGotoRandomScript(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm structure | The structure to print
 bool ScriptPrintStruct(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::PrintContents(pParams);
 	return true;
 }
@@ -4935,6 +5213,8 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 // @flag UseCommas | This will make it print any integer using commas to separate thousands for clarity.
 bool ScriptFormatText(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	if (sFormatText(pScript->GetParams(),pParams) == 2)
 	{
 	#ifdef	__NOPT_ASSERT__
@@ -5016,6 +5296,8 @@ bool s_get_string_from_params(char* p_buffer, Script::CStruct *pParams, Script::
 // @flag UseCommas | This will make it print any integer using commas to separate thousands for clarity.
 bool ScriptPrintf(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	char buffer[1024];
 
 	s_get_string_from_params(buffer, pParams, pScript);
@@ -5036,6 +5318,8 @@ bool ScriptPrintf(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ScriptAssert |
 bool ScriptScriptAssert(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	char buffer[1024];
 
 	s_get_string_from_params(buffer, pParams, pScript);
@@ -5053,6 +5337,8 @@ bool ScriptScriptAssert(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | PrintScriptInfo |
 bool ScriptPrintScriptInfo(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	#ifdef	__NOPT_ASSERT__
 	printf("+++ScriptInfo+++++++++++++++++++++++++\n");
 	
@@ -5078,6 +5364,8 @@ bool ScriptPrintScriptInfo(Script::CStruct *pParams, Script::CScript *pScript)
 static bool HackFlag=false;
 bool ScriptSetHackFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	int v=1;
 	pParams->GetInteger(NONAME,&v);
@@ -5094,6 +5382,8 @@ bool ScriptSetHackFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | HackFlagIsSet | Returns current value of hackflag
 bool ScriptHackFlagIsSet(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return HackFlag;
 }
@@ -5108,6 +5398,8 @@ bool ScriptHackFlagIsSet(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm string | name | The model name
 bool ScriptPreloadModel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char* pModelName;
 	pParams->GetText( "name", &pModelName, Script::ASSERT );
 
@@ -5143,6 +5435,8 @@ bool ScriptPreloadModel(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt string | Pre_set | | load assets from PRE file
 bool ScriptLoadLevelGeometry(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	 File::PreMgr * pre_mgr =  File::PreMgr::Instance();
 	
@@ -5185,6 +5479,8 @@ bool ScriptLoadLevelGeometry(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptUnloadAllLevelGeometry(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Nx::CEngine::sUnloadAllScenesAndTexDicts();
 	return true;
 }
@@ -5196,6 +5492,8 @@ bool ScriptUnloadAllLevelGeometry(Script::CStruct *pParams, Script::CScript *pSc
 
 bool ScriptLoadScene(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	bool is_dictionary = pParams->ContainsFlag(Crc::ConstCRC("is_dictionary"));  		// piece dictionary, like the park editor
 	bool is_sky = pParams->ContainsFlag(Crc::ConstCRC("is_sky"));						// a sky dome
 	bool is_net = pParams->ContainsFlag(Crc::ConstCRC("is_net"));						// the _net version
@@ -5271,6 +5569,8 @@ bool ScriptLoadScene(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptAddScene(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *p_scene_name = nullptr;
 	const char *p_add_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
@@ -5300,6 +5600,8 @@ bool ScriptAddScene(Script::CStruct *pParams, Script::CScript *pScript)
 // so we can control the loading of pre files
 bool ScriptLoadCollision(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	const char *p_scene_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
@@ -5322,6 +5624,8 @@ bool ScriptLoadCollision(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptAddCollision(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *p_scene_name = nullptr;
 	const char *p_add_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
@@ -5343,6 +5647,8 @@ bool ScriptAddCollision(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptUnloadScene(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *p_scene_name = nullptr;
 	bool matching_names;
 	pParams->GetText( "scene",&p_scene_name );
@@ -5383,6 +5689,8 @@ bool ScriptUnloadScene(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptQuickReload(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *p_scene_name = nullptr;
 	pParams->GetText( "scene",&p_scene_name );
 	if (p_scene_name)
@@ -5794,7 +6102,7 @@ bool DoNodeAction( Script::CStruct *pParams, Script::CScript *pScript, int actio
 	int i;
 	bool useCurrentLinks = false;
 	if ( pParams->ContainsFlag( 0x2e7d5ee7 ) || // checksum 'links'
-		( useCurrentLinks = pParams->ContainsFlag( 0xbceb479a ) ) ) // checksum 'currentlinks'
+		( useCurrentLinks = pParams->ContainsFlag( 0xbceb479a ) ) == true ) // checksum 'currentlinks'
 	{
 		Dbg_MsgAssert(0,("%s:  DoNodeAction with links or currentlinks is deprecated",pScript->GetScriptInfo()));
 	
@@ -5896,6 +6204,9 @@ bool DoNodeAction( Script::CStruct *pParams, Script::CScript *pScript, int actio
 
 bool ScriptNodeExists( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 node_checksum=0;
 	pParams->GetChecksum(NONAME,&node_checksum,true);
 	
@@ -5909,6 +6220,9 @@ bool ScriptNodeExists( Script::CStruct *pParams, Script::CScript *pScript )
 
 bool ScriptCreateFromStructure( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return ScriptCreateFromNode( pParams );
 }
 
@@ -5924,6 +6238,9 @@ bool ScriptCreateFromStructure( Script::CStruct *pParams, Script::CScript *pScri
 // @parmopt name | prefix | | Create with a prefix specified
 bool ScriptCreate( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
  #ifdef	__PLAT_NGPS__		
 //		snProfSetRange( -1, (void*)0, (void*)-1);
@@ -5954,6 +6271,9 @@ bool ScriptCreate( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm int | color | The color to set the object to (as a hexadecimal ABGR value)
 bool ScriptSetObjectColor( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	bool result = ( DoNodeAction( pParams, pScript, NODE_ACTION_SET_COLOR ) );
 	
@@ -5973,6 +6293,9 @@ bool ScriptSetObjectColor( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt name | prefix | | kill with a prefix specified
 bool ScriptKill( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	return ( DoNodeAction( pParams, pScript, NODE_ACTION_KILL ) );
 }
@@ -5989,6 +6312,9 @@ bool ScriptKill( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt name | prefix | | act on objects with specified prefix
 bool ScriptVisible( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return ( DoNodeAction( pParams, pScript, NODE_ACTION_SET_VISIBLE ) );
 }
 
@@ -6004,6 +6330,9 @@ bool ScriptVisible( Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt name | prefix | | act on objects with specified prefix
 bool ScriptInvisible( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return ( DoNodeAction( pParams, pScript, NODE_ACTION_SET_INVISIBLE ) );
 }
 
@@ -6041,6 +6370,9 @@ bool ScriptInvisible( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm | vel_z | default velocity of shard on z-axis (in inches per second)
 bool ScriptShatter( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// Need to read some params from the script here.
 	float		area		= 0.0f;
 	float		variance	= 0.0f;
@@ -6130,6 +6462,9 @@ void	CleanupBeforeParseNodeArray()
 // @script | ParseNodeArray | Parses the loaded node array 
 bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::PushMemProfile("ParseNodeArray");
 
 	CleanupBeforeParseNodeArray();	
@@ -6337,7 +6672,6 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 				{
 					Mem::PushMemProfile("Trick Object Clusters");
 					// get the node name
-					uint32 checksumName;
 					pNode->GetChecksum( "name", &checksumName, true );
 	
 					uint32 clusterName = checksumName;
@@ -6454,9 +6788,9 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 			pNode->GetArray( Crc::ConstCRC( "Color" ), &p_array );
 			if( p_array )
 			{
-				col.r = p_array->GetInteger( 0 );
-				col.g = p_array->GetInteger( 1 );
-				col.b = p_array->GetInteger( 2 );
+				col.r = (uint8)p_array->GetInteger( 0 );
+				col.g = (uint8)p_array->GetInteger( 1 );
+				col.b = (uint8)p_array->GetInteger( 2 );
 			}
 
 			if( affects_objects )
@@ -6502,6 +6836,8 @@ static char LastNodeArrayLoaded[128];
 // @uparm "string" | File name to load
 bool ScriptLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mem::PushMemProfile("LoadNodeArray");
 	
 	// Remove any spawned scripts that might have been left over from the previous level.
@@ -6555,7 +6891,9 @@ bool ScriptLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 // you have the potential to mess things up.  Give it a go though, you can 
 // always just do a Select+Circle to make sure. 
 bool ScriptReLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	
 	// We try to use the Debug heap, as we assume we will be fragmenting memory like a jackass
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
@@ -6594,6 +6932,8 @@ bool ScriptReLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | alpha | 0 | Alpha value
 bool ScriptSetBackgroundColor(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	    
 	int Red=0;
 	int Green=0;
@@ -6630,6 +6970,8 @@ bool ScriptSetBackgroundColor(Script::CStruct *pParams, Script::CScript *pScript
 // @parmopt int | alpha | 0 | Alpha value
 bool ScriptSetBSPAmbientColor(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "SetBSPAmbientColor is obsolete" );
 
 	return true;
@@ -6647,7 +6989,9 @@ bool ScriptSetBSPAmbientColor(Script::CStruct *pParams, Script::CScript *pScript
 // @parmopt int | b | 0 | Blue component
 // @parmopt int | alpha | 0 | Alpha value
 bool ScriptSetDFFAmbientColor(Script::CStruct *pParams, Script::CScript *pScript)
-{			
+{
+	(void)pParams;
+	(void)pScript;			
 	Dbg_Message( "SetDFFAmbientColor is obsolete" );
 	return true;
 }
@@ -6665,6 +7009,8 @@ bool ScriptSetDFFAmbientColor(Script::CStruct *pParams, Script::CScript *pScript
 // @parmopt int | alpha | 0 | Alpha value
 bool ScriptSetDFFDirectColor(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "SetDFFDirectColor is obsolete" );
 	
 	return true;
@@ -6685,6 +7031,9 @@ bool ScriptSetDFFDirectColor(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt bool | directional | | 
 bool ScriptSetDynamicLightModulationFactor( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 
 	bool	ok;
@@ -6718,6 +7067,8 @@ bool ScriptSetDynamicLightModulationFactor( Script::CStruct* pParams, Script::CS
 // @parm float | Far | 
 bool ScriptSetClippingDistances(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	float Near=Gfx::Camera::vDEFAULT_FARZ;
 	float Far=Gfx::Camera::vDEFAULT_NEARZ;
@@ -6761,6 +7112,8 @@ bool ScriptSetClippingDistances(Script::CStruct *pParams, Script::CScript *pScri
 // distance to true or false
 bool ScriptSetTrivialFarZClip(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	bool on = false;
@@ -6782,9 +7135,11 @@ bool ScriptSetTrivialFarZClip(Script::CStruct *pParams, Script::CScript *pScript
 /******************************************************************/
 
 // @script | EnableFog | 
-bool ScriptEnableFog( Script::CStruct *pParams,
-					  Script::CScript *pScript )
+bool ScriptEnableFog( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Nx::CFog::sEnableFog(true);
 	
 	return true;
@@ -6796,9 +7151,11 @@ bool ScriptEnableFog( Script::CStruct *pParams,
 /******************************************************************/
 
 // @script | DisableFog | 
-bool ScriptDisableFog( Script::CStruct *pParams,
-					  Script::CScript *pScript )
+bool ScriptDisableFog( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Nx::CFog::sEnableFog(false);
 
 	return true;
@@ -6816,10 +7173,11 @@ bool ScriptDisableFog( Script::CStruct *pParams,
 // increasingly fogged until they reach maximum fogging at the far
 // clip distance -- see SetClippingDistances).
 // @parm float | distance | distance in inches
-bool ScriptSetFogDistance( Script::CStruct *pParams,
-						   Script::CScript *pScript )
+bool ScriptSetFogDistance( Script::CStruct *pParams, Script::CScript *pScript )
 {
-	
+	(void)pParams;
+	(void)pScript;
+
 	float fog_dist = 0.0f;
 	pParams->GetFloat( "distance", &fog_dist );
 
@@ -6851,9 +7209,11 @@ bool ScriptSetFogDistance( Script::CStruct *pParams,
 // must go before you reach maximum fog.  This component of fog
 // will probably change in the near future.
 // @parm float | exponent | fog exponent
-bool ScriptSetFogExponent( Script::CStruct *pParams,
-						   Script::CScript *pScript )
+bool ScriptSetFogExponent( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	float exponent;
 	if (!pParams->GetFloat( "exponent", &exponent ))
 	{
@@ -6877,10 +7237,11 @@ bool ScriptSetFogExponent( Script::CStruct *pParams,
 // @parmopt int | g | 255 | green component
 // @parmopt int | b | 255 | blue component
 // @parmopt int | a | 128 | alpha component (opacity of fog)
-bool ScriptSetFogColor( Script::CStruct *pParams,
-						Script::CScript *pScript )
+bool ScriptSetFogColor( Script::CStruct *pParams, Script::CScript *pScript )
 {
-	
+	(void)pParams;
+	(void)pScript;
+
 	int red = 255;
 	int green = 255;
 	int blue = 255;
@@ -6890,7 +7251,7 @@ bool ScriptSetFogColor( Script::CStruct *pParams,
 	pParams->GetInteger( "b", &blue );
 	pParams->GetInteger( "a", &alpha );
 
-	Image::RGBA rgba(red, green, blue, alpha);
+	Image::RGBA rgba((uint8)red, (uint8)green, (uint8)blue, (uint8)alpha);
 
 	Nx::CFog::sSetFogRGBA( rgba );
 		
@@ -6909,6 +7270,8 @@ bool ScriptSetFogColor( Script::CStruct *pParams,
 // @parm float | v_phase | v phase
 bool ScriptSetUVWibbleParams(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// Get sector checksum
 	uint32 checksum;
 	if (!pParams->GetChecksum("sector", &checksum))
@@ -6952,6 +7315,8 @@ bool ScriptSetUVWibbleParams(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | sector | name of sector
 bool ScriptEnableExplicitUVWibble(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// Get sector checksum
 	uint32 checksum;
 	if (!pParams->GetChecksum("sector", &checksum))
@@ -6972,6 +7337,8 @@ bool ScriptEnableExplicitUVWibble(Script::CStruct *pParams, Script::CScript *pSc
 // @parm name | sector | name of sector
 bool ScriptDisableExplicitUVWibble(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// Get sector checksum
 	uint32 checksum;
 	if (!pParams->GetChecksum("sector", &checksum))
@@ -6994,6 +7361,8 @@ bool ScriptDisableExplicitUVWibble(Script::CStruct *pParams, Script::CScript *pS
 // @parm float | v_off | v offset
 bool ScriptSetUVWibbleOffsets(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// Get sector checksum
 	uint32 checksum;
 	if (!pParams->GetChecksum("sector", &checksum))
@@ -7027,6 +7396,8 @@ bool ScriptSetUVWibbleOffsets(Script::CStruct *pParams, Script::CScript *pScript
 
 bool ScriptGetPreferenceString(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Script::CStruct* pStructure;
 	Prefs::Preferences* pPreferences;
@@ -7058,6 +7429,8 @@ bool ScriptGetPreferenceString(Script::CStruct *pParams, Script::CScript *pScrip
 
 bool ScriptGetPreferencePassword(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::CStruct* pStructure;
 	Prefs::Preferences* pPreferences;
 	uint32 field_id, pref_type;
@@ -7096,6 +7469,8 @@ bool ScriptGetPreferencePassword(Script::CStruct *pParams, Script::CScript *pScr
 
 bool ScriptGetPreferenceChecksum(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::CStruct* pStructure;
 	Prefs::Preferences* pPreferences;
 	uint32 field_id, checksum, pref_type;
@@ -7127,6 +7502,8 @@ bool ScriptGetPreferenceChecksum(Script::CStruct *pParams, Script::CScript *pScr
 // @parm structure | params | 
 bool ScriptSetPreference(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	// gets either network or splitscreen prefs, as appropriate
@@ -7156,6 +7533,8 @@ bool ScriptSetPreference(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | equals | test value
 bool ScriptPreferenceEquals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	// gets either network or splitscreen prefs, as appropriate
@@ -7184,6 +7563,8 @@ bool ScriptPreferenceEquals(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ResetCamera | 
 bool ScriptResetCamera(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	// This is a bit of a patch,
 	// cycle over the two possible cameras, and reset them
@@ -7211,6 +7592,9 @@ bool ScriptResetCamera(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | id | the slider id used to change the volume
 bool ScriptSetVolumeFromValue( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	/*
 	uint32 whichParam;
@@ -7263,6 +7647,9 @@ bool ScriptSetVolumeFromValue( Script::CStruct *pParams, Script::CScript *pScrip
 // @uparm sfxvol | the volume you're interested in (either sfxvol, cdvol, or cutvol)
 bool ScriptGetValueFromVolume( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 
 	uint32 whichParam;
@@ -7310,6 +7697,9 @@ bool ScriptGetValueFromVolume( Script::CStruct *pParams, Script::CScript *pScrip
 // @parm int | value | value to assign to slider
 bool ScriptSetSliderValue( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 
 	/*
@@ -7338,6 +7728,8 @@ bool ScriptSetSliderValue( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm string | texture | the texture name
 bool ScriptSetIconTexture(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	/*
 	uint32 id;
@@ -7368,6 +7760,9 @@ bool ScriptSetIconTexture(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt float | vel | 400 | velocity in inches per second
 bool ScriptSetMovementVelocity( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	float vel = 400;
 	pParams->GetFloat( NONAME, &vel );
@@ -7386,6 +7781,9 @@ bool ScriptSetMovementVelocity( Script::CStruct *pParams, Script::CScript *pScri
 // @parmopt float | vel | 120 | Rotational speed in degrees per second
 bool ScriptSetRotateVelocity( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	float vel = 120;
 	pParams->GetFloat( NONAME, &vel );
@@ -7404,6 +7802,8 @@ bool ScriptSetRotateVelocity( Script::CStruct *pParams, Script::CScript *pScript
 // happen if the script gets reloaded at runtime. It needs to be the first 
 bool ScriptOnReload(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return true;
 }
@@ -7416,6 +7816,8 @@ bool ScriptOnReload(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ResetEngine | resets the engine
 bool ScriptResetEngine(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	 Mlp::Manager * mlp_manager =  Mlp::Manager::Instance();
@@ -7431,6 +7833,8 @@ bool ScriptResetEngine(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ToggleMetrics | Toggle metrics - use before ToggleMemMetrics
 bool ScriptToggleMetrics(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	 Gfx::Manager * gfx_manager =  Gfx::Manager::Instance();
@@ -7447,6 +7851,8 @@ bool ScriptToggleMetrics(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ToggleNetMetrics | 
 bool ScriptToggleNetMetrics(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	 GameNet::Manager * gamenet_manager =  GameNet::Manager::Instance();
@@ -7462,6 +7868,8 @@ bool ScriptToggleNetMetrics(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ToggleVRAMViewer | Toggle VRAM viewer
 bool ScriptToggleVRAMViewer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	 Gfx::Manager * gfx_manager =  Gfx::Manager::Instance();
@@ -7478,6 +7886,8 @@ bool ScriptToggleVRAMViewer(Script::CStruct *pParams, Script::CScript *pScript)
 // separately for all four contexts
 bool ScriptDumpVRAMUsage(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	 Gfx::Manager * gfx_manager =  Gfx::Manager::Instance();
@@ -7493,6 +7903,8 @@ bool ScriptDumpVRAMUsage(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ToggleLightViewer | Toggle the light viewer
 bool ScriptToggleLightViewer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "ToggleLightViewer is obsolete" );
 
 	return true;
@@ -7506,6 +7918,8 @@ bool ScriptToggleLightViewer(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | debugrendermode | currently unsupported
 bool ScriptSetDebugRenderMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "debugrendermode is obsolete" );
 	return true;
 }
@@ -7518,6 +7932,8 @@ bool ScriptSetDebugRenderMode(Script::CStruct *pParams, Script::CScript *pScript
 // @script | debugtoggletextureupload | currently unsupported
 bool ScriptToggleTextureUpload(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "debugtoggletextureupload is obsolete" );
 	return true;
 }
@@ -7530,6 +7946,8 @@ bool ScriptToggleTextureUpload(Script::CStruct *pParams, Script::CScript *pScrip
 // @script | debugtoggletexturedraw | currently unsupported
 bool ScriptToggleTextureDraw(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "debugtoggletexturedraw is obsolete" );
 	return true;
 }
@@ -7542,6 +7960,8 @@ bool ScriptToggleTextureDraw(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | debugtogglepointdraw | currently unsupported
 bool ScriptTogglePointDraw(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "debugtogglepointdraw is obsolete" );
 	return true;
 }
@@ -7555,6 +7975,8 @@ bool ScriptTogglePointDraw(Script::CStruct *pParams, Script::CScript *pScript)
 // (check cfuncs.cpp) is set
 bool ScriptRenderTest1(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 #ifdef __PLAT_NGPS__
 //	mbr_nsDebugTest1=(mbr_nsDebugTest1)?0:1;
@@ -7565,6 +7987,8 @@ bool ScriptRenderTest1(Script::CStruct *pParams, Script::CScript *pScript)
 // (check cfuncs.cpp) is set
 bool ScriptRenderTest2(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 #ifdef __PLAT_NGPS__
 //	mbr_nsDebugTest2=(mbr_nsDebugTest2)?0:1;
@@ -7583,6 +8007,8 @@ bool ScriptRenderTest2(Script::CStruct *pParams, Script::CScript *pScript)
 // usually triggers with Select+X (See buttonscripts.q)
 bool ScriptSetViewMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int viewMode;
 	pParams->GetInteger( NONAME, &viewMode, Script::ASSERT );
 
@@ -7654,6 +8080,9 @@ bool ScriptSetViewMode(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | item | 0 | 
 bool ScriptToggleMetricItem( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	
 /*
@@ -7681,6 +8110,9 @@ bool ScriptToggleMetricItem( Script::CStruct *pParams, Script::CScript *pScript 
 // See the online doc for a full explanation of the various heaps
 bool ScriptToggleMemMetrics( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	/* 
 	 Gfx::Manager * gfx_manager =  Gfx::Manager::Instance();
 	Gfx::Metrics* pMetrics = gfx_manager->GetMetrics();
@@ -7698,6 +8130,9 @@ bool ScriptToggleMemMetrics( Script::CStruct *pParams, Script::CScript *pScript 
 // @script | KillAllTextureSplats | Destroys all exisiting texture splats
 bool ScriptKillAllTextureSplats( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Nx::KillAllTextureSplats();
 	return true;
 }
@@ -7710,6 +8145,8 @@ bool ScriptKillAllTextureSplats( Script::CStruct *pParams, Script::CScript *pScr
 // @script | ProximCleanup | Destroys all proxim nodes
 bool ScriptProximCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// TT12597: Clear out the proxim node pointers in the stream and sound components
 	// new fast way, just go directly to the components, if any
 	Obj::CSoundComponent* p_sound_component = static_cast<Obj::CSoundComponent*>( Obj::CCompositeObjectManager::Instance()->GetFirstComponentByType( CRC_SOUND ));
@@ -7741,6 +8178,8 @@ bool ScriptProximCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 // @flag preserve_skaters | Set this to preserve the skaters
 bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	//	DumpUnwindStack( 20, 0 );
 	// Wait for any async rendering to finish before we proceed	
 	Nx::CEngine::sFinishRendering();
@@ -8018,6 +8457,8 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt LevelSpecific | Whether this is the level specific script file
 bool ScriptLoadQB(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *p_file_name=nullptr;
 	pParams->GetString(NONAME,&p_file_name);
 	Dbg_MsgAssert(p_file_name,("LoadQB requires a file name."));
@@ -8076,6 +8517,8 @@ bool ScriptLoadQB(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm "data\scripts\ken.qb" | File name of the qb to unload
 bool ScriptUnloadQB(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *p_file_name=nullptr;
 	pParams->GetString(NONAME,&p_file_name);
 	Dbg_MsgAssert(p_file_name,("LoadQB requires a file name."));
@@ -8114,6 +8557,8 @@ bool ScriptUnloadQB(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ToggleRenderMode | 
 bool ScriptToggleRenderMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Nx::CEngine::sToggleRenderMode();	
 
 	return true;
@@ -8123,6 +8568,8 @@ bool ScriptToggleRenderMode(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SetRenderMode | 
 bool ScriptSetRenderMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	int mode = 0;
 	pParams->GetInteger(Crc::ConstCRC("mode"),&mode);
@@ -8134,6 +8581,8 @@ bool ScriptSetRenderMode(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SetWireframeMode | 
 bool ScriptSetWireframeMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int mode = 0;
 	pParams->GetInteger(Crc::ConstCRC("mode"),&mode);
 	Nx::CEngine::sSetWireframeMode(mode);	
@@ -8153,6 +8602,8 @@ bool ScriptSetWireframeMode(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | ignore_0 | 0 | bitmask of face flags where we ignore this face if bit is 0
 bool ScriptDebugRenderIgnore(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 
 	int ignore_0 = 0;	
 	int ignore_1 = 0;
@@ -8177,6 +8628,8 @@ bool ScriptDebugRenderIgnore(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt 0 | context number (int)
 bool ScriptSetVRAMPackContext(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 
 	int context = 0;
@@ -8198,6 +8651,8 @@ bool ScriptSetVRAMPackContext(Script::CStruct *pParams, Script::CScript *pScript
 // @parmopt string | filename | screen | place to save screenshot
 bool ScriptScreenShot(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char *fileName;
 	bool ret;
 
@@ -8218,6 +8673,8 @@ bool ScriptScreenShot(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | DumpShots | dump memory card screenshots to PC
 bool ScriptDumpShots(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	#ifdef	__PLAT_NGPS__
 	Gfx::Manager * gfx_manager =  Gfx::Manager::Instance();
 	gfx_manager->DumpMemcardScreeenshots( );
@@ -8235,6 +8692,8 @@ bool ScriptDumpShots(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | IfDebugOn | returns true if debug on
 bool ScriptIfDebugOn(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Dbg_MsgAssert(pScript,("nullptr pScript ?"));
 	pScript->SwitchOnIfDebugging();
@@ -8249,6 +8708,8 @@ bool ScriptIfDebugOn(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | IfDebugOff | returns true if debug off
 bool ScriptIfDebugOff(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Dbg_MsgAssert(pScript,("nullptr pScript ?"));
 	pScript->SwitchOffIfDebugging();
@@ -8263,6 +8724,8 @@ bool ScriptIfDebugOff(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | CD | returns true if CD present
 bool ScriptCD(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Config::CD();
 }
 
@@ -8274,6 +8737,8 @@ bool ScriptCD(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | NotCD | returns true if CD not present
 bool ScriptNotCD(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return !Config::CD();
 }
 
@@ -8286,6 +8751,8 @@ bool ScriptNotCD(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | Bootstrap | returns true if this is a bootstrap demo
 bool ScriptBootstrap(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Config::Bootstrap();
 }
 
@@ -8298,6 +8765,8 @@ bool ScriptBootstrap(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | CasArtist | returns true if cas_artist int is set anywhere
 bool ScriptCasArtist(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	bool is_cas_artist = Script::GetInt( "cas_artist", false );
 
 	return is_cas_artist;
@@ -8311,6 +8780,8 @@ bool ScriptCasArtist(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | NotCasArtist | returns true if cas_artist int is not set
 bool ScriptNotCasArtist(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return !ScriptCasArtist( pParams, pScript );
 }
 
@@ -8323,6 +8794,8 @@ bool ScriptNotCasArtist(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | Gunslinger | returns true if a Gunslinger build
 bool ScriptGunslinger(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 #	ifdef TESTING_GUNSLINGER
 	return true;
 #	else
@@ -8486,6 +8959,8 @@ bool ScriptClearFlag(Script::CStruct *pParams, Script::CScript *pScript )
 // @parmopt string | prefix | | prefix value
 bool ScriptSendFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return ( ScriptDoAction( pParams, pScript, ACTION_SET_FLAG ) );
 }
@@ -8506,6 +8981,8 @@ bool ScriptSendFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt string | prefix | | prefix value
 bool ScriptQueryFlag(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return ( ScriptDoAction( pParams, pScript, ACTION_QUERY_FLAG ) );
 }
@@ -8523,6 +9000,8 @@ bool ScriptQueryFlag(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt string | prefix | | prefix value
 bool ScriptFlagException(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	return ( ScriptDoAction( pParams, pScript, ACTION_FLAG_EXCEPTION_BY_CHECKSUM ) );
 }
@@ -8537,6 +9016,9 @@ bool ScriptFlagException(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | object name
 bool ScriptCheckIfAlive( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	return ( DoNodeAction( pParams, pScript, NODE_ACTION_CHECK_IF_ALIVE ) );
 	
@@ -8595,7 +9077,7 @@ bool ScriptDoAction(Script::CStruct *pParams, Script::CScript *pScript, int acti
 	
 	bool useCurrentLinks = false;
 	if ( pParams->ContainsFlag( 0x2e7d5ee7 ) || // checksum 'links'
-		( useCurrentLinks = pParams->ContainsFlag( 0xbceb479a ) ) ) // checksum 'currentlinks'
+		( useCurrentLinks = pParams->ContainsFlag( 0xbceb479a ) ) == true ) // checksum 'currentlinks'
 	{
 	
 		Dbg_MsgAssert(0,("\n%s\n'links' and 'currentlinks' are deprecated\n",pScript->GetScriptInfo()));
@@ -8971,6 +9453,8 @@ bool ScriptShatterFromNodeIndex( int nodeIndex )
 // @parmopt structure | params | | parameters to be passed to new script
 bool ScriptMakeSkaterGoto(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	
 	Script::CStruct *pParamsToPass=nullptr;
@@ -9022,6 +9506,8 @@ bool ScriptMakeSkaterGoto(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt int | Skater | | 
 bool ScriptMakeSkaterGosub(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Script::CStruct *pParamsToPass=nullptr;
 	pParams->GetStructure(Crc::ConstCRC("Params"),&pParamsToPass);
@@ -9073,6 +9559,8 @@ bool ScriptMakeSkaterGosub(Script::CStruct *pParams, Script::CScript *pScript)
 // level (session) ends.
 bool ScriptSpawnScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 ScriptChecksum=0;
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nMissing script name in SpawnScript command.",pScript->GetScriptInfo()));
@@ -9140,6 +9628,8 @@ bool ScriptSpawnScript(Script::CStruct *pParams, Script::CScript *pScript)
 // be killed by KillSpawnedScript
 bool ScriptSpawnSound(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	if (pScript->mpObject)
 	{
@@ -9184,6 +9674,8 @@ bool ScriptSpawnSound(Script::CStruct *pParams, Script::CScript *pScript)
 // be killed by KillSpawnedScript
 bool ScriptSpawnSkaterScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	// Mostly the same as the code for ScriptSpawnScript
 	uint32 ScriptChecksum=0;
@@ -9228,6 +9720,8 @@ bool ScriptSpawnSkaterScript(Script::CStruct *pParams, Script::CScript *pScript)
 // @parmopt name | Id | | the id of the script
 bool ScriptKillSpawnedScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	uint32 ScriptChecksum=0;
 	if (pParams->GetChecksum("Name",&ScriptChecksum))
@@ -9258,6 +9752,9 @@ bool ScriptKillSpawnedScript(Script::CStruct *pParams, Script::CScript *pScript)
 // script too, which is where the command will probably be used most
 bool ScriptPauseSkaters( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Replay::WritePauseSkater();
 	
 	bool hide = pParams->ContainsFlag("hide");	
@@ -9286,6 +9783,9 @@ bool ScriptPauseSkaters( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | UnPauseSkaters | opposite effect of PauseSkaters
 bool ScriptUnPauseSkaters( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Replay::WriteUnPauseSkater();
 	
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
@@ -9312,6 +9812,9 @@ bool ScriptUnPauseSkaters( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 0 | skater id
 bool ScriptPauseSkater( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	bool hide = pParams->ContainsFlag("hide");	
 
 	int skater_id;
@@ -9337,6 +9840,9 @@ bool ScriptPauseSkater( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 0 | skater id
 bool ScriptUnPauseSkater( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 
 	int skater_id;
@@ -9363,6 +9869,9 @@ bool ScriptUnPauseSkater( Script::CStruct *pParams, Script::CScript *pScript )
 // you to launch messages and spawn new scripts
 bool ScriptPauseGame( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::FrontEnd * front =  Mdl::FrontEnd::Instance();
 	front->PauseGame(true);
 	// if the script was a spawned script
@@ -9379,6 +9888,9 @@ bool ScriptPauseGame( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | UnPauseGame | 
 bool ScriptUnPauseGame( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::FrontEnd * front =  Mdl::FrontEnd::Instance();
 	front->PauseGame(false);
 	return true;
@@ -9392,6 +9904,9 @@ bool ScriptUnPauseGame( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | IsGamePaused | 
 bool ScriptIsGamePaused( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::FrontEnd * front =  Mdl::FrontEnd::Instance();
 	if( front->GamePaused() )
     {
@@ -9408,6 +9923,8 @@ bool ScriptIsGamePaused( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | PauseObjects |
 bool ScriptPauseObjects(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// Pause all composite objects
 	Obj::CCompositeObjectManager::Instance()->Pause(true);
 
@@ -9422,6 +9939,8 @@ bool ScriptPauseObjects(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | UnpauseObjects |
 bool ScriptUnPauseObjects(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// Unpause all composite objects
 	Obj::CCompositeObjectManager::Instance()->Pause(false);
 	
@@ -9436,6 +9955,8 @@ bool ScriptUnPauseObjects(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | PauseSpawnedScripts |
 bool ScriptPauseSpawnedScripts(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::PauseSpawnedScripts(true);		
 
 	if ( pScript->mIsSpawned )
@@ -9454,6 +9975,8 @@ bool ScriptPauseSpawnedScripts(Script::CStruct *pParams, Script::CScript *pScrip
 // @script | UnPauseSpawnedScripts |
 bool ScriptUnPauseSpawnedScripts(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Script::PauseSpawnedScripts(false);		
 
 	return true;
@@ -9467,6 +9990,9 @@ bool ScriptUnPauseSpawnedScripts(Script::CStruct *pParams, Script::CScript *pScr
 // @script | ResetClock | 
 bool ScriptResetClock( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	int time_limit;
@@ -9489,6 +10015,9 @@ bool ScriptResetClock( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | PadsPluggedIn | Returns true if at least one pad is plugged in.
 bool ScriptPadsPluggedIn( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::FrontEnd * p_front =  Mdl::FrontEnd::Instance();
 	 return p_front->PadsPluggedIn();
 }	 
@@ -9522,6 +10051,9 @@ bool ScriptPadsPluggedIn( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm int | end_a | end alpha value
 bool ScriptDoFlash( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 
 	float		duration		= 0.0f;
@@ -9578,22 +10110,22 @@ bool ScriptDoFlash( Script::CStruct *pParams, Script::CScript *pScript )
 		Image::RGBA from, to;
 
 		pParams->GetInteger( "start_r",	&val );
-		from.r = val;
+		from.r = (uint8)val;
 		pParams->GetInteger( "start_g",	&val );
-		from.g = val;
+		from.g = (uint8)val;
 		pParams->GetInteger( "start_b",	&val );
-		from.b = val;
+		from.b = (uint8)val;
 		pParams->GetInteger( "start_a",	&val );
-		from.a = val;
+		from.a = (uint8)val;
 
 		pParams->GetInteger( "end_r",	&val );
-		to.r = val;
+		to.r = (uint8)val;
 		pParams->GetInteger( "end_g",	&val );
-		to.g = val;
+		to.g = (uint8)val;
 		pParams->GetInteger( "end_b",	&val );
-		to.b = val;
+		to.b = (uint8)val;
 		pParams->GetInteger( "end_a",	&val );
-		to.a = val;
+		to.a = (uint8)val;
 
 		if( fullscreen )
 		{
@@ -9622,7 +10154,8 @@ bool ScriptDoFlash( Script::CStruct *pParams, Script::CScript *pScript )
 // server (i.e. ServerName = �MyServer� with a max of 15 characters
 bool ScriptStartServer(Script::CStruct *pParams, Script::CScript *pScript )
 {
-	
+	(void)pParams;
+	(void)pScript;
 	
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
@@ -9659,7 +10192,10 @@ bool ScriptStartServer(Script::CStruct *pParams, Script::CScript *pScript )
 
 // @script | LeaveServer | 
 bool ScriptLeaveServer(Script::CStruct *pParams, Script::CScript *pScript )
-{   
+{
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 
 	skate_mod->LeaveServer();
@@ -9675,6 +10211,9 @@ bool ScriptLeaveServer(Script::CStruct *pParams, Script::CScript *pScript )
 // @script | FindServers | broadcast out to the local subnet for servers
 bool ScriptFindServers(Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	
 	//skate_mod->FindServers();
@@ -9691,6 +10230,9 @@ bool ScriptFindServers(Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 1 | port
 bool ScriptJoinServer(Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
@@ -9756,7 +10298,7 @@ bool ScriptJoinServer(Script::CStruct *pParams, Script::CScript *pScript )
 		if( server_ip && ( port != 0 ))
 		{
 			gamenet_man->SpawnClient( false, false, true, 0 );
-			gamenet_man->JoinServer( observe_only, inet_addr( server_ip ), port, 0 );
+			gamenet_man->JoinServer( observe_only, inet_addr( server_ip ), (unsigned short)port, 0 );
 		}
 #endif
 	}
@@ -9775,6 +10317,9 @@ bool ScriptJoinServer(Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 0 | mode
 bool ScriptSetNetworkMode( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int mode = 0;
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
@@ -9804,6 +10349,9 @@ bool ScriptSetNetworkMode( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | MemViewToggle | 
 bool ScriptMemViewToggle( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	MemViewToggle();
 	return true;
 }
@@ -9817,6 +10365,9 @@ bool ScriptMemViewToggle( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm 1 | number of frames
 bool ScriptProfileTasks( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mlp::Manager * mlp_manager =  Mlp::Manager::Instance();
 	int Val=1;
 	pParams->GetInteger(NONAME,&Val);	
@@ -9834,6 +10385,9 @@ bool ScriptProfileTasks( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | UseNetworkPreferences | 
 bool ScriptUseNetworkPreferences( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->UsePreferences();
@@ -9847,6 +10401,9 @@ bool ScriptUseNetworkPreferences( Script::CStruct *pParams, Script::CScript *pSc
 
 bool ScriptTestNetSetup( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Net::Manager * net_man =  Net::Manager::Instance();
 	bool properly_setup;
 	 
@@ -9915,6 +10472,9 @@ bool ScriptTestNetSetup( Script::CStruct *pParams, Script::CScript *pScript )
 
 bool ScriptNeedToTestNetSetup( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Net::Manager * net_man =  Net::Manager::Instance();
 	
 	return net_man->NeedToTestNetworkEnvironment();
@@ -9927,6 +10487,9 @@ bool ScriptNeedToTestNetSetup( Script::CStruct *pParams, Script::CScript *pScrip
 
 bool ScriptCanChangeDevices( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Net::Manager * net_man =  Net::Manager::Instance();
 
 	return net_man->CanChangeDevices();
@@ -9940,6 +10503,9 @@ bool ScriptCanChangeDevices( Script::CStruct *pParams, Script::CScript *pScript 
 // @script | ConnectToInternet | 
 bool ScriptConnectToInternet( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	uint32 success, failure;
 
@@ -9959,6 +10525,9 @@ bool ScriptConnectToInternet( Script::CStruct *pParams, Script::CScript *pScript
 
 bool ScriptCancelConnectToInternet( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->CancelConnectToInternet();
@@ -9973,6 +10542,9 @@ bool ScriptCancelConnectToInternet( Script::CStruct* pParams, Script::CScript* p
 
 bool ScriptCancelLogon( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_XBOX__
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	gamenet_man->mpAuthMan->CancelLogon();
@@ -9989,6 +10561,9 @@ bool ScriptCancelLogon( Script::CStruct *pParams, Script::CScript *pScript )
 
 bool ScriptIsOnline( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Net::Manager * net_man =  Net::Manager::Instance();
 
 	return net_man->IsOnline();
@@ -10002,6 +10577,9 @@ bool ScriptIsOnline( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | DisconnectFromInternet | 
 bool ScriptDisconnectFromInternet( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	uint32 callback_script = 0;
 
@@ -10023,6 +10601,8 @@ bool ScriptDisconnectFromInternet( Script::CStruct *pParams, Script::CScript *pS
 // it won't prevent new scripts being run by the C-code
 bool ScriptStopAllScripts(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	Script::StopAllScripts();
 	return true;
@@ -10037,6 +10617,8 @@ bool ScriptStopAllScripts(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt "Blaa" | text to use for menu element - "Blaa" is the actual default
 bool ScriptSetMenuElementText(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	/*
 	uint32 Id=0;
@@ -10065,6 +10647,8 @@ static bool FirstTimeThisIsCalled_Flag=true;
 // @script | FirstTimeThisIsCalled | returns true the first time this is called
 bool ScriptFirstTimeThisIsCalled(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	if (FirstTimeThisIsCalled_Flag)
 	{
@@ -10082,7 +10666,9 @@ bool ScriptFirstTimeThisIsCalled(Script::CStruct *pParams, Script::CScript *pScr
 // @script | EnableActuators | 
 // @uparm 1 | 1 for enable - 0 for disable.  1 is the default
 bool	ScriptEnableActuators(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	int on = 1;	
 	pParams->GetInteger(NONAME,&on);
 	Inp::Manager * input_man =  Inp::Manager::Instance();
@@ -10114,6 +10700,8 @@ bool	ScriptEnableActuators(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | InNetGame | returns true if we're in a net game
 bool ScriptInNetGame(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	 
 	return gamenet_man->InNetGame();
@@ -10129,12 +10717,15 @@ bool ScriptInNetGame(Script::CStruct *pParams, Script::CScript *pScript)
 // Observing a network game.
 bool ScriptIsObserving( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	GameNet::PlayerInfo* player;
 	GameNet::NewPlayerInfo* new_player;
 	Lst::Search< GameNet::NewPlayerInfo > sh;
 
-	if(( player = gamenet_man->GetLocalPlayer()))
+	if(( player = gamenet_man->GetLocalPlayer()) != nullptr)
 	{
 		return player->IsObserving();
 	}
@@ -10163,6 +10754,8 @@ bool ScriptIsObserving( Script::CStruct *pParams, Script::CScript *pScript )
 // are done loading
 bool ScriptSkatersAreReady(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	
@@ -10186,6 +10779,8 @@ bool ScriptSkatersAreReady(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt 1.0 | value 
 bool ScriptSetSlomo(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	float slomo = 1.0f;
 	pParams->GetFloat(NONAME,&slomo);
 	Tmr::SetSlomo(slomo);
@@ -10200,6 +10795,8 @@ bool ScriptSetSlomo(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SetArenaSize | Obsolete function
 bool ScriptSetArenaSize(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Dbg_Message( "SetArenaSize is obsolete" );
 
 	return true;
@@ -10213,6 +10810,9 @@ bool ScriptSetArenaSize(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | SetParticleSysVisibility | no longer supported.
 bool ScriptSetParticleSysVisibility( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	printf ("STUBBED: ScriptSetParticleSysVisibility\n");
 	return true;
 }
@@ -10225,6 +10825,9 @@ bool ScriptSetParticleSysVisibility( Script::CStruct *pParams, Script::CScript *
 // @script | TogglePlayerNames | 
 bool ScriptTogglePlayerNames( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->TogglePlayerNames();
@@ -10244,6 +10847,9 @@ bool ScriptTogglePlayerNames( Script::CStruct *pParams, Script::CScript *pScript
 // @script | SetCurrentGameType | sets the current game type
 bool ScriptSetCurrentGameType( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	skate_mod->SetCurrentGameType();
@@ -10258,6 +10864,9 @@ bool ScriptSetCurrentGameType( Script::CStruct *pParams, Script::CScript *pScrip
 // @script | DumpNetMessageStats | displays all net message stats
 bool ScriptDumpNetMessageStats( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Net::Conn* conn;
 	Lst::Search< Net::Conn > sh;
 	Net::App* app;
@@ -10306,8 +10915,7 @@ bool ScriptDumpNetMessageStats( Script::CStruct *pParams, Script::CScript *pScri
 			if( num > 0 )
 			{
 #				ifdef __NOPT_ASSERT__
-				Dbg_Printf( "[%d-%s] Num: %d Size: %d Pct: %02f\n", j, net_man->GetMessageName( j ),
-						num, size, (float) size/(float) total_size );
+				Dbg_Printf( "[%d-%s] Num: %d Size: %d Pct: %02f\n", j, net_man->GetMessageName( (unsigned char)j ), num, size, (float) size/(float) total_size );
 #				endif // __NOPT_ASSERT__
 			}
 		}
@@ -10336,8 +10944,7 @@ bool ScriptDumpNetMessageStats( Script::CStruct *pParams, Script::CScript *pScri
 			if( num > 0 )
 			{
 #				ifdef __NOPT_ASSERT__
-				Dbg_Printf( "[%d-%s] Num: %d Size: %d Pct: %02f\n", j, net_man->GetMessageName( j ),
-						num, size, (float) size/(float) total_size );
+				Dbg_Printf( "[%d-%s] Num: %d Size: %d Pct: %02f\n", j, net_man->GetMessageName( (unsigned char)j ), num, size, (float) size/(float) total_size );
 #				endif // __NOPT_ASSERT__
 			}
 		}
@@ -10355,6 +10962,8 @@ bool ScriptDumpNetMessageStats( Script::CStruct *pParams, Script::CScript *pScri
 // @flag off | 
 bool  ScriptSetServerMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	bool off = pParams->ContainsFlag("off");
     
@@ -10371,6 +10980,9 @@ bool  ScriptSetServerMode(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | NotifyBailDone | 
 bool ScriptNotifyBailDone( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	Net::Client* client;	
 
@@ -10411,6 +11023,9 @@ bool ScriptNotifyBailDone( Script::CStruct *pParams, Script::CScript *pScript )
 // @flag Blank | clear screen to black
 bool ScriptDisplayLoadingScreen( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	const char	*pScreen = "images\\xxxxx";	
 	pParams->GetText(NONAME,&pScreen);
@@ -10434,6 +11049,9 @@ bool ScriptDisplayLoadingScreen( Script::CStruct *pParams, Script::CScript *pScr
 // @script | HideLoadingScreen | hides the loading screen 
 bool ScriptHideLoadingScreen( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	//LoadScreen::Hide();
 	Nx::CLoadScreen::sHide();
 
@@ -10448,6 +11066,8 @@ bool ScriptHideLoadingScreen( Script::CStruct *pParams, Script::CScript *pScript
 // @script | EnterObserverMode | changes to observer mode (for net game)
 bool ScriptEnterObserverMode(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->RequestObserverMode();
@@ -10463,6 +11083,9 @@ bool ScriptEnterObserverMode(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ObserveNextSkater | 
 bool ScriptObserveNextSkater( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 
 	skate_mod->ObserveNextSkater();
@@ -10479,6 +11102,8 @@ bool ScriptObserveNextSkater( Script::CStruct *pParams, Script::CScript *pScript
 // @flag off | do not allow pause
 bool ScriptAllowPause(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	bool on = true;
 	if (pParams->ContainsFlag("off"))
@@ -10499,6 +11124,8 @@ bool ScriptAllowPause(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | RefreshServerList | gets a new server list 
 bool ScriptRefreshServerList(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->RefreshServerList( pParams->ContainsFlag( "force_refresh" ));
@@ -10514,6 +11141,8 @@ bool ScriptRefreshServerList(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | StartServerList | 
 bool ScriptStartServerList(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->StartServerList();
@@ -10528,6 +11157,9 @@ bool ScriptStartServerList(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptStartLobbyList( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	if(	gamenet_man->GetServerListState() == GameNet::vSERVER_LIST_STATE_SHUTDOWN )
@@ -10551,6 +11183,8 @@ bool ScriptStartLobbyList( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | StopServerList | 
 bool ScriptStopServerList(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->StopServerList();
@@ -10566,6 +11200,8 @@ bool ScriptStopServerList(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | FreeServerList | 
 bool ScriptFreeServerList(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->FreeServerList();
@@ -10583,6 +11219,8 @@ bool ScriptFreeServerList(Script::CStruct *pParams, Script::CScript *pScript)
 // gameflow.q
 bool ScriptPauseGameFlow(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	skate_mod->PauseGameFlow( true );
 	
@@ -10597,6 +11235,8 @@ bool ScriptPauseGameFlow(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | UnPauseGameFlow | 
 bool ScriptUnpauseGameFlow(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	skate_mod->PauseGameFlow( false );
 	
@@ -10611,6 +11251,8 @@ bool ScriptUnpauseGameFlow(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | InFrontEnd | returns true if we are in the front end
 bool ScriptInFrontEnd(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	return skate_mod->GetGameMode()->IsFrontEnd();
 }
@@ -10623,6 +11265,8 @@ bool ScriptInFrontEnd(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | InSplitScreenGame | returns true if we are in a split screen game
 bool ScriptInSplitScreenGame(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	return skate_mod->IsMultiplayerGame() && !gamenet_man->InNetGame() && !skate_mod->GetGameMode()->IsFrontEnd();
@@ -10636,6 +11280,8 @@ bool ScriptInSplitScreenGame(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | InMultiPlayerGame | 
 bool ScriptInMultiplayerGame(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	
 	return skate_mod->IsMultiplayerGame();
@@ -10648,6 +11294,8 @@ bool ScriptInMultiplayerGame(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetFireballLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	int level;
 	 
@@ -10669,6 +11317,8 @@ bool ScriptGetFireballLevel(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | game mode to check. More than one may be specified, eg GameModeEquals is_singlesession is_creategoals
 bool ScriptGameModeEquals(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	 
  	CComponent *pComp=pParams->GetNextComponent();
@@ -10694,6 +11344,8 @@ bool ScriptGameModeEquals(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | OnServer | returns true if we are on a server
 bool ScriptOnServer(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	return gamenet_man->OnServer();
 }
@@ -10707,6 +11359,8 @@ bool ScriptOnServer(Script::CStruct *pParams, Script::CScript *pScript)
 // so you can use it with LoadLevel, without going through LoadRequestedLevel
 bool ScriptGetCurrentLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	pScript->GetParams()->AddComponent( Script::GenerateCRC("level"), ESYMBOLTYPE_NAME, (int)skate_mod->m_requested_level );
 	
@@ -10729,6 +11383,8 @@ bool ScriptGetCurrentLevel(Script::CStruct *pParams, Script::CScript *pScript)
 // viewer log that's only related to screenshot mode 
 bool ScriptRestartLevel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	skate_mod->RestartLevel();
 	return true;
@@ -10742,6 +11398,8 @@ bool ScriptRestartLevel(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | ToggleScores | toggles game scores
 bool ScriptToggleScores(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->ToggleScores();
@@ -10756,6 +11414,8 @@ bool ScriptToggleScores(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | XTriggered | 
 bool ScriptXTriggered(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
     Dbg_MsgAssert( 0, ( "Obsolete function" ) );
     return false;
 
@@ -10772,6 +11432,8 @@ bool ScriptXTriggered(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparmopt 0 | skater id (default is 0)
 bool ScriptUsePad(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
     Dbg_MsgAssert( 0, ( "Obsolete function" ) );
     return false;
 	
@@ -10805,6 +11467,8 @@ bool ScriptUsePad(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | global constant to check
 bool ScriptIsTrue(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	int Integer=0;
 	pParams->GetInteger( NONAME, &Integer, false );
 	
@@ -10820,6 +11484,8 @@ bool ScriptIsTrue(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | script name
 bool ScriptGameFlow(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 ScriptChecksum=0;
 	pParams->GetChecksum(NONAME,&ScriptChecksum);
 	Dbg_MsgAssert(ScriptChecksum,("\n%s\nGameFlow requires a script name, eg Gameflow Blaa",pScript->GetScriptInfo()));
@@ -10837,6 +11503,8 @@ bool ScriptGameFlow(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptLastBroadcastedCheatWas(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 cheat_flag;
 
 	pParams->GetChecksum(Crc::ConstCRC("cheat_flag"), &cheat_flag, true );
@@ -10851,6 +11519,8 @@ bool ScriptLastBroadcastedCheatWas(Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptClearCheats(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	Obj::CSkaterCareer* career;
 
@@ -10889,6 +11559,8 @@ bool ScriptClearCheats(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptBroadcastCheat(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	Lst::Search< Net::Conn > sh;
 	Net::Conn* conn;
@@ -10944,6 +11616,8 @@ bool ScriptBroadcastCheat(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptCheatAllowed(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 cheat_flag;
 
 	pParams->GetChecksum(Crc::ConstCRC("cheat_flag"), &cheat_flag, true );
@@ -10960,6 +11634,8 @@ bool ScriptCheatAllowed(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm string | string | password string
 bool ScriptJoinWithPassword(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
     
@@ -10980,6 +11656,8 @@ bool ScriptJoinWithPassword(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm string | string | the message to send
 bool ScriptSendChatMessage(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	
 	const char* p_string = nullptr;
 	pParams->GetText( "string", &p_string );
@@ -11009,6 +11687,9 @@ bool ScriptSendChatMessage(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | InSlapGame | true if we are in a slap or netslap game
 bool ScriptInSlapGame( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 
@@ -11062,7 +11743,10 @@ bool ScriptSetScreenMode(Script::CScriptStructure *pParams, Script::CScript *pSc
 
 // @script | SetScreenModeFromGameMode | sets the appropriate screen mode based on the game mode
 bool ScriptSetScreenModeFromGameMode( Script::CStruct *pParams, Script::CScript *pScript )
-{           
+{
+	(void)pParams;
+	(void)pScript;
+           
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	Nx::ScreenMode requested_mode, current_mode;
 
@@ -11117,6 +11801,9 @@ bool ScriptSetScreenModeFromGameMode( Script::CStruct *pParams, Script::CScript 
 // @script | LoadPendingPlayers | 
 bool ScriptLoadPendingPlayers( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
@@ -11133,6 +11820,9 @@ bool ScriptLoadPendingPlayers( Script::CStruct *pParams, Script::CScript *pScrip
 // @script | LaunchQueuedScripts | 
 bool ScriptLaunchQueuedScripts( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->LaunchQueuedScripts();
@@ -11151,6 +11841,9 @@ bool ScriptLaunchQueuedScripts( Script::CStruct *pParams, Script::CScript *pScri
 // @script | GetInitialsString | gets the initials string for the player
 bool ScriptGetInitialsString( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Records::CGameRecords *pGameRecords=pSkate->GetGameRecords();
 	
@@ -11168,6 +11861,9 @@ bool ScriptGetInitialsString( Script::CStruct *pParams, Script::CScript *pScript
 // @parm string | string | initials string
 bool ScriptSetInitialsString( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	 Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 	Records::CGameRecords *pGameRecords=pSkate->GetGameRecords();	
@@ -11218,6 +11914,8 @@ bool	ScriptAttachToSkater(  Script::CStruct *pParams, Script::CScript *pScript )
 // @parm string | string | cheat string to try
 bool	ScriptTryCheatString(  Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
 	
 	char  b[128];
 	const char *p;
@@ -11323,6 +12021,9 @@ bool	ScriptTryCheatString(  Script::CStruct *pParams, Script::CScript *pScript )
 // @uparm name | level name
 bool ScriptLevelIs(  Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
@@ -11342,6 +12043,9 @@ bool ScriptLevelIs(  Script::CStruct *pParams, Script::CScript *pScript )
 // @script | StartNetworkLobby | 
 bool ScriptStartNetworkLobby( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	gamenet_man->StartNetworkLobby();
@@ -11356,6 +12060,9 @@ bool ScriptStartNetworkLobby( Script::CStruct *pParams, Script::CScript *pScript
 // @script | ObserversAllowed | 
 bool ScriptObserversAllowed( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Net::Manager * net_man =  Net::Manager::Instance();
 	
 	// Modem games cannot host observers
@@ -11371,6 +12078,9 @@ bool ScriptObserversAllowed( Script::CStruct *pParams, Script::CScript *pScript 
 // @uparm name | number of players allowed
 bool ScriptNumPlayersAllowed( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	
 	uint32 checksum = 0;
@@ -11399,6 +12109,9 @@ bool ScriptNumPlayersAllowed( Script::CStruct *pParams, Script::CScript *pScript
 // @script | AutoDNS | true if auto DNS
 bool ScriptAutoDNS( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	Script::CStruct* pStructure;
 	Prefs::Preferences* pPreferences;
@@ -11420,6 +12133,9 @@ bool ScriptAutoDNS( Script::CStruct *pParams, Script::CScript *pScript )
 // servers
 bool ScriptUsingDefaultMasterServers( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	Script::CStruct* pStructure;
 	Prefs::Preferences* pPreferences;
@@ -11440,6 +12156,9 @@ bool ScriptUsingDefaultMasterServers( Script::CStruct *pParams, Script::CScript 
 // @script | UsingDHCP | true if using DHCP
 bool ScriptUsingDHCP( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	Script::CStruct* pStructure;
 	Prefs::Preferences* pPreferences;
@@ -11460,6 +12179,9 @@ bool ScriptUsingDHCP( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | InInternetMode | 
 bool ScriptInInternetMode( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
 	return gamenet_man->InInternetMode();
@@ -11474,6 +12196,9 @@ bool ScriptInInternetMode( Script::CStruct *pParams, Script::CScript *pScript )
 // read to play
 bool ScriptEnteringNetGame( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 
@@ -11489,6 +12214,9 @@ bool ScriptEnteringNetGame( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | DeviceChosen | true if a device type has been chosen
 bool ScriptDeviceChosen( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	uint32 checksum;
 	Prefs::Preferences* pPreferences;
@@ -11512,6 +12240,9 @@ bool ScriptDeviceChosen( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | GameIsOver | true if game is over
 bool ScriptGameIsOver( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	
 	return gamenet_man->GameIsOver();
@@ -11527,6 +12258,9 @@ static char 	s_level_name[64];
 // @script | SetLevelName | gets the level name into the above static, so it can be used for the DumpHeaps memory profile dump 
 bool ScriptSetLevelName( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	const char* pName;
 	pParams->GetText( NONAME, &pName, true );
 	sprintf(s_level_name,pName);
@@ -11542,6 +12276,9 @@ bool ScriptSetLevelName( Script::CStruct *pParams, Script::CScript *pScript )
 // the Sony Network adapter is loaded
 bool ScriptResetPS2( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 #	ifdef __PLAT_NGPS__
 	int stat;
@@ -11565,6 +12302,9 @@ bool ScriptResetPS2( Script::CStruct *pParams, Script::CScript *pScript )
 // the Sony Network adapter is loaded
 bool ScriptResetHD( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_Printf( "Resetting PS2\n" );
 
 #	ifdef __PLAT_NGPS__
@@ -11586,6 +12326,9 @@ bool ScriptResetHD( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | PAL | returns true if we're in PAL mode
 bool ScriptPAL( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 #ifdef	PAL
 	return true;
@@ -11611,6 +12354,8 @@ bool ScriptPAL( Script::CStruct *pParams, Script::CScript *pScript )
 // and it will remain so even if b is then changed to something else.
 bool ScriptChangeSymbolValue(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// Extract the first component from pParams, which is used to define the name of the
 	// symbol to change and the new value to give to it.
 	CComponent *pComp=pParams->GetNextComponent();
@@ -11731,6 +12476,9 @@ bool ScriptChangeSymbolValue(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | DumpScripts | Prints out the names of all the currently existing scripts.
 bool ScriptDumpScripts( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	bool just_stack = pParams->ContainsFlag("just_stack");
 	
 	if (!just_stack)
@@ -11752,6 +12500,9 @@ bool ScriptDumpScripts( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | TimeUp | true if time is up
 bool ScriptTimeUp( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
      Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 
     return skate_mod->GetGameMode()->ShouldUseClock() && ( skate_mod->GetGameMode()->GetTimeLeft() <= 0 );
@@ -11765,6 +12516,9 @@ bool ScriptTimeUp( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | LaunchViewer | 
 bool ScriptLaunchViewer( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Manager * mdl_manager =  Mdl::Manager::Instance();
 	Mdl::CViewer* viewer_mod;
 	static bool initialized = false;
@@ -11800,6 +12554,9 @@ bool ScriptLaunchViewer( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | LaunchViewer | 
 bool ScriptLaunchScriptDebugger( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef __NOPT_ASSERT__
 	static bool initialized = false;
 	
@@ -11824,6 +12581,9 @@ bool ScriptLaunchScriptDebugger( Script::CStruct* pParams, Script::CScript* pScr
 // @script | SetViewerModel | 
 bool ScriptSetViewerModel( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::CViewer* pViewer = Mdl::CViewer::sGetViewer();
 
 	s_view_mode = (int)Obj::VIEWER_SKATER_PAUSED;
@@ -11884,6 +12644,9 @@ bool ScriptSetViewerModel( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | SetViewerAnim | 
 bool ScriptSetViewerAnim( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::CViewer* pViewer = Mdl::CViewer::sGetViewer();
 
 	if ( pViewer )
@@ -11909,6 +12672,9 @@ bool ScriptSetViewerAnim( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | ScriptSetViewerLODDist | 
 bool ScriptSetViewerLODDist( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::CViewer* pViewer = Mdl::CViewer::sGetViewer();
 
 	if ( pViewer )
@@ -11937,6 +12703,9 @@ bool ScriptSetViewerLODDist( Script::CStruct* pParams, Script::CScript* pScript 
 
 bool ScriptGetViewerObjectID( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// clear out the viewer object, if any
 	Mdl::CViewer* pViewer = Mdl::CViewer::sGetViewer();
 	if ( pViewer )
@@ -11956,6 +12725,9 @@ bool ScriptGetViewerObjectID( Script::CStruct* pParams, Script::CScript* pScript
 
 bool ScriptReloadViewerAnim( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::CViewer* pViewer = Mdl::CViewer::sGetViewer();
 
 	if ( pViewer )
@@ -11989,6 +12761,9 @@ bool ScriptReloadViewerAnim( Script::CStruct* pParams, Script::CScript* pScript 
 // @script | AddRestartsToMenu | adds all restart points to the menu
 bool ScriptAddRestartsToMenu( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	Script::CStruct* p_restart_params;
 	int 	node = -1;
@@ -12110,6 +12885,9 @@ bool ScriptAddWarpPointsToMenu( Script::CStruct* pParams, Script::CScript* pScri
 // @script | ScriptRunScriptOnObject | allows you to access Obj_ type functions, from a global script
 bool ScriptRunScriptOnObject( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// searches for object by name
 
 	uint32 obj_id;
@@ -12184,6 +12962,9 @@ bool ScriptRunScriptOnObject( Script::CStruct* pParams, Script::CScript* pScript
 // @script | RunScriptOnComponentType | 
 bool ScriptRunScriptOnComponentType( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 componentType;
 	pParams->GetChecksum( Crc::ConstCRC("component"), &componentType, Script::ASSERT );
 
@@ -12222,6 +13003,9 @@ bool ScriptRunScriptOnComponentType( Script::CStruct *pParams, Script::CScript *
 	
 bool ScriptDebounce( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 ButtonChecksum=0;
 	pParams->GetChecksum(NONAME,&ButtonChecksum);
 	if (!ButtonChecksum)
@@ -12255,6 +13039,9 @@ bool ScriptDebounce( Script::CStruct* pParams, Script::CScript* pScript )
 // set it to 0 to use normal stats
 bool ScriptSetStatOverride( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	float	value = 0.0f;
 	pParams->GetFloat(NONAME,&value);
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
@@ -12270,6 +13057,9 @@ bool ScriptSetStatOverride( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | ToggleRails | Toggle the debug display of rails on and off
 bool ScriptToggleRails( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	skate_mod->SetDrawRails(!skate_mod->GetDrawRails());
 	return true;
@@ -12283,6 +13073,9 @@ bool ScriptToggleRails( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | ToggleRigidBodyDebug | Toggle the debug display of rigidbody characteristics
 bool ScriptToggleRigidBodyDebug( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Obj::CRigidBodyComponent::sToggleDrawRigidBodyDebugLines(); 
 	return true;
 }
@@ -12295,6 +13088,9 @@ bool ScriptToggleRigidBodyDebug( Script::CStruct* pParams, Script::CScript* pScr
 // @script | CheckForHoles | check the scene file for holes in geometry, and visually display them
 bool ScriptCheckForHoles( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Nx::CEngine::sDebugCheckForHoles();
 	return true;
 }
@@ -12307,6 +13103,9 @@ bool ScriptCheckForHoles( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | OnXbox |
 bool ScriptOnXbox( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	/*
 #ifdef __PLAT_XBOX__
 	return true;
@@ -12325,6 +13124,9 @@ bool ScriptOnXbox( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | GotoXboxDashboard |
 bool ScriptGotoXboxDashboard( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #	ifdef __PLAT_XBOX__
 	LD_LAUNCH_DASHBOARD ld;
     ZeroMemory( &ld, sizeof(ld) );
@@ -12359,6 +13161,9 @@ bool ScriptGotoXboxDashboard( Script::CStruct* pParams, Script::CScript* pScript
 
 bool ScriptSystemLinkEnabled( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_XBOX__
 	DWORD result;
 	
@@ -12397,6 +13202,9 @@ bool ScriptSystemLinkEnabled( Script::CStruct* pParams, Script::CScript* pScript
 // 
 bool ScriptCreateParticleSystem( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name = 0;
 	pParams->GetChecksum("Name",&name);
 
@@ -12473,6 +13281,9 @@ bool ScriptCreateParticleSystem( Script::CStruct* pParams, Script::CScript* pScr
 // @parmopt name | params | | Sets a parameter block for use with the created particle scripts.
 bool ScriptSetScript( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name = 0;
 	pParams->GetChecksum("Name",&name);
 
@@ -12507,6 +13318,9 @@ bool ScriptSetScript( Script::CStruct* pParams, Script::CScript* pScript )
 // @parmopt int | ifempty | 0 | Set this to 1 if you want the particle system to be destroyed only when empty.
 bool ScriptDestroyParticleSystem( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name = 0;
 	pParams->GetChecksum("Name",&name);
 
@@ -12534,6 +13348,9 @@ bool ScriptDestroyParticleSystem( Script::CStruct* pParams, Script::CScript* pSc
 // @parm name | name | the name of the particle system.
 bool ScriptEmptyParticleSystem( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name = 0;
 	pParams->GetChecksum("Name",&name);
 
@@ -12554,6 +13371,9 @@ bool ScriptEmptyParticleSystem( Script::CStruct* pParams, Script::CScript* pScri
 // @parm name | name | the name of the particle system.
 bool ScriptParticleExists( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name = 0;
 	if ( !pParams->GetChecksum("Name",&name ) )
 	{
@@ -12583,6 +13403,9 @@ bool ScriptParticleExists( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparm name | the named param to look for
 bool ScriptStructureContains( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Script::CStruct* p_struct;
 	if ( pParams->GetStructure( "structure", &p_struct, Script::NO_ASSERT ) )
 	{	
@@ -12610,6 +13433,9 @@ bool ScriptStructureContains( Script::CStruct* pParams, Script::CScript* pScript
 // @script | GetBonePosition | allows you to access Obj_ type functions, from a global script
 bool ScriptGetBonePosition( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mth::Vector bonePos;
 	bool success = false;
 	
@@ -12652,6 +13478,9 @@ bool ScriptGetBonePosition( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | ShouldEmitParticles | tests whether the specified particle system is active
 bool ScriptShouldEmitParticles( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name;
 	pParams->GetChecksum( Crc::ConstCRC("name"), &name, Script::ASSERT );
 
@@ -12675,6 +13504,9 @@ bool ScriptShouldEmitParticles( Script::CStruct* pParams, Script::CScript* pScri
 // @script | ParticlesOn | turns on the specified particle system
 bool ScriptParticlesOn( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name;
 	pParams->GetChecksum( "name", &name, Script::ASSERT );
 
@@ -12700,6 +13532,9 @@ bool ScriptParticlesOn( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | ParticlesOff | turns off the specified particle system
 bool ScriptParticlesOff( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 name;
 	pParams->GetChecksum( "name", &name, Script::ASSERT );
 
@@ -12728,6 +13563,9 @@ bool ScriptParticlesOff( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm name | mangled_id | The returned value for the mangled checksum
 bool ScriptMangleChecksums( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 a;
 	if ( !pParams->GetChecksum( Crc::ConstCRC("a"), &a, Script::NO_ASSERT ) )
 	{
@@ -12757,6 +13595,9 @@ bool ScriptMangleChecksums( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm string | SuffixString | The suffix string
 bool ScriptAppendSuffixToChecksum( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 base_checksum;
 	pParams->GetChecksum(Crc::ConstCRC("Base"), &base_checksum, Script::ASSERT);
 	
@@ -12782,6 +13623,9 @@ bool ScriptAppendSuffixToChecksum( Script::CStruct* pParams, Script::CScript* pS
 // @parm float | rz | Amount to rotate on Z, in degrees
 bool ScriptRotateVector( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// get original vector:
 	Mth::Vector vec;
 	pParams->GetFloat( "x", &vec[X], Script::ASSERT );
@@ -12821,6 +13665,9 @@ bool ScriptRotateVector( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsPS2 | Returns true if the current hardware is PS2 (proview/devkit/regular).
 bool ScriptIsPS2( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return false;
 }
 
@@ -12832,6 +13679,9 @@ bool ScriptIsPS2( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsNGC | Returns true if the current hardware is GameCube.
 bool ScriptIsNGC( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return false;
 }
 
@@ -12843,6 +13693,9 @@ bool ScriptIsNGC( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsXBOX | Returns true if the current hardware is Xbox.
 bool ScriptIsXBOX( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return true;
 }
 
@@ -12854,6 +13707,9 @@ bool ScriptIsXBOX( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | IsWin32 | Returns true if the current hardware is Win32.
 bool ScriptIsWIN32( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return false;
 }
 
@@ -12867,6 +13723,9 @@ bool ScriptIsWIN32( Script::CStruct* pParams, Script::CScript* pScript )
 // Handy for use in script switch statements, rather than having to have nested if's
 bool ScriptGetPlatform( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 platform=0;
 	
 	switch (Config::GetHardware())
@@ -12900,6 +13759,9 @@ bool ScriptGetPlatform( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptIsPal( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	return Config::PAL();
 }
 
@@ -12911,6 +13773,9 @@ bool ScriptIsPal( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | PushMemProfile | push an arbitarily named memory profile (Mick's use only)
 bool ScriptPushMemProfile( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	
 	const char* pContext;
 	pParams->GetText( NONAME, &pContext, true );
@@ -12926,6 +13791,9 @@ bool ScriptPushMemProfile( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | PopMemProfile | pop a mem profile that was pushed (Mick's use only)
 bool ScriptPopMemProfile( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::PopMemProfile();
 	return true;
 }
@@ -12938,6 +13806,9 @@ bool ScriptPopMemProfile( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | TogglePass | Toggle which passes are displayed
 bool ScriptTogglePass( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef	__PLAT_NGPS__
 	#ifdef	__NOPT_ASSERT__
 	static 	int pass = 0;
@@ -12976,6 +13847,9 @@ bool ScriptTogglePass( Script::CStruct* pParams, Script::CScript* pScript )
 // @parm int | Letterbox | 0 for non-letterbox, 1 for letterboxed.  Normally used with 4/3 aspect 
 bool	ScriptSetScreen( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	float	Aspect;
 	float	Angle;
 	
@@ -13006,6 +13880,9 @@ bool	ScriptSetScreen( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptGetUpperCaseString( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	const char* initial_string;
 	pParams->GetString( NONAME, &initial_string, Script::ASSERT );
 
@@ -13024,6 +13901,9 @@ bool ScriptGetUpperCaseString( Script::CStruct* pParams, Script::CScript* pScrip
 
 bool ScriptGetGameMode( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	uint32 gameMode = skate_mod->GetGameMode()->GetNameChecksum();
 
@@ -13038,6 +13918,9 @@ bool ScriptGetGameMode( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptStartKeyboardHandler( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::FrontEnd* front = Mdl::FrontEnd::Instance();
 	int max_length;
 
@@ -13053,6 +13936,9 @@ bool ScriptStartKeyboardHandler( Script::CStruct* pParams, Script::CScript* pScr
 
 bool ScriptEnableKeyboard( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_NGPS__
 	SIO::EnableKeyboard( true );
 #endif
@@ -13066,6 +13952,9 @@ bool ScriptEnableKeyboard( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptDisableKeyboard( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_NGPS__
 	SIO::EnableKeyboard( false );
 #endif
@@ -13079,6 +13968,9 @@ bool ScriptDisableKeyboard( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptStopKeyboardHandler( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::FrontEnd* front = Mdl::FrontEnd::Instance();
 
 	front->RemoveKeyboardHandler();
@@ -13095,6 +13987,9 @@ bool ScriptStopKeyboardHandler( Script::CStruct* pParams, Script::CScript* pScri
 // @uparm 1 | size of array
 bool ScriptCreateIndexArray( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int size;
 	pParams->GetInteger( NONAME, &size, Script::ASSERT );
 
@@ -13125,6 +14020,9 @@ bool ScriptCreateIndexArray( Script::CStruct* pParams, Script::CScript* pScript 
 // @parm float | result | 
 bool ScriptGetRescaledTargetValue( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	float min;
 	float max;
 	float target;
@@ -13162,6 +14060,8 @@ bool ScriptGetRescaledTargetValue( Script::CStruct* pParams, Script::CScript* pS
 // @script | MenuIsSelected | Checks names in pArray to find selected
 bool ScriptMenuIsSelected(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	// If there is an array of names, check them.		
 	Script::CArray *pArray=nullptr;
 	if (pParams->GetArray(NONAME,&pArray))
@@ -13198,6 +14098,8 @@ bool ScriptMenuIsSelected(Script::CStruct *pParams, Script::CScript *pScript)
 // If there is no such object, it will not add NodeName and will return false.
 bool ScriptGetNodeName(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	if (pScript->mpObject)
 	{
 		Obj::CMovingObject *p_pos_obj = static_cast<Obj::CMovingObject*>(pScript->mpObject.Convert());
@@ -13229,6 +14131,8 @@ bool ScriptGetNodeName(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm name | The name of the script to run.
 bool ScriptSetTesterScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	uint32 tester_script=0;
 	CStruct *p_params=nullptr;
 	
@@ -13251,6 +14155,8 @@ bool ScriptSetTesterScript(Script::CStruct *pParams, Script::CScript *pScript)
 // Returns true if a tester script was running before, false otherwise.
 bool ScriptKillTesterScript(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	 Mdl::Skate * pSkate =  Mdl::Skate::Instance();
 
 	Dbg_MsgAssert(pSkate->mp_gameFlow,("nullptr pSkate->mp_gameFlow ??"));
@@ -13268,6 +14174,9 @@ bool ScriptKillTesterScript(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm 1 | value
 bool ScriptMemPushContext( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 //	MemViewToggle();
 	
 	// 0 is the special case name
@@ -13307,6 +14216,9 @@ bool ScriptMemPushContext( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | MemPopContext |
 bool ScriptMemPopContext( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::Manager::sHandle().PopContext();
 	return true;
 }
@@ -13320,7 +14232,9 @@ bool ScriptMemPopContext( Script::CStruct *pParams, Script::CScript *pScript )
 // @parm name | name | the name of heap to create
 // @parm int | size | the size of heap to create
 bool ScriptMemInitHeap(Script::CStruct *pParams, Script::CScript *pScript)
-{	
+{
+	(void)pParams;
+	(void)pScript;	
 	const char* pHeapName;
 	pParams->GetText( "name", &pHeapName, true );
 
@@ -13345,6 +14259,8 @@ bool ScriptMemInitHeap(Script::CStruct *pParams, Script::CScript *pScript)
 // @parm name | name | the name of heap to delete
 bool ScriptMemDeleteHeap(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	const char* pHeapName;
 	pParams->GetText( "name", &pHeapName, true );
 
@@ -13359,6 +14275,9 @@ bool ScriptMemDeleteHeap(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptMemThreadSafe( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	if (pParams->ContainsFlag( Script::GenerateCRC( "off" )))
 	{
 		Mem::SetThreadSafe( false );
@@ -13379,6 +14298,9 @@ bool ScriptMemThreadSafe( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparmopt BottomUpHeap | heap to analyze
 bool ScriptAnalyzeHeap( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// GJ:  I am planning to refactor this!
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
 	Mem::Heap* pHeap = nullptr;
@@ -13409,6 +14331,9 @@ bool ScriptAnalyzeHeap( Script::CStruct *pParams, Script::CScript *pScript )
 // @uparmopt BottomUpHeap | which heap to print
 bool ScriptPrintMemInfo( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
 	Mem::Heap* pHeap = nullptr;
 	char buf[64];
@@ -13452,6 +14377,9 @@ bool ScriptPrintMemInfo( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | DisplayFreeMem | displays free mem info of specified heap
 bool ScriptDisplayFreeMem( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
 
 	Mem::Heap* heap;
@@ -13486,6 +14414,9 @@ bool ScriptDisplayFreeMem( Script::CStruct *pParams, Script::CScript *pScript )
 // @flag ExactValues | Prints the exact heap sizes in bytes.
 bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
 
 	Script::DumpLastStructs();
@@ -13637,6 +14568,9 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 // @script | DumpFragments | prints out heap fragments
 bool ScriptDumpFragments( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	int maxFragmentation = 10000;
 	pParams->GetInteger( NONAME, &maxFragmentation, Script::NO_ASSERT );
 
@@ -13685,6 +14619,9 @@ bool ScriptDumpFragments( Script::CStruct *pParams, Script::CScript *pScript )
 
 bool ScriptClearStruct( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 structName;
 	pParams->GetChecksum( "struct", &structName, Script::ASSERT );
 
@@ -13701,6 +14638,9 @@ bool ScriptClearStruct( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptAppendStruct( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 structName;
 	pParams->GetChecksum( "struct", &structName, Script::ASSERT );
 
@@ -13726,6 +14666,9 @@ bool ScriptAppendStruct( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptScriptExists( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 script_name_checksum=0;
 	pParams->GetChecksum(NONAME,&script_name_checksum);
 
@@ -13744,6 +14687,9 @@ bool ScriptScriptExists( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptSpawnSecondControllerCheck( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	 Mlp::Manager * mlp_manager =  Mlp::Manager::Instance();
 	int not_used;
 
@@ -13766,6 +14712,9 @@ bool ScriptSpawnSecondControllerCheck( Script::CStruct* pParams, Script::CScript
 
 bool ScriptStopSecondControllerCheck( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_Assert( s_second_controller_check_task != nullptr );
 
 	delete s_second_controller_check_task;
@@ -13785,6 +14734,9 @@ bool ScriptStopSecondControllerCheck( Script::CStruct* pParams, Script::CScript*
 // and check the media type in prepare_to_exit
 bool ScriptLoadExecPS2( Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 #ifdef __PLAT_NGPS__
 	const char* p_string;
@@ -13833,6 +14785,9 @@ bool ScriptExitDemo( Script::CStruct*, Script::CScript* )
 
 bool ScriptIsArray( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Script::CArray* pTest = nullptr;
 	if ( pParams->GetArray( NONAME, &pTest, Script::NO_ASSERT ) )
 		return true;
@@ -13848,6 +14803,9 @@ bool ScriptIsArray( Script::CStruct* pParams, Script::CScript* pScript )
 // @uparm 1 | the soundtrack number
 bool ScriptUseUserSoundtrack( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_MsgAssert( Config::GetHardware() == Config::HARDWARE_XBOX, ( "UseUserSoundtrack should only be called on the XBox" ) );
 	
 	int soundtrack;
@@ -13864,6 +14822,9 @@ bool ScriptUseUserSoundtrack( Script::CStruct* pParams, Script::CScript* pScript
 // @script | UseStandardSoundtrack | xbox only - use the standard soundtrack
 bool ScriptUseStandardSoundtrack( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_MsgAssert( Config::GetHardware() == Config::HARDWARE_XBOX, ( "UseStandardSoundtrack should only be called on XBox" ) );
 	Pcm::UseStandardSoundtrack();
 	return true;
@@ -13877,6 +14838,9 @@ bool ScriptUseStandardSoundtrack( Script::CStruct* pParams, Script::CScript* pSc
 // @script | DisableReset | ngc only - disable the reset button. If the user presses reset when disabled, a screen will be displayed until it is enabled, and it will reset.
 bool ScriptDisableReset( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_NGC__
 	//printf("DisableReset ...\n");
 	NxNgc::EngineGlobals.disableReset = true;
@@ -13893,6 +14857,9 @@ bool ScriptDisableReset( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | EnableReset | ngc only - enable the reset button. If reset was pressed while disabled, it will now reset.
 bool ScriptEnableReset( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_NGC__
 	//printf("WARNING! EnableReset ...\n");
 
@@ -13910,6 +14877,9 @@ bool ScriptEnableReset( Script::CStruct* pParams, Script::CScript* pScript )
 // @script | ResetToIPL | ngc only - resets to IPL screen.
 bool ScriptResetToIPL( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 #ifdef __PLAT_NGC__
 	NxNgc::EngineGlobals.resetToIPL = true;
 #endif		// __PLAT_NGC__ 
@@ -13924,6 +14894,9 @@ bool ScriptResetToIPL( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptInitAnimCompressTable( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	const char* pFileName;
 	pParams->GetText( NONAME, &pFileName, Script::ASSERT );
 
@@ -13993,6 +14966,9 @@ test_composite = [
 
 bool ScriptCreateCompositeObject( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	// Required array of structures containing "component="
 	Script::CArray*	p_array = nullptr;
 	pParams->GetArray(Crc::ConstCRC("components"),&p_array,Script::ASSERT);
@@ -14014,6 +14990,9 @@ bool ScriptCreateCompositeObject( Script::CStruct* pParams, Script::CScript* pSc
 // Given the id of an object, and a structure, 
 bool ScriptRefreshObject( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 
 	return true;
@@ -14069,6 +15048,9 @@ bool ScriptRefreshObject( Script::CStruct* pParams, Script::CScript* pScript )
 // deletes old rails before auto-generating rails
 bool ScriptAutoRail( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mdl::Skate::Instance()->GetRailManager()->AutoGenerateRails(pParams);
 	return true;			  
 }
@@ -14080,6 +15062,9 @@ bool ScriptAutoRail( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptInside(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Dbg_MsgAssert(Mdl::Skate::Instance()->mpProximManager->IsInsideFlagValid(), ("Inside called outside of a proxim trigger script or within a proxim trigger script with a ProximObject"));
     return Mdl::Skate::Instance()->mpProximManager->IsInside(); 
 }
@@ -14091,6 +15076,9 @@ bool ScriptInside(Script::CStruct* pParams, Script::CScript* pScript)
 
 bool ScriptSetSpecialBarColors(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
     int skater_num;
     pParams->GetInteger( "skater", &skater_num, Script::ASSERT );
     
@@ -14109,6 +15097,9 @@ bool ScriptSetSpecialBarColors(Script::CStruct* pParams, Script::CScript* pScrip
 
 bool	ScriptGetMetrics(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 // get various metrics into a structure for display
 // You can run this on a spawned script to see in the viewer
 
@@ -14128,6 +15119,9 @@ bool	ScriptGetMetrics(Script::CStruct* pParams, Script::CScript* pScript)
 
 bool	ScriptMoveNode(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
    	// Given a name and a position, move the node to that position
 	// This can only be applied to one node at once, as it's an absolute position
 	// So we just do everything here.
@@ -14265,6 +15259,9 @@ bool	ScriptMoveNode(Script::CStruct* pParams, Script::CScript* pScript)
 // @flag move |	  move the new camera to the position of the old camera
 bool	ScriptSetActiveCamera(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32	id=0;
 	pParams->GetChecksum(Crc::ConstCRC("id"),&id);
 	int	viewport=0;
@@ -14387,6 +15384,9 @@ bool ScriptATan(Script::CStruct* pParams, Script::CScript* pScript)
 // Load tracking info from a file, and display it as immediate mode lines
 bool ScriptShowTracking(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Gfx::DebugGfx_CleanUp();
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
 
@@ -14516,6 +15516,9 @@ sorry:
 // @script | IsGrind | 
 bool ScriptIsGrind(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	return pParams->ContainsFlag(Crc::ConstCRC("Grind"));
 }
 
@@ -14528,6 +15531,9 @@ bool ScriptIsGrind(Script::CStruct* pParams, Script::CScript* pScript)
 // @parmopt integer | clear | 0 |
 bool ScriptSetColorBufferClear(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	int	clear = 0;
 	pParams->GetInteger( Crc::ConstCRC( "clear" ), &clear );
 
@@ -14545,6 +15551,9 @@ bool ScriptSetColorBufferClear(Script::CStruct* pParams, Script::CScript* pScrip
 // Printfs the cam offset in EE0
 bool ScriptShowCamOffset(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef	__NOPT_ASSERT__
 	// Given a node name
 	// then calculate a good targetOffset and positionOffset
@@ -14552,13 +15561,12 @@ bool ScriptShowCamOffset(Script::CStruct* pParams, Script::CScript* pScript)
 
 	// Some common code to either relative, or world specific
 	Mth::Matrix cam_matrix = Nx::CViewportManager::sGetActiveCamera()->GetMatrix();
-	Mth::Vector cam_pos = Nx::CViewportManager::sGetActiveCamera()->GetPos();			
+	Mth::Vector cam_pos = Nx::CViewportManager::sGetActiveCamera()->GetPos();
 
 	// get a line segment extending fromthe camera forward (note -z)
 	Mth::Line cam_fwd;
 	cam_fwd.m_start = cam_pos;
 	cam_fwd.m_end = cam_pos - cam_matrix[Z] * 10000;
-
 	
 	uint32 name = 0;
 	if (pParams->GetChecksum(Crc::ConstCRC("name"),&name))
@@ -14575,22 +15583,22 @@ bool ScriptShowCamOffset(Script::CStruct* pParams, Script::CScript* pScript)
 				pNode->GetVector(Crc::ConstCRC("pos"),&pos);
 	
 	
-				Mth::Matrix cam_matrix = Nx::CViewportManager::sGetActiveCamera()->GetMatrix();
-				Mth::Vector cam_pos = Nx::CViewportManager::sGetActiveCamera()->GetPos();			
+				Mth::Matrix nu_cam_matrix = Nx::CViewportManager::sGetActiveCamera()->GetMatrix();
+				Mth::Vector nu_cam_pos = Nx::CViewportManager::sGetActiveCamera()->GetPos();			
 	
 	
 				// get a line segment extending fromthe camera forward (note -z)
-				Mth::Line cam_fwd;
-				cam_fwd.m_start = cam_pos;
-				cam_fwd.m_end = cam_pos - cam_matrix[Z] * 10000;
+				Mth::Line nu_cam_fwd;
+				nu_cam_fwd.m_start = nu_cam_pos;
+				nu_cam_fwd.m_end = nu_cam_pos - nu_cam_matrix[Z] * 10000;
 				
-				Mth::Line node_up;
-				node_up.m_start = pos;
-				node_up.m_end = pos + Mth::Vector(0,10000,0);
+				Mth::Line nu_node_up;
+				nu_node_up.m_start = pos;
+				nu_node_up.m_end = pos + Mth::Vector(0,10000,0);
 	
 				Mth::Vector pa, pb;			
 				float mua,mub;
-				if (Mth::LineLineIntersect( cam_fwd, node_up, &pa, &pb, &mua, &mub, false ))
+				if (Mth::LineLineIntersect(nu_cam_fwd, nu_node_up, &pa, &pb, &mua, &mub, false ))
 				{
 					Gfx::AddDebugArrow(pos, pa,0xff0000,0,100);			
 	//				Gfx::AddDebugArrow(pa, pb ,0xff00  ,0,100);			
@@ -14606,7 +15614,7 @@ bool ScriptShowCamOffset(Script::CStruct* pParams, Script::CScript* pScript)
 				//          pa      = position of the focus
 				
 				Mth::Vector target_offset = pa-pos;
-				Mth::Vector position_offset = cam_pos - pa;
+				Mth::Vector position_offset = nu_cam_pos - pa;
 				
 				/*
 				printf ("\nUnrotated - Use if focussing relative to the ground\n");																									 
@@ -14719,6 +15727,9 @@ bool ScriptOnExitRun(Script::CStruct* pParams, Script::CScript* pScript)
 // @script | Block | Stop execution of this script, allowing to still be woken up by events and exceptions
 bool ScriptBlock(Script::CStruct* pParams, Script::CScript* pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	pScript->Block();
 	return true;
 }
@@ -14726,6 +15737,9 @@ bool ScriptBlock(Script::CStruct* pParams, Script::CScript* pScript)
 // @script | PrintEventHandlerTable | Prints the event handler table of the current script
 bool ScriptPrintEventHandlerTable ( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	pScript->PrintEventHandlerTable();
 	return true;
 }
@@ -14734,6 +15748,9 @@ bool ScriptPrintEventHandlerTable ( Script::CStruct* pParams, Script::CScript* p
 // @script | AllocateSplitScreenDMA | (PS2 only) allocated extra memory for DMA usage
 bool ScriptAllocateSplitScreenDMA ( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef	__PLAT_NGPS__
 	
 	Nx::CEngine::sFinishRendering();
@@ -14749,6 +15766,9 @@ bool ScriptAllocateSplitScreenDMA ( Script::CStruct* pParams, Script::CScript* p
 // @script | AddSkaterEarly | Create and load a skater, so when we autolaunch a level, it's there.  DEBUG ONLY
 bool ScriptAddSkaterEarly( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 
 	if (Mdl::Skate::Instance()->GetNumSkaters() == 0)
 	{
@@ -14765,6 +15785,9 @@ bool ScriptAddSkaterEarly( Script::CStruct* pParams, Script::CScript* pScript )
 
 bool ScriptPreLoadStreamDone( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 streamId;
 	pParams->GetChecksum( NONAME, &streamId, Script::ASSERT );
 	return Pcm::PreLoadStreamDone( streamId );
@@ -14777,6 +15800,9 @@ bool ScriptPreLoadStreamDone( Script::CStruct* pParams, Script::CScript* pScript
 
 bool ScriptStartPreLoadedStream( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	uint32 streamId;
 	pParams->GetChecksum( Crc::ConstCRC("streamId"), &streamId, Script::ASSERT );
 	float vol = 100;
@@ -14796,6 +15822,9 @@ bool ScriptStartPreLoadedStream( Script::CStruct* pParams, Script::CScript* pScr
 
 bool ScriptFinishRendering( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Nx::CEngine::sFinishRendering();
 
 	return true;
@@ -14804,21 +15833,29 @@ bool ScriptFinishRendering( Script::CStruct* pParams, Script::CScript* pScript )
 // Functions that don't seem to exist but are referenced by scripts
 bool ScriptIsInternetGameHost(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return false;
 }
 
 bool ScriptIsJoiningInternetGame(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return false;
 }
 
 bool ScriptMultiPlayerOnly(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return false;
 }
 
 bool ScriptSkaterIsCustom(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return false;
 }
 

@@ -351,6 +351,7 @@ void sMesh::wibble_vc( void )
 /******************************************************************/
 void sMesh::CreateDuplicateVertexBuffers( int n )
 {
+	(void)n;
 	/*
 	// Ensure this hasn't already been called.
 	Dbg_Assert( mp_vertex_buffer[0] != nullptr );
@@ -389,6 +390,7 @@ void sMesh::CreateDuplicateVertexBuffers( int n )
 /******************************************************************/
 void sMesh::SetPosition( Mth::Vector &pos )
 {
+	(void)pos;
 	/*
 	// Create a transform if one doesn't exist yet.
 	if( mp_transform == nullptr )
@@ -433,6 +435,7 @@ void sMesh::SetPosition( Mth::Vector &pos )
 /******************************************************************/
 void sMesh::GetPosition( Mth::Vector *p_pos )
 {
+	(void)p_pos;
 	/*
 	if( mp_transform == nullptr )
 	{
@@ -453,6 +456,8 @@ void sMesh::GetPosition( Mth::Vector *p_pos )
 /******************************************************************/
 void sMesh::SetYRotation( Mth::ERot90 rot )
 {
+	(void)rot;
+
 	/*
 	if( rot > Mth::ROT_0 )
 	{
@@ -611,7 +616,7 @@ void sMesh::Submit( void )
 		frustum_check_sphere(m_sphere_center, m_sphere_radius);
 		float dist = get_bounding_sphere_nearest_z();
 
-		for (size_t lod = 0; lod < MAX_INDEX_BUFFERS; lod++)
+		for (lod = 0; lod < MAX_INDEX_BUFFERS; lod++)
 		{
 			if (mp_index_buffer[lod] == nullptr)
 			{
@@ -866,8 +871,8 @@ void sMesh::Crunch( void )
 	uint32 i1 = p_indices[1];
 
 	uint32 invalid = 0;
-	uint32 total_invalid = 0;
-	bool crunch = false;
+	// uint32 total_invalid = 0;
+	// bool crunch = false;
 
 	for (uint32 i = 2; i < m_num_indices[0]; i++)
 	{
@@ -953,6 +958,9 @@ void sMesh::SetupVAO(void)
 /******************************************************************/
 void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector & pivot_axis )
 {
+	(void)type;
+	(void)pivot_pos;
+	(void)pivot_axis;
 	#if 0
 	Dbg_Assert( mp_billboard_data == nullptr );
 
@@ -1140,6 +1148,10 @@ void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector 
 /******************************************************************/
 void sMesh::SetBoundingData( Mth::Vector & sphere_center, float radius, Mth::Vector & bb_min, Mth::Vector & bb_max )
 {
+	(void)sphere_center;
+	(void)radius;
+	(void)bb_min;
+	(void)bb_max;
 //	m_bbox.Set( bb_min, bb_max );
 
 	// m_sphere_center = D3DXVECTOR3( sphere_center[X], sphere_center[Y], sphere_center[Z] );
@@ -1215,7 +1227,7 @@ void sMesh::Initialize( int				num_vertices,
 	for( int ib = 0; ib < num_index_sets; ++ib )
 	{
 		mp_index_buffer[ib] = new uint16[p_num_indices[ib]];
-		m_num_indices[ib] = p_num_indices[ib];
+		m_num_indices[ib] = (uint16)p_num_indices[ib];
 	}
 	
 	// Use the material flags to figure the vertex format

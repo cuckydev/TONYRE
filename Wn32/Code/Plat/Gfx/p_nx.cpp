@@ -179,6 +179,9 @@ namespace Nx
 	/******************************************************************/
 	CScene *CEngine::s_plat_create_scene(const char *p_name, CTexDict *p_tex_dict, bool add_super_sectors)
 	{
+		(void)p_name;
+		(void)p_tex_dict;
+
 		// Create scene class instance
 		CXboxScene *p_xbox_scene = new CXboxScene;
 		CScene *p_new_scene = p_xbox_scene;
@@ -416,6 +419,8 @@ namespace Nx
 	/******************************************************************/
 	bool CEngine::s_plat_add_scene(CScene *p_scene, const char *p_filename)
 	{
+		(void)p_scene;
+		(void)p_filename;
 		// Function to incrementally add geometry to a scene - should NOT be getting called on Xbox.
 		Dbg_Assert(0);
 		return false;
@@ -514,6 +519,10 @@ namespace Nx
 	/******************************************************************/
 	CMesh *CEngine::s_plat_load_mesh(const char *pMeshFileName, Nx::CTexDict *pTexDict, uint32 texDictOffset, bool isSkin, bool doShadowVolume)
 	{
+		(void)texDictOffset;
+		(void)isSkin;
+		(void)doShadowVolume;
+
 		// Load the scene.
 		Nx::CScene *p_scene = Nx::CEngine::s_plat_load_scene(pMeshFileName, pTexDict, false, false, false);
 
@@ -544,6 +553,11 @@ namespace Nx
 	/******************************************************************/
 	CMesh *CEngine::s_plat_load_mesh(uint32 id, uint32 *p_model_data, int model_data_size, uint8 *p_cas_data, Nx::CTexDict *pTexDict, uint32 texDictOffset, bool isSkin, bool doShadowVolume)
 	{
+		(void)model_data_size;
+		(void)texDictOffset;
+		(void)isSkin;
+		(void)doShadowVolume;
+
 		// Convert the id into a usable string.
 		Dbg_Assert(id > 0);
 		char id_as_string[16];
@@ -603,6 +617,7 @@ namespace Nx
 	/******************************************************************/
 	CSprite *CEngine::s_plat_create_sprite(CWindow2D *p_window)
 	{
+		(void)p_window;
 		return new CXboxSprite;
 	}
 
@@ -635,7 +650,7 @@ namespace Nx
 
 	bool		CEngine::s_plat_destroy_textured_3d_poly(CTextured3dPoly *p_poly)
 	{
-		
+		(void)p_poly;
 		return true;
 	}
 
@@ -646,6 +661,10 @@ namespace Nx
 	/******************************************************************/
 	Nx::CTexture *CEngine::s_plat_create_render_target_texture(int width, int height, int depth, int z_depth)
 	{
+		(void)width;
+		(void)height;
+		(void)depth;
+		(void)z_depth;
 		return nullptr;
 	}
 
@@ -657,7 +676,9 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_project_texture_into_scene(Nx::CTexture *p_texture, Nx::CModel *p_model, Nx::CScene *p_scene)
 	{
-		
+		(void)p_texture;
+		(void)p_model;
+		(void)p_scene;
 	}
 
 
@@ -668,7 +689,8 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_projection_texture_camera(Nx::CTexture *p_texture, Gfx::Camera *p_camera)
 	{
-		
+		(void)p_texture;
+		(void)p_camera;
 	}
 
 
@@ -679,7 +701,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_stop_projection_texture(Nx::CTexture *p_texture)
 	{
-		
+		(void)p_texture;
 	}
 
 
@@ -690,7 +712,9 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_add_occlusion_poly(uint32 num_verts, Mth::Vector *p_vert_array, uint32 checksum)
 	{
-		
+		(void)num_verts;
+		(void)p_vert_array;
+		(void)checksum;
 	}
 
 
@@ -701,7 +725,8 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_enable_occlusion_poly(uint32 checksum, bool enable)
 	{
-		
+		(void)checksum;
+		(void)enable;
 	}
 
 
@@ -726,6 +751,8 @@ namespace Nx
 	// (note, currently this is the last frame's camera on PS2)
 	bool CEngine::s_plat_is_visible(Mth::Vector &center, float radius)
 	{
+		(void)center;
+		(void)radius;
 		return true;
 	}
 
@@ -737,6 +764,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_max_multipass_distance(float dist)
 	{
+		(void)dist;
 		// Has no meaning for Xbox.
 	}
 
@@ -770,7 +798,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_screen_blur(uint32 amount)
 	{
-		
+		(void)amount;
 	}
 
 
@@ -792,6 +820,7 @@ namespace Nx
 	/******************************************************************/
 	const char *CEngine::s_plat_get_soundtrack_name(int soundtrack_number)
 	{
+		(void)soundtrack_number;
 		return "";
 	}
 
@@ -803,6 +832,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_letterbox(bool letterbox)
 	{
+		(void)letterbox;
 	}
 
 
@@ -813,7 +843,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_color_buffer_clear(bool clear)
 	{
-
+		(void)clear;
 	}
 
 } // namespace Nx

@@ -36,6 +36,7 @@ namespace Nx
 /******************************************************************/
 bool CXboxModel::plat_init_skeleton( int num_bones )
 {
+	(void)num_bones;
 //	if ( !mp_instance ) return false;
 //	Mth::Matrix * p_bone = new Mth::Matrix[numBones];
 //

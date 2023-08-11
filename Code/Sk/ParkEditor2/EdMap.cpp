@@ -686,7 +686,7 @@ void CAbstractMetaPiece::add_piece(CPiece *pPiece, GridDims *pPos, Mth::ERot90 r
 		desc.mY = pPos->GetY();
 		desc.mZ = pPos->GetZ();
 		desc.mRot = rot;
-		desc.mRiser = (uint8) isRiser;
+		desc.mRiser = isRiser ? 1 : 0;
 		desc.mPieceName = p_source->GetType();
 
 		int highest_x = pPos->GetX() + pPos->GetW();
@@ -698,11 +698,11 @@ void CAbstractMetaPiece::add_piece(CPiece *pPiece, GridDims *pPos, Mth::ERot90 r
 		uint8 current_l = m_cell_area.GetL();
 		
 		if (highest_x > current_w)
-			current_w = highest_x;
+			current_w = (uint8)highest_x;
 		if (highest_y > current_h)
-			current_h = highest_y;
+			current_h = (uint8)highest_y;
 		if (highest_z > current_l)
-			current_l = highest_z;
+			current_l = (uint8)highest_z;
 
 		m_cell_area.SetWHL(current_w, current_h, current_l);
 		if (m_cell_area[H] < 1) m_cell_area[H] = 1;
@@ -742,11 +742,11 @@ void CAbstractMetaPiece::add_piece_dumb(CAbstractMetaPiece *pMeta, GridDims *pPo
 		uint8 current_l = m_cell_area.GetL();
 		
 		if (highest_x > current_w)
-			current_w = highest_x;
+			current_w = (uint8)highest_x;
 		if (highest_y > current_h)
-			current_h = highest_y;
+			current_h = (uint8)highest_y;
 		if (highest_z > current_l)
-			current_l = highest_z;
+			current_l = (uint8)highest_z;
 
 		m_cell_area.SetWHL(current_w, current_h, current_l);
 	}
@@ -1366,7 +1366,7 @@ void CParkManager::ReadFromStructure(Script::CStruct *p_struct, bool do_post_mem
 		
 		if (do_post_mem_card_load)
 		{
-			Spt::SingletonPtr<Ed::CParkEditor> p_park_ed;
+			// Spt::SingletonPtr<Ed::CParkEditor> p_park_ed;
 			p_park_ed->PostMemoryCardLoad((uint8*) p_map_buffer, old_theme);
 		}	
 	}
@@ -1523,7 +1523,7 @@ void CParkManager::Destroy(CParkGenerator::EDestroyType type)
 	
 	// remove all abstract metapieces
 	CMapListNode *p_node = nullptr;
-	while((p_node = mp_abstract_metapiece_list))
+	while((p_node = mp_abstract_metapiece_list) != nullptr)
 	{
 		CMetaPiece *p_meta = p_node->GetMeta();
 		remove_metapiece_from_node_list(p_meta, &mp_abstract_metapiece_list);
@@ -1791,7 +1791,7 @@ void CParkManager::RebuildNodeArray()
 
 															 
 			#else			
-			restart_area.SetXYZ(restart_area.GetX()-3 + (p-6), 0, restart_area.GetZ()-2);	
+			restart_area.SetXYZ((uint8)(restart_area.GetX()-3 + (p-6)), 0, restart_area.GetZ()-2);	
 			//printf ("Using Restart Area(%d,%d,%d)\n",restart_area.GetX(), restart_area.GetY(), restart_area.GetZ());
 			#endif
 		
@@ -1804,14 +1804,14 @@ void CParkManager::RebuildNodeArray()
 			auto_copy = true;						// copy any existing restart point position, if there is one
 			need = 6;
 			restart_type = CParkGenerator::vKING_OF_HILL;
-			restart_area.SetXYZ(restart_area.GetX()-3 + (p-12), 0, restart_area.GetZ()-3);	 
+			restart_area.SetXYZ((uint8)(restart_area.GetX()-3 + (p-12)), 0, restart_area.GetZ()-3);	 
 		}
 
 		if (mp_generator->NotEnoughRestartsOfType(restart_type, need))
 		{
 			if (find_ground)
 			{
-				restart_area.SetXYZ(restart_area.GetX(),GetFloorHeight(restart_area),restart_area.GetZ());
+				restart_area.SetXYZ(restart_area.GetX(), (sint8)GetFloorHeight(restart_area), restart_area.GetZ());
 				CMapListTemp meta_list = GetMetaPiecesAt(restart_area);
 				if (!meta_list.IsEmpty())
 				{
@@ -1943,7 +1943,7 @@ void CParkManager::RebuildInnerShell(GridDims newNearBounds)
 		road_test_area.SetWHL(2, 1, 1);
 
 		// north
-		GridDims pos(x, 0, m_park_near_bounds.GetZ() - 1);
+		GridDims pos((uint8)x, 0, (uint8)(m_park_near_bounds.GetZ() - 1));
 		road_test_area.SetXYZ(pos.GetX(), 0, pos.GetZ() + 1);
 		if (!IsOccupiedByRoad(road_test_area))
 		{
@@ -1954,7 +1954,7 @@ void CParkManager::RebuildInnerShell(GridDims newNearBounds)
 		}
 	
 		// south
-		pos.SetXYZ(x, 0, m_park_near_bounds.GetZ() + m_park_near_bounds.GetL());
+		pos.SetXYZ((uint8)x, 0, (uint8)(m_park_near_bounds.GetZ() + m_park_near_bounds.GetL()));
 		road_test_area.SetXYZ(pos.GetX(), 0, pos.GetZ() - 1);
 		if (!IsOccupiedByRoad(road_test_area))
 		{
@@ -1971,7 +1971,7 @@ void CParkManager::RebuildInnerShell(GridDims newNearBounds)
 		road_test_area.SetWHL(1, 1, 2);
 
 		// west
-		GridDims pos(m_park_near_bounds.GetX() - 1, 0, z);
+		GridDims pos((uint8)m_park_near_bounds.GetX() - 1, 0, (uint8)z);
 		road_test_area.SetXYZ(pos.GetX() + 1, 0, pos.GetZ());
 		if (!IsOccupiedByRoad(road_test_area))
 		{
@@ -1982,7 +1982,7 @@ void CParkManager::RebuildInnerShell(GridDims newNearBounds)
 		}
 	
 		// east
-		pos.SetXYZ(m_park_near_bounds.GetX() + m_park_near_bounds.GetW(), 0, z);
+		pos.SetXYZ((uint8)(m_park_near_bounds.GetX() + m_park_near_bounds.GetW()), 0, (uint8)z);
 		road_test_area.SetXYZ(pos.GetX() - 1, 0, pos.GetZ());
 		if (!IsOccupiedByRoad(road_test_area))
 		{
@@ -2375,7 +2375,7 @@ uint32 CParkManager::DestroyMetasInArea(GridDims area, EDestroyFlags flags)
 		if (!(flags & mEXCLUDE_PIECES_MARKED_AS_SLID) || !(p_node->GetConcreteMeta()->m_flags & CMetaPiece::mMARK_AS_SLID))
 		{
 			metas_killed++;
-			pieces_killed += p_node->GetConcreteMeta()->m_num_used_entries;
+			pieces_killed += (uint16)(p_node->GetConcreteMeta()->m_num_used_entries);
 			DestroyConcreteMeta(p_node->GetConcreteMeta(), flags);
 		}
 		p_node = p_node->GetNext();
@@ -2501,21 +2501,21 @@ CConcreteMetaPiece *CParkManager::RelocateMetaPiece(CConcreteMetaPiece *pMeta, i
 	{
 		gap_exists = true;
 		new_gap_desc = *p_gap_desc;
-		
+
 		// remove it
 		RemoveGap(*p_gap_desc);
 
 		// shift gap descriptor to new position
-		new_gap_desc.loc[gap_half][X] = new_gap_desc.loc[gap_half].GetX() + changeX;
-		new_gap_desc.loc[gap_half][Y] = new_gap_desc.loc[gap_half].GetY() + changeY;
-		new_gap_desc.loc[gap_half][Z] = new_gap_desc.loc[gap_half].GetZ() + changeZ;
+		new_gap_desc.loc[gap_half][X] = (uint8)(new_gap_desc.loc[gap_half].GetX() + changeX);
+		new_gap_desc.loc[gap_half][Y] = (uint8)(new_gap_desc.loc[gap_half].GetY() + changeY);
+		new_gap_desc.loc[gap_half][Z] = (uint8)(new_gap_desc.loc[gap_half].GetZ() + changeZ);
 	}
-	
+
 	DestroyConcreteMeta(pMeta, mDONT_DESTROY_PIECES_ABOVE);
-	
-	area[X] += changeX;
-	area[Y] = area.GetY() + changeY;
-	area[Z] += changeZ;
+
+	area[X] = (uint8)(area[X] + changeX);
+	area[Y] = (sint8)(area.GetY() + changeY);
+	area[Z] = (uint8)(area[Z] + changeZ);
 
 	CConcreteMetaPiece *p_new_meta = CreateConcreteMeta(GetAbstractMeta(name), false);
 	p_new_meta->SetRot(rot);
@@ -2623,7 +2623,7 @@ CMapListNode *CParkManager::GetMetaPiecesAt(GridDims dims, Mth::ERot90 rot, CAbs
 		return p_out_list;
 	}
 	
-	return nullptr;
+	// return nullptr;
 }
 
 // This is just a slightly faster version of GetMetaPiecesAt, which gets all
@@ -3393,7 +3393,7 @@ void CParkManager::output_riser_stack(BuildFloorParams &params)
 		lowest_neighbor = (lowest_neighbor > 0) ? 0 : lowest_neighbor;
 
 	EFloorFlags flags = mHAS_BOTTOM;
-	GridDims road_test_area(params.x, 0, params.z, 1, 1, 1);
+	GridDims road_test_area((uint8)params.x, 0, (uint8)params.z, 1, 1, 1);
 	if (IsOccupiedByRoad(road_test_area))
 	{
 		flags = EFloorFlags(flags | mNO_COVER);
@@ -3490,7 +3490,7 @@ void CParkManager::build_add_floor_piece(BuildFloorParams &params)
 	}
 	
 	// see if floor piece is already there and if it has desired type
-	GridDims test_dims(params.x, params.y, params.z, 1, 1, 1);
+	GridDims test_dims((uint8)params.x, (sint8)params.y, (uint8)params.z, 1, 1, 1);
 	CMapListNode *p_node = GetMetaPiecesAt(test_dims);
 	if (p_node)
 	{
@@ -3535,7 +3535,7 @@ void CParkManager::build_add_floor_piece(BuildFloorParams &params)
 			#endif
 		}		
 		mp_build_list_entry[m_build_list_size].mType=type;
-		GridDims pos(params.x, params.y, params.z);
+		GridDims pos((uint8)params.x, (sint8)params.y, (uint8)params.z);
 		mp_build_list_entry[m_build_list_size].mPos=pos;
 		++m_build_list_size;
 		#else
@@ -3591,7 +3591,7 @@ void CParkManager::build_add_floor_piece_simple(BuildFloorParams &params)
 	
 	
 	CConcreteMetaPiece *p_out = CreateConcreteMeta(GetAbstractMeta(type));
-	GridDims pos(params.x, params.y, params.z);
+	GridDims pos((uint8)params.x, (sint8)params.y, (uint8)params.z);
 	AddMetaPieceToPark(pos, p_out);
 	params.addCount++;
 }
@@ -4217,7 +4217,7 @@ void CParkManager::create_abstract_metapieces()
 			Script::CArray *p_pos_array = nullptr;
 			if (p_entry->GetArray("pos", &p_pos_array))
 			{
-				area.SetXYZ(p_pos_array->GetInteger(0), p_pos_array->GetInteger(1), p_pos_array->GetInteger(2));
+				area.SetXYZ((uint8)p_pos_array->GetInteger(0), (sint8)p_pos_array->GetInteger(1), (uint8)p_pos_array->GetInteger(2));
 			}
 
 			p_meta->add_piece(p_source_piece, &area);
@@ -4297,7 +4297,7 @@ void CParkManager::create_abstract_metapieces()
 				
 				GridDims area;
 				p_source_piece->GetCellDims(&area);
-				area.SetXYZ(p_pos_array->GetInteger(0), p_pos_array->GetInteger(1), p_pos_array->GetInteger(2));
+				area.SetXYZ((uint8)p_pos_array->GetInteger(0), (sint8)p_pos_array->GetInteger(1), (uint8)p_pos_array->GetInteger(2));
 	
 				Mth::ERot90 rot = Mth::ROT_0;
 				if (p_pos_array->GetSize() > 3)
@@ -4329,7 +4329,7 @@ void CParkManager::create_abstract_metapieces()
 				CAbstractMetaPiece *p_source_meta = GetAbstractMeta(name_crc);
 				
 				GridDims area = p_source_meta->GetArea();
-				area.SetXYZ(p_pos_array->GetInteger(0), p_pos_array->GetInteger(1), p_pos_array->GetInteger(2));
+				area.SetXYZ((uint8)p_pos_array->GetInteger(0), (sint8)p_pos_array->GetInteger(1), (uint8)p_pos_array->GetInteger(2));
 	
 				Mth::ERot90 rot = Mth::ROT_0;
 				if (p_pos_array->GetSize() > 3)
@@ -4667,14 +4667,14 @@ void CParkManager::write_compressed_map_buffer()
 	
 	CompressedMapHeader *p_header = (CompressedMapHeader *) mp_compressed_map_buffer;
 	p_header->mVersion = (VERSION);
-	p_header->mTheme = (m_theme);
+	p_header->mTheme = (uint16)(m_theme);
 	p_header->mParkSize = (0);
 	p_header->mX = m_park_near_bounds.GetX();
 	p_header->mZ = m_park_near_bounds.GetZ();
 	p_header->mW = m_park_near_bounds.GetW();
 	p_header->mL = m_park_near_bounds.GetL();
 	p_header->mTODScript = Ed::CParkEditor::Instance()->GetTimeOfDayScript();
-	p_header->mMaxPlayers=GetGenerator()->GetMaxPlayers();
+	p_header->mMaxPlayers=(uint8)GetGenerator()->GetMaxPlayers();
 	Dbg_MsgAssert(strlen(mp_park_name) < 64,("Park name '%s' too long",mp_park_name));
 	strcpy(p_header->mParkName,mp_park_name);
 
@@ -4733,7 +4733,7 @@ void CParkManager::write_compressed_map_buffer()
 
 	int buffer_used_size = (uint32) p_meta_entry - (uint32) p_header;
 	Dbg_MsgAssert(buffer_used_size <= COMPRESSED_MAP_SIZE, ("compressed map buffer (%d) needs to be bigger than (%d)",COMPRESSED_MAP_SIZE,buffer_used_size));
-	p_header->mNumMetas = (num_metas_outputted);	
+	p_header->mNumMetas = (uint16)(num_metas_outputted);
 	
 	/* Gap Section */
 
@@ -4748,7 +4748,7 @@ void CParkManager::write_compressed_map_buffer()
 		if (pDesc && half == 0 && pDesc->numCompleteHalves == 2)
 			p_desc_tab[num_gaps++] = pDesc;
 	}
-	p_header->mNumGaps = (num_gaps);
+	p_header->mNumGaps = (uint16)num_gaps;
 	
 	// write gaps
 	CompressedGap *p_out_gap = (CompressedGap *) p_meta_entry;
@@ -4777,7 +4777,7 @@ void CParkManager::write_compressed_map_buffer()
   
 	buffer_used_size = (uint32) p_out_gap - (uint32) p_header;
 	Dbg_MsgAssert(buffer_used_size <= COMPRESSED_MAP_SIZE, ("compressed map buffer (%d) needs to be bigger than (%d)",COMPRESSED_MAP_SIZE,buffer_used_size));
-	p_header->mSizeInBytes = buffer_used_size;
+	p_header->mSizeInBytes = (uint16)buffer_used_size;
 	
 	/* Flag section */
 
@@ -4807,7 +4807,7 @@ void CParkManager::fake_compressed_map_buffer()
 	
 	CompressedMapHeader *p_header = (CompressedMapHeader *) mp_compressed_map_buffer;
 	p_header->mVersion = (VERSION);
-	p_header->mTheme = (m_theme);
+	p_header->mTheme = (uint16)m_theme;
 	p_header->mParkSize = (0);
 	p_header->mX = m_park_near_bounds.GetX();
 	p_header->mZ = m_park_near_bounds.GetZ();
@@ -4840,16 +4840,16 @@ void CParkManager::fake_compressed_map_buffer()
 	uint8 *p_meta_entry = (uint8 *) p_floor_entry;
 	int num_metas_outputted = 0;
 	int buffer_used_size = (uint32) p_meta_entry - (uint32) p_header;
-	p_header->mNumMetas = num_metas_outputted;	
+	p_header->mNumMetas = (uint16)num_metas_outputted;
 	p_header->mChecksum = Crc::GenerateCRCCaseSensitive((const char *) mp_compressed_map_buffer + 4, buffer_used_size - 4);
 	int num_gaps = 0;
-	p_header->mNumGaps = num_gaps;
+	p_header->mNumGaps = (uint16)num_gaps;
 	
 	// write gaps
 	CompressedGap *p_out_gap = (CompressedGap *) p_meta_entry;
 	buffer_used_size = (uint32) p_out_gap - (uint32) p_header;
 	Dbg_MsgAssert(buffer_used_size <= COMPRESSED_MAP_SIZE, ("compressed map buffer (%d) needs to be bigger than (%d)",COMPRESSED_MAP_SIZE,buffer_used_size));
-	p_header->mSizeInBytes = buffer_used_size;
+	p_header->mSizeInBytes = (uint16)buffer_used_size;
 	
 	/* Flag section */
 
@@ -5106,8 +5106,8 @@ void	CParkManager::setup_default_dimensions()
 
 	m_park_far_bounds.SetXYZ(1, -4, 1);
 	m_park_far_bounds.SetWHL(MAX_WIDTH, 8, MAX_LENGTH);
-	m_park_near_bounds.SetXYZ(1 + (MAX_WIDTH - default_inner_dim) / 2, -4, 1 + (MAX_LENGTH - default_inner_dim) / 2);
-	m_park_near_bounds.SetWHL(default_inner_dim, 8, default_inner_dim);
+	m_park_near_bounds.SetXYZ((uint8)(1 + (MAX_WIDTH - default_inner_dim) / 2), -4, (uint8)(1 + (MAX_LENGTH - default_inner_dim) / 2));
+	m_park_near_bounds.SetWHL((uint8)default_inner_dim, 8, (uint8)default_inner_dim);
 }
 
 
@@ -5125,10 +5125,10 @@ void CParkManager::setup_road_mask()
 		Dbg_Assert(i < NUM_ROAD_PIECES);
 		Script::CArray *p_entry = p_road_mask_array->GetArray(i);
 
-		m_road_mask_tab[i][X] = p_entry->GetInt(0);
-		m_road_mask_tab[i][Z] = p_entry->GetInt(1);
-		m_road_mask_tab[i][W] = p_entry->GetInt(2);
-		m_road_mask_tab[i][L] = p_entry->GetInt(3);
+		m_road_mask_tab[i][X] = (uint8)p_entry->GetInt(0);
+		m_road_mask_tab[i][Z] = (uint8)p_entry->GetInt(1);
+		m_road_mask_tab[i][W] = (uint8)p_entry->GetInt(2);
+		m_road_mask_tab[i][L] = (uint8)p_entry->GetInt(3);
 		m_road_mask_tab[i][Y] = 0;
 		m_road_mask_tab[i].MakeInfinitelyHigh();
 	}

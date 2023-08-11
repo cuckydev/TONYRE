@@ -45,6 +45,10 @@ CXboxViewport::~CXboxViewport()
 /******************************************************************/
 float CXboxViewport::plat_transform_to_screen_coord( const Mth::Vector & world_pos, float & screen_pos_x, float & screen_pos_y, ZBufferValue & screen_pos_z )
 {
+	(void)world_pos;
+	(void)screen_pos_x;
+	(void)screen_pos_y;
+	(void)screen_pos_z;
 	/*
 	D3DXVECTOR3	in( world_pos[X], world_pos[Y], world_pos[Z] );
 	D3DXVECTOR4	mid;

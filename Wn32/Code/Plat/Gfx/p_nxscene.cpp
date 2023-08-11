@@ -31,7 +31,7 @@ void CXboxScene::DestroySectorMeshes( void )
 	while( pSector )
 	{
 		// Access platform dependent data.
-		CXboxSector* pXboxSector = static_cast<CXboxSector *>(pSector);
+		// CXboxSector* pXboxSector = static_cast<CXboxSector *>(pSector);
 
 		// Remove this mesh array from the engine.
 //		pXboxSector->DestroyMeshArray();
@@ -94,6 +94,7 @@ void CXboxScene::plat_post_load()
 /******************************************************************/
 bool CXboxScene::plat_load_textures(const char* p_name)
 {
+	(void)p_name;
 	return true;
 }
 
@@ -103,6 +104,7 @@ bool CXboxScene::plat_load_textures(const char* p_name)
 /******************************************************************/
 bool CXboxScene::plat_load_collision(const char* p_name)
 {
+	(void)p_name;
 	return true;
 }
 

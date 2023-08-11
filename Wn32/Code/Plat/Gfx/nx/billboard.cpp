@@ -301,6 +301,7 @@ void sBillboardMaterialBatch::AddEntry( sMesh *p_mesh )
 /******************************************************************/
 void sBillboardMaterialBatch::ProcessMesh( sMesh *p_mesh )
 {
+	(void)p_mesh;
 }
 
 
