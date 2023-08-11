@@ -106,7 +106,7 @@ public:
 									~Score();
 
 	void 							Update();
-	void 							SetSkaterId(short skater_id);
+	void 							SetSkaterId(uint32 skater_id);
 
 	void 							SetTotalScore( int score );
 	int 							GetTotalScore();
@@ -201,7 +201,7 @@ private:
 	
 	void							set_special_is_active ( bool is_active );
 	
-	short							m_skaterId;
+	uint32							m_skaterId;
 
 	enum EScorePotState
 	{

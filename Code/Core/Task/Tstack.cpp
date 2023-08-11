@@ -95,7 +95,7 @@ void Stack::remove_dead_entries( void )
 	 
 	Dbg_MsgAssert( HaveAccess(),( "List currently being processed" ));
 
-	while (( dead_entry = iterator.FirstItem( m_dead )))
+	while ((dead_entry = iterator.FirstItem( m_dead )) != nullptr)
 	{
 		delete dead_entry;
 	}

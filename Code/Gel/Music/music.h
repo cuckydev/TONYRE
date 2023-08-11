@@ -226,7 +226,7 @@ protected:
 
 	uint32						m_checksum;
 	int							m_num_samples;
-	uint8						m_frame_amp_samples[vMAX_SAMPLES] nAlign(128);	// Aligned data for the loading code
+	uint8						m_frame_amp_samples[vMAX_SAMPLES];	// Aligned data for the loading code
 
 	// Friends
 	friend CStreamFrameAmpManager;

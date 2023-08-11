@@ -57,6 +57,7 @@ void CBaseComponent::RefreshFromStructure( Script::CStruct* pParams )
 
 void CBaseComponent::ProcessWait( Script::CScript * pScript )
 {
+	(void)pScript;
 }
 
 /******************************************************************/
@@ -68,6 +69,9 @@ void CBaseComponent::ProcessWait( Script::CScript * pScript )
 // so attempting to call one will just return MF_NOT_EXECUTED
 CBaseComponent::EMemberFunctionResult CBaseComponent::CallMemberFunction( uint32 Checksum, Script::CStruct *pParams, Script::CScript *pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return MF_NOT_EXECUTED;
 }
 
@@ -88,6 +92,7 @@ void CBaseComponent::Suspend(bool suspend)
 
 void CBaseComponent::Hide( bool shouldHide )
 {
+	(void)shouldHide;
 	// the base component does nothing,
 	// but some components need to do extra stuff
 }

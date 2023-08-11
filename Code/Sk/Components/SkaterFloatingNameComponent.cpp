@@ -62,6 +62,8 @@ CSkaterFloatingNameComponent::~CSkaterFloatingNameComponent()
 
 void CSkaterFloatingNameComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CSkaterFloatingNameComponent added to non-skater composite object"));
 	
 	switch (GetObj()->GetID())
@@ -171,6 +173,9 @@ void CSkaterFloatingNameComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterFloatingNameComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

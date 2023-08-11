@@ -112,7 +112,7 @@ CScriptCacheEntry::~CScriptCacheEntry()
 
 CScriptCache::CScriptCache()
 {
-	Dbg_MsgAssert(IDEAL_MAX_DECOMPRESSED_SCRIPTS < MAX_DECOMPRESSED_SCRIPTS,("IDEAL_MAX_DECOMPRESSED_SCRIPTS should be less than MAX_DECOMPRESSED_SCRIPTS"));
+	static_assert(IDEAL_MAX_DECOMPRESSED_SCRIPTS < MAX_DECOMPRESSED_SCRIPTS, "IDEAL_MAX_DECOMPRESSED_SCRIPTS should be less than MAX_DECOMPRESSED_SCRIPTS");
 	
 	#ifdef __NOPT_ASSERT__
 	mp_logic_task=nullptr;
@@ -309,7 +309,7 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
 	}	
 
 
-	CScriptCacheEntry *p_cache_entry=mp_cache_hash_table->GetItem(scriptName);
+	CScriptCacheEntry *p_cache_entry = mp_cache_hash_table->GetItem(scriptName);
 	if (p_cache_entry)
 	{
 		++p_cache_entry->mUsage;
@@ -350,7 +350,7 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
 		
 		remove_some_old_scripts(uncompressed_size,scriptName);
 
-		CScriptCacheEntry *p_cache_entry=new CScriptCacheEntry;
+		CScriptCacheEntry *p_new_cache_entry = new CScriptCacheEntry;
 		
 		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 		uint8 *p_new_script=(uint8*)Mem::Malloc(uncompressed_size);
@@ -387,9 +387,9 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
 		
 		PreProcessScript(p_new_script);
 		
-		p_cache_entry->mpDecompressedScript=p_new_script;
-		p_cache_entry->mUsage=1;
-		p_cache_entry->mScriptNameChecksum=scriptName;
+		p_new_cache_entry->mpDecompressedScript=p_new_script;
+		p_new_cache_entry->mUsage=1;
+		p_new_cache_entry->mScriptNameChecksum=scriptName;
 		
 		#ifdef __NOPT_ASSERT__
 		++m_num_used_scripts;
@@ -400,13 +400,13 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
 		#endif
 		
 		
-		mp_cache_hash_table->PutItem(scriptName,p_cache_entry);
+		mp_cache_hash_table->PutItem(scriptName, p_new_cache_entry);
 
 		#ifdef __NOPT_ASSERT__
 		++mp_decompress_counts[m_current_decompress_count_index];
 		#endif
 		
-		return p_cache_entry->mpDecompressedScript;
+		return p_new_cache_entry->mpDecompressedScript;
 	}
 	
 	return nullptr;

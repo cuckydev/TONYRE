@@ -138,6 +138,7 @@ void* 	Class::operator new[] ( size_t size )
 
 void* 	Class::operator new( size_t size, bool assert_on_fail )
 {
+	(void)assert_on_fail;
 	void *ptr = ::operator new(size);
 	memset(ptr, 0, size);
 	return ptr;
@@ -145,6 +146,7 @@ void* 	Class::operator new( size_t size, bool assert_on_fail )
 
 void* 	Class::operator new[] ( size_t size, bool assert_on_fail )
 {
+	(void)assert_on_fail;
 	void *ptr = ::operator new(size);
 	memset(ptr, 0, size);
 	return ptr;
@@ -152,6 +154,8 @@ void* 	Class::operator new[] ( size_t size, bool assert_on_fail )
 
 void*	Class::operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail )
 {
+	(void)pAlloc;
+	(void)assert_on_fail;
 	void *ptr = ::operator new(size);
 	memset(ptr, 0, size);
 	return ptr;
@@ -159,6 +163,8 @@ void*	Class::operator new( size_t size, Mem::Allocator* pAlloc, bool assert_on_f
 
 void*	Class::operator new[]( size_t size, Mem::Allocator* pAlloc, bool assert_on_fail )
 {
+	(void)pAlloc;
+	(void)assert_on_fail;
 	void *ptr = ::operator new(size);
 	memset(ptr, 0, size);
 	return ptr;
@@ -178,12 +184,12 @@ void* 	Class::operator new[]( size_t size, void* pLocation )
 
 void Class::operator delete(void *pMem) noexcept { free(pMem); }
 void Class::operator delete[](void *pMem) noexcept { free(pMem); }
-void Class::operator delete(void *pMem, bool assert_on_fail) noexcept { free(pMem); }
-void Class::operator delete[](void *pMem, bool assert_on_fail) noexcept { free(pMem); }
-void Class::operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) noexcept { free(pMem); }
-void Class::operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) noexcept { free(pMem); }
-void Class::operator delete(void *pMem, void *pLocation) noexcept { free(pMem); }
-void Class::operator delete[](void *pMem, void *pLocation) noexcept { free(pMem); }
+void Class::operator delete(void *pMem, bool assert_on_fail) noexcept { (void)assert_on_fail;  free(pMem); }
+void Class::operator delete[](void *pMem, bool assert_on_fail) noexcept { (void)assert_on_fail; free(pMem); }
+void Class::operator delete(void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) noexcept { (void)pAlloc; (void)assert_on_fail; free(pMem); }
+void Class::operator delete[](void *pMem, Mem::Allocator *pAlloc, bool assert_on_fail) noexcept { (void)pAlloc; (void)assert_on_fail; free(pMem); }
+void Class::operator delete(void *pMem, void *pLocation) noexcept { (void)pMem; (void)pLocation; }
+void Class::operator delete[](void *pMem, void *pLocation) noexcept { (void)pMem; (void)pLocation; }
 
 /******************************************************************/
 /*                                                                */

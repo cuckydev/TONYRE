@@ -51,6 +51,7 @@ CSetDisplayMatrixComponent::~CSetDisplayMatrixComponent()
 
 void CSetDisplayMatrixComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/
@@ -80,6 +81,9 @@ void CSetDisplayMatrixComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSetDisplayMatrixComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

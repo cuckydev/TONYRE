@@ -308,6 +308,8 @@ void CShadowComponent::Update()
 	
 CBaseComponent::EMemberFunctionResult CShadowComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
         // @script | Obj_ShadowOff | turn off shadow

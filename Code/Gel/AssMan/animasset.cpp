@@ -27,6 +27,9 @@ namespace Ass
 
 int CAnimAsset::Load(const char* p_file, bool async_load, bool use_pip, void* pExtraData, Script::CStruct *pStruct)     // create or load the asset
 {
+	(void)pExtraData;
+	(void)pStruct;
+
 	int errorCode = -1;
 
 	Mem::PushMemProfile((char*)p_file);

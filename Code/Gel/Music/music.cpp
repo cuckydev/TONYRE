@@ -355,6 +355,8 @@ static void sGenerateRandomSongOrder( void )
 /******************************************************************/
 void UseUserSoundtrack( int soundtrack )
 {
+	(void)soundtrack;
+
 #	ifdef __PLAT_XBOX__
 
 	Dbg_MsgAssert(soundtrack>=0 && soundtrack<Pcm::GetNumSoundtracks(),("Bad soundtrack"));
@@ -410,6 +412,8 @@ bool UsingUserSoundtrack( void )
 /******************************************************************/
 void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 {
+	(void)pStuff;
+
 #	ifdef __PLAT_XBOX__
 	Dbg_MsgAssert( pStuff,("NULL pStuff"));
 		
@@ -441,6 +445,8 @@ void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 /******************************************************************/
 void GetSoundtrackFromStructure( Script::CStruct *pStuff)
 {
+	(void)pStuff;
+
 #	ifdef __PLAT_XBOX__
 	Dbg_MsgAssert(pStuff,("NULL pStuff"));
 	

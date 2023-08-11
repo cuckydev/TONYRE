@@ -4059,7 +4059,7 @@ PlayerInfo*		Manager::GetPlayerByConnection( Net::Conn* conn )
 /*                                                                */
 /******************************************************************/
 
-PlayerInfo*		Manager::GetPlayerByObjectID( unsigned short obj_id )
+PlayerInfo*		Manager::GetPlayerByObjectID( uint32 obj_id )
 {
 	Lst::Search< PlayerInfo > sh;
 	PlayerInfo *player;
@@ -4164,7 +4164,7 @@ NewPlayerInfo*		Manager::NextNewPlayerInfo( Lst::Search< NewPlayerInfo > &sh )
 /*                                                                */
 /******************************************************************/
 
-NewPlayerInfo*		Manager::GetNewPlayerInfoByObjectID( unsigned short obj_id )
+NewPlayerInfo*		Manager::GetNewPlayerInfoByObjectID(uint32 obj_id )
 {
 	NewPlayerInfo* player;
 	Lst::Search< NewPlayerInfo > sh;

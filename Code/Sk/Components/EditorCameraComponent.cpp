@@ -701,7 +701,7 @@ void CEditorCameraComponent::Update()
 		// Do an upwards collision check to check for a ceiling above the skater, and do not
 		// do the check for higher collision if there is a ceiling. This is to fix a bug where in Slam City
 		// the goal cursor would pop up into the stands if hitting the teleport poly in the escalator D corridor.
-		CFeeler feeler;
+		// CFeeler feeler;
 		feeler.SetStart(old_pos);
 		Mth::Vector high=old_pos;
 		high[Y]+=120.0f;
@@ -823,6 +823,8 @@ bool CEditorCameraComponent::cursor_occluded(Mth::Vector *p_ray_starts, int numR
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CEditorCameraComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		case 0xf362bbbf: // EditorCam_Initialise

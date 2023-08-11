@@ -4,7 +4,7 @@
 namespace Script
 {
 // Values for CSymbolTableEntry::mType and CComponent::mType
-enum ESymbolType
+enum ESymbolType : uint8
 {
     ESYMBOLTYPE_NONE=0,
     ESYMBOLTYPE_INTEGER,

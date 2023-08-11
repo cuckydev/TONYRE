@@ -349,6 +349,9 @@ bool	CTexture::CombineTextures(CTexture *p_texture, bool palette_gen)
 
 bool	CTexture::plat_load_texture(const char *p_texture_name, bool sprite, bool alloc_vram)
 {
+	(void)p_texture_name;
+	(void)sprite;
+	(void)alloc_vram;
 	printf ("STUB: PlatLoadTexture\n");
 	Dbg_Assert(0);
 	return false;
@@ -361,6 +364,10 @@ bool	CTexture::plat_load_texture(const char *p_texture_name, bool sprite, bool a
 
 bool	CTexture::plat_load_texture_from_buffer(uint8* p_buffer, int buffer_size, bool sprite, bool alloc_vram)
 {
+	(void)p_buffer;
+	(void)buffer_size;
+	(void)sprite;
+	(void)alloc_vram;
 	printf ("STUB: PlatLoadTextureFromBuffer\n");
 	Dbg_MsgAssert(0, ("This function was only supposed to be called on the PS2"));
 	return false;
@@ -373,6 +380,7 @@ bool	CTexture::plat_load_texture_from_buffer(uint8* p_buffer, int buffer_size, b
 
 bool	CTexture::plat_replace_texture(CTexture *p_texture)
 {								 	
+	(void)p_texture;
 	printf ("STUB: PlatReplaceTexture\n");
 	return false;
 }
@@ -384,6 +392,8 @@ bool	CTexture::plat_replace_texture(CTexture *p_texture)
 
 bool	CTexture::plat_generate_32bit_image(bool renderable, bool store_original)
 {
+	(void)renderable;
+	(void)store_original;
 	printf ("STUB: PlatGenerate32BitImage\n");
 	return false;
 }
@@ -395,6 +405,7 @@ bool	CTexture::plat_generate_32bit_image(bool renderable, bool store_original)
 
 bool	CTexture::plat_put_32bit_image_into_texture(bool new_palette)
 {
+	(void)new_palette;
 	printf ("STUB: PlatPut32BitImageIntoTexture\n");
 	return false;
 }
@@ -406,6 +417,10 @@ bool	CTexture::plat_put_32bit_image_into_texture(bool new_palette)
 
 bool	CTexture::plat_offset(int x_pixels, int y_pixels, bool use_fill_color, Image::RGBA fill_color)
 {
+	(void)x_pixels;
+	(void)y_pixels;
+	(void)use_fill_color;
+	(void)fill_color;
 	printf ("STUB: PlatOffset\n");
 	return false;
 }
@@ -418,6 +433,13 @@ bool	CTexture::plat_offset(int x_pixels, int y_pixels, bool use_fill_color, Imag
 bool	CTexture::plat_adjust_region(uint16 x_pos, uint16 y_pos, uint16 width, uint16 height,
 									 int split_axis, uint16 start_point, uint16 end_point)
 {								 	
+	(void)x_pos;
+	(void)y_pos;
+	(void)width;
+	(void)height;
+	(void)split_axis;
+	(void)start_point;
+	(void)end_point;
 	printf ("STUB: PlatAdjustRegion\n");
 	return false;
 }
@@ -429,6 +451,9 @@ bool	CTexture::plat_adjust_region(uint16 x_pos, uint16 y_pos, uint16 width, uint
 
 bool	CTexture::plat_pull_to_edge(uint16 point, int axis, int num_pixels)
 {
+	(void)point;
+	(void)axis;
+	(void)num_pixels;
 	printf ("STUB: PlatPullToEdge\n");
 	return false;
 }
@@ -440,6 +465,11 @@ bool	CTexture::plat_pull_to_edge(uint16 point, int axis, int num_pixels)
 
 bool	CTexture::plat_push_to_point(uint16 point, int axis, int num_pixels, bool use_fill_color, Image::RGBA fill_color)
 {
+	(void)point;
+	(void)axis;
+	(void)num_pixels;
+	(void)use_fill_color;
+	(void)fill_color;
 	printf ("STUB: PlatPushToPoint\n");
 	return false;
 }
@@ -451,6 +481,8 @@ bool	CTexture::plat_push_to_point(uint16 point, int axis, int num_pixels, bool u
 
 bool	CTexture::plat_adjust_brightness(float brightness_scale, bool force_adjust_current)
 {
+	(void)brightness_scale;
+	(void)force_adjust_current;
 	printf ("STUB: PlatAdjustBrightness\n");
 	return false;
 }
@@ -462,6 +494,10 @@ bool	CTexture::plat_adjust_brightness(float brightness_scale, bool force_adjust_
 
 bool	CTexture::plat_adjust_hsv(float h, float s, float v, bool force_adjust_current)
 {
+	(void)h;
+	(void)s;
+	(void)v;
+	(void)force_adjust_current;
 	printf ("STUB: PlatAdjustHSV\n");
 	return false;
 }
@@ -561,6 +597,8 @@ bool	CTexture::plat_is_transparent() const
 
 bool	CTexture::plat_combine_textures(CTexture *p_texture, bool palette_gen)
 {
+	(void)p_texture;
+	(void)palette_gen;
 	printf ("STUB: PlatCombineTextures\n");
 	return false;
 }
@@ -639,6 +677,7 @@ Image::RGBA 		CMaterial::plat_get_rgba() const
 
 void				CMaterial::plat_set_rgba(Image::RGBA rgba)
 {
+	(void)rgba;
 	printf ("STUB: PlatSetRGBA\n");
 }
 
@@ -649,6 +688,7 @@ void				CMaterial::plat_set_rgba(Image::RGBA rgba)
 
 void				CMaterial::plat_set_texture(CTexture *tex)
 {
+	(void)tex;
 	printf ("STUB: PlatSetTexture\n");
 }
 
@@ -1113,6 +1153,9 @@ CTexture *			CTexDict::GetTexture(const char *p_texture_name) const
 
 CTexture *			CTexDict::plat_load_texture(const char *p_texture_name, bool sprite, bool alloc_vram)
 {
+	(void)p_texture_name;
+	(void)sprite;
+	(void)alloc_vram;
 	printf ("STUB: PlatLoadTexture\n");
 	Dbg_Assert(0);
 	return nullptr;
@@ -1125,6 +1168,11 @@ CTexture *			CTexDict::plat_load_texture(const char *p_texture_name, bool sprite
 
 CTexture *			CTexDict::plat_load_texture_from_buffer(uint8* p_buffer, int buffer_size, uint32 texture_checksum, bool sprite, bool alloc_vram)
 {
+	(void)p_buffer;
+	(void)buffer_size;
+	(void)texture_checksum;
+	(void)sprite;
+	(void)alloc_vram;
 	printf ("STUB: PlatLoadTextureFromBuffer\n");
 	Dbg_MsgAssert(0, ("This function was only supposed to be called on the PS2"));
 	return nullptr;
@@ -1137,6 +1185,7 @@ CTexture *			CTexDict::plat_load_texture_from_buffer(uint8* p_buffer, int buffer
 
 CTexture *			CTexDict::plat_reload_texture(const char *p_texture_name)
 {
+	(void)p_texture_name;
 	printf ("STUB: PlatReloadTexture\n");
 	return nullptr;
 }
@@ -1148,6 +1197,7 @@ CTexture *			CTexDict::plat_reload_texture(const char *p_texture_name)
 
 bool				CTexDict::plat_unload_texture(CTexture *p_texture)
 {
+	(void)p_texture;
 	printf ("STUB: PlatUnloadTexture\n");
 	return false;
 }
@@ -1159,6 +1209,7 @@ bool				CTexDict::plat_unload_texture(CTexture *p_texture)
 
 void				CTexDict::plat_add_texture(CTexture *p_texture)
 {
+	(void)p_texture;
 	printf ("STUB: PlatAddTexture\n");
 }
 
@@ -1169,6 +1220,7 @@ void				CTexDict::plat_add_texture(CTexture *p_texture)
 
 bool				CTexDict::plat_remove_texture(CTexture *p_texture)
 {
+	(void)p_texture;
 	printf ("STUB: PlatRemoveTexture\n");
 	return false;
 }
@@ -1180,6 +1232,8 @@ bool				CTexDict::plat_remove_texture(CTexture *p_texture)
 
 CTexture *			CTexDict::plat_copy_texture(uint32 new_texture_checksum, CTexture *p_texture)
 {
+	(void)new_texture_checksum;
+	(void)p_texture;
 	printf ("STUB: PlatCopyTexture\n");
 	return nullptr;
 }

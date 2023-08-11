@@ -99,7 +99,7 @@ inline	Ref::Ref ()
 inline	Ref::Ref( const Ref& rhs )
 : m_count( 0 )
 {
-	
+	(void)rhs;
 }
 
 /******************************************************************/

@@ -175,7 +175,7 @@ int Encode(char *pIn, char *pOut, int bytes_to_read, bool print_progress)
 	{
 		c = readc();
 		bytes_to_read--;
-		text_buf[r + len] = c;	/* Read F bytes into the last F bytes of
+		text_buf[r + len] = (unsigned char)c;	/* Read F bytes into the last F bytes of
 			the buffer */
 	}
 	if ( (textsize = len) == 0 )
@@ -221,8 +221,8 @@ int Encode(char *pIn, char *pOut, int bytes_to_read, bool print_progress)
 			c = readc();
 			bytes_to_read--;
 			DeleteNode(s);		/* Delete old strings and */
-			text_buf[s] = c;	/* read new bytes */
-			if ( s < F - 1 ) text_buf[s + N] = c;  /* If the position is
+			text_buf[s] = (unsigned char)c;	/* read new bytes */
+			if ( s < F - 1 ) text_buf[s + N] = (unsigned char)c;  /* If the position is
 				  near the end of buffer, extend the buffer to make
 				  string comparison easier. */
 			s = (s + 1) & (N - 1);  r = (r + 1) & (N - 1);
@@ -341,9 +341,9 @@ unsigned char *DecodeLZSS(unsigned char *pIn, unsigned char *pOut, int Len)	/* J
 		{
 			ReadInto(c);
 			//			putc(c, outfile);
-			WriteOut(c);
+			WriteOut((unsigned char)c);
 #if USE_BUFFER
-			sTextBuf[r++] = c;
+			sTextBuf[r++] = (unsigned char)c;
 			r &= (RINGBUFFERSIZE - 1);
 #else
 			r++;
@@ -374,8 +374,8 @@ unsigned char *DecodeLZSS(unsigned char *pIn, unsigned char *pOut, int Len)	/* J
 			for ( k = 0; k <= j; k++ )					  // just copy the bytes
 			{
 				c =  sTextBuf[(i+k) & (RINGBUFFERSIZE - 1)];
-				WriteOut(c);
-				sTextBuf[r++] = c;
+				WriteOut((unsigned char)c);
+				sTextBuf[r++] = (unsigned char)c;
 				r &= (RINGBUFFERSIZE - 1);
 			}
 #endif

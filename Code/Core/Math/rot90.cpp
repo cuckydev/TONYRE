@@ -71,8 +71,9 @@ namespace Mth
 
 void		RotateY90( ERot90 angle, int32& x, int32& y, int32& z )
 {
-	int32 temp;
+	(void)y;
 
+	int32 temp;
 	switch (angle)
 	{
 	case ROT_0:

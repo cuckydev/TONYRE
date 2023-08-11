@@ -246,6 +246,9 @@ uint32 CMovieDetails::GetName()
 
 bool CMovieDetails::CallMemberFunction( uint32 checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)checksum;
+	(void)pParams;
+	(void)pScript;
 	return false;
 }
 

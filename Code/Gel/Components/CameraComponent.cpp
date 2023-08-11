@@ -62,6 +62,8 @@ CCameraComponent::~CCameraComponent()
 /******************************************************************/
 void CCameraComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// cameras must have a very low priority to insure that all objects update before they do (most importantly, the skater)
 	CCompositeObjectManager::Instance()->SetObjectPriority(*GetObj(), -1000);
 }
@@ -108,6 +110,9 @@ void CCameraComponent::Update()
 /******************************************************************/
 CBaseComponent::EMemberFunctionResult CCameraComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

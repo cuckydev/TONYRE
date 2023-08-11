@@ -322,12 +322,12 @@ inline void AllocateBuffer(){}
 inline void DeallocateBuffer(){}
 //bool BufferAllocated(){}
 //uint32 GetBufferSize(){}
-inline void ReadFromBuffer(uint8 *p_dest, int bufferOffset, int numBytes){}
-inline void WriteIntoBuffer(uint8 *p_source, int bufferOffset, int numBytes){}
-inline void FillBuffer(int bufferOffset, int numBytes, uint8 value){}
-inline void WriteReplayDataHeader(SReplayDataHeader *p_header){}
-inline void ReadReplayDataHeader(const SReplayDataHeader *p_header){}
-inline void CreateDummyFromSaveData(SSavedDummy *p_saved_dummy){}
+inline void ReadFromBuffer(uint8 *p_dest, int bufferOffset, int numBytes) { (void)p_dest; (void)bufferOffset; (void)numBytes; }
+inline void WriteIntoBuffer(uint8 *p_source, int bufferOffset, int numBytes) { (void)p_source; (void)bufferOffset; (void)numBytes; }
+inline void FillBuffer(int bufferOffset, int numBytes, uint8 value) { (void)bufferOffset; (void)numBytes; (void)value; }
+inline void WriteReplayDataHeader(SReplayDataHeader *p_header) { (void)p_header; }
+inline void ReadReplayDataHeader(const SReplayDataHeader *p_header) { (void)p_header; }
+inline void CreateDummyFromSaveData(SSavedDummy *p_saved_dummy) { (void)p_saved_dummy; }
 //CDummy *GetFirstStartStateDummy(){}
 
 inline void ClearBuffer(){}
@@ -335,61 +335,60 @@ inline void ClearBuffer(){}
 inline void CreatePools(){}
 inline void RemovePools(){}
 inline void DeallocateReplayMemory(){}
-inline bool ScriptDeleteDummies( Script::CStruct *pParams, Script::CScript *pScript ){return true;}
-inline bool ScriptHideGameObjects( Script::CStruct *pParams, Script::CScript *pScript ){return true;}
-inline bool ScriptShowGameObjects( Script::CStruct *pParams, Script::CScript *pScript ){return true;}
-inline bool ScriptRunningReplay( Script::CStruct *pParams, Script::CScript *pScript ){return false;}
-inline bool ScriptPauseReplay( Script::CStruct *pParams, Script::CScript *pScript ){return true;}
-inline bool ScriptUnPauseReplay( Script::CStruct *pParams, Script::CScript *pScript ){return true;}
+inline bool ScriptDeleteDummies(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptHideGameObjects( Script::CStruct *pParams, Script::CScript *pScript ) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptShowGameObjects( Script::CStruct *pParams, Script::CScript *pScript ) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptRunningReplay( Script::CStruct *pParams, Script::CScript *pScript ) { (void)pParams; (void)pScript; return false; }
+inline bool ScriptPauseReplay( Script::CStruct *pParams, Script::CScript *pScript ) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptUnPauseReplay( Script::CStruct *pParams, Script::CScript *pScript ) { (void)pParams; (void)pScript; return true; }
 
-inline bool ScriptAllocateReplayMemory(Script::CStruct *pParams, Script::CScript *pScript){return true;}
-inline bool ScriptDeallocateReplayMemory(Script::CStruct *pParams, Script::CScript *pScript){return true;}
-inline bool ScriptStartRecordingAfresh(Script::CStruct *pParams, Script::CScript *pScript){return true;}
+inline bool ScriptAllocateReplayMemory(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptDeallocateReplayMemory(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptStartRecordingAfresh(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
 
-inline bool ScriptRememberLevelStructureNameForReplays(Script::CStruct *pParams, Script::CScript *pScript){return true;}
-inline void SetLevelStructureName(uint32 level_structure_name){}
-inline bool ScriptGetReplayLevelStructureName(Script::CStruct *pParams, Script::CScript *pScript){return true;}
+inline bool ScriptRememberLevelStructureNameForReplays(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
+inline void SetLevelStructureName(uint32 level_structure_name) { (void)level_structure_name; }
+inline bool ScriptGetReplayLevelStructureName(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
 
-inline bool ScriptPlaybackReplay(Script::CStruct *pParams, Script::CScript *pScript){return true;}
+inline bool ScriptPlaybackReplay(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
 
-inline bool ScriptReplayRecordSimpleScriptCall(Script::CStruct *pParams, Script::CScript *pScript){return true;}
-inline bool ScriptRecordPanelMessage(Script::CStruct *pParams, Script::CScript *pScript){return true;}
-inline bool ScriptSwitchToReplayRecordMode( Script::CStruct *pParams, Script::CScript *pScript ){return true;}
-inline bool ScriptSwitchToReplayIdleMode( Script::CStruct *pParams, Script::CScript *pScript ){return true;}
-inline bool ScriptClearTrickAndScoreText(Script::CStruct *pParams, Script::CScript *pScript){return true;}
+inline bool ScriptReplayRecordSimpleScriptCall(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptRecordPanelMessage(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptSwitchToReplayRecordMode( Script::CStruct *pParams, Script::CScript *pScript ) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptSwitchToReplayIdleMode( Script::CStruct *pParams, Script::CScript *pScript ) { (void)pParams; (void)pScript; return true; }
+inline bool ScriptClearTrickAndScoreText(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; return true; }
 
-inline void WritePadVibration(int actuator, int percent){}
+inline void WritePadVibration(int actuator, int percent) { (void)actuator; (void)percent; }
 inline void WritePauseSkater(){}
 inline void WriteUnPauseSkater(){}
-inline void WriteScreenFlash(int viewport, Image::RGBA from, Image::RGBA to, float duration, float z, uint32 flags){}
-inline void WriteShatter(uint32 sectorName, bool on){}
-inline void WriteShatterParams(Mth::Vector& velocity, float area_test, float velocity_variance, float spread_factor, float lifetime, float bounce, float bounce_amplitude){}
-inline void WriteTextureSplat(Mth::Vector& splat_start, Mth::Vector& splat_end, float size, float lifetime, const char *p_texture_name, uint32 trail ){}
-inline void WriteSectorActiveStatus(uint32 sectorName, bool active){}
-inline void WriteSectorVisibleStatus(uint32 sectorName, bool visible){}
-inline void WriteManualMeter(bool state, float value){}
-inline void WriteBalanceMeter(bool state, float value){}
+inline void WriteScreenFlash(int viewport, Image::RGBA from, Image::RGBA to, float duration, float z, uint32 flags) { (void)viewport; (void)from; (void)to; (void)duration; (void)z; (void)flags; }
+inline void WriteShatter(uint32 sectorName, bool on) { (void)sectorName; (void)on; }
+inline void WriteShatterParams(Mth::Vector &velocity, float area_test, float velocity_variance, float spread_factor, float lifetime, float bounce, float bounce_amplitude) { (void)velocity; (void)area_test; (void)velocity_variance; (void)spread_factor; (void)lifetime; (void)bounce; (void)bounce_amplitude; }
+inline void WriteTextureSplat(Mth::Vector &splat_start, Mth::Vector &splat_end, float size, float lifetime, const char *p_texture_name, uint32 trail) { (void)splat_start; (void)splat_end; (void)size; (void)lifetime; (void)p_texture_name; (void)trail; }
+inline void WriteSectorActiveStatus(uint32 sectorName, bool active) { (void)sectorName; (void)active; }
+inline void WriteSectorVisibleStatus(uint32 sectorName, bool visible) { (void)sectorName;  (void)visible; }
+inline void WriteManualMeter(bool state, float value) { (void)state; (void)value; }
+inline void WriteBalanceMeter(bool state, float value) { (void)state; (void)value; }
 inline void WriteSparksOn(){}
 inline void WriteSparksOff(){}
-inline void WriteScorePotText(const char *p_text){}
-inline void WriteTrickText(const char **pp_text, int numStrings){}
+inline void WriteScorePotText(const char *p_text) { (void)p_text; }
+inline void WriteTrickText(const char **pp_text, int numStrings) { (void)pp_text; (void)numStrings; }
 inline void WriteTrickTextPulse(){}
 inline void WriteTrickTextCountdown(){}
 inline void WriteTrickTextLanded(){}
 inline void WriteTrickTextBail(){}
-inline void WriteSetAtomicStates(uint32 id, uint32 mask){}
-inline void WritePlayStream(uint32 checksum, Sfx::sVolume *p_volume, float pitch, int priority){}
-inline void WriteStopStream(int channel){}
-inline void WritePositionalStream(uint32 dummyId, uint32 streamNameChecksum, float dropoff, float volume, float pitch, int priority, int use_pos_info){}
-inline void WritePositionalSoundEffect(uint32 dummyId, uint32 soundName, float volume, float pitch, float dropOffDist){}
-inline void WriteSkaterSoundEffect(int whichArray, int surfaceFlag, const Mth::Vector &pos, 
-							float volPercent){}
-inline void WritePlaySfx(uint32 checksum, float volL, float volR, float pitch){}
-inline void PrepareForReplayPlayback(bool hideObjects){}
-inline bool RunningReplay(){return false;}
-inline bool Paused(){return false;}
-inline void AddReplayMemCardInfo(Script::CStruct *p_struct){}
-inline void AddReplayMemCardSummaryInfo(Script::CStruct *p_struct){}
+inline void WriteSetAtomicStates(uint32 id, uint32 mask) { (void)id; (void)mask; }
+inline void WritePlayStream(uint32 checksum, Sfx::sVolume *p_volume, float pitch, int priority) { (void)checksum; (void)p_volume; (void)pitch; (void)priority; }
+inline void WriteStopStream(int channel) { (void)channel; }
+inline void WritePositionalStream(uint32 dummyId, uint32 streamNameChecksum, float dropoff, float volume, float pitch, int priority, int use_pos_info) { (void)dummyId; (void)streamNameChecksum; (void)dropoff; (void)volume; (void)pitch; (void)priority; (void)use_pos_info; }
+inline void WritePositionalSoundEffect(uint32 dummyId, uint32 soundName, float volume, float pitch, float dropOffDist) { (void)dummyId; (void)soundName; (void)volume; (void)pitch; (void)dropOffDist; }
+inline void WriteSkaterSoundEffect(int whichArray, int surfaceFlag, const Mth::Vector &pos, float volPercent) { (void)whichArray; (void)surfaceFlag; (void)pos; (void)volPercent; }
+inline void WritePlaySfx(uint32 checksum, float volL, float volR, float pitch) { (void)checksum; (void)volL; (void)volR; (void)pitch; }
+inline void PrepareForReplayPlayback(bool hideObjects) { (void)hideObjects; }
+inline bool RunningReplay() { return false; }
+inline bool Paused() { return false; }
+inline void AddReplayMemCardInfo(Script::CStruct *p_struct) { (void)p_struct; }
+inline void AddReplayMemCardSummaryInfo(Script::CStruct *p_struct) { (void)p_struct; }
 //SGlobalStates *GetStartState(){}
 #endif
 

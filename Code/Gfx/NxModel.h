@@ -55,7 +55,7 @@ enum ERenderMode
 class CModel : public Spt::Class
 {
 public:
-	enum
+	enum : uint32
 	{
 		// special flag for global texture replacement
 		vREPLACE_GLOBALLY = 0xc4e78e22			// all

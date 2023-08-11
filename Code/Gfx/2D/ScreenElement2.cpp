@@ -919,10 +919,10 @@ void CScreenElement::UpdateProperties()
 			Image::RGBA current_rgba = m_local_props.GetRGBA();
 			Image::RGBA target_rgba = m_target_local_props.GetRGBA();
 			Image::RGBA new_rgba;
-			new_rgba.r = (int)( current_rgba.r + ( target_rgba.r - current_rgba.r ) * pct_changed_inc );
-			new_rgba.g = (int)( current_rgba.g + ( target_rgba.g - current_rgba.g ) * pct_changed_inc );
-			new_rgba.b = (int)( current_rgba.b + ( target_rgba.b - current_rgba.b ) * pct_changed_inc );
-			new_rgba.a = (int)( current_rgba.a + ( target_rgba.a - current_rgba.a ) * pct_changed_inc );
+			new_rgba.r = (uint8)( current_rgba.r + ( target_rgba.r - current_rgba.r ) * pct_changed_inc );
+			new_rgba.g = (uint8)( current_rgba.g + ( target_rgba.g - current_rgba.g ) * pct_changed_inc );
+			new_rgba.b = (uint8)( current_rgba.b + ( target_rgba.b - current_rgba.b ) * pct_changed_inc );
+			new_rgba.a = (uint8)( current_rgba.a + ( target_rgba.a - current_rgba.a ) * pct_changed_inc );
 			m_local_props.SetRGBA( new_rgba );
 			
 			m_last_motion_grad = motion_grad;
@@ -1056,6 +1056,8 @@ CWindowElement * CScreenElement::get_window()
 */
 void CScreenElement::set_parent(const CScreenElementPtr &pParent, EPosRecalc recalculatePosition)
 {
+	(void)recalculatePosition;
+
 	if (pParent)	
 	{
 		Dbg_MsgAssert(!(pParent->m_object_flags & CScreenElement::vCHILD_LOCK), ("can't add child %s -- locked parent - %s", Script::FindChecksumName(m_id), Script::FindChecksumName( pParent->GetID())));
@@ -1300,8 +1302,7 @@ void CScreenElement::debug_verify_integrity()
 {
 	
 // Mick - Removed for now, as it's taking up rather a lot of time....	
-	return;
-	
+	#if 0
 	Dbg_MsgAssert(Mem::Valid(this), ("not a valid block!"));
 	Dbg_MsgAssert(m_id, ("screen element has id of 0, that shouldn't happen"));
 	Dbg_MsgAssert(m_id != 0xDEADBEEF, ("screen element has been deleted"));
@@ -1332,6 +1333,7 @@ void CScreenElement::debug_verify_integrity()
 		Dbg_MsgAssert(p_child->mp_parent == this, ("this element not parent of child"));
 		p_child = p_child->GetNextSibling();
 	}
+	#endif
 }
 #endif
 
@@ -1369,6 +1371,8 @@ void CContainerElement::SetProperties(Script::CStruct *pProps)
 
 bool CContainerElement::PassTargetedEvent(Obj::CEvent *pEvent, bool broadcast)
 {
+	(void)broadcast;
+
 	if (!Obj::CObject::PassTargetedEvent(pEvent))
 	{
 		return false;

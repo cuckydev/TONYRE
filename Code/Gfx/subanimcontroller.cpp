@@ -119,6 +119,8 @@ void CBonedAnimController::Update()
 
 EAnimFunctionResult CBonedAnimController::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		case 0x5f495ae0:	// invalidateCache
@@ -342,6 +344,8 @@ void CWobbleController::GetDebugInfo( Script::CStruct* p_info )
 
 EAnimFunctionResult CWobbleController::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		case 0x5f495ae0:	// invalidateCache
@@ -636,6 +640,7 @@ void CIKController::Update()
 
 void CIKController::GetDebugInfo( Script::CStruct* p_info )
 {
+	(void)p_info;
 }
 
 /******************************************************************/
@@ -645,6 +650,9 @@ void CIKController::GetDebugInfo( Script::CStruct* p_info )
 
 EAnimFunctionResult CIKController::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return AF_NOT_EXECUTED;
 }
 
@@ -655,6 +663,7 @@ EAnimFunctionResult CIKController::CallMemberFunction( uint32 Checksum, Script::
 
 bool CIKController::GetPose( Gfx::CPose* pResultPose )
 {
+	(void)pResultPose;
 	return true;
 }
 
@@ -1040,6 +1049,8 @@ void CProceduralAnimController::SetProceduralBoneScaleActive( uint32 boneName, b
 
 EAnimFunctionResult CProceduralAnimController::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 	    // @script | SetBoneTransMin | Sets the minimum translation extent for procedurally animated bone (in world units)
@@ -1576,7 +1587,6 @@ EAnimFunctionResult CPartialAnimController::CallMemberFunction( uint32 Checksum,
 			// want the other controllers to be invalidated too
 			return AF_NOT_EXECUTED;
 		}
-		break;
 
 		case 0xd63a1b81:	// GetPartialAnimParams
 		{
@@ -1587,7 +1597,6 @@ EAnimFunctionResult CPartialAnimController::CallMemberFunction( uint32 Checksum,
 
 			return AF_TRUE;
 		}
-		break;
 
 		case 0xbd4edd44: // SetPartialAnimSpeed
 		{
@@ -1597,7 +1606,6 @@ EAnimFunctionResult CPartialAnimController::CallMemberFunction( uint32 Checksum,
 
 			return AF_TRUE;
 		}
-		break;
 
 		case 0x6aaeb76f: // IncrementPartialAnimTime
 		{
@@ -1620,7 +1628,6 @@ EAnimFunctionResult CPartialAnimController::CallMemberFunction( uint32 Checksum,
 
 			return AF_TRUE;
 		}
-		break;
 			
 		case 0xf5e2b871: // ReversePartialAnimDirection
 		{
@@ -1628,13 +1635,12 @@ EAnimFunctionResult CPartialAnimController::CallMemberFunction( uint32 Checksum,
 
 			return AF_TRUE;
 		}
-		break;
 
 		default:
 			return AF_NOT_EXECUTED;
 	}
 
-	return AF_TRUE;
+	// return AF_TRUE;
 }
 
 /******************************************************************/

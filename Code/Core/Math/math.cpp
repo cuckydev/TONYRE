@@ -32,20 +32,6 @@
 
 #include <core/math/math.h>
 
-#if DEBUGGING_REPLAY_RND
-
-#include <sys\timer.h>
-
-#include <string.h>
-
-extern int *gReplayTestRndLine;
-extern uint64 *gReplayTestRndFunc;
-static int gRndIndex = 0;
-static int gTestMode = 0;
-#define MAX_RND_TEST_INDEX  3666
-#endif
-
-
 
 namespace Mth
 {
@@ -162,7 +148,7 @@ void SetRndTestMode( int mode )
 }
 
 #else
-int Rnd(int n)
+int Rnd_impl(int n)
 {
    RandSeed=RandSeed*RandA+RandB;
    RandA = (RandA ^ RandSeed) + (RandSeed>>4);
@@ -171,7 +157,7 @@ int Rnd(int n)
 }
 #endif
 
-int Rnd2(int n)
+int Rnd2_impl(int n)
 {
    RandSeed2=RandSeed2*RandC+RandD;
    RandC = (RandC ^ RandSeed2) + (RandSeed2>>4);

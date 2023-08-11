@@ -556,7 +556,7 @@ void    App::process_stream_messages( void )
 						
 						msg_desc.m_Id = MSG_ID_STREAM_DATA;
 						msg_desc.m_Data = &data_msg;
-						msg_desc.m_Length = packet_len + sizeof( int );
+						msg_desc.m_Length = (unsigned short)(packet_len + sizeof( int ));
 						msg_desc.m_Queue = QUEUE_SEQUENCED;
 						msg_desc.m_GroupId = stream_desc->m_GroupId;
 						msg_desc.m_StreamMessage = 1;
@@ -1179,7 +1179,7 @@ bool App::BuildMsgStream( Conn *conn, QUEUE_TYPE queue, bool resends_only )
 				{
 					msg_header_size = Manager::vMSG_HEADER_LENGTH_WITH_SIZE;
 				}
-				total_msg_len = msg_header_size + queued_msg->m_MsgLength;
+				total_msg_len = (unsigned short)(msg_header_size + queued_msg->m_MsgLength);
 				if((( conn->m_write_ptr - conn->m_write_buffer ) + total_msg_len ) < Manager::vMAX_PAYLOAD )
 				{
 					memcpy( conn->m_write_ptr, &queued_msg->m_MsgId, sizeof( unsigned char ));
@@ -1281,7 +1281,7 @@ bool App::BuildMsgStream( Conn *conn, QUEUE_TYPE queue, bool resends_only )
 						msg_header_size = Manager::vMSG_HEADER_LENGTH_WITH_SIZE;
 					}
 
-					total_msg_len = msg_header_size + queued_msg->m_MsgLength;
+					total_msg_len = (unsigned short)(msg_header_size + queued_msg->m_MsgLength);
 					if((( conn->m_write_ptr - conn->m_write_buffer ) + total_msg_len ) < Manager::vMAX_PAYLOAD )
 					{
 						memcpy( conn->m_write_ptr, &queued_msg->m_MsgId, sizeof( unsigned char ));
@@ -1944,7 +1944,7 @@ void	App::StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned s
 	packet_len = ( sizeof( start_msg ) - MAX_STREAM_CHUNK_LENGTH ) + size;
 
 	msg_desc.m_Id = MSG_ID_STREAM_START;
-	msg_desc.m_Length = packet_len;
+	msg_desc.m_Length = (unsigned short)packet_len;
 	msg_desc.m_Data = &start_msg;
 	msg_desc.m_Queue = QUEUE_SEQUENCED;
 	msg_desc.m_GroupId = group_id;
@@ -1971,7 +1971,7 @@ void	App::StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned s
 				
 				msg_desc.m_Id = MSG_ID_STREAM_DATA;
 				msg_desc.m_Data = &data_msg;
-				msg_desc.m_Length = packet_len + sizeof( int );
+				msg_desc.m_Length = (unsigned short)(packet_len + sizeof( int ));
 				msg_desc.m_Queue = QUEUE_SEQUENCED;
 				msg_desc.m_GroupId = group_id;
 				msg_desc.m_StreamMessage = 1;
@@ -2078,7 +2078,7 @@ void	App::StreamMessageToServer( unsigned char msg_id, unsigned short msg_len, v
 	Conn *conn;
 	Lst::Search< Conn > sh;
 
-	if(( conn = FirstConnection( &sh )))
+	if(( conn = FirstConnection( &sh )) != nullptr)
 	{
 		StreamMessageToConn( conn, msg_id, msg_len, data, desc, group_id, all_at_once, send_in_place );
 	}
@@ -2094,9 +2094,7 @@ void	App::EnqueueMessageToServer( MsgDesc* desc )
 	Conn *conn;
 	Lst::Search< Conn > sh;
 
-	
-
-	if(( conn = FirstConnection( &sh )))
+	if(( conn = FirstConnection( &sh )) != nullptr)
 	{
 		EnqueueMessage( conn->GetHandle(), desc );
 	}

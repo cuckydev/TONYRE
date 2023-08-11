@@ -775,11 +775,11 @@ Image::RGBA	CXboxGeom::plat_get_color( void ) const
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-int CXboxGeom::plat_get_num_render_verts( void )
+size_t CXboxGeom::plat_get_num_render_verts( void )
 {
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 	
-	int total_verts = 0;
+	size_t total_verts = 0;
 
 	if( m_mesh_array )
 	{

@@ -573,7 +573,7 @@ public:
 	PlayerInfo*			FirstPlayerInfo( Lst::Search< PlayerInfo > &sh, bool include_observers = false );
 	PlayerInfo*			NextPlayerInfo( Lst::Search< PlayerInfo > &sh, bool include_observers = false );
 	PlayerInfo*			GetPlayerByConnection( Net::Conn* conn );          
-	PlayerInfo*			GetPlayerByObjectID( unsigned short obj_id );
+	PlayerInfo*			GetPlayerByObjectID( uint32 obj_id );
     
 	PlayerInfo*			GetLocalPlayer( void );
 	PlayerInfo*			GetServerPlayer( void );
@@ -583,7 +583,7 @@ public:
 	
 	NewPlayerInfo*		FirstNewPlayerInfo( Lst::Search< NewPlayerInfo > &sh );
 	NewPlayerInfo*		NextNewPlayerInfo( Lst::Search< NewPlayerInfo > &sh );
-	NewPlayerInfo*		GetNewPlayerInfoByObjectID( unsigned short obj_id );
+	NewPlayerInfo*		GetNewPlayerInfoByObjectID(uint32 obj_id );
 	void				DestroyNewPlayer( NewPlayerInfo* new_player );
 
 	bool				SendFaceDataToServer( void );
@@ -1002,13 +1002,7 @@ private:
 	int						m_goals_data_size;
 	uint32					m_goals_level;
 
-#	ifndef __PLAT_XBOX__
-	char					m_net_thread_stack[ vNET_THREAD_STACK_SIZE ]	alignas(16);
-#	else
-#	pragma pack( 16 )
 	char					m_net_thread_stack[ vNET_THREAD_STACK_SIZE ];
-#	pragma pack()
-#	endif // __PLAT_XBOX__
 	int						m_net_thread_id;
 
 	char					m_master_servers[vMAX_MASTER_SERVERS][16];

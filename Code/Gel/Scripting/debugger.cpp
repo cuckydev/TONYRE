@@ -381,7 +381,7 @@ void CScriptDebugger::transmit_cscript_list()
 	
 	Net::MsgDesc msg;
 	msg.m_Data = gpDebugInfoBuffer;
-	msg.m_Length = structure_bytes_written;
+	msg.m_Length = (unsigned short)structure_bytes_written;
 	msg.m_Id = GameNet::vMSG_ID_DBG_CSCRIPT_LIST;
 	StreamMessage(&msg);
 }
@@ -400,7 +400,7 @@ void CScriptDebugger::transmit_watch_list()
 
 	Net::MsgDesc msg;
 	msg.m_Data = gpDebugInfoBuffer;
-	msg.m_Length = m_num_watched_scripts*sizeof(SWatchInfo);
+	msg.m_Length = (unsigned short)m_num_watched_scripts*sizeof(SWatchInfo);
 	msg.m_Id = GameNet::vMSG_ID_DBG_WATCH_LIST;
 	StreamMessage(&msg);
 }
@@ -432,7 +432,7 @@ void CScriptDebugger::transmit_composite_object_list()
 	
 	Net::MsgDesc msg;
 	msg.m_Data = gpDebugInfoBuffer;
-	msg.m_Length = structure_bytes_written;
+	msg.m_Length = (unsigned short)structure_bytes_written;
 	msg.m_Id = GameNet::vMSG_ID_DBG_COMPOSITE_OBJECT_LIST;
 	Dbg::CScriptDebugger::Instance()->StreamMessage(&msg);
 }
@@ -445,7 +445,7 @@ void CScriptDebugger::transmit_compression_lookup_table()
 	
     Net::MsgDesc msg;
 	msg.m_Data = p_table->GetArrayPointer();
-	msg.m_Length = p_table->GetSize()*4;
+	msg.m_Length = (unsigned short)(p_table->GetSize() * 4);
 	msg.m_Id = GameNet::vMSG_ID_DBG_COMPRESSION_LOOKUP_TABLE;
 	StreamMessage(&msg);
 
@@ -537,7 +537,7 @@ int CScriptDebugger::send_composite_object_info(Obj::CCompositeObject* p_obj)
 		Script::CStruct *p_info=new Script::CStruct;
 		p_obj->GetDebugInfo(p_info);
 		
-		Dbg_MsgAssert(SCRIPT_DEBUGGER_BUFFER_SIZE>4,("Oops"));
+		static_assert(SCRIPT_DEBUGGER_BUFFER_SIZE > 4, "Oops");
 		gpDebugInfoBuffer[0]=p_obj->GetID();
 		uint8 *p_buf=(uint8*)(gpDebugInfoBuffer+1);
 		int structure_bytes_written=Script::WriteToBuffer(p_info,p_buf,SCRIPT_DEBUGGER_BUFFER_SIZE-4);
@@ -545,7 +545,7 @@ int CScriptDebugger::send_composite_object_info(Obj::CCompositeObject* p_obj)
 		
 		Net::MsgDesc msg;
 		msg.m_Data = gpDebugInfoBuffer;
-		msg.m_Length = 4+structure_bytes_written;
+		msg.m_Length = (unsigned short)(4 + structure_bytes_written);
 		msg.m_Id = GameNet::vMSG_ID_DBG_COMPOSITE_OBJECT_INFO;
 
 		StreamMessage(&msg);
@@ -638,16 +638,16 @@ void CScriptDebugger::send_script_global_info(uint32 id)
 		uint8 *p_buf=(uint8*)gpDebugInfoBuffer;
 
 		// Write in the name, type, and source file name.		
-		Dbg_MsgAssert(SCRIPT_DEBUGGER_BUFFER_SIZE > 8,("SCRIPT_DEBUGGER_BUFFER_SIZE is like way too small dude"));
+		static_assert(SCRIPT_DEBUGGER_BUFFER_SIZE > 8, "SCRIPT_DEBUGGER_BUFFER_SIZE is like way too small dude");
 		*(uint32*)p_buf=id;
 		p_buf+=4;
 		*(uint32*)p_buf=p_entry->mType;
 		p_buf+=4;
-		message_size+=8;
+		message_size += 8;
 		
 		const char *p_source_filename=Script::FindChecksumName(p_entry->mSourceFileNameChecksum);
 		int len=strlen(p_source_filename)+1;
-		Dbg_MsgAssert(SCRIPT_DEBUGGER_BUFFER_SIZE-message_size > len,("SCRIPT_DEBUGGER_BUFFER_SIZE is too small"));
+		Dbg_MsgAssert(SCRIPT_DEBUGGER_BUFFER_SIZE - message_size > len,("SCRIPT_DEBUGGER_BUFFER_SIZE is too small"));
 		
 		strcpy((char*)p_buf,p_source_filename);
 		p_buf+=len;
@@ -704,7 +704,7 @@ void CScriptDebugger::send_script_global_info(uint32 id)
 		// Send the info to the debugger.
 		Net::MsgDesc msg;
 		msg.m_Data = gpDebugInfoBuffer;
-		msg.m_Length = message_size;
+		msg.m_Length = (unsigned short)message_size;
 		msg.m_Id = GameNet::vMSG_ID_DBG_SCRIPT_GLOBAL_INFO;
 		StreamMessage(&msg);
 	}	
@@ -1147,7 +1147,7 @@ void CScriptDebugger::send_sub_packet(Net::MsgDesc *p_message, uint32 size, char
 	Net::MsgDesc msg;
 	msg.m_Id = GameNet::vMSG_ID_DBG_PACKET;
 	msg.m_Data = sp_packet_data;
-	msg.m_Length = sizeof(SSplitMessageHeader)+size;
+	msg.m_Length = (unsigned short)(sizeof(SSplitMessageHeader) + size);
 	
 	printf("Transmitting sub packet, size=%d\n",size);
 	
@@ -1231,6 +1231,9 @@ void CScriptDebugger::ScriptDebuggerUnpause( void )
 
 void CScriptDebugger::TransmitExceptionInfo(Obj::SException *p_exception, Obj::CCompositeObject* p_obj)
 {
+	(void)p_exception;
+	(void)p_obj;
+
 	#if 0
 	if (mp_server)
 	{

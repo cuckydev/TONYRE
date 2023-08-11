@@ -874,6 +874,7 @@ Str::String	CSkaterProfile::GetUIString( const char* pFieldName )
 
 Str::String	CSkaterProfile::GetUIString( uint32 fieldID )
 {
+	(void)fieldID;
 	return "Unimplemented";
 }
 

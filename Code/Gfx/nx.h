@@ -152,7 +152,7 @@ public:
 	static CWeather*			sGetWeather( void ) { return mp_weather; }
 
 	// K: Added so that park editor can update the grid after geometry has changed.
-	static bool					ScriptWeatherUpdateGrid( Script::CStruct* pParams, Script::CScript* pScript ) { mp_weather->UpdateGrid(); return true; }
+	static bool					ScriptWeatherUpdateGrid(Script::CStruct *pParams, Script::CScript *pScript) { (void)pParams; (void)pScript; mp_weather->UpdateGrid(); return true; }
 	
 	static bool					ScriptWeatherSetRainHeight( Script::CStruct* pParams, Script::CScript* pScript ) { return mp_weather->ScriptWeatherSetRainHeight( pParams, pScript ); }
 	static bool					ScriptWeatherSetRainFrames( Script::CStruct* pParams, Script::CScript* pScript ) { return mp_weather->ScriptWeatherSetRainFrames( pParams, pScript ); } 

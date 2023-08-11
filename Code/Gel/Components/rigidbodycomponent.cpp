@@ -595,6 +595,8 @@ void CRigidBodyComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CRigidBodyComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		// @script | RigidBody_IgnoreSkater | rigidbody ignores the skater for a given duration

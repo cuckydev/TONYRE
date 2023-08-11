@@ -52,6 +52,8 @@ CSkaterRunTimerComponent::~CSkaterRunTimerComponent()
 
 void CSkaterRunTimerComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	m_state = INACTIVE;
 }
 
@@ -118,6 +120,8 @@ void CSkaterRunTimerComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterRunTimerComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	switch ( Checksum )
 	{
 		// @script | RunTimer_Pause | pauses the run timer

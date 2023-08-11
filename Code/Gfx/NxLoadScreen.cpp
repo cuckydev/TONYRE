@@ -176,6 +176,8 @@ void CLoadScreen::s_clear()
 // @parm int | y | Y position of bar
 bool ScriptSetLoadingBarPos(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int x, y;
 	if (!pParams->GetInteger("x", &x))
 	{
@@ -196,6 +198,8 @@ bool ScriptSetLoadingBarPos(Script::CScriptStructure *pParams, Script::CScript *
 // @parm int | height | Heigh of bar
 bool ScriptSetLoadingBarSize(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int width, height;
 	if (!pParams->GetInteger("width", &width))
 	{
@@ -217,6 +221,8 @@ bool ScriptSetLoadingBarSize(Script::CScriptStructure *pParams, Script::CScript 
 // @parm int | b | Blue
 bool ScriptSetLoadingBarStartColor(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int r, g, b;
 	if (!pParams->GetInteger("r", &r))
 	{
@@ -231,7 +237,7 @@ bool ScriptSetLoadingBarStartColor(Script::CScriptStructure *pParams, Script::CS
 		Dbg_MsgAssert(0, ("Can't find 'b' color"));
 	}
 	
-	Image::RGBA rgb(r, g, b, 0x80);
+	Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
 
 	CLoadScreen::sSetLoadingBarStartColor(rgb);
 
@@ -244,6 +250,8 @@ bool ScriptSetLoadingBarStartColor(Script::CScriptStructure *pParams, Script::CS
 // @parm int | b | Blue
 bool ScriptSetLoadingBarEndColor(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int r, g, b;
 	if (!pParams->GetInteger("r", &r))
 	{
@@ -258,7 +266,7 @@ bool ScriptSetLoadingBarEndColor(Script::CScriptStructure *pParams, Script::CScr
 		Dbg_MsgAssert(0, ("Can't find 'b' color"));
 	}
 	
-	Image::RGBA rgb(r, g, b, 0x80);
+	Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
 
 	CLoadScreen::sSetLoadingBarEndColor(rgb);
 
@@ -270,6 +278,8 @@ bool ScriptSetLoadingBarEndColor(Script::CScriptStructure *pParams, Script::CScr
 // @parm int | height | Heigh of bar border
 bool ScriptSetLoadingBarBorder(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int width, height;
 	if (!pParams->GetInteger("width", &width))
 	{
@@ -291,6 +301,8 @@ bool ScriptSetLoadingBarBorder(Script::CScriptStructure *pParams, Script::CScrip
 // @parm int | b | Blue
 bool ScriptSetLoadingBarBorderColor(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int r, g, b;
 	if (!pParams->GetInteger("r", &r))
 	{
@@ -305,7 +317,7 @@ bool ScriptSetLoadingBarBorderColor(Script::CScriptStructure *pParams, Script::C
 		Dbg_MsgAssert(0, ("Can't find 'b' color"));
 	}
 	
-	Image::RGBA rgb(r, g, b, 0x80);
+	Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
 
 	CLoadScreen::sSetLoadingBarBorderColor(rgb);
 

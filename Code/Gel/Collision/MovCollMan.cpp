@@ -47,6 +47,8 @@ Lst::Head<CCollObj> CMovableCollMan::s_collision_list;
 
 void	CMovableCollMan::sAddCollision(CCollObj *p_collision, Obj::CCompositeObject *p_object)
 {
+	(void)p_object;
+
 	Lst::Node<CCollObj> *node = new Lst::Node<CCollObj>(p_collision);
 	s_collision_list.AddToTail(node);
 	//s_collision_array[s_array_size++] = p_collision;

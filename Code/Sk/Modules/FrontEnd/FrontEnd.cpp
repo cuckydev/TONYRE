@@ -235,6 +235,7 @@ void FrontEnd::PauseGame(bool paused)
 	}
 				
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
+
 	if (paused)
 	{
 		// make game be paused
@@ -299,7 +300,7 @@ void FrontEnd::PauseGame(bool paused)
 		mlp_manager->SetLogicMask(Mlp::Manager::mNONE);		
 //		rw_viewer->DisableMainLogic(false);
 		// unpause music and soundfx:
-		Mdl::Skate * skate_mod = Mdl::Skate::Instance();
+		// Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 		skate_mod->Pause( false );
 		Tmr::RecallTimerInfo( );
 	}
@@ -707,7 +708,7 @@ void FrontEnd::update(bool game_is_paused)
 	if (run_runmenow)
 	{
 		run_runmenow = false;
-		Mdl::Skate * skate_mod = Mdl::Skate::Instance();
+		// Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 		Obj::CSkater *pSkater = skate_mod->GetLocalSkater();						   
 		Script::RunScript("RunMeNow",nullptr,pSkater);
 	}
@@ -969,6 +970,8 @@ int FrontEnd::GetInputHandlerMapping( int device_num )
 
 bool ScriptLaunchMenuScreen(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 which_menu;
 	if (!pParams->GetChecksum("screen", &which_menu))
 		Dbg_MsgAssert(0, ("need screen=... with LaunchMenuScreen command"));
@@ -988,6 +991,8 @@ bool ScriptLaunchMenuScreen(Script::CScriptStructure *pParams, Script::CScript *
 
 bool ScriptSetMenuAutoRepeatTimes(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Script::CPair times;
 	pParams->GetPair(NONAME, &times, Script::ASSERT);
 
@@ -1002,6 +1007,8 @@ bool ScriptSetMenuAutoRepeatTimes(Script::CScriptStructure *pParams, Script::CSc
 
 bool ScriptSetMenuPadMappings(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Script::CArray *p_map_array;
 	pParams->GetArray(NONAME, &p_map_array, true);
 
@@ -1030,6 +1037,8 @@ bool ScriptSetMenuPadMappings(Script::CScriptStructure *pParams, Script::CScript
 
 bool ScriptSetButtonEventMappings(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	FrontEnd* p_front_end = FrontEnd::Instance();
 	p_front_end->AddEntriesToEventButtonMap(pParams);
 	
@@ -1047,6 +1056,8 @@ bool ScriptSetButtonEventMappings(Script::CStruct *pParams, Script::CScript *pSc
 // @uparmopt 1 | on or off, 1 or 0
 bool ScriptSetAnalogStickActiveForMenus(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int	active = 1;
 	pParams->GetInteger(NONAME,&active,false);
 	FrontEnd::Instance()->SetAnalogStickActiveForMenus((bool)active);

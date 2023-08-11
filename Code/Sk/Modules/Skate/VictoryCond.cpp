@@ -377,6 +377,7 @@ CGoalsCompletedVictoryCondition::ConditionComplete()
 bool
 CGoalsCompletedVictoryCondition::IsWinner( uint32 skater_num )
 {
+	(void)skater_num;
 	return false;
 }
 

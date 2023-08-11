@@ -393,18 +393,20 @@ void CAnimChannel::SetLoopingType( EAnimLoopingType type )
 
 void CAnimChannel::PlaySequence( uint32 anim_name, float start_time, float end_time, EAnimLoopingType loop_type, float blend_period, float speed )
 {		   
+	(void)blend_period;
+
 // Don't reset any more, because this will call the CBlendChannel's virtual
 // virtual function, which makes the animation status inactive...
 //	Reset();
 
-	m_startTime							    = (start_time < end_time) ? start_time : end_time;
-	m_currentTime							= start_time;
-	m_endTime								= (start_time < end_time) ? end_time : start_time;
-	m_animSpeed							    = speed / 60.0f;
-	m_direction								= (start_time < end_time) ? ANIM_DIR_FORWARDS : ANIM_DIR_BACKWARDS;
-	m_loopingType							= loop_type;
-	m_animComplete							= false;
-	m_animName								= anim_name;
+	m_startTime = (start_time < end_time) ? start_time : end_time;
+	m_currentTime = start_time;
+	m_endTime = (start_time < end_time) ? end_time : start_time;
+	m_animSpeed = speed / 60.0f;
+	m_direction = (start_time < end_time) ? ANIM_DIR_FORWARDS : ANIM_DIR_BACKWARDS;
+	m_loopingType = loop_type;
+	m_animComplete = false;
+	m_animName = anim_name;
 
 //	Dbg_MsgAssert(m_startTime != m_endTime,("m_startTime == m_endTime (%f) TELL MICK",m_startTime));
 //	m_wobbleTargetTime					    = (start_time + end_time) / 2;	

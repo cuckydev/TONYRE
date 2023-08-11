@@ -58,6 +58,8 @@ CSkaterBalanceTrickComponent::~CSkaterBalanceTrickComponent()
 
 void CSkaterBalanceTrickComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	mManual.Init(GetSkater());
 	mGrind.Init(GetSkater());
 	mLip.Init(GetSkater());

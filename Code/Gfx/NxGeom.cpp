@@ -32,6 +32,8 @@ namespace Nx
 
 CGeom* 			CGeom::plat_clone(bool instance, CScene* pDestScene)
 {
+	(void)instance;
+	(void)pDestScene;
 	printf ("STUB: PlatClone\n");
 	return nullptr;
 }
@@ -43,6 +45,8 @@ CGeom* 			CGeom::plat_clone(bool instance, CScene* pDestScene)
 
 CGeom* 			CGeom::plat_clone(bool instance, CModel* pDestModel)
 {
+	(void)instance;
+	(void)pDestModel;
 	printf ("STUB: PlatClone\n");
 	return nullptr;
 }
@@ -54,6 +58,9 @@ CGeom* 			CGeom::plat_clone(bool instance, CModel* pDestModel)
 
 bool			CGeom::plat_load_geom_data(CMesh* pMesh, CModel* pModel, bool color_per_material)
 {
+	(void)pMesh;
+	(void)pModel;
+	(void)color_per_material;
 	printf ("STUB: PlatLoadGeomData\n");
 	return true;
 }
@@ -86,6 +93,7 @@ uint32			CGeom::plat_get_checksum()
 
 void			CGeom::plat_set_color(Image::RGBA rgba)
 {
+	(void)rgba;
 	printf ("STUB: PlatSetColor\n");
 }
 
@@ -117,6 +125,9 @@ void			CGeom::plat_clear_color()
 
 bool			CGeom::plat_set_material_color(uint32 mat_checksum, int pass, Image::RGBA rgba)
 {
+	(void)mat_checksum;
+	(void)pass;
+	(void)rgba;
 	printf ("STUB: PlatSetMaterialColor\n");
 	return false;
 }
@@ -128,6 +139,8 @@ bool			CGeom::plat_set_material_color(uint32 mat_checksum, int pass, Image::RGBA
 
 Image::RGBA		CGeom::plat_get_material_color(uint32 mat_checksum, int pass)
 {
+	(void)mat_checksum;
+	(void)pass;
 	printf ("STUB: PlatGetMaterialColor\n");
 	return Image::RGBA(0, 0, 0, 0);
 }
@@ -139,6 +152,7 @@ Image::RGBA		CGeom::plat_get_material_color(uint32 mat_checksum, int pass)
 
 void			CGeom::plat_set_visibility(uint32 mask)
 {
+	(void)mask;
 	printf ("STUB: PlatSetVisibility\n");
 }
 
@@ -160,6 +174,7 @@ uint32			CGeom::plat_get_visibility() const
 
 void			CGeom::plat_set_active(bool active)
 {
+	(void)active;
 	printf ("STUB: PlatSetActive\n");
 }
 
@@ -207,6 +222,7 @@ const Mth::Vector CGeom::plat_get_bounding_sphere() const
 
 void			CGeom::plat_set_world_position(const Mth::Vector& pos)
 {
+	(void)pos;
 	printf ("STUB: PlatSetWorldPosition\n");
 }
 
@@ -229,6 +245,7 @@ const Mth::Vector &	CGeom::plat_get_world_position() const
 
 void			CGeom::plat_set_orientation(const Mth::Matrix& orient)
 {
+	(void)orient;
 	printf ("STUB: PlatSetOrientation\n");
 }
 
@@ -251,6 +268,7 @@ const Mth::Matrix & CGeom::plat_get_orientation() const
 
 void 			CGeom::plat_rotate_y(Mth::ERot90 rot)
 {
+	(void)rot;
 	printf ("STUB: PlatRotateY\n");
 }
 
@@ -261,6 +279,7 @@ void 			CGeom::plat_rotate_y(Mth::ERot90 rot)
 
 void			CGeom::plat_set_transform(const Mth::Matrix& transform)
 {
+	(void)transform;
 	printf ("STUB: PlatSetTransform\n");
 }
 
@@ -283,6 +302,7 @@ const Mth::Matrix &	CGeom::plat_get_transform() const
 
 void			CGeom::plat_set_scale(const Mth::Vector& scale)
 {
+	(void)scale;
 	printf ("STUB: PlatSetScale\n");
 }
 
@@ -304,6 +324,7 @@ Mth::Vector		CGeom::plat_get_scale() const
 
 void			CGeom::plat_set_model_lights(CModelLights *p_model_lights)
 {
+	(void)p_model_lights;
 	printf ("STUB: PlatSetModelLights\n");
 }
 
@@ -314,6 +335,9 @@ void			CGeom::plat_set_model_lights(CModelLights *p_model_lights)
 
 bool			CGeom::plat_render(Mth::Matrix* pRootMatrix, Mth::Matrix* ppBoneMatrices, int numBones)
 {
+	(void)pRootMatrix;
+	(void)ppBoneMatrices;
+	(void)numBones;
 	printf ("STUB: PlatRender\n");
 	return true;
 }
@@ -325,6 +349,7 @@ bool			CGeom::plat_render(Mth::Matrix* pRootMatrix, Mth::Matrix* ppBoneMatrices,
 
 void			CGeom::plat_set_bounding_sphere( const Mth::Vector& boundingSphere )
 {
+	(void)boundingSphere;
 	printf ("STUB: PlatSetBoundingSphere\n");
 }
 
@@ -335,6 +360,7 @@ void			CGeom::plat_set_bounding_sphere( const Mth::Vector& boundingSphere )
 
 bool			CGeom::plat_hide_polys( uint32 mask )
 {
+	(void)mask;
 	printf ("STUB: PlatHidePolys\n");
 	return true;
 }
@@ -346,6 +372,7 @@ bool			CGeom::plat_hide_polys( uint32 mask )
 
 bool			CGeom::plat_enable_shadow( bool enabled )
 {
+	(void)enabled;
 //	printf ("STUB: PlatEnableShadow\n");
 	return true;
 }
@@ -357,7 +384,7 @@ bool			CGeom::plat_enable_shadow( bool enabled )
 
 // - returns number of renderable verts in a C...Geom
 // this should be the same number of verts as is returned/expected by the following functions 
-int 		CGeom::plat_get_num_render_verts()								
+size_t CGeom::plat_get_num_render_verts()								
 {
 	printf ("STUB: CGeom::plat_get_num_render_verts\n");
 	return 0;
@@ -372,6 +399,7 @@ int 		CGeom::plat_get_num_render_verts()
 // p_verts points to memory supplied by the caller
 void 		CGeom::plat_get_render_verts(Mth::Vector *p_verts)			
 {
+	(void)p_verts;
 	printf ("STUB: CGeom::plat_get_render_verts\n");
 }
 
@@ -380,7 +408,7 @@ void 		CGeom::plat_get_render_verts(Mth::Vector *p_verts)
 /*                                                                */
 /******************************************************************/
 
-int 		CGeom::plat_get_num_render_polys()								
+size_t 		CGeom::plat_get_num_render_polys()
 {
 	printf ("STUB: CGeom::plat_get_num_render_polys\n");
 	return 0;
@@ -391,7 +419,7 @@ int 		CGeom::plat_get_num_render_polys()
 /*                                                                */
 /******************************************************************/
 
-int 		CGeom::plat_get_num_render_base_polys()								
+size_t 		CGeom::plat_get_num_render_base_polys()
 {
 	printf ("STUB: CGeom::plat_get_num_render_base_polys\n");
 	return 0;
@@ -406,6 +434,7 @@ int 		CGeom::plat_get_num_render_base_polys()
 // p_colors points to memory supplied by the caller
 void 		CGeom::plat_get_render_colors(Image::RGBA *p_colors)		// - gets an array of vertex colors
 {
+	(void)p_colors;
 	printf ("STUB: CGeom::plat_get_render_colors\n");
 }
 
@@ -416,6 +445,7 @@ void 		CGeom::plat_get_render_colors(Image::RGBA *p_colors)		// - gets an array 
 // - sets the verts after modification
 void 		CGeom::plat_set_render_verts(Mth::Vector *p_verts)			  
 {
+	(void)p_verts;
 	printf ("STUB: CGeom::plat_set_render_verts\n");
 }
 
@@ -427,6 +457,7 @@ void 		CGeom::plat_set_render_verts(Mth::Vector *p_verts)
 // - sets the colors after modification
 void 		CGeom::plat_set_render_colors(Image::RGBA *p_colors)				
 {
+	(void)p_colors;
 	printf ("STUB: CGeom::plat_set_render_colors\n");
 }
 
@@ -436,6 +467,8 @@ void 		CGeom::plat_set_render_colors(Image::RGBA *p_colors)
 /******************************************************************/
 void		CGeom::plat_set_bone_matrix_data( Mth::Matrix* pBoneMatrices, int numBones )
 {
+	(void)pBoneMatrices;
+	(void)numBones;
 }
 
 /******************************************************************/
@@ -446,6 +479,14 @@ void		CGeom::plat_set_bone_matrix_data( Mth::Matrix* pBoneMatrices, int numBones
 void		CGeom::plat_set_uv_wibble_params(float u_vel, float u_amp, float u_freq, float u_phase,
 											 float v_vel, float v_amp, float v_freq, float v_phase)
 {
+	(void)u_vel;
+	(void)u_amp;
+	(void)u_freq;
+	(void)u_phase;
+	(void)v_vel;
+	(void)v_amp;
+	(void)v_freq;
+	(void)v_phase;
 	printf ("STUB: CGeom::plat_set_uv_wibble_params\n");
 }
 
@@ -456,6 +497,7 @@ void		CGeom::plat_set_uv_wibble_params(float u_vel, float u_amp, float u_freq, f
 
 void		CGeom::plat_use_explicit_uv_wibble(bool yes)
 {
+	(void)yes;
 	printf ("STUB: CGeom::plat_use_explicit_uv_wibble\n");
 }
 
@@ -466,6 +508,8 @@ void		CGeom::plat_use_explicit_uv_wibble(bool yes)
 
 void		CGeom::plat_set_uv_wibble_offsets(float u_offset, float v_offset)
 {
+	(void)u_offset;
+	(void)v_offset;
 	printf ("STUB: CGeom::plat_set_uv_wibble_offsets\n");
 }
 
@@ -476,6 +520,10 @@ void		CGeom::plat_set_uv_wibble_offsets(float u_offset, float v_offset)
 
 bool		CGeom::plat_set_uv_wibble_offsets(uint32 mat_checksum, int pass, float u_offset, float v_offset)
 {
+	(void)mat_checksum;
+	(void)pass;
+	(void)u_offset;
+	(void)v_offset;
 	printf ("STUB: CGeom::plat_set_uv_wibble_offsets\n");
 	return false;
 }
@@ -487,6 +535,9 @@ bool		CGeom::plat_set_uv_wibble_offsets(uint32 mat_checksum, int pass, float u_o
 
 bool		CGeom::plat_set_uv_matrix(uint32 mat_checksum, int pass, const Mth::Matrix &mat)
 {
+	(void)mat_checksum;
+	(void)pass;
+	(void)mat;
 	printf ("STUB: CGeom::plat_set_uv_matrix\n");
 	return false;
 }
@@ -498,8 +549,10 @@ bool		CGeom::plat_set_uv_matrix(uint32 mat_checksum, int pass, const Mth::Matrix
 
 bool		CGeom::plat_allocate_uv_matrix_params(uint32 mat_checksum, int pass)
 {
-	// only needed by the xbox right now...
+	(void)mat_checksum;
+	(void)pass;
 
+	// only needed by the xbox right now...
 	return true;
 }
 
@@ -909,7 +962,7 @@ bool CGeom::EnableShadow( bool enabled )
 /*                                                                */
 /******************************************************************/
 
-int CGeom::GetNumRenderVerts()								// - returns number of renderable verts
+size_t CGeom::GetNumRenderVerts()								// - returns number of renderable verts
 {
 		return plat_get_num_render_verts();
 }
@@ -941,7 +994,7 @@ void CGeom::GetRenderColors(Image::RGBA *p_colors)				// - gets an array of vert
 /******************************************************************/
 
 // Return the total number of renerable polygons 
-int	CGeom::GetNumRenderPolys()
+size_t	CGeom::GetNumRenderPolys()
 {
  	return		plat_get_num_render_polys();
 }
@@ -952,7 +1005,7 @@ int	CGeom::GetNumRenderPolys()
 /******************************************************************/
 
 // Return the total number of base polygons (excludes those generated for multipass)
-int	CGeom::GetNumRenderBasePolys()
+size_t	CGeom::GetNumRenderBasePolys()
 {
  	return		plat_get_num_render_base_polys();
 }

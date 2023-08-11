@@ -325,6 +325,7 @@ CAvoidComponent::~CAvoidComponent()
 	
 void CAvoidComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/
@@ -422,6 +423,8 @@ bool CAvoidComponent::jump( Mth::Matrix& mat0, Mth::Matrix& mat1, float rotAng, 
 	
 CBaseComponent::EMemberFunctionResult CAvoidComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch (Checksum)
 	{
 		// @script | Ped_SelectAvoidPoint | Will cause the pedestrian to jump out of

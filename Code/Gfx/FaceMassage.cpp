@@ -191,8 +191,8 @@ bool			CFaceTexMassager::sAdjustTextureToModel(CTexture *p_face_texture, const S
 	}
 
 	// All stretching and shrinking will be done at the nose point
-	int x_axis_point = s_model_face_points.m_nose[X];
-	int y_axis_point = s_model_face_points.m_nose[Y];
+	uint16 x_axis_point = (uint16)s_model_face_points.m_nose[X];
+	uint16 y_axis_point = (uint16)s_model_face_points.m_nose[Y];
 
 	// First, offset the texture by the difference in nose points
 	int x_offset = s_model_face_points.m_nose[X] - texture_points.m_nose[X];
@@ -461,6 +461,8 @@ bool GetFacePointsStruct(SFacePoints &face_points, Script::CStruct *p_struct)
 // @parm struct | face_points | face points structure
 bool ScriptSetModelFaceTexturePoints(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	SFacePoints face_points;
 
 	Script::CStruct *pFacePointsStruct = nullptr;
@@ -488,6 +490,8 @@ bool ScriptSetModelFaceTexturePoints(Script::CStruct *pParams, Script::CScript *
 // @parm name |  | name of texture
 bool ScriptSetFaceMassageTextureOverlay(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -509,6 +513,8 @@ bool ScriptSetFaceMassageTextureOverlay(Script::CStruct *pParams, Script::CScrip
 // @parmopt flag | no_palette_gen | | use original palette (faster)
 bool ScriptMassageFaceTexture(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(Crc::ConstCRC("texture"), &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -551,6 +557,8 @@ bool ScriptMassageFaceTexture(Script::CStruct *pParams, Script::CScript *pScript
 // @parm struct | face_points | face points structure
 bool ScriptAdjustFaceTextureToModel(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(Crc::ConstCRC("texture"), &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -587,6 +595,8 @@ bool ScriptAdjustFaceTextureToModel(Script::CStruct *pParams, Script::CScript *p
 // @parm struct | face_points | face points structure
 bool ScriptAdjustFaceTextureColors(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(Crc::ConstCRC("texture"), &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -622,6 +632,8 @@ bool ScriptAdjustFaceTextureColors(Script::CStruct *pParams, Script::CScript *pS
 // @parm name | texture | name of texture
 bool ScriptCombineFaceTextureWithOverlay(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(Crc::ConstCRC("texture"), &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));

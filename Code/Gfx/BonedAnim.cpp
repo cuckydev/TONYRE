@@ -74,29 +74,29 @@ const float nxUNITQUAT_TOLERANCE_RADIANS = 0.0005f;
 
 struct SBonedAnimFileHeader
 {
-	uint32 	    version;
-	uint32    	flags;
-	float	    duration;
+	uint32 version;
+	uint32 flags;
+	float duration;
 };
 
 struct SPlatformFileHeader
 {
-    uint32      numBones;
-    uint32      numQKeys;
-    uint32      numTKeys;
-    uint32      numCustomAnimKeys;
+	uint32 numBones;
+	uint32 numQKeys;
+	uint32 numTKeys;
+	uint32 numCustomAnimKeys;
 };
 
 struct SStandardAnimFramePointers
 {
-	unsigned char	numQKeys;
-	unsigned char	numTKeys;
+	unsigned char numQKeys;
+	unsigned char numTKeys;
 };
 
 struct SHiResAnimFramePointers
 {
-	short			numQKeys;
-	short			numTKeys;
+	unsigned short numQKeys;
+	unsigned short numTKeys;
 };
 
 //#define nxBONEDANIMFLAGS_UNUSED			(1<<31)
@@ -676,8 +676,12 @@ inline void interpolate_standard_t_frame(Mth::Vector* p_out, CStandardAnimTKey* 
 	
 // eventually, this will go in the plat-specific version of CBonedAnimFrameData
 
-bool CBonedAnimFrameData::plat_dma_to_aram( int qbytes, int tbytes, uint32 flags )
+bool CBonedAnimFrameData::plat_dma_to_aram(size_t qbytes, size_t tbytes, uint32 flags)
 {
+	(void)qbytes;
+	(void)tbytes;
+	(void)flags;
+
 	// GameCube: DMA to ARAM.
 #ifdef __ARAM__
 
@@ -961,14 +965,16 @@ bool CBonedAnimFrameData::plat_dma_to_aram( int qbytes, int tbytes, uint32 flags
 	
 bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_buffer)
 {
+	(void)delete_buffer;
+
 	Dbg_Assert( pData );
 
 	SPlatformFileHeader *pThePlatformHeader = (SPlatformFileHeader *) pData;
 	pData += sizeof(SPlatformFileHeader);
 
 	m_numBones = pThePlatformHeader->numBones;
-	m_num_qFrames = pThePlatformHeader->numQKeys;
-	m_num_tFrames = pThePlatformHeader->numTKeys;
+	m_num_qFrames = (short)pThePlatformHeader->numQKeys;
+	m_num_tFrames = (short)pThePlatformHeader->numTKeys;
 	
 	uint32 qAllocSize = *((uint32*)pData);
 	pData += sizeof(uint32);
@@ -1069,7 +1075,7 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 		}
 	}		
 
-	m_num_customKeys = pThePlatformHeader->numCustomAnimKeys;
+	m_num_customKeys = (short)pThePlatformHeader->numCustomAnimKeys;
 
 #ifdef __ARAM__
 	if ( delete_buffer )
@@ -1088,6 +1094,8 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 
 bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 {
+	(void)delete_buffer;
+
 	Dbg_Assert( pData );
 
 	SPlatformFileHeader* pThePlatformHeader = (SPlatformFileHeader*)pData;
@@ -1095,8 +1103,8 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	Dbg_Assert(!((uint) pData & 0x3));
 
 	m_numBones = pThePlatformHeader->numBones;
-	m_num_qFrames = pThePlatformHeader->numQKeys;
-	m_num_tFrames = pThePlatformHeader->numTKeys;
+	m_num_qFrames = (short)pThePlatformHeader->numQKeys;
+	m_num_tFrames = (short)pThePlatformHeader->numTKeys;
 	
 	Dbg_Assert( !mp_perBoneFrames );
 	Dbg_Assert( !mp_qFrames );
@@ -1147,13 +1155,13 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	}
    
 	// count to make sure the number of keys per bone didn't overflow
-	int runningQCount = 0;
-	int runningTCount = 0;
+	size_t runningQCount = 0;
+	size_t runningTCount = 0;
 
-	for ( int i = 0; i < m_numBones; i++ )
+	for (size_t i = 0; i < m_numBones; i++)
 	{
-		runningQCount += get_num_qkeys( mp_perBoneFrames, i );
-		runningTCount += get_num_tkeys( mp_perBoneFrames, i );
+		runningQCount += get_num_qkeys( mp_perBoneFrames, (int)i );
+		runningTCount += get_num_tkeys( mp_perBoneFrames, (int)i );
 	}
 
 	Dbg_MsgAssert( runningQCount == m_num_qFrames, ( "Wrong number of qframes in %x %d %d", m_fileNameCRC, runningQCount, m_num_qFrames ) );
@@ -1217,7 +1225,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 		}
 	}		
 
-	m_num_customKeys = pThePlatformHeader->numCustomAnimKeys;
+	m_num_customKeys = (short)pThePlatformHeader->numCustomAnimKeys;
 
 #ifdef __ARAM__
 	if ( delete_buffer )
@@ -1235,7 +1243,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 /*                                                                */
 /******************************************************************/
 	
-int CBonedAnimFrameData::get_num_qkeys( void * p_frame_data, int boneIndex ) const
+size_t CBonedAnimFrameData::get_num_qkeys( void * p_frame_data, size_t boneIndex ) const
 {
 	if ( m_flags & nxBONEDANIMFLAGS_HIRESFRAMEPOINTERS )
 	{
@@ -1260,7 +1268,7 @@ int CBonedAnimFrameData::get_num_qkeys( void * p_frame_data, int boneIndex ) con
 /*                                                                */
 /******************************************************************/
 	
-int CBonedAnimFrameData::get_num_tkeys( void * p_frame_data, int boneIndex ) const
+size_t CBonedAnimFrameData::get_num_tkeys( void * p_frame_data, size_t boneIndex ) const
 {
 	if ( m_flags & nxBONEDANIMFLAGS_HIRESFRAMEPOINTERS )
 	{
@@ -1336,19 +1344,19 @@ CBonedAnimFrameData::CBonedAnimFrameData()
 CBonedAnimFrameData::~CBonedAnimFrameData()
 {
 
-	for (int i=0;i<m_num_customKeys;i++)
+	for (size_t i = 0; i < m_num_customKeys; i++)
 	{
 		delete mpp_customAnimKeyList[i];
 	}
 
-	if ( mpp_customAnimKeyList )
+	if (mpp_customAnimKeyList)
 	{
 		Mem::Free( mpp_customAnimKeyList );
 	}
 
-	if ( m_pipped )
+	if (m_pipped)
 	{
-		Pip::Unload( m_fileNameCRC );
+		Pip::Unload(m_fileNameCRC);
 	}
 	else
 	{
@@ -1485,14 +1493,12 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 	}
 	else
 	{
-		int file_size = 0;
-
 		if ( use_pip )
 		{
 			mp_fileBuffer = Pip::Load( p_fileName );
 			file_size = Pip::GetFileSize( p_fileName );
 			Dbg_MsgAssert(file_size, ("Anim file size is 0"));
-			m_pipped = true;
+			m_pipped |= 1;
 		}
 		else
 		{
@@ -1556,6 +1562,9 @@ void CBonedAnimFrameData::async_callback(File::CAsyncFileHandle *, File::EAsyncF
 
 bool CBonedAnimFrameData::PostLoad(bool assertOnFail, int file_size, bool delete_buffer)
 {
+	(void)assertOnFail;
+	(void)file_size;
+
 	bool success = false;
 
 	//Dbg_Message("PostLoad of %x", this);
@@ -1664,6 +1673,8 @@ inline float get_alpha( float timeStamp1, float timeStamp2, float time )
 
 bool CBonedAnimFrameData::GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* pQuickAnim )
 {
+	(void)pQuickAnim;
+
     Dbg_Assert( pRotations );
     Dbg_Assert( pTranslations );
 
@@ -1754,10 +1765,10 @@ bool CBonedAnimFrameData::GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth
 	void * p_bone_frames = mp_perBoneFrames;
 #endif		// __aram__
 
-	for ( int i = 0; i < m_numBones; i++ )
+	for ( uint32 i = 0; i < m_numBones; i++ )
 	{
-		int numQKeys = get_num_qkeys( p_bone_frames, i );
-		int numTKeys = get_num_tkeys( p_bone_frames, i );
+		int numQKeys = get_num_qkeys( p_bone_frames, (int)i );
+		int numTKeys = get_num_tkeys( p_bone_frames, (int)i );
 
 #ifdef __ARAM__
 		int q_off = 0;
@@ -2113,7 +2124,7 @@ bool CBonedAnimFrameData::GetCompressedInterpolatedFrames(Mth::Quat* pRotations,
 	// Precalculate the skip index mask for speed.
 	uint32 skip_index_mask = ( pQuickAnim && pQuickAnim->m_quickAnimPointers.valid ) ? ( 1 << pQuickAnim->m_quickAnimPointers.skipIndex ) : 0;
 
-	for ( int i = 0; i < m_numBones; i++ )
+	for ( uint32 i = 0; i < m_numBones; i++ )
 	{
 		// See if the QuickAnim data indicates that this bone may be skipped.
 		bool skip_this_bone = ( skip_index_mask ) ? (( pQuickAnim->m_quickAnimPointers.pSkipList[i] & skip_index_mask ) > 0 ) : false;
@@ -2390,10 +2401,10 @@ bool CBonedAnimFrameData::GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vect
 	void * p_bone_frames = mp_perBoneFrames;
 #endif		// __aram__
 
-	for ( int i = 0; i < m_numBones; i++ )
+	for ( uint32 i = 0; i < m_numBones; i++ )
 	{
-		int numQKeys = get_num_qkeys( p_bone_frames, i );
-		int numTKeys = get_num_tkeys( p_bone_frames, i );
+		int numQKeys = get_num_qkeys( p_bone_frames, (int)i );
+		int numTKeys = get_num_tkeys( p_bone_frames, (int)i );
 
 #ifdef __ARAM__
 		int q_off = 0;
@@ -2528,7 +2539,7 @@ bool CBonedAnimFrameData::GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vect
 /*                                                                */
 /******************************************************************/
 
-uint32 CBonedAnimFrameData::GetBoneName( int index )
+uint32 CBonedAnimFrameData::GetBoneName(size_t index)
 {
 	// only the object anim stores the name of the bones
 	Dbg_MsgAssert( m_flags & nxBONEDANIMFLAGS_OBJECTANIMDATA, ( "Bone names are only stored with object anims" ) );
@@ -2562,7 +2573,7 @@ uint32 CBonedAnimFrameData::GetBoneName( int index )
 /*                                                                */
 /******************************************************************/
 
-int CBonedAnimFrameData::get_num_customkeys()
+size_t CBonedAnimFrameData::get_num_customkeys()
 {
 	return m_num_customKeys;
 }
@@ -2572,7 +2583,7 @@ int CBonedAnimFrameData::get_num_customkeys()
 /*                                                                */
 /******************************************************************/
 
-CCustomAnimKey* CBonedAnimFrameData::get_custom_key( int index )
+CCustomAnimKey* CBonedAnimFrameData::get_custom_key(size_t index)
 {
 	Dbg_Assert( index >= 0 && index < get_num_customkeys() );
 	Dbg_MsgAssert( mpp_customAnimKeyList, ( "custom key list doesn't exist" ) );

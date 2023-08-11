@@ -71,7 +71,7 @@ public:
 	bool					IsValidTime(float time);
 	float					GetDuration();
 	int						GetNumBones();
-	uint32					GetBoneName( int index );
+	uint32					GetBoneName(size_t index );
     bool				    GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = nullptr);
     bool				    GetCompressedInterpolatedFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = nullptr);
     bool				    GetCompressedInterpolatedPartialFrames(Mth::Quat* pRotations, Mth::Vector* pTranslations, float time, Nx::CQuickAnim* = nullptr);
@@ -86,61 +86,62 @@ public:
 	void					SetTFrames( CAnimTKey * p_t ) { mp_tFrames = (char*)p_t; }
 
 protected:	
-	int						get_num_customkeys();
-	CCustomAnimKey*			get_custom_key( int index );
-	int						get_num_qkeys( void * p_frame_data, int boneIndex ) const;
-	int						get_num_tkeys( void * p_frame_data, int boneIndex ) const;
-	void					set_num_qkeys( int boneIndex, int numKeys );
-	void					set_num_tkeys( int boneIndex, int numKeys );
-	bool					is_hires() const;
+	size_t get_num_customkeys();
+	CCustomAnimKey *get_custom_key(size_t index );
 
-	static void 			async_callback(File::CAsyncFileHandle *, File::EAsyncFunctionType function,
-										   int result, unsigned int arg0, unsigned int arg1);
+	size_t get_num_qkeys( void * p_frame_data, size_t boneIndex ) const;
+	size_t get_num_tkeys( void * p_frame_data, size_t boneIndex ) const;
+	void set_num_qkeys(size_t boneIndex, size_t numKeys );
+	void set_num_tkeys(size_t boneIndex, size_t numKeys );
+
+	bool is_hires() const;
+
+	static void async_callback(File::CAsyncFileHandle *, File::EAsyncFunctionType function, int result, unsigned int arg0, unsigned int arg1);
 
 protected:
-//	bool				   	intermediate_read_stream(void* pStream);
-    bool                    plat_read_stream(uint8* pData, bool delete_buffer = true);
-    bool                    plat_read_compressed_stream(uint8* pData, bool delete_buffer = true);
-	bool					plat_dma_to_aram( int qbytes = 0, int tbytes = 0, uint32 flags = 0 );
+//	bool intermediate_read_stream(void* pStream);
+    bool plat_read_stream(uint8* pData, bool delete_buffer = true);
+    bool plat_read_compressed_stream(uint8* pData, bool delete_buffer = true);
+	bool plat_dma_to_aram(size_t qbytes = 0, size_t tbytes = 0, uint32 flags = 0 );
 	
 protected:
-	float				   	m_duration;		  // could be a short
-	uint32					m_flags;
-	int						m_numBones;
+	float m_duration;		  // could be a short
+	uint32 m_flags;
+	size_t m_numBones;
 
 	// file buffer (the only malloc'ed pointer)
-	void*					mp_fileBuffer;
-	File::CAsyncFileHandle* mp_fileHandle;
-	int						m_fileSize;
+	void *mp_fileBuffer;
+	File::CAsyncFileHandle *mp_fileHandle;
+	size_t m_fileSize;
 
 	// massive block of all Q-frames and T-frames
-	char*		   			mp_qFrames;
-	char*		   			mp_tFrames;
+	char *mp_qFrames;
+	char *mp_tFrames;
 
 	// per-bone pointers into the massive block of Q-frames and T-frames
-	void*					mp_perBoneFrames;
+	void *mp_perBoneFrames;
 
 	// list of bone names (for object anims only)
-	uint32*					mp_boneNames;
+	uint32 *mp_boneNames;
 		
 	// original number of bones + list of bone masks (for partial anims only)
-	uint32*					mp_partialAnimData;
+	uint32 *mp_partialAnimData;
 
-	uint32					m_fileNameCRC;
+	uint32 m_fileNameCRC;
 
 	// custom keys (for cameras, changing parent bones, etc.)
-	CCustomAnimKey** 		mpp_customAnimKeyList;
+	CCustomAnimKey **mpp_customAnimKeyList;
 
-	uint16*					mp_perBoneQFrameSize;
-	uint16*					mp_perBoneTFrameSize;
+	uint16 *mp_perBoneQFrameSize;
+	uint16 *mp_perBoneTFrameSize;
 	
-	short					m_num_qFrames;
-	short					m_num_tFrames;
-	short					m_num_customKeys;
+	size_t m_num_qFrames;
+	size_t m_num_tFrames;
+	size_t m_num_customKeys;
 	
-	short					m_printDebugInfo:1;
-	short					m_dataLoaded:1;
-	short					m_pipped:1;
+	short m_printDebugInfo:1;
+	short m_dataLoaded:1;
+	short m_pipped:1;
 };
 
 /*****************************************************************************

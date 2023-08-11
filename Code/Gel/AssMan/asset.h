@@ -84,6 +84,7 @@ protected:
 
 inline		void 					CAsset::SetText(const char *p_text)
 {
+	(void)p_text;
 //	m_text = p_text;
 }
 

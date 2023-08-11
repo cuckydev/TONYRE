@@ -139,9 +139,10 @@ CCollObjTriData::~CCollObjTriData()
 /*                                                                */
 /******************************************************************/
 
-bool	CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_addr, void *p_base_intensity_addr,
-											void *p_base_face_addr, void *p_base_node_addr, void *p_base_face_idx_addr)
+bool CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_addr, void *p_base_intensity_addr, void *p_base_face_addr, void *p_base_node_addr, void *p_base_face_idx_addr)
 {
+	(void)p_scene;
+
 	// Set base addr
 #ifdef __PLAT_NGC__
 	NxNgc::sScene *p_engine_scene = ( static_cast<CNgcScene*>( p_scene ))->GetEngineScene();
@@ -210,6 +211,7 @@ CCollBSPNode::~CCollBSPNode()
 	Dbg_MsgAssert(0, ("Only cloned collision should get to the BSP destructor"));
 #endif // USE_BSP_CLONE
 
+#if 0
 	if (GetLessBranch())
 	{
 		delete GetLessBranch();
@@ -224,6 +226,7 @@ CCollBSPNode::~CCollBSPNode()
 	{
 		delete GetFaceIndexArray();
 	}
+#endif
 }
 
 /******************************************************************/
@@ -538,7 +541,7 @@ bool	CCollObjTriData::InitBSPTree()
 	{
 		for (int i = 0; i < MAX_FACE_INDICIES; i++)
 		{
-			s_seq_face_index_buffer[i] = i;
+			s_seq_face_index_buffer[i] = (Nx::FaceIndex)i;
 		}
 	}
 
@@ -1671,6 +1674,11 @@ void	CCollObjTriData::DebugRender(uint32 ignore_1, uint32 ignore_0)
 
 void	CCollObjTriData::DebugRender(const Mth::Matrix & transform, uint32 ignore_1, uint32 ignore_0, bool do_transform)
 {
+	(void)transform;
+	(void)ignore_1;
+	(void)ignore_0;
+	(void)do_transform;
+
 #ifdef	__PLAT_NGPS__	
 
 	uint32	rgb = 0x000000;
@@ -1918,9 +1926,10 @@ inline void rot(Mth::Vector &v)
 static float	debug_2d_scale =  0.02f;
 static Mth::Vector s_overhead_cam_pos;
 
-void	_debug_change_2d_scale(float x)
+void	_debug_change_2d_scale(float sx)
 {
-	debug_2d_scale *= x;
+	(void)sx;
+	debug_2d_scale *= sx;
 	if (debug_2d_scale > 0.5f) debug_2d_scale = 0.5f;
 	if (debug_2d_scale < 0.002f) debug_2d_scale = 0.002f;
 	
@@ -1928,6 +1937,8 @@ void	_debug_change_2d_scale(float x)
 
 void	OverheadLine(Mth::Vector v0, Mth::Vector v1)
 {
+	(void)v0;
+	(void)v1;
 #ifdef	__PLAT_NGPS__	
 
 	Mth::Vector offset;
@@ -1961,6 +1972,9 @@ void	OverheadLine(Mth::Vector v0, Mth::Vector v1)
 
 void	CCollObjTriData::DebugRender2D(uint32 ignore_1, uint32 ignore_0, uint32 visible)
 {
+	(void)ignore_1;
+	(void)ignore_0;
+	(void)visible;
 #ifdef	__PLAT_NGPS__	
 
 
@@ -1997,6 +2011,9 @@ void	CCollObjTriData::DebugRender2D(uint32 ignore_1, uint32 ignore_0, uint32 vis
 
 void	CCollObjTriData::DebugRender2DBBox(uint32 ignore_1, uint32 ignore_0, uint32 visible)
 {
+	(void)ignore_1;
+	(void)ignore_0;
+	(void)visible;
 #ifdef	__PLAT_NGPS__	
 
 
@@ -2033,6 +2050,9 @@ void	CCollObjTriData::DebugRender2DBBox(uint32 ignore_1, uint32 ignore_0, uint32
 // draw as an octagon, to simultate the bounding sphere									   
 void	CCollObjTriData::DebugRender2DOct(uint32 ignore_1, uint32 ignore_0, uint32 visible)
 {
+	(void)ignore_1;
+	(void)ignore_0;
+	(void)visible;
 #ifdef	__PLAT_NGPS__	
 
 
@@ -2149,9 +2169,9 @@ void			CheckEdgeForHoles(Mth::Vector v0, Mth::Vector v1)
 	}
 
 	// make left vector be at right angles to the edge in the XZ plane	
-	float x = left[X];
+	float vx = left[X];
 	left[X] = left[Z];
-	left[Z] = -x;
+	left[Z] = -vx;
 	left[Y] = 0;
 
 	CFeeler	feeler;
@@ -2166,9 +2186,9 @@ void			CheckEdgeForHoles(Mth::Vector v0, Mth::Vector v1)
 	}
 
 
-	for (float x = 0.001f; x<0.0015f; x *= 10.0f)   // does 0.001, 0.01, 0.10
+	for (float i = 0.001f; i < 0.0015f; i *= 10.0f)   // does 0.001, 0.01, 0.10
 	{
-		if (!CheckEdgeAt(mid,left,x,feeler))
+		if (!CheckEdgeAt(mid,left,i,feeler))
 		{
 			// Found a hole!!!
 			// we draw bunch of lines of differning length, so we can see it when we zoom in
@@ -2176,9 +2196,9 @@ void			CheckEdgeForHoles(Mth::Vector v0, Mth::Vector v1)
 			Gfx::AddDebugLine(v0, v1,0xff00ff);  // magenta = bad edge
 
 //			feeler.DebugLine(0,0,255);			// blue = actual collision line			
-			Gfx::AddDebugLine(mid+left*x, mid+left*x + Mth::Vector(0,40,0),0xffff);  
-			Gfx::AddDebugLine(mid+left*x, mid+left*x + Mth::Vector(0,200,0),0xffff); 
-			Gfx::AddDebugLine(mid+left*x, mid+left*x + Mth::Vector(0,1000,0),0xffff);
+			Gfx::AddDebugLine(mid+left*i, mid+left*i + Mth::Vector(0,40,0),0xffff);  
+			Gfx::AddDebugLine(mid+left*i, mid+left*i + Mth::Vector(0,200,0),0xffff); 
+			Gfx::AddDebugLine(mid+left*i, mid+left*i + Mth::Vector(0,1000,0),0xffff);
 		}
 	}
 

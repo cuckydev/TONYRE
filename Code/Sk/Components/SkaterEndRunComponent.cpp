@@ -59,6 +59,7 @@ CSkaterEndRunComponent::~CSkaterEndRunComponent()
 
 void CSkaterEndRunComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/
@@ -100,6 +101,9 @@ void CSkaterEndRunComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterEndRunComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	switch ( Checksum )
 	{
         // @script | EndOfRunDone | 
@@ -195,6 +199,8 @@ void CSkaterEndRunComponent::EndRun ( bool force_end )
 
 void CSkaterEndRunComponent::EndGoalRun ( bool force_end )
 {
+	(void)force_end;
+
 	m_flags.Clear(FINISHED_GOAL_END_OF_RUN);
 	FLAGEXCEPTION( Crc::ConstCRC("GoalHasEnded") );
 }

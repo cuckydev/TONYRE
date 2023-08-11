@@ -62,7 +62,7 @@ public:
 	int 			PlaySound_VolumeAndPan( uint32 soundChecksum, float volume = 100.0f, float pitch = 100.0,
 											float dropoffDist = 0.0f, EDropoffFunc dropoffFunction = DROPOFF_FUNC_STANDARD,
 											bool noPosUpdate = false );
-	virtual void 	BroadcastScriptedSound( uint32 soundChecksum, float volume, float pitch ) { };
+	virtual void 	BroadcastScriptedSound(uint32 soundChecksum, float volume, float pitch) { (void)soundChecksum; (void)volume; (void)pitch; };
 	void			PlayScriptedSound( Script::CStruct *pParams );
 
 	Mth::Vector		GetPosition() const { return m_pos; }

@@ -188,23 +188,23 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 #	endif
 #	endif
 
-	Dbg_MsgAssert(sizeof(p_end_verts_a)==sizeof(p_end_verts_b),("End vert array size mismatch!"));
-	int num_indices=sizeof(p_end_verts_a)/sizeof(int);
+	static_assert(sizeof(p_end_verts_a) == sizeof(p_end_verts_b), "End vert array size mismatch!");
+	size_t num_indices = sizeof(p_end_verts_a) / sizeof(int);
 
 	// Get the default coords of the sectors vertices. These will be relative to the sectors origin.
 	Nx::CSector *p_source_sector=Nx::CEngine::sGetSector(sourceSectorChecksum);
 	Nx::CGeom *p_source_geom=p_source_sector->GetGeom();
 	Dbg_MsgAssert(p_source_geom,("nullptr p_source_geom ?"));
 	
-	int num_render_verts=p_source_geom->GetNumRenderVerts();
-	Dbg_MsgAssert(num_render_verts==num_indices*2,("Unexpected extra vertices in rail sector, expected %d, got %d",2*num_indices,num_render_verts));
+	size_t num_render_verts = p_source_geom->GetNumRenderVerts();
+	Dbg_MsgAssert(num_render_verts == num_indices*2,("Unexpected extra vertices in rail sector, expected %d, got %d",2*num_indices,num_render_verts));
 	
 	// SPEEDOPT: If necessary, could use a static buffer for the verts
 	Mth::Vector *p_modified_render_verts=(Mth::Vector*)Mem::Malloc(num_render_verts * sizeof(Mth::Vector));
 	p_source_geom->GetRenderVerts(p_modified_render_verts);
 
 	#ifdef __NOPT_ASSERT__
-	for (int i=0; i<num_indices; ++i)
+	for (size_t i = 0; i < num_indices; ++i)
 	{
 		Dbg_MsgAssert(p_modified_render_verts[p_end_verts_a[i]].GetY()==p_modified_render_verts[p_end_verts_b[i]].GetY(),("Rail sector vertex Y mismatch between vertices %d and %d",p_end_verts_a[i],p_end_verts_b[i]));
 		Dbg_MsgAssert(p_modified_render_verts[p_end_verts_a[i]].GetZ()==p_modified_render_verts[p_end_verts_b[i]].GetZ(),("Rail sector vertex Z mismatch between vertices %d and %d",p_end_verts_a[i],p_end_verts_b[i]));
@@ -231,10 +231,10 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		p_last_geom->GetRenderVerts(p_last_verts);
 
 		// Tie the end verts to the new start verts.
-		for (int i=0; i<num_indices; ++i)
+		for (size_t i = 0; i < num_indices; ++i)
 		{
 			Dbg_MsgAssert(p_end_verts_b[i] < last_num_render_verts,("Bad index into p_last_verts"));
-			p_last_verts[p_end_verts_b[i]]=p_modified_render_verts[p_end_verts_a[i]];
+			p_last_verts[p_end_verts_b[i]] = p_modified_render_verts[p_end_verts_a[i]];
 		}	
 
 		p_last_geom->SetRenderVerts(p_last_verts);
@@ -271,21 +271,21 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		// The source render verts are in relative coords.
 	
 		// Get the source collision verts, which will also be in relative coords.
-		Nx::CCollObjTriData *p_source_col_data=p_source_geom->GetCollTriData();
-		int num_source_col_verts=p_source_col_data->GetNumVerts();
+		Nx::CCollObjTriData *p_source_col_data = p_source_geom->GetCollTriData();
+		size_t num_source_col_verts = p_source_col_data->GetNumVerts();
 
 		Mth::Vector *p_collision_verts=(Mth::Vector*)Mem::Malloc(num_source_col_verts * sizeof(Mth::Vector));
 		p_source_col_data->GetRawVertices(p_collision_verts);
 	
 		// For each of the collision verts, look for a matching coord in the source render verts,
 		// and if found, write in the world coords calculated for it earlier.
-		for (int i=0; i<num_source_col_verts; ++i)
+		for (size_t i=0; i<num_source_col_verts; ++i)
 		{
 			Mth::Vector pos=p_collision_verts[i];
 
 			// All but two of the collision verts should be found by this loop.
 			bool found_exact_match=false;		
-			for (int j=0; j<num_render_verts; ++j)
+			for (size_t j = 0; j < num_render_verts; ++j)
 			{
 				if (p_source_render_verts[j][X] == pos[X] && 
 					p_source_render_verts[j][Y] == pos[Y] &&
@@ -305,7 +305,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 				// of the collision poly that hangs below the rail.
 				// For these, find the render verts that match the x & z, and use their world position,
 				// but just drop the y down the same distance as it was below it in the original relative coords.
-				for (int j=0; j<num_render_verts; ++j)
+				for (size_t j = 0; j < num_render_verts; ++j)
 				{
 					if (p_source_render_verts[j][X] == pos[X] && 
 						p_source_render_verts[j][Z] == pos[Z])
@@ -747,17 +747,17 @@ void CEditedRailPoint::Highlight(EFlash flash, EEndPosts includeEndPosts)
 		}	
 	}
 
-	uint8 good_r=Script::GetInteger(Crc::ConstCRC("RailEditorHighlightColourR"));
-	uint8 good_g=Script::GetInteger(Crc::ConstCRC("RailEditorHighlightColourG"));
-	uint8 good_b=Script::GetInteger(Crc::ConstCRC("RailEditorHighlightColourB"));
+	uint8 good_r = (uint8)Script::GetInteger(Crc::ConstCRC("RailEditorHighlightColourR"));
+	uint8 good_g = (uint8)Script::GetInteger(Crc::ConstCRC("RailEditorHighlightColourG"));
+	uint8 good_b = (uint8)Script::GetInteger(Crc::ConstCRC("RailEditorHighlightColourB"));
 
-	uint8 bad_r=Script::GetInteger(Crc::ConstCRC("RailEditorBadAngleHighlightColourR"));
-	uint8 bad_g=Script::GetInteger(Crc::ConstCRC("RailEditorBadAngleHighlightColourG"));
-	uint8 bad_b=Script::GetInteger(Crc::ConstCRC("RailEditorBadAngleHighlightColourB"));
+	uint8 bad_r = (uint8)Script::GetInteger(Crc::ConstCRC("RailEditorBadAngleHighlightColourR"));
+	uint8 bad_g = (uint8)Script::GetInteger(Crc::ConstCRC("RailEditorBadAngleHighlightColourG"));
+	uint8 bad_b = (uint8)Script::GetInteger(Crc::ConstCRC("RailEditorBadAngleHighlightColourB"));
 	
-	uint8 r=good_r;
-	uint8 g=good_g;
-	uint8 b=good_b;
+	uint8 r = good_r;
+	uint8 g = good_g;
+	uint8 b = good_b;
 		
 	bool section_stretched_too_long=false;
 	if (mpNext)
@@ -1084,9 +1084,9 @@ CEditedRailPoint *CEditedRail::AddPoint()
 	return p_new;	
 }
 
-int CEditedRail::CountPoints()
+size_t CEditedRail::CountPoints()
 {
-	int num_points=0;
+	size_t num_points=0;
 	CEditedRailPoint *p_point=mpRailPoints;
 	while (p_point)
 	{
@@ -1457,9 +1457,9 @@ void CEditedRail::ModulateRailColor(int seqIndex)
 	
 	Image::RGBA color;
 
-	color.r = p_entry->GetInteger( 0 );
-	color.g = p_entry->GetInteger( 1 );
-	color.b = p_entry->GetInteger( 2 );
+	color.r = (uint8)p_entry->GetInteger( 0 );
+	color.g = (uint8)p_entry->GetInteger( 1 );
+	color.b = (uint8)p_entry->GetInteger( 2 );
 	color.a = 128;
 	
 	CEditedRailPoint *p_point=mpRailPoints;
@@ -1574,7 +1574,7 @@ CRailEditorComponent::CRailEditorComponent() : CBaseComponent()
 {
 	SetType( CRC_RAILEDITOR );
 
-	Dbg_MsgAssert(MAX_EDITED_RAILS == MAX_EDITED_RAIL_POINTS/2,("Bad MAX_EDITED_RAILS"));
+	static_assert(MAX_EDITED_RAILS == MAX_EDITED_RAIL_POINTS/2, "Bad MAX_EDITED_RAILS");
 	
 	CEditedRailPoint::SCreatePool(MAX_EDITED_RAIL_POINTS, "CEditedRailPoint");
 	CEditedRail::SCreatePool(MAX_EDITED_RAILS, "CEditedRail");
@@ -1613,7 +1613,7 @@ void CRailEditorComponent::generate_compressed_rails_buffer()
 {
 	clear_compressed_rails_buffer();
 	
-	*(uint16*)mp_compressed_rails_buffer=count_rails();
+	*(uint16*)mp_compressed_rails_buffer = (uint16)count_rails();
 	uint16 *p_num_points_in_rail=(uint16*)(mp_compressed_rails_buffer+2);
 	SCompressedRailPoint *p_rail_point=(SCompressedRailPoint*)(p_num_points_in_rail+MAX_EDITED_RAILS);
 	
@@ -1629,7 +1629,7 @@ void CRailEditorComponent::generate_compressed_rails_buffer()
 		
 	while (p_rail)
 	{
-		*p_num_points_in_rail++=p_rail->CountPoints();
+		*p_num_points_in_rail++ = (uint16)p_rail->CountPoints();
 		p_rail_point=p_rail->WriteCompressedRailPoints(p_rail_point);	
 		
 		p_rail=p_rail->mpPrevious;
@@ -2098,6 +2098,8 @@ void CRailEditorComponent::ReadFromStructure(Script::CStruct *p_info)
 // but you can pass in anything you like.	
 void CRailEditorComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// ** Add code to parse the structure, and initialize the component
 
 }
@@ -2317,9 +2319,9 @@ void CRailEditorComponent::RemoveEmptyAndSinglePointRails()
 	}		
 }
 
-int CRailEditorComponent::count_rails()
+size_t CRailEditorComponent::count_rails()
 {
-	int num_rails=0;
+	size_t num_rails=0;
 	CEditedRail *p_rail=mp_edited_rails;
 	while (p_rail)
 	{

@@ -88,7 +88,7 @@ CScene::~CScene()
 	{
 		mp_sector_table->IterateStart();
 		CSector *p_sector;
-		while ((p_sector = mp_sector_table->IterateNext()))
+		while ((p_sector = mp_sector_table->IterateNext()) != nullptr)
 		{
 			p_sector->clear_flags(CSector::mIN_SUPER_SECTORS);	// Tells cloned sectors it is OK to go away (and SuperSectors will be dead, anyway)
 			delete p_sector;
@@ -785,7 +785,7 @@ void			CScene::DebugRenderCollision(uint32 ignore_1, uint32 ignore_0)
 			// Try finding the collision through the sectors
 			mp_sector_table->IterateStart();
 			CSector *p_sector;
-			while ((p_sector = mp_sector_table->IterateNext()))
+			while ((p_sector = mp_sector_table->IterateNext()) != nullptr)
 			{
 				if (p_sector->GetCollSector())	  // Might not have it yet in park editor
 				{
@@ -863,7 +863,7 @@ void			CScene::UpdateSuperSectors(Lst::Head<CSector> *p_additional_remove_list)
 	CSector *p_sector;
 
 	// Make Add and remove list
-	while ((p_sector = mp_sector_table->IterateNext()))
+	while ((p_sector = mp_sector_table->IterateNext()) != nullptr)
 	{
 		// Add List
 		if (p_sector->get_flags() & CSector::mADD_TO_SUPER_SECTORS)
@@ -1047,7 +1047,7 @@ void			CScene::ClearSuperSectors()
 	CSector *p_sector;
 
 	// Check all sectors to make sure they need deleting
-	while ((p_sector = mp_sector_table->IterateNext()))
+	while ((p_sector = mp_sector_table->IterateNext()) != nullptr)
 	{
 		// Remove List
 		if (p_sector->get_flags() & CSector::mMARKED_FOR_DELETION)
@@ -1079,7 +1079,8 @@ void			CScene::ClearSuperSectors()
 // sectors that intersect this box by at least a certain abount 
 void CScene::SetActiveInBox(Mth::CBBox &box, bool active, float min_intersect)
 {
-	
+	(void)min_intersect;
+
 	Mth::CBBox smaller_box = box;
 	
 	// later..
@@ -1087,7 +1088,7 @@ void CScene::SetActiveInBox(Mth::CBBox &box, bool active, float min_intersect)
 	
 	mp_sector_table->IterateStart();
 	CSector *p_sector;
-	while ((p_sector = mp_sector_table->IterateNext()))
+	while ((p_sector = mp_sector_table->IterateNext()) != nullptr)
 	{
 //		printf ("Checking sector\n");
 		if (smaller_box.Intersect(p_sector->GetBoundingBox()))
@@ -1203,6 +1204,7 @@ void			CScene::plat_post_add()
 
 bool			CScene::plat_load_textures(const char *p_name)
 {
+	(void)p_name;
 	printf ("STUB: LoadTextures\n");
 	return false;
 }
@@ -1214,6 +1216,7 @@ bool			CScene::plat_load_textures(const char *p_name)
 
 bool			CScene::plat_load_collision(const char *p_name)
 {
+	(void)p_name;
 	printf ("STUB: LoadCollision\n");
 	return false;
 }
@@ -1225,6 +1228,7 @@ bool			CScene::plat_load_collision(const char *p_name)
 
 bool			CScene::plat_add_collision(const char *p_name)
 {
+	(void)p_name;
 	printf ("STUB: AddCollision\n");
 	return false;
 }
@@ -1259,6 +1263,7 @@ CSector*			CScene::plat_create_sector()
 
 void				CScene::plat_set_majority_color(Image::RGBA rgba)
 {
+	(void)rgba;
 	// STUB: only really needed on PS2, so ignorable on other platforms
 }
 		 

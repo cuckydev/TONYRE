@@ -490,6 +490,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 
 void CVehicleComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	Dbg_Assert(false);
 }
 
@@ -1133,9 +1134,9 @@ void CVehicleComponent::MoveToNode ( Script::CStruct* p_node )
 	for (int n = 60; n--; )
 	{
 		// lock wheels each frame
-		for (int n = m_num_wheels; n--; )
+		for (int w = m_num_wheels; w--; )
 		{
-			mp_wheels[n].rotvel = 0.0f;
+			mp_wheels[w].rotvel = 0.0f;
 		}
 		
 		Update();

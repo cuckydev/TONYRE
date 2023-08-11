@@ -104,7 +104,7 @@ List::~List ( void )
 
 void		List::Process( bool time, uint mask )
 {
-	
+	(void)time;
 
 	if ( !HaveAccess ())
 	{
@@ -263,7 +263,7 @@ void		List::RemoveAllTasks( void )
 
 	Forbid();
 	
-	while (( next = iterator.FirstItem( list ) ))
+	while (( next = iterator.FirstItem( list ) ) != nullptr)
 	{
 		next->Remove();
 		list_changed = true;

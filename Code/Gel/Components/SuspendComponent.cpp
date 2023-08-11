@@ -201,6 +201,9 @@ void CSuspendComponent::Update()
 	
 CBaseComponent::EMemberFunctionResult CSuspendComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
@@ -211,6 +214,7 @@ CBaseComponent::EMemberFunctionResult CSuspendComponent::CallMemberFunction( uin
 	
 void CSuspendComponent::Suspend(bool suspend)
 {
+	(void)suspend;
 	// does nothing, as we need to keep checking for unsuspension
 }
 
@@ -503,6 +507,7 @@ Manager::~Manager()
 
 void Manager::s_code( const Tsk::Task< Manager >& task )
 {
+	(void)task;
 
 	Mdl::SPreCalculatedObjectUpdateInfo* p_info = Mdl::Skate::Instance()->GetPreCalculatedObjectUpdateInfo();
 	

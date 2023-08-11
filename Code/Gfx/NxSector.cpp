@@ -889,6 +889,7 @@ void	CSector::plat_set_y_rotation(Mth::ERot90 rot)
 
 void	CSector::plat_set_shatter(bool on)
 {
+	(void)on;
 	printf ("STUB: PlatSetShatter\n");
 }
 
@@ -910,6 +911,8 @@ bool	CSector::plat_get_shatter() const
 
 CSector *	CSector::plat_clone(bool instance, CScene *p_dest_scene)
 {
+	(void)instance;
+	(void)p_dest_scene;
 	printf ("STUB: PlatClone\n");
 	return nullptr;
 }

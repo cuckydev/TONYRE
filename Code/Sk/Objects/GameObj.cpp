@@ -55,7 +55,8 @@ namespace Obj
 
 Obj::CCompositeObject* create_game_obj( CGeneralManager* p_obj_man, Script::CStruct* pNodeData, bool is_level_obj )
 {
-
+	(void)p_obj_man;
+	(void)is_level_obj;
 
 	#if OLD_GO_SYSTEM	
 	CMovingObject* pGameObj = new CMovingObject;
@@ -141,6 +142,8 @@ void CreateLevelObj( CGeneralManager* p_obj_man, Script::CStruct* pNodeData )
 
 void CreateParticleObject( CGeneralManager* p_obj_man, Script::CStruct* pNodeData )
 {
+	(void)p_obj_man;
+
 	if( pNodeData->ContainsComponentNamed( "HasMotion" ))
 	{
 		Obj::CCompositeObjectManager::Instance()->CreateCompositeObjectFromNode(

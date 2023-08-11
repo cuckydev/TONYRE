@@ -105,14 +105,14 @@ void	error  ( char* text, ...);
 
 #if (defined ( __PLAT_XBOX__ ) || defined( __PLAT_WN32__ ))
 
-inline void Dbg_SetOutput( const char* A ... )	{};
-#define	Dbg_LevelMask(A)						{ Dbg::level_mask(A); }
+inline void Dbg_SetOutput(const char *A ...) { (void)A; };
+#define	Dbg_LevelMask(A) { Dbg::level_mask(A); }
 
-inline void Dbg_Printf( const char* A ... )		{};
-inline void Dbg_Message( const char* A ... )	{};
-inline void Dbg_Notify( const char* A ... )		{};
-inline void Dbg_Warning( const char* A ... )	{};
-inline void Dbg_Error( const char* A ... )		{};
+inline void Dbg_Printf( const char* A ... ) { (void)A; };
+inline void Dbg_Message( const char* A ... )	{ (void)A; };
+inline void Dbg_Notify( const char* A ... )		{ (void)A; };
+inline void Dbg_Warning( const char* A ... )	{ (void)A; };
+inline void Dbg_Error( const char* A ... )		{ (void)A; };
 
 #else
 
@@ -171,9 +171,9 @@ inline void Dbg_Error( const char* A ... )		{};
 // (since I love them so much)
 
 #if defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ )
-inline void Ryan(const char* A ...) {};
-inline void Ken(const char* A ...) {};
-inline void Matt(const char* A ...) {};
+inline void Ryan(const char* A ...) { (void)A; };
+inline void Ken(const char* A ...) { (void)A; };
+inline void Matt(const char* A ...) { (void)A; };
 #else
 
 #ifdef __USER_RYAN__

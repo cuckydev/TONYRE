@@ -539,9 +539,9 @@ bool CSkeleton::ApplyBoneScale( Script::CStruct* pBodyShapeStructure )
 			Script::CArray* pNolanScalingTest = Script::GetArray( "nonlocal_bones", Script::NO_ASSERT );
 			if ( pNolanScalingTest )
 			{
-				for ( uint32 i = 0; i < pNolanScalingTest->GetSize(); i++ )
+				for ( uint32 j = 0; j < pNolanScalingTest->GetSize(); j++ )
 				{
-					if ( pNolanScalingTest->GetChecksum(i) == name )
+					if ( pNolanScalingTest->GetChecksum(j) == name )
 					{
 						localScale = false;
 					}
@@ -1339,6 +1339,10 @@ CSkeletonData::~CSkeletonData()
 
 bool CSkeletonData::Load( uint32* p_data32, int data_size, bool assertOnFail )
 {
+	(void)p_data32;
+	(void)data_size;
+	(void)assertOnFail;
+
 	uint8* p_data = (uint8*)p_data32;
 
 	// new load of platform-specific SKE files...

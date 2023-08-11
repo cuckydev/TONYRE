@@ -164,6 +164,8 @@ static bool not_posted_dialog_box_handler( Front::EDialogBoxResult result )
 
 void	Manager::s_server_list_state_code( const Tsk::Task< Manager >& task )
 {
+	(void)task;
+
 #ifdef __PLAT_NGPS__
 	Manager& man = task.GetData();
 
@@ -734,6 +736,8 @@ int	Manager::NumServersListed( void )
 
 void Manager::AddServerToMenu( ServerInfo* server, int index )
 {   
+	(void)index;
+
 	Script::CStruct* p_item_params;
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 	uint32 server_id;
@@ -1256,6 +1260,8 @@ void Manager::s_server_list_callback( PEER peer, PEERBool success, const char * 
 
 bool	Manager::ScriptGetNumServersInLobby(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	Manager * gamenet_man = Manager::Instance();
 	Script::CStruct* p_return_params;
 
@@ -1592,12 +1598,12 @@ ServerInfo::ServerInfo( void ) : Lst::Node< ServerInfo > ( this )
 void ServerInfo::ClearPlayerNames( void )
 {
 	Lst::Search< PlayerInfo > sh;
-	PlayerInfo* player, *next;
+	PlayerInfo* player, *next_player;
 	Manager * gamenet_man = Manager::Instance();
 
-	for( player = sh.FirstItem( m_players ); player; player = next )
+	for( player = sh.FirstItem( m_players ); player; player = next_player)
 	{
-		next = sh.NextItem();
+		next_player = sh.NextItem();
 		gamenet_man->DestroyPlayer( player );
 	}
 }
@@ -1760,6 +1766,9 @@ ServerListState Manager::GetNextServerListState( void )
 
 bool		Manager::ScriptRetrieveServerInfo(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Manager* gamenet_man = Manager::Instance();
 
 	if( gamenet_man->InLanMode())
@@ -1808,6 +1817,8 @@ bool		Manager::ScriptRetrieveServerInfo(Script::CScriptStructure *pParams, Scrip
 
 bool		Manager::ScriptDescribeServer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Script::CStruct* p_item_params;
 	ServerInfo* p_server;
 	Manager* gamenet_man = Manager::Instance();
@@ -1962,6 +1973,8 @@ bool		Manager::ScriptDescribeServer(Script::CScriptStructure *pParams, Script::C
 
 bool		Manager::ScriptChooseServer(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	ServerInfo* p_server;
 	Manager* gamenet_man = Manager::Instance();
 	bool server_full;

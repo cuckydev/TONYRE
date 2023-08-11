@@ -78,6 +78,7 @@ namespace Mdl
 
 CCompetition::CCompetition( Script::CStruct* pParams )
 {
+	(void)pParams;
 	mp_params = new Script::CStruct();
 }
 
@@ -613,6 +614,7 @@ void	   CCompetition::Sort()
 	
 int 	   CCompetition::GetPosition(int player)
 {
+	(void)player;
 	return 0;
 }
 

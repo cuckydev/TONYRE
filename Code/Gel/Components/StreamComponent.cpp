@@ -281,7 +281,8 @@ int CStreamComponent::StreamSlotEmpty( void )
 
 bool CStreamComponent::PlayStream( Script::CScriptStructure *pParams, Script::CScript *pScript )
 {
-	
+	(void)pScript;
+
 	if ( !StreamSlotEmpty( ) )
 	{
 	

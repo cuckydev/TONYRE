@@ -1819,7 +1819,7 @@ Manager::Manager( void )
 #endif
 
 	version_required = MAKEWORD( 2, 2 );
-	if( err = WSAStartup ( version_required, &wsa_data ))
+	if((err = WSAStartup ( version_required, &wsa_data )) != 0)
 	{
 		Dbg_MsgAssert( 0,( "Failed to start WinSock\n" ));
 		WSACleanup();	
@@ -1865,8 +1865,8 @@ Manager::Manager( void )
 
 	for( msg_id = 0; msg_id < 255; msg_id++ )
 	{
-		SetMessageName( msg_id, "<No Text>" );
-		SetMessageFlags( msg_id, 0 );
+		SetMessageName( (unsigned char)msg_id, "<No Text>" );
+		SetMessageFlags( (unsigned char)msg_id, 0 );
 	}
 
 	SetMessageName( MSG_ID_PING_TEST, "Ping Test" );
@@ -2645,9 +2645,9 @@ char*	Manager::GetLocalIP( void )
 	char *ip_str;
 	int ip;
 
-	if(( local_host = gethostbyname( "localhost" )))
+	if(( local_host = gethostbyname( "localhost" )) != nullptr)
 	{	
-		if(( host = gethostbyname( local_host->h_name )))
+		if(( host = gethostbyname( local_host->h_name )) != nullptr)
 		{
 			ip = *(unsigned long *) host->h_addr_list[0];			
 			address.s_addr = ip;
@@ -2718,6 +2718,7 @@ int			Manager::GetLastError( void )
 
 char*	Manager::GetMessageName( unsigned char msg_id )
 {
+	(void)msg_id;
 #ifdef	NET_DEBUG_MESSAGES
 	return m_message_names[ msg_id ];
 #else
@@ -2732,6 +2733,8 @@ char*	Manager::GetMessageName( unsigned char msg_id )
 
 void	Manager::SetMessageName( unsigned char msg_id, char* msg_name )
 {
+	(void)msg_id;
+	(void)msg_name;
 #ifdef NET_DEBUG_MESSAGES
 	Dbg_Assert( msg_name );
 

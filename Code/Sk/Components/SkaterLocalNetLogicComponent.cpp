@@ -68,6 +68,8 @@ CSkaterLocalNetLogicComponent::~CSkaterLocalNetLogicComponent()
 
 void CSkaterLocalNetLogicComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CSkaterLocalNetLogicComponent added to non-skater composite object"));
 	Dbg_MsgAssert(GetSkater()->IsLocalClient(), ("CSkaterLocalNetLogicComponent added to non-local skater"));
 	
@@ -125,6 +127,9 @@ void CSkaterLocalNetLogicComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterLocalNetLogicComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
@@ -515,7 +520,7 @@ void CSkaterLocalNetLogicComponent::network_update ( void )
 	msg_len = stream.GetByteLength();
 
 	msg_desc.m_Id = GameNet::MSG_ID_OBJ_UPDATE_STREAM;
-	msg_desc.m_Length = msg_len;
+	msg_desc.m_Length = (unsigned short)msg_len;
 	msg_desc.m_Data = &p_msg;
 	msg_desc.m_Singular = true;
 	msg_desc.m_Priority = Net::NORMAL_PRIORITY + 1;

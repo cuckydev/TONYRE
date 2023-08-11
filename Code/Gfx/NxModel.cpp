@@ -47,6 +47,7 @@ namespace Nx
 	
 bool CModel::plat_init_skeleton( int numBones )
 {
+	(void)numBones;
     return true;
 }
 
@@ -57,6 +58,7 @@ bool CModel::plat_init_skeleton( int numBones )
 	
 bool CModel::plat_set_render_mode(ERenderMode mode)
 {
+	(void)mode;
     return true;
 }
 
@@ -67,6 +69,10 @@ bool CModel::plat_set_render_mode(ERenderMode mode)
 	
 bool CModel::plat_set_color(uint8 r, uint8 g, uint8 b, uint8 a)
 {
+	(void)r;
+	(void)g;
+	(void)b;
+	(void)a;
     return true;
 }
 
@@ -77,6 +83,7 @@ bool CModel::plat_set_color(uint8 r, uint8 g, uint8 b, uint8 a)
 	
 bool CModel::plat_set_visibility(uint32 mask)
 {
+	(void)mask;
     return true;
 }
 
@@ -87,6 +94,7 @@ bool CModel::plat_set_visibility(uint32 mask)
 	
 bool CModel::plat_set_active(bool active)
 {
+	(void)active;
     return true;
 }
 
@@ -97,6 +105,7 @@ bool CModel::plat_set_active(bool active)
 	
 bool CModel::plat_set_scale(float scaleFactor)
 {
+	(void)scaleFactor;
     return true;
 }
 
@@ -107,6 +116,9 @@ bool CModel::plat_set_scale(float scaleFactor)
 	
 bool CModel::plat_render(Mth::Matrix* pRootMatrix, Mth::Matrix* ppBoneMatrices, int numBones)
 {
+	(void)pRootMatrix;
+	(void)ppBoneMatrices;
+	(void)numBones;
     return true;
 }
 
@@ -117,6 +129,8 @@ bool CModel::plat_render(Mth::Matrix* pRootMatrix, Mth::Matrix* ppBoneMatrices, 
 	
 bool CModel::plat_replace_texture(char* p_srcFileName, char* p_dstFileName)
 {
+	(void)p_srcFileName;
+	(void)p_dstFileName;
     return true;
 }
 
@@ -166,6 +180,8 @@ Mth::Vector CModel::plat_get_bounding_sphere()
 
 void CModel::plat_set_bounding_sphere( const Mth::Vector& boundingSphere )
 {
+	(void)boundingSphere;
+
 	// Do nothing by default... 
 	// (this is only needed by the PS2 version...)
 
@@ -318,8 +334,8 @@ bool CModel::Render( Mth::Matrix* pMatrix, bool no_anim, Gfx::CSkeleton* pSkelet
 				(*pMatrix)[Mth::AT][W] = 0.0f;
 				(*pMatrix)[Mth::POS][W] = 1.0f;
 
-				int numGeoms = GetNumGeoms();
-								
+				numGeoms = GetNumGeoms();
+				
 				if ( no_anim )
 				{
 					// update root position without updating bones
@@ -348,7 +364,7 @@ bool CModel::Render( Mth::Matrix* pMatrix, bool no_anim, Gfx::CSkeleton* pSkelet
 				(*pMatrix)[Mth::AT][W] = 0.0f;
 				(*pMatrix)[Mth::POS][W] = 1.0f;
 				
-				int numGeoms = GetNumGeoms();
+				numGeoms = GetNumGeoms();
 				for ( int i = 0; i < numGeoms; i++ )
 				{
 					Dbg_Assert( GetGeomByIndex(i) );

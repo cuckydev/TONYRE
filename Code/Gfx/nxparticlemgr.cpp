@@ -18,7 +18,7 @@ void process_particles( float delta_time )
 	{
 		CParticle *p_particle;
 		CEngine::sGetParticleTable()->IterateStart();
-		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()))
+		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()) != nullptr)
 		{
 			if ( p_particle->IsActive() ) p_particle->process( delta_time );
 		}
@@ -32,7 +32,7 @@ void render_particles( void )
 	{
 		CParticle *p_particle;
 		CEngine::sGetParticleTable()->IterateStart();
-		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()))
+		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()) != nullptr)
 		{
 			if ( p_particle->IsActive() ) p_particle->render();
 		}
@@ -91,7 +91,7 @@ void destroy_all_particles(  )
 	{
 		CParticle *p_particle;
 		CEngine::sGetParticleTable()->IterateStart();
-		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()))
+		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()) != nullptr)
 		{
 			delete p_particle;
 		}
@@ -104,7 +104,7 @@ void destroy_all_temp_particles(  )
 	{
 		CParticle *p_particle;
 		CEngine::sGetParticleTable()->IterateStart();
-		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()))
+		while(( p_particle = CEngine::sGetParticleTable()->IterateNext()) != nullptr)
 		{
 			if (!p_particle->IsPerm())
 			{

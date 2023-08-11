@@ -300,45 +300,45 @@ Mth::Vector *		CModelLights::GetPositionPointer()
 
 bool				CModelLights::plat_set_light_ambient_color(const Image::RGBA &rgba)
 {
+	(void)rgba;
 	printf ("STUB: CModelLights::SetLightAmbientColor\n");
-
 	return false;
 }
 
 bool				CModelLights::plat_set_light_direction(int light_index, const Mth::Vector &direction)
 {
+	(void)light_index;
+	(void)direction;
 	printf ("STUB: CModelLights::SetLightDirection\n");
-
 	return false;
 }
 
 bool				CModelLights::plat_set_light_diffuse_color(int light_index, const Image::RGBA &rgba)
 {
+	(void)light_index;
+	(void)rgba;
 	printf ("STUB: CModelLights::SetLightDiffuseColor\n");
-
 	return false;
 }
 
 Image::RGBA			CModelLights::plat_get_light_ambient_color() const
 {
 	printf ("STUB: CModelLights::GetLightAmbientColor\n");
-
 	return Image::RGBA(0, 0, 0, 0);
 }
 
 const Mth::Vector &	CModelLights::plat_get_light_direction(int light_index) const
 {
+	(void)light_index;
 	printf ("STUB: CModelLights::GetLightDirection\n");
-
 	static Mth::Vector stub(0, 0, 0, 0);
-
 	return stub;
 }
 
 Image::RGBA			CModelLights::plat_get_light_diffuse_color(int light_index) const
 {
+	(void)light_index;
 	printf ("STUB: CModelLights::GetLightDiffuseColor\n");
-
 	return Image::RGBA(0, 0, 0, 0);
 }
 
@@ -349,30 +349,34 @@ void				CModelLights::plat_update_brightness()
 
 void				CModelLights::plat_enable_ambient_light(bool enable)
 {
+	(void)enable;
 	printf ("STUB: CModelLights::EnableAmbientLight\n");
 }
 
 void				CModelLights::plat_enable_diffuse_light(int light_index, bool enable)
 {
+	(void)light_index;
+	(void)enable;
 	printf ("STUB: CModelLights::EnableDiffuseLight\n");
 }
 
 bool				CModelLights::plat_is_ambient_light_enabled() const
 {
 	printf ("STUB: CModelLights::IsAmbientLightEnabled\n");
-
 	return false;
 }
 
 bool				CModelLights::plat_is_diffuse_light_enabled(int light_index) const
 {
+	(void)light_index;
 	printf ("STUB: CModelLights::IsDiffuseLightEnabled\n");
-
 	return false;
 }
 
 void CModelLights::plat_update_engine( Mth::Vector & pos, bool add_scene_light )
 {
+	(void)pos;
+	(void)add_scene_light;
 	printf ("STUB: CModelLights::plat_update_engine\n");
 }
 

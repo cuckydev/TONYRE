@@ -161,6 +161,7 @@ LookupItem<_V>::LookupItem()
 template<class _V> inline
 LookupTable<_V>::LookupTable(int size)
 {
+	(void)size;
     m_size = 0;
 	mp_list = nullptr;
 	mp_current = nullptr; // initialized invalid, so we don't try to use it

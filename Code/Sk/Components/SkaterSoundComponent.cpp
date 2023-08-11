@@ -95,6 +95,9 @@ void CSkaterSoundComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterSoundComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+	(void)pParams;
+
 	switch ( Checksum )
 	{
         // @script | PlayJumpSound |

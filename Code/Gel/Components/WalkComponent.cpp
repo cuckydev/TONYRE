@@ -671,6 +671,8 @@ void CWalkComponent::CleanUpWalkState (   )
 
 void CWalkComponent::CollideWithOtherSkaterLost ( CCompositeObject* p_other_skater )
 {
+	(void)p_other_skater;
+
 	set_state(WALKING_AIR);
 	m_primary_air_direction = GetObj()->GetVel();
 	m_primary_air_direction[Y] = 0.0f;
@@ -2641,14 +2643,14 @@ bool CWalkComponent::maybe_stick_to_rail (   )
 	
 	bool rail_found = false;
 	
-	if (rail_found = Mdl::Skate::Instance()->GetRailManager()->StickToRail(
+	if ((rail_found = Mdl::Skate::Instance()->GetRailManager()->StickToRail(
 		m_frame_start_pos,
 		m_pos,
 		&m_special_transition_data.rail_data.rail_pos,
 		&m_special_transition_data.rail_data.p_node,
 		nullptr,
 		1.0f
-	))
+	)) == true)
 	{
 		m_special_transition_data.rail_data.p_rail_man = Mdl::Skate::Instance()->GetRailManager();
 		m_special_transition_data.rail_data.p_movable_contact = nullptr;
@@ -2671,14 +2673,14 @@ bool CWalkComponent::maybe_stick_to_rail (   )
 			Mth::Vector obj_frame_frame_start_pos = obj_matrix_inv.Transform(m_frame_start_pos);
 			Mth::Vector obj_frame_pos = obj_matrix_inv.Transform(m_pos);
 
-			if (rail_found = p_rail_manager_component->GetRailManager()->StickToRail(
+			if ((rail_found = p_rail_manager_component->GetRailManager()->StickToRail(
 				obj_frame_frame_start_pos,
 				obj_frame_pos,
 				&m_special_transition_data.rail_data.rail_pos,
 				&m_special_transition_data.rail_data.p_node,
 				nullptr,
 				1.0f
-			))
+			)) == true)
 			{
 				m_special_transition_data.rail_data.p_rail_man = p_rail_manager_component->GetRailManager();
 				m_special_transition_data.rail_data.rail_pos = obj_matrix.Transform(m_special_transition_data.rail_data.rail_pos);

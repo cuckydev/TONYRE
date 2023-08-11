@@ -64,7 +64,7 @@ class CArray : public Mem::CPoolable<CArray>
 	ESymbolType m_type;
 	
 	// The number of items in the array.
-	uint32 m_size;
+	size_t m_size;
 
 public:
 	CArray();
@@ -81,39 +81,39 @@ public:
 	bool operator!=( const CArray& v ) const;
 	
 	void Clear();
-	void SetSizeAndType(int size, ESymbolType type);
-	void Resize(uint32 newSize);
+	void SetSizeAndType(size_t size, ESymbolType type);
+	void Resize(size_t newSize);
 	
 	// TODO: Remove later. Only included for back compatibility.
 	void SetArrayType(int size, ESymbolType type) {SetSizeAndType(size,type);}
 	
-	void 	  SetString(uint32 index, char *p_string);
-	void SetLocalString(uint32 index, char *p_string);
-	void 	 SetInteger(uint32 index, int int_val);
-	void 	   SetFloat(uint32 index, float float_val);
-	void 	SetChecksum(uint32 index, uint32 checksum);
-	void 	  SetVector(uint32 index, CVector *p_vector);
-	void 		SetPair(uint32 index, CPair *p_pair);
-	void   SetStructure(uint32 index, CStruct *p_struct);
-	void 	   SetArray(uint32 index, CArray *p_array);
+	void 	  SetString(size_t index, char *p_string);
+	void SetLocalString(size_t index, char *p_string);
+	void 	 SetInteger(size_t index, int int_val);
+	void 	   SetFloat(size_t index, float float_val);
+	void 	SetChecksum(size_t index, uint32 checksum);
+	void 	  SetVector(size_t index, CVector *p_vector);
+	void 		SetPair(size_t index, CPair *p_pair);
+	void   SetStructure(size_t index, CStruct *p_struct);
+	void 	   SetArray(size_t index, CArray *p_array);
 
-	char 			*GetString(uint32 index) const;
-	char 	   *GetLocalString(uint32 index) const;
-	int 			GetInteger(uint32 index) const;
-	float 			  GetFloat(uint32 index) const;
-	uint32 		   GetChecksum(uint32 index) const;
-	CVector			*GetVector(uint32 index) const;
-	CPair 			  *GetPair(uint32 index) const;
-	CStruct 	 *GetStructure(uint32 index) const;
-	CArray			 *GetArray(uint32 index) const;
+	char 			*GetString(size_t index) const;
+	char 	   *GetLocalString(size_t index) const;
+	int 			GetInteger(size_t index) const;
+	float 			  GetFloat(size_t index) const;
+	uint32 		   GetChecksum(size_t index) const;
+	CVector			*GetVector(size_t index) const;
+	CPair 			  *GetPair(size_t index) const;
+	CStruct 	 *GetStructure(size_t index) const;
+	CArray			 *GetArray(size_t index) const;
 
 	////////////////////////////////////////////////////////////////////////////////////
 	// TODO: Remove these later, only needed for back compatibility.
-	uint32	   GetNameChecksum(uint32 index) const {return GetChecksum(index);}
-	int 				GetInt(uint32 index) const {return GetInteger(index);}
+	uint32	   GetNameChecksum(size_t index) const {return GetChecksum(index);}
+	int 				GetInt(size_t index) const {return GetInteger(index);}
 	////////////////////////////////////////////////////////////////////////////////////
 	
-	uint32 		GetSize() const {return m_size;};
+	size_t 		GetSize() const {return m_size;};
 	ESymbolType GetType() const {return m_type;};
 	
 	// Needed by CleanUpArray and CopyArray in struct.cpp so that they can

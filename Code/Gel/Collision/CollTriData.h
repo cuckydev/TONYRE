@@ -221,8 +221,8 @@ public:
 	void				SetSectorFlags(uint16 flags);
 	void				ClearSectorFlags(uint16 flags);
 	const Mth::CBBox &	GetBBox() const;
-	int					GetNumVerts() const;
-	int					GetNumFaces() const;
+	size_t				GetNumVerts() const;
+	size_t				GetNumFaces() const;
 
 	// Vertex functions
 #ifdef __PLAT_NGC__
@@ -432,7 +432,7 @@ inline uint32				CCollObjTriData::GetChecksum() const
 /*                                                                */
 /******************************************************************/
 
-inline int					CCollObjTriData::GetNumVerts() const
+inline size_t				CCollObjTriData::GetNumVerts() const
 {
 	return m_num_verts;
 }
@@ -442,7 +442,7 @@ inline int					CCollObjTriData::GetNumVerts() const
 /*                                                                */
 /******************************************************************/
 
-inline int					CCollObjTriData::GetNumFaces() const
+inline size_t				CCollObjTriData::GetNumFaces() const
 {
 	return m_num_faces;
 }

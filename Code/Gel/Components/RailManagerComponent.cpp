@@ -91,6 +91,8 @@ CRailManagerComponent::~CRailManagerComponent()
 // but you can pass in anything you like.	
 void CRailManagerComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// There needs to be a NodeArrayComponent attached for the RailManagerComponent to operate.
 	CNodeArrayComponent *p_nodearray_component = GetNodeArrayComponentFromObject( GetObj());
 	Dbg_MsgAssert( p_nodearray_component, ( "RailManagerComponent created without NodeArrayComponent" ));
@@ -147,6 +149,9 @@ void CRailManagerComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CRailManagerComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

@@ -58,6 +58,7 @@ CSkaterFinalizePhysicsComponent::~CSkaterFinalizePhysicsComponent()
 
 void CSkaterFinalizePhysicsComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/
@@ -67,6 +68,8 @@ void CSkaterFinalizePhysicsComponent::InitFromStructure( Script::CStruct* pParam
 
 void CSkaterFinalizePhysicsComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	InitFromStructure(pParams);
 }
 
@@ -165,6 +168,10 @@ void CSkaterFinalizePhysicsComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterFinalizePhysicsComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
+	
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

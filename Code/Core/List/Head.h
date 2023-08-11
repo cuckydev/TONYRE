@@ -132,7 +132,7 @@ void	Head< _T >::AddNode( Node< _T >* node )
 	Node<_T> *node_ptr = this;
 	typename Node<_T>::Priority new_pri = node->GetPri();
 
-	while (( node_ptr = node_ptr->GetNext() ))
+	while (( node_ptr = node_ptr->GetNext() ) != nullptr)
 	{
 		if ( node_ptr->GetPri() <= new_pri )
 		{
@@ -159,7 +159,7 @@ void	Head< _T >::AddNodeFromTail( Node< _T >* node )
 	Node<_T> *node_ptr = this;
 	typename Node<_T>::Priority new_pri = node->GetPri();
 
-	while (( node_ptr = node_ptr->GetPrev() ))
+	while (( node_ptr = node_ptr->GetPrev() ) != nullptr)
 	{
 		if ( node_ptr->GetPri() >= new_pri )
 		{
@@ -186,7 +186,7 @@ bool	Head< _T >::AddUniqueSequence( Node< _T >* node )
 	Node<_T> *node_ptr = this;
 	typename Node<_T>::Priority new_pri = node->GetPri();
 
-	while (( node_ptr = node_ptr->GetNext() ))
+	while (( node_ptr = node_ptr->GetNext() ) != nullptr)
 	{
 		if ( node_ptr->GetPri() == new_pri )
 		{

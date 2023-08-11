@@ -561,7 +561,7 @@ void				CViewportManager::sSet2DIn3DSpaceMinScale(float scale)
 // Split_Quarters
 bool ScriptSetScreenMode(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
-
+	(void)pScript;
 
 	uint32 mode;
 	pParams->GetChecksum(NONAME, &mode, true);
@@ -595,6 +595,7 @@ bool ScriptSetScreenMode(Script::CScriptStructure *pParams, Script::CScript *pSc
 
 bool ScriptGetScreenMode(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
 
 	Script::CStruct* p_return_params;
 
@@ -634,6 +635,8 @@ bool ScriptGetScreenMode(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @parmopt float | min_scale | 0.0 | Minimum 3D scale
 bool ScriptSet2DIn3DSpaceParams(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	float distance, scale;
 
 	if (pParams->GetFloat(Crc::ConstCRC("noscale_distance"), &distance))

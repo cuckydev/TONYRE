@@ -147,6 +147,9 @@ bool CBettingGuy::IsExpired()
 
 bool CBettingGuy::Deactivate( bool force, bool affect_tree )
 {
+	(void)force;
+	(void)affect_tree;
+
 	// no more minigame associated with this
 	Reset();
 	m_straightWins = 0;
@@ -355,7 +358,7 @@ bool CBettingGuy::MoveToNewNode( bool force )
 		m_currentNode = node_checksum;
 		return true;
 	}
-	return false;
+	// return false;
 }
 
 
@@ -546,15 +549,15 @@ void CBettingGuy::SetupParams()
 		Script::CStruct* p_trickMappings = p_SkaterProfile->GetTrickMapping( Crc::ConstCRC("trick_mapping") );
 		p_trickMappings->GetChecksum( key_combo, &trick_name_checksum, Script::ASSERT );
 	
-		const char* trick_text;
 		if ( trick_name_checksum )
 		{
+			const char *trick_text;
 			Script::CStruct* p_trick_structure = Script::GetStructure( trick_name_checksum, Script::ASSERT );
 			Script::CStruct* p_trick_params;
 			p_trick_structure->GetStructure( Crc::ConstCRC("Params"), &p_trick_params, Script::ASSERT );
 			p_trick_params->GetLocalText( Crc::ConstCRC("Name"), &trick_text, Script::ASSERT );
+			mp_params->AddString(Crc::ConstCRC("bet_action"), trick_text);
 		}
-		mp_params->AddString( Crc::ConstCRC("bet_action"), trick_text );
 	
 		const char* location;
 		p_minigameParams->GetString( Crc::ConstCRC("location"), &location, Script::ASSERT );

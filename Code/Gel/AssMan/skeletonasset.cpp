@@ -22,6 +22,10 @@ namespace Ass
 	
 int CSkeletonAsset::Load( const char *p_file, bool async_load, bool use_pip, void* pExtraData , Script::CStruct *pStruct)     // create or load the asset
 {																			   
+	(void)use_pip;
+	(void)pExtraData;
+	(void)pStruct;
+
 	Dbg_MsgAssert( !async_load, ( "Async load not supported on CSkeletonAsset" ) );
 
 	// Load the data, add it to the list:
@@ -93,6 +97,7 @@ int CSkeletonAsset::Unload()                     // Unload the asset
 	
 int CSkeletonAsset::Reload( const char *p_file )
 {
+	(void)p_file;
 	return 0;
 }
 

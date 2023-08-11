@@ -23,9 +23,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
 #include <core/defines.h>
-#endif
 #include <core/support.h>
 #include <sys\mem\region.h>
 #include <sys/mem/memdbg.h>
@@ -235,10 +233,10 @@ private :
 	static	Allocator* 		s_free( void* pAddr );
 	static	void 			s_set_id( void* pAddr );
 	virtual void*			allocate( size_t size, bool assert_on_fail ) = 0;
-	virtual int				available(  ) {Dbg_MsgAssert(0,("available() not defined for this allocator!")); return 0;}
-	virtual void*			reallocate_down( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_down not defined for this allocator!")); return nullptr;}
-	virtual void*			reallocate_up( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_up not defined for this allocator!")); return nullptr;}
-	virtual void*			reallocate_shrink( size_t newSize, void* pOld ) {Dbg_MsgAssert(0,("reallocate_shrink not defined for this allocator!")); return nullptr;}
+	virtual int				available(  ) { Dbg_MsgAssert(0,("available() not defined for this allocator!")); return 0;}
+	virtual void*			reallocate_down(size_t newSize, void *pOld) { (void)newSize; (void)pOld; Dbg_MsgAssert(0, ("reallocate_down not defined for this allocator!")); return nullptr; }
+	virtual void*			reallocate_up( size_t newSize, void* pOld ) { (void)newSize; (void)pOld; Dbg_MsgAssert(0,("reallocate_up not defined for this allocator!")); return nullptr;}
+	virtual void*			reallocate_shrink( size_t newSize, void* pOld ) { (void)newSize; (void)pOld; Dbg_MsgAssert(0,("reallocate_shrink not defined for this allocator!")); return nullptr;}
 	virtual	void			free( BlockHeader* pAddr ) = 0;
 
 	static	uint			s_current_id;

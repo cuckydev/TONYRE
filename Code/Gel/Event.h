@@ -26,14 +26,14 @@ class CEvent
 
 public:
 
-	enum EEventLevel
+	enum EEventLevel : uint32
 	{
 		// applies to target or source
 		vSYSTEM_EVENT =	0x36b2ee74		// "system"
 	};
 
 	// should also add new event types to EventLog.q
-	enum EEventType
+	enum EEventType : uint32
 	{
 		// applies to type
 		TYPE_FOCUS					= 0x9d3fb516,
@@ -142,13 +142,13 @@ class CEventHandlerTable
 	friend class CTracker;
 
 public:
-	enum 
+	enum : uint32
 	{
 		// when used, gets assigned to 'script' member of entry
 		vDEAD_ENTRY				= Crc::ConstCRC("null_script")
 	};
 	
-	enum
+	enum : uint32
 	{
 		vDEFAULT_GROUP			= Crc::ConstCRC("Default")
 	};

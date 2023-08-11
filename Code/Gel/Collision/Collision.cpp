@@ -133,7 +133,7 @@ bool CCollObj::s_found_collision(const Mth::Line *p_is, CCollObj *p_coll_object,
 		p_collData->coll_found = true;     		// found at least one (might be overrridden, but found at least one)
 		p_collData->surface = *p_collSurface;	// Store the collision surface
 		p_collData->dist = distance;			// set distance (will end up being the smallest dist)
-		p_collData->flags = flags; 				// Store face flags
+		p_collData->flags = (uint16)flags; 		// Store face flags
 		p_collData->terrain = (ETerrainType) p_coll_object->GetFaceTerrainType(index);
 		p_collData->p_coll_object = p_coll_object;
 		p_collData->trigger = (flags& mFD_TRIGGER);	// set flag if it's a trigger
@@ -736,6 +736,7 @@ void					CCollObj::SetChecksum(uint32 checksum)
 
 void		CCollObj::SetMovingObject(Obj::CCompositeObject *p_movable_object)
 {
+	(void)p_movable_object;
 	Dbg_MsgAssert(0, ("Can't call SetMovingObject() on a non-moving collision type"));
 }
 
@@ -824,7 +825,7 @@ bool					CCollObj::sFindRectangleStaticCollision ( Mth::Rectangle& rect, S2DColl
 	{
 		// loop over potentially collided with sectors
 		CCollStatic* p_coll_obj;
-		while ((p_coll_obj = *p_coll_obj_list))
+		while ((p_coll_obj = *p_coll_obj_list) != nullptr)
 		{
 			Dbg_Assert(p_coll_obj->GetGeometry());
 			
@@ -967,7 +968,7 @@ bool					CCollObj::sFindNearestStaticCollision( Mth::Line &is, CollData *p_data,
 	#endif
 
 		/* Start at the top */
-		while((p_coll_obj = *p_coll_obj_list))
+		while((p_coll_obj = *p_coll_obj_list) != nullptr)
 		{
 			// TODO: Come up with a cleaner BBox check
 			Dbg_Assert(p_coll_obj->GetGeometry());
@@ -1080,12 +1081,14 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 #endif
 	}
 
-	if (0 && GPrintCollisionData)
+#if 0
+	if (GPrintCollisionData)
 	{
 		Dbg_Message("Inited line BBox (%f, %f, %f), (%f, %f, %f)",
 					line_bbox.GetMin()[X], line_bbox.GetMin()[Y], line_bbox.GetMin()[Z],
 					line_bbox.GetMax()[X], line_bbox.GetMax()[Y], line_bbox.GetMax()[Z]);
 	}
+#endif
 
 	// Bloat the collision line only for the purposes of deciding against which world 
 	// sectors to test the actual collision line
@@ -1106,7 +1109,8 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 	// Calculate ray
 	Mth::Vector line_dir(is.m_end - is.m_start);
 
-	if (0 && GPrintCollisionData)
+#if 0
+	if (GPrintCollisionData)
 	{
 		Dbg_Message("Starting collision check with line BBox (%f, %f, %f), (%f, %f, %f)",
 					line_bbox.GetMin()[X], line_bbox.GetMin()[Y], line_bbox.GetMin()[Z],
@@ -1114,6 +1118,7 @@ Obj::CCompositeObject *	CCollObj::sFindNearestMovableCollision( Mth::Line &is, C
 		Dbg_Message("Line start (%f, %f, %f)", is.m_start[X], is.m_start[Y], is.m_start[Z]);
 		Dbg_Message("Line end (%f, %f, %f)", is.m_end[X], is.m_end[Y], is.m_end[Z]);
 	}
+#endif
 
 //	Dbg_Message("Size of movable list %d", Nx::CEngine::sGetMovableObjects().CountItems());
 //	Dbg_Message("Size of movable collision list %d", CMovableCollMan::sGetCollisionList()->CountItems());
@@ -1490,7 +1495,7 @@ void		CCollMulti::update_world_bbox()
 	for(obj_node = mp_collision_list->GetNext(); obj_node; obj_node = obj_node->GetNext())
 	{
 		Mth::CBBox *obj_bbox;
-		if ((obj_bbox = obj_node->GetData()->get_bbox()))
+		if ((obj_bbox = obj_node->GetData()->get_bbox()) != nullptr)
 		{
 			m_world_bbox.AddPoint(obj_bbox->GetMin());
 			m_world_bbox.AddPoint(obj_bbox->GetMax());
@@ -1562,8 +1567,11 @@ bool		CCollMulti::CollisionWithLine(const Mth::Line & testLine, const Mth::Vecto
 /*                                                                */
 /******************************************************************/
 
-bool		CCollMulti::CollisionWithRectangle(const Mth::Rectangle& rect, const Mth::CBBox& rect_bbox, S2DCollData* p_data)
+bool CCollMulti::CollisionWithRectangle(const Mth::Rectangle& rect, const Mth::CBBox& rect_bbox, S2DCollData* p_data)
 {
+	(void)rect;
+	(void)rect_bbox;
+	(void)p_data;
 	Dbg_MsgAssert(false, ("CCollMulti::CollisionWithRecangle is not implemented"));
 	return false;
 }
@@ -1599,18 +1607,21 @@ const Mth::Matrix &	CCollMulti::GetOrientation() const
 
 uint32 		CCollMulti::GetFaceFlags(int face_idx) const
 {
+	(void)face_idx;
 	Dbg_MsgAssert(0, ("Don't call CCollMulti::GetFaceFlags()"));
 	return 0;
 }
 
 uint16 		CCollMulti::GetFaceTerrainType(int face_idx) const
 {
+	(void)face_idx;
 	Dbg_MsgAssert(0, ("Don't call CCollMulti::GetFaceTerrainType()"));
 	return 0;
 }
 
 Mth::Vector	CCollMulti::GetVertexPos(int vert_idx) const
 {
+	(void)vert_idx;
 	Dbg_MsgAssert(0, ("Don't call CCollMulti::GetVertexPos()"));
 	return Mth::Vector(0, 0, 0, 0);
 }
@@ -1784,11 +1795,13 @@ void		CCollMovBBox::SetGeometry(CCollObjTriData *p_geom_data)
 // Temp functions
 uint32 CCollMovBBox::GetFaceFlags(int face_idx) const
 {
+	(void)face_idx;
 	return m_flags;
 }
 
 uint16 CCollMovBBox::GetFaceTerrainType(int face_idx) const
 {
+	(void)face_idx;
 	return m_terrain_type;
 }
 
@@ -1817,19 +1830,25 @@ CCollObj * 	CCollMovBBox::Clone(bool instance)
 
 bool	CCollMovBBox::CollisionWithLine(const Mth::Line & testLine, const Mth::Vector & lineDir, CollData *p_data, Mth::CBBox *p_bbox)
 {
+	(void)testLine;
+	(void)lineDir;
+	(void)p_data;
+	(void)p_bbox;
+
 	Dbg_Assert(p_data);
 
 	// Find line in local space
 	Mth::Line local_line;
 	convert_line_to_local(testLine, local_line);
 
-
-	if (0 && GPrintCollisionData)
+#if 0
+	if (GPrintCollisionData)
 	{
 		Dbg_Message("Testing ray with start (%f, %f, %f)", testLine.m_start[X], testLine.m_start[Y], testLine.m_start[Z]);
 		Dbg_Message("and end (%f, %f, %f)", testLine.m_end[X], testLine.m_end[Y], testLine.m_end[Z]);
 		Dbg_Message("with the direction (%f, %f, %f)", lineDir[X], lineDir[Y], lineDir[Z]);
 	}
+#endif
 
 
 	// Mick: temp optimization, generate a bounding box for the line
@@ -1889,8 +1908,11 @@ bool	CCollMovBBox::CollisionWithLine(const Mth::Line & testLine, const Mth::Vect
 /******************************************************************/
 
 bool	CCollMovBBox::CollisionWithRectangle(const Mth::Rectangle& rect, const Mth::CBBox& rect_bbox, S2DCollData* p_data)
-
 {
+	(void)rect;
+	(void)rect_bbox;
+	(void)p_data;
+
 	Dbg_MsgAssert(false, ("CCollMovBBox::CollisionWithRecangle is not implemented"));
 	return false;
 }
@@ -1902,6 +1924,9 @@ bool	CCollMovBBox::CollisionWithRectangle(const Mth::Rectangle& rect, const Mth:
 
 void	CCollMovBBox::DebugRender(uint32 ignore_1, uint32 ignore_0)
 {
+	(void)ignore_0;
+	(void)ignore_1;
+
 	// Debug box
 	Mth::Matrix total_mat = m_orient;
 	total_mat[W] = m_world_pos;
@@ -2405,6 +2430,9 @@ bool	CCollMovTri::WithinBBox(const Mth::CBBox & testBBox)
 
 bool	CCollMovTri::CollisionWithLine(const Mth::Line & testLine, const Mth::Vector & lineDir, CollData *p_data, Mth::CBBox *p_bbox)
 {
+	(void)lineDir;
+	(void)p_bbox;
+
 	Dbg_Assert(p_data);
 	Dbg_Assert(mp_coll_tri_data);
 
@@ -2510,6 +2538,9 @@ bool	CCollMovTri::CollisionWithLine(const Mth::Line & testLine, const Mth::Vecto
 
 bool	CCollMovTri::CollisionWithRectangle(const Mth::Rectangle& rect, const Mth::CBBox& rect_bbox, S2DCollData* p_data)
 {
+	(void)rect;
+	(void)rect_bbox;
+	(void)p_data;
 	Dbg_MsgAssert(false, ("CCollMovTri::CollisionWithRecangle is not implemented"));
 	return false;
 }

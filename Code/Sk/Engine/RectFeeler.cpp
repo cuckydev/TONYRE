@@ -178,7 +178,7 @@ void CRectFeeler::MergeCollisionSurfaces (   )
 				
 				clean_pass = false;
 			} // END loop over unvisited surfaces
-		} while (clean_pass = false);
+		} while (clean_pass == false); // TODO: This was (clean_pass = false).. idk if this is what they intended. CHECK!
 		
 		// accept the poropsed surface into the reduced surface list
 		

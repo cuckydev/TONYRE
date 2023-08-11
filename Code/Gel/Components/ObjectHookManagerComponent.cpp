@@ -91,6 +91,8 @@ CObjectHookManagerComponent::~CObjectHookManagerComponent()
 // but you can pass in anything you like.	
 void CObjectHookManagerComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// There needs to be a NodeArrayComponent attached for the ObjectHookManagerComponent to operate.
 	CNodeArrayComponent *p_nodearray_component = GetNodeArrayComponentFromObject( GetObj());
 	Dbg_MsgAssert( p_nodearray_component, ( "ObjectHookManagerComponent created without NodeArrayComponent" ));
@@ -147,6 +149,9 @@ void CObjectHookManagerComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CObjectHookManagerComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

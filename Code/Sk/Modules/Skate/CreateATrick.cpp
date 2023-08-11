@@ -195,6 +195,8 @@ bool ScriptGetCreateATrickAnimations(Script::CScriptStructure *pParams, Script::
 // @script | SetCreateATrickParams | Sets the values for rotations and animations of a particular skater
 bool ScriptSetCreateATrickParams(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
 
     int trick_index;
@@ -259,6 +261,8 @@ bool ScriptSetCreateATrickParams(Script::CScriptStructure *pParams, Script::CScr
 // @script | SetCreateATrickOtherParams | Sets name, score, etc.
 bool ScriptSetCreateATrickOtherParams(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
 
     
@@ -296,6 +300,8 @@ bool ScriptSetCreateATrickOtherParams(Script::CScriptStructure *pParams, Script:
 // @script | SetCreateATrickRotations | Sets the values for rotations
 bool ScriptSetCreateATrickRotations(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
 
     int trick_index;
@@ -329,6 +335,8 @@ bool ScriptSetCreateATrickRotations(Script::CScriptStructure *pParams, Script::C
 // @script | SetCreateATrickAnimations | Sets the values for rotations
 bool ScriptSetCreateATrickAnimations(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
 
     int trick_index;
@@ -362,6 +370,8 @@ bool ScriptSetCreateATrickAnimations(Script::CScriptStructure *pParams, Script::
 // @script | ScriptCAT_SetNumAnims | 
 bool ScriptCAT_SetNumAnims(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -385,6 +395,8 @@ bool ScriptCAT_SetNumAnims(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_GetNumAnims | 
 bool ScriptCAT_GetNumAnims(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -404,6 +416,9 @@ bool ScriptCAT_GetNumAnims(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_SetAnimsDone | 
 bool ScriptCAT_SetAnimsDone(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -434,6 +449,8 @@ bool ScriptCAT_SetAnimsDone(Script::CScriptStructure *pParams, Script::CScript *
 // @script | ScriptCAT_GetAnimsDone | 
 bool ScriptCAT_GetAnimsDone(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -461,6 +478,8 @@ bool ScriptCAT_GetAnimsDone(Script::CScriptStructure *pParams, Script::CScript *
 // @script | ScriptCAT_SetRotsDone | 
 bool ScriptCAT_SetRotsDone(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -491,6 +510,8 @@ bool ScriptCAT_SetRotsDone(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_GetRotsDone | 
 bool ScriptCAT_GetRotsDone(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -518,6 +539,8 @@ bool ScriptCAT_GetRotsDone(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_SetBailDone | 
 bool ScriptCAT_SetBailDone(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -548,6 +571,8 @@ bool ScriptCAT_SetBailDone(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_GetBailDone | 
 bool ScriptCAT_GetBailDone(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -575,6 +600,8 @@ bool ScriptCAT_GetBailDone(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_SetFlipSkater | 
 bool ScriptCAT_SetFlipSkater(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -605,6 +632,8 @@ bool ScriptCAT_SetFlipSkater(Script::CScriptStructure *pParams, Script::CScript 
 // @script | ScriptCAT_GetFlipSkater | 
 bool ScriptCAT_GetFlipSkater(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -632,6 +661,8 @@ bool ScriptCAT_GetFlipSkater(Script::CScriptStructure *pParams, Script::CScript 
 // @script | ScriptCAT_SetHoldTime | 
 bool ScriptCAT_SetHoldTime(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     float value;
@@ -654,6 +685,8 @@ bool ScriptCAT_SetHoldTime(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_GetHoldTime | 
 bool ScriptCAT_GetHoldTime(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -673,6 +706,8 @@ bool ScriptCAT_GetHoldTime(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | ScriptCAT_SetTotalY | 
 bool ScriptCAT_SetTotalY(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -696,6 +731,8 @@ bool ScriptCAT_SetTotalY(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @script | ScriptCAT_GetTotalY | 
 bool ScriptCAT_GetTotalY(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -715,6 +752,8 @@ bool ScriptCAT_GetTotalY(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @script | ScriptCAT_SetTotalX | 
 bool ScriptCAT_SetTotalX(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -738,6 +777,8 @@ bool ScriptCAT_SetTotalX(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @script | ScriptCAT_GetTotalX | 
 bool ScriptCAT_GetTotalX(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();
@@ -757,6 +798,8 @@ bool ScriptCAT_GetTotalX(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @script | ScriptCAT_SetTotalZ | 
 bool ScriptCAT_SetTotalZ(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pScript;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     int value;
@@ -780,6 +823,8 @@ bool ScriptCAT_SetTotalZ(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @script | ScriptCAT_GetTotalZ | 
 bool ScriptCAT_GetTotalZ(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+    (void)pParams;
+
     Mdl::Skate * pSkate = Mdl::Skate::Instance();
     
     Obj::CSkater* pSkater = pSkate->GetLocalSkater();

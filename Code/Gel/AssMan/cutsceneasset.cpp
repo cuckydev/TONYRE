@@ -21,6 +21,10 @@ namespace Ass
 
 int CCutsceneAsset::Load( const char* p_file, bool async_load, bool use_pip, void* pExtraData, Script::CStruct *pStruct )     // create or load the asset
 {
+	(void)use_pip;
+	(void)pExtraData;
+	(void)pStruct;
+
 	Mem::PushMemProfile( (char*)p_file );
 	
 	Obj::CCutsceneData* p_cutsceneData = new Obj::CCutsceneData;

@@ -105,6 +105,8 @@ void CCarPhysicsComponent::Update()
 	
 CBaseComponent::EMemberFunctionResult CCarPhysicsComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		case Crc::ConstCRC("EnableCarShadow"):

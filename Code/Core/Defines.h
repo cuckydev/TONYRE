@@ -333,6 +333,7 @@ inline void *operator new[](size_t size)
 
 inline void *operator new(size_t size, bool assert_on_fail)
 {
+	(void)assert_on_fail;
 	if (size == 0)
 		size++;
 	if (void *ptr = malloc(size))
@@ -347,6 +348,7 @@ inline void *operator new(size_t size, bool assert_on_fail)
 
 inline void *operator new[](size_t size, bool assert_on_fail)
 {
+	(void)assert_on_fail;
 	if (size == 0)
 		size++;
 	if (void *ptr = malloc(size))
@@ -361,6 +363,8 @@ inline void *operator new[](size_t size, bool assert_on_fail)
 
 inline void *operator new(size_t size, Mem::Allocator *pAlloc, bool assert_on_fail = true)
 {
+	(void)pAlloc;
+	(void)assert_on_fail;
 	if (size == 0)
 		size++;
 	if (void *ptr = malloc(size))
@@ -374,6 +378,8 @@ inline void *operator new(size_t size, Mem::Allocator *pAlloc, bool assert_on_fa
 
 inline void *operator new[](size_t size, Mem::Allocator *pAlloc, bool assert_on_fail = true)
 {
+	(void)pAlloc;
+	(void)assert_on_fail;
 	if (size == 0)
 		size++;
 	if (void *ptr = malloc(size))
@@ -409,6 +415,7 @@ inline void operator delete[](void *pAddr)
 /******************************************************************/
 inline void operator delete(void *pAddr, bool assert_on_fail)
 {
+	(void)assert_on_fail;
 	free(pAddr);
 }
 
@@ -419,6 +426,7 @@ inline void operator delete(void *pAddr, bool assert_on_fail)
 
 inline void operator delete[](void *pAddr, bool assert_on_fail)
 {
+	(void)assert_on_fail;
 	free(pAddr);
 }
 
@@ -429,6 +437,8 @@ inline void operator delete[](void *pAddr, bool assert_on_fail)
 
 inline void	operator delete(void *pAddr, Mem::Allocator *pAlloc, bool assert_on_fail)
 {
+	(void)pAlloc;
+	(void)assert_on_fail;
 	free(pAddr);
 }
 
@@ -439,6 +449,8 @@ inline void	operator delete(void *pAddr, Mem::Allocator *pAlloc, bool assert_on_
 
 inline void	operator delete[](void *pAddr, Mem::Allocator *pAlloc, bool assert_on_fail)
 {
+	(void)pAlloc;
+	(void)assert_on_fail;
 	free(pAddr);
 }
 

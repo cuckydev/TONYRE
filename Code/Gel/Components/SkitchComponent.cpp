@@ -56,6 +56,8 @@ CSkitchComponent::~CSkitchComponent()
 /******************************************************************/
 void CSkitchComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// There needs to be a ObjectHookManagerComponent attached for the SkitchComponent to operate.
 	mp_object_hook_manager_component = GetObjectHookManagerComponentFromObject( GetObj());
 	Dbg_MsgAssert( mp_object_hook_manager_component, ( "SkitchComponent created without ObjectHookManagerComponent" ));
@@ -92,6 +94,8 @@ void CSkitchComponent::Update()
 /******************************************************************/
 CBaseComponent::EMemberFunctionResult CSkitchComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		// @script | Obj_AllowSkitching | Enable skitching for this object 

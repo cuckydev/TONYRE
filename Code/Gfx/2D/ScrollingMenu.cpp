@@ -81,7 +81,8 @@ void CBaseScrollingMenu::SetProperties(Script::CStruct *pProps)
 
 bool CBaseScrollingMenu::PassTargetedEvent(Obj::CEvent *pEvent, bool broadcast)
 {
-	
+	(void)broadcast;
+
 	if (!Obj::CObject::PassTargetedEvent(pEvent))
 	{
 		return false;

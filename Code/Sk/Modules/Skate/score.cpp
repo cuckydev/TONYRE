@@ -393,7 +393,7 @@ void Score::Update()
 /*
 	Called from CSkater constructor
 */
-void Score::SetSkaterId(short skater_id) 
+void Score::SetSkaterId(uint32 skater_id) 
 {
 	m_skaterId = skater_id;
 	//HUD::PanelMgr* panel_mgr = HUD::PanelMgr::Instance();
@@ -2813,6 +2813,8 @@ float	Score::GetRobotMult()
 	int	min_robot_effect = 3;  // number of repetitions at which "robot" adjustment begins
 
 	float sub = 0.0f;
+
+#if 0
 	// Scale any effect by the size of the combo, beyond the minimun needed to take effect	
 //	float robot_scale = 0.0f;
 	if ((m_num_robot_landed_combo - m_num_robot_unique_combo) > min_robot_effect && m_num_robot_unique_combo < m_num_robot_landed_combo)
@@ -2832,6 +2834,7 @@ float	Score::GetRobotMult()
 		printf ("sub = %2.3f\n",sub);
 #endif		// __NOPT_FINAL__
 	}
+#endif
 	
 	float mult = 1.0f - sub;
 	if (mult > 1.0f)

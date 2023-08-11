@@ -2336,7 +2336,7 @@ void CTrickComponent::MaybeQueueManualTrick()
 			// The ~USED_BY_MANUAL_TRICK means don't ignore button events that have already been
 			// used by manuals. This is so that any normal manual that has just got queued won't
 			// steal the events needed by a up-down-triangle special manual for example.
-			CheckManualTrickArray(mSpecialManualTricksArrayChecksum,~USED_BY_MANUAL_TRICK,USE_SPECIAL_TRICK_TEXT);
+			CheckManualTrickArray(mSpecialManualTricksArrayChecksum, (uint32)~USED_BY_MANUAL_TRICK, USE_SPECIAL_TRICK_TEXT);
 			if (mGotManualTrick)
 			{
 				return;
@@ -2406,8 +2406,7 @@ bool CTrickComponent::TriggerAnyExtraTrick(uint32 ArrayChecksum, uint32 Excluded
 					
 					// The USED_BY_EXTRA_TRICK flags value means flag any button events used as being
 					// used by the extra tricks.
-					if (QueryEvents(p_trigger,USED_BY_EXTRA_TRICK,~USED_BY_MANUAL_TRICK) ||
-						QueryEvents(p_alternate_trigger,USED_BY_EXTRA_TRICK,~USED_BY_MANUAL_TRICK))
+					if (QueryEvents(p_trigger, (uint32)USED_BY_EXTRA_TRICK, (uint32)~USED_BY_MANUAL_TRICK) || QueryEvents(p_alternate_trigger, (uint32)USED_BY_EXTRA_TRICK, (uint32)~USED_BY_MANUAL_TRICK))
 					{
 						// Run the trick ...
 					
@@ -2787,8 +2786,7 @@ void CTrickComponent::MaybeQueueExtraGrindTrick(uint32 ArrayChecksum, bool UseSp
 				Script::CStruct *p_alternate_trigger=get_alternate_trigger_structure(pStruct);
 				
 				// p_trigger could be nullptr, but OK cos QueryEvents will return false in that case.
-				if (QueryEvents(p_trigger,USED_BY_EXTRA_GRIND_TRICK,~USED_BY_MANUAL_TRICK) ||
-					QueryEvents(p_alternate_trigger,USED_BY_EXTRA_GRIND_TRICK,~USED_BY_MANUAL_TRICK))
+				if (QueryEvents(p_trigger, (uint32)USED_BY_EXTRA_GRIND_TRICK, (uint32)~USED_BY_MANUAL_TRICK) || QueryEvents(p_alternate_trigger, (uint32)USED_BY_EXTRA_GRIND_TRICK, (uint32)~USED_BY_MANUAL_TRICK))
 				{
 					// The conditions are met, so add the special grind trick.
 					mExtraGrindTrick.ArrayChecksum=ArrayChecksum;
@@ -3090,6 +3088,7 @@ float CTrickComponent::GetBashFactor()
 // but you can pass in anything you like.	
 void CTrickComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CTrickComponent added to non-skater composite object"));
 }
 

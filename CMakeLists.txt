@@ -26,7 +26,7 @@ endif()
 # I'm feeling lucky, treat warnings as errors
 if (MSVC)
 	target_compile_definitions(TonyRE.Common INTERFACE _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS)
-	target_compile_options(TonyRE.Common INTERFACE /W3 /WX)
+	target_compile_options(TonyRE.Common INTERFACE /W4)
 else()
 	target_compile_options(TonyRE.Common INTERFACE -Werror)
 endif()
@@ -249,8 +249,8 @@ add_executable(TonyRE WIN32
 	"Code/Gel/Components/WalkComponent.h"
 	"Code/Gel/Components/WalkHangUtil.cpp"
 	"Code/Gel/Components/WalkLadderUtil.cpp"
-	"Code/Gel/Components/weaponcomponent.cpp"
-	"Code/Gel/Components/weaponcomponent.h"
+	# "Code/Gel/Components/weaponcomponent.cpp"
+	# "Code/Gel/Components/weaponcomponent.h"
 
 	"Code/Gel/Environment/terrain.cpp"
 	"Code/Gel/Environment/terrain.h"

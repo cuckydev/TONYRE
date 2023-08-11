@@ -67,9 +67,9 @@ void CFontManager::sLoadFont(const char *pName, int charSpacing, int spaceSpacin
 				int index = (i < p_array->GetSize()) ? p_array->GetInteger(i) : 0;
 
 				if (index <= 9)
-					s_meta_button_map[i] = '0' + index;
+					s_meta_button_map[i] = (char)('0' + index);
 				else
-					s_meta_button_map[i] = 'a' + index - 10;
+					s_meta_button_map[i] = (char)('a' + index - 10);
 			}
 
 			s_meta_button_map_initialized = true;
@@ -137,6 +137,8 @@ char CFontManager::sMapMetaCharacterToButton(const char *pMetaChar)
 
 bool ScriptLoadFont(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	bool is_buttons_font = pParams->ContainsFlag("buttons_font");
 	
 	const char *p_name;
@@ -201,6 +203,8 @@ bool ScriptLoadFont(Script::CScriptStructure *pParams, Script::CScript *pScript)
 
 bool ScriptUnloadFont(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
 		Dbg_MsgAssert(0, ("no font specified"));

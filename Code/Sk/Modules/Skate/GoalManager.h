@@ -64,15 +64,15 @@ namespace Game
 	const uint32 vNUMGOALFLAGS = 10;
 
     // number of completed goals required to unlock this goal
-    const int vUNLOCKED_BY_ANOTHER  = 0x8a3a324e;   // type - unlocked_by_another goal
-    const int vPRO_GOAL             = 0xd303a1a3;   // type - pro_goal
-	// const int vPRO_CHALLENGE		= 0xe0f96410;	// type - pro_specific_challenge
+    const uint32 vUNLOCKED_BY_ANOTHER  = 0x8a3a324e;   // type - unlocked_by_another goal
+    const uint32 vPRO_GOAL             = 0xd303a1a3;   // type - pro_goal
+	// const uint32 vPRO_CHALLENGE		= 0xe0f96410;	// type - pro_specific_challenge
 
 	// number of streams to search through for goal wait vo
-	const int vMAXWAITSTREAMS		= 10;
-	const int vMAXWINSTREAMS		= 10;
-	const int vMAXMIDGOALSTREAMS	= 10;
-	const int vMAXCALLSKATERBYNAMESTREAMS = 5;
+	const uint32 vMAXWAITSTREAMS		= 10;
+	const uint32 vMAXWINSTREAMS		= 10;
+	const uint32 vMAXMIDGOALSTREAMS	= 10;
+	const uint32 vMAXCALLSKATERBYNAMESTREAMS = 5;
 
 	// Size of the local buffer used for replacing trick names in goals
 	const uint32	NEW_STRING_LENGTH = 512;

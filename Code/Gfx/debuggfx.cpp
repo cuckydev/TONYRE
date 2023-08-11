@@ -314,6 +314,7 @@ void DebuggeryLines_Draw( void )
 
 void DebuggeryRects_Draw( float time)
 {
+	(void)time;
 
 #ifdef	__DEBUG_CODE__
 

@@ -84,6 +84,7 @@ CEmptyComponent::~CEmptyComponent()
 // but you can pass in anything you like.	
 void CEmptyComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	// ** Add code to parse the structure, and initialize the component
 
 }
@@ -159,6 +160,9 @@ void CEmptyComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CEmptyComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

@@ -175,7 +175,7 @@ void CFaceTexture::WriteIntoStructure( Script::CStruct* pSubStruct )
 	Dbg_MsgAssert( IsValid(), ( "Face texture is not valid!" ) );
 
 	Script::CArray* pRawTextureArray = new Script::CArray;
-	Dbg_MsgAssert( ( vRAW_TEXTURE_SIZE ) % 4 == 0, ( "Was expecting raw texture size to be a multiple of 4", vRAW_TEXTURE_SIZE ) ); 
+	static_assert( ( vRAW_TEXTURE_SIZE ) % 4 == 0, "Was expecting raw texture size to be a multiple of 4" ); 
 	pRawTextureArray->SetSizeAndType( vRAW_TEXTURE_SIZE / 4, ESYMBOLTYPE_NAME );
 
 	uint32* pFaceData = (uint32*)&m_rawData[0];

@@ -146,6 +146,7 @@ CVehicleSoundComponent::~CVehicleSoundComponent()
 
 void CVehicleSoundComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	m_use_default_sounds = Ed::CParkEditor::Instance()->UsingCustomPark();
 }
 
@@ -207,6 +208,9 @@ void CVehicleSoundComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CVehicleSoundComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

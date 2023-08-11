@@ -55,6 +55,7 @@ CSkaterCleanupStateComponent::~CSkaterCleanupStateComponent()
 
 void CSkaterCleanupStateComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	mp_state_component = nullptr;
 }
 
@@ -65,6 +66,7 @@ void CSkaterCleanupStateComponent::InitFromStructure( Script::CStruct* pParams )
 
 void CSkaterCleanupStateComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	InitFromStructure(pParams);
 }
 
@@ -112,6 +114,9 @@ void CSkaterCleanupStateComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterCleanupStateComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
@@ -122,6 +127,7 @@ CBaseComponent::EMemberFunctionResult CSkaterCleanupStateComponent::CallMemberFu
 
 void CSkaterCleanupStateComponent::GetDebugInfo(Script::CStruct *p_info)
 {
+	(void)p_info;
 #ifdef	__DEBUG_CODE__
 	Dbg_MsgAssert(p_info,("nullptr p_info sent to CSkaterCleanupStateComponent::GetDebugInfo"));
 

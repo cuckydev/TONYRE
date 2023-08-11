@@ -641,6 +641,8 @@ void CGoal::SetActive()
 	
 bool CGoal::Deactivate( bool force, bool affect_tree )
 {
+	(void)force;
+
 	if ( IsActive() )
 	{
 		// special case for special trick goal...get rid of
@@ -3169,7 +3171,7 @@ bool CGoal::ReplaceTrickText()
 	// get the new string arrays
 	Script::CArray* p_key = new Script::CArray();
 	Script::CArray* p_trick = new Script::CArray();
-	int size = p_key_combo->GetSize();
+	size_t size = p_key_combo->GetSize();
 	p_key->SetSizeAndType( size, ESYMBOLTYPE_STRING );
 	p_trick->SetSizeAndType( size, ESYMBOLTYPE_STRING );
 	if ( !fill_trick_and_key_combo_arrays( p_key_combo, p_key, p_trick, premade_cat_index ) )
@@ -3194,7 +3196,7 @@ bool CGoal::ReplaceTrickText()
 	}
 	else if ( mp_params->GetArray( "original_goal_description", &p_string_array, Script::ASSERT ) )
 	{
-		int size = p_string_array->GetSize();
+		size = p_string_array->GetSize();
 		Script::CArray* p_new_string_array = new Script::CArray();
 		p_new_string_array->SetSizeAndType( size, ESYMBOLTYPE_STRING );
 		for ( int i = 0; i < size; i++ )
@@ -3296,7 +3298,7 @@ void CGoal::ColorTrickObjects( int seqIndex, bool clear )
 			if ( clear )
 			{
 				// printf("clearing cluster %s\n", Script::FindChecksumName( cluster_id ) );
-				Obj::CTrickCluster* p_trickCluster = p_trickObjMan->GetTrickCluster( cluster_id );
+				// p_trickCluster = p_trickObjMan->GetTrickCluster( cluster_id );
 				if ( p_trickCluster )
 					p_trickCluster->ClearCluster( seqIndex );
 			}

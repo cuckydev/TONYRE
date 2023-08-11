@@ -55,6 +55,8 @@ bool CFindGapsGoal::Activate()
 /******************************************************************/
 bool CFindGapsGoal::Deactivate( bool force, bool affect_tree )
 {
+	(void)force;
+	(void)affect_tree;
 	return CGoal::Deactivate();
 }
 

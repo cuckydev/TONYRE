@@ -65,7 +65,7 @@ void CObjectHookManager::AddObjectHookNode(int node_number, Script::CStruct *p_n
 	pObjectHookNode->m_pNext = mp_first_node; 							  
 	mp_first_node = pObjectHookNode;
 
-	pObjectHookNode->m_node = node_number;			// The node_number is use primarily for calculating links
+	pObjectHookNode->m_node = (sint16)node_number;			// The node_number is use primarily for calculating links
 	pObjectHookNode->m_active = p_node_struct->ContainsFlag( 0x7c2552b9 /*"CreatedAtStart"*/ );	// created at start or not?
 	pObjectHookNode->m_flags = 0;						// all flags off by default
 
@@ -84,6 +84,8 @@ void CObjectHookManager::UpdateTransform(Mth::Matrix& transform)
 
 void	CObjectHookManager::DebugRender(Mth::Matrix *p_transform)
 {
+	(void)p_transform;
+
 	#ifdef	__PLAT_NGPS__
 
 	Mth::Vector up(0.0f,1.0f,0.0f);	

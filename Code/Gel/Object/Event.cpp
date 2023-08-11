@@ -645,6 +645,8 @@ void CEventHandlerTable::set_event_enable(uint32 type, bool state)
 #ifdef	__SCRIPT_EVENT_TABLE__		
 void CEventHandlerTable::pass_event(CEvent *pEvent, Script::CScript *pScript, bool broadcast)
 {
+	(void)broadcast;
+
 	// if it's a screen element, check that events aren't blocked
 #ifdef __NOPT_ASSERT__
 //	if ( ( pObject->GetFlags() & Front::CScreenElement::vIS_SCREEN_ELEMENT ) && 

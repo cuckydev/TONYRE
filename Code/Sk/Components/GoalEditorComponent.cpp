@@ -718,7 +718,7 @@ void CEditGoal::ReadFromStructure(Script::CStruct *p_info)
 
 	int won_goal=0;
     //p_info->GetInteger(Crc::ConstCRC("won_goal"),&won_goal);
-	m_has_won_goal=won_goal;
+	m_has_won_goal = (uint8)won_goal;
 	
 	m_level_script=s_get_level_checksum(p_info);
 	Dbg_MsgAssert(m_level_script,("Zero m_level_script"));
@@ -761,7 +761,7 @@ void CEditGoal::ReadFromStructure(Script::CStruct *p_info)
 	{
 		Dbg_MsgAssert(p_position_array->GetSize()==m_num_positions_required,("Bad node_positions size for goal '%s'",mp_goal_name));
 		
-		m_num_positions_set=p_position_array->GetSize();
+		m_num_positions_set = (uint8)p_position_array->GetSize();
 		for (uint i=0; i<m_num_positions_set; ++i)
 		{
 			Script::CStruct *p_struct=p_position_array->GetStructure(i);
@@ -853,11 +853,11 @@ void CEditGoal::AddKeyComboSet(int setIndex, bool requirePerfect, int spin, int 
 		++m_num_combo_sets;
 	}	
 	
-	mp_combo_sets[array_index].mNumTaps=numTaps;
-	mp_combo_sets[array_index].mRequirePerfect=requirePerfect;
-	mp_combo_sets[array_index].mSetIndex=setIndex;
+	mp_combo_sets[array_index].mNumTaps = (uint8)(numTaps);
+	mp_combo_sets[array_index].mRequirePerfect = (uint8)(requirePerfect);
+	mp_combo_sets[array_index].mSetIndex = (uint8)(setIndex);
 	Dbg_MsgAssert((spin%180)==0,("spin must be a multiple of 180"));
-	mp_combo_sets[array_index].mSpin=spin/180;
+	mp_combo_sets[array_index].mSpin = (uint8)(spin / 180);
 }
 
 void CEditGoal::RemoveKeyComboSet(int setIndex)
@@ -1019,16 +1019,16 @@ void CEditGoal::read_combo_sets(Script::CStruct *p_info)
 		
 		int int_val=0;
 		p_struct->GetInteger(Crc::ConstCRC("set_index"),&int_val);
-		mp_combo_sets[i].mSetIndex=int_val;
+		mp_combo_sets[i].mSetIndex = (uint8)int_val;
 		
 		int_val=0;
 		p_struct->GetInteger(Crc::ConstCRC("spin"),&int_val);
 		Dbg_MsgAssert((int_val%180)==0,("Bad spin of %d",int_val));
-		mp_combo_sets[i].mSpin=int_val/180;
+		mp_combo_sets[i].mSpin = (uint8)(int_val / 180);
 		
 		int_val=0;
 		p_struct->GetInteger(Crc::ConstCRC("num_taps"),&int_val);
-		mp_combo_sets[i].mNumTaps=int_val;
+		mp_combo_sets[i].mNumTaps = (uint8)int_val;
 		
 		mp_combo_sets[i].mRequirePerfect=p_struct->ContainsFlag(Crc::ConstCRC("require_perfect"));
 	}	
@@ -1222,11 +1222,9 @@ void CEditGoal::ReadGoalSpecificParams(Script::CStruct *p_params)
 			if (p_gaps)
 			{
 				Dbg_MsgAssert(p_gaps->GetSize()<=MAX_GAPS,("Gaps array too big, max is %d",MAX_GAPS));
-				m_num_gaps=p_gaps->GetSize();
-				for (int i=0; i<m_num_gaps; ++i)
-				{
-					mp_gap_numbers[i]=p_gaps->GetInteger(i);
-				}
+				m_num_gaps = (uint8)p_gaps->GetSize();
+				for (int i=0; i < m_num_gaps; ++i)
+					mp_gap_numbers[i] = (uint8)p_gaps->GetInteger(i);
 			}		
 			break;
 		}
@@ -1910,6 +1908,7 @@ void CGoalEditorComponent::ReadFromStructure(Script::CStruct *p_info, EBoolLoadi
 // but you can pass in anything you like.	
 void CGoalEditorComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	// ** Add code to parse the structure, and initialize the component
 
 }
@@ -2461,7 +2460,7 @@ void CGoalEditorComponent::RefreshGapGoalsAfterGapRemovedFromPark(int gapNumber)
 			mp_goals[i].GetLevel()==Crc::ConstCRC("Load_Sk5ed") && 
 			mp_goals[i].GetType()==Crc::ConstCRC("Gap"))
 		{
-			mp_goals[i].RemoveGapAndReorder(gapNumber);
+			mp_goals[i].RemoveGapAndReorder((uint8)gapNumber);
 		}	
 	}
 }
@@ -2485,7 +2484,7 @@ CBaseComponent::EMemberFunctionResult CGoalEditorComponent::CallMemberFunction( 
 			{
 				int gap_number=0;
 				pParams->GetInteger(Crc::ConstCRC("gap_number"),&gap_number);
-				p_goal->AddGap(gap_number);
+				p_goal->AddGap((uint8)gap_number);
 			}
 			break;
 		}
@@ -2498,7 +2497,7 @@ CBaseComponent::EMemberFunctionResult CGoalEditorComponent::CallMemberFunction( 
 			{
 				int gap_number=0;
 				pParams->GetInteger(Crc::ConstCRC("gap_number"),&gap_number);
-				p_goal->RemoveGap(gap_number);
+				p_goal->RemoveGap((uint8)gap_number);
 			}
 			break;
 		}
@@ -2511,7 +2510,7 @@ CBaseComponent::EMemberFunctionResult CGoalEditorComponent::CallMemberFunction( 
 			{
 				int gap_number=0;
 				pParams->GetInteger(Crc::ConstCRC("gap_number"),&gap_number);
-				if (p_goal->GotGap(gap_number))
+				if (p_goal->GotGap((uint8)gap_number))
 				{
 					return CBaseComponent::MF_TRUE;
 				}	

@@ -79,7 +79,7 @@ private:						// It's all private, as it is machine specific
 	virtual void					plat_set_color( Image::RGBA rgba );
 	virtual void					plat_clear_color( void );
 	virtual Image::RGBA				plat_get_color( void ) const;
-	virtual	int						plat_get_num_render_verts( void );
+	virtual	size_t					plat_get_num_render_verts( void );
 	virtual	void					plat_get_render_verts( Mth::Vector *p_verts );
 	virtual	void					plat_get_render_colors( Image::RGBA *p_colors );
 	virtual void					plat_set_render_verts( Mth::Vector *p_verts );

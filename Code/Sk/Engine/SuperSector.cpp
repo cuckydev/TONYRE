@@ -130,12 +130,12 @@ Sector::~Sector( void )
 
 bool	Sector::remove_collision(Nx::CCollStatic *p_coll)
 {
-	for (int idx = 0; idx < m_NumCollSectors; idx++)
+	for (size_t idx = 0; idx < m_NumCollSectors; idx++)
 	{
 		if (m_CollSectorList[idx] == p_coll)
 		{
 			// Shift the rest of the pointers over
-			for (int copy_idx = idx + 1; copy_idx < m_NumCollSectors; copy_idx++)
+			for (size_t copy_idx = idx + 1; copy_idx < m_NumCollSectors; copy_idx++)
 			{
 				m_CollSectorList[copy_idx - 1] = m_CollSectorList[copy_idx];
 			}
@@ -158,7 +158,7 @@ bool	Sector::remove_collision(Nx::CCollStatic *p_coll)
 
 bool	Sector::replace_collision(Nx::CCollStatic *p_coll, Nx::CCollStatic *p_replace_coll)
 {
-	for (int idx = 0; idx < m_NumCollSectors; idx++)
+	for (size_t idx = 0; idx < m_NumCollSectors; idx++)
 	{
 		if (m_CollSectorList[idx] == p_coll)
 		{
@@ -178,7 +178,7 @@ bool	Sector::replace_collision(Nx::CCollStatic *p_coll, Nx::CCollStatic *p_repla
 
 bool	Sector::has_collision(Nx::CCollStatic *p_coll)
 {
-	for (int idx = 0; idx < m_NumCollSectors; idx++)
+	for (size_t idx = 0; idx < m_NumCollSectors; idx++)
 	{
 		if (m_CollSectorList[idx] == p_coll)
 		{
@@ -594,52 +594,51 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::CBBox& bbox )
 	z_max += COLL_LINE_EXTENSION;
 	
 	// determine the corresponding rectangle in terms of super sectors indicies
-	int start_x_box = static_cast< int >(x_min / m_sector_width);
-	int start_z_box = static_cast< int >(z_min / m_sector_depth);
-	int end_x_box = static_cast< int >(x_max / m_sector_width);
-	int end_z_box = static_cast< int >(z_max / m_sector_depth);
+	float f_start_x_box = x_min / m_sector_width;
+	float f_start_z_box = z_min / m_sector_depth;
+	float f_end_x_box = x_max / m_sector_width;
+	float f_end_z_box = z_max / m_sector_depth;
+	size_t start_x_box;
+	size_t start_z_box;
+	size_t end_x_box;
+	size_t end_z_box;
 	
 	// cap the super sector indicies
-	if (start_x_box < 0)
-	{
+	if (f_start_x_box < 0)
 		start_x_box = 0;
-	}
-	else if (start_x_box >= m_num_sectors_x)
-	{
+	else if (f_start_x_box >= m_num_sectors_x)
 		start_x_box = m_num_sectors_x - 1;
-	}
-	if (start_z_box < 0)
-	{
+	else
+		start_x_box = (size_t)f_start_x_box;
+
+	if (f_start_z_box < 0)
 		start_z_box = 0;
-	}
-	else if (start_z_box >= m_num_sectors_z)
-	{
+	else if (f_start_z_box >= m_num_sectors_z)
 		start_z_box = m_num_sectors_z - 1;
-	}
-	if (end_x_box < 0)
-	{
+	else
+		start_z_box = (size_t)f_start_z_box;
+
+	if (f_end_x_box < 0)
 		end_x_box = 0;
-	}
-	else if (end_x_box >= m_num_sectors_x)
-	{
+	else if (f_end_x_box >= m_num_sectors_x)
 		end_x_box = m_num_sectors_x - 1;
-	}
-	if (end_z_box < 0)
-	{
+	else
+		end_x_box = (size_t)f_end_x_box;
+	
+	if (f_end_z_box < 0)
 		end_z_box = 0;
-	}
-	else if (end_z_box >= m_num_sectors_z)
-	{
+	else if (f_end_z_box >= m_num_sectors_z)
 		end_z_box = m_num_sectors_z - 1;
-	}
+	else
+		end_z_box = (size_t)f_end_z_box;
 	
 	// loop over the corresponding super sectors and add the sectors to the qualifying list
-	int qual_sector_idx = 0;
-	for (int i = start_x_box; i <= end_x_box; i++)
+	size_t qual_sector_idx = 0;
+	for (size_t i = start_x_box; i <= end_x_box; i++)
 	{
-		for (int j = start_z_box; j <= end_z_box; j++)
+		for (size_t j = start_z_box; j <= end_z_box; j++)
 		{
-			for (int k = 0; k < m_super_sector_list[i][j].m_NumCollSectors; k++)
+			for (size_t k = 0; k < m_super_sector_list[i][j].m_NumCollSectors; k++)
 			{
 				Nx::CCollStatic* cs = m_super_sector_list[i][j].m_CollSectorList[k];
 				
@@ -649,9 +648,9 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::CBBox& bbox )
 				
 				QualCollSectors[qual_sector_idx++] = cs;
 				
-				cs->SetSuperSectorID(op_id);
+				cs->SetSuperSectorID((uint8)op_id);
 				
-				Dbg_MsgAssert(qual_sector_idx < (vMAX_QUAL_SECTORS*8/10),("Too many %d qualifying collision sectors",qual_sector_idx));						
+				Dbg_MsgAssert(qual_sector_idx < (vMAX_QUAL_SECTORS*8/10),("Too many %d qualifying collision sectors",qual_sector_idx));
 			}
 		}
 	}
@@ -674,10 +673,9 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 	Mth::Line test_line;
 	Mth::Vector dir;
 	float x_offset, z_offset;
-	int start_x_box, start_z_box;
-	int end_x_box, end_z_box;
-	int temp,k;
-	int op_id;
+	size_t start_x_box, start_z_box;
+	size_t end_x_box, end_z_box;
+	int temp;
 		
 	qual_sector_idx = 0;
 
@@ -699,63 +697,55 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 	x_offset = test_line.m_start[X] - m_world_bbox.GetMin()[X];
 	z_offset = test_line.m_start[Z] - m_world_bbox.GetMin()[Z];
 
-	start_x_box = (int) ( x_offset / m_sector_width );
-	start_z_box = (int) ( z_offset / m_sector_depth );
+	float f_start_x_box = x_offset / m_sector_width;
+	float f_start_z_box = z_offset / m_sector_depth;
 
 //#define DISABLE_SUPER_SECTORS
 #ifdef DISABLE_SUPER_SECTORS
-	start_x_box = start_z_box = 0;
+	f_start_x_box = f_start_z_box = 0.0f;
 #endif // DISABLE_SUPER_SECTORS
 
 	// Some sanity checks
-	if( start_x_box < 0 )
-	{
+	if (f_start_x_box < 0)
 		start_x_box = 0;
-	}
-	else if( start_x_box >= m_num_sectors_x )
-	{
+	else if (f_start_x_box >= m_num_sectors_x)
 		start_x_box = m_num_sectors_x - 1;
-	}
+	else
+		start_x_box = (size_t)f_start_x_box;
 
-	if( start_z_box < 0 )
-	{
+	if (f_start_z_box < 0)
 		start_z_box = 0;
-	}
-	else if( start_z_box >= m_num_sectors_z )
-	{
+	else if (f_start_z_box >= m_num_sectors_z)
 		start_z_box = m_num_sectors_z - 1;
-	}
+	else
+		start_z_box = (size_t)f_start_z_box;
 
 	// Figure out which super sector the end point is in
 	x_offset = test_line.m_end[X] - m_world_bbox.GetMin()[X];
 	z_offset = test_line.m_end[Z] - m_world_bbox.GetMin()[Z];
 		
-	end_x_box = (int) ( x_offset / m_sector_width );
-	end_z_box = (int) ( z_offset / m_sector_depth );
+	float f_end_x_box = x_offset / m_sector_width;
+	float f_end_z_box = z_offset / m_sector_depth;
 
 #ifdef DISABLE_SUPER_SECTORS
-	end_x_box = m_num_sectors_x - 1;
-	end_z_box = m_num_sectors_z - 1;
+	f_end_x_box = m_num_sectors_x - 1;
+	f_end_z_box = m_num_sectors_z - 1;
 #endif // DISABLE_SUPER_SECTORS
 
 	// Some sanity checks
-	if( end_x_box < 0 )
-	{
+	if (f_end_x_box < 0)
 		end_x_box = 0;
-	}
-	else if( end_x_box >= m_num_sectors_x )
-	{
+	else if (f_end_x_box >= m_num_sectors_x)
 		end_x_box = m_num_sectors_x - 1;
-	}
+	else
+		end_x_box = (size_t)f_end_x_box;
 
-	if( end_z_box < 0 )
-	{
+	if (f_end_z_box < 0)
 		end_z_box = 0;
-	}
-	else if( end_z_box >= m_num_sectors_z )
-	{
+	else if(f_end_z_box >= m_num_sectors_z)
 		end_z_box = m_num_sectors_z - 1;
-	}
+	else
+		end_z_box = (size_t)f_end_z_box;
 
 	// Organize vars for two-dimensional "for" loop
 	if( end_x_box < start_x_box )
@@ -783,11 +773,11 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 	if (start_x_box == end_x_box && start_z_box == end_z_box)
 	{
 		Sector * p_sec = &m_super_sector_list[start_x_box][start_z_box]; 
-		int num = p_sec->m_NumCollSectors;
+		size_t num = p_sec->m_NumCollSectors;
 		Nx::CCollStatic** pp_cs = p_sec->m_CollSectorList; 
 		Nx::CCollStatic**  pp_qual = QualCollSectors;		
 //		printf ("%8d: %3d (%d,%d)\n",(int)Tmr::GetRenderFrame(),num,start_x_box, start_z_box);
-		for( k = 0; k < num; k++ )
+		for (size_t k = 0; k < num; k++)
 		{
 			Nx::CCollStatic* cs= *pp_cs++;
 			if ( !( cs->GetObjectFlags() & ( mSD_NON_COLLIDABLE | mSD_KILLED ) ) )
@@ -805,14 +795,14 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 //	int passed = 0;
 
 
-	op_id = GetNewSectorOperationId();
+	uint8 op_id = GetNewSectorOperationId();
 		
 	// Add world sectors from these super sectors to the qualifying list
-	for( int i = start_x_box; i <= end_x_box; i++ )
+	for (size_t i = start_x_box; i <= end_x_box; i++)
 	{
-		for( int j = start_z_box; j <= end_z_box; j++ )
+		for (size_t j = start_z_box; j <= end_z_box; j++)
 		{
-			for( k = 0; k < m_super_sector_list[i][j].m_NumCollSectors; k++ )
+			for (size_t k = 0; k < m_super_sector_list[i][j].m_NumCollSectors; k++)
 			{
 //				checked++;
 				Nx::CCollStatic* cs;
@@ -856,8 +846,7 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 
 Nx::CSector**	Manager::GetIntersectingWorldSectors( Mth::Line &line )
 {
-
-
+	(void)line;
 	Dbg_MsgAssert(0,("GetIntersectingWorldSectors is an old function"));	
 	return nullptr;
 }

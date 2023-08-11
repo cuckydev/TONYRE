@@ -252,6 +252,8 @@ namespace Lst
 	template<class _V> //inline
 	_V *HashTable<_V>::GetItem(const uint32 &key, bool assert_if_clash)
 	{
+		(void)assert_if_clash;
+
 		Dbg_AssertPtr(mp_hash_table);
 
 		// Jump to the linked list of all entries with similar checksums.	

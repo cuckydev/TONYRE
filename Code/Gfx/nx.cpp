@@ -873,6 +873,8 @@ Lst::HashTable< CParticle > * CEngine::sGetParticleTable()
 
 SSec::Manager *	CEngine::sGetNearestSuperSectorManager(Mth::Line &collision_line)
 {
+	(void)collision_line;
+
 	// For now, just return the first manager
 	for (int i = 0; i < MAX_LOADED_SCENES; i++)
 	{
@@ -893,6 +895,8 @@ SSec::Manager *	CEngine::sGetNearestSuperSectorManager(Mth::Line &collision_line
 
 SSec::Manager *	CEngine::sGetNearestSuperSectorManager(Mth::Vector &collision_point)
 {
+	(void)collision_point;
+
 	// For now, just return the first manager
 	for (int i = 0; i < MAX_LOADED_SCENES; i++)
 	{
@@ -1013,6 +1017,9 @@ const char* CEngine::sGetSoundtrackName( int soundtrack_number )
 // 
 int CEngine::sWriteSectorStatusBitfield(uint32 *p_bitfield, int numUint32s)
 {
+	(void)p_bitfield;
+	(void)numUint32s;
+
 	return 0;
 	
 	// Removed since we no longer have saving of replays to mem card.
@@ -1079,6 +1086,8 @@ int CEngine::sWriteSectorStatusBitfield(uint32 *p_bitfield, int numUint32s)
 
 void CEngine::sReadSectorStatusBitfield(uint32 *p_bitfield, int numUint32s)
 {
+	(void)p_bitfield;
+	(void)numUint32s;
 	return;
 	
 	// Removed since we no longer have saving of replays to mem card.
@@ -1223,6 +1232,9 @@ void CEngine::sRestoreSectorsAfterReplayPlayback()
 
 bool ScriptToggleAddScenes(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	// Just call engine function
 	CEngine::sToggleAddScenes();
 
@@ -1232,6 +1244,8 @@ bool ScriptToggleAddScenes(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptSetScreenBlur(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int amount = 0;
 	pParams->GetInteger(NONAME,&amount,false);
 	CEngine::sSetScreenBlur(amount);

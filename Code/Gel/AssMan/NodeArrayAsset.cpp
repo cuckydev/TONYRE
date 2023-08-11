@@ -24,6 +24,11 @@ namespace Ass
 
 int CNodeArrayAsset::Load( const char* p_file, bool async_load, bool use_pip, void* pExtraData , Script::CStruct *pStruct)
 {
+	(void)async_load;
+	(void)use_pip;
+	(void)pExtraData;
+	(void)pStruct;
+
 	SkateScript::LoadQB( p_file, Script::ASSERT_IF_DUPLICATE_SYMBOLS);
 	m_qb_checksum = Script::GenerateCRC( p_file );
 

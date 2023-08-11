@@ -55,7 +55,7 @@ enum JustY
 struct RGBA
 {
 	RGBA() { }
-	RGBA(uint8 red, uint green, uint blue, uint alpha) :
+	RGBA(uint8 red, uint8 green, uint8 blue, uint8 alpha) :
 		r(red),
 		g(green),
 		b(blue),

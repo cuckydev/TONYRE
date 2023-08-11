@@ -300,9 +300,9 @@ static uint8 *sWriteCompressedName(uint8 *p_buffer, uint8 symbolType, uint32 nam
 	int size=p_table->GetSize();
 	Dbg_MsgAssert(size<256,("Size of WriteToBuffer_CompressionLookupTable_8 too big"));
 	
-	for (int i=0; i<size; ++i)
+	for (uint8 i = 0; i < size; ++i)
 	{
-		if (p_table->GetChecksum(i)==nameChecksum)
+		if (p_table->GetChecksum(i) == nameChecksum)
 		{
 			// It is in the array! So write out a 1 byte index.
 			*p_buffer++=symbolType | MASK_8_BIT_NAME_LOOKUP;
@@ -316,7 +316,7 @@ static uint8 *sWriteCompressedName(uint8 *p_buffer, uint8 symbolType, uint32 nam
 	size=p_table->GetSize();
 	Dbg_MsgAssert(size<65536,("Size of WriteToBuffer_CompressionLookupTable_16 too big"));
 	
-	for (int i=0; i<size; ++i)
+	for (uint16 i=0; i<size; ++i)
 	{
 		if (p_table->GetChecksum(i)==nameChecksum)
 		{
@@ -909,7 +909,7 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 	// Easy to change WriteToBuffer to support 4 byte sizes, but keeping as 2 for the moment for
 	// backwards compatibility.
 	Dbg_MsgAssert(size<0x10000,("Size of array too big, currently only 2 bytes used to store size in WriteToBuffer ..."));
-	p_buffer=Write2Bytes(p_buffer,size);
+	p_buffer=Write2Bytes(p_buffer, (uint16)size);
 	bytes_left-=3;
 	
 	switch (type)

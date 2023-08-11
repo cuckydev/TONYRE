@@ -183,14 +183,14 @@ bool CWalkComponent::maybe_drop_to_hang (   )
 	
 	// check level for appropriate rails
 	mp_rail_manager = Mdl::Skate::Instance()->GetRailManager();
-	if (rail_found = mp_rail_manager->CheckForHangRail(
+	if ((rail_found = mp_rail_manager->CheckForHangRail(
 		m_frame_start_pos,
 		m_pos,
 		-m_facing,
 		this,
 		rail_data,
 		Script::GetFloat(Crc::ConstCRC("Drop_To_Climb_Max_Snap"))
-	))
+	)) == true)
 	{
 		mp_movable_contact_component->LoseAnyContact();
 	}
@@ -209,14 +209,14 @@ bool CWalkComponent::maybe_drop_to_hang (   )
 			Mth::Vector obj_pos = obj_matrix_inv.Transform(m_pos);
 
 			mp_rail_manager = p_rail_manager_component->GetRailManager();
-			if (rail_found = mp_rail_manager->CheckForHangRail(
+			if ((rail_found = mp_rail_manager->CheckForHangRail(
 				obj_frame_start_pos,
 				obj_pos,
 				-m_facing,
 				this,
 				rail_data,
 				Script::GetFloat(Crc::ConstCRC("Drop_To_Climb_Max_Snap"))
-			))
+			)) == true)
 			{
 				mp_movable_contact_component->ObtainContact(p_rail_manager_component->GetObj());
 			}
@@ -302,14 +302,14 @@ bool CWalkComponent::maybe_grab_to_hang ( Mth::Vector start_pos, Mth::Vector end
 	
 	// check level for appropriate rails
 	mp_rail_manager = Mdl::Skate::Instance()->GetRailManager();
-	if (rail_found = mp_rail_manager->CheckForHangRail(
+	if ((rail_found = mp_rail_manager->CheckForHangRail(
 		start_pos,
 		end_pos,
 		m_facing,
 		this,
 		rail_data,
 		Script::GetFloat(Crc::ConstCRC("Climb_Max_Snap"))
-	))
+	)) == true)
 	{
 		mp_movable_contact_component->LoseAnyContact();
 	}
@@ -328,14 +328,14 @@ bool CWalkComponent::maybe_grab_to_hang ( Mth::Vector start_pos, Mth::Vector end
 			Mth::Vector obj_frame_end_pos = obj_matrix_inv.Transform(end_pos);
 			
 			mp_rail_manager = p_rail_manager_component->GetRailManager();
-			if (rail_found = mp_rail_manager->CheckForHangRail(
+			if ((rail_found = mp_rail_manager->CheckForHangRail(
 				obj_frame_start_pos,
 				obj_frame_end_pos,
 				m_facing,
 				this,
 				rail_data,
 				Script::GetFloat(Crc::ConstCRC("Climb_Max_Snap"))
-			))
+			)) == true)
 			{
 				mp_movable_contact_component->ObtainContact(p_rail_manager_component->GetObj());
 			}

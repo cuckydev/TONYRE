@@ -38,6 +38,11 @@ void CParticle::plat_render( void )
 	
 void CParticle::plat_get_position( int entry, int list, float * x, float * y, float * z )
 {
+	(void)entry;
+	(void)list;
+	(void)x;
+	(void)y;
+	(void)z;
 	printf ("STUB: plat_get_position\n");
 }
 
@@ -48,6 +53,11 @@ void CParticle::plat_get_position( int entry, int list, float * x, float * y, fl
 	
 void CParticle::plat_set_position( int entry, int list, float x, float y, float z )
 {
+	(void)entry;
+	(void)list;
+	(void)x;
+	(void)y;
+	(void)z;
 	printf ("STUB: plat_set_position\n");
 }
 
@@ -58,6 +68,11 @@ void CParticle::plat_set_position( int entry, int list, float x, float y, float 
 	
 void CParticle::plat_add_position( int entry, int list, float x, float y, float z )
 {
+	(void)entry;
+	(void)list;
+	(void)x;
+	(void)y;
+	(void)z;
 	printf ("STUB: plat_add_position\n");
 }
 
@@ -68,6 +83,7 @@ void CParticle::plat_add_position( int entry, int list, float x, float y, float 
 	
 void CParticle::plat_set_active( bool active )
 {
+	(void)active;
 	// PS2 & Gamecube do nothing here.
 }
 
@@ -88,18 +104,18 @@ void CParticle::plat_build_path( void )
 	
 int CParticle::plat_get_num_particle_colors( void ) { printf ("STUB: plat_get_num_particle_colors\n"); return 0; };
 int CParticle::plat_get_num_vertex_lists( void ) { printf ("STUB: plat_get_num_vertex_lists\n"); return 0; };
-void CParticle::plat_set_sr( int entry, uint8 value ) { printf ("STUB: plat_set_sr\n"); }
-void CParticle::plat_set_sg( int entry, uint8 value ) { printf ("STUB: plat_set_sg\n"); }
-void CParticle::plat_set_sb( int entry, uint8 value ) { printf ("STUB: plat_set_sb\n"); }
-void CParticle::plat_set_sa( int entry, uint8 value ) { printf ("STUB: plat_set_sa\n"); }
-void CParticle::plat_set_mr( int entry, uint8 value ) { printf ("STUB: plat_set_mr\n"); }
-void CParticle::plat_set_mg( int entry, uint8 value ) { printf ("STUB: plat_set_mg\n"); }
-void CParticle::plat_set_mb( int entry, uint8 value ) { printf ("STUB: plat_set_mb\n"); }
-void CParticle::plat_set_ma( int entry, uint8 value ) { printf ("STUB: plat_set_ma\n"); }
-void CParticle::plat_set_er( int entry, uint8 value ) { printf ("STUB: plat_set_er\n"); }
-void CParticle::plat_set_eg( int entry, uint8 value ) { printf ("STUB: plat_set_eg\n"); }
-void CParticle::plat_set_eb( int entry, uint8 value ) { printf ("STUB: plat_set_eb\n"); }
-void CParticle::plat_set_ea( int entry, uint8 value ) { printf ("STUB: plat_set_ea\n"); }
+void CParticle::plat_set_sr( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_sr\n"); }
+void CParticle::plat_set_sg( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_sg\n"); }
+void CParticle::plat_set_sb( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_sb\n"); }
+void CParticle::plat_set_sa( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_sa\n"); }
+void CParticle::plat_set_mr( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_mr\n"); }
+void CParticle::plat_set_mg( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_mg\n"); }
+void CParticle::plat_set_mb( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_mb\n"); }
+void CParticle::plat_set_ma( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_ma\n"); }
+void CParticle::plat_set_er( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_er\n"); }
+void CParticle::plat_set_eg( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_eg\n"); }
+void CParticle::plat_set_eb( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_eb\n"); }
+void CParticle::plat_set_ea( int entry, uint8 value ) { (void)entry; (void)value; printf ("STUB: plat_set_ea\n"); }
 
 /******************************************************************/
 /*                                                                */
@@ -191,6 +207,7 @@ CParticle::CParticle()
 
 CParticle::CParticle( uint32 checksum )
 {
+	(void)checksum;
 	set_defaults();
 }
 
@@ -201,6 +218,8 @@ CParticle::CParticle( uint32 checksum )
 
 CParticle::CParticle( uint32 checksum, int maxParticles )
 {
+	(void)checksum;
+	(void)maxParticles;
 	set_defaults();
 }
 
@@ -841,59 +860,59 @@ bool CParticle::CallMemberFunction( uint32 Checksum, Script::CStruct *pParams, S
 							int elem;
 							if ( pParams->GetInteger("er",&elem) )
 							{
-								plat_set_er( entry, elem );
+								plat_set_er( entry, (uint8)elem );
 								m_end_set = true;
 							}
 							if ( pParams->GetInteger("eg",&elem) )
 							{
-								plat_set_eg( entry, elem );
+								plat_set_eg( entry, (uint8)elem );
 								m_end_set = true;
 							}
 							if ( pParams->GetInteger("eb",&elem) )
 							{
-								plat_set_eb( entry, elem );
+								plat_set_eb( entry, (uint8)elem );
 								m_end_set = true;
 							}
 							if ( pParams->GetInteger("ea",&elem) )
 							{
-								plat_set_ea( entry, elem );
+								plat_set_ea( entry, (uint8)elem );
 								m_end_set = true;
 							}
 							if ( pParams->GetInteger("mr",&elem) )
 							{
-								plat_set_mr( entry, elem );
+								plat_set_mr( entry, (uint8)elem );
 							}
 							if ( pParams->GetInteger("mg",&elem) )
 							{
-								plat_set_mg( entry, elem );
+								plat_set_mg( entry, (uint8)elem );
 							}
 							if ( pParams->GetInteger("mb",&elem) )
 							{
-								plat_set_mb( entry, elem );
+								plat_set_mb( entry, (uint8)elem );
 							}
 							if ( pParams->GetInteger("ma",&elem) )
 							{
-								plat_set_ma( entry, elem );
+								plat_set_ma( entry, (uint8)elem );
 							}
 							if ( pParams->GetInteger("sr",&elem) )
 							{
-								plat_set_sr( entry, elem );
-								if ( !m_end_set ) plat_set_er( entry, elem ); 
+								plat_set_sr( entry, (uint8)elem );
+								if ( !m_end_set ) plat_set_er( entry, (uint8)elem );
 							}
 							if ( pParams->GetInteger("sg",&elem) )
 							{
-								plat_set_sg( entry, elem );
-								if ( !m_end_set ) plat_set_eg( entry, elem ); 
+								plat_set_sg( entry, (uint8)elem );
+								if ( !m_end_set ) plat_set_eg( entry, (uint8)elem );
 							}
 							if ( pParams->GetInteger("sb",&elem) )
 							{
-								plat_set_sb( entry, elem );
-								if ( !m_end_set ) plat_set_eb( entry, elem ); 
+								plat_set_sb( entry, (uint8)elem );
+								if ( !m_end_set ) plat_set_eb( entry, (uint8)elem );
 							}
 							if ( pParams->GetInteger("sa",&elem) )
 							{
-								plat_set_sa( entry, elem );
-								if ( !m_end_set ) plat_set_ea( entry, elem ); 
+								plat_set_sa( entry, (uint8)elem );
+								if ( !m_end_set ) plat_set_ea( entry, (uint8)elem );
 							}
 						}
 					}

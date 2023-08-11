@@ -3486,6 +3486,8 @@ void ResizePark(GridDims newBounds)
 
 bool ScriptResizePark(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	static GridDims stored_dims;
 	
 	GridDims new_bounds;
@@ -3534,6 +3536,8 @@ bool ScriptResizePark(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetCurrentParkBounds(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	GridDims bounds = CParkManager::sInstance()->GetParkNearBounds();	
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("x"),bounds.GetX());
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("z"),bounds.GetZ());
@@ -3544,6 +3548,8 @@ bool ScriptGetCurrentParkBounds(Script::CStruct *pParams, Script::CScript *pScri
 
 bool ScriptCanChangeParkDimension(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	GridDims current_bounds = CParkManager::sInstance()->GetParkNearBounds();
 	GridDims max_bounds = CParkManager::sInstance()->GetParkFarBounds();
 	
@@ -3580,6 +3586,8 @@ bool ScriptCanChangeParkDimension(Script::CStruct *pParams, Script::CScript *pSc
 
 bool ScriptSaveParkToDisk(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int slot = 0;
 	pParams->GetInteger("slot", &slot, Script::ASSERT);
 	// XXX
@@ -3594,6 +3602,8 @@ bool ScriptSaveParkToDisk(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptLoadParkFromDisk(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	int slot = 0;
 	pParams->GetInteger("slot", &slot, Script::ASSERT);
 
@@ -3611,6 +3621,9 @@ bool ScriptLoadParkFromDisk(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptIsParkUnsaved(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	return !CParkManager::sInstance()->IsMapSavedLocally();
 }
 
@@ -3631,6 +3644,8 @@ bool ScriptFireCustomParkGap(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptSetEditedParkGapInfo(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name = nullptr;
 	pParams->GetString("name", &p_name);
 	int score = -1;
@@ -3649,6 +3664,8 @@ bool ScriptSetEditedParkGapInfo(Script::CStruct *pParams, Script::CScript *pScri
 
 bool ScriptGetEditedParkGapName(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	pScript->GetParams()->AddString("name", CCursor::sInstance()->GetGapName());
 
 	return true;
@@ -3656,11 +3673,17 @@ bool ScriptGetEditedParkGapName(Script::CStruct *pParams, Script::CScript *pScri
 
 bool ScriptParkEditorSelectionAreaTooBigToCopy(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	return CCursor::sInstance()->SelectionAreaTooBigToCopy();
 }
 
 bool ScriptCopyParkEditorSelectionToClipboard(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	bool success=CCursor::sInstance()->CopySelectionToClipboard();
 	CCursor::sInstance()->ClearAreaSelection();	
 	return success;
@@ -3668,12 +3691,18 @@ bool ScriptCopyParkEditorSelectionToClipboard(Script::CStruct *pParams, Script::
 
 bool ScriptSwitchParkEditorMenuPieceToMostRecentClipboard(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CParkEditor::Instance()->SwitchMenuPieceToMostRecentClipboard();
 	return true;
 }
 
 bool ScriptCutParkEditorAreaSelection(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	bool success=CCursor::sInstance()->CopySelectionToClipboard();
 	if (success)
 	{
@@ -3686,24 +3715,34 @@ bool ScriptCutParkEditorAreaSelection(Script::CStruct *pParams, Script::CScript 
 
 bool ScriptParkEditorAreaSelectionDeletePieces(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CCursor::sInstance()->DeleteSelectedPieces();
 	return true;
 }
 
 bool ScriptContinueParkEditorAreaSelection(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CCursor::sInstance()->ContinueAreaSelection();
 	return true;
 }
 	
 bool ScriptGetEditorTheme(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("theme"), CParkManager::sInstance()->GetTheme());
 	return true;
 }
 
 bool ScriptSetEditorTheme(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int theme=0;
 	pParams->GetInteger(Crc::ConstCRC("theme"),&theme);
 	CParkManager::sInstance()->SetTheme(theme);
@@ -3712,6 +3751,8 @@ bool ScriptSetEditorTheme(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptGetEditorMaxThemes(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("max_themes"), MAX_THEMES);
 	return true;
 }
@@ -3746,6 +3787,8 @@ bool ScriptGetCustomParkName(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptSetCustomParkName(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name = nullptr;
 	pParams->GetString("name", &p_name, Script::ASSERT);
 	CParkManager::sInstance()->SetParkName(p_name);
@@ -3756,6 +3799,8 @@ bool ScriptSetCustomParkName(Script::CStruct *pParams, Script::CScript *pScript)
 // @script | IsCustomPark | returns true if this is a custom park
 bool ScriptIsCustomPark(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
 	return Ed::CParkEditor::Instance()->UsingCustomPark();
 }
 
@@ -3763,6 +3808,8 @@ bool ScriptIsCustomPark(Script::CScriptStructure *pParams, Script::CScript *pScr
 
 bool ScriptBindParkEditorToController( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	int controller;
 	pParams->GetInteger( NONAME, &controller, Script::ASSERT );
 	CParkEditor* p_editor = CParkEditor::Instance();

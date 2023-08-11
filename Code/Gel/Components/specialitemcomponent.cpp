@@ -85,6 +85,7 @@ CSpecialItemComponent::~CSpecialItemComponent()
 // but you can pass in anything you like.	
 void CSpecialItemComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	// ** Add code to parse the structure, and initialize the component
 
 }
@@ -133,6 +134,8 @@ void CSpecialItemComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CSpecialItemComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		// @script | CreateSpecialItem | attaches a new special item to the skater in the specified slot
@@ -173,9 +176,9 @@ CBaseComponent::EMemberFunctionResult CSpecialItemComponent::CallMemberFunction(
                     client = gamenet_man->GetClient( 0 );
 					Dbg_Assert( client );
 	
-					msg.m_ObjId = GetObj()->GetID();
+					msg.m_ObjId = (char)GetObj()->GetID();
 					msg.m_Params = checksum;
-					msg.m_Index = index;
+					msg.m_Index = (char)index;
 					msg.m_Bone = bone;
 					
 					msg_desc.m_Data = &msg;
@@ -205,8 +208,8 @@ CBaseComponent::EMemberFunctionResult CSpecialItemComponent::CallMemberFunction(
                     client = gamenet_man->GetClient( 0 );
 					Dbg_Assert( client );
 	
-					msg.m_ObjId = GetObj()->GetID();
-					msg.m_Index = index;
+					msg.m_ObjId = (char)GetObj()->GetID();
+					msg.m_Index = (char)index;
 					
 					msg_desc.m_Data = &msg;
 					msg_desc.m_Length = sizeof( GameNet::MsgSpecialItem );

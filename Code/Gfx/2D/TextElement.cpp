@@ -457,7 +457,7 @@ void CTextElement::update()
 
 		if (m_use_shadow)
 		{
-			Image::RGBA true_rgba = m_shadow_rgba;
+			true_rgba = m_shadow_rgba;
 			if (m_summed_props.alpha >= .0001f)
 				true_rgba.a = (uint8) ((float) m_shadow_rgba.a * m_summed_props.alpha);
 			else
@@ -516,7 +516,7 @@ void CTextElement::update()
 
 			if (m_use_shadow)
 			{
-				Image::RGBA true_rgba = m_shadow_rgba;
+				true_rgba = m_shadow_rgba;
 				if (m_summed_props.alpha >= .0001f)
 					true_rgba.a = (uint8) ((float) m_shadow_rgba.a * m_summed_props.alpha);
 				else

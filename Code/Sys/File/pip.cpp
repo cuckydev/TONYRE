@@ -389,15 +389,15 @@ void LoadPre(const char *p_preFileName)
 		// cause the new data to overwrite the contents of p_source_contained.
 		SPreContained *p_next_source_contained=sSkipToNextPreContained(p_source_contained,NOT_QUAD_WORD_ALIGNED);
 
-		uint8 *p_source=(uint8*)(p_source_contained->mpName+p_source_contained->mNameSize);
-		uint8 *p_dest=(uint8*)(p_dest_contained->mpName+p_dest_contained->mNameSize);
-		p_dest=(uint8*)( ((uint32)p_dest+15)&~15 );
+		uint8 *p_file_source=(uint8*)(p_source_contained->mpName+p_source_contained->mNameSize);
+		uint8 *p_file_dest=(uint8*)(p_dest_contained->mpName+p_dest_contained->mNameSize);
+		p_file_dest = (uint8*)(((uint32)p_file_dest + 15) & ~15);
 
 		if (p_source_contained->mCompressedSize)
 		{
 			uint32 num_bytes_decompressed=p_dest_contained->mDataSize;
-			uint8 *p_end=DecodeLZSS(p_source,p_dest,p_source_contained->mCompressedSize);
-			Dbg_MsgAssert(p_end==p_dest+num_bytes_decompressed,("Eh? DecodeLZSS wrote %d bytes, expected it to write %d",p_end-p_dest,num_bytes_decompressed));
+			uint8 *p_end=DecodeLZSS(p_file_source, p_file_dest, p_source_contained->mCompressedSize);
+			Dbg_MsgAssert(p_end == p_file_dest + num_bytes_decompressed, ("Eh? DecodeLZSS wrote %d bytes, expected it to write %d", p_end - p_file_dest, num_bytes_decompressed));
 
 			// For neatness, write zero's into the pad bytes at the end, otherwise they'll
 			// be uninitialised data.
@@ -410,8 +410,8 @@ void LoadPre(const char *p_preFileName)
 		else
 		{
 			// Uncompressed, so just copy the data down.
-			uint32 *p_source_long=(uint32*)p_source;
-			uint32 *p_dest_long=(uint32*)p_dest;
+			uint32 *p_source_long=(uint32*)p_file_source;
+			uint32 *p_dest_long=(uint32*)p_file_dest;
 			// mDataSize is not necessarily a multiple of 4, but the actual data will be
 			// padded at the end so that it does occupy a whole number of long words.
 			// So the +3 is to ensure that n is rounded up to the next whole number of longs.
@@ -694,9 +694,6 @@ void Unload(const char *p_fileName)
 uint32 GetFileSize(uint32 fileNameCRC)
 {
 	// See if it is one of the unpreed files.
-	#ifdef __NOPT_ASSERT__
-	bool is_an_unpreed_file=false;
-	#endif
 	for (int i=0; i<MAX_UNPREED_FILES; ++i)
 	{
 		if (sp_unpreed_files[i].mpFileData)
@@ -705,10 +702,6 @@ uint32 GetFileSize(uint32 fileNameCRC)
 			{
 				Dbg_MsgAssert(sp_unpreed_files[i].mFileSize,("Zero mFileSize ??"));
 				return sp_unpreed_files[i].mFileSize;
-
-				#ifdef __NOPT_ASSERT__
-				is_an_unpreed_file=true;
-				#endif
 			}
 		}
 	}
@@ -716,7 +709,6 @@ uint32 GetFileSize(uint32 fileNameCRC)
 	SPreContained *p_contained_file=sSeeIfFileIsInAnyPre( fileNameCRC );
 	if (p_contained_file)
 	{
-		Dbg_MsgAssert(!is_an_unpreed_file,("'%s' is both unpreed, and also exists in %s ?",p_contained_file->mpName,sGetPreName(p_contained_file)));
 		Dbg_MsgAssert(p_contained_file->mDataSize,("Zero mDataSize ??"));
 		return p_contained_file->mDataSize;
 	}
@@ -811,6 +803,8 @@ bool PreFileIsInUse(const char *p_pre_name)
 // If no heap is specified it will use whatever the current heap is.
 bool ScriptLoadPipPre(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_filename;
 	pParams->GetString(NONAME, &p_filename, Script::ASSERT);
 
@@ -848,6 +842,8 @@ bool ScriptLoadPipPre(Script::CStruct *pParams, Script::CScript *pScript)
 // @uparm "string" | filename
 bool ScriptUnloadPipPre(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_filename;
 	pParams->GetString(NONAME, &p_filename, Script::ASSERT);
 
@@ -862,6 +858,8 @@ bool ScriptUnloadPipPre(Script::CStruct *pParams, Script::CScript *pScript)
 // greater than zero.
 bool ScriptDumpPipPreStatus(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	bool show_preed_files=pParams->ContainsFlag("ShowPreedFiles");
 	bool show_unpreed_files=pParams->ContainsFlag("ShowUnPreedFiles");
 	bool show_only_open_files=pParams->ContainsFlag("ShowOnlyOpenFiles");

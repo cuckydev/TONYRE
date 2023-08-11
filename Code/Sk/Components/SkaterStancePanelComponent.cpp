@@ -60,6 +60,8 @@ CSkaterStancePanelComponent::~CSkaterStancePanelComponent()
 
 void CSkaterStancePanelComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	m_last_stance = -1;
 }
 
@@ -130,6 +132,9 @@ void CSkaterStancePanelComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterStancePanelComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	switch ( Checksum )
 	{
         // @script | InNollie | true if in nollie

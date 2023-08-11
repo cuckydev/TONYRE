@@ -79,8 +79,8 @@ const char* CGoalPed::GetProFirstName()
 	Script::CStruct* pParams = GetGoalParams();
 	
 	// grab the pro
-	const char* p_default_pro_name;
-	const char* p_alternate_pro_name;
+	const char *p_default_pro_name = nullptr;
+	const char *p_alternate_pro_name = nullptr;
 	if ( !pParams->GetText( Crc::ConstCRC("pro"), &p_default_pro_name ) )
 	{
 		// printf("no pro associated with this goal\n");
@@ -95,7 +95,8 @@ const char* CGoalPed::GetProFirstName()
 	// printf("the current display name is %s\n", p_current_pro_name);
 	
 	// only check the display name if it's a pro
-	bool use_alternate = false;
+	// bool use_alternate = false;
+
 	if ( pSkaterProfile->IsPro() )
 	{	
 		// chop off the first name
@@ -110,11 +111,12 @@ const char* CGoalPed::GetProFirstName()
 		{
 			if ( pParams->GetText( Crc::ConstCRC("alternate_pro"), &p_alternate_pro_name ) )
 			{
-				use_alternate = true;
+				// use_alternate = true;
 				// printf("found an alternate name of %s\n", p_alternate_pro_name);
 			}
 			else
 			{
+				p_alternate_pro_name = nullptr;
 				// printf("no alternate pro found for this goal\n");
 				return 0;
 			}
@@ -122,7 +124,7 @@ const char* CGoalPed::GetProFirstName()
 	}
 	
 	// build the stream name
-	if ( use_alternate )
+	if (p_alternate_pro_name != nullptr)
 		return p_alternate_pro_name;
 	else
 		return p_default_pro_name;
@@ -161,8 +163,9 @@ bool CGoalPed::GetStreamChecksum( uint32* p_streamChecksum, int cam_anim_index, 
 	Dbg_MsgAssert( strlen( p_first_name ) + strlen( p_goal_name ) + 1 < MAX_STREAM_NAME_LENGTH, ( "buffer overflow" ) );
 	sprintf( p_stream_name, "%s_%s", p_first_name, p_goal_name );
 
+	size_t stream_name_length;
 	#ifdef	__NOPT_ASSERT__
-	uint32 stream_name_length = (uint32)strlen( p_stream_name );
+	stream_name_length = strlen( p_stream_name );
 	#endif
 	
 	// get string representation of difficulty level
@@ -207,10 +210,11 @@ bool CGoalPed::GetStreamChecksum( uint32* p_streamChecksum, int cam_anim_index, 
 	
 	// diff level
 	char p_diff_stream_name[MAX_STREAM_NAME_LENGTH];
-	Dbg_MsgAssert( stream_name_length + strlen( p_difficulty_level_string ) + 1 < MAX_STREAM_NAME_LENGTH, ( "buffer overflow" ) );
-	sprintf( p_diff_stream_name, "%s_%s", p_stream_name, p_difficulty_level_string );
+	sprintf(p_diff_stream_name, "%s_%s", p_stream_name, p_difficulty_level_string);
+
 	#ifdef	__NOPT_ASSERT__
-	uint32 diff_stream_name_length = (uint32)strlen( p_diff_stream_name );
+	Dbg_MsgAssert(stream_name_length + strlen(p_difficulty_level_string) + 1 < MAX_STREAM_NAME_LENGTH, ("buffer overflow"));
+	size_t diff_stream_name_length = strlen( p_diff_stream_name );
 	#endif
 	
 	// if we have a cam anim index...
@@ -270,7 +274,7 @@ bool CGoalPed::GetStreamChecksum( uint32* p_streamChecksum, int cam_anim_index, 
 	if ( p_speaker_name )
 	{
 		#ifdef	__NOPT_ASSERT__
-		int speaker_name_length = strlen( p_speaker_name );
+		size_t speaker_name_length = strlen( p_speaker_name );
 		// diff level and speaker name
 		Dbg_MsgAssert( diff_stream_name_length + speaker_name_length + 1 < MAX_STREAM_NAME_LENGTH, ( "buffer overflow" ) );
 		#endif
@@ -332,15 +336,15 @@ bool CGoalPed::GetStreamChecksum( uint32* p_streamChecksum, int cam_anim_index, 
 	for ( int i = start_index; i < 8; i++ )
 	{
 		// make sure there's something to check
-		int stream_name_length = strlen( pp_stream_names[i] );
-		if ( stream_name_length == 0 )
+		size_t this_stream_name_length = strlen( pp_stream_names[i] );
+		if (this_stream_name_length == 0 )
 		{
 			continue;
 		}
 		
 		// test lip version first - it's more likely to happen
 		char p_lip_stream[MAX_STREAM_NAME_LENGTH];
-		Dbg_MsgAssert( (uint32)stream_name_length + 4 < MAX_STREAM_NAME_LENGTH, ( "buffer overflow" ) );
+		Dbg_MsgAssert( (uint32)this_stream_name_length + 4 < MAX_STREAM_NAME_LENGTH, ( "buffer overflow" ) );
 		sprintf( p_lip_stream, "%s_lip", pp_stream_names[i] );
 		// printf("looking for %s\n", p_lip_stream );
 		uint32 lip_stream_checksum = Script::GenerateCRC( p_lip_stream );

@@ -187,6 +187,10 @@ void Init()
 
 void AddEntry(char *p_fileName, int lineNumber, const char *p_functionName, char *p_message)
 {
+	(void)p_fileName;
+	(void)lineNumber;
+	(void)p_functionName;
+	(void)p_message;
 }
 } // namespace Log
 #endif // #ifdef __PLAT_NGPS__

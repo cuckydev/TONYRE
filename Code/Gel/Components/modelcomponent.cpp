@@ -252,7 +252,6 @@ void CModelComponent::InitModel( Script::CStruct* pParams )
 			}
 			else if (pParams->GetArray(Crc::ConstCRC("geoms"), &p_geom_array))
 			{
-				uint32 geomName;
 				for (uint i = 0; i < p_geom_array->GetSize(); i++)
 				{
 					geomName = p_geom_array->GetChecksum(i);
@@ -486,7 +485,7 @@ bool CModelComponent::HideGeom( uint32 geomName, bool hidden, bool propagate )
 			//msg.m_Time = client->m_Timestamp;
 			msg.m_Hide = hidden;
 			msg.m_AtomicName = geomName;
-			msg.m_ObjId = GetObj()->GetID();
+			msg.m_ObjId = (char)GetObj()->GetID();
 
 			msg_desc.m_Data = &msg;
 			msg_desc.m_Length = sizeof( GameNet::MsgHideAtomic );
@@ -1076,7 +1075,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				Dbg_MsgAssert(0, ("Obj_SetLightAmbientColor: Can't find 'b' color"));
 			}
 
-			Image::RGBA rgb(r, g, b, 0x80);
+			Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
 
 			Dbg_MsgAssert(mp_model, ("Obj_SetLightAmbientColor: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_SetLightAmbientColor: MovingObject has no model lights"));
@@ -1153,7 +1152,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				Dbg_MsgAssert(0, ("Obj_SetLightDiffuseColor: Can't find 'b' color"));
 			}
 
-			Image::RGBA rgb(r, g, b, 0x80);
+			Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
 
 			Dbg_MsgAssert(mp_model, ("Obj_SetLightDiffuseColor: CModel is nullptr"));
 			Dbg_MsgAssert(mp_model->GetModelLights(), ("Obj_SetLightDiffuseColor: MovingObject has no model lights"));
@@ -1468,7 +1467,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				msg.m_StartAngle = static_cast< short >( start_angle );
 				msg.m_DeltaAngle = static_cast< short >( end_angle - start_angle );
 				msg.m_SinePower = static_cast< int >( sine_power );
-				msg.m_ObjId = GetObj()->GetID();
+				msg.m_ObjId = (char)GetObj()->GetID();
 				msg.m_HoldOnLastAngle = hold_on_last_angle;
 				msg.m_Flags = flags;
 	
@@ -1501,7 +1500,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 				Dbg_Assert( client );
 	
 				//msg.m_Time = client->m_Timestamp;
-				msg.m_ObjId = GetObj()->GetID();
+				msg.m_ObjId = (char)GetObj()->GetID();
 	
 				msg_desc.m_Data = &msg;
 				msg_desc.m_Length = sizeof( GameNet::MsgObjMessage );
@@ -1638,17 +1637,17 @@ void SDisplayRotationInfo::SetUp(float duration, Tmr::Time start_time, float sta
 
 float SDisplayRotationInfo::CalculateNewAngle()
 {
-	float new_angle=0.0f;
+	float new_angle = 0.0f;
 	if (m_active)
 	{
 		m_active = false;
-		SDisplayRotation *p_rotation=mpRotations;
-		for (int i=0; i<MAX_ROTATIONS; ++i)
+		SDisplayRotation *p_rotation = mpRotations;
+		for (int i = 0; i < MAX_ROTATIONS; ++i)
 		{
 			if (p_rotation->mDispRotating)
 			{
 				m_active = true;
-				new_angle+=p_rotation->CalculateNewAngle();
+				new_angle += p_rotation->CalculateNewAngle();
 			}
 			++p_rotation;
 		}
@@ -1694,7 +1693,7 @@ float SDisplayRotation::CalculateNewAngle()
 	
 	if (mDispRotating)
 	{
-		float t = (float)Tmr::ElapsedTime(0) - (float)mDispStartTime;
+		float t = (float)(Tmr::ElapsedTime(0) - mDispStartTime);
 		if (t > mDispDuration)
 		{
 			if (mHoldOnLastAngle)
@@ -1705,7 +1704,7 @@ float SDisplayRotation::CalculateNewAngle()
 			}
 			else
 			{
-				mDispRotating=false;
+				mDispRotating = false;
 			}	
 		}
 		else
@@ -1713,26 +1712,26 @@ float SDisplayRotation::CalculateNewAngle()
 			if (mDispSinePower)
 			{
 				float s;
-				if (mDispSinePower<0)
+				if (mDispSinePower < 0)
 				{
 					// If a negative sine power is specified, then use an upside-down and
 					// back-to-front sine wave. This gives a rotation which smoothly accelerates
 					// to a constant speed.
-					s=1.0f-sinf(1.570796327f-t*1.570796327f/mDispDuration);
+					s = 1.0f - sinf(1.570796327f - t * 1.570796327f / mDispDuration);
 				}
 				else
 				{
-					s=sinf(t*1.570796327f/mDispDuration);
-					for (int i=0; i<mDispSinePower-1; ++i)
+					s = sinf(t * 1.570796327f / mDispDuration);
+					for (int i=0; i < mDispSinePower - 1; ++i)
 					{
-						s=s*s;
+						s = s * s;
 					}
 				}	
-				new_angle=mDispStartAngle+s*mDispChangeInAngle;
+				new_angle = mDispStartAngle + s * mDispChangeInAngle;
 			}
 			else
 			{
-				new_angle=mDispStartAngle+t*mDispChangeInAngle/mDispDuration;
+				new_angle = mDispStartAngle + t * mDispChangeInAngle / mDispDuration;
 			}	
 		}	
 	}	

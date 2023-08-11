@@ -57,6 +57,7 @@ CMovableContactComponent::~CMovableContactComponent()
 
 void CMovableContactComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/
@@ -86,6 +87,9 @@ void CMovableContactComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CMovableContactComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

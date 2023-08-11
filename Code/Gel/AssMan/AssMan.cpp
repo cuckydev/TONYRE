@@ -616,6 +616,7 @@ void* CAssMan::GetAsset(const char *p_assetName, bool assertOnFail)
 
 void* CAssMan::LoadOrGetAsset(const char *p_assetName, bool async_load, bool use_pip, bool permanent, uint32 group, void* pExtraData, Script::CStruct * pParams)
 {
+	(void)group;
 	//returns a pointer to the asset data, and loads the asset if not found
 	
 	void *p_asset_data;

@@ -36,18 +36,26 @@ void CAsset::Unlink()
 
 int CAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pExtraData , Script::CStruct *pParams)
 {
+	(void)p_file;
+	(void)async_load;
+	(void)use_pip;
+	(void)pExtraData;
+	(void)pParams;
 	Dbg_MsgAssert(0,("CAsset::Load() should not be called"));
 	return 0;
 }  	
 
 int CAsset::Load(uint32* p_data, int data_size)
 {
+	(void)p_data;
+	(void)data_size;
 	Dbg_MsgAssert(0,("CAsset::Load() from data buffer should not be called"));
 	return 0;
 }
 
 int CAsset::Reload(const char *p_file)   
 {
+	(void)p_file;
 	Dbg_MsgAssert(0,("CAsset::Reload() should not be called"));
 	return 0;
 }

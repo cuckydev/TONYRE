@@ -405,7 +405,7 @@ bool NodeExists(uint32 checksum)
 // These only exist temporarily in memory.
 struct STempNode
 {
-	int mNodeIndex;
+	size_t mNodeIndex;
 	STempNode *mpNext;
 };
 
@@ -460,7 +460,7 @@ static uint32 sFindPrefixLookup(uint32 checksum)
 	
 	while (bottom!=middle)
 	{
-		uint32 ch=sp_prefix_lookups[middle].mChecksum;
+		uint32 ch = sp_prefix_lookups[middle].mChecksum;
 		
 		if (ch==checksum)
 		{
@@ -556,7 +556,7 @@ static void sConvertTempNodes()
 		p_node=p_first;
 		while (p_node)
 		{
-			*p_buf++=p_node->mNodeIndex;
+			*p_buf++ = (uint16)p_node->mNodeIndex;
 			p_node=p_node->mpNext;
 		}
 		

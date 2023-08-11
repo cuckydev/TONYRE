@@ -31,20 +31,6 @@
 **								   Defines									**
 *****************************************************************************/
 
-#ifdef __USER_MATT__
-#define DEBUGGING_REPLAY_RND 0
-#else
-#define DEBUGGING_REPLAY_RND 0
-#endif
-
-#if DEBUGGING_REPLAY_RND
-
-#define Rnd( x ) Rnd_DbgVersion( ( x ), __LINE__, __FILE__ )
-
-#else
-#define Rnd( x ) Rnd( x )
-#endif
-
 namespace Mth
 {
 						   
@@ -76,21 +62,17 @@ namespace Mth
 
 void InitialRand(int a);
 
-#if DEBUGGING_REPLAY_RND
+int Rnd_impl(int n);
 
-int Rnd_DbgVersion(int n, int line, char *file);
-void SetRndTestMode( int mode );
-bool RndFuckedUp( void );
-
-#else
-
-int Rnd(int n);
-
-#endif
+template <typename T>
+T Rnd(T n) { return (T)Rnd_impl(n); }
 
 // use for non-deterministic things
 // especially for CD-timing reliant stuff that would throw off our random number dealy whopper.
-int Rnd2(int n);
+int Rnd2_impl(int n);
+
+template <typename T>
+T Rnd2(T n) { return (T)Rnd2_impl(n); }
 
 float PlusOrMinus(float n);
 void InitSinLookupTable();

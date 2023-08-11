@@ -79,9 +79,10 @@ void CBaseMenu::SetProperties(Script::CStruct *pProps)
 
 
 bool CBaseMenu::PassTargetedEvent(Obj::CEvent *pEvent, bool broadcast)
-{	
-	
-	#ifdef	__NOPT_ASSERT__												 
+{
+	(void)broadcast;
+
+	#ifdef	__NOPT_ASSERT__
 	Obj::CSmtPtr<CBaseMenu> p = this;
 	uint32	debug_id = m_id;
 	#endif		

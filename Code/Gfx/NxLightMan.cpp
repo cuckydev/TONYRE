@@ -583,6 +583,8 @@ CSceneLight * CLightManager::sGetOptimumSceneLight( Mth::Vector & pos )
 // @parm int | b | Blue
 bool ScriptSetLightAmbientColor(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int r, g, b;
 	if (!pParams->GetInteger("r", &r))
 	{
@@ -597,7 +599,7 @@ bool ScriptSetLightAmbientColor(Script::CScriptStructure *pParams, Script::CScri
 		Dbg_MsgAssert(0, ("Can't find 'b' color"));
 	}
 	
-	Image::RGBA rgb(r, g, b, 0x80);
+	Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
 
 	return CLightManager::sSetLightAmbientColor(rgb);
 }
@@ -610,6 +612,9 @@ bool ScriptSetLightAmbientColor(Script::CScriptStructure *pParams, Script::CScri
 // @parm float | pitch | Pitch angle (in degrees)
 bool ScriptSetLightDirection(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	int index;
 	if (!pParams->GetInteger(Crc::ConstCRC("index"), &index))
 	{
@@ -641,6 +646,8 @@ bool ScriptSetLightDirection(Script::CScriptStructure *pParams, Script::CScript 
 // @parm int | b | Blue
 bool ScriptSetLightDiffuseColor(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	int index;
 	if (!pParams->GetInteger(Crc::ConstCRC("index"), &index))
 	{
@@ -661,7 +668,7 @@ bool ScriptSetLightDiffuseColor(Script::CScriptStructure *pParams, Script::CScri
 		Dbg_MsgAssert(0, ("Can't find 'b' color"));
 	}
 	
-	Image::RGBA rgb(r, g, b, 0x80);
+	Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
 
 	return CLightManager::sSetLightDiffuseColor(index, rgb);
 }
@@ -670,8 +677,10 @@ bool ScriptSetLightDiffuseColor(Script::CScriptStructure *pParams, Script::CScri
 // @script | GetLightCurrentColor | Gets the rgb values for ambient and directional lights
 bool ScriptGetLightCurrentColor(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+
 	int r=0, g=0, b=0;
-    Image::RGBA rgb(r, g, b, 0x80);
+    Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
     
     rgb = CLightManager::sGetLightAmbientColor();
 
@@ -713,6 +722,9 @@ bool ScriptGetLightCurrentColor(Script::CScriptStructure *pParams, Script::CScri
 // @script | PushWorldLights | Pushes current world lights onto stack, so they can be restored later.
 bool ScriptPushWorldLights(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	CLightManager::sPushWorldLights();
 	return true;
 }
@@ -720,12 +732,17 @@ bool ScriptPushWorldLights(Script::CScriptStructure *pParams, Script::CScript *p
 // @script | PopWorldLights | Restores last pushed world lights to the current world lights.
 bool ScriptPopWorldLights(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	return CLightManager::sPopWorldLights();
 }
 
 // @script | DrawDirectionalLightLines | Draws two lines to represent the directional lights
 bool ScriptDrawDirectionalLightLines(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	float heading;
 	pParams->GetFloat( Crc::ConstCRC("heading"), &heading, Script::ASSERT );
 
@@ -739,7 +756,7 @@ bool ScriptDrawDirectionalLightLines(Script::CScriptStructure *pParams, Script::
     pParams->GetInteger( Crc::ConstCRC("r"), &r, Script::ASSERT );
     pParams->GetInteger( Crc::ConstCRC("g"), &g, Script::ASSERT );
     pParams->GetInteger( Crc::ConstCRC("b"), &b, Script::ASSERT );
-    Image::RGBA rgb(r, g, b, 0x80);
+    Image::RGBA rgb((uint8)r, (uint8)g, (uint8)b, 0x80);
     //rgb = CLightManager::sGetLightDiffuseColor(0);
 
     Obj::CSkater *pSkater = Mdl::Skate::Instance()->GetLocalSkater();
@@ -1079,6 +1096,8 @@ void CLightManager::s_recalculate_sector_lighting( Nx::CSector *p_sector )
 /******************************************************************/
 void CLightManager::s_apply_lighting( Nx::CScene * p_scene, uint32 checksum )
 {
+	(void)p_scene;
+
 	// Now requires a checksum.
 	if( checksum == 0 )
 		return;
@@ -1313,7 +1332,7 @@ void CLightManager::sFakeLight(uint32 id, Script::CStruct *pParams)
 			pParams->GetInteger( Crc::ConstCRC("green"), &grn, true );
 			pParams->GetInteger( Crc::ConstCRC("blue"), &blu, true );
 
-			Image::RGBA col( red, grn, blu, 0xFF );
+			Image::RGBA col((uint8)red, (uint8)grn, (uint8)blu, 0xFF);
 
 			// Adjust the light color.
 			p_light->SetColor( col );
@@ -1348,7 +1367,7 @@ void CLightManager::sFakeLight(uint32 id, Script::CStruct *pParams)
 				pParams->GetInteger( Crc::ConstCRC("green"), &grn, true );
 				pParams->GetInteger( Crc::ConstCRC("blue"), &blu, true );
 
-				Image::RGBA col( red, grn, blu, 0xFF );
+				Image::RGBA col((uint8)red, (uint8)grn, (uint8)blu, 0xFF);
 
 				// Adjust the light color.
 				p_obj_light->SetLightColor( col );

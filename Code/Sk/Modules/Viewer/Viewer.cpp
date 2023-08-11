@@ -574,6 +574,8 @@ int CViewer::s_handle_incremental_update( Net::MsgHandlerContext* context )
 
 int CViewer::s_handle_update_material( Net::MsgHandlerContext* context )
 {
+	(void)context;
+
 	Dbg_Printf( "Got material update request....\n" );
 
 	return Net::HANDLER_CONTINUE;
@@ -947,9 +949,9 @@ CViewer* CViewer::sGetViewer()
 /*                                                                */
 /******************************************************************/
 				 
-void CViewer::SetCommand( const uint32 command )
+void CViewer::SetCommand( const uint32 mask )
 {
-	m_commands.SetMask( command );
+	m_commands.SetMask(mask);
 }
 
 /******************************************************************/

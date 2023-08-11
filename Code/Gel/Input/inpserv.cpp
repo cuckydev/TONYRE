@@ -532,7 +532,7 @@ void Data::OverrideAnalogPadWithStick( void )
 	}
 	else if( m_Event[vA_LEFT_X] < vANALOGUE_CENTER )
 	{
-		m_Event[vA_LEFT] = Mth::Abs( vANALOGUE_CENTER - m_Event[vA_LEFT_X] );
+		m_Event[vA_LEFT] = (uint8)Mth::Abs( vANALOGUE_CENTER - m_Event[vA_LEFT_X] );
 		m_Buttons |= mD_LEFT;
 	}
     
@@ -543,7 +543,7 @@ void Data::OverrideAnalogPadWithStick( void )
 	}
 	else if( m_Event[vA_LEFT_Y] > vANALOGUE_CENTER )
 	{
-		m_Event[vA_DOWN] = Mth::Abs( vANALOGUE_CENTER - m_Event[vA_LEFT_Y] );
+		m_Event[vA_DOWN] = (uint8)Mth::Abs( vANALOGUE_CENTER - m_Event[vA_LEFT_Y] );
 		m_Buttons |= mD_DOWN;
 	}
 }

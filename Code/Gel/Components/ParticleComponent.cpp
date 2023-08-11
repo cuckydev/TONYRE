@@ -274,7 +274,7 @@ void CParticleComponent::InitFromStructure( Script::CStruct* pParams )
 	part.m_RotMatrix.RotateZ( angles[Z] );
 	
 
-	if (part.m_LocalCoord = pParams->ContainsFlag(Crc::ConstCRC("LocalSpace")))
+	if ((part.m_LocalCoord = pParams->ContainsFlag(Crc::ConstCRC("LocalSpace"))) == true)
 	{
 		for (int i = 0; i < Nx::vNUM_BOXES; i++)
 		{
@@ -296,6 +296,8 @@ void CParticleComponent::InitFromStructure( Script::CStruct* pParams )
 // but you can pass in anything you like.	
 void CParticleComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// Default to just calline InitFromStructure()
 	// but if that does not handle it, then will need to write a specific 
 	// function here. 
@@ -303,8 +305,6 @@ void CParticleComponent::RefreshFromStructure( Script::CStruct* pParams )
 	// and we don't want to be asserting becasue everything is missing 
 	
 	//InitFromStructure(pParams);
-
-
 }
 
 /******************************************************************/
@@ -389,6 +389,8 @@ void CParticleComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CParticleComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		case 0x88be2262:	// SetStartPos
@@ -548,10 +550,10 @@ CBaseComponent::EMemberFunctionResult CParticleComponent::CallMemberFunction( ui
 			{
 				Image::RGBA color;
 
-				color.r = array->GetInt( 0 );
-				color.g = array->GetInt( 1 );
-				color.b = array->GetInt( 2 );
-				color.a = array->GetInt( 3 );
+				color.r = (uint8)array->GetInt( 0 );
+				color.g = (uint8)array->GetInt( 1 );
+				color.b = (uint8)array->GetInt( 2 );
+				color.a = (uint8)array->GetInt( 3 );
 				mp_particle->SetColor( Nx::vBOX_START, &color );
 			}
 			break;
@@ -565,10 +567,10 @@ CBaseComponent::EMemberFunctionResult CParticleComponent::CallMemberFunction( ui
 			{
 				Image::RGBA color;
 
-				color.r = array->GetInt( 0 );
-				color.g = array->GetInt( 1 );
-				color.b = array->GetInt( 2 );
-				color.a = array->GetInt( 3 );
+				color.r = (uint8)array->GetInt( 0 );
+				color.g = (uint8)array->GetInt( 1 );
+				color.b = (uint8)array->GetInt( 2 );
+				color.a = (uint8)array->GetInt( 3 );
 				mp_particle->SetColor( Nx::vBOX_MID, &color );
 			}
 			break;
@@ -582,10 +584,10 @@ CBaseComponent::EMemberFunctionResult CParticleComponent::CallMemberFunction( ui
 			{
 				Image::RGBA color;
 
-				color.r = array->GetInt( 0 );
-				color.g = array->GetInt( 1 );
-				color.b = array->GetInt( 2 );
-				color.a = array->GetInt( 3 );
+				color.r = (uint8)array->GetInt( 0 );
+				color.g = (uint8)array->GetInt( 1 );
+				color.b = (uint8)array->GetInt( 2 );
+				color.a = (uint8)array->GetInt( 3 );
 				mp_particle->SetColor( Nx::vBOX_END, &color );
 			}
 			break;

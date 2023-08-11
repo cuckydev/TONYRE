@@ -1081,23 +1081,23 @@ bool ScriptLaunchEvent(Script::CStruct *pParams, Script::CScript *pScript)
 	}
 	else
 	{
-		Script::CArray* pTypes;
-		if (pParams->GetArray(Crc::ConstCRC("type"), &pTypes))
+		Script::CArray *pTypesArray;
+		if (pParams->GetArray(Crc::ConstCRC("type"), &pTypesArray))
 		{
-			Dbg_Assert(pTypes->GetType() == ESYMBOLTYPE_NAME)
-			unsigned num_events = pTypes->GetSize();
+			Dbg_Assert(pTypesArray->GetType() == ESYMBOLTYPE_NAME)
+			unsigned num_events = pTypesArray->GetSize();
 			for (unsigned n = 0; n < num_events; n++)
 			{
 				p_tracker->LogEventScript(pScript->mScriptChecksum);
-				p_tracker->LaunchEvent(pTypes->GetChecksum(n), target, source, pData, broadcast);
+				p_tracker->LaunchEvent(pTypesArray->GetChecksum(n), target, source, pData, broadcast);
 			}
 		}
 		else
 		{
-			Script::CStruct* pTypes;
-			if (pParams->GetStructure(Crc::ConstCRC("type"), &pTypes))
+			Script::CStruct *pTypesStruct;
+			if (pParams->GetStructure(Crc::ConstCRC("type"), &pTypesStruct))
 			{
-				for (Script::CComponent* pComp = pTypes->GetNextComponent(); pComp; pComp = pTypes->GetNextComponent(pComp))
+				for (Script::CComponent *pComp = pTypesStruct->GetNextComponent(); pComp; pComp = pTypesStruct->GetNextComponent(pComp))
 				{
 					Dbg_Assert(pComp->mType == ESYMBOLTYPE_NAME);
 					p_tracker->LogEventScript(pScript->mScriptChecksum);
@@ -1132,6 +1132,8 @@ bool ScriptWaitForEvent(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptObjectExists(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	// Although events aren't necessarily tied to the Screen Element system, it is
 	// convenient to enable this function to support complex ID's, for when we
 	// are dealing with Screen Elements
@@ -1147,6 +1149,8 @@ bool ScriptObjectExists(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptTerminateObjectsScripts(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Front::CScreenElementManager* p_manager = Front::CScreenElementManager::Instance();
 	uint32 id = p_manager->ResolveComplexID(pParams, Crc::ConstCRC("id"));
 	
@@ -1190,6 +1194,8 @@ bool ScriptTerminateObjectsScripts(Script::CStruct *pParams, Script::CScript *pS
 
 bool ScriptAssignAlias(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Front::CScreenElementManager* p_manager = Front::CScreenElementManager::Instance();
 	uint32 id_of_original = p_manager->ResolveComplexID(pParams, Crc::ConstCRC("id"));
 	
@@ -1210,6 +1216,8 @@ bool ScriptAssignAlias(Script::CStruct *pParams, Script::CScript *pScript)
 
 bool ScriptSetObjectProperties(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	Front::CScreenElementManager* p_manager = Front::CScreenElementManager::Instance();
 	uint32 id_of_original = p_manager->ResolveComplexID(pParams, Crc::ConstCRC("id"));
 	
@@ -1227,6 +1235,8 @@ bool ScriptSetObjectProperties(Script::CStruct *pParams, Script::CScript *pScrip
 
 bool ScriptPrintEventLog(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	bool only_print_new = true;
 	
 	int num_to_print = CEventLog::MAX_LOG_ENTRIES;

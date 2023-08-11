@@ -131,6 +131,8 @@ void CProjectileCollisionComponent::InitFromStructure( Script::CStruct* pParams 
 // but you can pass in anything you like.	
 void CProjectileCollisionComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// Default to just calline InitFromStructure()
 	// but if that does not handle it, then will need to write a specific 
 	// function here. 
@@ -158,6 +160,7 @@ void CProjectileCollisionComponent::Finalize()
 
 void	CProjectileCollisionComponent::Hide( bool should_hide )
 {
+	(void)should_hide;
 }
 
 
@@ -235,7 +238,7 @@ void CProjectileCollisionComponent::Update()
 				GameNet::MsgProjectileHit hit_msg;
 				Net::MsgDesc msg_desc;
 				Net::Server* server;
-				GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
+				// GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 
 				server = gamenet_man->GetServer();
 
@@ -258,8 +261,8 @@ void CProjectileCollisionComponent::Update()
 				}
 	
 				// a message explaining "You've been hit down by ID for N damage"
-				hit_msg.m_Id = m_owner_id;
-				hit_msg.m_Damage = get_damage_amount();
+				hit_msg.m_Id = (char)m_owner_id;
+				hit_msg.m_Damage = (char)get_damage_amount();
 	
 				/*if (CInputComponent* p_input_component = GetInputComponentFromObject(GetObj()))
 				{
@@ -276,7 +279,7 @@ void CProjectileCollisionComponent::Update()
 				server->EnqueueMessage( target_player->GetConnHandle(), &msg_desc );
 	
 				// basically a message explaining "You hit someone"
-				hit_msg.m_Id = pSkater->GetID();
+				hit_msg.m_Id = (char)pSkater->GetID();
 				msg_desc.m_Id = GameNet::MSG_ID_SKATER_PROJECTILE_HIT_TARGET;
 				server->EnqueueMessage( src_player->GetConnHandle(), &msg_desc );	
 				
@@ -321,6 +324,9 @@ void CProjectileCollisionComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CProjectileCollisionComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

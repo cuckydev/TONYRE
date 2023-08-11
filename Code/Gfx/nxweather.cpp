@@ -39,6 +39,7 @@ void CWeather::plat_update_grid( void )
 	
 void CWeather::plat_process( float delta_time )
 {
+	(void)delta_time;
 	printf ("STUB: plat_process\n");
 }
 
@@ -59,6 +60,8 @@ void CWeather::plat_render( void )
 
 void CWeather::plat_set_rain_blend_mode( uint32 blendmode_checksum, int fix )
 {
+	(void)blendmode_checksum;
+	(void)fix;
 	printf ("STUB: plat_set_rain_blend_mode\n");
 }
 
@@ -69,6 +72,8 @@ void CWeather::plat_set_rain_blend_mode( uint32 blendmode_checksum, int fix )
 
 void CWeather::plat_set_splash_blend_mode( uint32 blendmode_checksum, int fix )
 {
+	(void)blendmode_checksum;
+	(void)fix;
 	printf ("STUB: plat_set_splash_blend_mode\n");
 }
 
@@ -79,6 +84,8 @@ void CWeather::plat_set_splash_blend_mode( uint32 blendmode_checksum, int fix )
 
 void CWeather::plat_set_snow_blend_mode( uint32 blendmode_checksum, int fix )
 {
+	(void)blendmode_checksum;
+	(void)fix;
 	printf ("STUB: plat_set_snow_blend_mode\n");
 }
 
@@ -171,6 +178,8 @@ void CWeather::Render( void )
 // @parm height | The height of the rain in inches - defaults to 2000 inches.
 bool CWeather::ScriptWeatherSetRainHeight( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_rain_height = 2000.0f;		// Default
 	pParams->GetFloat( NONAME, &m_rain_height );
 
@@ -186,6 +195,8 @@ bool CWeather::ScriptWeatherSetRainHeight( Script::CStruct* pParams, Script::CSc
 // @parm frames | Number of frames for the rain to fall from RainHeight to the ground. Defaults to 40 frames.
 bool CWeather::ScriptWeatherSetRainFrames( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_rain_frames = 40;		// Default
 	pParams->GetInteger( NONAME, &m_rain_frames );
 	if ( m_rain_frames < 0 ) m_rain_frames = 0;
@@ -203,6 +214,8 @@ bool CWeather::ScriptWeatherSetRainFrames( Script::CStruct* pParams, Script::CSc
 // @parm length | Length of the rain drops in inches. Defaults to 100 inches.
 bool CWeather::ScriptWeatherSetRainLength( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_rain_length = 100.0f;		// Default
 	pParams->GetFloat( NONAME, &m_rain_length );
 
@@ -220,6 +233,8 @@ bool CWeather::ScriptWeatherSetRainLength( Script::CStruct* pParams, Script::CSc
 // @parmopt int | Fixed alpha value. Defaults to 64. Range is 0-255. Only required if using fix blend modes.
 bool CWeather::ScriptWeatherSetRainBlendMode( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 blendmode_checksum = 0;
 	if ( !pParams->GetChecksum( NONAME, &blendmode_checksum ) )
 	{
@@ -242,6 +257,8 @@ bool CWeather::ScriptWeatherSetRainBlendMode( Script::CStruct* pParams, Script::
 // @parm rate | The number of new drops of rain per frame. Defaults to 0 (off).
 bool CWeather::ScriptWeatherSetRainRate( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_rain_drops_per_frame = 0.0f;		// Default
 	pParams->GetFloat( NONAME, &m_rain_drops_per_frame );
 
@@ -258,6 +275,8 @@ bool CWeather::ScriptWeatherSetRainRate( Script::CStruct* pParams, Script::CScri
 // @parm bottom | The color of the rain at the bottom of the droplet. Defaults to 0xffffffff
 bool CWeather::ScriptWeatherSetRainColor( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 color;
 
 	color = 0x00000000;
@@ -288,6 +307,8 @@ bool CWeather::ScriptWeatherSetRainColor( Script::CStruct* pParams, Script::CScr
 // @parm rate | The number of splashes per frame. 1 is the maximum. Defaults to 0 (off).
 bool CWeather::ScriptWeatherSetSplashRate( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_splash_per_frame = 0.0f;		// Default
 	pParams->GetFloat( NONAME, &m_splash_per_frame );
 
@@ -303,6 +324,8 @@ bool CWeather::ScriptWeatherSetSplashRate( Script::CStruct* pParams, Script::CSc
 // @parm life | Number of frames the splash is on screen. Defaults to 8. Maximum is 32.
 bool CWeather::ScriptWeatherSetSplashLife( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_splash_life = 8;		// Default
 	pParams->GetInteger( NONAME, &m_splash_life );
 
@@ -318,6 +341,8 @@ bool CWeather::ScriptWeatherSetSplashLife( Script::CStruct* pParams, Script::CSc
 // @parm size | Sets the size of a splash on screen - defaults to 16 inches.
 bool CWeather::ScriptWeatherSetSplashSize( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_splash_size = 16.0f;		// Default
 	pParams->GetFloat( NONAME, &m_splash_size );
 
@@ -333,6 +358,8 @@ bool CWeather::ScriptWeatherSetSplashSize( Script::CStruct* pParams, Script::CSc
 // @parm color | The color of the splash. Defaults to 0x80808080.
 bool CWeather::ScriptWeatherSetSplashColor( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 color;
 
 	color = 0x80808080;
@@ -357,6 +384,8 @@ bool CWeather::ScriptWeatherSetSplashColor( Script::CStruct* pParams, Script::CS
 // @parmopt int | Fixed alpha value. Defaults to 64. Range is 0-255. Only required if using fix blend modes.
 bool CWeather::ScriptWeatherSetSplashBlendMode( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 blendmode_checksum = 0;
 	if ( !pParams->GetChecksum( NONAME, &blendmode_checksum ) )
 	{
@@ -379,6 +408,8 @@ bool CWeather::ScriptWeatherSetSplashBlendMode( Script::CStruct* pParams, Script
 // @parm height | The height of the snow in inches - defaults to 500 inches.
 bool CWeather::ScriptWeatherSetSnowHeight( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_snow_height = 500.0f;		// Default
 	pParams->GetFloat( NONAME, &m_snow_height );
 
@@ -394,6 +425,8 @@ bool CWeather::ScriptWeatherSetSnowHeight( Script::CStruct* pParams, Script::CSc
 // @parm frames | Number of frames for the snow to fall from SnowHeight to the ground. Defaults to 254 frames.
 bool CWeather::ScriptWeatherSetSnowFrames( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_snow_frames = 254;		// Default
 	pParams->GetInteger( NONAME, &m_snow_frames );
 
@@ -412,6 +445,8 @@ bool CWeather::ScriptWeatherSetSnowFrames( Script::CStruct* pParams, Script::CSc
 // @parm size | Size of the snow flakes in inches. Defaults to 4 inches.
 bool CWeather::ScriptWeatherSetSnowSize( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_snow_size = 4.0f;		// Default
 	pParams->GetFloat( NONAME, &m_snow_size );
 
@@ -429,6 +464,8 @@ bool CWeather::ScriptWeatherSetSnowSize( Script::CStruct* pParams, Script::CScri
 // @parmopt int | Fixed alpha value. Defaults to 64. Range is 0-255. Only required if using fix blend modes.
 bool CWeather::ScriptWeatherSetSnowBlendMode( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 blendmode_checksum = 0;
 	if ( !pParams->GetChecksum( NONAME, &blendmode_checksum ) )
 	{
@@ -451,6 +488,8 @@ bool CWeather::ScriptWeatherSetSnowBlendMode( Script::CStruct* pParams, Script::
 // @parm rate | The number of new flakes of snow per frame. Defaults to 0 (off).
 bool CWeather::ScriptWeatherSetSnowRate( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	m_snow_flakes_per_frame = 0.0f;		// Default
 	pParams->GetFloat( NONAME, &m_snow_flakes_per_frame );
 
@@ -466,6 +505,8 @@ bool CWeather::ScriptWeatherSetSnowRate( Script::CStruct* pParams, Script::CScri
 // @parm col | The color of the snow. Defaults to 0x80808080
 bool CWeather::ScriptWeatherSetSnowColor( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 color;
 
 	color = 0x80808080;
@@ -487,6 +528,9 @@ bool CWeather::ScriptWeatherSetSnowColor( Script::CStruct* pParams, Script::CScr
 // @script | WeatherSetSnowActive | Sets weather system to snow mode.
 bool CWeather::ScriptWeatherSetSnowActive( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	m_raining = false;
 
 	return true;
@@ -500,6 +544,9 @@ bool CWeather::ScriptWeatherSetSnowActive( Script::CStruct* pParams, Script::CSc
 // @script | WeatherSetRainActive | Sets weather system to rain mode.
 bool CWeather::ScriptWeatherSetRainActive( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	m_raining = true;
 
 	return true;

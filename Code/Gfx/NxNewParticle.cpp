@@ -502,6 +502,7 @@ void	CNewParticle::plat_destroy( void )
 
 void	CNewParticle::plat_hide( bool should_hide )
 {
+	(void)should_hide;
 	Dbg_Printf( "STUB: plat_destroy\n" );
 }
 

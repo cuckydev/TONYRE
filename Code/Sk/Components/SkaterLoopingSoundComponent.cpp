@@ -276,6 +276,9 @@ void CSkaterLoopingSoundComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterLoopingSoundComponent::CallMemberFunction ( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+	(void)pParams;
+
 	switch ( Checksum )
 	{
 		case Crc::ConstCRC("SkaterLoopingSound_TurnOn"):

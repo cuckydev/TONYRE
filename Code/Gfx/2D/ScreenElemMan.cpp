@@ -298,6 +298,7 @@ CScreenElementPtr CScreenElementManager::GetElement(Script::CStruct *pStructCont
 
 CScreenElementPtr CScreenElementManager::GetElement(Script::CStruct *pStructContainingId, char *pIdSubStructName, EAssert assert)
 {
+	(void)assert;
 	return GetElement(pStructContainingId,Script::GenerateCRC(pIdSubStructName),ASSERT);
 }
 
@@ -731,6 +732,7 @@ void CScreenElementManager::UnregisterObject ( Obj::CObject& obj )
 
 void CScreenElementManager::KillObject ( Obj::CObject& obj )
 {
+	(void)obj;
 	Dbg_MsgAssert(0, ("this virtual function not supported"));
 }
 
@@ -1086,6 +1088,8 @@ bool ScriptRunScriptOnScreenElement(Script::CScriptStructure *pParams, Script::C
 
 bool ScriptSetScreenElementProps(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement(pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT);
 			
@@ -1106,6 +1110,8 @@ CScreenElementPtr KlaabuBaabu()
 
 bool ScriptDoScreenElementMorph(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement(pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT);
 			
@@ -1124,6 +1130,8 @@ bool ScriptDoScreenElementMorph(Script::CScriptStructure *pParams, Script::CScri
 
 bool ScriptSetScreenElementLock(Script::CStruct *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement(pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT);
 	Dbg_MsgAssert(p_elem, ("element not in manager"));
@@ -1141,6 +1149,9 @@ bool ScriptSetScreenElementLock(Script::CStruct *pParams, Script::CScript *pScri
 
 bool ScriptScreenElementSystemInit(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 	CWindowElement *p_window = new CWindowElement();
 	Mem::Manager::sHandle().PopContext();
@@ -1194,6 +1205,8 @@ bool ScriptGetScreenElementDims(Script::CScriptStructure *pParams, Script::CScri
 // maximum width.  This has no effect on TextElements.
 bool ScriptTextElementConcatenate(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement( pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT );
 	
@@ -1223,6 +1236,8 @@ bool ScriptTextElementConcatenate(Script::CScriptStructure *pParams, Script::CSc
 // @parm name | id | the element id
 bool ScriptTextElementBackspace(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement( pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT );
 
@@ -1342,6 +1357,8 @@ bool ScriptGetScreenElementPosition(Script::CScriptStructure *pParams, Script::C
 // @flag last | checks if the selected item is the last item
 bool ScriptMenuSelectedIndexIs(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement(pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT);
 
@@ -1372,6 +1389,8 @@ bool ScriptMenuSelectedIndexIs(Script::CScriptStructure *pParams, Script::CScrip
 // @parm name | id | the id to look for...supports compound id's
 bool ScriptScreenElementExists(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement( pParams, Crc::ConstCRC("id"), CScreenElementManager::DONT_ASSERT );
 	if ( p_elem )
@@ -1409,7 +1428,9 @@ bool ScriptGetScreenElementProps( Script::CScriptStructure *pParams, Script::CSc
 
 bool ScriptSetRootScreenElement( Script::CStruct* pParams, Script::CScript* pScript )
 {
-	CScreenElementManager* pManager = CScreenElementManager::Instance();	  
+	(void)pScript;
+
+	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	uint32 id = pManager->ResolveComplexID(pParams, Crc::ConstCRC("id"));
 	if ( id )
 	{

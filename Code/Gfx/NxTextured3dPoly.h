@@ -37,7 +37,7 @@ public:
 		
 private:
 	virtual void			plat_render() {}
-	virtual void			plat_set_texture(uint32 texture_checksum) {}
+	virtual void			plat_set_texture(uint32 texture_checksum) { (void)texture_checksum; }
 	
 };
 

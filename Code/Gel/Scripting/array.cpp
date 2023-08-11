@@ -30,6 +30,7 @@ CArray::~CArray()
 bool CArray::operator==( const CArray& v ) const
 {
 	// TODO ...
+	(void)v;
 	#ifdef __NOPT_ASSERT__
 	printf("CArray comparisons are not supported yet ... implement when needed\n");
 	#endif
@@ -73,12 +74,12 @@ void CArray::Clear()
 				{
 					// The array contains a pointer to something.
 					// The CArray cannot delete it itself because this would cause cyclic dependencies.
-					Dbg_MsgAssert(0,("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName(m_type)));
+					Dbg_MsgAssert(0,("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName((uint8)m_type)));
 					break;
 				}	
 				
 				default:
-					Dbg_MsgAssert(0,("Bad CArray::m_type of '%s'",GetTypeName(m_type)));
+					Dbg_MsgAssert(0,("Bad CArray::m_type of '%s'",GetTypeName((uint8)m_type)));
 					break;
 			}		
 			#endif
@@ -111,13 +112,13 @@ void CArray::Clear()
 					// The CArray cannot delete them itself because this would cause cyclic dependencies.
 					for (uint32 i=0; i<m_size; ++i)
 					{
-						Dbg_MsgAssert(mp_array_data[i]==0,("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName(m_type)));
+						Dbg_MsgAssert(mp_array_data[i]==0,("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName((uint8)m_type)));
 					}
 					break;
 				}	
 				
 				default:
-					Dbg_MsgAssert(0,("Bad CArray::m_type of '%s'",GetTypeName(m_type)));
+					Dbg_MsgAssert(0,("Bad CArray::m_type of '%s'",GetTypeName((uint8)m_type)));
 					break;
 			}		
 			#endif
@@ -132,7 +133,7 @@ void CArray::Clear()
 }
 
 // Calls Clear, sets the size and type, allocates the buffer if necessary and initialises it to all zeroes.
-void CArray::SetSizeAndType(int size, ESymbolType type)
+void CArray::SetSizeAndType(size_t size, ESymbolType type)
 {
 	switch (type)
 	{
@@ -152,7 +153,7 @@ void CArray::SetSizeAndType(int size, ESymbolType type)
 			break;
 			
 		default:
-			Dbg_MsgAssert(0,("Bad type of '%s' sent to CArray::SetSizeAndType",GetTypeName(type)));
+			Dbg_MsgAssert(0,("Bad type of '%s' sent to CArray::SetSizeAndType",GetTypeName((uint8)type)));
 			break;
 	}		
 	
@@ -191,7 +192,7 @@ void CArray::SetSizeAndType(int size, ESymbolType type)
 	}	
 }
 
-void CArray::Resize(uint32 newSize)
+void CArray::Resize(size_t newSize)
 {
 	if (newSize==m_size)
 	{
@@ -250,7 +251,7 @@ uint32 *CArray::GetArrayPointer() const
 
 void CArray::SetString(uint32 index, char *p_string)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRING,("Called CArray::SetString when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRING,("Called CArray::SetString when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetString, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -267,7 +268,7 @@ void CArray::SetString(uint32 index, char *p_string)
 
 void CArray::SetLocalString(uint32 index, char *p_string)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_LOCALSTRING,("Called CArray::SetLocalString when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_LOCALSTRING,("Called CArray::SetLocalString when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetLocalString, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -284,7 +285,7 @@ void CArray::SetLocalString(uint32 index, char *p_string)
 
 void CArray::SetInteger(uint32 index, int int_val)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_INTEGER,("Called CArray::SetInteger when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_INTEGER,("Called CArray::SetInteger when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetInteger, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -299,7 +300,7 @@ void CArray::SetInteger(uint32 index, int int_val)
 
 void CArray::SetFloat(uint32 index, float float_val)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_FLOAT,("Called CArray::SetFloat when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_FLOAT,("Called CArray::SetFloat when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetFloat, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -314,7 +315,7 @@ void CArray::SetFloat(uint32 index, float float_val)
 
 void CArray::SetChecksum(uint32 index, uint32 checksum)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_NAME,("Called CArray::SetChecksum when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_NAME,("Called CArray::SetChecksum when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetChecksum, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -329,7 +330,7 @@ void CArray::SetChecksum(uint32 index, uint32 checksum)
 
 void CArray::SetVector(uint32 index, CVector *p_vector)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_VECTOR,("Called CArray::SetVector when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_VECTOR,("Called CArray::SetVector when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetVector, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -346,7 +347,7 @@ void CArray::SetVector(uint32 index, CVector *p_vector)
 
 void CArray::SetPair(uint32 index, CPair *p_pair)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_PAIR,("Called CArray::SetPair when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_PAIR,("Called CArray::SetPair when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetPair, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -363,7 +364,7 @@ void CArray::SetPair(uint32 index, CPair *p_pair)
 
 void CArray::SetStructure(uint32 index, CStruct *p_struct)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRUCTURE,("Called CArray::SetStructure when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRUCTURE,("Called CArray::SetStructure when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetStructure, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -380,7 +381,7 @@ void CArray::SetStructure(uint32 index, CStruct *p_struct)
 
 void CArray::SetArray(uint32 index, CArray *p_array)
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_ARRAY,("Called CArray::SetArray when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_ARRAY,("Called CArray::SetArray when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::SetArray, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -402,7 +403,7 @@ char *CArray::GetString(uint32 index) const
 	{
 		return GetLocalString(index);
 	}	
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRING,("Called CArray::GetString when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRING,("Called CArray::GetString when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetString, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -421,7 +422,7 @@ char *CArray::GetLocalString(uint32 index) const
 	{
 		return GetString(index);
 	}	
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_LOCALSTRING,("Called CArray::GetLocalString when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_LOCALSTRING,("Called CArray::GetLocalString when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetLocalString, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -436,7 +437,7 @@ char *CArray::GetLocalString(uint32 index) const
 
 int CArray::GetInteger(uint32 index) const
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_INTEGER,("Called CArray::GetInteger when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_INTEGER,("Called CArray::GetInteger when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetInteger, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -451,7 +452,7 @@ int CArray::GetInteger(uint32 index) const
 
 float CArray::GetFloat(uint32 index) const
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_FLOAT || m_type==ESYMBOLTYPE_INTEGER,("Called CArray::GetFloat when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_FLOAT || m_type==ESYMBOLTYPE_INTEGER,("Called CArray::GetFloat when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetFloat, m_size=%d",index,m_size));
 	
 	if (m_size==1)
@@ -482,7 +483,7 @@ float CArray::GetFloat(uint32 index) const
 
 uint32 CArray::GetChecksum(uint32 index) const
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_NAME,("Called CArray::GetChecksum when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_NAME,("Called CArray::GetChecksum when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetChecksum, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -497,7 +498,7 @@ uint32 CArray::GetChecksum(uint32 index) const
 
 CVector	*CArray::GetVector(uint32 index) const
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_VECTOR,("Called CArray::GetVector when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_VECTOR,("Called CArray::GetVector when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetVector, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -512,7 +513,7 @@ CVector	*CArray::GetVector(uint32 index) const
 
 CPair *CArray::GetPair(uint32 index) const
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_PAIR,("Called CArray::GetPair when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_PAIR,("Called CArray::GetPair when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetPair, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -527,7 +528,7 @@ CPair *CArray::GetPair(uint32 index) const
 
 CStruct *CArray::GetStructure(uint32 index) const
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRUCTURE,("Called CArray::GetStructure when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_STRUCTURE,("Called CArray::GetStructure when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetStructure, m_size=%d",index,m_size));
 	if (m_size==1)
 	{
@@ -542,7 +543,7 @@ CStruct *CArray::GetStructure(uint32 index) const
 
 CArray *CArray::GetArray(uint32 index) const
 {
-	Dbg_MsgAssert(m_type==ESYMBOLTYPE_ARRAY,("Called CArray::GetArray when m_type was '%s'",GetTypeName(m_type)));
+	Dbg_MsgAssert(m_type==ESYMBOLTYPE_ARRAY,("Called CArray::GetArray when m_type was '%s'",GetTypeName((uint8)m_type)));
 	Dbg_MsgAssert(index<m_size,("Bad index of %d sent to CArray::GetArray, m_size=%d",index,m_size));
 	if (m_size==1)
 	{

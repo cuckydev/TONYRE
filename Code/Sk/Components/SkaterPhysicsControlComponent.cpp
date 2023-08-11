@@ -70,6 +70,8 @@ CSkaterPhysicsControlComponent::~CSkaterPhysicsControlComponent()
 
 void CSkaterPhysicsControlComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CSkaterPhysicsControlComponent added to non-skater composite object"));
 	
 	m_physics_suspended = false;
@@ -143,6 +145,8 @@ void CSkaterPhysicsControlComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterPhysicsControlComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	switch ( Checksum )
 	{
 		// @script | PausePhysics | PausePhysics will stop all programmatic movement and rotation of the skater

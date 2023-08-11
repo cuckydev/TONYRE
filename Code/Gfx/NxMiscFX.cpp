@@ -358,10 +358,10 @@ void ScreenFlashUpdate( void )
 				{
 					// Calculate the current color.
 					float mult				= p_details->m_lifetime / p_details->m_duration;
-					p_details->m_current.r	= p_details->m_to.r + (int)(((float)p_details->m_from.r - (float)p_details->m_to.r ) * mult );
-					p_details->m_current.g	= p_details->m_to.g + (int)(((float)p_details->m_from.g - (float)p_details->m_to.g ) * mult );
-					p_details->m_current.b	= p_details->m_to.b + (int)(((float)p_details->m_from.b - (float)p_details->m_to.b ) * mult );
-					p_details->m_current.a	= p_details->m_to.a + (int)(((float)p_details->m_from.a - (float)p_details->m_to.a ) * mult );
+					p_details->m_current.r	= p_details->m_to.r + (uint8)(((float)p_details->m_from.r - (float)p_details->m_to.r ) * mult );
+					p_details->m_current.g	= p_details->m_to.g + (uint8)(((float)p_details->m_from.g - (float)p_details->m_to.g ) * mult );
+					p_details->m_current.b	= p_details->m_to.b + (uint8)(((float)p_details->m_from.b - (float)p_details->m_to.b ) * mult );
+					p_details->m_current.a	= p_details->m_to.a + (uint8)(((float)p_details->m_from.a - (float)p_details->m_to.a ) * mult );
 				}
 				else
 				{
@@ -548,7 +548,7 @@ bool TextureSplat( Mth::Vector& splat_start, Mth::Vector& splat_end, float size,
 
 	int				sector_table_index = 0;
 	Nx::CCollStatic *p_coll_obj;
-	while(( p_coll_obj = *pp_coll_obj_list ))
+	while(( p_coll_obj = *pp_coll_obj_list ) != nullptr)
 	{
 		if( p_coll_obj->GetGeometry())
 		{

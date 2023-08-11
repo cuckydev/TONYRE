@@ -102,6 +102,8 @@ CStatsManagerComponent::~CStatsManagerComponent()
 // but you can pass in anything you like.	
 void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
 {
+    (void)pParams;
+
 	// ** Add code to parse the structure, and initialize the component
     
     showed_info = false;    // need to grab this from memcard eventually
@@ -923,6 +925,8 @@ void CStatsManagerComponent::SetSkater( CSkater* p_skater )
 /******************************************************************/
 void CStatsManagerComponent::SetTrick( char *trick_name, int base_score, bool is_switch )
 {
+    (void)is_switch;
+
     if ( base_score != last_base_score )
     {
         last_trick_name = trick_name;
@@ -937,6 +941,8 @@ void CStatsManagerComponent::SetTrick( char *trick_name, int base_score, bool is
 
 void CStatsManagerComponent::CheckTimedRecord( uint32 checksum, float time, bool final )
 {
+    (void)final;
+
     if ( !(Mdl::Skate::Instance()->GetGameMode()->IsTrue( Crc::ConstCRC("is_career") )) )
     {
         return;

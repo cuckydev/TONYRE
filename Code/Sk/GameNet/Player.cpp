@@ -497,7 +497,7 @@ PlayerInfo::PlayerInfo( int flags )
 
 	for( i = 0; i < Mdl::Skate::vMAX_SKATERS; i++ )
 	{
-		m_LastSentProps.m_LastSkaterFlagsUpdate[i] = -1;
+		m_LastSentProps.m_LastSkaterFlagsUpdate[i] = ~((uint)0);
 		m_LastSentProps.m_LastSkaterStateUpdate[i] = -1;
 		m_LastSentProps.m_LastDoingTrickUpdate[i] = -1;
 		for( j = 0; j < 3; j++ )
@@ -573,19 +573,17 @@ void	PlayerInfo::SetSkater( Obj::CSkater* skater )
 
 void	PlayerInfo::SetFaceData( uint8* face_data, int size )
 {
-	uint8 player_id;
-
 	Dbg_Assert( m_face_data == nullptr );
 	Dbg_Assert( face_data != nullptr );
 	Dbg_Assert( m_Skater != nullptr );
 
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetMiscHeap());
 
-	player_id = m_Skater->GetID();
+	uint32 player_id = m_Skater->GetID();
 		 
 	// Store the player's skater id as the first byte of the face data
 	m_face_data = new uint8[size+1];
-	*m_face_data = player_id;
+	*m_face_data = (uint8)player_id;
 	memcpy( m_face_data + 1, face_data, size );
 
 	Mem::Manager::sHandle().PopContext();

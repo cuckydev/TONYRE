@@ -636,6 +636,8 @@ inline Mth::Vector CVehicleComponent::calculate_body_point_velocity ( const Mth:
 
 inline void CVehicleComponent::accumulate_force ( const Mth::Vector& force, const Mth::Vector& location, uint32 color )
 {
+	(void)color;
+
 	m_force += force;
 	m_torque += Mth::CrossProduct(location - m_suspension_center_of_mass_world, force);
 	

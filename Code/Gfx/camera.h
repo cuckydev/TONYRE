@@ -149,6 +149,7 @@ inline void Camera::SetNearFarClipPlanes ( float nearPlane, float farPlane )
 
 inline void Camera::SetFogNearPlane ( float nearPlane ) 
 {
+	(void)nearPlane;
 //	printf ("STUBBED:  SetFogNearPlane\n");
 }
 

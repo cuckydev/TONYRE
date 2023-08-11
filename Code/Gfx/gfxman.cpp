@@ -105,7 +105,7 @@ int gDumpMem = 0;
 
 void		Manager::s_start_render_code ( const Tsk::Hook< Manager >& hook )
 {
-	
+	(void)hook;
 }
 
 /******************************************************************/
@@ -241,6 +241,8 @@ void	Manager::ToggleMetrics( void )
 
 void		Manager::AssertText ( int line, const char* text )
 {
+	(void)line;
+	(void)text;
 }
 
 /******************************************************************/

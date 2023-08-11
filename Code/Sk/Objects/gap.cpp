@@ -267,6 +267,8 @@ void	CGapChecklist::AddGapCheck(const char *p_name, int count, int score)
 																					  
 void CGapChecklist::got_gap(Script::CStruct *pScriptStruct, const uint8 *pPC)
 {
+	(void)pPC;
+
 	int score=0;
 	pScriptStruct->GetInteger(Crc::ConstCRC("score"),&score);
 	
@@ -479,6 +481,8 @@ void CGapChecklist::Reset()
 
 bool CGapChecklist::ScriptGetLevelGapTotals( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGapCheck *pGap =  (CGapCheck*) m_gapcheck_list.FirstItem();
 	
 	int total_gaps = 0;
@@ -501,6 +505,8 @@ bool CGapChecklist::ScriptGetLevelGapTotals( Script::CStruct* pParams, Script::C
 
 bool CGapChecklist::ScriptAddGapsToMenu( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	uint32 choose_script=Crc::ConstCRC("nullscript");
 	pParams->GetChecksum(Crc::ConstCRC("choose_script"),&choose_script);
 
@@ -549,6 +555,8 @@ bool CGapChecklist::ScriptAddGapsToMenu( Script::CStruct* pParams, Script::CScri
 
 bool CGapChecklist::ScriptCreateGapList( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+
 	CGapCheck *p_gap =  (CGapCheck*) m_gapcheck_list.FirstItem();
 
 	int num_gaps=0;
@@ -647,6 +655,8 @@ bool ScriptGetLevelGapTotals( Script::CStruct* pParams, Script::CScript* pScript
 // @parm int | level | the level number | optional
 bool ScriptGiveAllGaps( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Obj::CSkaterCareer* pCareer = skate_mod->GetCareer();
 
@@ -684,6 +694,8 @@ CGapCheck *CGapChecklist::get_indexed_gapcheck(int gap_index)
 
 bool CGapChecklist::ScriptGotGap( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	int	gap_index = 0;
 	pParams->GetInteger(NONAME,&gap_index,true);		 
 	return get_indexed_gapcheck(gap_index)->Got();

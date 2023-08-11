@@ -394,6 +394,9 @@ void CWalkCameraComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CWalkCameraComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		// @script | WalkCamera_FlushRequest | Force the camera to lerp quickly to behind the walker

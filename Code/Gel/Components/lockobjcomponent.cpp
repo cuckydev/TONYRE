@@ -157,7 +157,7 @@ void CLockObjComponent::Update()
 	
 CBaseComponent::EMemberFunctionResult CLockObjComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-
+	(void)pScript;
 		
 	switch ( Checksum )
 	{
@@ -459,7 +459,8 @@ Manager::~Manager()
 
 void Manager::s_code( const Tsk::Task< Manager >& task )
 {
-	
+	(void)task;
+
 //	if (Mdl::FrontEnd::Instance()->GamePaused())
 //	{
 //		// Must not update if game paused, because the game could be running a replay,

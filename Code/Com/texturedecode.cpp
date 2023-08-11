@@ -20,7 +20,7 @@ namespace TextureDecode
 		uint8_t header[18] = { 0,0,2,0,0,0,0,0,0,0,0,0, (uint8_t)(width % 256), (uint8_t)(width / 256), (uint8_t)(height % 256), (uint8_t)(height / 256), 32, 0x20 };
 		fwrite(&header, 18, 1, fp);
 
-		for (size_t i = 0; i < width * height * 4; i += 4)
+		for (size_t j = 0; j < width * height * 4; j += 4)
 		{
 			fputc(out[2], fp);
 			fputc(out[1], fp);

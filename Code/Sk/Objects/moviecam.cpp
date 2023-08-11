@@ -481,8 +481,8 @@ bool CMovieManager::AddMovieToQueue( uint32 name, Script::CStruct* pParams, uint
 			{
 				for ( int i = 0; i < get_movie_count(); i++ )
 				{
-					CMovieDetails* pDetails = get_movie_details( i );
-					if ( pDetails->GetName() == Crc::ConstCRC("cutscene") )
+					CMovieDetails* pThisDetails = get_movie_details( i );
+					if (pThisDetails->GetName() == Crc::ConstCRC("cutscene"))
 					{
 						// GJ:  theoretically, we should be able to just clear the movie queue
 						// to get rid of the extra cutscene, but i suspect that there will be

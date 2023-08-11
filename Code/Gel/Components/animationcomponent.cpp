@@ -1091,7 +1091,7 @@ void CAnimationComponent::PlayPrimarySequence( uint32 animName, bool propagate, 
 		GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 		GameNet::PlayerInfo* player;
 		
-		player = gamenet_man->GetPlayerByObjectID( GetObj()->GetID() );
+		player = gamenet_man->GetPlayerByObjectID( (unsigned short)GetObj()->GetID() );
 		if ( player && player->IsLocalPlayer())
 		{
 			GameNet::MsgPlayPrimaryAnim	anim_msg;
@@ -1106,7 +1106,7 @@ void CAnimationComponent::PlayPrimarySequence( uint32 animName, bool propagate, 
 
 			//anim_msg.m_Time = client->m_Timestamp;
             anim_msg.m_Index = animName;
-			anim_msg.m_ObjId = GetObj()->GetID();
+			anim_msg.m_ObjId = (char)GetObj()->GetID();
 			anim_msg.m_LoopingType = loop_type;
 			anim_msg.m_StartTime = (unsigned short )( start_time * 4096.0f );
 			anim_msg.m_EndTime = ((unsigned short )( end_time * 4096.0f ));
@@ -1132,7 +1132,7 @@ void CAnimationComponent::PlayPrimarySequence( uint32 animName, bool propagate, 
 			size = (unsigned int) stream - (unsigned int) msg;
             
 			msg_desc.m_Data = msg;
-			msg_desc.m_Length = size;
+			msg_desc.m_Length = (unsigned short)size;
 			msg_desc.m_Id = GameNet::MSG_ID_PRIM_ANIM_START;
 			client->EnqueueMessageToServer( &msg_desc );
 		}
@@ -1220,7 +1220,7 @@ void CAnimationComponent::SetWobbleTarget( float alpha, bool propagate )
 		GameNet::PlayerInfo* player;
 		static unsigned char s_last_alpha = 255;
 		
-		player = gamenet_man->GetPlayerByObjectID( GetObj()->GetID() );
+		player = gamenet_man->GetPlayerByObjectID( (unsigned short)GetObj()->GetID() );
 		if ( player && player->IsLocalPlayer())
 		{
 			Net::Client* client;
@@ -1240,7 +1240,7 @@ void CAnimationComponent::SetWobbleTarget( float alpha, bool propagate )
 			
 			//msg.m_Time = client->m_Timestamp;
 			msg.m_Alpha = (unsigned char ) ( alpha * 255.0f );
-			msg.m_ObjId = GetObj()->GetID();
+			msg.m_ObjId = (char)GetObj()->GetID();
 			
 			if( s_last_alpha != msg.m_Alpha )
 			{
@@ -1378,7 +1378,7 @@ void CAnimationComponent::SetWobbleDetails( const Gfx::SWobbleDetails& wobble_de
 		GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 		GameNet::PlayerInfo* player;
 
-		player = gamenet_man->GetPlayerByObjectID( GetObj()->GetID() );
+		player = gamenet_man->GetPlayerByObjectID( (unsigned short) GetObj()->GetID() );
 		if ( player && player->IsLocalPlayer())
 		{
 			Net::Client* client;
@@ -1402,7 +1402,7 @@ void CAnimationComponent::SetWobbleDetails( const Gfx::SWobbleDetails& wobble_de
 			msg.m_WobbleDetails |= ( mask << 4 );
 			mask = s_get_wobble_mask( GameNet::MsgSetWobbleDetails::vSPAZFACTOR, wobble_details.spazFactor );
 			msg.m_WobbleDetails |= ( mask << 5 );
-			msg.m_ObjId = GetObj()->GetID();
+			msg.m_ObjId = (char)GetObj()->GetID();
 
 			// Only propagate if it's actually different from our last wobble details message
 			if( s_last_mask != msg.m_WobbleDetails )
@@ -1461,7 +1461,7 @@ void CAnimationComponent::SetLoopingType( Gfx::EAnimLoopingType looping_type, bo
 
 			//msg.m_Time = client->m_Timestamp;
 			msg.m_LoopingType = looping_type;
-			msg.m_ObjId = GetObj()->GetID();
+			msg.m_ObjId = (char)GetObj()->GetID();
 			if( s_last_type != looping_type )
 			{
 				Net::MsgDesc msg_desc;
@@ -1536,7 +1536,7 @@ void CAnimationComponent::SetAnimSpeed( float speed, bool propagate, bool all_ch
 
 				//msg.m_Time = client->m_Timestamp;
 				msg.m_AnimSpeed = speed;
-				msg.m_ObjId = GetObj()->GetID();
+				msg.m_ObjId = (char)GetObj()->GetID();
 
 				msg_desc.m_Data = &msg;
 				msg_desc.m_Length = sizeof( GameNet::MsgSetAnimSpeed );
@@ -1573,6 +1573,9 @@ void CAnimationComponent::SetAnimSpeed( float speed, bool propagate, bool all_ch
 
 float CAnimationComponent::GetAnimSpeed( Script::CStruct* pParams, Script::CScript* pScript )
 {	
+	(void)pParams;
+	(void)pScript;
+
 	if ( !get_primary_channel() )
 	{
 		// no primary channel, so do nothing
@@ -1941,7 +1944,7 @@ void CAnimationComponent::get_blend_channel( int blendChannel, Gfx::CPose* pResu
 {
 	float blendVal = 0.0f;
 	Gfx::CBlendChannel* pBlendChannel = nullptr;
-	if ( 1 || ShouldBlend() )
+	if (true) // ( 1 || ShouldBlend() )
 	{
 		Dbg_MsgAssert( blendChannel >= 0 && blendChannel < (int)m_blendChannelList.CountItems(), ( "out of range blend channel %d (0-%d)", blendChannel, m_blendChannelList.CountItems() ) ); 
 		pBlendChannel = (Gfx::CBlendChannel*)m_blendChannelList.GetItem(blendChannel);
@@ -2106,6 +2109,8 @@ void CAnimationComponent::update_skeleton()
 
 bool CAnimationComponent::FlipAnimation( uint32 objId, bool flip, uint32 time, bool propagate )
 {
+	(void)time;
+
 	if( propagate )
 	{
 		GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
@@ -2121,7 +2126,7 @@ bool CAnimationComponent::FlipAnimation( uint32 objId, bool flip, uint32 time, b
 			client = gamenet_man->GetClient( player->GetSkaterNumber());
 			Dbg_Assert( client );
 
-			msg.m_ObjId = objId;
+			msg.m_ObjId = (char)objId;
 			msg.m_Flipped = flip;
 			//msg.m_Time = time;
 

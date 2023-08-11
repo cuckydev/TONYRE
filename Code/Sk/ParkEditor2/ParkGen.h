@@ -7,7 +7,7 @@
 #define DEBUG_THIS_DAMN_THING 0
 
 #if defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ )
-	inline void ParkEd(const char* A ...) {};
+	inline void ParkEd(const char *A ...) { (void)A; };
 #else
 
 	#if DEBUG_THIS_DAMN_THING

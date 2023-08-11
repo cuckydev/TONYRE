@@ -383,6 +383,7 @@ void CSfxManager::CleanUp( void )
 
 bool CSfxManager::IDAvailable(uint32 id)
 {
+	(void)id;
 	// return !SoundIsPlaying(id, nullptr);
 	return false;
 }
@@ -394,6 +395,7 @@ bool CSfxManager::IDAvailable(uint32 id)
 
 int CSfxManager::GetVoiceFromID(uint32 id)
 {
+	(void)id;
 	/*
 	int i;
 
@@ -433,6 +435,7 @@ int CSfxManager::GetVoiceFromID(uint32 id)
 
 uint32 CSfxManager::GenerateUniqueID(uint32 id)
 {
+	(void)id;
 	/*
 	// Keep incrementing ID until one works.
 	while (!IDAvailable(id))
@@ -452,6 +455,7 @@ uint32 CSfxManager::GenerateUniqueID(uint32 id)
 /******************************************************************/
 void CSfxManager::SetDefaultDropoffDist( float dist )
 {
+	(float)dist;
 	/*
 	if( NoSoundPlease())
 		return;
@@ -508,6 +512,7 @@ void CSfxManager::PauseSounds( void )
 /******************************************************************/
 WaveTableEntry * CSfxManager::GetWaveTableIndex( uint32 checksum )
 {
+	(void)checksum;
 	/*
 	if( NoSoundPlease())
 		return nullptr;
@@ -589,6 +594,9 @@ bool CSfxManager::PositionalSoundSilenceMode()
 /******************************************************************/
 bool CSfxManager::AdjustObjectSound( Obj::CSoundComponent *pObj, VoiceInfo *pVoiceInfo, Tmr::Time gameTime )
 {
+	(void)gameTime;
+	(void)pVoiceInfo;
+	(void)pObj;
 	/*
 	Dbg_Assert( pVoiceInfo );
 
@@ -756,6 +764,8 @@ void CSfxManager::UpdatePositionalSounds( void )
 /******************************************************************/
 void CSfxManager::RemovePositionalSoundFromList( PositionalSoundEntry *pEntry, bool stopIfPlaying )
 {
+	(void)pEntry;
+	(void)stopIfPlaying;
 	/*
 	pEntry->flags = 0;
 	
@@ -792,6 +802,7 @@ void CSfxManager::RemovePositionalSoundFromList( PositionalSoundEntry *pEntry, b
 /******************************************************************/
 void CSfxManager::ObjectBeingRemoved( Obj::CSoundComponent *pObj )
 {
+	(void)pObj;
 	/*
 	PositionalSoundEntry *pEntry = GpPositionalSounds;
 	PositionalSoundEntry *pTemp;
@@ -819,6 +830,8 @@ void CSfxManager::ObjectBeingRemoved( Obj::CSoundComponent *pObj )
 /******************************************************************/
 void CSfxManager::StopObjectSound( Obj::CSoundComponent *pObj, uint32 checksum )
 {
+	(void)pObj;
+	(void)checksum;
 	/*
 	PositionalSoundEntry *pEntry = GpPositionalSounds;
 	PositionalSoundEntry *pTemp;
@@ -848,6 +861,9 @@ void CSfxManager::StopObjectSound( Obj::CSoundComponent *pObj, uint32 checksum )
 /******************************************************************/
 void CSfxManager::AddPositionalSoundToUpdateList( uint32 uniqueID, uint32 soundChecksum, Obj::CSoundComponent *pObj )
 {
+	(void)uniqueID;
+	(void)soundChecksum;
+	(void)pObj;
 	/*
 	if( !uniqueID )
 	{
@@ -898,6 +914,11 @@ void CSfxManager::AddPositionalSoundToUpdateList( uint32 uniqueID, uint32 soundC
 /******************************************************************/
 bool CSfxManager::LoadSound( const char *sfxName,  int flags, float dropoff, float pitch, float volume )
 {
+	(void)sfxName;
+	(void)flags;
+	(void)dropoff;
+	(void)pitch;
+	(void)volume;
 	/*
 	if( NoSoundPlease())
 		return false;
@@ -979,6 +1000,9 @@ bool CSfxManager::LoadSound( const char *sfxName,  int flags, float dropoff, flo
 /******************************************************************/
 void CSfxManager::TweakVolumeAndPitch( sVolume *p_vol, float *pitch, WaveTableEntry* waveTableIndex )
 {
+	(void)p_vol;
+	(void)pitch;
+	(void)waveTableIndex;
 	/*
 	if( NoSoundPlease())
 		return;
@@ -1023,6 +1047,12 @@ void CSfxManager::TweakVolumeAndPitch( sVolume *p_vol, float *pitch, WaveTableEn
 /******************************************************************/
 uint32 CSfxManager::PlaySfx( uint32 checksum, sVolume *p_vol, float pitch, uint32 controlID, SoundUpdateInfo *pUpdateInfo, const char *pSoundName )
 {
+	(void)checksum;
+	(void)p_vol;
+	(void)pitch;
+	(void)controlID;
+	(void)pUpdateInfo;
+	(void)pSoundName;
 	/*
 	if( NoSoundPlease())
 		return 0;
@@ -1137,6 +1167,7 @@ uint32 CSfxManager::PlaySfx( uint32 checksum, sVolume *p_vol, float pitch, uint3
 /******************************************************************/
 bool CSfxManager::StopSound( uint32 uniqueID )
 {
+	(void)uniqueID;
 	/*
 	if( NoSoundPlease())
 		return true;
@@ -1158,6 +1189,9 @@ bool CSfxManager::StopSound( uint32 uniqueID )
 
 bool CSfxManager::SetSoundParams( uint32 uniqueID, sVolume *p_vol, float pitch )
 {
+	(void)uniqueID;
+	(void)p_vol;
+	(void)pitch;
 	/*
 	if( NoSoundPlease())
 		return true;
@@ -1210,6 +1244,7 @@ bool CSfxManager::SetSoundParams( uint32 uniqueID, sVolume *p_vol, float pitch )
 /******************************************************************/
 void CSfxManager::SetMainVolume( float volume )
 {
+	(void)volume;
 	/*
 	if( NoSoundPlease())
 		return;
@@ -1253,6 +1288,9 @@ float CSfxManager::GetMainVolume( void )
 /******************************************************************/
 void CSfxManager::SetReverb( float reverbLevel, int reverbMode, bool instant )
 {
+	(void)reverbLevel;
+	(void)reverbMode;
+	(void)instant;
 	/*
 	if( NoSoundPlease())
 		return;
@@ -1271,6 +1309,8 @@ void CSfxManager::SetReverb( float reverbLevel, int reverbMode, bool instant )
 /******************************************************************/
 bool CSfxManager::SoundIsPlaying( uint32 uniqueID, int *pWhichVoice )
 {
+	(void)uniqueID;
+	(void)pWhichVoice;
 	/*
 	if( NoSoundPlease())
 		return 0;
@@ -1332,6 +1372,7 @@ int CSfxManager::GetNumSoundsPlaying()
 /******************************************************************/
 float CSfxManager::GetDropoffDist( uint32 soundChecksum )
 {
+	(void)soundChecksum;
 	/*
 	if( NoSoundPlease())
 		return DefaultDropoffDist;
@@ -1355,6 +1396,9 @@ float CSfxManager::GetDropoffDist( uint32 soundChecksum )
 /******************************************************************/
 bool CSfxManager::UpdateLoopingSound( uint32 soundID, sVolume *p_vol, float pitch )
 {
+	(void)soundID;
+	(void)p_vol;
+	(void)pitch;
 	/*
 	if( NoSoundPlease())
 		return true;
@@ -1446,6 +1490,8 @@ bool CSfxManager::UpdateLoopingSound( uint32 soundID, sVolume *p_vol, float pitc
 /******************************************************************/
 void CSfxManager::Get5ChannelMultipliers( const Mth::Vector &sound_source, float *p_multipliers )
 {
+	(void)sound_source;
+	(void)p_multipliers;
 	/*
 	float angle	= Mth::RadToDeg( atan2f( sound_source[X], -sound_source[Z] ));
 	Get5ChannelMultipliers( angle, p_multipliers );
@@ -1462,6 +1508,8 @@ void CSfxManager::Get5ChannelMultipliers( const Mth::Vector &sound_source, float
 /******************************************************************/
 void CSfxManager::Get5ChannelMultipliers( float angle, float *p_multipliers )
 {
+	(void)angle;
+	(void)p_multipliers;
 	/*
 	static float speakers[5][3]	= {	{ 330.00f, 240.01f, 359.99f },		// Front left max angle, min angle0, min angle1
 									{  30.00f,   0.01f,	119.99f },		// Front right
@@ -1525,6 +1573,12 @@ void CSfxManager::Get5ChannelMultipliers( float angle, float *p_multipliers )
 void CSfxManager::SetVolumeFromPos( sVolume *p_vol, const Mth::Vector &soundSource, float dropoffDist, EDropoffFunc dropoff_func,
 									Gfx::Camera *p_camera,  const Mth::Vector *p_dropoff_pos)
 {
+	(void)p_vol;
+	(void)soundSource;
+	(void)dropoffDist;
+	(void)dropoff_func;
+	(void)p_camera;
+	(void)p_dropoff_pos;
 	/*
 	if( NoSoundPlease())
 		return;
@@ -1732,6 +1786,11 @@ void CSfxManager::SetVolumeFromPos( sVolume *p_vol, const Mth::Vector &soundSour
 /******************************************************************/
 void CSfxManager::AdjustPitchForDoppler( float *pitch, const Mth::Vector &currentPos, const Mth::Vector &oldPos, float elapsedTime, Gfx::Camera *pCam )
 {
+	(void)pitch;
+	(void)currentPos;
+	(void)oldPos;
+	(void)elapsedTime;
+	(void)pCam;
 	/*
 #	ifndef __PLAT_NGC__
 	const float cutoff_dist =  360.0f;	// in inches
@@ -1785,6 +1844,8 @@ void CSfxManager::AdjustPitchForDoppler( float *pitch, const Mth::Vector &curren
 /******************************************************************/
 ObjectSoundInfo *CSfxManager::GetObjectSoundProperties( Obj::CSoundComponent *pObj, uint32 checksum )
 {
+	(void)pObj;
+	(void)checksum;
 	/*
 	PositionalSoundEntry *pEntry = GpPositionalSounds;
 	while( pEntry )
@@ -1814,6 +1875,10 @@ ObjectSoundInfo *CSfxManager::GetObjectSoundProperties( Obj::CSoundComponent *pO
 /******************************************************************/
 uint32 CSfxManager::PlaySoundWithPos( uint32 soundChecksum, SoundUpdateInfo *pUpdateInfo, Obj::CSoundComponent *pObj, bool noPosUpdate )
 {
+	(void)soundChecksum;
+	(void)pUpdateInfo;
+	(void)pObj;
+	(void)noPosUpdate;
 	/*
 	if( NoSoundPlease())
 		return 0;

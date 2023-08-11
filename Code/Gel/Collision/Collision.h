@@ -551,6 +551,7 @@ inline Mth::CBBox *		CCollObj::get_bbox()
 
 inline void				CCollStatic::SetWorldPosition(const Mth::Vector & pos)
 {
+	(void)pos;
 //	m_world_pos = pos;
 }
 
@@ -572,6 +573,7 @@ inline const Mth::Vector &	CCollStatic::GetWorldPosition() const
 
 inline void				CCollStatic::SetOrientation(const Mth::Matrix & orient)
 {
+	(void)orient;
 //	m_orient[X] = orient[X];	// Just the 3x3
 //	m_orient[Y] = orient[Y];
 //	m_orient[Z] = orient[Z];
@@ -669,6 +671,7 @@ inline void					CCollMovBBox::SetBoundingBox(const Mth::CBBox & bbox)
 
 inline bool					CCollMovBBox::WithinBBox(const Mth::CBBox & testBBox)
 {
+	(void)testBBox;
 	// Will always return TRUE because it isn't worth checking
 	return true;
 }

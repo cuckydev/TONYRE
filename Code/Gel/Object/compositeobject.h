@@ -145,7 +145,7 @@ private:
 	uint32							m_profile_color;
 #else
 public:	
-	void 							SetProfileColor(uint32 ProfileColor) {;} 
+	void 							SetProfileColor(uint32 ProfileColor) { (void)ProfileColor; }
 #endif	
 	
 	// Composite objects have some common components hard wired, as it

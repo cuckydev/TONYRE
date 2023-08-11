@@ -476,9 +476,9 @@ void CSkaterCam::SetMode( ESkaterCamMode mode, float time )
 	// Set focal length immediately.
 	if( this )
 	{
-		Nx::ScreenMode	mode = Nx::CViewportManager::sGetScreenMode();
+		Nx::ScreenMode foc_screen_mode = Nx::CViewportManager::sGetScreenMode();
 
-		switch( mode )
+		switch (foc_screen_mode)
 		{
 			case Nx::vSPLIT_V:
 			{
@@ -508,7 +508,7 @@ void CSkaterCam::SetMode( ESkaterCamMode mode, float time )
 		}
 	}
 
-	switch ( mode )
+	switch (mode)
 	{
 		case ( SKATERCAM_MODE_REPLAY_FRONT ):
 		case ( SKATERCAM_MODE_REPLAY_FRONT_ZOOM ):

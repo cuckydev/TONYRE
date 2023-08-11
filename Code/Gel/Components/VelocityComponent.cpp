@@ -103,6 +103,8 @@ void CVelocityComponent::InitFromStructure( Script::CStruct* pParams )
 // but you can pass in anything you like.	
 void CVelocityComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// Default to just calline InitFromStructure()
 	// but if that does not handle it, then will need to write a specific 
 	// function here. 
@@ -130,6 +132,7 @@ void CVelocityComponent::Finalize()
 
 void	CVelocityComponent::Hide( bool should_hide )
 {
+	(void)should_hide;
 }
 
 
@@ -166,6 +169,9 @@ void CVelocityComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CVelocityComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

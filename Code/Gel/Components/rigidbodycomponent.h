@@ -189,8 +189,8 @@ private:
 	float m_angular_velocity_sleep_point_sqr;
 
 	// currently, we assume a box; the algorithm is general enough to do anything
-	SContact* mp_contacts;
-	unsigned short m_num_contacts;
+	SContact *mp_contacts;
+	size_t m_num_contacts;
 	
 	// center of mass of the object
 	Mth::Vector m_center_of_mass;

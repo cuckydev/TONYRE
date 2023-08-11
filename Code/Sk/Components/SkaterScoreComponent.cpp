@@ -62,6 +62,8 @@ CSkaterScoreComponent::~CSkaterScoreComponent()
 
 void CSkaterScoreComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CSkaterScoreComponent added to non-skater composite object"));
 	
 	if (!mp_score)

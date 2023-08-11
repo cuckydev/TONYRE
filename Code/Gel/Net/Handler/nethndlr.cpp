@@ -658,7 +658,7 @@ int	handle_latency_response( MsgHandlerContext *context )
 
 int	App::handle_connection_accepted( MsgHandlerContext *context )
 {
-	
+	(void)context;
 #ifdef DEBUG_MESSAGES
 	Dbg_Message( "Connection was accepted!\n" );
 #endif

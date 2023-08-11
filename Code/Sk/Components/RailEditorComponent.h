@@ -155,7 +155,7 @@ public:
 	void DestroyRailGeometry();
 	void DestroyPostGeometry();
 	
-	int CountPoints();
+	size_t CountPoints();
 	bool FindNearestRailPoint(Mth::Vector &pos, 
 							  Mth::Vector *p_nearest_pos, float *p_dist_squared, int *p_rail_point_index, 
 							  int ignore_index=-1);
@@ -202,7 +202,7 @@ class CRailEditorComponent : public CBaseComponent
 
 	void get_pos_from_camera_component(Mth::Vector *p_pos, float *p_height, float *p_angle);
 		
-	int count_rails();
+	size_t count_rails();
 	
 	CEditedRail *mp_edited_rails;
 	CEditedRail *mp_current_rail;

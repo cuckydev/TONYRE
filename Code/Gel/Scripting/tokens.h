@@ -10,6 +10,8 @@
 #ifndef __SCRIPTING_TOKENS_H
 #define __SCRIPTING_TOKENS_H
 
+#include <Core/Defines.h>
+
 namespace Script
 {
 // Note! Careful if inserting new token values here, because this file also gets
@@ -20,7 +22,7 @@ namespace Script
 
 // When adding a new token value, it would be best to add it to the bottom, to
 // prevent having to tell everyone to recompile all the qb's.
-enum EScriptToken
+enum EScriptToken : uint8
 {
 	// Misc
 	ESCRIPTTOKEN_ENDOFFILE,			// 0

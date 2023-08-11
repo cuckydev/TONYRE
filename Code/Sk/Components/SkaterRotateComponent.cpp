@@ -55,10 +55,9 @@ CSkaterRotateComponent::~CSkaterRotateComponent()
 
 void CSkaterRotateComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	for (int n = 3; n--; )
-	{
 		mp_rotations[n].active = false;
-	}
 }
 
 /******************************************************************/
@@ -127,6 +126,8 @@ void CSkaterRotateComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterRotateComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
         // @script | Rotate | 

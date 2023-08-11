@@ -67,8 +67,8 @@ private:
 	bool				has_collision(Nx::CCollStatic *p_coll);
 
 	Mth::CBBox			m_Bbox;
-	int					m_NumSectors;
-	int					m_NumCollSectors;
+	size_t				m_NumSectors;
+	size_t				m_NumCollSectors;
 	Nx::CSector**		m_SectorList;
 	Nx::CCollStatic**	m_CollSectorList;
 
@@ -104,8 +104,8 @@ private:
 	Mth::CBBox			m_world_bbox;
 	float				m_sector_width;
 	float 				m_sector_depth;
-	int 				m_num_sectors_x;
-	int 				m_num_sectors_z;
+	size_t				m_num_sectors_x;
+	size_t				m_num_sectors_z;
 	Sector				m_super_sector_list[NUM_PARTITIONS_X][NUM_PARTITIONS_Z];
 };
 

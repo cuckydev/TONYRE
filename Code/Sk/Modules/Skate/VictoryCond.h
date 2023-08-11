@@ -21,6 +21,8 @@
 #ifndef __MODULES_SKATE_VICTORYCOND_H
 #define __MODULES_SKATE_VICTORYCOND_H
 
+#include <Core/Defines.h>
+
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
@@ -54,7 +56,7 @@ class CVictoryCondition : public Spt::Class
 public:
 	CVictoryCondition();
 	virtual					~CVictoryCondition() {}
-	virtual bool			IsWinner( uint32 skater_num ) { return false; }
+	virtual bool			IsWinner(uint32 skater_num) { (void)skater_num; return false; }
 	virtual bool			IsTerminal() = 0;
 	virtual bool			ConditionComplete() = 0;
 	virtual bool			PrintDebugInfo() = 0;

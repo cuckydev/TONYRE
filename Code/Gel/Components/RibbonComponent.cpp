@@ -156,20 +156,20 @@ void CRibbonComponent::Update()
 		// second and subsequent links
 		for (int n = 1; n < m_num_links; n++)
 		{
-			float length = (mp_links[n].next_p - mp_links[n - 1].next_p).Length();
-			Mth::Vector axis = (mp_links[n].next_p - mp_links[n - 1].next_p) * (1.0f / length);
+			float link_length = (mp_links[n].next_p - mp_links[n - 1].next_p).Length();
+			Mth::Vector link_axis = (mp_links[n].next_p - mp_links[n - 1].next_p) * (1.0f / link_length);
 			
-			float adjustment = 0.5f * (m_link_length - length);
+			float link_adjustment = 0.5f * (m_link_length - link_length);
 			
 			// hack
-			if (length > 20.0f * m_link_length)
+			if (link_length > 20.0f * m_link_length)
 			{
 				CallMemberFunction(Crc::ConstCRC("Ribbon_Reset"), nullptr, nullptr);
 				return;
 			}
 			
-			mp_links[n].next_p += adjustment * axis;
-			mp_links[n - 1].next_p -= adjustment * axis;
+			mp_links[n].next_p += link_adjustment * link_axis;
+			mp_links[n - 1].next_p -= link_adjustment * link_axis;
 		}
 	}
 	
@@ -240,6 +240,9 @@ void CRibbonComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CRibbonComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		case Crc::ConstCRC("Ribbon_Reset"):

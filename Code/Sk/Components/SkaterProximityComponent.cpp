@@ -103,6 +103,7 @@ CSkaterProximityComponent::~CSkaterProximityComponent()
 // but you can pass in anything you like.	
 void CSkaterProximityComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 	// ** Add code to parse the structure, and initialize the component
 
 }
@@ -228,6 +229,8 @@ void CSkaterProximityComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CSkaterProximityComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		// @script | Obj_SetInnerRadius | 

@@ -98,7 +98,7 @@ struct SQuickAnimPointers
 };
 
 // NOTE: if you change this enum, update the CAnimChannel::GetDebugInfo switch statement!	
-enum EAnimLoopingType
+enum EAnimLoopingType : char
 {
 	LOOPING_HOLD				= 0,	// holds on last frame
 	LOOPING_CYCLE,						// cycles the animation forever

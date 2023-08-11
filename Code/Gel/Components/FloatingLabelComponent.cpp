@@ -125,6 +125,9 @@ void CFloatingLabelComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CFloatingLabelComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

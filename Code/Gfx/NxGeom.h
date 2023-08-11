@@ -106,9 +106,9 @@ public:
 	bool				MultipleColorsEnabled();
 
 // Functions for getting and modifying the raw vertex information in a CGeom	
-	int 				GetNumRenderPolys();									// - returns number of renderable polys
-	int 				GetNumRenderBasePolys();							// - returns number of first pass polys
-	int 				GetNumRenderVerts();								// - returns number of renderable verts
+	size_t				GetNumRenderPolys();									// - returns number of renderable polys
+	size_t				GetNumRenderBasePolys();							// - returns number of first pass polys
+	size_t				GetNumRenderVerts();								// - returns number of renderable verts
 	void 				GetRenderVerts(Mth::Vector *p_verts);				// - gets a single array of the verts
 	void 				GetOrigRenderColors(Image::RGBA *p_colors);			// - gets original render colors, storing them if this si the first time
 	void 				GetRenderColors(Image::RGBA *p_colors);				// - gets an array of vertex colors
@@ -190,9 +190,9 @@ private:
 	virtual bool		plat_hide_polys(uint32 mask);
 	virtual bool		plat_enable_shadow( bool enabled );
 
-	virtual	int 		plat_get_num_render_polys();
-	virtual	int 		plat_get_num_render_base_polys();
-	virtual	int 		plat_get_num_render_verts();								// - returns number of renderable verts
+	virtual	size_t 		plat_get_num_render_polys();
+	virtual	size_t 		plat_get_num_render_base_polys();
+	virtual	size_t 		plat_get_num_render_verts();								// - returns number of renderable verts
 	virtual	void 		plat_get_render_verts(Mth::Vector *p_verts);				// - gets a single array of the verts
 	virtual	void 		plat_get_render_colors(Image::RGBA *p_colors);				// - gets an array of vertex colors
 	virtual void 		plat_set_render_verts(Mth::Vector *p_verts);				// - sets the verts after modification

@@ -215,9 +215,10 @@ void CCollisionComponent::Update()
 	
 CBaseComponent::EMemberFunctionResult CCollisionComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
-//    Dbg_Assert( 0 );
-
-    return CBaseComponent::MF_NOT_EXECUTED;
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
+	return CBaseComponent::MF_NOT_EXECUTED;
 }
 
 /******************************************************************/

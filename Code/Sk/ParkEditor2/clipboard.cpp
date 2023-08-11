@@ -143,7 +143,7 @@ void CClipboardEntry::CalculateMapCoords(GridDims *p_mapCoords, uint8 centre_x, 
 
 	// Get the new map coords of the meta such that it is positioned relative to the cursor.
 	GridDims cursor_position=p_cursor->GetPosition();
-	p_mapCoords->SetXYZ(cursor_position.GetX()+vector_x, mY, cursor_position.GetZ()+vector_z);
+	p_mapCoords->SetXYZ((uint8)(cursor_position.GetX() + vector_x), mY, (uint8)(cursor_position.GetZ() + vector_z));
 }
 
 bool CClipboardEntry::CanPaste(uint8 centre_x, uint8 centre_z, CCursor *p_cursor)
@@ -176,7 +176,7 @@ void CClipboardEntry::Paste(uint8 centre_x, int raiseAmount, uint8 centre_z, CCu
 		new_y=CParkManager::MAX_HEIGHT-1;
 	}
 
-	map_coords.SetXYZ(map_coords.GetX(),new_y,map_coords.GetZ());
+	map_coords.SetXYZ(map_coords.GetX(), (sint8)new_y, map_coords.GetZ());
 		
 	CParkManager *p_manager=CParkManager::sInstance();
 	
@@ -262,6 +262,8 @@ void CClipboardEntry::HighlightIntersectingMetas(uint8 centre_x, uint8 centre_z,
 // This function will position the meta such that the centre of the clipboard selection is at pos.
 void CClipboardEntry::ShowMeta(uint8 centre_x, int raiseAmount, uint8 centre_z, Mth::Vector pos, float rot)
 {
+	(void)raiseAmount;
+
 	if (!mpMeta)
 	{
 		// No meta to display, meaning the clipboard entry is defining a cell height
@@ -366,7 +368,7 @@ bool CClipboardEntry::CreateGapFillerPieces()
 		}
 			
 		p_new_entry->mX=mX;
-		p_new_entry->mY=y;
+		p_new_entry->mY=(sint8)y;
 		p_new_entry->mZ=mZ;
 		p_new_entry->mWidth=1;
 		p_new_entry->mLength=1;
@@ -470,7 +472,7 @@ bool CClipboard::AddMeta(CConcreteMetaPiece *p_meta, int raiseAmount)
 	Dbg_MsgAssert(p_meta,("nullptr p_meta"));
 
 	GridDims dims=p_meta->GetArea();
-	dims.SetXYZ(dims.GetX(),dims.GetY()+raiseAmount,dims.GetZ());
+	dims.SetXYZ(dims.GetX(), (sint8)(dims.GetY() + raiseAmount), dims.GetZ());
 	//printf("AddMeta y=%d raiseAmount=%d, \t%s Riser=%d\n",dims.GetY(),raiseAmount,Script::FindChecksumName(p_meta->GetNameChecksum()),p_meta->IsRiser());
 	
 	if (p_meta->IsRiser())
@@ -572,7 +574,7 @@ bool CClipboard::AddHeight(int x, int y, int z)
 		{
 			if (y >= p_entry->mY)
 			{
-				p_entry->mY=y;
+				p_entry->mY = (uint8)y;
 			}
 			return true;
 		}
@@ -590,14 +592,14 @@ bool CClipboard::AddHeight(int x, int y, int z)
 
 	p_new_entry->mpMeta = nullptr;
 
-	p_new_entry->mX=x;
-	p_new_entry->mY=y;
-	p_new_entry->mZ=z;
-	p_new_entry->mWidth=1;
-	p_new_entry->mLength=1;
+	p_new_entry->mX = (uint8)x;
+	p_new_entry->mY = (uint8)y;
+	p_new_entry->mZ = (uint8)z;
+	p_new_entry->mWidth = 1;
+	p_new_entry->mLength = 1;
 
 	// Update the min & max x & z for the clipboard selection for calculation of the centre later.
-	update_extents(x,z);
+	update_extents((uint8)x, (uint8)z);
 	
 	// Insert into the list.
 	p_new_entry->mpNext=mp_entries;
@@ -922,7 +924,7 @@ void CClipboard::GetArea(CCursor *p_cursor, GridDims *p_area)
 	}		
 
 	GridDims cursor_position=p_cursor->GetPosition();
-	p_area->SetXYZ(cursor_position.GetX()+dx,0,cursor_position.GetZ()+dz);
+	p_area->SetXYZ((uint8)(cursor_position.GetX() + dx), 0, (uint8)(cursor_position.GetZ() + dz));
 }
 
 Mth::Vector CClipboard::GetClipboardWorldPos()

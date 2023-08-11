@@ -885,7 +885,7 @@ void CSkatetrisGoal::RemoveTrick( int index )
 		{
 			if ( !m_tetrisTricks[j].invalid )
 			{
-				Front::CScreenElement* p_trick = p_screen_elem_man->GetElement( m_tetrisTricks[j].screenElementId , Front::CScreenElementManager::ASSERT );
+				p_trick = p_screen_elem_man->GetElement( m_tetrisTricks[j].screenElementId , Front::CScreenElementManager::ASSERT );
 				script = Crc::ConstCRC("goal_tetris_turn_trick_white");
 				Script::CScript* p_trick_script = Script::SpawnScript( script, nullptr );
 				#ifdef __NOPT_ASSERT__
@@ -1005,8 +1005,8 @@ void CSkatetrisGoal::UpdateFadedTricks()
 				else if ( m_tetrisTricks[i].altTrickNameChecksum != 0 )
 				{
 					// check alternate version of trick - usually BS version of grind
-					int n = pScore->GetCurrentNumberOfOccurrencesByName( m_tetrisTricks[i].altTrickNameChecksum, m_tetrisTricks[i].spin_mult, m_tetrisTricks[i].require_perfect );
-					if ( n > 0 )
+					int na = pScore->GetCurrentNumberOfOccurrencesByName( m_tetrisTricks[i].altTrickNameChecksum, m_tetrisTricks[i].spin_mult, m_tetrisTricks[i].require_perfect );
+					if ( na > 0 )
 					{
 						should_be_faded = true;
 					}

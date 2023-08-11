@@ -203,8 +203,8 @@ CBaseComponent::EMemberFunctionResult CPedLogicComponent::CallMemberFunction( ui
 		{
 			if ( m_flags & PEDLOGIC_STOPPED )
 			{
-				Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_start_moving" ) );
-				pScript->mpObject = GetObj();
+				Script::CScript* pMoveScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_start_moving" ) );
+				pMoveScript->mpObject = GetObj();
 				m_flags &= ~PEDLOGIC_STOPPED;
 			}
 			m_flags |= PEDLOGIC_MOVING_ON_PATH;
@@ -826,15 +826,15 @@ bool CPedLogicComponent::UpdateTargetBias()
 				Obj::CMotionComponent* pMotionComp = GetMotionComponentFromObject( GetObj() );
 				Dbg_Assert( pMotionComp );
 				
-				Mth::Vector wp_from_no_y = m_wp_from;
-				wp_from_no_y[Y] = 0.0f;
-				Mth::Vector wp_to_no_y = m_wp_to;
-				wp_to_no_y[Y] = 0.0f;
-				Mth::Vector wp_next_no_y = m_wp_next;
-				wp_next_no_y[Y] = 0.0f;
+				Mth::Vector turn_wp_from_no_y = m_wp_from;
+				turn_wp_from_no_y[Y] = 0.0f;
+				Mth::Vector turn_wp_to_no_y = m_wp_to;
+				turn_wp_to_no_y[Y] = 0.0f;
+				Mth::Vector turn_wp_next_no_y = m_wp_next;
+				turn_wp_next_no_y[Y] = 0.0f;
 
-				Mth::Vector ft = wp_to_no_y - wp_from_no_y;
-				Mth::Vector tn = wp_next_no_y - wp_to_no_y;
+				Mth::Vector ft = turn_wp_to_no_y - turn_wp_from_no_y;
+				Mth::Vector tn = turn_wp_next_no_y - turn_wp_to_no_y;
 
 				float angle_between_waypoints = Mth::DegToRad( Mth::GetAngle( ft, tn ) );
 				float distance_to_waypoint_switch = sqrtf( ( 2 * distance_to_target_square ) * ( 1 + cosf( angle_between_waypoints ) ) );
@@ -1309,7 +1309,7 @@ bool CPedLogicComponent::WaypointIsVert( int waypoint )
 
 void CPedLogicComponent::DoWalkActions( Script::CStruct* pNodeData )
 {
-
+	(void)pNodeData;
 }
 
 
@@ -1448,7 +1448,6 @@ void CPedLogicComponent::SelectNextWaypoint()
 		if ( waypoint == m_node_from )
 		{
 			Script::CStruct* pToNodeData = SkateScript::GetNode( m_node_to );
-			uint32 skate_action;
 			if ( pToNodeData->GetChecksum( Crc::ConstCRC( "skateAction" ), &skate_action )
 				 && skate_action == Crc::ConstCRC( "Vert_Grab" ) )
 			{
@@ -1496,7 +1495,6 @@ void CPedLogicComponent::SelectNextWaypoint()
 				// ignore Grind_Bail nodes unless we're already on a grind_bail path
 				if ( !on_grind_bail_path )
 				{
-					uint32 skate_action;
 					if ( pNodeData->GetChecksum( Crc::ConstCRC( "SkateAction" ), &skate_action )
 						 && skate_action == Crc::ConstCRC( "Grind_Bail" ) )
 					{
@@ -1923,6 +1921,8 @@ void CPedLogicComponent::GrindUpdate()
 
 void CPedLogicComponent::DoGrindOff( Script::CStruct* pNodeData )
 {
+	(void)pNodeData;
+
 	if ( m_flags & PEDLOGIC_GRINDING )
 	{
 		// m_is_grinding = false;
@@ -2442,6 +2442,7 @@ void CPedLogicComponent::GrindBail()
 
 void CPedLogicComponent::DoRollOff( Script::CStruct* pNodeData )
 {
+	(void)pNodeData;
 	Script::CScript* pScript = Script::SpawnScript( Crc::ConstCRC( "ped_skater_roll_off" ) );
 	pScript->mpObject = GetObj();
 }

@@ -21,6 +21,8 @@ namespace Ass
 
 int CSkinAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pExtraData, Script::CStruct *pStruct)     // create or load the asset
 {
+	(void)use_pip;
+
 	Dbg_MsgAssert(!async_load, ("Async load not supported on CSkinAsset"));
 
 	Mem::PushMemProfile((char*)p_file);
@@ -83,6 +85,8 @@ int CSkinAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pE
 
 int CSkinAsset::Load(uint32* p_data, int data_size)     // create or load the asset
 {
+	(void)data_size;
+
 	char pDebugAssetString[256];
 	sprintf( pDebugAssetString, "skin from data stream" );
 	
@@ -137,6 +141,7 @@ int CSkinAsset::Unload()                     // Unload the asset
 
 int CSkinAsset::Reload(const char *p_file)
 {
+	(void)p_file;
 	return 0;
 }
 

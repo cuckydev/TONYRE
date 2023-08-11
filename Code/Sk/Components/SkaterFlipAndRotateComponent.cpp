@@ -69,6 +69,7 @@ CSkaterFlipAndRotateComponent::~CSkaterFlipAndRotateComponent()
 
 void CSkaterFlipAndRotateComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/
@@ -115,6 +116,8 @@ void CSkaterFlipAndRotateComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CSkaterFlipAndRotateComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
         // @script | Flip | flip animation
@@ -230,6 +233,8 @@ void CSkaterFlipAndRotateComponent::GetDebugInfo(Script::CStruct *p_info)
 
 bool CSkaterFlipAndRotateComponent::RotateSkateboard ( uint32 objId, bool rotate, uint32 time, bool propagate )
 {
+	(void)time;
+
 	if ( propagate )
 	{
 		GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
@@ -246,7 +251,7 @@ bool CSkaterFlipAndRotateComponent::RotateSkateboard ( uint32 objId, bool rotate
 			Dbg_Assert( client );
 
 			msg.m_Rotate = rotate;
-			msg.m_ObjId = objId;
+			msg.m_ObjId = (char)objId;
 
 			msg_desc.m_Data = &msg;
 			msg_desc.m_Id = GameNet::MSG_ID_ROTATE_SKATEBOARD;

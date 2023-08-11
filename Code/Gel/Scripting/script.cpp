@@ -501,7 +501,7 @@ void CScript::TransmitInfoToDebugger(bool definitely_transmit)
 		
 		Net::MsgDesc msg;
 		msg.m_Data = Dbg::gpDebugInfoBuffer;
-		msg.m_Length = message_size;
+		msg.m_Length = (unsigned short)message_size;
 		msg.m_Id = GameNet::vMSG_ID_DBG_CSCRIPT_INFO;
 		Dbg::CScriptDebugger::Instance()->StreamMessage(&msg);
 		
@@ -535,7 +535,7 @@ void CScript::TransmitBasicInfoToDebugger()
 	//printf("Sending vMSG_ID_DBG_BASIC_CSCRIPT_INFO\n");
 	Net::MsgDesc msg;
 	msg.m_Data = Dbg::gpDebugInfoBuffer;
-	msg.m_Length = message_size;
+	msg.m_Length = (unsigned short)message_size;
 	msg.m_Id = GameNet::vMSG_ID_DBG_BASIC_CSCRIPT_INFO;
 	Dbg::CScriptDebugger::Instance()->StreamMessage(&msg);
 }
@@ -2952,7 +2952,7 @@ void SendScript( uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_objec
 		msg_size = ( sizeof( GameNet::MsgRunScript ) - GameNet::MsgRunScript::vMAX_SCRIPT_PARAMS_LEN ) +
 					size;
 		msg_desc.m_Data = &msg;
-		msg_desc.m_Length = msg_size;
+		msg_desc.m_Length = (unsigned short)msg_size;
 		msg_desc.m_Id = GameNet::MSG_ID_RUN_SCRIPT;
 		msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
 		msg_desc.m_GroupId = GameNet::vSEQ_GROUP_PLAYER_MSGS;

@@ -136,22 +136,22 @@ void CheckForPossibleInfiniteLoops(uint32 scriptName, uint8 *p_token, const char
 				uint32 name=Read4Bytes(p_token).mChecksum;
 				p_token+=4;
 				
-				if (p_blocking_functions)
+				if (p_blocking_functions != nullptr)
 				{
-					uint32 *p_function_names=p_blocking_functions->GetArrayPointer();
-					uint32 size=p_blocking_functions->GetSize();
+					uint32 *p_function_names = p_blocking_functions->GetArrayPointer();
+					uint32 size = p_blocking_functions->GetSize();
 					
-					for (uint32 i=0; i<size; ++i)
+					for (uint32 i = 0; i < size; ++i)
 					{
 						if (name == *p_function_names++)
 						{
-							if (loop_index)
+							if (loop_index != 0)
 							{
-								int i=loop_index-1;
-								while (i>=0)
+								int j = loop_index - 1;
+								while (j >= 0)
 								{
-									loop_is_ok[i]=true;
-									--i;
+									loop_is_ok[j] = true;
+									j--;
 								}	
 							}	
 							break;
@@ -1758,15 +1758,15 @@ uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 			{
 				p_stored=sCreateNewStoredRandom();
 				Dbg_MsgAssert(p_stored,("nullptr return value from sCreateNewStoredRandom()"));
-				p_stored->mpToken=p_token;
-				p_stored->mType=ESCRIPTTOKEN_KEYWORD_RANDOM_NO_REPEAT;
-				p_stored->mNumItems=num_items;
+				p_stored->mpToken = p_token;
+				p_stored->mType = ESCRIPTTOKEN_KEYWORD_RANDOM_NO_REPEAT;
+				p_stored->mNumItems = (uint16)num_items;
 				
 				p_stored->mLastIndex=Mth::Rnd(num_items);
 			}
 			p_stored->mpScript=GetCurrentScript();
 			
-			uint16 jump_index=Mth::Rnd(num_items);
+			uint16 jump_index = (uint16)Mth::Rnd(num_items);
 			// num_items is bigger than one, so in theory it should never get stuck in
 			// an infinite loop here ...
 			int c=0; // But have a counter just in case 
@@ -1774,7 +1774,7 @@ uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 			{
 				++c;
 				if (c>100) break;
-				jump_index=Mth::Rnd(num_items);
+				jump_index = (uint16)Mth::Rnd(num_items);
 			}	
 			p_stored->mLastIndex=jump_index;
 			
@@ -1799,7 +1799,7 @@ uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 				Dbg_MsgAssert(p_stored,("nullptr return value from sCreateNewStoredRandom()"));
 				p_stored->mpToken=p_token;
 				p_stored->mType=ESCRIPTTOKEN_KEYWORD_RANDOM_PERMUTE;
-				p_stored->mNumItems=num_items;
+				p_stored->mNumItems=(uint16)num_items;
 
 				p_stored->mCurrentIndex=0;
 				Dbg_MsgAssert(num_items<=MAX_RANDOM_INDICES,("Too many entries in RandomPermute, max is %d. Line %d of file %s",MAX_RANDOM_INDICES,GetLineNumber(p_token),GetSourceFile(p_token)));
@@ -2076,6 +2076,9 @@ const char *GetSourceFile(uint8 *p_token)
 		}
 		p_sym=GetNextSymbolTableEntry(p_sym);
 	}
+
+	// Oh well.
+	return "Unknown";
 	#else
 	
 	// Script caching is on, so query the script cache to find out what the script name is.
@@ -2087,9 +2090,6 @@ const char *GetSourceFile(uint8 *p_token)
 	return p_script_cache->GetSourceFile(p_token);
 	
 	#endif
-	
-	// Oh well.
-	return "Unknown";	
 }
 
 #if 0

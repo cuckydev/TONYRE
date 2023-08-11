@@ -16,7 +16,7 @@ namespace File
 // Constants
 //
 
-const uint32	CAsyncFileHandle::MAX_FILE_SIZE = (uint32) ((uint64) (1 << 31) - 1);	// 1 Gig (Because we are using signed, we lose a bit)
+const uint32	CAsyncFileHandle::MAX_FILE_SIZE = (uint32) ((uint64) (1ULL << 31) - 1);	// 1 Gig (Because we are using signed, we lose a bit)
 
 
 /******************************************************************/
@@ -322,6 +322,8 @@ int					CAsyncFileHandle::Seek(long offset, int origin)
 
 void				CAsyncFileHandle::io_callback(EAsyncFunctionType function, int result, uint32 data)
 {
+	(void)data;
+
 	m_last_result = result;
 	CAsyncFileLoader::s_new_io_completion = true;
 
@@ -421,6 +423,8 @@ void				CAsyncFileHandle::plat_init()
 
 bool				CAsyncFileHandle::plat_open(const char *filename)
 {
+	(void)filename;
+
 	printf ("STUB: CAsyncFileHandle::Open\n");
 
 	return false;
@@ -456,31 +460,43 @@ bool				CAsyncFileHandle::plat_is_eof() const
 
 void				CAsyncFileHandle::plat_set_priority( int priority )
 {
+	(void)priority;
+
 	printf ("STUB: CAsyncFileHandle::SetPriority\n");
 }
 
 void				CAsyncFileHandle::plat_set_stream( bool stream )
 {
+	(void)stream;
+
 	printf ("STUB: CAsyncFileHandle::SetStream\n");
 }
 
 void				CAsyncFileHandle::plat_set_destination( EAsyncMemoryType destination )
 {
+	(void)destination;
+
 	printf ("STUB: CAsyncFileHandle::SetDestination\n");
 }
 
 void				CAsyncFileHandle::plat_set_buffer_size( size_t buffer_size )
 {
+	(void)buffer_size;
+
 	printf ("STUB: CAsyncFileHandle::SetBufferSize\n");
 }
 
 void				CAsyncFileHandle::plat_set_blocking( bool block )
 {
+	(void)block;
+
 	printf ("STUB: CAsyncFileHandle::SetBlocking\n");
 }
 
 size_t				CAsyncFileHandle::plat_load(void *p_buffer)
 {
+	(void)p_buffer;
+
 	printf ("STUB: CAsyncFileHandle::Load\n");
 
 	return 0;
@@ -488,6 +504,10 @@ size_t				CAsyncFileHandle::plat_load(void *p_buffer)
 
 size_t				CAsyncFileHandle::plat_read(void *p_buffer, size_t size, size_t count)
 {
+	(void)p_buffer;
+	(void)size;
+	(void)count;
+
 	printf ("STUB: CAsyncFileHandle::Read\n");
 
 	return 0;
@@ -495,6 +515,9 @@ size_t				CAsyncFileHandle::plat_read(void *p_buffer, size_t size, size_t count)
 
 size_t				CAsyncFileHandle::plat_write(void *p_buffer, size_t size, size_t count)
 {
+	(void)p_buffer;
+	(void)size;
+
 	printf ("STUB: CAsyncFileHandle::Write\n");
 
 	return 0;
@@ -502,6 +525,9 @@ size_t				CAsyncFileHandle::plat_write(void *p_buffer, size_t size, size_t count
 
 char *				CAsyncFileHandle::plat_get_s(char *p_buffer, int maxlen)
 {
+	(void)p_buffer;
+	(void)maxlen;
+
 	printf ("STUB: CAsyncFileHandle::GetS\n");
 
 	return nullptr;
@@ -509,6 +535,9 @@ char *				CAsyncFileHandle::plat_get_s(char *p_buffer, int maxlen)
 
 int					CAsyncFileHandle::plat_seek(long offset, int origin)
 {
+	(void)offset;
+	(void)origin;
+
 	printf ("STUB: CAsyncFileHandle::Seek\n");
 
 	return 0;

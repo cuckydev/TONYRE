@@ -155,7 +155,7 @@ CSymbolTableEntry *LookUpSymbol(uint32 checksum)
 	} while (p_sym && p_sym->mNameChecksum!=checksum);
 	
 	// Here p_sym will be nullptr	
-	return p_sym;	
+	// return p_sym;	
 
 #endif
 	
@@ -287,7 +287,7 @@ void RemoveSymbol(CSymbolTableEntry *p_sym)
 			// with copying pointers if it gets used anywhere else.
 			uint32 *p_source_word=(uint32*)p_source;
 			uint32 *p_dest_word=(uint32*)p_sym;
-			Dbg_MsgAssert((sizeof(CSymbolTableEntry)&3)==0,("sizeof(CSymbolTableEntry) not a multiple of 4 ?"));
+			static_assert((sizeof(CSymbolTableEntry) & 3) == 0, "sizeof(CSymbolTableEntry) not a multiple of 4 ?");
 			for (uint32 i=0; i<sizeof(CSymbolTableEntry)/4; ++i)
 			{
 				*p_dest_word++=*p_source_word++;
@@ -493,17 +493,14 @@ float GetFloat(uint32 checksum, EAssertType assert)
     {
     case ESYMBOLTYPE_FLOAT:
         return p_entry->mFloatValue;
-        break;
     case ESYMBOLTYPE_INTEGER:
         return (float)p_entry->mIntegerValue;
-        break;    
     default:
         Dbg_MsgAssert(0,("Symbol '%s' of type '%s' cannot be converted to a float.",FindChecksumName(checksum),GetTypeName(p_entry->mType)));
         return 0.0f;
-        break;
     }        
 	
-	return 0.0f;
+	// return 0.0f;
 }
 
 float GetFloat(const char *p_name, EAssertType assert)
@@ -524,17 +521,14 @@ int GetInteger(uint32 checksum, EAssertType assert)
     {
     case ESYMBOLTYPE_FLOAT:
         return (int)p_entry->mFloatValue;
-        break;
     case ESYMBOLTYPE_INTEGER:
         return p_entry->mIntegerValue;
-        break;    
     default:
         Dbg_MsgAssert(0,("Symbol '%s' of type '%s' cannot be converted to an integer.",FindChecksumName(checksum),GetTypeName(p_entry->mType)));
         return 0;
-        break;
     }        
 
-	return 0;
+	// return 0;
 }
 
 int GetInteger(const char *p_name, EAssertType assert)

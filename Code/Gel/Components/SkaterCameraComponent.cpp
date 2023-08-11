@@ -887,6 +887,8 @@ void CSkaterCameraComponent::Update( void )
 
 CBaseComponent::EMemberFunctionResult CSkaterCameraComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		// @script | SC_ShakeCamera | shake the skater camera

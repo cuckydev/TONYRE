@@ -61,6 +61,8 @@ CCameraLookAroundComponent::~CCameraLookAroundComponent()
 
 void CCameraLookAroundComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	mLookaroundTilt					= 0.0f;
 	mLookaroundHeading				= 0.0f;
 	mLookaroundZoom					= 1.0f;
@@ -191,6 +193,8 @@ void CCameraLookAroundComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CCameraLookAroundComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
         // @script | SC_SetSkaterCamOverride | 

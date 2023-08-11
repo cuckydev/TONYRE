@@ -397,9 +397,9 @@ void CManual::DoManualPhysics()
 	Dbg_MsgAssert(mpSkater,("nullptr mpSkater"));
 	
 	skater_conn = nullptr;
-	if(( server = gamenet_man->GetServer()))
+	if ((server = gamenet_man->GetServer()) != nullptr)
 	{
-		if(( player = gamenet_man->GetPlayerByObjectID( mpSkater->GetID() )))
+		if ((player = gamenet_man->GetPlayerByObjectID( mpSkater->GetID())) != nullptr)
 		{
 			skater_conn = player->m_Conn;
 		}

@@ -884,7 +884,7 @@ uint32 CObject::GetFlags( Script::CScriptStructure *pParams, Script::CScript *pS
 		for (uint32 i=0; i<pArray->GetSize(); ++i)
 		{
 			uint32 Checksum=pArray->GetNameChecksum(i);
-			int Flag=Script::GetInteger(Checksum);
+			Flag=Script::GetInteger(Checksum);
 			Dbg_MsgAssert(Flag>=0 && Flag<32,("\n%s\nBad flag value %s=%d, value must be between 0 and 31",pScript->GetScriptInfo(),Script::FindChecksumName(Checksum),Flag));
 			Flags |= ( 1 << Flag );
 		}	
@@ -932,6 +932,8 @@ void CObject::SelfEvent(uint32 event, Script::CStruct* pParams)
 
 void CObject::BroadcastEvent(uint32 event, Script::CStruct *pData, float radius)
 {
+	(void)radius;
+
 	// no target
 	// radius not implemented yet
 	Obj::CTracker::Instance()->LaunchEvent( event, 0xffffffff, GetID(), pData, true /*, radius */  );
@@ -1104,8 +1106,9 @@ void CObject::CallScript( uint32 ScriptChecksum, Script::CStruct *pParams )
 /*                                                                */
 /******************************************************************/
 
-void			DestroyIfUnlocked( Obj::CObject* obj, void* data )
+void DestroyIfUnlocked( Obj::CObject* obj, void* data )
 {
+	(void)data;
 	obj->DestroyIfUnlocked();
 }
 
@@ -1116,6 +1119,7 @@ void			DestroyIfUnlocked( Obj::CObject* obj, void* data )
 
 void			SetLockOff( CObject* obj, void* data )
 {
+	(void)data;
 	obj->SetLockOff();
 }
 

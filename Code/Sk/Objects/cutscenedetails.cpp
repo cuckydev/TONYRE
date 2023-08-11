@@ -3439,6 +3439,8 @@ void CCutsceneData::init_objects()
 
 bool CCutsceneData::PostLoad( bool assertOnFail )
 {
+	(void)assertOnFail;
+
 	Dbg_MsgAssert( mp_fileLibrary, ( "No file library?!?" ) );
 
 	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().CutsceneBottomUpHeap() );
@@ -3978,10 +3980,10 @@ bool CCutsceneData::create_objects( uint32* pData )
 				// because we need to grab the poly removal
 				// mask from the player's body
 
-				Obj::CModelComponent* pModelComponent = GetModelComponentFromObject(pParentObjectInfo->mp_object);
-				Dbg_Assert( pModelComponent );
+				Obj::CModelComponent* pParentModelComponent = GetModelComponentFromObject(pParentObjectInfo->mp_object);
+				Dbg_Assert(pParentModelComponent);
 
-				uint32 refObjectName = pModelComponent->GetRefObjectName();
+				uint32 refObjectName = pParentModelComponent->GetRefObjectName();
 				Obj::CCompositeObject* pRefObject = (Obj::CCompositeObject*)Obj::ResolveToObject( refObjectName );
 				Dbg_Assert( pRefObject );
 
@@ -4329,6 +4331,8 @@ bool CCutsceneData::LoadFinished()
 										    
 void CCutsceneData::update_video_playback( Gfx::Camera* pCamera, Script::CStruct* pStruct )
 {
+	(void)pStruct;
+
 	if ( !m_videoStarted )
 	{
 		// need to pass in the fadeintime

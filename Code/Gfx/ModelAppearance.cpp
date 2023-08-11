@@ -666,8 +666,9 @@ bool CModelAppearance::CallMemberFunction( uint32 checksum, Script::CStruct* pPa
 			uint32 partChecksum;
 			pParams->GetChecksum( Crc::ConstCRC("part"), &partChecksum, Script::ASSERT );
 			clear_part(partChecksum);
+
+			return true;
 		}
-		return true;
 		
 		case 0x83339d0b:		// SetPart
 		{
@@ -680,8 +681,9 @@ bool CModelAppearance::CallMemberFunction( uint32 checksum, Script::CStruct* pPa
 			pParams->GetChecksum( Crc::ConstCRC("desc_id"), &descChecksum, Script::ASSERT );
 			
 			set_part(partChecksum, descChecksum, pParams);
+
+			return true;
 		}
-		return true;
 
 		case 0x10a225d6:		// GetPart
 		{
@@ -701,7 +703,6 @@ bool CModelAppearance::CallMemberFunction( uint32 checksum, Script::CStruct* pPa
 
 			return false;
 		}
-		return true;
 
 		case 0xd27427ff:		// SetChecksum
 		{
@@ -714,8 +715,9 @@ bool CModelAppearance::CallMemberFunction( uint32 checksum, Script::CStruct* pPa
 			pParams->GetChecksum( Crc::ConstCRC("value"), &valueChecksum, Script::ASSERT );
 			
 			set_checksum(fieldChecksum, valueChecksum);
+
+			return true;
 		}
-		return true;
 
 		case 0xb13906b0:		// GotPart
 		{
@@ -740,9 +742,8 @@ bool CModelAppearance::CallMemberFunction( uint32 checksum, Script::CStruct* pPa
 
 			Dbg_MsgAssert( 0, ( "part %s was not defined (need it for disqualification script)", Script::FindChecksumName(partChecksum) ) );
 
-			return false;
+			return true;
 		}
-		return true;
 	}
 
 	return Obj::CObject::CallMemberFunction(checksum, pParams, pScript);

@@ -128,6 +128,8 @@ void CCollideAndDieComponent::InitFromStructure( Script::CStruct* pParams )
 // but you can pass in anything you like.	
 void CCollideAndDieComponent::RefreshFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	// Default to just calline InitFromStructure()
 	// but if that does not handle it, then will need to write a specific 
 	// function here. 
@@ -155,6 +157,7 @@ void CCollideAndDieComponent::Finalize()
 
 void	CCollideAndDieComponent::Hide( bool should_hide )
 {
+	(void)should_hide;
 }
 
 
@@ -258,6 +261,9 @@ void CCollideAndDieComponent::Update()
 // if it's a command that this component will handle	
 CBaseComponent::EMemberFunctionResult CCollideAndDieComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return CBaseComponent::MF_NOT_EXECUTED;
 }
 

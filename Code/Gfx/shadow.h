@@ -81,9 +81,9 @@ protected:
 public:
 								CShadow();
 	virtual						~CShadow();
-	virtual void				UpdatePosition(Mth::Vector pos) {}
-	virtual void				UpdatePosition(Mth::Vector& parentPos, Mth::Matrix& parentMatrix, Mth::Vector normal) {}
-	virtual void				UpdateDirection( const Mth::Vector& dir ) {}
+	virtual void				UpdatePosition(Mth::Vector pos) { (void)pos; }
+	virtual void				UpdatePosition(Mth::Vector &parentPos, Mth::Matrix &parentMatrix, Mth::Vector normal) { (void)parentPos; (void)parentMatrix; (void)normal; }
+	virtual void				UpdateDirection(const Mth::Vector &dir) { (void)dir; }
 	virtual void				Hide() {}
 	virtual void				UnHide() {}
 	EShadowType					GetShadowType() {return m_type;}

@@ -614,10 +614,7 @@ uint32 CGameMode::GetMaximumNumberOfPlayers()
 
 Nx::ScreenMode CGameMode::GetScreenMode()
 {
-	
-
 	uint32 checksum;
-
 	m_ModeDefinition.GetChecksum( Crc::ConstCRC("screenmode"), &checksum, true );
 	switch (checksum)
 	{
@@ -638,7 +635,6 @@ Nx::ScreenMode CGameMode::GetScreenMode()
 			Script::CScriptStructure* pStructure = pPreferences->GetPreference( Crc::ConstCRC("viewport_type") );
 			Dbg_Assert(pStructure);
 
-			uint32 checksum;
 			pStructure->GetChecksum( Crc::ConstCRC("checksum"), &checksum, true );
 			if ( checksum == Crc::ConstCRC("viewport_type_vertical") )
 			{
@@ -1013,6 +1009,8 @@ bool CGameMode::OverrideOptions( Script::CScriptStructure *pParams )
 // @script | OverrideGameModeOptions | 
 bool ScriptOverrideGameModeOptions( Script::CScriptStructure *pParams, Script::CScript *pScript )
 {
+	(void)pScript;
+
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	CGameMode* pGameMode = skate_mod->GetGameMode();
 	return pGameMode->OverrideOptions( pParams );

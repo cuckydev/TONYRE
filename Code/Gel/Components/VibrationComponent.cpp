@@ -75,6 +75,7 @@ CVibrationComponent::~CVibrationComponent()
 
 void CVibrationComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
 }
 
 /******************************************************************/

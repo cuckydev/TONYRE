@@ -345,6 +345,9 @@ uint32	quick_check_checksum(uint32 _i, const char *_s, const char *f, int line);
 					  
 uint32	check_checksum(uint32 _i, const char *_s, const char *f, int line)
 {
+	(void)_s;
+	(void)f;
+	(void)line;
 	#ifdef	__PLAT_NGPS__
 	uint32* ra;											
 	asm ( "daddu %0, $31, $0" : "=r" (ra) );			
@@ -380,6 +383,9 @@ uint32	check_checksum(uint32 _i, const char *_s, const char *f, int line)
 					  
 uint32	quick_check_checksum(uint32 _i, const char *_s, const char *f, int line)
 {
+	(void)_s;
+	(void)f;
+	(void)line;
 	return	_i; 
 }
 					  

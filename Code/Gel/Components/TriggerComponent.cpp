@@ -58,6 +58,8 @@ CTriggerComponent::~CTriggerComponent()
 
 void CTriggerComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	m_pos_last_frame = GetObj()->GetPos();
 }
 
@@ -109,6 +111,8 @@ void CTriggerComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CTriggerComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
         // @script | TriggerType | checks if the trigger type is the 
@@ -140,7 +144,8 @@ CBaseComponent::EMemberFunctionResult CTriggerComponent::CallMemberFunction( uin
 		default:
 			return CBaseComponent::MF_NOT_EXECUTED;
 	}
-    return CBaseComponent::MF_TRUE;
+
+	// return CBaseComponent::MF_TRUE;
 }
 
 /******************************************************************/

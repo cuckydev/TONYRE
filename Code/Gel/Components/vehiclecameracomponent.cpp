@@ -178,6 +178,8 @@ void CVehicleCameraComponent::Update()
 
 CBaseComponent::EMemberFunctionResult CVehicleCameraComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pScript;
+
 	switch ( Checksum )
 	{
 		case Crc::ConstCRC( "VehicleCamera_Reset"):

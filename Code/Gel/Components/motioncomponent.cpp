@@ -916,10 +916,10 @@ CBaseComponent::EMemberFunctionResult CMotionComponent::CallMemberFunction( uint
 			else if ( GetLockObjComponentFromObject(GetObj()) && GetLockObjComponentFromObject(GetObj())->IsLockEnabled() )
 			{
 				Mth::Vector d=GetObj()->m_pos - GetObj()->m_old_pos;
-				float m_time = Tmr::FrameLength();	 	// dodgy
-				if (m_time)
+				float c_time = (float)Tmr::FrameLength();	 	// dodgy
+				if (c_time)
 				{
-					speed=d.Length()/m_time;
+					speed=d.Length()/ c_time;
 				}	
 			}
 			else
@@ -1669,6 +1669,8 @@ void CMotionComponent::FollowPathLinked_Init( Script::CStruct* pParams, Script::
 // heading to the waypoint he was heading for before he left the path to jump out of the way).
 void CMotionComponent::FollowStoredPath_Init( Script::CStruct* pParams )
 {   
+	(void)pParams;
+
 	InitPath( m_stored_node );
 	m_movingobj_status |= MOVINGOBJ_STATUS_ON_PATH;
 	// these can't coexist:
@@ -2466,7 +2468,7 @@ bool CMotionComponent::StickToGround()
 		return false;
 	}
 
-	return false;
+	// return false;
 }
 
 /******************************************************************/

@@ -18,7 +18,7 @@ enum
 	vSCRIPT_DEBUG_GROUP = 10
 };
 
-enum
+enum : unsigned char
 {	
 	//	32 is the first available user-defined message id
 	vMSG_ID_DBG_PACKET							= 32, // PC -> Game

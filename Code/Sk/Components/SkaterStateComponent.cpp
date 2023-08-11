@@ -67,6 +67,8 @@ CSkaterStateComponent::~CSkaterStateComponent()
 
 void CSkaterStateComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	m_state = AIR;
 }
 

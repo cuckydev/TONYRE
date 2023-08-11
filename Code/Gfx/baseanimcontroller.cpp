@@ -65,6 +65,7 @@ void CBaseAnimController::Update()
 
 bool CBaseAnimController::GetPose( Gfx::CPose* pResultPose )
 {
+	(void)pResultPose;
 	// not handled
 	return false;
 }
@@ -76,6 +77,7 @@ bool CBaseAnimController::GetPose( Gfx::CPose* pResultPose )
 
 void CBaseAnimController::GetDebugInfo( Script::CStruct* p_info )
 {
+	(void)p_info;
 }
 
 /******************************************************************/
@@ -85,6 +87,9 @@ void CBaseAnimController::GetDebugInfo( Script::CStruct* p_info )
 
 EAnimFunctionResult CBaseAnimController::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)Checksum;
+	(void)pParams;
+	(void)pScript;
 	return AF_NOT_EXECUTED;
 }
 

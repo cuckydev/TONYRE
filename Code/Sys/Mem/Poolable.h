@@ -132,7 +132,7 @@ void CPoolable<_T>::operator delete (void * pMem)
 	else
 	{
 		// Otherwise try the other one, which exists for saving games to mem card.
-		Dbg_MsgAssert(POOL_STACK_SIZE==2,("Only two pool supported at the moment"));
+		static_assert(POOL_STACK_SIZE==2, "Only two pool supported at the moment");
 		p_pool=sp_pool[s_currentPool ^ 1];
 		if (p_pool && p_pool->IsInPool(pMem))
 		{

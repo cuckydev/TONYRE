@@ -165,8 +165,7 @@ void CPathMan::AddPathInfoToNodeArray()
 		int node_path_number = 0;
 		// Check if the node is linked to something, and has not already had a PathNum
 		// given to it.
-		if ( ( num_links || class_type == Crc::ConstCRC( "WayPoint" ) ) && 
-			!p_start_node->ContainsComponentNamed( Crc::ConstCRC( "PathNum" ) ) )
+		if ( ( num_links || class_type == Crc::ConstCRC( "WayPoint" ) ) && !p_start_node->ContainsComponentNamed( Crc::ConstCRC( "PathNum" ) ) )
 		{
 			// printf("found a non PedAI waypoint\n");
 			// The node and subsequent nodes that it is linked to require a PathNum				
@@ -203,7 +202,7 @@ void CPathMan::AddPathInfoToNodeArray()
 				p_node->AddInteger(0x9c91c3ca/*PathNum*/,path_number_to_write);
 				
 				// Check if this is a terminating node of the path, and stop if so.
-				int num_links=SkateScript::GetNumLinks(p_node);
+				num_links=SkateScript::GetNumLinks(p_node);
 				if (num_links==0)
 				{
 					break;
@@ -259,6 +258,9 @@ void CPathMan::AllocateObjectTrackerMemory()
 
 bool ScriptAllocatePathManMemory( Script::CStruct* pParams, Script::CScript* pScript )
 {
+	(void)pParams;
+	(void)pScript;
+
 	Obj::CPathMan* pPathMan = Obj::CPathMan::Instance();
 	Dbg_Assert( pPathMan );
 	pPathMan->AllocateObjectTrackerMemory();

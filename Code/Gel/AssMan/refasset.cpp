@@ -78,8 +78,12 @@ CRefAsset::~CRefAsset()
 
 int 			CRefAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pExtraData)  	// create or load the asset
 {
-	Dbg_MsgAssert(!async_load, ("Async load not supported on CRefAsset"));
+	(void)p_file;
+	(void)async_load;
+	(void)use_pip;
+	(void)pExtraData;
 
+	Dbg_MsgAssert(!async_load, ("Async load not supported on CRefAsset"));
 //	return mp_asset->Load(p_file);
 	return 0;
 }

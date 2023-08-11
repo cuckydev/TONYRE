@@ -40,12 +40,12 @@ namespace Gfx
 {
 
 // use this macro to create the last two params to AddDebugLine( )
-#define MAKE_RGBA( r, g, b, a )	( ( ( a ) << 24 ) | ( ( b ) << 16 ) | ( ( g ) << 8 ) | ( r ) )
-#define MAKE_RGB( r, g, b )		( ( ( 255 ) << 24 ) | ( ( b ) << 16 ) | ( ( g ) << 8 ) | ( r ) )
-#define GET_R( rgba ) 	( ( ( rgba ) ) & 255 )
-#define GET_G( rgba ) 	( ( ( rgba ) >> 8 ) & 255 )
-#define GET_B( rgba ) 	( ( ( rgba ) >> 16 ) & 255 )
-#define GET_A( rgba ) 	( ( ( rgba ) >> 24 ) & 255 )
+#define MAKE_RGBA( r, g, b, a )	( ( ( (uint32)(a) ) << 24 ) | ( ( (uint32)(b) ) << 16 ) | ( ( (uint32)(g) ) << 8 ) | ( (uint32)(r) ) )
+#define MAKE_RGB( r, g, b )		( ( ( (uint32)255 ) << 24 ) | ( ( (uint32)(b) ) << 16 ) | ( ( (uint32)(g) ) << 8 ) | ( (uint32)(r) ) )
+#define GET_R( rgba ) 	( (uint8) ( ( ( rgba ) ) & 255 ) )
+#define GET_G( rgba ) 	( (uint8) ( ( ( rgba ) >> 8 ) & 255 ) )
+#define GET_B( rgba ) 	( (uint8) ( ( ( rgba ) >> 16 ) & 255 ) )
+#define GET_A( rgba ) 	( (uint8) ( ( ( rgba ) >> 24 ) & 255 ) )
 										
 /*****************************************************************************
 **							Class Definitions								**

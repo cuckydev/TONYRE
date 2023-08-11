@@ -14,7 +14,7 @@ void CTextured3dPoly::sRenderAll()
 {
 	CTextured3dPoly *p_poly;
 	s_poly_table.IterateStart();
-	while(( p_poly = s_poly_table.IterateNext()))
+	while(( p_poly = s_poly_table.IterateNext()) != nullptr)
 	{
 		p_poly->Render();
 	}
@@ -42,6 +42,8 @@ void CTextured3dPoly::SetTexture(const char *p_textureName)
 	
 void CTextured3dPoly::SetPos(const Mth::Vector &pos, float width, float height, const Mth::Vector &normal, float angle)
 {
+	(void)angle;
+
 	Mth::Vector offx(1.0f,0.0f,0.0f);
 	Mth::Vector offz=Mth::CrossProduct(normal,offx);
 	

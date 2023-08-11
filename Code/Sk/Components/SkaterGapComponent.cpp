@@ -73,6 +73,8 @@ CSkaterGapComponent::~CSkaterGapComponent()
 
 void CSkaterGapComponent::InitFromStructure( Script::CStruct* pParams )
 {
+	(void)pParams;
+
 	Dbg_MsgAssert(GetObj()->GetType() == SKATE_TYPE_SKATER, ("CSkaterGapComponent added to non-skater composite object"));
 	
 	m_frame_count = 0;
@@ -158,7 +160,7 @@ void CSkaterGapComponent::UpdateCancelRequire(int cancel, int require)
 				CGapTrick *pGapTrick = static_cast< CGapTrick* >(m_gaptrick_list.FirstItem());
 				while (pGapTrick)
 				{
-					CGapTrick * pNext = static_cast< CGapTrick* >(pGapTrick->GetNext());
+					CGapTrick *pNextTrick = static_cast< CGapTrick* >(pGapTrick->GetNext());
 	
 					// only delete gaptricks if you've not been awarded them, and they exactly match the gap we're cancelling
 					if (!pGapTrick->m_got
@@ -170,7 +172,7 @@ void CSkaterGapComponent::UpdateCancelRequire(int cancel, int require)
 						break;
 					}
 	
-					pGapTrick = pNext;
+					pGapTrick = pNextTrick;
 				}
 			}
 			
@@ -821,7 +823,7 @@ void CSkaterGapComponent::end_gap ( Script::CStruct *pParams, Script::CScript* p
 					CGapTrick* pGapTrick = static_cast< CGapTrick* >(m_gaptrick_list.FirstItem());
 					while ( pGapTrick )
 					{
-						CGapTrick* pNext = static_cast< CGapTrick* >(pGapTrick->GetNext());
+						CGapTrick*pNextTrick = static_cast< CGapTrick* >(pGapTrick->GetNext());
 						
 						if (pGapTrick->m_id == pGap->m_id)
 						{
@@ -829,7 +831,7 @@ void CSkaterGapComponent::end_gap ( Script::CStruct *pParams, Script::CScript* p
 							break;
 						}
 
-						pGapTrick = pNext;
+						pGapTrick = pNextTrick;
 					}
 				} // END if they get the gap trick
 			}
@@ -839,14 +841,14 @@ void CSkaterGapComponent::end_gap ( Script::CStruct *pParams, Script::CScript* p
 				CGapTrick* pGapTrick = static_cast< CGapTrick* >(m_gaptrick_list.FirstItem());
 				while (pGapTrick)
 				{
-					CGapTrick* pNext = static_cast< CGapTrick* >(pGapTrick->GetNext());
+					CGapTrick* pNextTrick = static_cast< CGapTrick* >(pGapTrick->GetNext());
 
 					if (pGapTrick->m_id == pGap->m_id)
 					{
 						pGapTrick->GetGapTrick();
 						break;
 					}
-					pGapTrick = pNext;
+					pGapTrick = pNextTrick;
 				}
 			}
 		} // END if trickscript != 0
@@ -924,6 +926,8 @@ void CSkaterGapComponent::end_gap ( Script::CStruct *pParams, Script::CScript* p
 
 void CSkaterGapComponent::check_gap_tricks ( Script::CStruct *pParams )
 {
+	(void)pParams;
+
 	// look for completed gaps and run their scripts
 	CGapTrick* pGapTrick = static_cast< CGapTrick* >(m_gaptrick_list.FirstItem());
 	while (pGapTrick)

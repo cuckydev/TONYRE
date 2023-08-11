@@ -476,6 +476,8 @@ CEmptyKey::CEmptyKey( int frame ) : CCustomAnimKey( frame )
 
 bool CEmptyKey::process_key( Obj::CObject* pObject )
 {
+	(void)pObject;
+
 	// do nothing
 
 	return true;
@@ -488,6 +490,8 @@ bool CEmptyKey::process_key( Obj::CObject* pObject )
 	
 CEventKey::CEventKey( int frame, uint32 eventType, Script::CStruct* pEventParams ) : CCustomAnimKey( frame )
 {
+	(void)frame;
+
 	m_eventType = eventType;
 	mp_eventParams = new Script::CStruct;
 	mp_eventParams->AppendStructure( pEventParams );
@@ -535,6 +539,8 @@ CCreateObjectFromStructKey::CCreateObjectFromStructKey( int frame, uint32 object
 
 bool CCreateObjectFromStructKey::process_key( Obj::CObject* pObject )
 {
+	(void)pObject;
+
 	if ( Script::GetInt( Crc::ConstCRC("moviecam_debug"), false ) )
 	{
 		Dbg_Message( "Processing Create Object From Struct key (struct = %s) @ %d!", Script::FindChecksumName( m_objectStructName ), m_frame );
@@ -565,6 +571,8 @@ CKillObjectFromStructKey::CKillObjectFromStructKey( int frame, uint32 objectStru
 
 bool CKillObjectFromStructKey::process_key( Obj::CObject* pObject )
 {
+	(void)pObject;
+
 	if ( Script::GetInt( Crc::ConstCRC("moviecam_debug"), false ) )
 	{
 		Dbg_Message( "Processing Kill Object From Struct key (script = %s) @ %d!", Script::FindChecksumName( m_objectStructName ), m_frame );
@@ -576,8 +584,8 @@ bool CKillObjectFromStructKey::process_key( Obj::CObject* pObject )
 		uint32 objectName;
 		pObjectStruct->GetChecksum( Crc::ConstCRC("name"), &objectName, Script::ASSERT );
 		
-		Obj::CObject* pObject = (Obj::CObject*)Obj::ResolveToObject( objectName );
-		pObject->MarkAsDead();
+		Obj::CObject* pKillObject = Obj::ResolveToObject( objectName );
+		pKillObject->MarkAsDead();
 	}
 
 	return true;
@@ -601,87 +609,80 @@ CCustomAnimKey* ReadCustomAnimKey( uint8** pData )
 	switch ( theIntermediateHeader.keyType )
 	{
 		case vCHANGE_FOCAL_LENGTH:
-			{
-				float fov;
-				memcpy(&fov, *pData, sizeof(float));				// May not be word-aligned in memory
-				*pData += sizeof(float);
-				return new CChangeFOVKey( theIntermediateHeader.timeStamp, fov );
-			}
-			break;
+		{
+			float fov;
+			memcpy(&fov, *pData, sizeof(float));				// May not be word-aligned in memory
+			*pData += sizeof(float);
+			return new CChangeFOVKey( theIntermediateHeader.timeStamp, fov );
+		}
 		case vRUN_SCRIPT:
-			{
-				uint32 script_name;
-				memcpy(&script_name, *pData, sizeof(uint32));		// May not be word-aligned in memory
-				*pData += sizeof(uint32);
-				return new CRunScriptKey( theIntermediateHeader.timeStamp, script_name );
-			}
-			break;
+		{
+			uint32 script_name;
+			memcpy(&script_name, *pData, sizeof(uint32));		// May not be word-aligned in memory
+			*pData += sizeof(uint32);
+			return new CRunScriptKey( theIntermediateHeader.timeStamp, script_name );
+		}
 		case vCHANGE_CAMERA_RT:
-			{
-				Mth::Quat theQuat;
-				Mth::Vector theVector;
-				memcpy(&theVector, *pData, sizeof(Mth::Vector));
-				*pData += sizeof(Mth::Vector);
-				memcpy(&theQuat, *pData, sizeof(Mth::Quat));
-				*pData += sizeof(Mth::Quat);
-				return new CChangeCameraRTKey( theIntermediateHeader.timeStamp, theQuat, theVector, false );
-			}
-			break;
+		{
+			Mth::Quat theQuat;
+			Mth::Vector theVector;
+			memcpy(&theVector, *pData, sizeof(Mth::Vector));
+			*pData += sizeof(Mth::Vector);
+			memcpy(&theQuat, *pData, sizeof(Mth::Quat));
+			*pData += sizeof(Mth::Quat);
+			return new CChangeCameraRTKey( theIntermediateHeader.timeStamp, theQuat, theVector, false );
+		}
 		case vCHANGE_CAMERA_RT_ENDKEY:
-			{
-				Mth::Quat theQuat;
-				Mth::Vector theVector;
-				memcpy(&theVector, *pData, sizeof(Mth::Vector));
-				*pData += sizeof(Mth::Vector);
-				memcpy(&theQuat, *pData, sizeof(Mth::Quat));
-				*pData += sizeof(Mth::Quat);
-				return new CChangeCameraRTKey( theIntermediateHeader.timeStamp, theQuat, theVector, true );
-			}
-			break;
+		{
+			Mth::Quat theQuat;
+			Mth::Vector theVector;
+			memcpy(&theVector, *pData, sizeof(Mth::Vector));
+			*pData += sizeof(Mth::Vector);
+			memcpy(&theQuat, *pData, sizeof(Mth::Quat));
+			*pData += sizeof(Mth::Quat);
+			return new CChangeCameraRTKey( theIntermediateHeader.timeStamp, theQuat, theVector, true );
+		}
 		case vCHANGE_CAMERA_RT_IGNORE:
-			{
-           		// GJ:  There's a bug in the exporter where
-				// 2 camera RT keys with different positions
-				// are listed for the same time...  this causes
-				// a glitch during certain camera transitions.
-				// To fix, I will replace the second key with one
-				// that does nothing...
-				*pData += sizeof(Mth::Vector);
-				*pData += sizeof(Mth::Quat);
+		{
+           	// GJ:  There's a bug in the exporter where
+			// 2 camera RT keys with different positions
+			// are listed for the same time...  this causes
+			// a glitch during certain camera transitions.
+			// To fix, I will replace the second key with one
+			// that does nothing...
+			*pData += sizeof(Mth::Vector);
+			*pData += sizeof(Mth::Quat);
 
-				return new CEmptyKey( theIntermediateHeader.timeStamp );
-			}
-			break;
+			return new CEmptyKey( theIntermediateHeader.timeStamp );
+		}
 		case vCREATE_OBJECT_FROM_STRUCT:
-			{
-				uint32 object_struct_name;
-				memcpy(&object_struct_name, *pData, sizeof(uint32));		// May not be word-aligned in memory
-				*pData += sizeof(uint32);
-				return new CCreateObjectFromStructKey( theIntermediateHeader.timeStamp, object_struct_name );
-			}
-			break;
+		{
+			uint32 object_struct_name;
+			memcpy(&object_struct_name, *pData, sizeof(uint32));		// May not be word-aligned in memory
+			*pData += sizeof(uint32);
+			return new CCreateObjectFromStructKey( theIntermediateHeader.timeStamp, object_struct_name );
+		}
 		case vKILL_OBJECT_FROM_STRUCT:
-			{
-				uint32 object_struct_name;
-				memcpy(&object_struct_name, *pData, sizeof(uint32));		// May not be word-aligned in memory
-				*pData += sizeof(uint32);
-				return new CKillObjectFromStructKey( theIntermediateHeader.timeStamp, object_struct_name );
-			}
-			break;
+		{
+			uint32 object_struct_name;
+			memcpy(&object_struct_name, *pData, sizeof(uint32));		// May not be word-aligned in memory
+			*pData += sizeof(uint32);
+			return new CKillObjectFromStructKey( theIntermediateHeader.timeStamp, object_struct_name );
+		}
 		default:
-			{
-				Dbg_Message( "Warning:  Ignoring custom anim key (type %08x is currently unsupported).", theIntermediateHeader.keyType );
+		{
+			Dbg_Message( "Warning:  Ignoring custom anim key (type %08x is currently unsupported).", theIntermediateHeader.keyType );
 
-				// just skip past the size
-				Dbg_Assert( theIntermediateHeader.size - sizeof(SIntermediateCustomAnimKeyHeader) < 512 );
-				*pData += theIntermediateHeader.size;
-				Dbg_Assert(!((uint) *pData & 0x3));
+			// just skip past the size
+			Dbg_Assert( theIntermediateHeader.size - sizeof(SIntermediateCustomAnimKeyHeader) < 512 );
+			*pData += theIntermediateHeader.size;
+			Dbg_Assert(!((uint) *pData & 0x3));
 
-				return nullptr;
-			}
+			return nullptr;
+		}
 	}
 
-	return nullptr;
+	// return nullptr;
 }
 
 /******************************************************************/

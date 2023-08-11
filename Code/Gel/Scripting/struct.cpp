@@ -488,9 +488,6 @@ void CStruct::init()
 
 
 
-static int x = 0;
-static int max = 18000;
-	
 // Usual constructor.	
 CStruct::CStruct()
 {
@@ -519,12 +516,14 @@ CStruct::CStruct( const CStruct& rhs )
 	// use the overridden assignment operator
 	*this = rhs;
 	
+	#if 0
 	x++;
 	if (x>max)
 	{
 		max = x;
 //		DumpUnwindStack(20,0);
 	}
+	#endif
 }
 
 // Assignement operator.
@@ -1217,9 +1216,9 @@ void CStruct::AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, uint32
 {
 	CComponent *p_new=new CComponent;
 	
-	p_new->mNameChecksum=nameChecksum;
-	p_new->mType=ESYMBOLTYPE_QSCRIPT;
-	p_new->mScriptSize=size;
+	p_new->mNameChecksum = nameChecksum;
+	p_new->mType = ESYMBOLTYPE_QSCRIPT;
+	p_new->mScriptSize = (uint16)size;
 	
 	// Allocate a buffer off the script heap
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());

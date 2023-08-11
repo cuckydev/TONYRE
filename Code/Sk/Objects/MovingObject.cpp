@@ -125,6 +125,8 @@ void CMovingObject::MovingObjectCreateComponents()
 
 void CMovingObject::MovingObjectInit( Script::CStruct* pNodeData, CGeneralManager* p_obj_man )
 {
+	(void)p_obj_man;
+
 	// Dan: a hack for now to detect whether anyone has called CreateComponents() yet or not
 	// once components are created in a consistent manner across object types, we can remove this sort of foolishness
 	if (!GetMotionComponent())
@@ -578,6 +580,7 @@ bool CMovingObject::SkaterInRange( SiteBox* pBox, float radiusSqr )
 
 bool CMovingObject::ObjTypeInRange( Script::CStruct* pParams, Script::CScript* pScript, float radiusSqr, SiteBox* pBox, uint32 typeChecksum )
 {
+	(void)pParams;
 	
 	int type;
 	Search objSearch;		
@@ -838,7 +841,7 @@ CCompositeObject* CMovingObject::GetClosestObjectOfType( int type )
 	pObj = (CCompositeObject *) objSearch.FindFirstObjectOfType( mp_manager->GetRefObjectList(), type );
 	if ( pObj == this )
 	{
-		if ( !( pObj = (CCompositeObject*) objSearch.FindNextObjectOfType( ) ) )
+		if ((pObj = (CCompositeObject*) objSearch.FindNextObjectOfType()) == nullptr)
 		{
 			return ( nullptr );
 		}

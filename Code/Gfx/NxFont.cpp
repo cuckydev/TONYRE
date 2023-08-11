@@ -167,6 +167,7 @@ void	CFont::QueryString(char *String, float &width, float &height) const
 
 bool	CFont::plat_load(const char *filename)
 {
+	(void)filename;
 	printf ("STUB: PlatLoad\n");
 	return false;
 }
@@ -178,6 +179,8 @@ bool	CFont::plat_load(const char *filename)
 
 void CFont::plat_set_spacings(int charSpacing, int spaceSpacing)
 {
+	(void)charSpacing;
+	(void)spaceSpacing;
 	printf("STUB A DUB DUB");
 }
 
@@ -188,6 +191,7 @@ void CFont::plat_set_spacings(int charSpacing, int spaceSpacing)
 
 void CFont::plat_set_rgba_table(Image::RGBA *pTab)
 {
+	(void)pTab;
 	printf("STUB A DUB DUB");
 }
 
@@ -198,6 +202,7 @@ void CFont::plat_set_rgba_table(Image::RGBA *pTab)
 
 void CFont::plat_mark_as_button_font(bool isButton)
 {
+	(void)isButton;
 	printf("STUB A DUB DUB");
 }
 
@@ -275,6 +280,9 @@ void	CFont::plat_end_text(void)
 
 void	CFont::plat_query_string(char *String, float &width, float &height) const
 {
+	(void)String;
+	(void)width;
+	(void)height;
 	printf ("STUB: PlatQueryString\n");
 }
 

@@ -178,6 +178,8 @@ CTexDict *		  	CTexDictManager::sGetTextureDictionary(uint32 checksum)
 // @flag no_vram_alloc | won't allocate in vram
 bool ScriptLoadTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -199,6 +201,8 @@ bool ScriptLoadTexture(Script::CScriptStructure *pParams, Script::CScript *pScri
 // @parm string |  | name of texture
 bool ScriptUnloadTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	CTexture *p_texture = nullptr;
 	const char *p_name;
 	uint32 checksum;
@@ -237,6 +241,9 @@ bool ScriptUnloadTexture(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @parm string |  | name of texture
 bool ScriptAddTextureToVram(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #if 0
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
@@ -259,6 +266,9 @@ bool ScriptAddTextureToVram(Script::CScriptStructure *pParams, Script::CScript *
 // @flag no_assert | won't assert on failure
 bool ScriptRemoveTextureFromVram(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 #if 0
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
@@ -279,6 +289,8 @@ bool ScriptRemoveTextureFromVram(Script::CScriptStructure *pParams, Script::CScr
 // @script | LoadFaceTextureFromProfile | Loads a 2D sprite texture
 bool ScriptLoadFaceTextureFromProfile(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
     bool alloc_vram = true;
 	uint32 checksum;
     pParams->GetChecksum( "checksum", &checksum, Script::ASSERT );
@@ -308,6 +320,8 @@ bool ScriptLoadFaceTextureFromProfile(Script::CScriptStructure *pParams, Script:
 // @parmopt int | store_original | 0 | If set to 1, keeps original 32-bit image around that can be used with some functions
 bool ScriptGenerate32BitImage(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -349,6 +363,8 @@ bool ScriptGenerate32BitImage(Script::CScriptStructure *pParams, Script::CScript
 // @parmopt int | fill_a | 128 | fill color alpha component
 bool ScriptOffsetTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -369,7 +385,7 @@ bool ScriptOffsetTexture(Script::CScriptStructure *pParams, Script::CScript *pSc
 		use_fill_color |= pParams->GetInteger(Crc::ConstCRC("fill_b"), &b);
 		use_fill_color |= pParams->GetInteger(Crc::ConstCRC("fill_a"), &a);
 
-		Image::RGBA fill_color(r, g, b, a);
+		Image::RGBA fill_color((uint8)r, (uint8)g, (uint8)b, (uint8)a);
 
 		p_texture->Offset(x_offset, y_offset, use_fill_color, fill_color);
 	}
@@ -392,6 +408,8 @@ bool ScriptOffsetTexture(Script::CScriptStructure *pParams, Script::CScript *pSc
 // @parm int | end_point | split line end point on axis
 bool ScriptAdjustTextureRegion(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -415,7 +433,7 @@ bool ScriptAdjustTextureRegion(Script::CScriptStructure *pParams, Script::CScrip
 		pParams->GetInteger(Crc::ConstCRC("start_point"), &start_point);
 		pParams->GetInteger(Crc::ConstCRC("end_point"), &end_point);
 
-		p_texture->AdjustRegion(x_pos, y_pos, width, height, split_axis, start_point, end_point);
+		p_texture->AdjustRegion((uint16)x_pos, (uint16)y_pos, (uint16)width, (uint16)height, (uint16)split_axis, (uint16)start_point, (uint16)end_point);
 	} else {
 		Dbg_MsgAssert(0, ("Can't find texture %s to adjust", Script::FindChecksumName(checksum)));
 	}
@@ -431,6 +449,8 @@ bool ScriptAdjustTextureRegion(Script::CScriptStructure *pParams, Script::CScrip
 // @parm int | num_pixels | number of pixels (+ or - determines the direction)
 bool ScriptPullTextureToEdge(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -446,7 +466,7 @@ bool ScriptPullTextureToEdge(Script::CScriptStructure *pParams, Script::CScript 
 		pParams->GetInteger(Crc::ConstCRC("axis"), &axis);
 		pParams->GetInteger(Crc::ConstCRC("num_pixels"), &num_pixels);
 
-		p_texture->PullToEdge(point, axis, num_pixels);
+		p_texture->PullToEdge((uint16)point, axis, num_pixels);
 	}
 	else
 	{
@@ -467,6 +487,8 @@ bool ScriptPullTextureToEdge(Script::CScriptStructure *pParams, Script::CScript 
 // @parmopt int | fill_a | 128 | fill color alpha component
 bool ScriptPushTextureToPoint(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -489,9 +511,9 @@ bool ScriptPushTextureToPoint(Script::CScriptStructure *pParams, Script::CScript
 		use_fill_color |= pParams->GetInteger(Crc::ConstCRC("fill_b"), &b);
 		use_fill_color |= pParams->GetInteger(Crc::ConstCRC("fill_a"), &a);
 
-		Image::RGBA fill_color(r, g, b, a);
+		Image::RGBA fill_color((uint8)r, (uint8)g, (uint8)b, (uint8)a);
 
-		p_texture->PushToPoint(point, axis, num_pixels, use_fill_color, fill_color);
+		p_texture->PushToPoint((uint16)point, axis, num_pixels, use_fill_color, fill_color);
 	}
 	else
 	{
@@ -507,6 +529,8 @@ bool ScriptPushTextureToPoint(Script::CScriptStructure *pParams, Script::CScript
 // @parmopt int | adjust_current | 0 | If set to 1, adjusts the current image, even if the original image exists
 bool ScriptAdjustTextureBrightness(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -543,6 +567,8 @@ bool ScriptAdjustTextureBrightness(Script::CScriptStructure *pParams, Script::CS
 // @parmopt int | adjust_current | 0 | If set to 1, adjusts the current image, even if the original image exists
 bool ScriptAdjustTextureHSV(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(NONAME, &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -585,6 +611,8 @@ bool ScriptAdjustTextureHSV(Script::CScriptStructure *pParams, Script::CScript *
 // @parm name | new | name of new texture
 bool ScriptCopyTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 checksum;
 	if (!pParams->GetChecksum(Crc::ConstCRC("src"), &checksum))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -615,6 +643,8 @@ bool ScriptCopyTexture(Script::CScriptStructure *pParams, Script::CScript *pScri
 // @parmopt flag | no_palette_gen | | use original palette (faster)
 bool ScriptCombineTextures(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	uint32 new_checksum = 0;
 	uint32 tex1_checksum;
 	uint32 tex2_checksum;
@@ -666,6 +696,8 @@ bool ScriptCombineTextures(Script::CScriptStructure *pParams, Script::CScript *p
 
 bool ScriptLoadParticleTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -722,6 +754,8 @@ bool ScriptLoadParticleTexture(Script::CScriptStructure *pParams, Script::CScrip
 
 bool ScriptUnloadParticleTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -740,6 +774,8 @@ bool ScriptUnloadParticleTexture(Script::CScriptStructure *pParams, Script::CScr
 
 bool ScriptLoadSFPTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -754,6 +790,8 @@ bool ScriptLoadSFPTexture(Script::CScriptStructure *pParams, Script::CScript *pS
 
 bool ScriptUnloadSFPTexture(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pScript;
+
 	const char *p_name;
 	if (!pParams->GetText(NONAME, &p_name))
 		Dbg_MsgAssert(0, ("no texture specified"));
@@ -770,6 +808,9 @@ bool ScriptUnloadSFPTexture(Script::CScriptStructure *pParams, Script::CScript *
 
 bool ScriptDumpTextures(Script::CScriptStructure *pParams, Script::CScript *pScript)
 {
+	(void)pParams;
+	(void)pScript;
+
 	#ifdef	__NOPT_ASSERT__
 	// Get the hashable that has the textures in it
 	Lst::HashTable<CTexture> * p_textures = CTexDictManager::sp_particle_tex_dict->GetTexLookup();

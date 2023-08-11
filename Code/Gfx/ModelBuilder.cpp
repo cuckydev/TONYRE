@@ -652,9 +652,9 @@ bool CModelBuilder::model_apply_bone_scale( uint32 partChecksum )
 					Script::CArray* pShoulderScalingArray = Script::GetArray( Crc::ConstCRC("nonlocal_bones"), Script::NO_ASSERT );
 					if ( pShoulderScalingArray )
 					{
-						for ( uint32 i = 0; i < pShoulderScalingArray->GetSize(); i++ )
+						for ( uint32 j = 0; j < pShoulderScalingArray->GetSize(); j++ )
 						{
-							if ( pShoulderScalingArray->GetChecksum(i) == boneChecksum )
+							if ( pShoulderScalingArray->GetChecksum(j) == boneChecksum )
 							{
 								isLocalScale = false;
 							}

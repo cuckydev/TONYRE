@@ -124,25 +124,27 @@ void	CCollCache::Update(const Mth::CBBox &bbox)
 	line_bbox.AddPoint(extend);
 
 	// Look for static collision
-    CCollStatic* p_coll_obj;
-	while((p_coll_obj = *p_coll_obj_list))
 	{
-		// TODO: Come up with a cleaner BBox check
-		//Dbg_Assert(p_coll_obj->GetGeometry());
-		//if(line_bbox.Intersect(p_coll_obj->GetGeometry()->GetBBox()))
-		if (p_coll_obj->WithinBBox(line_bbox))
+		CCollStatic *p_coll_obj;
+		while ((p_coll_obj = *p_coll_obj_list) != nullptr)
 		{
-			add_static_collision(p_coll_obj);
+			// TODO: Come up with a cleaner BBox check
+			//Dbg_Assert(p_coll_obj->GetGeometry());
+			//if(line_bbox.Intersect(p_coll_obj->GetGeometry()->GetBBox()))
+			if (p_coll_obj->WithinBBox(line_bbox))
+			{
+				add_static_collision(p_coll_obj);
+			}
+			p_coll_obj_list++;
 		}
-		p_coll_obj_list++;
 	}
 
 	// Now look for movable collision
 	Lst::Node< CCollObj > *p_movable_node = CMovableCollMan::sGetCollisionList()->GetNext();
-	while(p_movable_node)
+	while (p_movable_node != nullptr)
 	{
 		CCollObj *p_coll_obj = p_movable_node->GetData();
-		if (p_coll_obj && !(p_coll_obj->m_Flags & (mSD_NON_COLLIDABLE | mSD_KILLED )))
+		if (p_coll_obj != nullptr && !(p_coll_obj->m_Flags & (mSD_NON_COLLIDABLE | mSD_KILLED )))
 		{
 			if (p_coll_obj->WithinBBox(line_bbox))
 			{
