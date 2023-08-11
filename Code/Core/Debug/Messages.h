@@ -66,7 +66,7 @@ enum Mask
 **							     Type Defines								**
 *****************************************************************************/
 
-typedef void ( OutputCode )( char* );
+typedef void ( OutputCode )(const char* );
 
 /*****************************************************************************
 **							 Private Declarations							**

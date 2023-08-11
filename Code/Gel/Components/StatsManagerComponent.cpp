@@ -129,7 +129,7 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
 
     // Set p_skater
     uint32 target_id = Obj::CBaseComponent::GetObj()->GetID();
-    Dbg_MsgAssert(target_id >=0 && target_id <= 15,("Bad StatsManagerTarget 0x%x in SkaterStatsManagerComponent",target_id));
+    Dbg_MsgAssert(target_id < Mdl::Skate::vMAX_SKATERS,("Bad StatsManagerTarget 0x%x in SkaterStatsManagerComponent",target_id));
     
 	CSkater* p_skater = static_cast<CSkater*>(CCompositeObjectManager::Instance()->GetObjectByID(target_id)); 
 	Dbg_MsgAssert(p_skater,("Can't find skater %d in SkaterStatsManagerComponent",target_id));

@@ -267,7 +267,7 @@ CCollBSPNode * CCollBSPNode::clone(bool instance)
 		FaceIndex *		p_new_face_index_array = new FaceIndex[num_face_indices];
 
 		// Just memcpy it first, since we know the source tree is in an array
-		memcpy(p_new_bsp_array, this, num_nodes * sizeof(CCollBSPNode));
+		memcpy((void*)p_new_bsp_array, (void*)this, num_nodes * sizeof(CCollBSPNode));
 		memcpy(p_new_face_index_array, p_orig_face_index_array, num_face_indices * sizeof(FaceIndex));
 
 #ifdef	__NOPT_ASSERT__

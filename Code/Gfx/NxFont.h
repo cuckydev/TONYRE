@@ -39,7 +39,7 @@ public:
 	uint32					GetChecksum() const;
 	uint32					GetDefaultHeight() const;
 	uint32					GetDefaultBase() const;
-	void					QueryString(char *String, float &width, float &height) const;
+	void					QueryString(const char *String, float &width, float &height) const;
 
 	// Member variables (protected so the p-classes can access them)
 protected:
@@ -55,7 +55,7 @@ private:
 
 	virtual	uint32			plat_get_default_height() const;
 	virtual	uint32			plat_get_default_base() const;
-	virtual void			plat_query_string(char *String, float &width, float &height) const;
+	virtual void			plat_query_string(const char *String, float &width, float &height) const;
 };
 
 //////////////////////////////////////////////////////////////////////////////

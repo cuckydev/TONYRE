@@ -92,7 +92,7 @@ public:
 	void						Sort();
 	
 	int 						GetPosition(int player = 0);
-	char *						GetJudgeName(int judge);
+	const char *				GetJudgeName(int judge);
 	float						GetJudgeScore(int judge);
 	void						SetupJudgeText();
 	bool 						IsTopJudge(int judge);
@@ -124,7 +124,7 @@ private:
 
 	float						m_bail_points;			   	
 	float						m_score[vNUM_JUDGES];  	// m_score is generated from m_total_score
-	char *						m_judge_name[vNUM_JUDGES];  	//
+	const char *				m_judge_name[vNUM_JUDGES];  	//
 	float						m_total_score;
 
 	int							m_judge_score[vNUM_ROUNDS];

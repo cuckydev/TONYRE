@@ -30,7 +30,7 @@ namespace Nx
 {
 
 // Forward declarations
-class CParticleEntry;
+struct CParticleEntry;
 
 //////////////////////////////////////////////////////////////////////////////
 // The CParticle class is the platform independent abstract base class
@@ -163,21 +163,21 @@ private:
 
 //////////////////////////////////////////////////////////////////////////////
 // Particle system entry. Does very little other than hold information. The controller does all the work.
-class CParticleEntry
+struct CParticleEntry
 {
-public:
-							CParticleEntry();
-							~CParticleEntry();
+	public:
+		CParticleEntry(const CParticleEntry &rhs) = default;
+		CParticleEntry &operator=(const CParticleEntry &rhs) = default;
 
-//							float					m_x, m_y, m_z;				// Current x, y, z positions.
-							float					m_vx, m_vy, m_vz;			// Current velocity.
-							float					m_fx, m_fy, m_fz;			// Current force.
-							float					m_sw, m_sh;					// Start Width & Height.
-							float					m_ew, m_eh;					// EndWidth & Height.
-							float					m_time, m_life;				// Current time & life of particle.
-protected:
-private:
-	friend CParticle;
+//		float					m_x, m_y, m_z;				// Current x, y, z positions.
+		float					m_vx, m_vy, m_vz;			// Current velocity.
+		float					m_fx, m_fy, m_fz;			// Current force.
+		float					m_sw, m_sh;					// Start Width & Height.
+		float					m_ew, m_eh;					// EndWidth & Height.
+		float					m_time, m_life;				// Current time & life of particle.
+	protected:
+	private:
+		friend CParticle;
 };
 
 }

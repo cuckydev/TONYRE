@@ -1890,8 +1890,8 @@ bool CGoal::HasWonGoal()
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();	
 	if ( gamenet_man->InNetGame() && 
-		 ( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netgoalattack" )) ||
-		 ( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC("netlobby")))
+		 (( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC( "netgoalattack" )) ||
+		 ( skate_mod->GetGameMode()->GetNameChecksum() == Crc::ConstCRC("netlobby")))) // NOTE: this was originally implicitly (InNetGame && netgoalattack) || netlobby, but the return is netIsBeat, so I'll assume this is right
 	{
 		return m_netIsBeat;
 	}

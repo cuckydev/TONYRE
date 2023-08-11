@@ -479,9 +479,7 @@ void FrontEnd::AddEntriesToEventButtonMap(Script::CStruct *pParams)
 
 
 void FrontEnd::s_input_logic_code ( const Inp::Handler < FrontEnd >& handler )
-{	   
-	Dbg_AssertType ( &handler, Inp::Handler< FrontEnd > );
-    
+{
 	FrontEnd& mdl = handler.GetData();
 
 	Obj::CTracker* p_tracker = Obj::CTracker::Instance();
@@ -559,8 +557,6 @@ void FrontEnd::s_input_logic_code ( const Inp::Handler < FrontEnd >& handler )
 
 void FrontEnd::s_logic_code ( const Tsk::Task< FrontEnd >& task )
 {
-	Dbg_AssertType ( &task, Tsk::Task< FrontEnd > );
-
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 
 	FrontEnd&	mdl = task.GetData();

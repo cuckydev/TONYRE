@@ -574,12 +574,12 @@ void CManual::DoManualPhysics()
 
 
 	// Update the balance meter.
-	GameNet::MsgByteInfo msg;
+	// GameNet::MsgByteInfo msg;
 	float final_val = -mManualLean/4096;
 	
 	if( server && skater_conn )
 	{
-		msg.m_Data = (char) ( final_val * 127.0f );
+		// msg.m_Data = (char) ( final_val * 127.0f );
 		/*server->EnqueueMessage( skater_conn->GetHandle(), GameNet::MSG_ID_SET_MANUAL_METER, 
 								sizeof(GameNet::MsgByteInfo), &msg );*/
 	}

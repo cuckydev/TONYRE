@@ -65,8 +65,6 @@ protected:
 							CXboxAsyncFileHandle();
 	virtual 				~CXboxAsyncFileHandle();
 
-	static VOID CALLBACK	sAsyncFileReadTimerAPCProc( LPVOID lpArgToCompletionRoutine, DWORD dwTimerLowValue, DWORD dwTimerHighValue );
-
 private:
 	// Constants
 	enum
@@ -86,7 +84,7 @@ private:
 
 	// Open requests
 	SRequest		  	m_open_requests[NUM_REQUESTS];
-	volatile int		m_num_open_requests;
+	int		m_num_open_requests;
 
 	// Non-aligned buffer IO
 	uint8 *				mp_non_aligned_buffer;
@@ -106,8 +104,8 @@ private:
 	virtual bool			plat_open( const char *filename );
 	virtual bool			plat_close( void );
 
-	virtual volatile bool	plat_is_done( void );
-	virtual volatile bool	plat_is_busy( void );
+	virtual bool			plat_is_done( void );
+	virtual bool			plat_is_busy( void );
 	virtual bool			plat_is_eof( void ) const;
 
 	virtual void			plat_set_priority( int priority );

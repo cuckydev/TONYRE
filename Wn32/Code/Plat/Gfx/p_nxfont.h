@@ -33,7 +33,7 @@ private:		// It's all private, as it is machine specific
 //	virtual void				plat_begin_text(uint32 rgba, float Scale);
 //	virtual void				plat_draw_string(char *String, float x0, float y0);
 //	virtual void				plat_end_text(void);
-	virtual void				plat_query_string(char *String, float &width, float &height) const;
+	virtual void				plat_query_string(const char *String, float &width, float &height) const;
 
 	// Machine specific members
 	NxWn32::SFont *				mp_plat_font;		// Pointer to engine font

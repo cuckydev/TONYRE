@@ -178,9 +178,7 @@ void Server::service_handlers( void )
 
         if( control_data[0] == 0 )  // Valid controller communication
         {
-            unsigned char controller_type;
-            
-            controller_type = control_data[1] >> 4;  // top 4 bits contain controller type
+            unsigned char controller_type = control_data[1] >> 4;  // top 4 bits contain controller type
             handler_data->m_prev = handler_data->m_cur;
 			// Regular buttons
             handler_data->m_cur = 0xFFFF ^ (( control_data[2] << 8 ) | control_data[3] );
@@ -248,6 +246,7 @@ void Server::service_handlers( void )
                 }
                 break;
 
+			/* // these are outside the 4-bit range..
             case SIO::Device::vFISHING_CTRL:
                 // TODO: Handle 
                 Dbg_MsgAssert( 0,( "Unsupported Device Type\n" ));
@@ -257,7 +256,7 @@ void Server::service_handlers( void )
                 // TODO: Handle 
                 Dbg_MsgAssert( 0,( "Unsupported Device Type\n" ));
                 break;
-
+			*/
             }
             
 			if( m_data_out )

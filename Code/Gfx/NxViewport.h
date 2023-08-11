@@ -60,12 +60,12 @@ class  CViewport
 
 	const Mth::Rect &	GetRect() const;
 
-	const		float	GetOriginX() const;
-	const		float	GetOriginY() const;
-	const		float	GetWidth() const;
-	const		float	GetHeight() const;
+	float	GetOriginX() const;
+	float	GetOriginY() const;
+	float	GetWidth() const;
+	float	GetHeight() const;
 
-	const		float	GetAspectRatio() const;
+	float	GetAspectRatio() const;
 
 	// These functions are used to prevent the camera from being deleted prematurely
 				bool	MarkCameraForDeletion(Gfx::Camera *pCamera);
@@ -126,7 +126,7 @@ inline const Mth::Rect & CViewport::GetRect() const
 /*                                                                */
 /******************************************************************/
 
-inline const float	CViewport::GetOriginX ( void ) const
+inline float	CViewport::GetOriginX ( void ) const
 {
    	
 
@@ -138,7 +138,7 @@ inline const float	CViewport::GetOriginX ( void ) const
 /*                                                                */
 /******************************************************************/
 
-inline const float	CViewport::GetOriginY ( void ) const
+inline float	CViewport::GetOriginY ( void ) const
 {
    	
 
@@ -150,7 +150,7 @@ inline const float	CViewport::GetOriginY ( void ) const
 /*                                                                */
 /******************************************************************/
 
-inline const float	CViewport::GetWidth ( void ) const
+inline float	CViewport::GetWidth ( void ) const
 {
    	
 
@@ -162,7 +162,7 @@ inline const float	CViewport::GetWidth ( void ) const
 /*                                                                */
 /******************************************************************/
 
-inline const float	CViewport::GetHeight ( void ) const
+inline float	CViewport::GetHeight ( void ) const
 {
    	
 
@@ -175,7 +175,7 @@ inline const float	CViewport::GetHeight ( void ) const
 /*                                                                */
 /******************************************************************/
 			
-inline const float		CViewport::GetPixelRatio ( void ) const
+inline float		CViewport::GetPixelRatio ( void ) const
 {
    	
 

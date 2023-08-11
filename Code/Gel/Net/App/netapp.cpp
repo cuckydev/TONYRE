@@ -1915,7 +1915,7 @@ void App::EnqueueMessage( int handle, MsgDesc* desc )
 /*                                              				  */
 /******************************************************************/
 
-void	App::StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned short msg_len, void* data, char* desc, unsigned char group_id,
+void	App::StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned short msg_len, void* data, const char* desc, unsigned char group_id,
 								  bool all_at_once, bool send_in_place )
 {
 	char* data_ptr;
@@ -2037,8 +2037,7 @@ void	App::StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned s
 /*                                              				  */
 /******************************************************************/
 
-void	App::StreamMessage( int handle, unsigned char msg_id, unsigned short msg_len, void* data, char* desc, unsigned char group_id,
-							bool all_at_once, bool send_in_place )
+void	App::StreamMessage( int handle, unsigned char msg_id, unsigned short msg_len, void* data, const char* desc, unsigned char group_id, bool all_at_once, bool send_in_place )
 {
 	Lst::Search< Conn > sh;
 	Conn* conn;
@@ -2072,8 +2071,7 @@ void	App::StreamMessage( int handle, unsigned char msg_id, unsigned short msg_le
 /* to EnqueueMessage                                              */
 /******************************************************************/
 
-void	App::StreamMessageToServer( unsigned char msg_id, unsigned short msg_len, void* data, char* desc, unsigned char group_id,
-									bool all_at_once, bool send_in_place )
+void	App::StreamMessageToServer( unsigned char msg_id, unsigned short msg_len, void* data, const char* desc, unsigned char group_id, bool all_at_once, bool send_in_place )
 {
 	Conn *conn;
 	Lst::Search< Conn > sh;
@@ -2380,9 +2378,9 @@ void	App::TerminateConnection( Conn* conn )
 	
 	Dbg_Assert( conn );
 
-	struct in_addr address;
+	// struct in_addr address;
+	// address.s_addr = conn->GetIP();
 
-	address.s_addr = conn->GetIP();
 	conn->m_node.Remove();
 	delete conn;
 }

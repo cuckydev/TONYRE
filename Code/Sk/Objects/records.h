@@ -90,10 +90,10 @@ class  CRecord  : public Spt::Class
 		void 						ReadFromStructure(Script::CStruct *pIn);
 		void 						WriteIntoStructure(Script::CStruct *pIn);
 
-		void						Set(char *initials, int value, int number);
+		void						Set(const char *initials, int value, int number);
 		void						Set(CRecord *pRecord);
 		
-		void						SetInitials(char *initials);
+		void						SetInitials(const char *initials);
 		void						SetValue(int value);
 		void						SetNumber(int number);
 		void						SetNewRecord(bool new_record);

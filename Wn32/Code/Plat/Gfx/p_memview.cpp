@@ -150,10 +150,10 @@ static char HexByte(char a)
 #endif
 
 
-static int doneonce = 0;
+// static int doneonce = 0;
 
 
-char *MemView_GetFunctionName(int pc, int *p_size)
+const char *MemView_GetFunctionName(int pc, int *p_size)
 {
 	(void)pc;
 	(void)p_size;
@@ -245,7 +245,7 @@ Mem::Allocator::BlockHeader *MemView_FindBlock( int addr)
 #endif
 }
 
-char * MemView_GetClassName(CCallStack *c)
+const char * MemView_GetClassName(CCallStack *c)
 {
 #ifdef	__LINKED_LIST_HEAP__
 	int *ra = (int*)(c->addr[4]);
@@ -257,16 +257,16 @@ char * MemView_GetClassName(CCallStack *c)
 		{
 			int code = (instruction & 0xffffff)<<2;
 			int size;
-			char *p = MemView_GetFunctionName(code,&size); 
+			const char *p = MemView_GetFunctionName(code,&size); 
 			// to tell if this is class or not
 			// we see if the text is of the form  
 			//    classname::classname (teminated by a 0)
 			// as that indicates that it is a constructor
 			// dude... this is where we need a regular expression....
-			char *end = p;
+			const char *end = p;
 			while (*end) end++;	   						// scan to end
 			while (end[-1] != ':' && end > p)	end--;	// skip to char after the last :
-			char *other = strstr(p,end);				// find fist occurance of end of string
+			const char *other = strstr(p,end);				// find fist occurance of end of string
 			if (other != end)							// if different, then this is it!!
 			{
 				return MemView_GetFunctionName(code,&size);
@@ -334,7 +334,7 @@ void MemView_DumpBlockInfo(int cursor)
 			// assume this is a "new", then the fourth callstack ra will point to the 
 			// jal xxxxxx  instruction, where xxxxx is the constructor for the 
 			// or it might be sortly thereafter, so check 16 instructions
-			char *classname = MemView_GetClassName( c );
+			const char *classname = MemView_GetClassName( c );
 			if( classname )
 			{
 				sprintf( os, "CLASS: %s\n", classname );
@@ -750,7 +750,7 @@ struct SBlockType
 	int	size;					// size of block (if we want to sort by it
 	int	total;					// total size of this type
 	int	actual;					// actual total size, including headers
-	char *p_class;				// points to class node 
+	const char *p_class;				// points to class node 
 	
 	int	count;
 };
@@ -814,7 +814,7 @@ void MemView_AnalyzeCallStack( CCallStack* pCallStack, SBlockType* pBlocks, int&
 
 	int	size = pCallStack->size;	  	// size is the only thing we know for sure
 	int	return_addr = 0;				// default unknown return address
-	char *p_class = "not a class";
+	const char *p_class = "not a class";
 	int latest = 1;
 	int i = 0;
 	
@@ -841,7 +841,7 @@ void MemView_AnalyzeCallStack( CCallStack* pCallStack, SBlockType* pBlocks, int&
 			0x257034: _rwFreeListAllocReal
 		*/
 
-		char *p_name = MemView_GetFunctionName(pCallStack->addr[i],&xsize);
+		const char *p_name = MemView_GetFunctionName(pCallStack->addr[i],&xsize);
 		if (!strcmp("Malloc",p_name) 
 			|| !strcmp("Spt::Class::operator new",p_name)
 			|| !strcmp("Mem::Manager::New",p_name)
@@ -924,7 +924,7 @@ void MemView_AnalyzeCallStack( CCallStack* pCallStack, SBlockType* pBlocks, int&
 }
 
 #ifdef	__LINKED_LIST_HEAP__
-static int bbb = 0;	   	// compiler patch var, see below
+// static int bbb = 0;	   	// compiler patch var, see below
 #endif
 
 void MemView_AnalyzeBlocks(uint32 mask)

@@ -47,9 +47,9 @@ class Flags
 {
 
 public:
-					
-				Flags ( void );
-				Flags ( const uint val );
+	Flags ( void );
+	Flags ( const uint val );
+	Flags(const Flags &rhs) = default;
 
 	void		ClearAll ( void );
 	void		Clear ( _T flag_index );
@@ -66,7 +66,7 @@ public:
 	void		Toggle ( _T flag_index );
 	
 				operator uint (void) const;
-	Flags&		operator= ( const Flags& src );
+	Flags &operator= (const Flags &src) = default;
 	Flags&		operator= ( const uint& val );
 
 private:
@@ -283,19 +283,6 @@ Flags< _T >::operator uint (void) const
 	return flag;
 }
 
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-template < class _T > inline
-Flags< _T >&	Flags< _T >::operator= ( const Flags< _T >& src )
-{
-	flag = static_cast< uint >( src.flag );
-	
-	return *this;
-}
-	
 /******************************************************************/
 /*                                                                */
 /*                                                                */

@@ -12,7 +12,7 @@ void MemView_Free( void *v);
 void MemViewToggle();
 void MemView_FindLeaks();
 int DumpUnwindStack( int iMaxDepth, int *pDest );
-char *MemView_GetFunctionName(int pc, int *p_size);
+const char *MemView_GetFunctionName(int pc, int *p_size);
 void MemView_DumpFragments(Mem::Heap *pHeap);
 void MemView_AnalyzeBlocks(uint32 mask = 0);
 void MemView_MarkBlocks(uint32 flags = 1 );

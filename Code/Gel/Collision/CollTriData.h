@@ -226,13 +226,13 @@ public:
 
 	// Vertex functions
 #ifdef __PLAT_NGC__
-	const unsigned char GetVertexIntensity(int face_idx, int vert_idx) const;
+	unsigned char		GetVertexIntensity(int face_idx, int vert_idx) const;
 	void				SetVertexIntensity(int face_idx, int vert_idx, unsigned char intensity);
 
 	void				SetVertexPointer( NsVector * p_vertex ) { mp_raw_vert_pos = p_vertex; }
 	NsVector *			GetVertexPointer() { return mp_raw_vert_pos; }
 #else
-	const unsigned char GetVertexIntensity(int vert_idx) const;
+	unsigned char		GetVertexIntensity(int vert_idx) const;
 	void				SetVertexIntensity(int vert_idx, unsigned char intensity);
 #endif		//__PLAT_NGC__ 
 
@@ -645,12 +645,12 @@ inline void					CCollObjTriData::GetRawVertexPos(int vert_idx, Mth::Vector & pos
 /******************************************************************/
 
 #ifdef __PLAT_NGC__
-inline const unsigned char CCollObjTriData::GetVertexIntensity(int face_idx, int vert_idx) const
+inline unsigned char CCollObjTriData::GetVertexIntensity(int face_idx, int vert_idx) const
 {
 	return mp_intensity[(face_idx * 3) + vert_idx];
 }
 #else
-inline const unsigned char CCollObjTriData::GetVertexIntensity(int vert_idx) const
+inline unsigned char CCollObjTriData::GetVertexIntensity(int vert_idx) const
 {
 #ifdef FIXED_POINT_VERTICES
 	return mp_intensity[vert_idx];

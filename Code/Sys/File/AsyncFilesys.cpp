@@ -71,7 +71,7 @@ CAsyncFileHandle::~CAsyncFileHandle()
 /*                                                                */
 /******************************************************************/
 
-volatile bool		CAsyncFileHandle::IsBusy( void )
+bool		CAsyncFileHandle::IsBusy( void )
 {
 	// Don't think we need the plat_is_busy()
 	return get_busy_count() > 0;
@@ -437,14 +437,14 @@ bool				CAsyncFileHandle::plat_close()
 	return false;
 }
 
-volatile bool		CAsyncFileHandle::plat_is_done()
+bool		CAsyncFileHandle::plat_is_done()
 {
 	printf ("STUB: CAsyncFileHandle::IsDone\n");
 
 	return false;
 }
 
-volatile bool		CAsyncFileHandle::plat_is_busy()
+bool		CAsyncFileHandle::plat_is_busy()
 {
 	printf ("STUB: CAsyncFileHandle::IsBusy\n");
 
@@ -549,11 +549,11 @@ int					CAsyncFileHandle::plat_seek(long offset, int origin)
 CAsyncFileHandle	*	CAsyncFileLoader::s_file_handles[MAX_FILE_HANDLES];
 int						CAsyncFileLoader::s_free_handle_index = 0;
 
-volatile int			CAsyncFileLoader::s_manager_busy_count = 0;
-volatile bool			CAsyncFileLoader::s_new_io_completion = false;
+int			CAsyncFileLoader::s_manager_busy_count = 0;
+bool			CAsyncFileLoader::s_new_io_completion = false;
 
-volatile CAsyncFileLoader::SCallback	CAsyncFileLoader::s_callback_list[2][MAX_PENDING_CALLBACKS];
-volatile int							CAsyncFileLoader::s_num_callbacks[2] = { 0, 0 };
+CAsyncFileLoader::SCallback	CAsyncFileLoader::s_callback_list[2][MAX_PENDING_CALLBACKS];
+int							CAsyncFileLoader::s_num_callbacks[2] = { 0, 0 };
 int										CAsyncFileLoader::s_cur_callback_list_index = 0;
 
 /******************************************************************/
@@ -781,7 +781,7 @@ void				CAsyncFileLoader::s_add_callback(CAsyncFileHandle *p_file, EAsyncFunctio
 	//scePrintf("Adding callback for handle %x\n", p_file);
 	Dbg_MsgAssert(s_num_callbacks[s_cur_callback_list_index] < MAX_PENDING_CALLBACKS, ("add_callback(): list is full"));
 
-	volatile SCallback * p_callback_entry =  &s_callback_list[s_cur_callback_list_index][s_num_callbacks[s_cur_callback_list_index]++];
+	SCallback * p_callback_entry =  &s_callback_list[s_cur_callback_list_index][s_num_callbacks[s_cur_callback_list_index]++];
 
 	p_callback_entry->mp_file_handle	= p_file;
 	p_callback_entry->m_function		= function;
@@ -811,7 +811,7 @@ void				CAsyncFileLoader::s_execute_callback_list()
 
 	for (int i = 0; i < num_callbacks; i++)
 	{
-		volatile SCallback * p_callback_entry =  &s_callback_list[list_index][i];
+		SCallback * p_callback_entry =  &s_callback_list[list_index][i];
 
 		CAsyncFileHandle *p_file = p_callback_entry->mp_file_handle;
 		Dbg_Assert(p_file->mp_callback);
@@ -872,8 +872,7 @@ void CAsyncFilePoll::v_stop_cb ( void )
 
 void CAsyncFilePoll::s_logic_code ( const Tsk::Task< CAsyncFilePoll >& task )
 {
-	Dbg_AssertType ( &task, Tsk::Task< CAsyncFilePoll > );
-
+	(void)task;
 	CAsyncFileLoader::s_update();
 	CAsyncFileLoader::s_execute_callback_list();
 }

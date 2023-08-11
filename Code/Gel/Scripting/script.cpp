@@ -963,7 +963,8 @@ static char sp_script_info[SCRIPT_INFO_BUF_SIZE];
 
 const char *CScript::GetScriptInfo()
 {
-	// if called on a nullptr object, then return an appropiate string 
+	// if called on a nullptr object, then return an appropiate string
+	/*
 	if (this == nullptr)
 	{
 		#ifdef	__NOPT_ASSERT__
@@ -972,6 +973,7 @@ const char *CScript::GetScriptInfo()
 		return "";
 		#endif
 	}
+	*/
 	sprintf(sp_script_info,"GetScriptInfo: Missing info");
 
 	if (mScriptChecksum)

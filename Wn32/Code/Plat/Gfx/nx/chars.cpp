@@ -92,7 +92,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	uint8*	pData;
 	void*	p_FH = nullptr;
 	uint32 i;
-	uint32 NumChars, Width, Height, Depth, NumBytes;
+	uint32 NumChars, Width, Height, NumBytes;
 	size_t Len;
 
 	// Build the full filename.
@@ -191,7 +191,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 
 	Width	= ((uint16 *)FontBuf)[2];
 	Height	= ((uint16 *)FontBuf)[3];
-	Depth	= ((uint16 *)FontBuf)[4];
+	// Depth = ((uint16 *)FontBuf)[4];
 
 	// Create texture
 	glGenTextures(1, &pFont->GLTexture);
@@ -360,10 +360,10 @@ uint32 SFont::GetDefaultBase() const
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void SFont::QueryString( char *String, float &width, float &height )
+void SFont::QueryString( const char *String, float &width, float &height )
 {
 	SChar	*pChar;
-	char	*pLetter;
+	const char	*pLetter;
 	int		x0,x1;
 
 	x0 = 0;

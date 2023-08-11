@@ -151,7 +151,7 @@ void	CFont::EndText(void)
 /*                                                                */
 /******************************************************************/
 
-void	CFont::QueryString(char *String, float &width, float &height) const
+void	CFont::QueryString(const char *String, float &width, float &height) const
 {
 	plat_query_string(String, width, height);
 }
@@ -278,7 +278,7 @@ void	CFont::plat_end_text(void)
 /*                                                                */
 /******************************************************************/
 
-void	CFont::plat_query_string(char *String, float &width, float &height) const
+void	CFont::plat_query_string(const char *String, float &width, float &height) const
 {
 	(void)String;
 	(void)width;

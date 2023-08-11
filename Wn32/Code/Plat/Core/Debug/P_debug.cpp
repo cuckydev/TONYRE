@@ -93,7 +93,7 @@ void		close_down ( void )
 /*                                                                */
 /******************************************************************/
 
-void	default_print ( char *text )
+void	default_print ( const char *text )
 {
 
 #ifdef __PLAT_WN32__
@@ -113,7 +113,7 @@ void	default_print ( char *text )
 /*                                                                */
 /******************************************************************/
 
-void	default_trap ( char* message )
+void	default_trap (const char* message )
 {
 	(void)message;
 

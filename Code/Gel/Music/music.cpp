@@ -224,7 +224,7 @@ void StopStreamFromID( uint32 streamID )
 				if ( gpStreamingObj[ i ]->mStreamingID[ j ] == streamID )
 				{
 					gpStreamingObj[ i ]->mStreamingID[ j ] = 0;
-					gpStreamingObj[ i ] = NULL;
+					gpStreamingObj[ i ] = nullptr;
 					return;
 				}
 			}
@@ -415,7 +415,7 @@ void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 	(void)pStuff;
 
 #	ifdef __PLAT_XBOX__
-	Dbg_MsgAssert( pStuff,("NULL pStuff"));
+	Dbg_MsgAssert( pStuff,("nullptr pStuff"));
 		
 	if (s_xbox_play_user_soundtracks)
 	{
@@ -448,7 +448,7 @@ void GetSoundtrackFromStructure( Script::CStruct *pStuff)
 	(void)pStuff;
 
 #	ifdef __PLAT_XBOX__
-	Dbg_MsgAssert(pStuff,("NULL pStuff"));
+	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
 	int user_soundtrack_index=0;
 	if (pStuff->GetInteger("UserSoundtrackIndex",&user_soundtrack_index))
@@ -736,7 +736,7 @@ uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNam
 		if (pCamera)
 		{
 			Mth::Vector dropoff_pos;
-			Mth::Vector *p_dropoff_pos = NULL;
+			Mth::Vector *p_dropoff_pos = nullptr;
 			if (pComponent->GetClosestDropoffPos(pCamera, dropoff_pos))
 			{
 				p_dropoff_pos = &dropoff_pos;
@@ -776,7 +776,7 @@ uint32 PlayStreamFromObject( Obj::CStreamComponent *pComponent, uint32 streamNam
 			// the object might not have called StreamUpdate yet, so the slot might
 			// still think it's in use... clear the slot if that's the case:
 			gpStreamingObj[ gLastStreamChannelPlayed ]->mStreamingID[ gLastStreamChannelPlayed ] = 0;
-			gpStreamingObj[ gLastStreamChannelPlayed ] = NULL;
+			gpStreamingObj[ gLastStreamChannelPlayed ] = nullptr;
 		}
 //		Dbg_MsgAssert( !gpStreamingObj[ gLastStreamChannelPlayed ], ( "Have Matt fix object streams... Kick him in the nutsack while you're at it." ) );
 //		Dbg_MsgAssert( !pObject->mStreamingID[ gLastStreamChannelPlayed ], ( "Have Matt fix object streams... Hell, fire matt!!!" ) );
@@ -1019,7 +1019,7 @@ bool SetStreamVolume( int objStreamIndex )
 	Obj::CStreamComponent *pComp;
 	pComp = gpStreamingObj[ objStreamIndex ];
 
-	CurrentStreamInfo *pInfo = NULL;
+	CurrentStreamInfo *pInfo = nullptr;
 
 	int i;
 	for ( i = 0; i < NUM_STREAMS; i++ )
@@ -1043,7 +1043,7 @@ bool SetStreamVolume( int objStreamIndex )
 				if (pCamera)
 				{
 					Mth::Vector dropoff_pos;
-					Mth::Vector *p_dropoff_pos = NULL;
+					Mth::Vector *p_dropoff_pos = nullptr;
 					if (pComp->GetClosestDropoffPos(pCamera, dropoff_pos))
 					{
 						p_dropoff_pos = &dropoff_pos;
@@ -1080,7 +1080,7 @@ void Init( void )
 	// Zero these out at startup.
 	for( int s = 0; s < NUM_STREAMS; ++s )
 	{
-		gpStreamingObj[s] = NULL;
+		gpStreamingObj[s] = nullptr;
 	}
 
 	if (NoMusicPlease() && StreamsDisabled()) return;
@@ -1112,7 +1112,7 @@ void Init( void )
 	}
 	for ( i = 0; i < NUM_STREAMS; i++ )
 	{
-		gpStreamingObj[ i ] = NULL;
+		gpStreamingObj[ i ] = nullptr;
 		gCurrentStreamInfo[ i ].controlID = 0;
 		gCurrentStreamInfo[ i ].uniqueID = 0;
 	}
@@ -1862,7 +1862,7 @@ void Update( void )
 			if ( !SetStreamVolume( streamingObjToUpdate ) )
 			{
 				gpStreamingObj[ streamingObjToUpdate ]->mStreamingID[ streamingObjToUpdate ] = 0;
-				gpStreamingObj[ streamingObjToUpdate ] = NULL;
+				gpStreamingObj[ streamingObjToUpdate ] = nullptr;
 			}
 		}
 		//// update the other one next time...
@@ -1880,7 +1880,7 @@ void Update( void )
 		{
 			Dbg_Message("Clearing StreamFrameAmp %s", Script::FindChecksumName(gCurrentStreamInfo[i].controlID));
 			CStreamFrameAmpManager::sFreeFrameAmp(gCurrentStreamInfo[i].p_frame_amp);
-			gCurrentStreamInfo[i].p_frame_amp = NULL;
+			gCurrentStreamInfo[i].p_frame_amp = nullptr;
 		}
 	}
 	
@@ -2206,7 +2206,7 @@ bool StreamExists( uint32 streamChecksum )
 {
 	// try to find the name in the header file using the checksum:
 	uint32 streamName = PCMAudio_FindNameFromChecksum( streamChecksum, EXTRA_CHANNEL );
-	return ( streamName != NULL );
+	return ( streamName != 0 );
 }
 
 bool StreamLoading( uint32 streamID )
@@ -2419,14 +2419,14 @@ CStreamFrameAmp *	CStreamFrameAmpManager::sLoadFrameAmp(uint32 stream_checksum)
 			{
 				// If we got here, there weren't any free slots
 				Dbg_MsgAssert(0, ("Couldn't load StreamFrameAmp %s", Script::FindChecksumName(stream_checksum)));
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
 
 	// If we got here, there weren't any free slots
 	Dbg_MsgAssert(0, ("Can't load StreamFrameAmp %s: no free slots", Script::FindChecksumName(stream_checksum)));
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/
@@ -2444,7 +2444,7 @@ CStreamFrameAmp *	CStreamFrameAmpManager::sGetFrameAmp(uint32 stream_checksum)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************/

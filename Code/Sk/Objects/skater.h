@@ -65,7 +65,7 @@
 #define DUMP4(a) { printf("D:%s:%u: " #a " = %g, %g, %g, %g\n", __FILE__, __LINE__, (a)[X], (a)[Y], (a)[Z], (a)[W]); }
 #define DUMPM(a) { DUMP4(a[X]); DUMP4(a[Y]); DUMP4(a[Z]); DUMP4(a[W]); }
 #define MARK { printf("K:%s:%u: %s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__); }
-#define PERIODIC(n) for (static int p__ = 0; (p__ = ++p__ % (n)) == 0; )
+#define PERIODIC(n) for (static int p__ = 0; (p__ = (p__ + 1) % (n)) == 0; )
 
 #define RED MAKE_RGB(255, 0, 0)
 #define GREEN MAKE_RGB(0, 255, 0)

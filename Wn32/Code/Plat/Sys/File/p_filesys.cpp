@@ -217,7 +217,7 @@ static void* prefopen( const char *filename, const char *mode )
 			// Catch-all error indicating a fatal problem. Can't continue at this point.
 			// The ideal solution would be a catch/throw exception mechanism, but we don't include exception handling at the moment.
 			// For now just call this NxWn32 function, which is slightly messy since it means we have to include a gfx\ file.
-			printf( "FatalFileError: %x %s\n", error, nameConversionBuffer );
+			printf( "FatalFileError: %x %s\n", (int)error, nameConversionBuffer );
 			// NxWn32::FatalFileError((uint32)INVALID_HANDLE_VALUE );
 		}
 		return nullptr;

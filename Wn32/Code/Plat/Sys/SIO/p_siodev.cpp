@@ -628,7 +628,7 @@ void Device::ActivateActuator( int act_num, int percent )
 }
 
 /******************************************************************/
-/* These disable or enable pad vibration.
+/* These disable or enable pad vibration.                         */
 /******************************************************************/
 void Device::DisableActuators()
 {
@@ -698,7 +698,7 @@ void Device::ResetActuators( void )
 /*                                                                */
 /* Ken: This gets called for each pad device when the game gets   */
 /* paused. It remembers whether the pad was vibrating & switches  */
-/* off vibration.
+/* off vibration.                                                 */
 /*                                                                */
 /******************************************************************/
 

@@ -27,6 +27,7 @@
 #include <sk/modules/skate/goalmanager.h>
 #include <sk/objects/skater.h> // Needed for GetPhysicsInt(...)
 #include <sk/objects/skaterprofile.h>
+#include <sk/objects/rail.h>
 #include <sk/components/skaterbalancetrickcomponent.h>
 #include <sk/components/skatercorephysicscomponent.h>
 #include <sk/components/skatergapcomponent.h>
@@ -1889,7 +1890,7 @@ bool CTrickComponent::RunTrick(Script::CStruct *pTrick, uint32 optionalFlag, Scr
 	// Dan: HACK
 	// final check to insure that we don't do a grind extra trick when we're not on a rail; if the scripts were perfect, this would never occur; however,
 	// this should prevent an obscure net crash
-	if (ScriptChecksum == Crc::ConstCRC("Grind") && mp_skater_core_physics_component->GetRailNode() == -1)
+	if (ScriptChecksum == Crc::ConstCRC("Grind") && mp_skater_core_physics_component->GetRailNode() == Obj::vNULL_RAIL)
 	{
 		return false;
 	}
@@ -3592,108 +3593,105 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 		// adding it as a new trick.
 		case 0xf32e8d5c: // Display				  
 		{
-			if (mpTrickName)
-			{
-				Mdl::Score *pScore=GetScoreObject();
-				int spin=0;
+			Mdl::Score *pScore=GetScoreObject();
+			int spin=0;
 				
-				if (pParams->ContainsFlag(Crc::ConstCRC("Deferred")))
+			if (pParams->ContainsFlag(Crc::ConstCRC("Deferred")))
+			{
+				strcpy(mpDeferredTrickName,mpTrickName);
+				mDeferredTrickScore=mTrickScore;
+				if (mp_skater_core_physics_component->IsSwitched())
 				{
-					strcpy(mpDeferredTrickName,mpTrickName);
-					mDeferredTrickScore=mTrickScore;
-					if (mp_skater_core_physics_component->IsSwitched())
-					{
-						mDeferredTrickFlags|=Mdl::Score::vSWITCH;
-					}
+					mDeferredTrickFlags|=Mdl::Score::vSWITCH;
 				}
-				// If an AddSpin value is specified and the current trick is the same as
-				// the last one in the score, then instead of adding the trick again just
-				// give the last one some more spin. Used by the truckstand2 spin.
-				// (See the ManualLink script in groundtricks.q)
-				else if (pParams->GetInteger(Crc::ConstCRC("AddSpin"),&spin) && 
-						 pScore->GetLastTrickId()==Script::GenerateCRC(mpTrickName))
+			}
+			// If an AddSpin value is specified and the current trick is the same as
+			// the last one in the score, then instead of adding the trick again just
+			// give the last one some more spin. Used by the truckstand2 spin.
+			// (See the ManualLink script in groundtricks.q)
+			else if (pParams->GetInteger(Crc::ConstCRC("AddSpin"),&spin) && 
+						pScore->GetLastTrickId()==Script::GenerateCRC(mpTrickName))
+			{
+				mTallyAngles+=spin;
+				if (GetSkater()->IsLocalClient())
 				{
-					mTallyAngles+=spin;
-					if (GetSkater()->IsLocalClient())
-					{
-						pScore->UpdateSpin((int)mTallyAngles);
-					}	
+					pScore->UpdateSpin((int)mTallyAngles);
+				}	
+			}
+			else
+			{
+				Mdl::Score::Flags Flags=0;
+				if (pParams->ContainsFlag(Crc::ConstCRC("BlockSpin")))
+				{
+					Flags|=Mdl::Score::vBLOCKING;
 				}
-				else
+				if (pParams->ContainsFlag(Crc::ConstCRC("NoDegrade")))
 				{
-					Mdl::Score::Flags Flags=0;
-					if (pParams->ContainsFlag(Crc::ConstCRC("BlockSpin")))
+					Flags|=Mdl::Score::vNODEGRADE;
+				}	
+				if (mp_skater_core_physics_component->IsSwitched())
+				{
+					Flags|=Mdl::Score::vSWITCH;
+				}
+				if (mUseSpecialTrickText)
+				{
+					Flags|=Mdl::Score::vSPECIAL;
+				}
+				if ( pParams->ContainsFlag( Crc::ConstCRC("cat") ) )
+				{
+					Flags |= Mdl::Score::vCAT;
+				}
+					
+				// Need to also include nollie check later.
+						
+				if( GetSkater()->IsLocalClient())
+				{
+					// if on a rail, then might need to degrade the rail score
+					if (mp_skater_core_physics_component->GetState()==RAIL && mTrickScore)
 					{
-						Flags|=Mdl::Score::vBLOCKING;
-					}
-					if (pParams->ContainsFlag(Crc::ConstCRC("NoDegrade")))
-					{
-						Flags|=Mdl::Score::vNODEGRADE;
-					}	
-					if (mp_skater_core_physics_component->IsSwitched())
-					{
-						Flags|=Mdl::Score::vSWITCH;
-					}
-					if (mUseSpecialTrickText)
-					{
-						Flags|=Mdl::Score::vSPECIAL;
-					}
-					if ( pParams->ContainsFlag( Crc::ConstCRC("cat") ) )
-					{
-						Flags |= Mdl::Score::vCAT;
+						printf ("RAIL score %d * %2.3f = %d\n", mTrickScore,pScore->GetRobotRailMult(),(int) (pScore->GetRobotRailMult()*mTrickScore));
+						mTrickScore = (int) (mTrickScore * pScore->GetRobotRailMult());
 					}
 					
-					// Need to also include nollie check later.
+					// add a trick to the series
+					pScore->Trigger(mpTrickName, mTrickScore, Flags);
 						
-					if( GetSkater()->IsLocalClient())
+					if (mpTrickName[0])
 					{
-						// if on a rail, then might need to degrade the rail score
-						if (mp_skater_core_physics_component->GetState()==RAIL && mTrickScore)
-						{
-							printf ("RAIL score %d * %2.3f = %d\n", mTrickScore,pScore->GetRobotRailMult(),(int) (pScore->GetRobotRailMult()*mTrickScore));
-							mTrickScore = (int) (mTrickScore * pScore->GetRobotRailMult());
-						}
-					
-						// add a trick to the series
-						pScore->Trigger(mpTrickName, mTrickScore, Flags);
-						
-						if (mpTrickName[0])
-						{
-							// tell any observers to do the chicken dance:
-							GetObj()->BroadcastEvent(Crc::ConstCRC("SkaterTrickDisplayed"));
+						// tell any observers to do the chicken dance:
+						GetObj()->BroadcastEvent(Crc::ConstCRC("SkaterTrickDisplayed"));
 							
-							if (mp_skater_core_physics_component->GetFlag(VERT_AIR) || mp_skater_core_physics_component->GetTrueLandedFromVert())
-							{
-								// If vert, only count it if the spin is at least 360
-								if (Mth::Abs(mTallyAngles)>=360.0f-GetPhysicsFloat(Crc::ConstCRC("spin_count_slop")) + 0.1f)
-								{
-									pScore->SetSpin((int)mTallyAngles);
-								}
-							}
-							else
+						if (mp_skater_core_physics_component->GetFlag(VERT_AIR) || mp_skater_core_physics_component->GetTrueLandedFromVert())
+						{
+							// If vert, only count it if the spin is at least 360
+							if (Mth::Abs(mTallyAngles)>=360.0f-GetPhysicsFloat(Crc::ConstCRC("spin_count_slop")) + 0.1f)
 							{
 								pScore->SetSpin((int)mTallyAngles);
 							}
 						}
 						else
 						{
-							// K: If the trick was a 'Null' trick, then do not add the spin.
-							// This is to fix TT6057
-							// A null trick is a trick whose name is set using SetTrickName ""
-							// and is often used to do a BlockSpin without displaying a trick name.
+							pScore->SetSpin((int)mTallyAngles);
 						}
 					}
-					
-					if (pParams->ContainsFlag(Crc::ConstCRC("BlockSpin")))
+					else
 					{
-						mTallyAngles=0.0f;
+						// K: If the trick was a 'Null' trick, then do not add the spin.
+						// This is to fix TT6057
+						// A null trick is a trick whose name is set using SetTrickName ""
+						// and is often used to do a BlockSpin without displaying a trick name.
 					}
+				}
+					
+				if (pParams->ContainsFlag(Crc::ConstCRC("BlockSpin")))
+				{
+					mTallyAngles=0.0f;
+				}
 						
-					// Clear the deferred trick, so that you won't get a 180 kickflip and a 180 ollie.
-					//dodgy_test(); printf("Clearing deferred trick\n");
-					mpDeferredTrickName[0]=0;
-				}	
-            }
+				// Clear the deferred trick, so that you won't get a 180 kickflip and a 180 ollie.
+				//dodgy_test(); printf("Clearing deferred trick\n");
+				mpDeferredTrickName[0]=0;
+			}
 			
 			// Only clear the mUseSpecialTrickText flag if it is not a 'null' trick, which is
 			// a trick whose name is just '' used to insert spin blocks.
@@ -4055,7 +4053,7 @@ bool ScriptDoNextTrick( Script::CStruct *pParams, Script::CScript *pScript )
 	pParams->GetStructure(Crc::ConstCRC("TrickParams"),&pExtraTrickParams);
 	if (pExtraTrickParams)
 	{
-		Script::CStruct *pCopyOfExtraTrickParams=pCopyOfExtraTrickParams = new Script::CStruct(*pExtraTrickParams);
+		Script::CStruct *pCopyOfExtraTrickParams = new Script::CStruct(*pExtraTrickParams);
 		p_trick->TriggerNextQueuedTrick(scriptToRunFirst, pScriptToRunFirstParams, pCopyOfExtraTrickParams);
 		delete pCopyOfExtraTrickParams;
 	}

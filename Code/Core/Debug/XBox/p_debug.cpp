@@ -319,9 +319,9 @@ namespace Dbg
 /*                                                                */
 /******************************************************************/
 
-void default_print( char *text )
+void default_print( const char *text )
 {
-	OutputDebugString( text );
+	OutputDebugStringA( text );
 }
 
 /******************************************************************/
@@ -329,7 +329,7 @@ void default_print( char *text )
 /*                                                                */
 /******************************************************************/
 
-void default_trap( char* message )
+void default_trap(const char* message )
 {
 	OutputDebugString( message );
 	uint*	ptr = reinterpret_cast< uint* >( 0x00000001 );

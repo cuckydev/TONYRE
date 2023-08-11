@@ -414,8 +414,6 @@ void CCompositeObjectManager::Pause(bool paused)
 	
 void CCompositeObjectManager::s_logic_code ( const Tsk::Task< CCompositeObjectManager >& task )
 {
-    Dbg_AssertType ( &task, Tsk::Task< CCompositeObjectManager > );
-
 	CCompositeObjectManager& obj_man = task.GetData();
 
 	obj_man.Update();    

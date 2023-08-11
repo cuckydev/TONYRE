@@ -821,6 +821,8 @@ void CModelComponent::UpdateBrightness()
 CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint32 Checksum, Script::CStruct* pParams, Script::CScript* pScript )
 {
 	bool success = true;
+
+	/*
     Script::CStruct *p_script_params;
 	 
 	p_script_params = nullptr;
@@ -828,6 +830,7 @@ CBaseComponent::EMemberFunctionResult CModelComponent::CallMemberFunction( uint3
 	{
 		p_script_params = pScript->GetParams();
 	}
+	*/
 
 	switch (Checksum)
 	{

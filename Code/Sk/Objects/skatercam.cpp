@@ -115,10 +115,8 @@ namespace Obj
 /******************************************************************/
 
 void CSkaterCam::s_input_logic_code( const Inp::Handler < CSkaterCam >& handler )
-{    
-    Dbg_AssertType( &handler, Inp::Handler< CSkaterCam > );
-	
-	bool skip_button;
+{
+	// bool skip_button;
 	bool right_button;
 	int right_x;
 	int right_y;
@@ -132,7 +130,7 @@ void CSkaterCam::s_input_logic_code( const Inp::Handler < CSkaterCam >& handler 
 		obj.mRightX = handler.m_Input->m_Event[Inp::Data::vA_RIGHT_X] - 128;
 		obj.mRightY = handler.m_Input->m_Event[Inp::Data::vA_RIGHT_Y] - 128;
 	}
-	skip_button = obj.mSkipButton;
+	// skip_button = obj.mSkipButton;
 	right_button = obj.mRightButton;
 	right_x = obj.mRightX;
 	right_y = obj.mRightY;
@@ -474,37 +472,34 @@ void CSkaterCam::SetMode( ESkaterCamMode mode, float time )
 	}
 
 	// Set focal length immediately.
-	if( this )
+	Nx::ScreenMode foc_screen_mode = Nx::CViewportManager::sGetScreenMode();
+
+	switch (foc_screen_mode)
 	{
-		Nx::ScreenMode foc_screen_mode = Nx::CViewportManager::sGetScreenMode();
-
-		switch (foc_screen_mode)
+		case Nx::vSPLIT_V:
 		{
-			case Nx::vSPLIT_V:
-			{
 #ifdef __PLAT_NGC__
-				//Gfx::Camera::SetFocalLength( Script::GetFloat("Skater_Cam_Horiz_FOV"), Nx::vBASE_ASPECT_RATIO );
-				Gfx::Camera::SetHFOV(Script::GetFloat("Skater_Cam_Horiz_FOV") / 2.0f);
+			//Gfx::Camera::SetFocalLength( Script::GetFloat("Skater_Cam_Horiz_FOV"), Nx::vBASE_ASPECT_RATIO );
+			Gfx::Camera::SetHFOV(Script::GetFloat("Skater_Cam_Horiz_FOV") / 2.0f);
 #else
-				//Gfx::Camera::SetFocalLength( mFocalLength, Nx::vBASE_ASPECT_RATIO * 0.5f );
-				Gfx::Camera::SetHFOV(mHorizFOV / 2.0f);
+			//Gfx::Camera::SetFocalLength( mFocalLength, Nx::vBASE_ASPECT_RATIO * 0.5f );
+			Gfx::Camera::SetHFOV(mHorizFOV / 2.0f);
 #endif // __PLAT_NGC__
-				break;
-			}
+			break;
+		}
 
-			case Nx::vSPLIT_H:
-			{
-				//Gfx::Camera::SetFocalLength( mFocalLength * 2.0f, Nx::vBASE_ASPECT_RATIO * 2.0f );
-				Gfx::Camera::SetHFOV(mHorizFOV);
-				break;
-			}
+		case Nx::vSPLIT_H:
+		{
+			//Gfx::Camera::SetFocalLength( mFocalLength * 2.0f, Nx::vBASE_ASPECT_RATIO * 2.0f );
+			Gfx::Camera::SetHFOV(mHorizFOV);
+			break;
+		}
 
-			default:
-			{			
-				//Gfx::Camera::SetFocalLength( mFocalLength, Nx::vBASE_ASPECT_RATIO );
-				Gfx::Camera::SetHFOV(mHorizFOV);
-				break;
-			}
+		default:
+		{			
+			//Gfx::Camera::SetFocalLength( mFocalLength, Nx::vBASE_ASPECT_RATIO );
+			Gfx::Camera::SetHFOV(mHorizFOV);
+			break;
 		}
 	}
 

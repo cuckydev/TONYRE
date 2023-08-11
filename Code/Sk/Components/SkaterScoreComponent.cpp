@@ -254,6 +254,7 @@ CBaseComponent::EMemberFunctionResult CSkaterScoreComponent::CallMemberFunction(
 					Dbg_MsgAssert(false, ("IsLatestTrick must have either a KeyCombo or a TrickText parameter"));
 				}
 			}
+			break; // NOTE: Originally fallthrough
 		}
 
 		default:

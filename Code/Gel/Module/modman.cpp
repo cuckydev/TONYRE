@@ -212,10 +212,6 @@ void			Manager::process_modules( const Tsk::Task< Manager >& task )
 
 void	Manager::RegisterModule( Module &module )
 {
-	
-	
-	Dbg_AssertType ( &module, Module );
-
 	module_list.AddToTail ( module.node );
 }
 
@@ -226,10 +222,6 @@ void	Manager::RegisterModule( Module &module )
 
 void	Manager::UnregisterModule( Module &module )
 {
-	
-	
-	Dbg_AssertType( &module, Module );
-
 	Dbg_MsgAssert( module.node->InList(),( "Module not Registered with Manager" ));
 
 	module.node->Remove();
@@ -242,8 +234,6 @@ void	Manager::UnregisterModule( Module &module )
 
 void	Manager::StartModule( Module &module )
 {
-	
-	
 	Dbg_MsgAssert( module.node->InList(),( "Module not Registered with Manager" ));
 
 	if ( !module.Locked() )
@@ -260,8 +250,6 @@ void	Manager::StartModule( Module &module )
 
 void	Manager::RestartModule( Module &module )
 {
-	
-	
 	Dbg_MsgAssert( module.node->InList(),( "Module not Registered with Manager" ));
 
 	if ( !module.Locked() )
@@ -278,8 +266,6 @@ void	Manager::RestartModule( Module &module )
 
 void			Manager::StopModule( Module &module )
 {
-	
-
 	if ( !module.Locked() )
 	{
 		module.command = Module::vSTOP;
@@ -294,8 +280,6 @@ void			Manager::StopModule( Module &module )
 
 void			Manager::StartAllModules( void )
 {
-	
-
 	Module*					next;
 	Module*					mdl;
 	Lst::Search< Module >	sh;
@@ -326,8 +310,6 @@ void			Manager::StartAllModules( void )
 
 void			Manager::StopAllModules( void )
 {
-	
-
 	Module*					next;
 	Module*					mdl;
 	Lst::Search< Module >	sh;
@@ -358,8 +340,6 @@ void			Manager::StopAllModules( void )
 
 void			Manager::LockAllModules( void )
 {
-	
-
 	Module*					mdl;
 	Lst::Search< Module >	sh;
 
@@ -379,8 +359,6 @@ void			Manager::LockAllModules( void )
 
 void			Manager::UnlockAllModules ( void )
 {
-	
-
 	Module*					mdl;
 	Lst::Search< Module >	sh;
 

@@ -21,15 +21,15 @@ namespace	Nx
 Nx::CXboxTexture	*sp_load_screen_texture;
 Nx::CXboxSprite	*sp_load_screen_sprite;
 
-static float		loadingBarTotalSeconds;
-static float		loadingBarCurrentSeconds;
-static float		loadingBarDeltaSeconds;
-static int			loadingBarStartColor[3];		// r,g,b
-static int			loadingBarEndColor[3];			// r,g,b
-static uint32		loadingBarColors[1280][3];		// r,g,b
-static bool			loadingBarColorsSet = false;
-static int			loadingBarWidth;
-static uint32		loadingBarBorderColor;
+// static float		loadingBarTotalSeconds;
+// static float		loadingBarCurrentSeconds;
+// static float		loadingBarDeltaSeconds;
+// static int			loadingBarStartColor[3];		// r,g,b
+// static int			loadingBarEndColor[3];			// r,g,b
+// static uint32		loadingBarColors[1280][3];		// r,g,b
+// static bool			loadingBarColorsSet = false;
+// static int			loadingBarWidth;
+// static uint32		loadingBarBorderColor;
 
 
 /////////////////////////////////////////////////////////////////////////////////////

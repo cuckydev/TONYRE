@@ -168,7 +168,7 @@ uint32 CXboxFont::plat_get_default_base() const
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void CXboxFont::plat_query_string(char *String, float &width, float &height) const
+void CXboxFont::plat_query_string(const char *String, float &width, float &height) const
 {
 	Dbg_Assert(mp_plat_font);
 

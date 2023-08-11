@@ -64,42 +64,6 @@ bool 			CBatchTriCollMan::s_use_vu0_micro = false;
 //----------------------------------------------------------------------------
 //
 
-#ifdef	__PLAT_NGPS__
-bool vu0RayTriangleCollision(const Mth::Vector *rayStart, const Mth::Vector *rayDir,
-							 Mth::Vector *v0, Mth::Vector *v1, Mth::Vector *v2, float *t)
-{
-	register bool result;
-
-	asm __volatile__(
-	"
-	.set noreorder
-	lqc2    vf06,0x0(%4)		# v0
-	lqc2    vf08,0x0(%6)		# v2
-	lqc2    vf07,0x0(%5)		# v1
-	lqc2    vf04,0x0(%2)		# rayStart
-	lqc2    vf05,0x0(%3)		# rayDir
-
-	vcallms	RayTriangleCollision	# call microsubroutine
-	vnop							# interlocking instruction, waits for vu0 completion
-
-	cfc2	%0,$vi02			# get boolean result from vu0
-	#li		%0,1				# store 1 for return value
-
-	beq		%0, $0, vu0RayTriDone	# skip copy of t if not needed
-	nop
-
-	qmfc2	$8, $vf17			# move t to $8
-	sw		$8, 0(%1)			# and write out
-
-vu0RayTriDone:
-
-	.set reorder
-	": "=r" (result), "+r" (t) : "r" (rayStart), "r" (rayDir), "r" (v0), "r" (v1) , "r" (v2) : "$8", "$9" );
-
-	return result;
-}
-#endif //	__PLAT_NGPS__
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -254,16 +218,7 @@ void	CBatchTriCollMan::sStartNewTriCollisions()
 		//sceDevVu0PutTBit(1);		// Use T-bit interrupt
 
 		// Switch the buffers before we make the call (in case it finishes immediately)
-		s_switch_buffers();
-
-		asm __volatile__(
-		"
-		.set noreorder
-		sync.l
-		vcallms	BatchRayTriangleCollision	# call microsubroutine
-
-		.set reorder
-		");
+		s_switch_buffers();X
 	}
 	else
 #endif //	__PLAT_NGPS__
@@ -327,42 +282,7 @@ void	CBatchTriCollMan::sStartNewTriCollisions()
 /******************************************************************/
 
 int		CBatchTriCollMan::s_collision_done(int arg)
-{
-#ifdef	__PLAT_NGPS__
-	// We should check to see if this is the T-bit first (instead of the debug D bit)
-	uint32 stat;
-    asm( "cfc2 %0, $vi29" :"=r"( stat ) : );
-    if ( !(stat & 0x4) )
-	{
-		ExitHandler();
-		return 0;
-    }
-
-	// Save floats
-    //unsigned int floatBuffer[32];
-    //saveFloatRegs(floatBuffer);
-
-	asm __volatile__(
-	"
-	.set noreorder
-	cfc2	%0,$vi01					# get number of collisions result from vu0
-
-	.set reorder
-	": "=r" (s_num_collisions) );
-
-	s_processing = false;		// Tell that we are done
-
-	if (s_num_collisions > 0)
-	{
-		s_result_processing = true;
-	}
-
-    // restore floats
-    //restoreFloatRegs(floatBuffer);
-
-	ExitHandler();
-#endif //	__PLAT_NGPS__
-
+{	
 	return 0;
 }
 

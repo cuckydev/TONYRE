@@ -704,22 +704,12 @@ int	App::handle_connection_request( MsgHandlerContext *context )
 	// Redundancy check
     if( context->m_PacketFlags & mHANDLE_FOREIGN )
 	{
-		int ip;
-
 		if( context->m_App->AcceptsForeignConnections() == false )
 		{
 			return HANDLER_MSG_DONE;
 		}
 
-		ip = context->m_Conn->GetIP();
-        
-#ifndef __PLAT_NGC__
-		/*Dbg_Message( "Accepting connection from IP:%s Port:%d\n", 
-					 inet_ntoa( *(struct in_addr *) &ip), 
-					 context->m_Conn->GetPort());*/
-#endif		// __PLAT_NGC__
-		context->m_App->SendMessageTo( MSG_ID_CONNECTION_ACCEPTED, 0, nullptr,
-									   context->m_Conn->GetIP(), context->m_Conn->GetPort(), 0 );
+		context->m_App->SendMessageTo( MSG_ID_CONNECTION_ACCEPTED, 0, nullptr, context->m_Conn->GetIP(), context->m_Conn->GetPort(), 0 );
 
 		return HANDLER_CONTINUE;
 	}

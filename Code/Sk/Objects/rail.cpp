@@ -1822,7 +1822,7 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 		p_node = &mp_nodes[node];
 		for (size_t l = 0; l < MAX_RAIL_LINKS; l++)
 		{
-			if (mp_links[node].m_link[l] != - 1)
+			if (mp_links[node].m_link[l] != vNULL_RAIL)
 			{
 				Dbg_MsgAssert(mp_links[node].m_link[l] < num_nodes, ("Node %d,Rail link node (%d) out of range (0 .. %d). Bad Node array?",
 												p_node->m_node, mp_links[node].m_link[l], num_nodes));
@@ -2247,8 +2247,8 @@ inline bool add_rail ( const Mth::Vector& pa, const Mth::Vector& pb, SAutoRailGe
 	for (int n = arg.num_rails; n--; )
 	{
 		// if this is a duplicate, bail
-		if (very_close(arg.p_rails[n].endpoints[START].p, pa, arp) && very_close(arg.p_rails[n].endpoints[END].p, pb, arp)
-			|| very_close(arg.p_rails[n].endpoints[START].p, pb, arp) && very_close(arg.p_rails[n].endpoints[END].p, pa, arp))
+		if ((very_close(arg.p_rails[n].endpoints[START].p, pa, arp) && very_close(arg.p_rails[n].endpoints[END].p, pb, arp))
+			|| (very_close(arg.p_rails[n].endpoints[START].p, pb, arp) && very_close(arg.p_rails[n].endpoints[END].p, pa, arp)))
 		{
 			return true;
 		}
@@ -2646,8 +2646,8 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 					if (arg.p_edges[edge].matched) continue;
 				
 					// check for matched edge 
-					if (very_close(arg.p_edges[edge].p0, p[a], arp) && very_close(arg.p_edges[edge].p1, p[b], arp)
-						|| 	very_close(arg.p_edges[edge].p0, p[b], arp) && very_close(arg.p_edges[edge].p1, p[a], arp))
+					if ((very_close(arg.p_edges[edge].p0, p[a], arp) && very_close(arg.p_edges[edge].p1, p[b], arp))
+						|| (very_close(arg.p_edges[edge].p0, p[b], arp) && very_close(arg.p_edges[edge].p1, p[a], arp)))
 					{
 						new_edge = false;
 						arg.p_edges[edge].matched = true;
@@ -2916,7 +2916,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 					if (match_rail.railset != rail.railset)
 					{
 						match_rail.length += arg.p_railsets[rail.railset].length;
-						for (int n = arg.num_rails; n--; )
+						for (size_t n = arg.num_rails; n--; )
 						{
 							if (arg.p_rails[n].railset == rail.railset) {
 								arg.p_rails[n].railset = match_rail.railset;
@@ -2933,7 +2933,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 						int traversal_direction = endpoint ^ 1;
 
 						// traverse the rail's railset
-						for (int s = r; s != vNULL_RAIL; s = arg.p_rails[s].endpoints[traversal_direction].connection)
+						for (size_t s = r; s != vNULL_RAIL; s = arg.p_rails[s].endpoints[traversal_direction].connection)
 						{
 							SAutoRailEndpoint temp = arg.p_rails[s].endpoints[START];
 							arg.p_rails[s].endpoints[START] = arg.p_rails[s].endpoints[END];

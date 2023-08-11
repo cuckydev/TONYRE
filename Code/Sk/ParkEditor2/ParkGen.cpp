@@ -116,7 +116,7 @@ void CPiece::GetCellDims(GridDims *pDims)
 
 CSourcePiece *CPiece::CastToCSourcePiece()
 {
-	Dbg_MsgAssert(this == nullptr || (m_flags & mSOURCE_PIECE), ("not a source piece!"));
+	Dbg_MsgAssert((m_flags & mSOURCE_PIECE), ("not a source piece!"));
 	return (CSourcePiece *) this;
 }
 
@@ -125,7 +125,7 @@ CSourcePiece *CPiece::CastToCSourcePiece()
 
 CClonedPiece *CPiece::CastToCClonedPiece()
 {
-	Dbg_MsgAssert(this == nullptr || (m_flags & mCLONED_PIECE), ("not a cloned piece!"));
+	Dbg_MsgAssert((m_flags & mCLONED_PIECE), ("not a cloned piece!"));
 	return (CClonedPiece *) this;
 }
 
@@ -422,7 +422,7 @@ CParkGenerator::~CParkGenerator()
 	}
 }
 
-int	CParkGenerator::GetResourceSize(char *name)
+int	CParkGenerator::GetResourceSize(const char *name)
 {
 	Script::CStruct *p_resource_struct = Script::GetStructure("Ed_Resources_Info");
 	int size;
@@ -523,7 +523,6 @@ void CParkGenerator::SetMaxPlayers(int maxPlayers)
 CParkGenerator::MemUsageInfo CParkGenerator::GetResourceUsageInfo(bool printInfo)
 {
 	Dbg_Assert(mp_mem_heap);
-	Dbg_Assert(this);
 	
 	//int base_park_heap = 0;
 	//int max_base_park_heap = 0;
@@ -2484,7 +2483,7 @@ void CParkGenerator::set_up_restart_nodes(Script::CArray *pNodeArray, int *pNode
 					pNode->AddComponent(NONAME, ESYMBOLTYPE_NAME, (int) crc_createdatstart);
 					if (m_restart_tab[i].type != vKING_OF_HILL)
 					{
-						char *p_name = "Multi Restart";
+						const char *p_name = "Multi Restart";
 						if (n == 0)
 						{
 							switch (m_restart_tab[i].type)

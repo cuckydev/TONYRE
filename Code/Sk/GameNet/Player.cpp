@@ -178,7 +178,6 @@ void	Manager::s_render_scores_code( const Tsk::Task< Manager >& task )
 	Front::CScreenElementManager* p_screen_elem_man = Front::CScreenElementManager::Instance();
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Script::CScriptStructure *pParams;
-	Game::CGameMode* pGameMode;
 	PlayerInfo* player;
 	Lst::Search< PlayerInfo > sh;
 	static Tmr::Time last_update = 0;
@@ -190,7 +189,7 @@ void	Manager::s_render_scores_code( const Tsk::Task< Manager >& task )
 
 	Manager& man = task.GetData();
     // Only draw the scores in modes in which the score accumulates
-	pGameMode = skate_mod->GetGameMode();
+	// Game::CGameMode *pGameMode = skate_mod->GetGameMode();
 	show_score =  skate_mod->GetGameMode()->GetNameChecksum() != Crc::ConstCRC( "netlobby" );
 
 	// in King of the hill games, "score" is actually milliseconds with the crown

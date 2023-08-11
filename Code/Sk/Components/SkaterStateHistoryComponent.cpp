@@ -48,8 +48,6 @@ CSkaterStateHistoryComponent::CSkaterStateHistoryComponent() : CBaseComponent()
 	m_last_anm_time = 0;
 	m_num_pos_updates = 0;
 	m_num_anim_updates = 0;
-	memset( mp_pos_history, 0, sizeof( SPosEvent ) * vNUM_POS_HISTORY_ELEMENTS );
-	memset( mp_anim_history, 0, sizeof( SAnimEvent ) * vNUM_ANIM_HISTORY_ELEMENTS );
 }
 
 /******************************************************************/
@@ -182,7 +180,7 @@ void CSkaterStateHistoryComponent::CollideWithOtherSkaters( int start_index )
 		Dbg_Assert(p_other_state_component);
 		if (p_other_state_component->GetFlag(IS_BAILING)) continue;
 		
-		GameNet::PlayerInfo* p_other_player = p_other_player = GameNet::Manager::Instance()->GetPlayerByObjectID(p_other_skater->GetID());
+		GameNet::PlayerInfo* p_other_player = GameNet::Manager::Instance()->GetPlayerByObjectID(p_other_skater->GetID());
 		Dbg_Assert(p_other_player);
 		
 		// Non-Collidable people and kings should never win
@@ -741,16 +739,6 @@ float CSkaterStateHistoryComponent::get_collision_cylinder_radius( bool first_dr
 /*                                                                */
 /******************************************************************/
 
-SPosEvent::SPosEvent( void )
-{
-	memset( this, 0, sizeof( SPosEvent ));
-}
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
 uint32	SPosEvent::GetTime( void )
 {
 	uint32 time;
@@ -769,16 +757,6 @@ void			SPosEvent::SetTime( uint32 time )
 {
 	LoTime = (unsigned short) ( time & 0xFFFF );
 	HiTime = (unsigned short) ( time >> 16 );
-}
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-SAnimEvent::SAnimEvent( void )
-{
-	memset( this, 0, sizeof( SAnimEvent ));
 }
 
 /******************************************************************/

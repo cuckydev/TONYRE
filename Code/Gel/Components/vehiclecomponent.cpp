@@ -166,7 +166,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 	// toggles through the debug line drawing states
 	if (pParams->ContainsFlag(Crc::ConstCRC("debug")))
 	{
-		m_draw_debug_lines = ++m_draw_debug_lines % 3;
+		m_draw_debug_lines = (m_draw_debug_lines + 1) % 3;
 	}
 	else if (pParams->ContainsFlag(Crc::ConstCRC("full_debug")))
 	{
@@ -2060,7 +2060,7 @@ void CVehicleComponent::apply_suspension_forces (   )
 		wheel.normal_force /= vVP_NORMAL_FORCE_HISTORY_LENGTH;
 	}
 	
-	m_next_normal_force_history_idx = ++m_next_normal_force_history_idx % vVP_NORMAL_FORCE_HISTORY_LENGTH;
+	m_next_normal_force_history_idx = (m_next_normal_force_history_idx + 1) % vVP_NORMAL_FORCE_HISTORY_LENGTH;
 }
 
 /******************************************************************/

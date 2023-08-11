@@ -33,7 +33,7 @@ namespace Env
 
 #ifdef __NOPT_ASSERT__
 bool					CTerrainManager::s_terrain_loaded[ vNUM_TERRAIN_TYPES ];
-#endif __NOPT_ASSERT__
+#endif // NOPT_ASSERT__
 
 /******************************************************************/
 /*                                                                */
@@ -225,7 +225,8 @@ ETerrainType			CTerrainManager::sGetTerrainFromChecksum(uint32 checksum)
 		return vTERRAIN_GRINDTANKTURRET;
 
 	case 0x24dca61: // TERRAIN_MEATALSMOOTH		// old typo that still exists
-		Dbg_Message("Metal is not spelled 'Meatal'");
+		Dbg_MsgAssert(0, ("Metal is not spelled 'Meatal'"));
+		return vTERRAIN_DEFAULT;
 	default:
 		Dbg_MsgAssert(0, ("Unknown terrain checksum %x\n", checksum));
 		return vTERRAIN_DEFAULT;
@@ -659,7 +660,7 @@ void					CTerrainManager::s_check_terrain_loaded(ETerrainType terrain)
 	}
 //	Dbg_MsgAssert(s_terrain_loaded[terrain], ("****** ERROR: Trying to use terrain %d, which isn't loaded ******", terrain));
 }
-#endif __NOPT_ASSERT__
+#endif // NOPT_ASSERT__
 
 /******************************************************************/
 /*                                                                */
@@ -674,7 +675,7 @@ void					CTerrainManager::sReset()
 	{
 		s_terrain_loaded[i] = false;
 	}
-#endif __NOPT_ASSERT__
+#endif // NOPT_ASSERT__
 }
 
 /******************************************************************/
@@ -694,7 +695,7 @@ bool					CTerrainManager::sGetTerrainSoundInfo( STerrainSoundInfo *p_info, ETerr
 #ifdef __NOPT_ASSERT__
 	// Check that terrain is loaded
 	s_check_terrain_loaded(terrain);
-#endif __NOPT_ASSERT__
+#endif // NOPT_ASSERT__
 
 	Dbg_MsgAssert(p_info, ("sGetTerrainSoundInfo given nullptr STerrainSoundInfo"));
 
@@ -751,7 +752,7 @@ bool					CTerrainManager::sLoadTerrainSounds( ETerrainType terrain )
 #ifdef __NOPT_ASSERT__
 	// Mark terrain loaded
 	s_terrain_loaded[terrain] = true;
-#endif __NOPT_ASSERT__
+#endif // NOPT_ASSERT__
 
 	return true;
 }
@@ -771,7 +772,7 @@ void					CTerrainManager::sPlaySfx( ETerrainActionType action, ETerrainType terr
 #ifdef __NOPT_ASSERT__
 	// Check that terrain is loaded
 	s_check_terrain_loaded(terrain);
-#endif __NOPT_ASSERT__
+#endif // NOPT_ASSERT__
 
 	// need to write pitch as well
 	// Replay::WriteSkaterSoundEffect(action,terrain,pos,volPercent);

@@ -189,8 +189,9 @@ struct sVolume
 
 						sVolume( void );
 						sVolume( EVolumeType type );
-						sVolume( const sVolume& rhs );
+						sVolume(const sVolume &rhs) = default;
 						~sVolume( void );
+	sVolume &operator= (const sVolume &rhs) = default;
 	bool				operator== ( const sVolume& rhs );
 	bool				operator!= ( const sVolume& rhs )			{ return !(*this == rhs); }
 	bool				IsSilent( void );

@@ -52,7 +52,7 @@ namespace Mem
 class CCompactPool
 {
 public:
-						CCompactPool(int item_size, int desired_num_items, char *name = nullptr);
+						CCompactPool(int item_size, int desired_num_items, const char *name = nullptr);
 						~CCompactPool();
 
 	void *				Allocate();

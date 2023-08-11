@@ -35,7 +35,7 @@
 
 #ifdef	__PLAT_NGC__
 #include <dolphin.h>
-#endif	__PLAT_NGC__
+#endif	// __PLAT_NGC__
 
 #ifdef	__NOPT_ASSERT__
 
@@ -112,13 +112,13 @@ Module*			RegisteredModules = nullptr;
 **							  Private Prototypes							**
 *****************************************************************************/
 
-void	print( char* text );
+void	print(const char* text );
 
 /*****************************************************************************
 **							   Private Functions							**
 *****************************************************************************/
 
-static void		s_prefixed_output( Level level, char* text, va_list args )
+static void		s_prefixed_output( Level level, const char* text, va_list args )
 {	
 	
 
@@ -168,7 +168,7 @@ void		pad_printf( const char* text, ... )
 /*                                                                */
 /******************************************************************/
 
-void		print( char* text )
+void		print( const char* text )
 {
 	
 
@@ -183,7 +183,7 @@ void		print( char* text )
 /*                                                                */
 /******************************************************************/
 
-void		message ( char *text, ... )
+void		message (const char *text, ... )
 {	
 	
 
@@ -206,7 +206,7 @@ void		message ( char *text, ... )
 /*                                                                */
 /******************************************************************/
 
-void		notify( char *text, ... )
+void		notify(const char *text, ... )
 {
 	
 
@@ -228,7 +228,7 @@ void		notify( char *text, ... )
 /*                                                                */
 /******************************************************************/
 
-void		warning( char *text, ... )
+void		warning(const char *text, ... )
 {
 	
 
@@ -250,7 +250,7 @@ void		warning( char *text, ... )
 /*                                                                */
 /******************************************************************/
 
-void		error( char *text, ... )
+void		error(const char *text, ... )
 {
 	
 

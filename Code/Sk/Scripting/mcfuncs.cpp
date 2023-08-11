@@ -169,6 +169,7 @@ struct SMcFileHeader
 *****************************************************************************/
 
 #ifndef __PLAT_NGC__
+#if 0
 static unsigned short s_ascii_special[33][2] = {
 	{0x8140, 32},		/*   */
 	{0x8149, 33},		/* ! */
@@ -210,6 +211,7 @@ static unsigned short s_ascii_table[3][2] = {
 	{0x8260, 0x41},	/* A-Z  */
 	{0x8281, 0x61},	/* a-z  */
 };
+#endif
 #endif // #ifndef __PLAT_NGC__
 
 // Used by the SaveFailedDueToInsufficientSpace command.
@@ -229,7 +231,7 @@ static bool sNeedToLoadReplayBuffer=false;
 static const char *s_generate_ascii_checksum(char *p_dest, const char *p_string, uint32 fileType=0);
 static uint32 s_determine_file_type(char c);
 #ifndef __PLAT_NGC__
-static unsigned short s_ascii_to_sjis(unsigned char ascii_code);
+// static unsigned short s_ascii_to_sjis(unsigned char ascii_code);
 #endif
 static void s_insert_global_info(CStruct *p_struct);
 static void s_insert_story_info(CStruct *p_struct);
@@ -238,11 +240,11 @@ static void s_insert_custom_skater_info(CStruct *p_struct);
 static void s_insert_game_save_info(uint32 fileType, CStruct *p_struct);
 static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CStruct *p_mainData);
 
-static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script);
-static void s_read_story_info(CStruct *p_storyInfo);
-static void s_read_story_skater_info(CStruct *p_storySkaterInfo, CStruct *p_customSkater);
-static void s_read_custom_skater_info(CStruct *p_customSkater);
-static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p_script);
+// static void s_read_global_info(CStruct *p_globalInfo, CScript *p_script);
+// static void s_read_story_info(CStruct *p_storyInfo);
+// static void s_read_story_skater_info(CStruct *p_storySkaterInfo, CStruct *p_customSkater);
+// static void s_read_custom_skater_info(CStruct *p_customSkater);
+// static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p_script);
 
 static int s_get_icon_k_required(uint32 fileType);
 static int s_calculate_total_space_used_on_card(uint32 fileType, int fileSize);
@@ -1648,8 +1650,8 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 	
 	// Write out the icon file.	
 	char	pTitle[100];
-	char*	pSourceIconFile		= "";
-	char*	pIcoName			= "";
+	const char*	pSourceIconFile		= "";
+	const char*	pIcoName			= "";
 
 	switch (fileType)
 	{
@@ -4186,7 +4188,7 @@ bool ScriptGetMaxTHPS4FilesAllowed(Script::CStruct *pParams, Script::CScript *pS
 /*                                                                */
 /******************************************************************/
 
-static uint8 spSummaryInfoBuffer[sizeof(SMcFileHeader)+MAX_SUMMARY_INFO_SIZE];
+// static uint8 spSummaryInfoBuffer[sizeof(SMcFileHeader)+MAX_SUMMARY_INFO_SIZE];
 bool ScriptGetMemCardDirectoryListing(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	(void)pParams;

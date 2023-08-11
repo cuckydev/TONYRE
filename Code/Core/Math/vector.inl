@@ -49,6 +49,10 @@ inline Vector::Vector()
 inline Vector::Vector ( ENoInitType )
 {
     // DO NOTHING
+	col[X] = 0.0f;
+	col[Y] = 0.0f;
+	col[Z] = 0.0f;
+	col[W] = 0.0f;
 }
 
 inline Vector::Vector ( float cx, float cy, float cz)
@@ -98,45 +102,6 @@ inline float&			Vector::operator[] ( sint i )
 	
 	return col[i];
 }
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-#ifndef		DEBUG_UNINIT_VECTORS
-
-inline Vector&		Vector::operator=	( const Vector& v )
-{	
-
-#ifdef	__USE_VU0__
-	// Not really VU0, but it's hardware specific
-	*(uint128*)(this) = *(uint128*)(&v);
-#else
-	
-	col[X] = v[X];
-	col[Y] = v[Y];
-	col[Z] = v[Z];
-	col[W] = v[W];
-#endif	
-	return *this;
-}
-
-#endif
-
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-inline Vector::Vector ( const Vector& v ) 
-{
-	
-	
-	*this = v;
-}
-
 
 /******************************************************************/
 /*                                                                */

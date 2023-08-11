@@ -1140,8 +1140,7 @@ void	Manager::RemoveNetworkTasks( App* app )
 /*                                                                */
 /******************************************************************/
 
-Server*	Manager::CreateNewAppServer( int id, char* appName, int max_clients, 
-									  unsigned short port, int address, int flags )
+Server*	Manager::CreateNewAppServer( int id, const char* appName, int max_clients, unsigned short port, int address, int flags )
 {
 	Server *new_app;
 		
@@ -1204,8 +1203,7 @@ Server*	Manager::CreateNewAppServer( int id, char* appName, int max_clients,
 /*                                                                */
 /******************************************************************/
 
-Client	*Manager::CreateNewAppClient( 	int id, char* appName, unsigned short port, int address,
-										int flags )
+Client	*Manager::CreateNewAppClient( 	int id, const char* appName, unsigned short port, int address, int flags )
 {
 	Client *new_app;
 
@@ -2265,7 +2263,7 @@ bool	Manager::IsOnline( void )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetISPPhoneNumber( char* phone_no )
+void	Manager::SetISPPhoneNumber(const char* phone_no )
 {
 	
 
@@ -2279,7 +2277,7 @@ void	Manager::SetISPPhoneNumber( char* phone_no )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetISPLogin( char* login )
+void	Manager::SetISPLogin(const char* login )
 {
 	
 
@@ -2293,7 +2291,7 @@ void	Manager::SetISPLogin( char* login )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetISPPassword( char* password )
+void	Manager::SetISPPassword(const char* password )
 {
 	
 
@@ -2307,7 +2305,7 @@ void	Manager::SetISPPassword( char* password )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetGateway( char* ip )
+void	Manager::SetGateway(const char* ip )
 {
 	
 
@@ -2325,7 +2323,7 @@ void	Manager::SetGateway( char* ip )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetSubnetMask( char* ip )
+void	Manager::SetSubnetMask(const char* ip )
 {
 	
 
@@ -2353,7 +2351,7 @@ void	Manager::SetPublicIP( unsigned int ip )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetLocalIP( char* ip )
+void	Manager::SetLocalIP( const char* ip )
 {
 	
 
@@ -2451,7 +2449,7 @@ void	Manager::SetDialupAuthentication( bool authenticate )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetDNSServer( int index, char* ip )
+void	Manager::SetDNSServer( int index, const char* ip )
 {
 	
 	
@@ -2472,7 +2470,7 @@ void	Manager::SetDNSServer( int index, char* ip )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetHostName( char* host )
+void	Manager::SetHostName(const char* host )
 {
 	
 
@@ -2480,11 +2478,9 @@ void	Manager::SetHostName( char* host )
 	Dbg_Assert( !host || ( strlen( host ) < 32 ));
 
     if( host == nullptr )
-	{
 		m_host_name[0] = '\0';
-	}
-
-	strcpy( m_host_name, host );
+	else
+		strcpy( m_host_name, host );
 }
 
 /******************************************************************/
@@ -2492,7 +2488,7 @@ void	Manager::SetHostName( char* host )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetDomainName( char* domain )
+void	Manager::SetDomainName(const char* domain )
 {
 	
 
@@ -2500,11 +2496,9 @@ void	Manager::SetDomainName( char* domain )
 	Dbg_Assert( !domain || ( strlen( domain ) < 32 ));
 
     if( domain == nullptr )
-	{
 		m_domain_name[0] = '\0';
-	}
-
-	strcpy( m_domain_name, domain );
+	else
+		strcpy( m_domain_name, domain );
 }
 
 /******************************************************************/
@@ -2512,7 +2506,7 @@ void	Manager::SetDomainName( char* domain )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetDNSServer( int index )
+const char*	Manager::GetDNSServer( int index )
 {
 	
 
@@ -2526,7 +2520,7 @@ char*	Manager::GetDNSServer( int index )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetISPPhoneNumber( void )
+const char*	Manager::GetISPPhoneNumber( void )
 {
 	if( GetConnectionType() == vCONN_TYPE_PPPOE )
 	{
@@ -2570,7 +2564,7 @@ bool	Manager::ShouldUseDialupAuthentication( void )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetGateway( void )
+const char*	Manager::GetGateway( void )
 {
 	
 
@@ -2582,7 +2576,7 @@ char*	Manager::GetGateway( void )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetSubnetMask( void )
+const char*	Manager::GetSubnetMask( void )
 {
 	
 
@@ -2594,7 +2588,7 @@ char*	Manager::GetSubnetMask( void )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetHostName( void )
+const char*	Manager::GetHostName( void )
 {
 	
 
@@ -2606,7 +2600,7 @@ char*	Manager::GetHostName( void )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetDomainName( void )
+const char*	Manager::GetDomainName( void )
 {
 	
 
@@ -2633,10 +2627,8 @@ unsigned int	Manager::GetPublicIP( void )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetLocalIP( void )
-{   
-	
-
+const char*	Manager::GetLocalIP( void )
+{
 #if defined( __PLAT_NGPS__ ) || defined( __PLAT_XBOX__ ) || defined( __PLAT_NGC__ )
 	return m_local_ip;
 #else
@@ -2716,7 +2708,7 @@ int			Manager::GetLastError( void )
 /*                                                                */
 /******************************************************************/
 
-char*	Manager::GetMessageName( unsigned char msg_id )
+const char*	Manager::GetMessageName( unsigned char msg_id )
 {
 	(void)msg_id;
 #ifdef	NET_DEBUG_MESSAGES
@@ -2731,7 +2723,7 @@ char*	Manager::GetMessageName( unsigned char msg_id )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetMessageName( unsigned char msg_id, char* msg_name )
+void	Manager::SetMessageName( unsigned char msg_id, const char* msg_name )
 {
 	(void)msg_id;
 	(void)msg_name;

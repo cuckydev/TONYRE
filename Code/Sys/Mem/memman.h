@@ -161,7 +161,7 @@ public:
 	const char*					GetHeapName( uint32 whichHeap );
 	Heap *						GetHeap( uint32 whichHeap );
 
-	Heap *						CreateHeap( Region* region, Mem::Allocator::Direction dir /*= Mem::Allocator::vBOTTOM_UP*/, char* p_name );//= "unknown heap" );
+	Heap *						CreateHeap( Region* region, Mem::Allocator::Direction dir /*= Mem::Allocator::vBOTTOM_UP*/, const char* p_name );//= "unknown heap" );
 	void						RemoveHeap( Heap * pHeap); 
 	Heap *						FirstHeap();
 	Heap *						NextHeap(Heap * pHeap);
@@ -296,9 +296,9 @@ void*	Realloc( void* mem, size_t newSize );
 void*	Calloc( size_t numObj, size_t sizeObj );
 }
 
-void	PushMemProfile(char *p_type);
+void	PushMemProfile(const char *p_type);
 void	PopMemProfile();
-void	DumpMemProfile(int level, char *p_type=nullptr);
+void	DumpMemProfile(int level, const char *p_type=nullptr);
 void	AllocMemProfile(Allocator::BlockHeader* p_block);
 void	FreeMemProfile(Allocator::BlockHeader* p_block);
 

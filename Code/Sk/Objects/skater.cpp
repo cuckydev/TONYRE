@@ -2300,7 +2300,8 @@ bool CSkater::_function1( uint32 Checksum, Script::CStruct *pParams, Script::CSc
 			
 			//break;
 		}
-		// Note: Intentional fallthrough!  We want setting the point to have the same effect as skipping to it
+		// Fallthrough
+		// We want setting the point to have the same effect as skipping to it
 		
         // @script | SkipToCustomRestart |  Skater command to jump to previously set custom restart 		
 		case 0x5a3c19e9:		// SkipToCustomRestart

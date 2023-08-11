@@ -495,7 +495,7 @@ void CBouncyComponent::do_bounce( void )
 			m_rotation[ W ] = 1.0f;
 			m_quat_initialized = false;
 			m_substate++;
-		// intentional fall through:
+		// Fallthrough
 		case ( 1 ):
 		{
 			Mth::Vector rot;

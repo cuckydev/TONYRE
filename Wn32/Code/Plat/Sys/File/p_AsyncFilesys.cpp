@@ -198,7 +198,7 @@ void CXboxAsyncFileHandle::io_callback( EAsyncFunctionType function, int result,
 		{
 			memcpy(mp_non_aligned_buffer, mp_temp_aligned_buffer, result);
 		}
-		// don't break, continue on below
+		// Fallthrough
 
 	case FUNC_WRITE:
 		if (result < 0)
@@ -332,7 +332,7 @@ void CXboxAsyncFileHandle::plat_init( void )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-volatile bool CXboxAsyncFileHandle::plat_is_done( void )
+bool CXboxAsyncFileHandle::plat_is_done( void )
 {
 	bool is_done = false;
 
@@ -365,7 +365,7 @@ volatile bool CXboxAsyncFileHandle::plat_is_done( void )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-volatile bool CXboxAsyncFileHandle::plat_is_busy( void )
+bool CXboxAsyncFileHandle::plat_is_busy( void )
 {
 	return ( m_last_result == ERROR_IO_PENDING );
 }

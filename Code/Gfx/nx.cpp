@@ -990,7 +990,7 @@ void				CEngine::sSetMaxMultipassDistance(float dist)
 
 void				CEngine::sSetScreenBlur(uint32 amount)
 {
-	Dbg_MsgAssert(amount >=0 && amount <=255,("Screen blur amount out of range of 0..255 (it's %d)",amount));
+	Dbg_MsgAssert(amount <= 255,("Screen blur amount out of range of 0..255 (it's %d)",amount));
 	s_screen_blur = amount;
 	s_plat_set_screen_blur(amount);
 }
@@ -998,7 +998,7 @@ void				CEngine::sSetScreenBlur(uint32 amount)
 uint32 CEngine::sGetScreenBlur()
 {
 	uint32	amount = s_screen_blur; 
-	Dbg_MsgAssert(amount >=0 && amount <=255,("s_screen_blur out of range of 0..255 (it's %d), maybe corrupted???",amount));
+	Dbg_MsgAssert(amount <=255,("s_screen_blur out of range of 0..255 (it's %d), maybe corrupted???",amount));
 	return amount;	
 }
 

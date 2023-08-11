@@ -7,7 +7,7 @@
 #include "render.h"
 #include "grass.h"
 
-static bool				bumpsLoaded = false;
+// static bool				bumpsLoaded = false;
 NxWn32::sMaterial		waterMaterial;
 NxWn32::sTexture		waterTextures[2];
 

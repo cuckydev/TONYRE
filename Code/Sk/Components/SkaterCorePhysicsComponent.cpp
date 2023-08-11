@@ -6674,9 +6674,9 @@ bool CSkaterCorePhysicsComponent::will_take_rail ( const CRailNode* pNode, CRail
 		// Dan: removed this line to prevent occasional rerailing when you grind off the end of a car; why was it here in the first place?
 		// || (mp_rail_man && mp_rail_man->IsMoving() && !mp_movable_contact_component->HaveContact())	// or last rail was movable, and we've lost contact
 		
-		|| mp_rail_node != pNode																// or not same segment
+		|| (mp_rail_node != pNode																// or not same segment
 		&& mp_rail_node != pNode->GetNextLink()  												// or the one before
-		&& mp_rail_node != pNode->GetPrevLink()) 												// of the one after
+		&& mp_rail_node != pNode->GetPrevLink()))												// of the one after
 	{
 		if (mp_rail_node && Ed::CParkEditor::Instance()->UsingCustomPark())
 		{
@@ -7801,7 +7801,7 @@ void CSkaterCorePhysicsComponent::skate_off_rail( const Mth::Vector& off_point)
 	if (mp_rail_man->StickToRail(a, b, &rail_pos, &pNode, mp_rail_node, min_dot, mp_rail_node->Side(GetVel())))
 	{
 		// Mick, in park editor, we also disallow this if the rail is the next or the prev rail node from our current node
-		if (mp_rail_node != pNode && (!Ed::CParkEditor::Instance()->UsingCustomPark() || mp_rail_node->GetNextLink() != pNode && mp_rail_node->GetPrevLink() != pNode))
+		if (mp_rail_node != pNode && (!Ed::CParkEditor::Instance()->UsingCustomPark() || (mp_rail_node->GetNextLink() != pNode && mp_rail_node->GetPrevLink() != pNode)))
 		{
 			const CRailNode* pNewStart = pNode;
 			const CRailNode* pNewEnd = pNewStart->GetNextLink();	

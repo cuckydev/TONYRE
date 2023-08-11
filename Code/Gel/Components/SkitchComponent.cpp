@@ -164,7 +164,7 @@ int CSkitchComponent::GetNearestSkitchPoint( Mth::Vector *p_point, Mth::Vector &
 
 			int node_number = 0;
 			CObjectHookNode *p_node		= p_object_hook_man->GetFirstNode();
-			CObjectHookNode *p_nearest	= p_node;
+			// CObjectHookNode *p_nearest	= p_node;
 			float nearest_dist_squared	= 100000000000000.0f;	
 			Mth::Vector nearest_point(0.0f, 0.0f, 0.0f);
 
@@ -183,7 +183,7 @@ int CSkitchComponent::GetNearestSkitchPoint( Mth::Vector *p_point, Mth::Vector &
 				{
 					nearest_dist_squared	= dist_squared;
 					nearest_point			= point;
-					p_nearest				= p_node; 
+					// p_nearest			= p_node; 
 					nearest_node_number		= node_number;
 				}
 				p_node = p_node->GetNext();

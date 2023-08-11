@@ -139,7 +139,7 @@ void Init()
 	}
 }
 
-void AddEntry(char *p_fileName, int lineNumber, const char *p_functionName, char *p_message)
+void AddEntry(const char *p_fileName, int lineNumber, const char *p_functionName, const char *p_message)
 {
 	if (Config::GotExtraMemory())
 	{
@@ -185,7 +185,7 @@ void Init()
 {
 }
 
-void AddEntry(char *p_fileName, int lineNumber, const char *p_functionName, char *p_message)
+void AddEntry(const char *p_fileName, int lineNumber, const char *p_functionName, const char *p_message)
 {
 	(void)p_fileName;
 	(void)lineNumber;

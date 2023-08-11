@@ -1,8 +1,10 @@
 //////////////////////////////////////////
 // ObjectHook.h
 
-#ifndef __OBJECTS_OBJECTHOOK_H
-#define __OBJECTS_OBJECTHOOK_H
+#pragma once
+
+#include <Core/Defines.h>
+#include <Core/math.h>
 
 namespace Script
 {
@@ -26,10 +28,10 @@ class CObjectHookNode : public Spt::Class
 {
 	friend class  CObjectHookManager;
 
-public:						  
-	const sint16			GetNode() const 	  		{return m_node;}
+public:
+	sint16					GetNode() const 	  		{return m_node;}
 	void					SetActive(bool active)		{m_active = active;}
-	const bool				IsActive() const				{return m_active;}
+	bool					IsActive() const				{return m_active;}
 
 	void					SetFlag(EObjectHookNodeFlag flag) {m_flags |= flag;}
 	void					ClearFlag(EObjectHookNodeFlag flag) {m_flags &= ~flag;}
@@ -100,9 +102,3 @@ private:
 
 
 } 
-
-			
-#endif			// #ifndef __OBJECTS_OBJECTHOOK_H
-			
-
-

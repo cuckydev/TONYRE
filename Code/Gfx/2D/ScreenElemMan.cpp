@@ -1169,7 +1169,7 @@ bool ScriptScreenElementSystemInit(Script::CScriptStructure *pParams, Script::CS
 	using them for THPS8! :x
 */
 
-void SetScoreTHPS4(char* score_text, int skater_num)
+void SetScoreTHPS4(const char* score_text, int skater_num)
 {
 	Front::CScreenElementManager* p_screen_elem_man = Front::CScreenElementManager::Instance();
 	CScreenElementPtr p_element = p_screen_elem_man->GetElement(Script::GenerateCRC("the_score") + skater_num );
@@ -1271,7 +1271,6 @@ bool ScriptGetTextElementString(Script::CScriptStructure *pParams, Script::CScri
 	CScreenElementManager* pManager = CScreenElementManager::Instance();
 	CScreenElementPtr p_elem = pManager->GetElement( pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT );
 	
-	bool found_text = false;
 	switch ( (uint32)p_elem->GetType() )
 	{
 		case Crc::ConstCRC( "TextElement" ):
@@ -1279,10 +1278,7 @@ bool ScriptGetTextElementString(Script::CScriptStructure *pParams, Script::CScri
 			CTextElement* p_text_element = (CTextElement*)p_elem.Convert();
 			char *p_text = p_text_element->GetText();
 			if ( p_text )
-			{
 				pScript->GetParams()->AddString( "string", p_text );
-				found_text = true;
-			}
 			break;
 		}
 		case Crc::ConstCRC( "TextBlockElement" ):
@@ -1290,16 +1286,14 @@ bool ScriptGetTextElementString(Script::CScriptStructure *pParams, Script::CScri
 			CTextBlockElement* p_text_block_element = (CTextBlockElement*)p_elem.Convert();
 			char text[Front::MAX_EDITABLE_TEXT_BLOCK_LENGTH];
 			if ( p_text_block_element->GetText( text, Front::MAX_EDITABLE_TEXT_BLOCK_LENGTH ) )
-			{
 				pScript->GetParams()->AddString( "string", text );
-				found_text = true;
-			}
 			break;
 		}
 		default:
 			Dbg_MsgAssert( 0, ( "GetScreenElementText called on type %x", p_elem->GetType() ) );
 			break;
 	}
+
 	return false;
 }
 

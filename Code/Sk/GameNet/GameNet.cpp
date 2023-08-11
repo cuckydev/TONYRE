@@ -721,7 +721,7 @@ void	Manager::s_join_state_code( const Tsk::Task< Manager >& task )
 			Script::RunScript( "dialog_box_exit" );
 			man.m_join_timeout_task->Remove();
 		}
-		// Fall-through intentional
+		// Fallthrough
 		case vJOIN_STATE_FINISHED:
 		{
 			man.m_join_state_task->Remove();
@@ -773,7 +773,7 @@ void	Manager::s_ctf_logic_code( const Tsk::Task< Manager >& task )
 				case vTEAM_GREEN:
 					obj_id = Script::GenerateCRC( "TRG_CTF_Green" );
 					break;
-			case vTEAM_YELLOW:
+				case vTEAM_YELLOW:
 					obj_id = Script::GenerateCRC( "TRG_CTF_Yellow" );
 					break;
 				default:
@@ -2559,7 +2559,7 @@ void	Manager::JoinServer( bool observe_only, unsigned long ip, unsigned short po
 	Net::Conn* conn;
 	MsgConnectInfo msg;
 	Net::MsgDesc msg_desc;
-	uint32 size;
+	// uint32 size;
 	const char* network_id;
 	Script::CStruct* pStructure;
 	Prefs::Preferences* pPreferences;
@@ -2601,7 +2601,7 @@ void	Manager::JoinServer( bool observe_only, unsigned long ip, unsigned short po
 	}   
 	
 	msg.m_Observer = observe_only;
-	size = 0;
+	// size = 0;
 	
 	msg.m_Version = vVERSION_NUMBER;
 	msg.m_Password[0] = '\0';
@@ -4635,7 +4635,7 @@ Prefs::Preferences* Manager::GetTauntPreferences( void )
 /*                                                                */
 /******************************************************************/
 
-const char*			Manager::GetNameFromArrayEntry( char* array_name, uint32 checksum )
+const char*			Manager::GetNameFromArrayEntry( const char* array_name, uint32 checksum )
 {
 	Script::CArray* pArray;
 	const char* string = nullptr;
@@ -4668,7 +4668,7 @@ const char*			Manager::GetNameFromArrayEntry( char* array_name, uint32 checksum 
 /*                                                                */
 /******************************************************************/
 
-int					Manager::GetIntFromArrayEntry( char* array_name, uint32 checksum, uint32 field_checksum )
+int					Manager::GetIntFromArrayEntry( const char* array_name, uint32 checksum, uint32 field_checksum )
 {
 	Script::CArray* pArray;
 	int int_val;
@@ -5603,12 +5603,12 @@ void	Manager::ToggleMetrics( void )
 
 void	Manager::ToggleScores( void )
 {
-	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
-	Game::CGameMode* pGameMode;
-	bool show_score;
+	// Mdl::Skate * skate_mod = Mdl::Skate::Instance();
+	// Game::CGameMode* pGameMode;
+	// bool show_score;
 
-	pGameMode = skate_mod->GetGameMode();
-	show_score = pGameMode->ShouldAccumulateScore();
+	// pGameMode = skate_mod->GetGameMode();
+	// show_score = pGameMode->ShouldAccumulateScore();
 
 	m_scores_on ^= 1;
 }
@@ -5781,7 +5781,7 @@ void	Manager::DisconnectFromInternet( uint32 callback_script )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::CreateNetPanelMessage( bool broadcast, uint32 message_checksum, char* string_parm_1, char* string_parm_2, Obj::CMovingObject* object, char* properties, bool important, int time )
+void	Manager::CreateNetPanelMessage( bool broadcast, uint32 message_checksum, const char* string_parm_1, const char* string_parm_2, Obj::CMovingObject* object, const char* properties, bool important, int time )
 {
 	(void)object;
 
@@ -6694,7 +6694,7 @@ bool	Manager::ScriptSpawnCrown(Script::CStruct *pParams, Script::CScript *pScrip
 	// collect a table of all crown nodes
 	int max_crown_node = 0;
 	Script::CStruct *pCrownNodeTab[vNUM_CROWN_SPAWN_POINTS];
-	int crown_nodes[vNUM_CROWN_SPAWN_POINTS];
+	// int crown_nodes[vNUM_CROWN_SPAWN_POINTS];
 	while( i < (int)pNodeArray->GetSize() )
 	{
 		uint32	TypeChecksum;
@@ -6705,7 +6705,7 @@ bool	Manager::ScriptSpawnCrown(Script::CStruct *pParams, Script::CScript *pScrip
 		if( TypeChecksum == 0xaf86421b )	// checksum of "Crown"
 		{
 			Dbg_MsgAssert( max_crown_node < vNUM_CROWN_SPAWN_POINTS, ( "Too many crown spawn points" ));
-			crown_nodes[max_crown_node] = i;
+			// crown_nodes[max_crown_node] = i;
 			pCrownNodeTab[max_crown_node++] = pNode;
 		}
 		i++;
@@ -6800,15 +6800,11 @@ bool Manager::ScriptStartNetworkGame(Script::CStruct *pParams, Script::CScript *
 	{
 		if( gamenet_man->GetHostMode() == vHOST_MODE_AUTO_SERVE )
 		{
-			gamenet_man->CreateNetPanelMessage( true, Script::GenerateCRC("net_message_auto_starting_game"),
-											 gamenet_man->GetGameModeName(), nullptr, nullptr, "netstatusprops", true,
-												Tmr::Seconds( 3 ));    
+			gamenet_man->CreateNetPanelMessage( true, Script::GenerateCRC("net_message_auto_starting_game"), gamenet_man->GetGameModeName(), nullptr, nullptr, "netstatusprops", true, Tmr::Seconds( 3 ));    
 		}
 		else
 		{
-			gamenet_man->CreateNetPanelMessage( true, Script::GenerateCRC("net_message_starting_game"),
-										 gamenet_man->GetGameModeName(), nullptr, nullptr, "netstatusprops", true,
-											Tmr::Seconds( 3 ));
+			gamenet_man->CreateNetPanelMessage( true, Script::GenerateCRC("net_message_starting_game"), gamenet_man->GetGameModeName(), nullptr, nullptr, "netstatusprops", true, Tmr::Seconds( 3 ));
 		}
 
 		if( skate_mod->GetGameMode()->IsTeamGame())

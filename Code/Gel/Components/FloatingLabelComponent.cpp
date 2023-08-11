@@ -52,7 +52,7 @@ CFloatingLabelComponent::CFloatingLabelComponent() : CBaseComponent()
 	
 CFloatingLabelComponent::~CFloatingLabelComponent()
 {
-	Script::CStruct* pParams = pParams = new Script::CStruct;
+	Script::CStruct* pParams = new Script::CStruct;
 	pParams->AddChecksum(Crc::ConstCRC("id"), m_screen_element_id);
 	
 	Script::RunScript(Crc::ConstCRC("destroy_object_label"), pParams);

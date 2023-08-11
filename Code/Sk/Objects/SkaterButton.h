@@ -1,7 +1,6 @@
 // SkaterButton.h
 
-#ifndef	__SK_OBJECTS_SKATERBUTTON_H__
-#define	__SK_OBJECTS_SKATERBUTTON_H__
+#pragma once
 
 #include <core/defines.h>
 #include <core/support.h>
@@ -72,10 +71,3 @@ inline int			CSkaterButton::GetPressure()	// Get current pressure
 {
 	return	m_pressure;
 }
-
-
-
-#endif	__SK_OBJECTS_SKATERBUTTON_H__
-
-
-

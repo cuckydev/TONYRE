@@ -88,8 +88,8 @@ public:
 
 
 	// Check read status
-	volatile bool		IsDone( void );
-	volatile bool		IsBusy( void );
+	bool				IsDone( void );
+	bool				IsBusy( void );
 	bool				IsEOF( void ) const;
 	int					WaitForIO( void );
 
@@ -120,16 +120,16 @@ protected:
 	bool				close( void );
 
 	// Internal busy counter functions
-	volatile int		inc_busy_count();			// Increment and return current count
-	volatile int		dec_busy_count();			// Decrement and return current count
-	volatile int		get_busy_count();			// Just return current count
+	int		inc_busy_count();			// Increment and return current count
+	int		dec_busy_count();			// Decrement and return current count
+	int		get_busy_count();			// Just return current count
 
 	// Internal callback
 	virtual void		io_callback(EAsyncFunctionType function, int result, uint32 data);
 	void				post_io_callback();
 
 	// These could be changed by an interrupt, so they are volatile
-	volatile int		m_last_result;
+	int		m_last_result;
 
 	// Callback
 	AsyncCallback		mp_callback;
@@ -143,8 +143,8 @@ protected:
 	uint32				m_buffer_size;
 	int					m_priority;
 
-	volatile int		m_file_size;
-	volatile int		m_position;
+	int		m_file_size;
+	int		m_position;
 
 	// PRE file
 	PreFile::FileHandle *mp_pre_file;
@@ -158,8 +158,8 @@ protected:
 	virtual bool		plat_open( const char *filename );
 	virtual bool		plat_close( void );
 
-	virtual volatile bool	plat_is_done( void );
-	virtual volatile bool	plat_is_busy( void );
+	virtual bool		plat_is_done( void );
+	virtual bool		plat_is_busy( void );
 	virtual bool		plat_is_eof( void ) const;
 
 	virtual void		plat_set_priority( int priority );
@@ -175,7 +175,7 @@ protected:
 	virtual int			plat_seek( long offset, int origin );
 
 private:
-	volatile int		m_busy_count;		// Number of items we are waiting to finish asynchronously
+	int		m_busy_count;		// Number of items we are waiting to finish asynchronously
 
 	// Friends
 	friend CAsyncFileLoader;
@@ -227,12 +227,12 @@ protected:
 	static int					s_free_handle_index;
 
 	// Status
-	static volatile int			s_manager_busy_count;		// Is 0 when there are no outstanding async IO requests
-	static volatile bool		s_new_io_completion;		// File handle got callback since s_execute_callback_list()
+	static int			s_manager_busy_count;		// Is 0 when there are no outstanding async IO requests
+	static bool		s_new_io_completion;		// File handle got callback since s_execute_callback_list()
 
 	// Current callback list
-	static volatile SCallback	s_callback_list[2][MAX_PENDING_CALLBACKS];
-	static volatile int			s_num_callbacks[2];
+	static SCallback	s_callback_list[2][MAX_PENDING_CALLBACKS];
+	static int			s_num_callbacks[2];
 	static int					s_cur_callback_list_index;
 
 	// File handle management
@@ -302,19 +302,19 @@ inline void				CAsyncFileLoader::s_dec_manager_busy_count()
 	s_manager_busy_count--;
 }
 
-inline volatile int		CAsyncFileHandle::inc_busy_count()
+inline int		CAsyncFileHandle::inc_busy_count()
 {
 	CAsyncFileLoader::s_inc_manager_busy_count();			// Also increment manager
 	return ++m_busy_count;
 }
 
-inline volatile int		CAsyncFileHandle::dec_busy_count()
+inline int		CAsyncFileHandle::dec_busy_count()
 {
 	CAsyncFileLoader::s_dec_manager_busy_count();			// Also decrement manager
 	return --m_busy_count;
 }
 
-inline volatile int		CAsyncFileHandle::get_busy_count()
+inline int		CAsyncFileHandle::get_busy_count()
 {
 	return m_busy_count;
 }

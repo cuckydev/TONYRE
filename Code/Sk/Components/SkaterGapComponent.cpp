@@ -706,7 +706,7 @@ void CSkaterGapComponent::start_gap ( Script::CStruct *pParams, Script::CScript*
 	
 	// Because the car can trigger multiple trigger scripts in the same frame, we must allow the gap to be canceled immediately.  Otherwise, if one wheel
 	// triggers a start gap and another an end gap in the same frame, the cancel flags of the gap will never be checked.
-	if (mp_physics_control_component->IsDriving() && (pGap->m_flags & CANCEL_DRIVE)
+	if ((mp_physics_control_component->IsDriving() && (pGap->m_flags & CANCEL_DRIVE) != 0)
 		// Created park gaps can be so close together that we might not have a frame with which to check our cancel flags
 		|| Ed::CParkEditor::Instance()->UsingCustomPark())
 	{

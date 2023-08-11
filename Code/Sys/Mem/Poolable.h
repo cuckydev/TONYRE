@@ -40,7 +40,7 @@ class CPoolable
 	};
 		
 public:
-	static void							SCreatePool(int num_items, char *name);
+	static void							SCreatePool(int num_items, const char *name);
 	static void							SAttachPool(CCompactPool *pPool);
 	static void							SRemovePool();
 	static int							SGetMaxUsedItems();
@@ -149,7 +149,7 @@ void CPoolable<_T>::operator delete (void * pMem)
 
 
 template<class _T>
-void CPoolable<_T>::SCreatePool(int num_items, char *name)					
+void CPoolable<_T>::SCreatePool(int num_items, const char *name)					
 {																
 	Dbg_Assert(!sp_pool[s_currentPool]);										
 	sp_pool[s_currentPool] = new CCompactPool(sizeof(_T), num_items, name);		

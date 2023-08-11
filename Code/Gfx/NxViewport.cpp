@@ -123,7 +123,7 @@ CViewport::~CViewport ( void )
 /*                                                                */
 /******************************************************************/
 
-const float		CViewport::GetAspectRatio() const
+float CViewport::GetAspectRatio() const
 {
 	return CViewportManager::sGetScreenAspect() * m_Rect.GetWidth() / m_Rect.GetHeight();
 }
@@ -133,7 +133,7 @@ const float		CViewport::GetAspectRatio() const
 /*                                                                */
 /******************************************************************/
 
-bool			CViewport::MarkCameraForDeletion(Gfx::Camera *pCamera)
+bool CViewport::MarkCameraForDeletion(Gfx::Camera *pCamera)
 {
 	if (mp_camera == pCamera)
 	{
@@ -149,7 +149,7 @@ bool			CViewport::MarkCameraForDeletion(Gfx::Camera *pCamera)
 /*                                                                */
 /******************************************************************/
 
-void			CViewport::DeleteMarkedCamera()
+void CViewport::DeleteMarkedCamera()
 {
 	if (m_flags & mCAMERA_MARKED_FOR_DELETION)
 	{
@@ -166,7 +166,7 @@ void			CViewport::DeleteMarkedCamera()
 /*                                                                */
 /******************************************************************/
 
-float			CViewport::TransformToScreenCoord(const Mth::Vector & world_pos, float & screen_pos_x, float & screen_pos_y, ZBufferValue & screen_pos_z)
+float CViewport::TransformToScreenCoord(const Mth::Vector & world_pos, float & screen_pos_x, float & screen_pos_y, ZBufferValue & screen_pos_z)
 {
 	return plat_transform_to_screen_coord(world_pos, screen_pos_x, screen_pos_y, screen_pos_z);
 }
@@ -179,7 +179,7 @@ float			CViewport::TransformToScreenCoord(const Mth::Vector & world_pos, float &
 /*                                                                */
 /******************************************************************/
 
-float			CViewport::plat_transform_to_screen_coord(const Mth::Vector & world_pos, float & screen_pos_x, float & screen_pos_y, ZBufferValue & screen_pos_z)
+float CViewport::plat_transform_to_screen_coord(const Mth::Vector & world_pos, float & screen_pos_x, float & screen_pos_y, ZBufferValue & screen_pos_z)
 {
 	(void)world_pos;
 	(void)screen_pos_x;

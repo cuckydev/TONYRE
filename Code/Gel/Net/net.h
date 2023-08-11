@@ -844,9 +844,9 @@ public:
 	bool		DisconnectFromInternet( void );
 	bool		IsOnline( void );
 
-	Server*		CreateNewAppServer( int id, char* appName, int max_clients, unsigned short port, 
+	Server*		CreateNewAppServer( int id, const char* appName, int max_clients, unsigned short port, 
 									int address, int flags = 0 );
-	Client*		CreateNewAppClient( int id, char* appName, unsigned short port, int address,
+	Client*		CreateNewAppClient( int id, const char* appName, unsigned short port, int address,
 									int flags = 0 );
 	
 	void		DestroyApp( App *app );
@@ -854,27 +854,27 @@ public:
 	void		SetConnectionType( ConnType conn_type );
 	void		SetDeviceType( DeviceType dev_type );
 	void		SetPublicIP( unsigned int ip );
-	void		SetLocalIP( char* ip );
-	void		SetGateway( char* ip );
-	void		SetSubnetMask( char* ip );
-	void		SetISPPhoneNumber( char* phone_no );
-	void		SetISPLogin( char* login );
-	void		SetISPPassword( char* password );
+	void		SetLocalIP( const char* ip );
+	void		SetGateway( const char* ip );
+	void		SetSubnetMask( const char* ip );
+	void		SetISPPhoneNumber( const char* phone_no );
+	void		SetISPLogin( const char* login );
+	void		SetISPPassword( const char* password );
 	void		SetDHCP( bool use_dhcp );
 	void		SetDialupAuthentication( bool authenticate );
-	void		SetDNSServer( int index, char* ip );
-	void		SetHostName( char* host );
-	void		SetDomainName( char* host );
+	void		SetDNSServer( int index, const char* ip );
+	void		SetHostName( const char* host );
+	void		SetDomainName( const char* host );
 	ConnType	GetConnectionType( void );
 	DeviceType	GetDeviceType( void );
-	char*		GetLocalIP( void );
+	const char*	GetLocalIP( void );
 	unsigned int	GetPublicIP( void );
-	char*		GetGateway( void );
-	char*		GetSubnetMask( void );
-	char*		GetDNSServer( int index );
-	char*		GetISPPhoneNumber( void );
-	char*		GetHostName( void );
-	char*		GetDomainName( void );
+	const char*	GetGateway( void );
+	const char*	GetSubnetMask( void );
+	const char*	GetDNSServer( int index );
+	const char*	GetISPPhoneNumber( void );
+	const char*	GetHostName( void );
+	const char*	GetDomainName( void );
 	bool		ShouldUseDialupAuthentication( void );
 	bool		ShouldUseDHCP( void );
 
@@ -883,8 +883,8 @@ public:
 	App*		NextApp( Lst::Search< App > *sh );
 	int			NumApps( void );
 
-	void		SetMessageName( unsigned char msg_id, char* msg_name );
-	char*		GetMessageName( unsigned char msg_id );
+	void		SetMessageName( unsigned char msg_id, const char* msg_name );
+	const char*	GetMessageName( unsigned char msg_id );
 	void		SetMessageFlags( unsigned char msg_id, char flags );
 	char		GetMessageFlags( unsigned char msg_id );
 
@@ -1058,11 +1058,11 @@ public:
 	void	BanConnection( Conn* conn );
 	bool	IsConnectionBanned( Conn* conn );
 
-	void	StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned short msg_len, void* data, char* desc, unsigned char group_id = GROUP_ID_DEFAULT,
+	void	StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned short msg_len, void* data, const char* desc, unsigned char group_id = GROUP_ID_DEFAULT,
 								 bool all_at_once = true, bool send_in_place = false );
-	void	StreamMessage( int handle, unsigned char msg_id, unsigned short msg_len, void* data, char* desc, unsigned char group_id = GROUP_ID_DEFAULT,
+	void	StreamMessage( int handle, unsigned char msg_id, unsigned short msg_len, void* data, const char* desc, unsigned char group_id = GROUP_ID_DEFAULT,
 						   bool all_at_once = true, bool send_in_place = false );
-	void	StreamMessageToServer( unsigned char msg_id, unsigned short msg_len, void* data, char* desc, unsigned char group_id = GROUP_ID_DEFAULT,
+	void	StreamMessageToServer( unsigned char msg_id, unsigned short msg_len, void* data, const char* desc, unsigned char group_id = GROUP_ID_DEFAULT,
 								   bool all_at_once = true, bool send_in_place = false );
 	void	EnqueueMessage( int handle, MsgDesc* desc );
 	void	EnqueueMessageToServer( MsgDesc* desc );

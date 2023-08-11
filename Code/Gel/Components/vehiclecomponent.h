@@ -415,7 +415,7 @@ private:
 	unsigned int m_num_wheels_in_contact;
 	
 	// pointer to the next normal force history to use (the oldest one)
-	char m_next_normal_force_history_idx;
+	unsigned char m_next_normal_force_history_idx;
 
 	// if true, we were reset from a trigger script and should bail from the frame's update logic
 	bool m_reset_this_frame;

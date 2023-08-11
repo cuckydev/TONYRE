@@ -26,6 +26,7 @@
 #include <sk/components/skatercorephysicscomponent.h>
 #include <sk/components/skaterbalancetrickcomponent.h>
 #include <sk/components/skaterstatecomponent.h>
+#include <sk/modules/Skate/skate.h>
 
 
 namespace Obj
@@ -210,7 +211,8 @@ void CSkaterCameraComponent::InitFromStructure( Script::CStruct* pParams )
 	uint32	target_id = 0 ;
 	pParams->GetChecksum("CameraTarget", &target_id, true);
 
-	Dbg_MsgAssert(target_id >=0 && target_id <= 15,("Bad CameraTarget 0x%x in SkaterCameraComponent",target_id));
+	Dbg_MsgAssert(target_id < Mdl::Skate::vMAX_SKATERS, ("Bad CameraTarget 0x%x in SkaterCameraComponent", target_id));
+	// Dbg_MsgAssert(target_id >=0 && target_id <= 15,("Bad CameraTarget 0x%x in SkaterCameraComponent",target_id));
 
 	CSkater* p_skater = static_cast<CSkater*>(CCompositeObjectManager::Instance()->GetObjectByID(target_id)); 
 	Dbg_MsgAssert(p_skater,("Can't find skater %d in SkaterCameraComponent",target_id));

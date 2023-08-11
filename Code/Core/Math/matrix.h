@@ -60,13 +60,13 @@ class  Matrix
 
 	public:
 	Matrix(void);
-	Matrix(const Matrix &src);
+	Matrix(const Matrix &src) = default;
 	Matrix(const Vector &axis, const float angle);
 	Matrix(int axis, const float angle);
 	Matrix(float p, float h, float r);	// Euler to Matrix
 	Matrix(const Mth::Quat &orientaion);
 
-	Matrix &operator=		(const Matrix &src);
+	Matrix &operator=		(const Matrix &src) = default;
 	Matrix &operator+=		(const Matrix &n);
 	Matrix &operator*=		(const Matrix &n);
 	Matrix &operator*=		(const float f);

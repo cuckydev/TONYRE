@@ -56,15 +56,15 @@ public:
 	bool 			ProbablyOnSameRailAs(size_t SearchNode) const;
 	int				Side(const Mth::Vector &vel) const;
 	
-	const CRailNode	*	GetNextLink() const				{return m_pNextLink;}	
-	const CRailNode	*	GetPrevLink() const				{return m_pPrevLink;}	
-	const size_t			GetNode() const 	  		{return m_node;}
-//	const sint16			GetLink() const	  			{return m_link;}
-	const ETerrainType	GetTerrain() const	  			{return (ETerrainType) m_terrain_type;}
+	const CRailNode	*GetNextLink() const				{return m_pNextLink;}	
+	const CRailNode	*GetPrevLink() const				{return m_pPrevLink;}	
+	size_t			GetNode() const 					{return m_node;}
+//	sint16			GetLink() const				{return m_link;}
+	ETerrainType	GetTerrain() const					{return (ETerrainType) m_terrain_type;}
 	
-	void				SetActive(bool active)			{if (active) SetFlag(ACTIVE); else ClearFlag(ACTIVE);}
-	const bool			GetActive() const				{return GetFlag(ACTIVE);}
-	const bool			IsActive() const				{return GetActive();}
+	void			SetActive(bool active)			{if (active) SetFlag(ACTIVE); else ClearFlag(ACTIVE);}
+	bool			GetActive() const				{return GetFlag(ACTIVE);}
+	bool			IsActive() const				{return GetActive();}
 
 	void			SetFlag(ERailNodeFlag flag) {m_flags.Set(flag);}
 	void			ClearFlag(ERailNodeFlag flag) {m_flags.Clear(flag);}

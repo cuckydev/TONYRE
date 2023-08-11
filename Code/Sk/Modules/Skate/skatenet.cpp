@@ -502,7 +502,6 @@ void		Skate::s_object_update_code ( const Tsk::Task< Skate >& task )
 	Lst::Search< GameNet::PlayerInfo > sh;
 	Net::Server* server;
     
-    Dbg_AssertType ( &task, Tsk::Task< Skate > );
 	Skate& mdl = task.GetData();
 	
     server = gamenet_man->GetServer();
@@ -703,10 +702,6 @@ void		Skate::s_score_update_code ( const Tsk::Task< Skate >& task )
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Skate&	mdl = task.GetData();
 
-	
-
-	Dbg_AssertType ( &task, Tsk::Task< Skate > );
-
 	if( gamenet_man->ShouldSendScoreUpdates() == false )
 	{
 		return;
@@ -881,10 +876,9 @@ int Skate::handle_enter_vehicle_server( Net::MsgHandlerContext* context )
 {
 	GameNet::PlayerInfo* player;
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
-	Skate* skate_mod;
 	GameNet::MsgEnterVehicle* msg;
     
-	skate_mod = (Skate*) context->m_Data;
+	// Skate *skate_mod = (Skate*) context->m_Data;
 
 	player = gamenet_man->GetPlayerByConnection( context->m_Conn );
 	if( player == nullptr )
@@ -1150,7 +1144,7 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 		( player->m_Conn->TestStatus( Net::Conn::mSTATUS_READY ) == false ) ||
         ( context->m_PacketFlags & ( Net::mHANDLE_LATE | Net::mHANDLE_FOREIGN )))
 	{
-		int size, value, bit_data;
+		int size, bit_data;
 
 		size = 0;
 		bit_data = 0;
@@ -1160,7 +1154,7 @@ int Skate::handle_object_update( Net::MsgHandlerContext* context )
 		stream.SetInputData( context->m_Msg, 1024 );
 
 		bit_data += sizeof( int ) * 8;	// Timestamp size
-		value = stream.ReadSignedValue( sizeof( int ) * 8 );
+		/*int value = */stream.ReadSignedValue(sizeof(int) * 8);
 		update_flags = stream.ReadUnsignedValue( 9 );
 		bit_data += 9;
 
@@ -2743,6 +2737,8 @@ int	Skate::handle_sparks( Net::MsgHandlerContext* context )
 
 int	Skate::handle_blood( Net::MsgHandlerContext* context )
 {
+	(void)context;
+/*
 	Skate* mod;
 	Obj::CMovingObject *obj;
 	GameNet::MsgObjMessage* msg;
@@ -2774,7 +2770,7 @@ int	Skate::handle_blood( Net::MsgHandlerContext* context )
 					GameNet::MsgBloodOff *blood_msg;
 
 					blood_msg = (GameNet::MsgBloodOff *) context->m_Msg;
-//					skater_obj->BloodOff( msg->m_BodyPart );
+					skater_obj->BloodOff( msg->m_BodyPart );
 					break;
 				}
 				default:
@@ -2782,7 +2778,7 @@ int	Skate::handle_blood( Net::MsgHandlerContext* context )
 			}
 		}
 	}
-
+*/
 	return Net::HANDLER_CONTINUE;
 }
 

@@ -55,7 +55,8 @@ public :
 
 protected :
 
-					BaseHook( void ) {}
+	BaseHook( void ) {}
+	virtual ~BaseHook() = default;
 
 };
 
@@ -75,7 +76,8 @@ public :
 
 	typedef void	( Code )( const Hook< _T >& );
 
-					Hook( Code* code, _T& data );
+	Hook( Code* code, _T& data );
+	virtual ~Hook() = default;
 	
 	void			Call( void ) const;
 	_T&				GetData( void ) const;
@@ -112,8 +114,7 @@ private :
 *****************************************************************************/
 
 template < class _T > inline 
-Hook< _T >::Hook( Code* _code, _T& _data )
-: code( _code ), data( _data )
+Hook< _T >::Hook( Code* _code, _T& _data ) : code( _code ), data( _data )
 {
 	
 }

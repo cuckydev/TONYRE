@@ -189,7 +189,6 @@ int Manager::s_handle_wait_n_seconds( Net::MsgHandlerContext* context )
 
 int Manager::s_handle_player_info_ack_req( Net::MsgHandlerContext* context )
 {
-	MsgIntInfo* msg;
 	Manager* gamenet_man;
 	Mdl::Skate* skate_mod = Mdl::Skate::Instance();
 	Net::MsgDesc msg_desc;
@@ -202,7 +201,7 @@ int Manager::s_handle_player_info_ack_req( Net::MsgHandlerContext* context )
 
 	gamenet_man->SetJoinState( GameNet::vJOIN_STATE_GOT_PLAYERS );
     
-	msg = (MsgIntInfo*) context->m_Msg;
+	// MsgIntInfo *msg = (MsgIntInfo*) context->m_Msg;
 
 	msg_desc.m_Id = MSG_ID_PLAYER_INFO_ACK;
 	msg_desc.m_Queue = Net::QUEUE_SEQUENCED;
@@ -250,9 +249,9 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 			MsgStartInfo start_info_msg;
 			Net::MsgDesc start_desc;
 			PlayerInfo* king;
-			MsgReady ready_msg;
-		
-			ready_msg.m_Time = Tmr::GetTime();
+
+			// MsgReady ready_msg;
+			// ready_msg.m_Time = Tmr::GetTime();
 	
 			player->m_flags.SetMask( PlayerInfo::mHAS_PLAYER_INFO );
 			
@@ -789,7 +788,7 @@ int	Manager::s_handle_join_request( Net::MsgHandlerContext* context )
 		uint8* pTempBuffer = new uint8[vMAX_APPEARANCE_DATA_SIZE];
 		skate_mod->GetProfile( new_player.ObjID )->WriteToBuffer(pTempBuffer, vMAX_APPEARANCE_DATA_SIZE);
 		new_player.mpSkaterProfile->ReadFromBuffer(pTempBuffer);
-		delete pTempBuffer;
+		delete[] pTempBuffer;
 
 		new_player.Flags = PlayerInfo::mLOCAL_PLAYER;
 		gamenet_man->DeferredNewPlayer( &new_player, 0 );
@@ -1002,9 +1001,8 @@ int Manager::s_handle_observe_proceed( Net::MsgHandlerContext* context )
 
 int Manager::s_handle_observe_refused( Net::MsgHandlerContext* context )
 {
-	Manager* gamenet_man;
-	
-    gamenet_man = (Manager *) context->m_Data;
+	(void)context;
+    // Manager *gamenet_man = (Manager *) context->m_Data;
 	Script::CStruct* p_structure = new Script::CStruct;
 
 	p_structure->AddChecksum( "reason", Script::GenerateCRC( "net_reason_full_observers" ));
@@ -1586,7 +1584,6 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 			Prefs::Preferences* pPreferences;
 			Script::CStruct* pTempStructure;
 			const char* ui_string;
-			int score, time, fireball_level;
 	
 			msg = (MsgStartGameRequest*) context->m_Msg;
 			pPreferences = gamenet_man->GetNetworkPreferences();
@@ -1610,8 +1607,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 
 			pTempStructure = new Script::CStruct;
 			ui_string = gamenet_man->GetNameFromArrayEntry( "fireball_level_info", msg->m_FireballLevel );
-			fireball_level = gamenet_man->GetIntFromArrayEntry( "fireball_level_info", msg->m_FireballLevel, 
-																Crc::ConstCRC("fireball_level") );
+			// int fireball_level = gamenet_man->GetIntFromArrayEntry( "fireball_level_info", msg->m_FireballLevel, Crc::ConstCRC("fireball_level") );
 			Dbg_Printf( "Got Fireball Level UI String of %s\n", ui_string );
 			pTempStructure->AddComponent( Script::GenerateCRC("ui_string"), ESYMBOLTYPE_STRING, ui_string );
 			pTempStructure->AddComponent( Script::GenerateCRC("checksum"), ESYMBOLTYPE_NAME, msg->m_FireballLevel );
@@ -1652,7 +1648,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 
             pTempStructure = new Script::CStruct;
 			ui_string = gamenet_man->GetNameFromArrayEntry( "time_limit_options", msg->m_TimeLimit );
-			time = gamenet_man->GetIntFromArrayEntry( "time_limit_options", msg->m_TimeLimit, Crc::ConstCRC( "time" ) );
+			int time = gamenet_man->GetIntFromArrayEntry( "time_limit_options", msg->m_TimeLimit, Crc::ConstCRC( "time" ) );
 			Dbg_Printf( "Got Time Limit UI String of %s\n", ui_string );
 			pTempStructure->AddComponent( Script::GenerateCRC("ui_string"), ESYMBOLTYPE_STRING, ui_string );
 			pTempStructure->AddComponent( Script::GenerateCRC("checksum"), ESYMBOLTYPE_NAME, msg->m_TimeLimit );
@@ -1662,7 +1658,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 
 			pTempStructure = new Script::CStruct;
 
-			score = 0;
+			int score = 0;
 			ui_string = gamenet_man->GetNameFromArrayEntry( "target_score_options", msg->m_TargetScore );
 			score = gamenet_man->GetIntFromArrayEntry( "target_score_options", msg->m_TargetScore, Crc::ConstCRC( "score" ));
 			// Our "target score" comes from either the target score options array or the time limit options array, depending on
@@ -2705,20 +2701,19 @@ int	Manager::s_handle_end_game( Net::MsgHandlerContext* context )
 
 int	Manager::s_handle_object_update( Net::MsgHandlerContext* context )
 {   
-	Manager* gamenet_man;
 	int update_flags;
 	unsigned char obj_id, obj_id_mask;
 	Net::BitStream stream;
     
 	Dbg_Assert( context );
      
-	gamenet_man = (Manager *) context->m_Data;
+	// Manager *gamenet_man = (Manager *) context->m_Data;
 	stream.SetInputData( context->m_Msg, 1024 );
 	obj_id_mask = (unsigned char)stream.ReadUnsignedValue( sizeof( char ) * 8 );
 		
 	for( obj_id = 0; obj_id < Mdl::Skate::vMAX_SKATERS; obj_id++ )
 	{
-		int value;
+		// int value;
 
 		// If the bit for this player number is not set, that means there is no 
 		// object update for them. Continue
@@ -2727,7 +2722,7 @@ int	Manager::s_handle_object_update( Net::MsgHandlerContext* context )
 			continue;
 		}
 
-		value = stream.ReadUnsignedValue( sizeof( uint16 ) * 8 );
+		/*value = */stream.ReadUnsignedValue(sizeof(uint16) * 8);
 		//Dbg_Printf( "Length after timestamp: %d\n", stream.GetByteLength());
 		
 		update_flags = stream.ReadUnsignedValue( 9 );
@@ -2735,55 +2730,55 @@ int	Manager::s_handle_object_update( Net::MsgHandlerContext* context )
 		
 		if( update_flags & GameNet::mUPDATE_FIELD_POS_X )
 		{   
-			value = stream.ReadSignedValue( sizeof( short ) * 8 );
+			/*value = */stream.ReadSignedValue( sizeof( short ) * 8 );
 			//Dbg_Printf( "Length after pos X: %d\n", stream.GetByteLength());
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_POS_Y )
 		{
-			value = stream.ReadSignedValue( sizeof( short ) * 8 );
+			/*value = */stream.ReadSignedValue( sizeof( short ) * 8 );
 			//Dbg_Printf( "Length after pos Y: %d\n", stream.GetByteLength());
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_POS_Z )
 		{
-			value = stream.ReadSignedValue( sizeof( short ) * 8 );
+			/*value = */stream.ReadSignedValue( sizeof( short ) * 8 );
 			//Dbg_Printf( "Length after pos Z: %d\n", stream.GetByteLength());
 		}   
 				
 		if( update_flags & GameNet::mUPDATE_FIELD_ROT_X )
 		{
-			value = stream.ReadSignedValue( sizeof( short ) * 8 );
+			/*value = */stream.ReadSignedValue( sizeof( short ) * 8 );
 			//Dbg_Printf( "Length after rot X: %d\n", stream.GetByteLength());
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_ROT_Y )
 		{
-			value = stream.ReadSignedValue( sizeof( short ) * 8 );
+			/*value = */stream.ReadSignedValue( sizeof( short ) * 8 );
 			//Dbg_Printf( "Length after rot Y: %d\n", stream.GetByteLength());
 		}
 		if( update_flags & GameNet::mUPDATE_FIELD_ROT_Z )
 		{
-			value = stream.ReadSignedValue( sizeof( short ) * 8 );
+			/*value = */stream.ReadSignedValue( sizeof( short ) * 8 );
 			//Dbg_Printf( "Length after rot Z: %d\n", stream.GetByteLength());
 		}
         
 		if( update_flags & GameNet::mUPDATE_FIELD_STATE )
 		{   
-			value = stream.ReadUnsignedValue( 4 );
+			/*value = */stream.ReadUnsignedValue( 4 );
 			//Dbg_Printf( "Length after state1: %d\n", stream.GetByteLength());
-			value = stream.ReadUnsignedValue( 6 );
-			value = stream.ReadUnsignedValue( 1 );
-			value = stream.ReadUnsignedValue( 1 );
+			/*value = */stream.ReadUnsignedValue( 6 );
+			/*value = */stream.ReadUnsignedValue( 1 );
+			/*value = */stream.ReadUnsignedValue( 1 );
 			//Dbg_Printf( "Length after state2: %d\n", stream.GetByteLength());
 		}
 
 		if( update_flags & GameNet::mUPDATE_FIELD_FLAGS )
 		{
-			value = stream.ReadUnsignedValue( 8 );
+			/*value = */stream.ReadUnsignedValue( 8 );
 			//Dbg_Printf( "Length after flags: %d\n", stream.GetByteLength());
 		}
 
 		if( update_flags & GameNet::mUPDATE_FIELD_RAIL_NODE )
 		{
-			value = stream.ReadSignedValue( sizeof( sint16 ) * 8 );
+			/*value = */stream.ReadSignedValue( sizeof( sint16 ) * 8 );
 			//Dbg_Printf( "Length After Rail Node: %d\n", stream.GetByteLength());
 		}
 	}
@@ -3327,11 +3322,10 @@ int Manager::s_handle_chat( Net::MsgHandlerContext* context )
 int	Manager::s_handle_set_num_teams( Net::MsgHandlerContext* context )
 {
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
-	Manager* gamenet_man;
 	MsgByteInfo* msg;
 	int num_teams;
     
-	gamenet_man = (Manager *) context->m_Data;
+	// Manager *gamenet_man = (Manager *) context->m_Data;
 	msg = (MsgByteInfo*) context->m_Msg;
 	num_teams = msg->m_Data;
 

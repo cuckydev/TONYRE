@@ -553,11 +553,11 @@ void CGoalPed::PlayGoalStream( const char* type, Script::CStruct* pParams )
 
 			Script::CArray* p_stream_numbers = new Script::CArray();
 			p_stream_numbers->SetSizeAndType( vMAXCALLSKATERBYNAMESTREAMS, ESYMBOLTYPE_INTEGER );
-			for ( int num = 0; num < vMAXCALLSKATERBYNAMESTREAMS; num++ )
+			for ( uint32 num = 0; num < vMAXCALLSKATERBYNAMESTREAMS; num++ )
 			{
 				p_stream_numbers->SetInteger( num, num + 1 );   // stream numbers start at 1, not 0
 			}
-			for ( int i = 0; i < vMAXCALLSKATERBYNAMESTREAMS; i++ )
+			for (uint32 i = 0; i < vMAXCALLSKATERBYNAMESTREAMS; i++ )
 			{
 				// grab a random index and switch with the current index
 				int random_index = Mth::Rnd( vMAXCALLSKATERBYNAMESTREAMS );
@@ -568,7 +568,7 @@ void CGoalPed::PlayGoalStream( const char* type, Script::CStruct* pParams )
 
 			//uint64 mid2_time = Tmr::GetTimeInUSeconds();	
 			// find one!
-			for ( int i = 0; i < vMAXCALLSKATERBYNAMESTREAMS; i++ )
+			for (uint32 i = 0; i < vMAXCALLSKATERBYNAMESTREAMS; i++ )
 			{
 				sprintf( stream_name, "%s_Far%s%02i", p_speaker_name, p_player_name, i + 1 );
 				

@@ -105,32 +105,6 @@ Matrix::Matrix( float p, float h, float r)
     row[3][3] = 1.0f;
 }
 
-#ifdef	__PLAT_NGPS__
-void xsceVu0MulMatrix(Mth::Matrix* m0, Mth::Matrix* m1, const Mth::Matrix* m2)
-{
-
-	asm __volatile__("
-	lqc2    vf4,0x0(%2)
-	lqc2    vf5,0x10(%2)
-	lqc2    vf6,0x20(%2)
-	lqc2    vf7,0x30(%2)
-	li    $7,4
-_loopMulMatrix:
-	lqc2    vf8,0x0(%1)
-	vmulax.xyzw	ACC,   vf4,vf8
-	vmadday.xyzw	ACC,   vf5,vf8
-	vmaddaz.xyzw	ACC,   vf6,vf8
-	vmaddw.xyzw	vf9,vf7,vf8
-	sqc2    vf9,0x0(%0)
-	addi    $7,-1
-	addi    %1,0x10
-	addi    %0,0x10
-	bne    $0,$7,_loopMulMatrix
-	": : "r" (m0), "r" (m2), "r" (m1) : "$7");
-}
-#endif
-
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -146,8 +120,8 @@ float katan(float y, float x)
 		// The approximation only works for y<=x, bummer!
 		return atan2f(y,x);
 	}
-	register bool x_negative=false;
-	register bool y_negative=false;
+	bool x_negative=false;
+	bool y_negative=false;
 	if (x<0.0f)
 	{
 		x=-x;
@@ -163,18 +137,18 @@ float katan(float y, float x)
 	// all innaccurate for some values ... don't know why ...
 	y=y/x;
 	
-	register float t1=0.999999344348907f;
-	register float t2=-0.333298563957214f;
-	register float t3=0.199465364217758f;
-	register float t4=-0.139085337519646f;
-	register float t5=0.096420042216778f;
-	register float t6=-0.055909886956215f;
-	register float t7=0.021861229091883f;
-	register float t8=-0.004054057877511f;
+	float t1=0.999999344348907f;
+	float t2=-0.333298563957214f;
+	float t3=0.199465364217758f;
+	float t4=-0.139085337519646f;
+	float t5=0.096420042216778f;
+	float t6=-0.055909886956215f;
+	float t7=0.021861229091883f;
+	float t8=-0.004054057877511f;
 	
-	register float t=(y-1.0f)/(y+1.0f);
-	register float tt=t*t;
-	register float s=t8*t;
+	float t=(y-1.0f)/(y+1.0f);
+	float tt=t*t;
+	float s=t8*t;
 	s=s*tt+t7*t;
 	s=s*tt+t6*t;
 	s=s*tt+t5*t;

@@ -14,6 +14,7 @@
 #include <gel/object/basecomponent.h>
 
 #include <sk/objects/skater.h>
+#include <sk/objects/rail.h>
 #include <gfx/nxflags.h>
 
 #define		CRC_SKATERSTATEHISTORY Crc::ConstCRC("SkaterStateHistory")
@@ -35,65 +36,67 @@ namespace Net
 namespace Obj
 {
 
-class SPosEvent
-{   
-public:
-	SPosEvent( void );
+struct SPosEvent
+{
+	SPosEvent() = default;
+	SPosEvent(const SPosEvent &rhs) = default;
+	SPosEvent& operator=(const SPosEvent &rhs) = default;
 
 	uint32			GetTime( void );
 	void			SetTime( uint32 time );
 
-	short			ShortPos[3];
+	short			ShortPos[3] = {};
 	Mth::Matrix		Matrix;
 	Mth::Vector		Position;
 	Mth::Vector		Eulers;
 	Flags< int >	SkaterFlags;
 	Flags< int >	EndRunFlags;
-	int				State;
-	char			DoingTrick;
-	char			Walking;
-	char			Driving;
-	uint16			LoTime;
-	uint16			HiTime;
-	ETerrainType	Terrain;
-	size_t			RailNode;
+	int				State = 0;
+	char			DoingTrick = 0;
+	char			Walking = 0;
+	char			Driving = 0;
+	uint16			LoTime = 0;
+	uint16			HiTime = 0;
+	ETerrainType	Terrain = vTERRAIN_DEFAULT;
+	size_t			RailNode = Obj::vNULL_RAIL;
 };
 
-class SAnimEvent
-{   
-public:
-	SAnimEvent( void );
+struct SAnimEvent
+{
+	SAnimEvent() = default;
+	SAnimEvent(const SAnimEvent &rhs) = default;
+	SAnimEvent& operator=(const SAnimEvent &rhs) = default;
 
 	uint32			GetTime( void );
 	void			SetTime( uint32 time );
 
-	char			m_MsgId;
-	char			m_ObjId;
-	char			m_LoopingType;
-	char			m_Flags;
-	uint16			m_LoTime;
-	uint16			m_HiTime;
-	bool			m_Flipped;
-	bool			m_Rotate;
-	bool			m_Hide;
-	float			m_Alpha;
-	float			m_StartTime;
-	float			m_EndTime;
-	float			m_BlendPeriod;
-	float 			m_Speed;
-	uint32			m_Asset;
-	uint32			m_Bone;
-	float			m_WobbleAmpA;
-	float			m_WobbleAmpB;
-	float			m_WobbleK1;
-	float			m_WobbleK2;
-	float			m_SpazFactor;
-	int 			m_Duration;
-	int 			m_SinePower;
-	int				m_Index;
-	float 			m_StartAngle;
-	float 			m_DeltaAngle;
-	bool			m_HoldOnLastAngle;
+	char			m_MsgId = 0;
+	char			m_ObjId = 0;
+	char			m_LoopingType = 0;
+	char			m_Flags = 0;
+	uint16			m_LoTime = 0;
+	uint16			m_HiTime = 0;
+	bool			m_Flipped = 0;
+	bool			m_Rotate = 0;
+	bool			m_Hide = 0;
+	float			m_Alpha = 0.0f;
+	float			m_StartTime = 0.0f;
+	float			m_EndTime = 0.0f;
+	float			m_BlendPeriod = 0.0f;
+	float 			m_Speed = 0.0f;
+	uint32			m_Asset = 0;
+	uint32			m_Bone = 0;
+	float			m_WobbleAmpA = 0.0f;
+	float			m_WobbleAmpB = 0.0f;
+	float			m_WobbleK1 = 0.0f;
+	float			m_WobbleK2 = 0.0f;
+	float			m_SpazFactor = 0.0f;
+	int 			m_Duration = 0;
+	int 			m_SinePower = 0;
+	int				m_Index = 0;
+	float 			m_StartAngle = 0.0f;
+	float 			m_DeltaAngle = 0.0f;
+	bool			m_HoldOnLastAngle = 0;
 };
 
 class CSkaterStateHistoryComponent : public CBaseComponent

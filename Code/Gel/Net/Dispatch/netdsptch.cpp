@@ -198,15 +198,15 @@ int	Dispatcher::DispatchMsgHandlers( Conn *conn, int flags )
 		if( msg_context.m_MsgId == MSG_ID_SEQUENCED )
 		{
 			unsigned char embedded_msg_id;
-			unsigned short embedded_msg_length;
             
 			Dbg_Assert( size_known );
 
 			memcpy( &embedded_msg_id, data + 5, sizeof( unsigned char ));
-			embedded_msg_length = (unsigned short)(msg_context.m_MsgLength - Manager::vMSG_SEQ_HEADER_LENGTH);
 						
 			conn->GetInboundMetrics()->AddMessage( embedded_msg_id, msg_context.m_MsgLength );
+
 #ifdef NET_PRINT_MESSAGES
+			unsigned short embedded_msg_length = (unsigned short)(msg_context.m_MsgLength - Manager::vMSG_SEQ_HEADER_LENGTH);
 			if( conn->IsRemote())
 			{
 				unsigned char group_id;
@@ -223,7 +223,7 @@ int	Dispatcher::DispatchMsgHandlers( Conn *conn, int flags )
 							seq_id,
 							group_id );
 			}
-#endif NET_PRINT_MESSAGES
+#endif // NET_PRINT_MESSAGES
 		}
 		
 		// If we know the size, just copy the message into the aligned buffer

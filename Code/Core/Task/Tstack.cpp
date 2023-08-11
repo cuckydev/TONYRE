@@ -309,11 +309,7 @@ void		Stack::Dump( void )
 
 void		Stack::AddTask( BaseTask& task )
 {
-	
-	
-	Dbg_AssertType( &task, BaseTask );
 	Dbg_AssertType( m_add, StackElement );
-
 	m_add->AddTask( task );
 }
 
@@ -324,11 +320,7 @@ void		Stack::AddTask( BaseTask& task )
 
 void		Stack::AddPushTask( BaseTask& task )
 {
-	
-	
-	Dbg_AssertType( &task, BaseTask );
 	Dbg_AssertType( m_run, StackElement );
-
 	m_run->AddTask( task );
 }
 
@@ -339,8 +331,6 @@ void		Stack::AddPushTask( BaseTask& task )
 
 void		Stack::RemoveAllTasks( void )
 {
-	
-	
 	// we may really be removing all tasks in list about to be pushed
 	if (m_pushedList)
 	{

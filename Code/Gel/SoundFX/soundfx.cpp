@@ -146,8 +146,8 @@ struct PositionalSoundEntry
 #define POSITIONAL_SOUND_FLAG_OCCUPIED	( 1 << 0 )
 #define POSITIONAL_SOUND_FLAG_DOPPLER	( 1 << 1 )
 
-static PositionalSoundEntry				*GpPositionalSounds = nullptr;
-static PositionalSoundEntry				PositionalSounds[MAX_POSITIONAL_SOUNDS];
+// static PositionalSoundEntry *GpPositionalSounds = nullptr;
+// static PositionalSoundEntry PositionalSounds[MAX_POSITIONAL_SOUNDS];
 
 int										NumWavesInTable		= 0;
 int										NumWavesInPermTable	= 0;
@@ -182,24 +182,6 @@ sVolume::sVolume(EVolumeType type)
 {
 	m_volume_type = type;
 }
-
-
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-sVolume::sVolume(const sVolume &rhs)
-{
-	m_volume_type = rhs.m_volume_type;
-
-	uint32 num_channels = (m_volume_type == VOLUME_TYPE_5_CHANNEL_DOLBY5_1) ? 5 : 2;
-	for (uint32 c = 1; c < num_channels; ++c)
-	{
-		m_channels[c] = rhs.m_channels[c];
-	}
-}
-
 
 
 /******************************************************************/
@@ -455,7 +437,7 @@ uint32 CSfxManager::GenerateUniqueID(uint32 id)
 /******************************************************************/
 void CSfxManager::SetDefaultDropoffDist( float dist )
 {
-	(float)dist;
+	(void)dist;
 	/*
 	if( NoSoundPlease())
 		return;

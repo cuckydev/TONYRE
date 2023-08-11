@@ -61,7 +61,7 @@ void LoadQB(const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplic
 	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 #ifndef __PLAT_NGC__
 	Dbg_MsgAssert(strcmp(p_fileName+strlen(p_fileName)-3,".qb")==0,("File does not have extension .qb. File %s",p_fileName));
-#endif __PLAT_NGC__
+#endif // __PLAT_NGC__
 
 	// Mick - Pip::Load is not going to load it from a Pip::Pre, just a regular pre
 	// so I'm sticking it on the top-down heap to avoid fragmentation							  
@@ -87,7 +87,7 @@ void LoadQBFromMemory(const char* p_fileName, uint8* p_qb, EBoolAssertIfDuplicat
 	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 #ifndef __PLAT_NGC__
 	Dbg_MsgAssert(strcmp(p_fileName+strlen(p_fileName)-3,".qb")==0,("File does not have extension .qb. File %s",p_fileName));
-#endif __PLAT_NGC__
+#endif // __PLAT_NGC__
 
 	// do not create the hash table if it's not
 	// the node array (it's a 50K memory hog on

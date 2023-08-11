@@ -1973,10 +1973,10 @@ void CAnimationComponent::get_blend_channel( int blendChannel, Gfx::CPose* pResu
 		return;
 	}
 
-	Gfx::CSkeleton* pSkeleton = nullptr;
+	// Gfx::CSkeleton* pSkeleton = nullptr;
 
 	Dbg_Assert(mp_skeleton_component);
-	pSkeleton = mp_skeleton_component->GetSkeleton();
+	// pSkeleton = mp_skeleton_component->GetSkeleton();
 
 	if ( !pBlendChannel->GetPose( pResultPose ) )//, 
 								  // m_flags & nxANIMCOMPONENTFLAGS_FLIPPED,

@@ -50,7 +50,7 @@ namespace Dbg
 **							     Type Defines								**
 *****************************************************************************/
 
-typedef void ( AssertTrap ) ( char* message );
+typedef void ( AssertTrap ) ( const char* message );
 
 /*****************************************************************************
 **							 Private Declarations							**

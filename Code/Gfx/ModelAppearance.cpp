@@ -259,7 +259,7 @@ CModelAppearance::CModelAppearance( void )
 /*                                                                */
 /******************************************************************/
 
-CModelAppearance::CModelAppearance( const CModelAppearance& rhs )
+CModelAppearance::CModelAppearance( const CModelAppearance& rhs ) : CObject()
 {
 	mp_faceTexture = nullptr;
 

@@ -60,8 +60,8 @@ DefineSingletonClass( CAssMan, "Shared Asset Manager" );
 
 struct SAssetLookup
 {
-   	char*		p_extension;
-	EAssetType	type;
+   	const char* p_extension;
+	EAssetType type;
 };
 
 static SAssetLookup s_asset_lookup[] = 

@@ -141,8 +141,7 @@ void CBaseManager::UnregisterObject( CObject& obj )
 {
 	CTracker* p_tracker = CTracker::Instance();
 	Dbg_MsgAssert(obj.mp_manager == this, ("object not registered with this manager"));
-	Dbg_AssertType( &obj, CObject );
-
+	
 	p_tracker->removeObject(&obj, m_new_id_of_object_being_momentarily_removed, m_momentary_removal);
 	
 	if ( obj.m_node.InList() )
@@ -420,7 +419,6 @@ void CGeneralManager::AssertIfObjectsRemainApartFrom( sint *pApartFromThisType )
 */
 void		CGeneralManager::KillObject( CObject& obj )
 {	
-	Dbg_AssertType( &obj, CObject );
 	//Dbg_MsgAssert( obj.mp_node, ( "CObject does not have a node" ));
 	Dbg_MsgAssert( !obj.m_node.InList(),( "CObject has not been unregistered" ));
 	

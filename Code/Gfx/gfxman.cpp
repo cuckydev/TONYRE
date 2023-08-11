@@ -84,11 +84,6 @@ DefineSingletonClass( Manager, "Gfx Manager" )
 
 void		Manager::s_timer_code( const Tsk::Task< Manager >& task )
 {
-	
-	
-	
-	Dbg_AssertType ( &task, Tsk::Task< Manager > );
-
 	Manager& gfx_manager = task.GetData();
 
 	gfx_manager.m_time += (Tmr::Time) (int) (( Tmr::FrameLength() * 60.0f ) * 
@@ -118,7 +113,6 @@ void		Manager::s_end_render_code ( const Tsk::Hook< Manager >& hook )
 
 // Note: not currently called.... just left in to show the timing stuff....
 	
-	Dbg_AssertType ( &hook, Tsk::Hook< Manager > );
 	Manager&	gfx_manager = hook.GetData();
     
 	uint64 this_vblank;
@@ -162,8 +156,6 @@ void	Manager::stop_engine( void )
 
 Manager::Manager ( void )
 {
-	
-
 	Mlp::Manager * mlp_man = Mlp::Manager::Instance();
 
 	m_render_start_hook = new Tsk::Hook< Manager > ( s_start_render_code, *this );
@@ -190,8 +182,6 @@ Manager::Manager ( void )
 
 Manager::~Manager ( void )
 {
-	
-	
 	Dbg_AssertType ( m_render_start_hook, Tsk::Hook< Manager > );
 	delete m_render_start_hook;
 

@@ -92,8 +92,6 @@ List::List( void )
 
 List::~List ( void )
 {
-	
-	
 	Dbg_MsgAssert( list.IsEmpty(),( "Task List Not Empty" ));
 }
 
@@ -124,10 +122,10 @@ void		List::Process( bool time, uint mask )
 		{
 			BaseTask*	task = next;
 
-			Dbg_AssertType( task, BaseTask );
-			Dbg_AssertPtr( task );
-			Dbg_AssertPtr( task->node );
-			Dbg_MsgAssert( task->node->InList(),( "Task was removed from list by previous task" ));
+			Dbg_AssertType(task, BaseTask);
+			Dbg_AssertPtr(task);
+			Dbg_AssertPtr(task->node);
+			Dbg_MsgAssert(task->node->InList(),( "Task was removed from list by previous task" ));
 			
 			next = iterator.NextItem();		// get next task before we execute the current 	
 											// one as the task might remove itself
@@ -234,9 +232,6 @@ void		List::Dump( void )
 
 void		List::AddTask( BaseTask& task )
 {
-	
-	
-	Dbg_AssertType( &task, BaseTask );
 	Dbg_MsgAssert( !task.node->InList(),( "Task is already in a list" ));
 
 	Forbid ();			// stop any processing while list is modified

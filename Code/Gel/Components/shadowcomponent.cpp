@@ -286,7 +286,7 @@ void CShadowComponent::Update()
 	}
 	*/
 
-	if ( GetObj()->GetID() >= 0 && GetObj()->GetID() < Mdl::Skate::vMAX_SKATERS )
+	if ( GetObj()->GetID() < Mdl::Skate::vMAX_SKATERS )
 	{
 		// the skater shadows are handled elsewhere by other components
 		// (CSkaterAdjustPhysicsComponent or CWalkComponent)

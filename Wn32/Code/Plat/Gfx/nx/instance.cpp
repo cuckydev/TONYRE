@@ -605,7 +605,7 @@ void CInstance::Render( uint32 flags )
 						// Scan through each mesh in this scene, setting the vertex shader to be the equivalent vertex shader
 						// for shadow buffering.
 						sScene *p_scene = GetScene();
-						/*
+
 						for( int m = 0; m < p_scene->m_num_mesh_entries; ++m )
 						{
 							sMesh *p_mesh = p_scene->m_meshes[m];

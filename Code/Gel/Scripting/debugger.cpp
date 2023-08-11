@@ -167,10 +167,8 @@ void CScriptDebugger::v_start_cb ( void )
 // Stick it all on the network heap, as it's kind of network releated
 	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
 
-
 	Net::Manager * p_net_man = Net::Manager::Instance();
-	mp_server = p_net_man->CreateNewAppServer( 0, "Script debugger", 4, GameNet::vSCRIPT_DEBUG_PORT,
-												inet_addr( p_net_man->GetLocalIP()), Net::App::mACCEPT_FOREIGN_CONN | Net::App::mDYNAMIC_RESEND );
+	mp_server = p_net_man->CreateNewAppServer( 0, "Script debugger", 4, GameNet::vSCRIPT_DEBUG_PORT, inet_addr( p_net_man->GetLocalIP()), Net::App::mACCEPT_FOREIGN_CONN | Net::App::mDYNAMIC_RESEND );
 	
 	// Note: If the default task priority is used then the 'view object' functionality does not work.
 	// s_logic_code needs to be called after all the normal camera code has executed, so that the camera
@@ -1604,7 +1602,6 @@ void CScriptDebugger::update_camera()
 void CScriptDebugger::s_logic_code ( const Tsk::Task< CScriptDebugger >& task )
 {
 	CScriptDebugger&	mdl = task.GetData();
-	Dbg_AssertType ( &task, Tsk::Task< CScriptDebugger > );
 	
 	mdl.check_for_timeouts();
 

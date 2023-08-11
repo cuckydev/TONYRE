@@ -27,8 +27,9 @@ endif()
 if (MSVC)
 	target_compile_definitions(TonyRE.Common INTERFACE _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS)
 	target_compile_options(TonyRE.Common INTERFACE /W4 /WX)
+	target_link_options(TonyRE.Common INTERFACE /WX)
 else()
-	target_compile_options(TonyRE.Common INTERFACE -Werror)
+	target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra -Werror)
 endif()
 
 # Compile TonyRE executable

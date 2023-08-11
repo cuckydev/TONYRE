@@ -591,7 +591,7 @@ uint32 CTrickObjectManager::RequestLogTrick( uint32 num_pending_tricks, uint32* 
 			if ( pCluster->m_IsOwned && owner_changed )
 			{
 				// for tracking steal messages
-				Dbg_Assert( pCluster->m_OwnerId >= 0 && pCluster->m_OwnerId < GameNet::vMAX_PLAYERS );
+				Dbg_Assert( pCluster->m_OwnerId < GameNet::vMAX_PLAYERS );
 				p_inform_prev_owner[pCluster->m_OwnerId] = 1;
 			}
 

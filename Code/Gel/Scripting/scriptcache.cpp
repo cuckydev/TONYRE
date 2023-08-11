@@ -495,7 +495,6 @@ const char *CScriptCache::GetSourceFile(uint8 *p_token)
 void CScriptCache::s_logic_code ( const Tsk::Task< CScriptCache >& task )
 {
 	CScriptCache&	mdl = task.GetData();
-	Dbg_AssertType ( &task, Tsk::Task< CScriptCache > );
 
 	++mdl.m_current_decompress_count_index;
 	if (mdl.m_current_decompress_count_index >= MAX_DECOMPRESS_COUNTS)

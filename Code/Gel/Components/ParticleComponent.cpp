@@ -17,7 +17,7 @@
 //  - and add the include of the header
 //			#include <gel/components/watchcomponent.h> 
 //  - Add it to build\gel.mkf, like:
-//          $(NGEL)/components/WatchComponent.cpp\
+//          $(NGEL)/components/WatchComponent.cpp
 //  - Fill in the OWNER (yourself) and the CREATION DATE (today's date) in the .cpp and the .h files
 //	- Insert code as needed and remove generic comments
 //  - remove these comments

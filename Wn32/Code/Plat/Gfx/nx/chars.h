@@ -25,7 +25,7 @@ public:
 //	void		BeginText(uint32 rgba, float Scale);
 //	void		DrawString(char *String, float x0, float y0);
 //	void		EndText(void);
-	void		QueryString(char *String, float &width, float &height);
+	void		QueryString(const char *String, float &width, float &height);
 
 	//char Name[16];
 	uint32		DefaultHeight = 0, DefaultBase = 0;

@@ -62,7 +62,7 @@ sMaterial::sMaterial( void )
 	m_texture_wibble			= false;
 	m_grass_layers				= 0;
 	m_zbias						= 0;
-	for( int p = 0; p < MAX_PASSES; ++p )
+	for(uint32 p = 0; p < MAX_PASSES; ++p)
 	{
 		m_flags[p]				= 0;
 		mp_UVWibbleParams[p]	= nullptr;
@@ -221,7 +221,7 @@ void sMaterial::figure_wibble_texture( void )
 
 		struct sTextureWibbleParams	*p_sequence		= mp_wibble_texture_params;
 			
-		for( int pass = 0; pass < MAX_PASSES; ++pass )
+		for(uint32 pass = 0; pass < MAX_PASSES; ++pass)
 		{
 			if( m_flags[pass] & MATFLAG_PASS_TEXTURE_ANIMATES )
 			{

@@ -2481,7 +2481,7 @@ static int cmp( const void *p1, const void *p2 )
 
 
 
-static bool debug_shadow_volumes = false;
+// static bool debug_shadow_volumes = false;
 
 /******************************************************************/
 /*                                                                */

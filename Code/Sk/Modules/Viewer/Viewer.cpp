@@ -97,8 +97,6 @@ CViewer* CViewer::sp_viewer = nullptr;
 
 void        CViewer::s_shift_input_logic_code ( const Inp::Handler < CViewer >& handler )
 {
-	Dbg_AssertType ( &handler, Inp::Handler< CViewer > );
-
 	CViewer&   mdl = handler.GetData();
 
 	mdl.m_shift_commands.ClearAll();
@@ -109,8 +107,9 @@ void        CViewer::s_shift_input_logic_code ( const Inp::Handler < CViewer >& 
 		if (Script::GetInt(Crc::ConstCRC("select_shift")))
 		{
 			// only mask the buttons if we are using select as a shift button 
-			handler.m_Input->MaskDigitalInput( Inp::Data::mD_ALL && ~Inp::Data::mD_LEFT && ~Inp::Data::mD_RIGHT && ~Inp::Data::mD_UP && ~Inp::Data::mD_DOWN);
-			handler.m_Input->MaskAnalogInput( Inp::Data::mA_ALL && ~Inp::Data::mA_LEFT && ~Inp::Data::mA_RIGHT && ~Inp::Data::mA_UP && ~Inp::Data::mA_DOWN && ~Inp::Data::mA_LEFT_X && ~Inp::Data::mA_LEFT_Y && ~Inp::Data::mA_RIGHT_X && ~Inp::Data::mA_RIGHT_Y );
+			// NOTE: these were originally comparison ands..??
+			handler.m_Input->MaskDigitalInput( Inp::Data::mD_ALL & ~Inp::Data::mD_LEFT & ~Inp::Data::mD_RIGHT & ~Inp::Data::mD_UP & ~Inp::Data::mD_DOWN);
+			handler.m_Input->MaskAnalogInput( Inp::Data::mA_ALL & ~Inp::Data::mA_LEFT & ~Inp::Data::mA_RIGHT & ~Inp::Data::mA_UP & ~Inp::Data::mA_DOWN & ~Inp::Data::mA_LEFT_X & ~Inp::Data::mA_LEFT_Y & ~Inp::Data::mA_RIGHT_X & ~Inp::Data::mA_RIGHT_Y );
 		}
 	}
 }
@@ -280,8 +279,6 @@ void		CViewer::s_logic_code ( const Tsk::Task< CViewer >& task )
 {
 	CViewer&	mdl = task.GetData();
 
-	Dbg_AssertType ( &task, Tsk::Task< CViewer > );
-
 	//static const    float   ldelta = 1.0f;
 	//static const    float   lcolordelta = .0125f;
 	static const    float   scale = ( 1.0f / ( 128.0f - Inp::vANALOGUE_TOL ));
@@ -439,8 +436,6 @@ Script::CScript *spawn_if_exists(uint32 script)
 
 void        CViewer::s_shift_logic_code ( const Tsk::Task< CViewer >& task )
 {
-	Dbg_AssertType ( &task, Tsk::Task< CViewer > );
-
 	CViewer&   mdl = task.GetData();
 
 	if (!Script::GetInt(Crc::ConstCRC("select_shift")))
@@ -806,16 +801,14 @@ CViewer::CViewer( void )
 {
 	if (!Config::CD())
 	{
-		uint32 local_ip;
-
 		Net::Manager * net_man = Net::Manager::Instance();
 			
 #ifdef __PLAT_NGC__
 		SOInAddr local_addr;
 		SOInetAtoN( net_man->GetLocalIP(), &local_addr );
-		local_ip = local_addr.addr;
+		// uint32 local_ip = local_addr.addr;
 #else
-		local_ip = inet_addr( net_man->GetLocalIP());
+		// uint32 local_ip = inet_addr( net_man->GetLocalIP());
 #endif
 		net_man->NetworkEnvironmentSetup();
 		mp_server = net_man->CreateNewAppServer( 0, "Skate4 Viewer", 4, Net::vEXPORT_COMM_PORT,

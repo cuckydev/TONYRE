@@ -712,7 +712,7 @@ Heap* Manager::GetHeap( uint32 whichHeap )
 }
 
 
-Mem::Heap *Manager::CreateHeap( Region* region, Mem::Allocator::Direction dir, char* p_name)
+Mem::Heap *Manager::CreateHeap( Region* region, Mem::Allocator::Direction dir, const char* p_name)
 {
 	Mem::Heap * pHeap = new Mem::Heap(region, dir, p_name);
 	// At this point we can maintain the heap list 
@@ -1522,7 +1522,7 @@ static		int						s_next_profile = 0;								// index into array
 
 static		bool					s_active = true;
 
-void	PushMemProfile(char *p_type)
+void	PushMemProfile(const char *p_type)
 {
 	if( s_active )
 	{
@@ -1677,7 +1677,7 @@ int		total_size(int n)
 //     cars          23000
 //    other          72000
 //  skater stuff    ...... 
-void	DumpMemProfile(int level, char *p_type)
+void	DumpMemProfile(int level, const char *p_type)
 {
 	char buf[512];
 	if( s_active )
@@ -1778,7 +1778,7 @@ void	FreeMemProfile(Allocator::BlockHeader* p_block)
 
 #else
 
-void	PushMemProfile(char *p_type)
+void	PushMemProfile(const char *p_type)
 {
 }
 
@@ -1787,7 +1787,7 @@ void	PopMemProfile()
 }
 
 #ifndef __PLAT_WN32__
-void	DumpMemProfile(int level, char *p_type)
+void	DumpMemProfile(int level, const char *p_type)
 {
 }
 #endif// __PLAT_WN32__
@@ -1800,7 +1800,7 @@ void	FreeMemProfile(Allocator::BlockHeader* p_block)
 {
 }
 
-#endif __NOPT_ASSERT__
+#endif // __NOPT_ASSERT__
 
 inline Manager &Manager::sHandle(void)
 {

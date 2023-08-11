@@ -102,8 +102,8 @@ Conn::Conn( int flags )
 #endif
 	
 	m_NextStreamId = 0;
-	memset( m_SequenceId, 0, MAX_SEQ_GROUPS );	
-	memset( m_WaitingForSequenceId, 0, MAX_SEQ_GROUPS );
+	memset( m_SequenceId, 0, MAX_SEQ_GROUPS * sizeof(unsigned int) );	
+	memset( m_WaitingForSequenceId, 0, MAX_SEQ_GROUPS * sizeof(unsigned int));
 #ifdef	__PLAT_NGPS__											  
 	Dbg_MsgAssert(Mem::SameContext(this,Mem::Manager::sHandle().NetworkHeap()),("Conn not on network heap"));	
 #endif		//	__PLAT_NGPS__		

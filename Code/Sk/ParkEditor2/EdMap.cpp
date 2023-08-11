@@ -126,7 +126,7 @@ CMetaPiece::~CMetaPiece()
 
 CConcreteMetaPiece *CMetaPiece::CastToConcreteMeta()
 {
-	Dbg_MsgAssert(this == nullptr || (m_flags & mCONCRETE_META), ("not a concrete metapiece"));
+	Dbg_MsgAssert((m_flags & mCONCRETE_META), ("not a concrete metapiece"));
 	return (CConcreteMetaPiece *) this;
 }
 
@@ -135,7 +135,7 @@ CConcreteMetaPiece *CMetaPiece::CastToConcreteMeta()
 
 CAbstractMetaPiece *CMetaPiece::CastToAbstractMeta()
 {
-	Dbg_MsgAssert(this == nullptr || (m_flags & mABSTRACT_META), ("not an abstract metapiece"));
+	Dbg_MsgAssert((m_flags & mABSTRACT_META), ("not an abstract metapiece"));
 	return (CAbstractMetaPiece *) this;
 }
 
@@ -866,9 +866,6 @@ int CAbstractMetaPiece::count_descriptors_expanded()
 
 CMetaPiece *CMapListNode::GetMeta()
 {
-	Dbg_Assert(this);
-	Dbg_MsgAssert(((uint32)this) != 0x03030303,("Bad CMapListNode pointer ! (0x03030303)"));
-	Dbg_MsgAssert(((uint32)this) != 0x55555555,("Bad CMapListNode pointer ! (0x55555555)"));
 	Dbg_Assert(mp_meta);
 	return mp_meta;
 }

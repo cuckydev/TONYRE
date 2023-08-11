@@ -143,8 +143,6 @@ private :
 
 inline	void		Manager::RegisterRenderStartHook ( Tsk::BaseHook* start_hook )
 {
-   	
-
     start_render_hook = start_hook;
 }
 
@@ -155,8 +153,6 @@ inline	void		Manager::RegisterRenderStartHook ( Tsk::BaseHook* start_hook )
 
 inline	void		Manager::RegisterRenderEndHook ( Tsk::BaseHook* end_hook )
 {
-   	
-	
 	end_render_hook = end_hook;
 }
 
@@ -167,8 +163,6 @@ inline	void		Manager::RegisterRenderEndHook ( Tsk::BaseHook* end_hook )
 
 inline Tsk::BaseHook*	Manager::GetRenderStartHook( void )
 {
-	
-
 	return start_render_hook;
 }
 
@@ -179,8 +173,6 @@ inline Tsk::BaseHook*	Manager::GetRenderStartHook( void )
 
 inline Tsk::BaseHook*	Manager::GetRenderEndHook( void )
 {
-	
-
 	return end_render_hook;
 }
 
@@ -191,10 +183,6 @@ inline Tsk::BaseHook*	Manager::GetRenderEndHook( void )
 
 inline	void		Manager::AddLogicTask ( Tsk::BaseTask& task )
 {
-   	
-	
-	Dbg_AssertType ( &task, Tsk::BaseTask );
-
 	logic_task_stack.AddTask ( task );
 }
 
@@ -205,8 +193,6 @@ inline	void		Manager::AddLogicTask ( Tsk::BaseTask& task )
 
 inline	void		Manager::SetLogicMask ( uint mask )
 {
-   	
-
 	logic_task_stack.SetMask ( (uint) mask );
 }
 
@@ -219,10 +205,6 @@ inline	void		Manager::SetLogicMask ( uint mask )
 
 inline	void		Manager::AddDisplayTask ( Tsk::BaseTask& task )
 {
-   	
-	
-	Dbg_AssertType ( &task, Tsk::BaseTask );
-
 	display_task_stack.AddTask ( task );
 }
 
@@ -233,10 +215,6 @@ inline	void		Manager::AddDisplayTask ( Tsk::BaseTask& task )
 
 inline	void		Manager::AddSystemTask ( Tsk::BaseTask& task )
 {
-   	
-	
-	Dbg_AssertType ( &task, Tsk::BaseTask );
-
 	system_task_stack.AddTask ( task );
 }
 
@@ -247,10 +225,6 @@ inline	void		Manager::AddSystemTask ( Tsk::BaseTask& task )
 
 inline	void		Manager::AddSystemPushTask ( Tsk::BaseTask& task )
 {
-   	
-	
-	Dbg_AssertType ( &task, Tsk::BaseTask );
-
 	system_task_stack.AddPushTask ( task );
 }
 
@@ -262,10 +236,6 @@ inline	void		Manager::AddSystemPushTask ( Tsk::BaseTask& task )
 
 inline	void		Manager::AddLogicPushTask ( Tsk::BaseTask& task )
 {
-   	
-	
-	Dbg_AssertType ( &task, Tsk::BaseTask );
-
 	logic_task_stack.AddPushTask ( task );
 }
 
@@ -276,10 +246,6 @@ inline	void		Manager::AddLogicPushTask ( Tsk::BaseTask& task )
 
 inline	void		Manager::AddDisplayPushTask ( Tsk::BaseTask& task )
 {
-   	
-	
-	Dbg_AssertType ( &task, Tsk::BaseTask );
-
 	display_task_stack.AddPushTask ( task );
 }
 
@@ -290,16 +256,12 @@ inline	void		Manager::AddDisplayPushTask ( Tsk::BaseTask& task )
 
 inline	void		Manager::RemoveAllDisplayTasks ( void )
 {
-   	
-
 	display_task_stack.RemoveAllTasks ();
 }
 
 inline void		Manager::PauseDisplayTasks( bool pause )
 {
-   	
 	display_tasks_paused = pause;
-
 }
 
 
@@ -310,8 +272,6 @@ inline void		Manager::PauseDisplayTasks( bool pause )
 
 inline	void		Manager::RemoveAllLogicTasks ( void )
 {
-   	
-
 	logic_task_stack.RemoveAllTasks ();
 }
 
@@ -322,8 +282,6 @@ inline	void		Manager::RemoveAllLogicTasks ( void )
 
 inline	void		Manager::RemoveAllSystemTasks ( void )
 {
-   	
-
 	system_task_stack.RemoveAllTasks ();
 }
 
@@ -334,8 +292,6 @@ inline	void		Manager::RemoveAllSystemTasks ( void )
 
 inline	void		Manager::PushLogicTasks ( void )
 {
-   	
-
 	logic_task_stack.Push ();
 }
 
@@ -346,8 +302,6 @@ inline	void		Manager::PushLogicTasks ( void )
 
 inline	void		Manager::PushDisplayTasks ( void )
 {
-   	
-
 	display_task_stack.Push ();
 }
 
@@ -358,8 +312,6 @@ inline	void		Manager::PushDisplayTasks ( void )
 
 inline	void		Manager::PushSystemTasks ( void )
 {
-   	
-
 	system_task_stack.Push ();
 }
 
@@ -370,8 +322,6 @@ inline	void		Manager::PushSystemTasks ( void )
 
 inline	void		Manager::PopLogicTasks ( void )
 {
-   	
-
 	logic_task_stack.Pop ();
 }
 
@@ -382,8 +332,6 @@ inline	void		Manager::PopLogicTasks ( void )
 
 inline	void		Manager::PopDisplayTasks ( void )
 {
-   	
-
 	display_task_stack.Pop ();
 }
 
@@ -394,8 +342,6 @@ inline	void		Manager::PopDisplayTasks ( void )
 
 inline	void		Manager::PopSystemTasks ( void )
 {
-   	
-
 	system_task_stack.Pop ();
 }
 

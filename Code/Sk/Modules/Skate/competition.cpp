@@ -333,11 +333,11 @@ void	   CCompetition::StartCompetition(float bronze, float silver, float gold, f
 
 // Default names for judges (dunno if we'll ever change it though...).	
 #if (ENGLISH == 0)
-	m_judge_name[0] = (char*)Script::GetLocalString( "comp_str_Judge1");
-	m_judge_name[1] = (char*)Script::GetLocalString( "comp_str_Judge2");
-	m_judge_name[2] = (char*)Script::GetLocalString( "comp_str_Judge3");
-	m_judge_name[3] = (char*)Script::GetLocalString( "comp_str_Judge4");
-	m_judge_name[4] = (char*)Script::GetLocalString( "comp_str_Judge5");
+	m_judge_name[0] = Script::GetLocalString( "comp_str_Judge1");
+	m_judge_name[1] = Script::GetLocalString( "comp_str_Judge2");
+	m_judge_name[2] = Script::GetLocalString( "comp_str_Judge3");
+	m_judge_name[3] = Script::GetLocalString( "comp_str_Judge4");
+	m_judge_name[4] = Script::GetLocalString( "comp_str_Judge5");
 #else	
 	m_judge_name[0] = "Judge 1";
 	m_judge_name[1] = "Judge 2";
@@ -619,7 +619,7 @@ int 	   CCompetition::GetPosition(int player)
 }
 
 	   
-char *		CCompetition::GetJudgeName(int judge)
+const char *CCompetition::GetJudgeName(int judge)
 {
 	return m_judge_name[judge];
 }

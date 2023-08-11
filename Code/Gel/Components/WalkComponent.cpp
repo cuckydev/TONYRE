@@ -1817,7 +1817,7 @@ void CWalkComponent::go_in_air_state (   )
 	Mth::Vector previous_pos = m_pos;
 	Mth::Vector critical_point = m_pos + m_critical_point_offset;
 	Mth::Vector frame_start_critical_point = m_frame_start_pos + m_critical_point_offset;
-	if (CCompositeObject* p_inside_object = mp_movable_contact_component->CheckInsideObjects(critical_point, frame_start_critical_point))
+	if ((/*CCompositeObject * p_inside_object = */mp_movable_contact_component->CheckInsideObjects(critical_point, frame_start_critical_point)) != nullptr)
 	{
 		m_pos = critical_point - m_critical_point_offset;
 		DUMP_WPOSITION

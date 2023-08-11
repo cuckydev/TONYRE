@@ -2544,7 +2544,7 @@ uint32 CBonedAnimFrameData::GetBoneName(size_t index)
 	// only the object anim stores the name of the bones
 	Dbg_MsgAssert( m_flags & nxBONEDANIMFLAGS_OBJECTANIMDATA, ( "Bone names are only stored with object anims" ) );
 	
-	Dbg_MsgAssert( index >= 0 && index < m_numBones, ( "Bone name request out of range %d (0-%d)", index, m_numBones ) );
+	Dbg_MsgAssert( index < m_numBones, ( "Bone name request out of range %d (0-%d)", index, m_numBones ) );
 
 	Dbg_Assert( mp_boneNames );
 
@@ -2585,7 +2585,7 @@ size_t CBonedAnimFrameData::get_num_customkeys()
 
 CCustomAnimKey* CBonedAnimFrameData::get_custom_key(size_t index)
 {
-	Dbg_Assert( index >= 0 && index < get_num_customkeys() );
+	Dbg_Assert( index < get_num_customkeys() );
 	Dbg_MsgAssert( mpp_customAnimKeyList, ( "custom key list doesn't exist" ) );
 	return mpp_customAnimKeyList[index];
 }

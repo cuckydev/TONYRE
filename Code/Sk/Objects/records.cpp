@@ -124,7 +124,7 @@ CRecord::~CRecord()
 
 
 // SetInitials will copy in the first three digits of the string   
-void	CRecord::SetInitials(char *initials)
+void	CRecord::SetInitials(const char *initials)
 {
 	
 	mp_initials->Set(initials);
@@ -153,7 +153,7 @@ void	CRecord::SetNewRecord(bool new_record)
 }
 
 
-void	CRecord::Set(char *initials, int value, int number)
+void	CRecord::Set(const char *initials, int value, int number)
 {
 	
 	

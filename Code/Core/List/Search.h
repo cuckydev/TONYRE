@@ -108,13 +108,8 @@ Search<_T>::~Search ( void )
 template <class _T> inline 
 _T*	Search<_T>::FirstItem ( Head<_T>& head )
 {
-	
-	
-	Dbg_AssertType ( &head, Head<_T> );
-
 	node = &head;
-
-	return ( NextItem () );
+	return NextItem();
 }
 
 /******************************************************************/
@@ -125,13 +120,8 @@ _T*	Search<_T>::FirstItem ( Head<_T>& head )
 template <class _T> inline 
 _T*	Search<_T>::LastItem ( Head<_T>& head )
 {
-	
-	
-	Dbg_AssertType ( &head, Head<_T> );
-
 	node = &head;
-
-	return ( PrevItem () );
+	return PrevItem();
 }
 
 /******************************************************************/
@@ -142,20 +132,13 @@ _T*	Search<_T>::LastItem ( Head<_T>& head )
 template <class _T> inline 
 _T*	Search<_T>::NextItem ( void )
 {
-	
-	
-	Dbg_AssertType ( node, Node< _T > );
+	Dbg_AssertType(node, Node<_T>);
 
 	node = node->GetNext();
-
-	if ( !node )
-	{
+	if (node == nullptr)
 		return nullptr;
-	}
 
-	Dbg_AssertType ( node, Node<_T> );
-
-	return ( node->GetData() );
+	return (node->GetData());
 }
 
 /******************************************************************/
@@ -166,19 +149,12 @@ _T*	Search<_T>::NextItem ( void )
 template <class _T> inline 
 _T*	Search<_T>::PrevItem ( void )
 {
-	
-	
-	Dbg_AssertType ( node, Node< _T > );
+	Dbg_AssertType(node, Node<_T>);
 
 	node = node->GetPrev();
-
-	if ( !node )
-	{
+	if (node == nullptr)
 		return nullptr;
-	}
-
-	Dbg_AssertType ( node, Node<_T> );
-
+	
 	return ( node->GetData() );
 }
 

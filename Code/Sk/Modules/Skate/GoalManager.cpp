@@ -3305,6 +3305,7 @@ void CGoalManager::UpdateFamilyTrees()
 		}
 	}
 	
+	/*
 	// debugging shit.
 	for ( int i = 0; i < numGoals; i++ )
 	{
@@ -3314,12 +3315,12 @@ void CGoalManager::UpdateFamilyTrees()
 	
 		// print out children list
 		Game::CGoalLink* p_test = pGoal->GetChildren();
-		bool print_newline = false;
-		if ( p_test->m_relative != 0 )
-			// printf("children of %s\n", Script::FindChecksumName( pGoal->GetGoalId() ) );
+		// bool print_newline = false;
+		if (p_test->m_relative != 0)
+			; // printf("children of %s\n", Script::FindChecksumName( pGoal->GetGoalId() ) );
 		while ( p_test && p_test->m_relative != 0 )
 		{
-			print_newline = true;
+			// print_newline = true;
 			// printf("\t%s\n", Script::FindChecksumName( p_test->m_relative ) );
 			p_test = p_test->mp_next;
 		}
@@ -3330,13 +3331,14 @@ void CGoalManager::UpdateFamilyTrees()
 			// printf("parents of %s\n", Script::FindChecksumName( pGoal->GetGoalId() ) );
 		while ( p_test && p_test->m_relative != 0 )
 		{
-			print_newline = true;
+			// print_newline = true;
 			// printf("\t%s\n", Script::FindChecksumName( p_test->m_relative ) );
 			p_test = p_test->mp_next;
 		}
 		// if ( print_newline )
 			// printf("\n");
 	}
+	*/
 }
 
 /******************************************************************/
@@ -3952,8 +3954,8 @@ bool ScriptActivateGoal(Script::CStruct *pParams, Script::CScript *pScript)
 
     // put in for testing
     bool dontAssert = false;
-    if ( pParams->ContainsFlag( Crc::ConstCRC("dontAssert") ) )
-        dontAssert = true;
+    if (pParams->ContainsFlag(Crc::ConstCRC("dontAssert")))
+		dontAssert = true;
 	
 	return pGoalManager->ActivateGoal( goalId, dontAssert );
 }

@@ -80,7 +80,7 @@
 
 namespace Front
 {
-	extern void SetScoreTHPS4(char* score_text, int skater_num);
+	extern void SetScoreTHPS4(const char* score_text, int skater_num);
 }
 
 namespace CFuncs
@@ -546,14 +546,14 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 			// first eliminate the flag models, if this is non-net game 
 			// On load model IF a multiplayer game OR NOT a flag model
 			if (Mdl::Skate::Instance()->IsMultiplayerGame() ||
-				TypeChecksum != Crc::ConstCRC("Flag_Red")         && 
+				(TypeChecksum != Crc::ConstCRC("Flag_Red")         && 
 				TypeChecksum != Crc::ConstCRC("Flag_Red_Base")    &&
 				TypeChecksum != Crc::ConstCRC("Flag_Green") 		 && 
 				TypeChecksum != Crc::ConstCRC("Flag_Green_base")	 &&
 				TypeChecksum != Crc::ConstCRC("Flag_Blue")		 &&
 				TypeChecksum != Crc::ConstCRC("Flag_Blue_base")	 &&
 				TypeChecksum != Crc::ConstCRC("Flag_Yellow")		 &&
-				TypeChecksum != Crc::ConstCRC("Flag_Yellow_base") )
+				TypeChecksum != Crc::ConstCRC("Flag_Yellow_base")))
 			{
 	
 				// Handle pre-loading of models for non-net game nodes

@@ -923,7 +923,7 @@ void CTextBlockElement::SetText(const char **ppTextLines, int numLines)
 			
 			// change the height of the element
 			float word_w, word_h;
-			p_font->QueryString("AAA", word_w, word_h );	// width and height in pixels
+			p_font->QueryString("AAA", word_w, word_h);	// width and height in pixels
 			m_base_h = m_virtual_out_line * (word_h * m_internal_scale * m_line_spacing_scale );
 
 			m_num_visible_lines = (int) m_base_h / (int) (word_h * m_internal_scale * m_line_spacing_scale );
@@ -1091,11 +1091,9 @@ bool CTextBlockElement::Backspace()
 		return false;
 
 	Dbg_MsgAssert( length < MAX_EDITABLE_TEXT_BLOCK_LENGTH, ( "Backspace failed - string too long" ) );
+
 	char new_string[MAX_EDITABLE_TEXT_BLOCK_LENGTH];
-	GetText( new_string, MAX_EDITABLE_TEXT_BLOCK_LENGTH );
-	
-	if ( !new_string )
-		return false;
+	GetText(new_string, MAX_EDITABLE_TEXT_BLOCK_LENGTH);
 	
 	// take care of escaped backslash char (ASCII code 92)
 	if ( length > 1 && new_string[length - 1] == 92 && new_string[length - 2] == 92 )
@@ -1362,13 +1360,13 @@ bool CTextBlockElement::Concatenate( const char* pText, bool enforce_max_width, 
 		if ( word_w > m_base_w )
 		{
 			// too long!
-			delete p_new_string;
+			delete[] p_new_string;
 			return false;
 		}
 	}
 	
 	SetText( p_new_string );
-	delete p_new_string;
+	delete[] p_new_string;
 	return true;
 }
 

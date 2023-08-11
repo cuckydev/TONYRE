@@ -186,8 +186,6 @@ void		Skate::s_logic_code ( const Tsk::Task< Skate >& task )
 {
 	GameNet::Manager* gamenet_man = GameNet::Manager::Instance();
     
-    Dbg_AssertType ( &task, Tsk::Task< Skate > );
-
 	Skate&	mdl = task.GetData();
 
 	mdl.DoUpdate();

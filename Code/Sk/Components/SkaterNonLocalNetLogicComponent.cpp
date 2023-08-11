@@ -428,7 +428,7 @@ CRailNode*	CSkaterNonLocalNetLogicComponent::travel_on_rail( CRailNode* start_no
 	}
 	
 	//const CRailNode* pFrom = pStart;
-	const CRailNode* pOnto = nullptr;
+	// const CRailNode* pOnto = nullptr;
 	
 	Mth::Vector	dir = p_rail_man->GetPos(pEnd) - p_rail_man->GetPos(pStart);
 	float segment_length = dir.Length();
@@ -469,7 +469,7 @@ CRailNode*	CSkaterNonLocalNetLogicComponent::travel_on_rail( CRailNode* start_no
 			}
 			else
 			{
-				pOnto = pStart->GetPrevLink();
+				// pOnto = pStart->GetPrevLink();
 			}
 		}
 		else
@@ -496,7 +496,7 @@ CRailNode*	CSkaterNonLocalNetLogicComponent::travel_on_rail( CRailNode* start_no
 			}
 			else
 			{
-				pOnto = pEnd;
+				// pOnto = pEnd;
 			}
 		}
 		else
@@ -673,7 +673,7 @@ void CSkaterNonLocalNetLogicComponent::extrapolate_rail_position( void )
 	GameNet::Manager* gamenet_man =  GameNet::Manager::Instance();
 	CRailManager* p_rail_man = Mdl::Skate::Instance()->GetRailManager();
 	CRailNode* start_node;
-	int i, prev_index, most_recent_index, mag_index;
+	int i, mag_index;
 	SPosEvent* p_pos_history;
 	unsigned int delta_t, net_lag;
 	float coeff, ratio, total_mag, total_ratio, total_coeff, vel_mag, frame_length;
@@ -684,8 +684,8 @@ void CSkaterNonLocalNetLogicComponent::extrapolate_rail_position( void )
 	client = gamenet_man->GetClient( 0 );
 
 	p_pos_history = mp_state_history_component->GetPosHistory();
-	most_recent_index = ( mp_state_history_component->GetNumPosUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
-	prev_index = ( m_last_pos_index + ( CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS - 1 )) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
+	// int most_recent_index = ( mp_state_history_component->GetNumPosUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
+	// int prev_index = ( m_last_pos_index + ( CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS - 1 )) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
 	
 	delta_t = (int) ( m_frame_length * Tmr::vRESOLUTION );
 	if( gamenet_man->OnServer())
@@ -925,8 +925,8 @@ void CSkaterNonLocalNetLogicComponent::bounce_off_wall ( const Mth::Vector& norm
 void CSkaterNonLocalNetLogicComponent::extrapolate_position( void )
 {
 	GameNet::Manager* gamenet_man =  GameNet::Manager::Instance();
-	int i, prev_index, most_recent_index, mag_index;
-	SPosEvent* p_pos_history;
+	int i, mag_index;
+	// SPosEvent* p_pos_history;
 	unsigned int delta_t, net_lag;
 	float coeff, ratio, total_mag, total_ratio, total_coeff, vel_mag;
 	Mth::Vector extrap_pos;
@@ -936,9 +936,9 @@ void CSkaterNonLocalNetLogicComponent::extrapolate_position( void )
 
 	client = gamenet_man->GetClient( 0 );
 		
-	p_pos_history = mp_state_history_component->GetPosHistory();
-	most_recent_index = ( mp_state_history_component->GetNumPosUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
-	prev_index = ( m_last_pos_index + ( CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS - 1 )) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
+	// p_pos_history = mp_state_history_component->GetPosHistory();
+	// int most_recent_index = ( mp_state_history_component->GetNumPosUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
+	// int prev_index = ( m_last_pos_index + ( CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS - 1 )) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
 	
 	delta_t = (int) ( m_frame_length * Tmr::vRESOLUTION );
 	if( gamenet_man->OnServer())
@@ -1329,23 +1329,21 @@ void CSkaterNonLocalNetLogicComponent::do_client_animation_update(   )
 			unsigned int cur_time;
 			int i, start_index;
 			SAnimEvent* event;
-			int most_recent_index;
+			// int most_recent_index;
             
 			start_index = mp_state_history_component->GetNumAnimUpdates() % CSkaterStateHistoryComponent::vNUM_ANIM_HISTORY_ELEMENTS;
-			most_recent_index = ( mp_state_history_component->GetNumAnimUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_ANIM_HISTORY_ELEMENTS;
+			// most_recent_index = ( mp_state_history_component->GetNumAnimUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_ANIM_HISTORY_ELEMENTS;
 			
 			cur_time = m_server_initial_update_time + ( client->m_Timestamp - m_client_initial_update_time );
 
 			i = start_index;
-			bool updated = false;
 			do							   
 			{   
 				event = &mp_state_history_component->GetAnimHistory()[i];
 				//Dbg_Printf( "(%d) CurTime: %d EventTime[%d]: %d\n", client->m_FrameCounter, cur_time, event->m_MsgId, event->GetTime());
 				if( ( event->GetTime() > m_last_anm_update_time ) &&
 					( event->GetTime() <= cur_time ))
-				{   
-					updated = true;
+				{
 					switch( event->m_MsgId )
 					{
 						case GameNet::MSG_ID_PRIM_ANIM_START:
@@ -1475,23 +1473,6 @@ void CSkaterNonLocalNetLogicComponent::do_client_animation_update(   )
 				i = ( i + 1 ) % CSkaterStateHistoryComponent::vNUM_ANIM_HISTORY_ELEMENTS;
 			} while( i != start_index );
 			
-			/*static Tmr::Time s_time = 0;
-
-			if( !updated )
-			{
-				if(( Tmr::GetTime() - s_time ) > 1000 )
-				{
-					i = start_index;
-					do							   
-					{   
-						event = &mp_state_history_component->GetAnimHistory()[i];
-						Dbg_Printf( "(%d) CurTime: %d EventTime[%d]: %d\n", client->m_FrameCounter, cur_time, event->m_MsgId, event->GetTime());
-						i = ( i + 1 ) % CSkaterStateHistoryComponent::vNUM_ANIM_HISTORY_ELEMENTS;
-					} while( i != start_index );
-					s_time = Tmr::GetTime();
-				}
-			}*/
-            
 			m_last_anm_update_time = cur_time;
 		}
 	}

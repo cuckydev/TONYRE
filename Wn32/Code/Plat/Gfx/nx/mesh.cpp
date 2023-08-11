@@ -208,7 +208,7 @@ sMesh::~sMesh( void )
 	if (!(m_flags & MESH_FLAG_IS_INSTANCE))
 	{
 		// Delete index buffers
-		for (int ib = 0; ib < MAX_INDEX_BUFFERS; ib++)
+		for (uint32 ib = 0; ib < MAX_INDEX_BUFFERS; ib++)
 			delete[] mp_index_buffer[ib];
 
 		// Delete wibble data
@@ -825,7 +825,7 @@ sMesh *sMesh::Clone( bool instance )
 		glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, m_vertex_stride * m_num_vertices);
 
 		// Create index buffers and copy over index information.
-		for (int ib = 0; ib < MAX_INDEX_BUFFERS; ++ib)
+		for (uint32 ib = 0; ib < MAX_INDEX_BUFFERS; ++ib)
 		{
 			if (p_clone->m_num_indices[ib] > 0)
 			{
@@ -1231,10 +1231,10 @@ void sMesh::Initialize( int				num_vertices,
 	}
 	
 	// Use the material flags to figure the vertex format
-	int vertex_size	 = 3 * sizeof(float);
+	uintptr_t vertex_size	 = 3 * sizeof(float);
 
 	// Include weights if present
-	uint32 biggest_index_used = 0;
+	// uint32 biggest_index_used = 0;
 	if (p_weights != nullptr)
 	{
 		Dbg_AssertPtr(p_matrix_indices);
@@ -1249,21 +1249,21 @@ void sMesh::Initialize( int				num_vertices,
 				uint32 w2 = ((p_weight_read[0] >> 22) & 0x3FF);
 				if (w2 > 0)
 				{
-					biggest_index_used = 2;
+					// biggest_index_used = 2;
 					break;
 				}
 				else
 				{
 					uint32 w1 = ((p_weight_read[0] >> 11) & 0x7FF);
 					if (w1 > 0)
-						biggest_index_used = 1;
+					{} // biggest_index_used = 1;
 				}
 			}
 
 			p_weight_read++;
 		}
 
-		m_weights_offset = (uint8)vertex_size;
+		m_weights_offset = (const void*)vertex_size;
 		vertex_size	+= sizeof(uint32);
 	}
 
@@ -1272,7 +1272,7 @@ void sMesh::Initialize( int				num_vertices,
 	{
 		Dbg_AssertPtr(p_weights);
 
-		m_matindices_offset = (uint8)vertex_size;
+		m_matindices_offset = (const void *)vertex_size;
 		vertex_size	+= sizeof(uint16) * 4;
 	}
 	
@@ -1306,7 +1306,7 @@ void sMesh::Initialize( int				num_vertices,
 
 	if (tex_coord_pass > 0)
 	{
-		m_uv0_offset = (uint8)vertex_size;
+		m_uv0_offset = (const void *)vertex_size;
 		vertex_size += 2 * sizeof(float) * tex_coord_pass;
 	}
 
@@ -1317,7 +1317,7 @@ void sMesh::Initialize( int				num_vertices,
 	{
 		// Need to include normals
 		use_normals	= true;
-		m_normal_offset = (uint8)vertex_size;
+		m_normal_offset = (const void *)vertex_size;
 		vertex_size	+= sizeof(float) * 3;
 	}
 
@@ -1326,7 +1326,7 @@ void sMesh::Initialize( int				num_vertices,
 	if (p_colors != nullptr)
 	{
 		use_colors = true;
-		m_diffuse_offset = (uint8)vertex_size;
+		m_diffuse_offset = (const void *)vertex_size;
 		vertex_size += 4;
 	}
 
@@ -1365,7 +1365,7 @@ void sMesh::Initialize( int				num_vertices,
 	// Write weights
 	if (p_weights != nullptr)
 	{
-		uint32 *p_out = (uint32*)((char*)p_vbo + m_weights_offset);
+		uint32 *p_out = (uint32*)((char*)p_vbo + (uintptr_t)m_weights_offset);
 		uint32 *p_in = p_weights + min_index;
 
 		for (uint16 v = min_index; v <= max_index; v++)
@@ -1382,7 +1382,7 @@ void sMesh::Initialize( int				num_vertices,
 	// Write matrix indices
 	if (p_matrix_indices != nullptr)
 	{
-		uint16 *p_out = (uint16*)((char*)p_vbo + m_matindices_offset);
+		uint16 *p_out = (uint16*)((char*)p_vbo + (uintptr_t)m_matindices_offset);
 		uint16 *p_in = p_matrix_indices + min_index * 4;
 
 		for (uint16 v = min_index; v <= max_index; v++)
@@ -1402,7 +1402,7 @@ void sMesh::Initialize( int				num_vertices,
 	// Write normals
 	if (use_normals)
 	{
-		float *p_out = (float*)((char*)p_vbo + m_normal_offset);
+		float *p_out = (float*)((char*)p_vbo + (uintptr_t)m_normal_offset);
 		float *p_in = p_normals + min_index * 3;
 
 		for (uint16 v = min_index; v <= max_index; v++)
@@ -1421,7 +1421,7 @@ void sMesh::Initialize( int				num_vertices,
 	// Write colors
 	if (use_colors)
 	{
-		uint32 *p_out = (uint32*)((char*)p_vbo + m_diffuse_offset);
+		uint32 *p_out = (uint32*)((char*)p_vbo + (uintptr_t)m_diffuse_offset);
 		DWORD *p_in = p_colors + min_index;
 
 		for (uint16 v = min_index; v <= max_index; v++)
@@ -1438,7 +1438,7 @@ void sMesh::Initialize( int				num_vertices,
 	// Write texture coordinates
 	if ((tex_coord_pass > 0) && (p_tex_coords != nullptr))
 	{
-		float *p_out = (float*)((char*)p_vbo + m_uv0_offset);
+		float *p_out = (float*)((char*)p_vbo + (uintptr_t)m_uv0_offset);
 		float *p_in = p_tex_coords + (min_index * 2 * num_tc_sets);
 
 		for (uint16 v = min_index; v <= max_index; v++)

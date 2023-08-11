@@ -25,7 +25,7 @@ namespace Mem
 {
 
 
-CCompactPool::CCompactPool(int item_size, int desired_num_items, char *name)
+CCompactPool::CCompactPool(int item_size, int desired_num_items, const char *name)
 {
 	m_totalItems = desired_num_items;
 	m_itemSize = item_size;

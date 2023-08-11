@@ -63,7 +63,7 @@
 
 namespace Front
 {
-	extern void SetScoreTHPS4(char* score_text, int skater_num);
+	extern void SetScoreTHPS4(const char* score_text, int skater_num);
 }
 
 /*****************************************************************************
@@ -1007,7 +1007,7 @@ void Score::Land( void )
 	bool debug_graffiti = Script::GetInteger( "debug_graffiti" );
     Game::CGoalManager* pGoalManager = Game::GetGoalManager();
 	pGoalManager->Land();
-	if ( debug_graffiti || ( pGameMode->IsTrue("should_modulate_color") ) && ( trick_score > 0 ) )
+	if ( debug_graffiti || (( pGameMode->IsTrue("should_modulate_color") ) && ( trick_score > 0 ) ))
 	{
 		// update the server		
 		LogTrickObjectRequest( trick_score );

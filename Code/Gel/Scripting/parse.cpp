@@ -912,7 +912,7 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 		}    
 		case ESCRIPTTOKEN_KEYWORD_RANDOM_RANGE2:
 			use_rnd2=true;
-			// Intentional lack of a break here.
+			// Fallthrough
 		case ESCRIPTTOKEN_KEYWORD_RANDOM_RANGE:
 		{
 			CComponent *p_new_component=new CComponent;
@@ -2226,7 +2226,7 @@ uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_com
 		}
 		case ESCRIPTTOKEN_KEYWORD_RANDOM_RANGE2:
 			use_rnd2=true;
-			// Intentional lack of a break here.
+			// Fallthrough
 		case ESCRIPTTOKEN_KEYWORD_RANDOM_RANGE:
 		{
 			p_token=sCalculateRandomRange(p_token,p_comp,use_rnd2);

@@ -18,8 +18,7 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __GEL_TERRAIN_H
-#define __GEL_TERRAIN_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
@@ -61,14 +60,14 @@ enum ETerrainActionType
 	
 struct STerrainSoundInfo
 {
-	const char *mp_soundName;
-	uint32		m_soundChecksum;		// Checksum of sound filename
-	float		m_maxPitch;
-	float		m_minPitch;
-	float		m_maxVol;
-	float		m_minVol;
-	float		m_loadPitch;			// Values to use when the sound is loaded
-	float		m_loadVol;
+	const char *mp_soundName = nullptr;
+	uint32		m_soundChecksum = 0;		// Checksum of sound filename
+	float		m_maxPitch = 0.0f;
+	float		m_minPitch = 0.0f;
+	float		m_maxVol = 0.0f;
+	float		m_minVol = 0.0f;
+	float		m_loadPitch = 0.0f;			// Values to use when the sound is loaded
+	float		m_loadVol = 0.0f;
 };
 
 struct STerrainInfo
@@ -126,9 +125,7 @@ private:
 	static void					s_check_terrain_loaded(ETerrainType terrain);
 
 	static bool					s_terrain_loaded[ vNUM_TERRAIN_TYPES ];
-#endif __NOPT_ASSERT__
+#endif // __NOPT_ASSERT__
 };
 
 }  // namespace Env
-
-#endif

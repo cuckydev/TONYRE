@@ -75,10 +75,6 @@ namespace Obj
 
 CObject*			Search::FindFirstObjectOfType( Lst::Head< CObject >& head, sint type )
 {
-	
-	
-	Dbg_AssertType( &head, Lst::Head< CObject > );
-
 	CObject*	obj = FirstItem( head );
 	
 	obj_type = type;

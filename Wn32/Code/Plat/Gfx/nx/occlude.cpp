@@ -138,7 +138,7 @@ static int cmp( const void *p1, const void *p2 )
 	// Sort based on the sum total of scores in all views.
 	int score1 = 0;
 	int score2 = 0;
-	for( int v = 0; v < MAX_VIEWS_PER_OCCLUDER; ++v )
+	for(uint32 v = 0; v < MAX_VIEWS_PER_OCCLUDER; ++v)
 	{
 		// Zero the score for any occlusion poly that is no longer available. This will force it out of the stack.
 		if(((sOccluder*)p1)->p_poly->available == false )
@@ -179,19 +179,19 @@ void sOccluder::tidy_stack( void )
 		sort_stack();
 
 		// Count backwards so we know we get all the bad occluders.
-		for( int i = NumOccluders - 1; i >= 0; --i )
+		for(uint32 i = NumOccluders; i != 0; --i )
 		{
 			// If we have hit an occluder with zero meshes culled, cut off the stack at this point.
 			int total_score = 0;
-			for( int v = 0; v < MAX_VIEWS_PER_OCCLUDER; ++v )
+			for(uint32 v = 0; v < MAX_VIEWS_PER_OCCLUDER; ++v )
 			{
-				total_score += Occluders[i].score[v];
+				total_score += Occluders[i - 1].score[v];
 			}
 			
 			if( total_score == 0 )
 			{
 				// No longer using this poly.
-				Occluders[i].p_poly->in_use = false;
+				Occluders[i - 1].p_poly->in_use = false;
 
 				// One less occluder to worry about.
 				--NumOccluders;
@@ -199,7 +199,7 @@ void sOccluder::tidy_stack( void )
 			else
 			{
 				// Reset the good occluders.
-				Occluders[i].score[CurrentView] = 0;
+				Occluders[i - 1].score[CurrentView] = 0;
 			}
 		}
 	}
@@ -318,7 +318,7 @@ void CheckForOptimalOccluders( Mth::Vector &cam_pos, Mth::Vector &view_direction
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void BuildOccluders( Mth::Vector *p_cam_pos, int view )
+void BuildOccluders( Mth::Vector *p_cam_pos, uint32 view )
 {
 //	for( uint32 i = 0; i < NumOcclusionPolys; ++i )
 //	{

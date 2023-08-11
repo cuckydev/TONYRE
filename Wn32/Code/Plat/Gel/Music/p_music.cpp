@@ -99,7 +99,7 @@ class Streamer
 		bool playing = true;
 
 	public:
-		~Streamer()
+		virtual ~Streamer()
 		{
 			// Kill thread
 			{
@@ -339,8 +339,8 @@ void PCMAudio_StopStreams( void )
 
 // This is temp code for the preload streams.  It just calls the normal one.
 
-static uint32 sPreLoadChecksum[NUM_STREAMS];
-static uint32 sPreLoadMusicChecksum;
+// static uint32 sPreLoadChecksum[NUM_STREAMS];
+// static uint32 sPreLoadMusicChecksum;
 
 /******************************************************************/
 /*                                                                */

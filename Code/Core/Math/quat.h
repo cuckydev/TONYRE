@@ -1,5 +1,4 @@
 /*****************************************************************************
-/*****************************************************************************
 **																			**
 **					   	  Neversoft Entertainment							**
 **																		   	**
@@ -60,10 +59,12 @@ public:
 
 	friend	bool	quat_equal ( const Quat& q1, const Quat& q2, const float tol );
 
-					Quat ( float cx = 0.0f, float cy = 0.0f, float cz = 0.0f, float cw = 1.0f ); 
+			Quat ( float cx = 0.0f, float cy = 0.0f, float cz = 0.0f, float cw = 1.0f ); 
 
-					Quat ( const Vector& axis, float angle );
-					Quat ( const Matrix& mat );
+			Quat ( const Vector& axis, float angle );
+			Quat ( const Matrix& mat );
+
+			Quat(const Quat &q) = default;
 
 			Quat&	Invert ( void );
 			Quat&	Invert ( const Quat& src );
@@ -80,7 +81,7 @@ public:
 		
 			void	GetMatrix ( Matrix& mat ) const;
 
-			Quat&	operator= ( const Quat& q );
+			Quat &operator= (const Quat &q) = default;
 			Quat&	operator+= ( const Quat& q );
 			Quat&	operator-= ( const Quat& q );
 			Quat&	operator*= ( const Quat& q );

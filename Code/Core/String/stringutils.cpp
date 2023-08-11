@@ -71,7 +71,7 @@ namespace Str
 // Returns location of Needle in the Haystack			 
 const char * StrStr (const char *pHay, const char *pNeedle)
 {
-	register char First = *pNeedle++;		// get first letter in needle
+	char First = *pNeedle++;				// get first letter in needle
 	if (!First) return 0;					// if end of needle, then return nullptr
 	First = Caseless(First);
 
@@ -85,8 +85,8 @@ const char * StrStr (const char *pHay, const char *pNeedle)
 			if (!FirstHay) return 0;		// if end of haystack, then return nullptr
 		}
 
-		const char *pH = pHay;					// second letter of hay
-		const char *pN = pNeedle;					// second letter of needle
+		const char *pH = pHay;				// second letter of hay
+		const char *pN = pNeedle;			// second letter of needle
 		while (1)
 		{
 			char n = *pN++;					// get a needle letter

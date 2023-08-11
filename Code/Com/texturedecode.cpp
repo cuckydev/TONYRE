@@ -49,7 +49,7 @@ namespace TextureDecode
 
 		i = 0;
 		chars = height * width;
-		if (!(height * width))
+		if (chars == 0)
 			return;
 		swizzle_w = width >> 1;
 		swizzle_s = height >> 1;

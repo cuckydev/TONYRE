@@ -657,6 +657,7 @@ void	Manager::PostGame( void )
 #endif		// __PLAT_NGC__
 	mlp_manager->AddLogicTask( *m_process_gamespy_queries_task );
 }
+*/
 
 /******************************************************************/
 /*                                                                */

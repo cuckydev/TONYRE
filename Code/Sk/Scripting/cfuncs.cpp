@@ -7036,7 +7036,7 @@ bool ScriptSetDynamicLightModulationFactor( Script::CStruct* pParams, Script::CS
 
 	
 
-	bool	ok;
+	// bool	ok;
 	int		index	= 0;
 	float	value	= 0.0f;
 	if( pParams->GetFloat( "value", &value ))
@@ -7047,7 +7047,7 @@ bool ScriptSetDynamicLightModulationFactor( Script::CStruct* pParams, Script::CS
 		}
 		else
 		{
-			ok = pParams->GetInteger( "directional", &index );
+			/*ok = */pParams->GetInteger("directional", &index);
 			Nx::CLightManager::sSetDiffuseLightModulationFactor(index, value);
 		}
 	}
@@ -11105,10 +11105,10 @@ bool ScriptAllowPause(Script::CStruct *pParams, Script::CScript *pScript)
 	(void)pParams;
 	(void)pScript;
 	
-	bool on = true;
+	// bool on = true;
 	if (pParams->ContainsFlag("off"))
 	{
-		on = false;
+		// on = false;
 	}		
 
 	printf ("WARNING: ScriptAllowPause is STUBBED\n");	

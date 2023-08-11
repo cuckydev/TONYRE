@@ -145,44 +145,6 @@ inline void asm_copy(void* m0, void* m1)
 #endif
 */
 
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-						
-inline Matrix& 		Matrix::operator= ( const Matrix& src )
-{
-#ifdef	__USE_VU0__
-// Mick:  This actually is faster than the asm_copy method as
-// the compiler can optimize it better	
-	*((uint128 *)&row[0])=*((uint128 *)&src[0]);
-	*((uint128 *)&row[1])=*((uint128 *)&src[1]);
-	*((uint128 *)&row[2])=*((uint128 *)&src[2]);
-	*((uint128 *)&row[3])=*((uint128 *)&src[3]);
-	// asm_copy(this,(void*)&src[0]);
-#else
-	*(Vector*)row[X]	= *(Vector*)src.row[X];
-	*(Vector*)row[Y]	= *(Vector*)src.row[Y];
-	*(Vector*)row[Z] 	= *(Vector*)src.row[Z]; 
-	*(Vector*)row[W]	= *(Vector*)src.row[W];
-#endif
-	return *this;
-}
-
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-inline Matrix::Matrix( const Matrix& src )
-{
-	*this = src;
-}
-
-
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */

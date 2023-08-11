@@ -102,10 +102,10 @@ public:
 			Vector( float cx, float cy, float cz );
 			Vector( float cx, float cy, float cz, float cw );
 //			Vector( float cx = 0.0f, float cy = 0.0f, float cz = 0.0f, float cw = 1.0f );
-			Vector( const Vector& v );
+			Vector(const Vector &rhs) = default;
 	
 
-			Vector &operator=( const Vector& v );
+			Vector &operator=(const Vector &rhs) = default;
 			bool operator==( const Vector& v ) const;
 			bool operator!=( const Vector& v ) const;
         	Vector &operator+=( const Vector& v );
