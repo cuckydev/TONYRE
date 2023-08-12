@@ -32,7 +32,7 @@ namespace Mem
 			static void							SSwitchToPreviousPool() {}
 
 			static int							SGetCurrentPoolIndex() { return 0; }
-			static bool							SPoolExists() {}
+			static bool							SPoolExists() { return false; }
 	};
 }
 
