@@ -712,9 +712,10 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_add_occlusion_poly(uint32 num_verts, Mth::Vector *p_vert_array, uint32 checksum)
 	{
-		(void)num_verts;
-		(void)p_vert_array;
-		(void)checksum;
+		if (num_verts == 4)
+		{
+			NxWn32::AddOcclusionPoly(p_vert_array[0], p_vert_array[1], p_vert_array[2], p_vert_array[3], checksum);
+		}
 	}
 
 
@@ -725,8 +726,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_enable_occlusion_poly(uint32 checksum, bool enable)
 	{
-		(void)checksum;
-		(void)enable;
+		NxWn32::EnableOcclusionPoly(checksum, enable);
 	}
 
 
@@ -737,7 +737,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_remove_all_occlusion_polys(void)
 	{
-		
+		NxWn32::RemoveAllOcclusionPolys();
 	}
 
 
@@ -751,9 +751,7 @@ namespace Nx
 	// (note, currently this is the last frame's camera on PS2)
 	bool CEngine::s_plat_is_visible(Mth::Vector &center, float radius)
 	{
-		(void)center;
-		(void)radius;
-		return true;
+		return NxWn32::IsVisible(center, radius);
 	}
 
 

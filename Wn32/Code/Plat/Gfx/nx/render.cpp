@@ -1800,8 +1800,9 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 	float half_screen_angle_in_radians = Mth::DegToRad(screen_angle * 0.5f); 
 	float width = EngineGlobals.near_plane * 2.0f * tanf(half_screen_angle_in_radians);
 	float height = width / aspect_ratio;
+	float fov_y = atan(tanf(half_screen_angle_in_radians) / aspect_ratio) * 2.0f;
 
-	EngineGlobals.projection_matrix = glm::perspective(half_screen_angle_in_radians * 2.0f, aspect_ratio, EngineGlobals.near_plane, EngineGlobals.far_plane);
+	EngineGlobals.projection_matrix = glm::perspective(fov_y, aspect_ratio, EngineGlobals.near_plane, EngineGlobals.far_plane);
 
 	EngineGlobals.near_plane_width = width;
 	EngineGlobals.near_plane_height = height;
@@ -1811,8 +1812,8 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 		// Rendering the sky, so set the projection transform up to calculate a constant z value of 1.0.
 		// W value must remain correct however.
 		// TODO: Lol??
-		// EngineGlobals.projection_matrix[2][2] = -0.999999f;	// Setting this to -1.0f causes D3D to complain about WNear calculation.
-		// EngineGlobals.projection_matrix[3][2] = 0.0f;
+		EngineGlobals.projection_matrix[2][2] = -0.999999f;	// Setting this to -1.0f causes D3D to complain about WNear calculation.
+		EngineGlobals.projection_matrix[3][2] = 0.0f;
 	}
 
 	// Set up view frustum values for bounding sphere culling.
@@ -1947,23 +1948,23 @@ void set_frustum_bbox_transform( Mth::Matrix *p_transform )
 		p_bbox_transform = &bbox_transform;
 
 		bbox_transform[0][0] = (*p_transform).GetRight().GetX();
-		bbox_transform[1][0] = (*p_transform).GetRight().GetY();
-		bbox_transform[2][0] = (*p_transform).GetRight().GetZ();
-		bbox_transform[3][0] = 0.0f;
+		bbox_transform[0][1] = (*p_transform).GetRight().GetY();
+		bbox_transform[0][2] = (*p_transform).GetRight().GetZ();
+		bbox_transform[0][3] = 0.0f;
 
-		bbox_transform[0][1] = (*p_transform).GetUp().GetX();
+		bbox_transform[1][0] = (*p_transform).GetUp().GetX();
 		bbox_transform[1][1] = (*p_transform).GetUp().GetY();
-		bbox_transform[2][1] = (*p_transform).GetUp().GetZ();
-		bbox_transform[3][1] = 0.0f;
+		bbox_transform[1][2] = (*p_transform).GetUp().GetZ();
+		bbox_transform[1][3] = 0.0f;
 
-		bbox_transform[0][2] = -(*p_transform).GetAt().GetX();
-		bbox_transform[1][2] = -(*p_transform).GetAt().GetY();
-		bbox_transform[2][2] = -(*p_transform).GetAt().GetZ();
-		bbox_transform[3][2] = 0.0f;
+		bbox_transform[2][0] = (*p_transform).GetAt().GetX();
+		bbox_transform[2][1] = (*p_transform).GetAt().GetY();
+		bbox_transform[2][2] = (*p_transform).GetAt().GetZ();
+		bbox_transform[2][3] = 0.0f;
 
-		bbox_transform[0][3] = p_transform->GetPos().GetX();
-		bbox_transform[1][3] = p_transform->GetPos().GetY();
-		bbox_transform[2][3] = p_transform->GetPos().GetZ();
+		bbox_transform[3][0] = p_transform->GetPos().GetX();
+		bbox_transform[3][1] = p_transform->GetPos().GetY();
+		bbox_transform[3][2] = p_transform->GetPos().GetZ();
 		bbox_transform[3][3] = 1.0f;
 	}
 }
@@ -1995,47 +1996,43 @@ float get_bounding_sphere_nearest_z( void )
 /******************************************************************/
 bool frustum_check_sphere( const glm::vec3 &p_center, float radius )
 {
-	(void)p_center;
-	(void)radius;
-
-	// TODO: broken and idk how to properly convert dx to gl math
-
 	glm::vec4 test_out;
 	
 	// Build the composite transform if required.
 	if(p_bbox_transform != nullptr)
 	{
 		// Object to world.
-		test_out.x = p_center.x + (*p_bbox_transform)[0][3];
-		test_out.y = p_center.y + (*p_bbox_transform)[1][3];
-		test_out.z = p_center.z + (*p_bbox_transform)[2][3];
-		test_out.w = 1.0f;
+ 		test_out = glm::vec4(
+			p_center.x + (*p_bbox_transform)[3][0],
+			p_center.y + (*p_bbox_transform)[3][1],
+			p_center.z + (*p_bbox_transform)[3][2],
+			1.0f
+		);
 
 		// World to view.
-		test_out = test_out * EngineGlobals.view_matrix;
+		test_out = EngineGlobals.view_matrix * test_out;
 	}
 	else
 	{
 		// World to view.
-		test_out = glm::vec4(p_center, 1.0f) * EngineGlobals.view_matrix;
+		test_out = EngineGlobals.view_matrix * glm::vec4(p_center, 1.0f);
 	}
 
-	/*
 	boundingSphereNearestZ = -test_out.z - radius;
 
-	if( -test_out.z + radius < EngineGlobals.near_plane )
+	if (-test_out.z + radius < EngineGlobals.near_plane)
 		return false;
 
-	float sx_z	= EngineGlobals.ViewFrustumSX * test_out.z;
-	float cx_x	= EngineGlobals.ViewFrustumCX * test_out.x;
-	if(( radius < sx_z - cx_x ) || ( radius < sx_z + cx_x ))
+	float sx_z = EngineGlobals.ViewFrustumSX * test_out.z;
+	float cx_x = EngineGlobals.ViewFrustumCX * test_out.x;
+	if ((radius < sx_z - cx_x) || (radius < sx_z + cx_x))
 		return false;
 
-	float sy_z	= EngineGlobals.ViewFrustumSY * test_out.z;
-	float cy_y	= EngineGlobals.ViewFrustumCY * test_out.y;
-	if(( radius < sy_z + cy_y ) || ( radius < sy_z - cy_y ))
+	float sy_z = EngineGlobals.ViewFrustumSY * test_out.z;
+	float cy_y = EngineGlobals.ViewFrustumCY * test_out.y;
+	if ((radius < sy_z + cy_y) || (radius < sy_z - cy_y))
 		return false;
-		*/
+	
 	return true;
 }
 

@@ -1802,7 +1802,7 @@ void	FreeMemProfile(Allocator::BlockHeader* p_block)
 
 #endif // __NOPT_ASSERT__
 
-inline Manager &Manager::sHandle(void)
+Manager &Manager::sHandle(void)
 {
 	static Manager *sp_instance;
 	static bool sp_instance_inited = false;

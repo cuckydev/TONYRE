@@ -1148,14 +1148,12 @@ void sMesh::SetBillboardData( uint32 type, Mth::Vector & pivot_pos, Mth::Vector 
 /******************************************************************/
 void sMesh::SetBoundingData( Mth::Vector & sphere_center, float radius, Mth::Vector & bb_min, Mth::Vector & bb_max )
 {
-	(void)sphere_center;
-	(void)radius;
 	(void)bb_min;
 	(void)bb_max;
-//	m_bbox.Set( bb_min, bb_max );
+	// m_bbox.Set( bb_min, bb_max );
 
-	// m_sphere_center = D3DXVECTOR3( sphere_center[X], sphere_center[Y], sphere_center[Z] );
-	// m_sphere_radius = radius;
+	m_sphere_center = glm::vec3( sphere_center[X], sphere_center[Y], sphere_center[Z] );
+	m_sphere_radius = radius;
 }
 
 

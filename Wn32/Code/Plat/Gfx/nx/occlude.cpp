@@ -455,9 +455,9 @@ bool TestSphereAgainstOccluders(const glm::vec3 &p_center, float radius, uint32 
 	if( p_bbox_transform != nullptr )
 	{
 		// Object to world, so transform the sphere center.
-		center.x = p_center.x + (*p_bbox_transform)[0][3];
-		center.y = p_center.y + (*p_bbox_transform)[1][3];
-		center.z = p_center.z + (*p_bbox_transform)[2][3];
+		center.x = p_center.x + (*p_bbox_transform)[3][0];
+		center.y = p_center.y + (*p_bbox_transform)[3][1];
+		center.z = p_center.z + (*p_bbox_transform)[3][2];
 	}
 	else
 	{

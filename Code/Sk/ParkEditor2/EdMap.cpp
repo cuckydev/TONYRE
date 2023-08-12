@@ -1175,8 +1175,9 @@ void CParkManager::Initialize()
 
 float CParkManager::GetClipboardProportionUsed()
 {
-	float proportion_clipboard_entries=((float)Mem::CPoolable<CClipboardEntry>::SGetNumUsedItems())/Mem::CPoolable<CClipboardEntry>::SGetTotalItems();
-	float proportion_clipboard_slots=((float)Mem::CPoolable<CClipboard>::SGetNumUsedItems())/Mem::CPoolable<CClipboard>::SGetTotalItems();
+	// TODO: pools are disabled for now..
+	float proportion_clipboard_entries = 0.0f; // ((float)Mem::CPoolable<CClipboardEntry>::SGetNumUsedItems()) / Mem::CPoolable<CClipboardEntry>::SGetTotalItems();
+	float proportion_clipboard_slots = 0.0f; // ((float)Mem::CPoolable<CClipboard>::SGetNumUsedItems()) / Mem::CPoolable<CClipboard>::SGetTotalItems();
 
 	if (proportion_clipboard_entries > proportion_clipboard_slots)
 	{
@@ -1192,7 +1193,7 @@ float CParkManager::GetClipboardProportionUsed()
 void CParkManager::WriteCompressedMapBuffer()
 {
 	if (m_state_on)
-		write_compressed_map_buffer();	
+		write_compressed_map_buffer();
 }
 
 uint8* CParkManager::GetCompressedMapBuffer(bool markSaved)

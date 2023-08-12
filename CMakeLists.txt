@@ -39,6 +39,14 @@ else()
 	target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra -Werror)
 endif()
 
+# Statically link dependencies
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	target_link_options(TonyRE.Common INTERFACE -static)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+else()
+	target_link_options(TonyRE.Common INTERFACE -static)
+endif()
+
 # Compile TonyRE executable
 add_executable(TonyRE WIN32
 	# Com
