@@ -67,7 +67,7 @@ public:
 private:
 	Image::RGBA					plat_get_rgba() const;
 	void						plat_set_rgba(Image::RGBA rgba);
-	void						plat_set_texture();
+	void						plat_set_texture(CTexture *tex);
 
 	Image::RGBA					m_rgba;
 
