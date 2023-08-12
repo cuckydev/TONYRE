@@ -5,24 +5,24 @@
 //* CREATION DATE:  2/06/03
 //****************************************************************************
 
-#include <gel/components/shadowcomponent.h>
+#include <Gel/Components/shadowcomponent.h>
 
-#include <gel/components/modelcomponent.h>
-#include <gel/components/motioncomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/motioncomponent.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/skater.h>
-#include <sk/scripting/cfuncs.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Scripting/cfuncs.h>
 
-#include <gfx/nxmodel.h>
-#include <gfx/nxlight.h>
-#include <gfx/shadow.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxLight.h>
+#include <Gfx/shadow.h>
 
 namespace Obj
 {

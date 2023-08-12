@@ -5,24 +5,24 @@
 //* CREATION DATE:  ???
 //****************************************************************************
 
-#include <gel/components/specialitemcomponent.h>
+#include <Gel/Components/specialitemcomponent.h>
 
-#include <gel/objman.h>
-#include <gel/components/lockobjcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/object/compositeobject.h>
+#include <Gel/objman.h>
+#include <Gel/Components/lockobjcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/nxmodel.h>
+#include <Gfx/NxModel.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/objects/gameobj.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Objects/GameObj.h>
+#include <Sk/Modules/Skate/skate.h>
 
 namespace Obj
 {

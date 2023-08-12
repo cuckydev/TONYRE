@@ -7,11 +7,11 @@
 #define	__GFX_NXWIN2D_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __CORE_MATH_RECT_H
-#include <core/math/rect.h>
+#include <Core/Math/rect.h>
 #endif
 
 namespace Nx

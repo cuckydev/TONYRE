@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Main Loop Module (ML)									**
 **																			**
-**	File name:		gel/mainloop.h											**
+**	File name:		Gel/mainloop.h											**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -23,8 +23,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/singleton.h>
-#include <core/task.h>
+#include <Core/singleton.h>
+#include <Core/Task.h>
 
 /*****************************************************************************
 **								   Defines									**

@@ -8,13 +8,13 @@
 #ifndef __COMPONENTS_INPUTCOMPONENT_H__
 #define __COMPONENTS_INPUTCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/inpman.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/inpman.h>
 
-#include <sk/objects/skaterpad.h>
+#include <Sk/Objects/SkaterPad.h>
 
 #define		CRC_INPUT Crc::ConstCRC("Input")
 

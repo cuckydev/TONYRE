@@ -6,8 +6,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <core/defines.h>
-#include <gel/scripting/symboltype.h>
+#include <Core/Defines.h>
+#include <Gel/Scripting/symboltype.h>
 
 namespace Script
 {

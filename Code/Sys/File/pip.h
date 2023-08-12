@@ -2,7 +2,7 @@
 #define	__FILE_PIP_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 namespace Script

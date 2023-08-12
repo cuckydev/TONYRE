@@ -5,39 +5,39 @@
 //* CREATION DATE:  10/17/2002
 //****************************************************************************
 
-#include <gel/components/modelcomponent.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <core/string/stringutils.h>
+#include <Core/String/stringutils.h>
 									
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <gel/components/animationcomponent.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/suspendcomponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/SuspendComponent.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
 
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>								
-#include <gel/scripting/struct.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>								
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/utils.h>
 
-#include <gfx/gfxutils.h>
-#include <gfx/modelappearance.h>
-#include <gfx/modelbuilder.h>
-#include <gfx/nx.h>
-#include <gfx/nxgeom.h>
-#include <gfx/nxlight.h>
-#include <gfx/nxmodel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/ModelAppearance.h>
+#include <Gfx/ModelBuilder.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxGeom.h>
+#include <Gfx/NxLight.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/engine/feeler.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/moviecam.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/moviecam.h>
 					 
 namespace Obj
 {

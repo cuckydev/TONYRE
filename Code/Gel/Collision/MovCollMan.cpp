@@ -22,10 +22,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/collision/collision.h>
-#include <gel/collision/movcollman.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Collision/MovCollMan.h>
 
 /*****************************************************************************
 **								DBG Information								**

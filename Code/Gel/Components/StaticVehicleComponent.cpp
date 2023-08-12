@@ -5,18 +5,18 @@
 //* CREATION DATE:  8/6/3
 //****************************************************************************
 
-#include <gel/components/staticvehiclecomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/skeletoncomponent.h>
+#include <Gel/Components/StaticVehicleComponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <gfx/nxhierarchy.h>
-#include <gfx/nxmodel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/NxHierarchy.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 
 namespace Obj
 {

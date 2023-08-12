@@ -5,13 +5,13 @@
 //* CREATION DATE:  02/21/03
 //****************************************************************************
 
-#include <gel/components/cameracomponent.h>
+#include <Gel/Components/CameraComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Obj
 {

@@ -27,7 +27,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include "mem_stat.h"
+#include <Core/Debug/Mem_stat.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -109,6 +109,9 @@ inline	Module::Module( Project& proj, const char& pref, const char& desc )
 	m_project ( proj )
 				
 {
+	(void)this->m_prefix;
+	(void)this->m_description;
+
 	m_next = Dbg::RegisteredModules;		// add module to main registration list
 	Dbg::RegisteredModules = this;
 

@@ -5,9 +5,9 @@
 //* CREATION DATE:  3/27/2002
 //****************************************************************************
 
-#include <core/defines.h>
-#include "gfx/nx.h"
-#include "gfx/nxparticlemgr.h"
+#include <Core/Defines.h>
+#include "Gfx/nx.h"
+#include "Gfx/nxparticlemgr.h"
 
 namespace Nx
 {

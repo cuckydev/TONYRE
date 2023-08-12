@@ -6,9 +6,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/tokens.h>
+#include <Gel/Scripting/tokens.h>
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h> // For __NOPT_ASSERT__
+#include <Core/Defines.h> // For __NOPT_ASSERT__
 #endif
 
 namespace Script

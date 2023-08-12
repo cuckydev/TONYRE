@@ -23,12 +23,12 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/support.h>
+#include <Core/support.h>
 
-#include <core/support/support.h>
+#include <Core/Support/support.h>
 
 /*****************************************************************************
 **								   Defines									**

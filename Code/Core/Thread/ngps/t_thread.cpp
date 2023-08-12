@@ -12,8 +12,8 @@
 
 /** include files **/
 
-#include <core/defines.h>
-#include <core/task.h>
+#include <Core/Defines.h>
+#include <Core/Task.h>
 #include <eekernel.h>
 
 #include "t_thread.h"

@@ -1,6 +1,6 @@
 //****************************************************************************
 //* MODULE:         Gfx
-//* FILENAME:       p_NxWeather.h
+//* FILENAME:       p_nxweather.h
 //* OWNER:          Dave Cowling
 //* CREATION DATE:  6/19/2003
 //****************************************************************************
@@ -8,7 +8,7 @@
 #ifndef	__GFX_P_NX_WEATHER_H__
 #define	__GFX_P_NX_WEATHER_H__
 
-#include "gfx/nxweather.h"
+#include "Gfx/nxweather.h"
 
 #include "nx/texture.h"
 

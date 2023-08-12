@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <sk/objects/movingobject.h>
+#include <Sk/Objects/MovingObject.h>
 
 /*****************************************************************************
 **								   Defines									**

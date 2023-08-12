@@ -5,39 +5,39 @@
 //* CREATION DATE:  1/21/2002
 //****************************************************************************
 
-#include <sk/objects/viewerobj.h>
+#include <Sk/Objects/ViewerObj.h>
 								 
-#include <gel/components/animationcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/skeletoncomponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
 
-#include <gel/mainloop.h>
-#include <gel/objman.h>
-#include <gel/assman/assman.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/net/server/netserv.h>
+#include <Gel/mainloop.h>
+#include <Gel/objman.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Net/Server/netserv.h>
 
-#include <gfx/bonedanim.h>
-#include <gfx/gfxutils.h>
-#include <gfx/modelappearance.h>
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxhierarchy.h>
-#include <gfx/skeleton.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/ModelAppearance.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxHierarchy.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/gamenet/exportmsg.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/viewer/viewer.h>
-#include <sk/objects/skaterprofile.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/gs_file.h>
-#include <sk/scripting/skfuncs.h>
+#include <Sk/GameNet/ExportMsg.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Viewer/Viewer.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/gs_file.h>
+#include <Sk/Scripting/skfuncs.h>
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 
 // TODO:  Remove the rest of the level when the viewer is active								   
 // TODO:  Launch a primary sequence by name, pointer, or index

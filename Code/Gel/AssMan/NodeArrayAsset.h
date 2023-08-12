@@ -5,10 +5,10 @@
 #define	__GEL_NODEARRAYASSET_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include	<gel/assman/asset.h>
+#include	<Gel/AssMan/asset.h>
 
 namespace Ass
 {

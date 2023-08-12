@@ -8,12 +8,12 @@
 #ifndef __OBJECT_COMPOSITEMANAGER_H__
 #define __OBJECT_COMPOSITEMANAGER_H__
 
-#include <core/defines.h>
-#include <core/support/support.h>
-#include <core/task/task.h>
-#include <gel/object.h>
-#include <gel/object/compositeobject.h>
-#include <gel/objman.h>
+#include <Core/Defines.h>
+#include <Core/Support/support.h>
+#include <Core/Task/Task.h>
+#include <Gel/object.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/objman.h>
                           
 namespace Obj
 {

@@ -4,9 +4,9 @@
 #ifndef __OBJECTS_Proxim_H
 #define __OBJECTS_Proxim_H
 
-#include <core\math\geometry.h>
+#include <Core/Math/geometry.h>
 
-#include <gfx/camera.h>
+#include <Gfx/camera.h>
 
 namespace Nx
 {

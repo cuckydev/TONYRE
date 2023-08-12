@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Module  (MDL)											**
 **																			**
-**	File name:		gel/modman.h											**
+**	File name:		Gel/modman.h											**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -22,11 +22,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/support.h>
-#include <core/singleton.h>
-#include <core/list.h>
-#include <core/task.h>
-#include <gel/module.h>
+#include <Core/support.h>
+#include <Core/singleton.h>
+#include <Core/List.h>
+#include <Core/Task.h>
+#include <Gel/module.h>
 					  
 /*****************************************************************************
 **								   Defines									**

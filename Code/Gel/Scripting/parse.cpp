@@ -6,22 +6,22 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/parse.h>
-#include <gel/scripting/tokens.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/eval.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/scriptcache.h>
-#include <gel/scripting/script.h>
-#include <core/math/math.h> // For Mth::Rnd and Mth::Rnd2
-#include <core/crc.h> // For Crc::GenerateCRCFromString
-#include <core/compress.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/tokens.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/eval.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/scriptcache.h>
+#include <Gel/Scripting/script.h>
+#include <Core/Math/math.h> // For Mth::Rnd and Mth::Rnd2
+#include <Core/crc.h> // For Crc::GenerateCRCFromString
+#include <Core/compress.h>
 
 #include <cstring>
 
@@ -54,7 +54,7 @@ static uint32 s_qb_being_parsed=0;
 
 // The SkipToken function is in skiptoken.cpp, so that it can also be included in PC code,
 // such as qcomp.
-#include <gel/scripting/skiptoken.cpp>
+#include <Gel/Scripting/skiptoken.cpp>
 
 #ifdef __NOPT_ASSERT__
 void CheckForPossibleInfiniteLoops(uint32 scriptName, uint8 *p_token, const char *p_fileName)

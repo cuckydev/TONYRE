@@ -1,8 +1,8 @@
 #ifndef __GFX_NX_VIEWMAN_H__
 #define __GFX_NX_VIEWMAN_H__
 
-#include <gfx/camera.h>
-#include <gfx/nxviewport.h>
+#include <Gfx/camera.h>
+#include <Gfx/NxViewport.h>
 
 namespace Script
 {

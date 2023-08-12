@@ -5,20 +5,20 @@
 //* CREATION DATE:  5/13/03
 //****************************************************************************
 
-#include <gel/components/walkcameracomponent.h>
-#include <core/math/slerp.h>
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/components/walkcomponent.h>
-#include <gel/components/camerautil.h>
-#include <gel/components/cameralookaroundcomponent.h>
-#include <gel/components/cameracomponent.h>
-#include <gel/components/pedlogiccomponent.h>				// Messy, but for now used to obtain ped positions etc.
-#include <gel/components/weaponcomponent.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gfx/debuggfx.h>
+#include <Gel/Components/WalkCameraComponent.h>
+#include <Core/Math/slerp.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Components/CameraUtil.h>
+#include <Gel/Components/CameraLookAroundComponent.h>
+#include <Gel/Components/CameraComponent.h>
+#include <Gel/Components/PedLogicComponent.h>				// Messy, but for now used to obtain ped positions etc.
+#include <Gel/Components/weaponcomponent.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gfx/debuggfx.h>
 
 // These should be members in the cameralookaroundcomponent.
 extern float			spin_modulator;

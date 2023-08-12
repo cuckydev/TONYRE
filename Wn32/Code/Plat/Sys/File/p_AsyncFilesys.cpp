@@ -6,7 +6,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 
 #include <Plat/Sys/File/p_AsyncFilesys.h>
 

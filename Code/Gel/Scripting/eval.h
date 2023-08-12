@@ -2,15 +2,15 @@
 #define	__SCRIPTING_EVAL_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef	__SCRIPTING_COMPONENT_H
-#include <gel/scripting/component.h>
+#include <Gel/Scripting/component.h>
 #endif
 
 #ifndef __SCRIPTING_TOKENS_H
-#include <gel/scripting/tokens.h>
+#include <Gel/Scripting/tokens.h>
 #endif
 
 namespace Script

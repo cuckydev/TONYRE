@@ -1,9 +1,9 @@
 #ifndef __GFX_2D_FONTMAN_H__
 #define __GFX_2D_FONTMAN_H__
 
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 
-#include <gfx/NxFont.h>
+#include <Gfx/NxFont.h>
 
 namespace Script
 {

@@ -5,24 +5,24 @@
 //* CREATION DATE:  4/2/3
 //****************************************************************************
 
-#include <gel/components/ridercomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/triggercomponent.h>
-#include <gel/components/movablecontactcomponent.h>
+#include <Gel/Components/ridercomponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/TriggerComponent.h>
+#include <Gel/Components/MovableContactComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/collision/collcache.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Collision/CollCache.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
 
 
 

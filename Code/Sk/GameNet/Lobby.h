@@ -23,7 +23,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 #include <peer/peer.h>
 #include <natneg/natneg.h>

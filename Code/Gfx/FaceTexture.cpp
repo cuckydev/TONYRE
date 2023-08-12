@@ -5,14 +5,14 @@
 //* CREATION DATE:  4/29/2003
 //****************************************************************************
 
-#include <gfx/facetexture.h>
+#include <Gfx/FaceTexture.h>
 
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
 // for temporary texture
-#include <sys/file/filesys.h>
+#include <Sys/File/filesys.h>
 
 #include <cstring>
 

@@ -12,12 +12,12 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object.h>
+#include <Gel/object.h>
 
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/struct.h>
 
 /*****************************************************************************
 **								   Defines									**

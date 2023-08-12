@@ -1,11 +1,11 @@
 #ifndef __SK_PARKEDITOR2_EDMAP_H
 #define __SK_PARKEDITOR2_EDMAP_H
 
-#include <sk/ParkEditor2/ParkGen.h>
-#include <sk/ParkEditor2/GapManager.h>
+#include <Sk/ParkEditor2/ParkGen.h>
+#include <Sk/ParkEditor2/GapManager.h>
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 //#ifdef	__PLAT_NGPS__

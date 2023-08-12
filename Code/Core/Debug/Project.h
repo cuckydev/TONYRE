@@ -27,7 +27,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include "mem_stat.h"
+#include <Core/Debug/Mem_stat.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -53,8 +53,8 @@ public :
 
 private :
 
-	const char&			name;
-	const char&			description;
+	const char &name;
+	const char &description;
 
 	Project*			next;				// pointer to next registered project
 	Dbg::Module*			children;			// pointer to children modules 
@@ -109,6 +109,8 @@ namespace Dbg
 inline	Project::Project ( const char& name, const char& description )
 :	name ( name ), description ( description )
 {
+	(void)this->name;
+	(void)this->description;
 	next = RegisteredProjects;
 	RegisteredProjects = this;
 	children = nullptr;

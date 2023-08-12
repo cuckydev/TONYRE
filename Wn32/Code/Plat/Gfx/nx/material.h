@@ -1,9 +1,9 @@
 #ifndef __MATERIAL_H
 #define __MATERIAL_H
 
-#include <core/HashTable.h>
-#include <gfx/image/imagebasic.h>
-#include <gfx/nxtexture.h>
+#include <Core/HashTable.h>
+#include <Gfx/Image/ImageBasic.h>
+#include <Gfx/NxTexture.h>
 
 #include "texture.h"
 #include "nx_init.h"

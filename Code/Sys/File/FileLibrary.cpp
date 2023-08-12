@@ -9,14 +9,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sys/file/filelibrary.h>
+#include <Sys/File/FileLibrary.h>
 
-#include <sys/file/asyncfilesys.h>
-#include <sys/file/filesys.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
+#include <Sys/File/AsyncFilesys.h>
+#include <Sys/File/filesys.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
 
-#include <sys/mem/memman.h>
+#include <Sys/Mem/memman.h>
 
 /*****************************************************************************
 **								DBG Information								**

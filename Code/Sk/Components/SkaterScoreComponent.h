@@ -8,12 +8,12 @@
 #ifndef __COMPONENTS_SKATERSCORECOMPONENT_H__
 #define __COMPONENTS_SKATERSCORECOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 #define		CRC_SKATERSCORE Crc::ConstCRC("SkaterScore")
 

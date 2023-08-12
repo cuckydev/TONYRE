@@ -1,8 +1,8 @@
 // skaterbutton.cpp
 
-#include	<sk\objects\skaterbutton.h>
+#include	<Sk/Objects/SkaterButton.h>
 
-#include	<gel\scripting\checksum.h>
+#include	<Gel/Scripting/checksum.h>
 
 const	int	pressure_threshold = 64;
 

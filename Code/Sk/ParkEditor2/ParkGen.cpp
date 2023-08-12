@@ -1,46 +1,46 @@
-#include <core/defines.h>
-#include <sk/ParkEditor2/ParkGen.h>
-#include <sk/ParkEditor2/EdMap.h>			// Mick:  Added as we need to iterate over the ConcreteMetaPieces
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Sk/ParkEditor2/ParkGen.h>
+#include <Sk/ParkEditor2/EdMap.h>			// Mick:  Added as we need to iterate over the ConcreteMetaPieces
+#include <Core/math.h>
 
-#include <gel/collision/collision.h>
-#include <gel/collision/colltridata.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/gs_file.h>
-#include <sk/gamenet/gamenet.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Collision/CollTriData.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/gs_file.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <sys/replay/replay.h>	   // Needed to get the size of the replay buffer, for adjusting available memory
+#include <Sys/Replay/replay.h>	   // Needed to get the size of the replay buffer, for adjusting available memory
 
-#include <gel/object/compositeobjectmanager.h>
-#include <sk/components/raileditorcomponent.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Sk/Components/RailEditorComponent.h>
 
 
-#include <gfx/nx.h>
-#include <gfx/NxSector.h>
-#include <gfx/NxGeom.h>
-#include <gfx/NxScene.h>
-#include <sk/heap_sizes.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxSector.h>
+#include <Gfx/NxGeom.h>
+#include <Gfx/NxScene.h>
+#include <Sk/heap_sizes.h>
 
 //#define	DEBUG_RESTARTS
 
 #ifdef __PLAT_NGC__
-#include <gfx/ngc/p_nxscene.h>
+#include <Gfx/ngc/p_nxscene.h>
 #endif		// __PLAT_NGC__
 
 #ifdef __PLAT_NGPS__
 #define PRINT_RAW_RESULTS 0
 
 #if PRINT_RAW_RESULTS
-#include <core/crc.h>
-#include <gfx/ngps/p_nxgeom.h>
-#include <gfx/ngps/nx/geomnode.h>
-#include <gfx/ngps/nx/dma.h>
+#include <Core/crc.h>
+#include <Gfx/ngps/p_nxgeom.h>
+#include <Gfx/ngps/nx/geomnode.h>
+#include <Gfx/ngps/nx/dma.h>
 
 
 namespace Nx

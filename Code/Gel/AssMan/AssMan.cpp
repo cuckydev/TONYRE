@@ -29,25 +29,25 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gel/assman/assman.h>
+#include <Gel/AssMan/AssMan.h>
 
-#include <core/singleton.h>
-#include <core/string/stringutils.h>
+#include <Core/singleton.h>
+#include <Core/String/stringutils.h>
 
-#include <sys/file/AsyncFilesys.h>
+#include <Sys/File/AsyncFilesys.h>
 
-#include <gel/assman/assettypes.h>
-#include <gel/assman/animasset.h>
-#include <gel/assman/cutsceneasset.h>
-#include <gel/assman/skeletonasset.h>
-#include <gel/assman/skinasset.h>
-#include <gel/assman/refasset.h>
-#include <gel/assman/nodearrayasset.h>
+#include <Gel/AssMan/assettypes.h>
+#include <Gel/AssMan/animasset.h>
+#include <Gel/AssMan/cutsceneasset.h>
+#include <Gel/AssMan/skeletonasset.h>
+#include <Gel/AssMan/skinasset.h>
+#include <Gel/AssMan/refasset.h>
+#include <Gel/AssMan/NodeArrayAsset.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>							
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>							
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
 /*****************************************************************************
 **								DBG Information								**

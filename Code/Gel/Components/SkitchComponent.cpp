@@ -5,12 +5,12 @@
 //* CREATION DATE:  02/19/03
 //****************************************************************************
 
-#include <gel/components/skitchcomponent.h>
+#include <Gel/Components/SkitchComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Obj
 {

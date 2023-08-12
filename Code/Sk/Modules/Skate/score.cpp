@@ -22,44 +22,44 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/modules/skate/score.h>
+#include <Sk/Modules/Skate/score.h>
 
-#include <core/defines.h>
-#include <core/string/stringutils.h>
+#include <Core/Defines.h>
+#include <Core/String/stringutils.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
 
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/components/trickcomponent.h>
-#include <gel/components/statsmanagercomponent.h>
-#include <gel/components/animationcomponent.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Components/trickcomponent.h>
+#include <Gel/Components/StatsManagerComponent.h>
+#include <Gel/Components/animationcomponent.h>
 
-#include <gfx/nxviewman.h>
-#include <gfx/2d/screenelemman.h>
-#include <gfx/2d/textelement.h>
-#include <gfx/2d/spriteelement.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/TextElement.h>
+#include <Gfx/2D/SpriteElement.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/gamenet/gamemsg.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/GameNet/GameMsg.h>
 
-#include <sk/objects/skater.h>		   // for control and trick stuff
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/skatercareer.h>
+#include <Sk/Objects/skater.h>		   // for control and trick stuff
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/skatercareer.h>
 
-#include <sk/components/skaterruntimercomponent.h>
-#include <sk/components/skateradjustphysicscomponent.h>
+#include <Sk/Components/SkaterRunTimerComponent.h>
+#include <Sk/Components/SkaterAdjustPhysicsComponent.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
 
-#include <sk/scripting/cfuncs.h>
+#include <Sk/Scripting/cfuncs.h>
 
-#include <sys/replay/replay.h>
+#include <Sys/Replay/replay.h>
 
 namespace Front
 {

@@ -27,27 +27,27 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gfx/nxviewman.h>
-#include <gfx/nxloadscreen.h>
-#include <gel/soundfx/soundfx.h>
-#include <gel/music/music.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/NxLoadScreen.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Music/music.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
 
-#include <modules/frontend/frontend.h>  // until gametimer is moved into lower level stuff..
+#include <Sk/Modules/FrontEnd/FrontEnd.h>  // until gametimer is moved into lower level stuff..
 
-#include <sys/config/config.h>
-#include <sys/replay/replay.h>
+#include <Sys/Config/config.h>
+#include <Sys/Replay/replay.h>
 
-#include <gel/components/soundcomponent.h>
+#include <Gel/Components/soundcomponent.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/moviecam.h>
-#include <sk/objects/movingobject.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/moviecam.h>
+#include <Sk/Objects/MovingObject.h>
 
 // Used by the script debugger code to fill in a structure
 // for transmitting to the monitor.exe utility running on the PC.

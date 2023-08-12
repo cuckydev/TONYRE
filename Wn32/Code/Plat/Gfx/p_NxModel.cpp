@@ -5,19 +5,19 @@
 //* CREATION DATE:  12/21/2002
 //****************************************************************************
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include "gfx/nxmodel.h"
-#include "gfx/skeleton.h"
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 #include <Plat/Gfx/p_NxMesh.h>
 #include <Plat/Gfx/p_NxModel.h>
 #include <Plat/Gfx/p_nxscene.h>
-#include <Plat/Gfx/p_nxgeom.h>
+#include <Plat/Gfx/p_NxGeom.h>
 #include <Plat/Gfx/nx/texture.h>
 #include <Plat/Gfx/nx/render.h>
 			   
-#include <gel/assman/assman.h>
-#include <gel/assman/skinasset.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/AssMan/skinasset.h>
 
 int			test_num_bones			= 0;
 Mth::Matrix	*p_test_bone_matrices	= nullptr;

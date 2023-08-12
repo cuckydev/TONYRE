@@ -2,8 +2,8 @@
 #define __INSTANCE_H
 
 
-#include <core/defines.h>
-#include <gfx/NxModel.h>
+#include <Core/Defines.h>
+#include <Gfx/NxModel.h>
 #include "scene.h"
 
 namespace NxWn32

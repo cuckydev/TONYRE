@@ -1,5 +1,5 @@
-#include <core/defines.h>
-#include <sys/mem/CompactPool.h>
+#include <Core/Defines.h>
+#include <Sys/Mem/CompactPool.h>
 
 
 #ifdef __DEBUG_COMPACTPOOL__

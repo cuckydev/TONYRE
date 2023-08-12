@@ -8,10 +8,10 @@
 #ifndef __OBJECT_BASECOMPONENT_H__
 #define __OBJECT_BASECOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object.h>
+#include <Gel/object.h>
 
 namespace Script
 {

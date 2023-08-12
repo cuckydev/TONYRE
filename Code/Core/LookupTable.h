@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <core/crc.h>
+#include <Core/crc.h>
 
 /*****************************************************************************
 **							  	  Includes									**

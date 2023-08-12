@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <windows.h>
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 /*****************************************************************************
 **								DBG Information								**

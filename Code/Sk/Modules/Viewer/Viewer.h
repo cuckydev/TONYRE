@@ -25,12 +25,12 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gel/module.h>
-#include <gel/inpman.h>
-#include <gel/net/net.h>
-#include <gel/net/server/netserv.h>
+#include <Gel/module.h>
+#include <Gel/inpman.h>
+#include <Gel/Net/net.h>
+#include <Gel/Net/Server/netserv.h>
 
 /*****************************************************************************
 **								   Defines									**

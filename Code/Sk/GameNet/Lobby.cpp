@@ -22,24 +22,24 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/thread.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/thread.h>
+#include <Core/singleton.h>
 
-#include <gel/mainloop.h>
+#include <Gel/mainloop.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/gamenet/lobby.h>
-#include <sk/gamenet/ngps/p_buddy.h>
-#include <sk/gamenet/ngps/p_stats.h>
-#include <sk/modules/skate/gamemode.h>                                       
-#include <sk/scripting/cfuncs.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/GameNet/lobby.h>
+#include <Sk/GameNet/ngps/p_buddy.h>
+#include <Sk/GameNet/ngps/p_stats.h>
+#include <Sk/Modules/Skate/GameMode.h>                                       
+#include <Sk/Scripting/cfuncs.h>
 
 // #include <peer/peer.h>
 

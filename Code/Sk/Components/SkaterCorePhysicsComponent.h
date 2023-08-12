@@ -8,19 +8,19 @@
 #ifndef __COMPONENTS_SKATERCOREPHYSICSCOMPONENT_H__
 #define __COMPONENTS_SKATERCOREPHYSICSCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <core/math/slerp.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Core/Math/slerp.h>
 
-#include <gel/object/basecomponent.h>
-#include <sk/engine/feeler.h>
-#include <sk/objects/skater.h>
-#include <sk/objects/skaterflags.h>
-#include <sk/objects/manual.h>
-#include <sk/objects/rail.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/components/skatersoundcomponent.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
+#include <Gel/Object/basecomponent.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/skaterflags.h>
+#include <Sk/Objects/manual.h>
+#include <Sk/Objects/rail.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Components/SkaterSoundComponent.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
 
 #define		CRC_SKATERCOREPHYSICS Crc::ConstCRC("SkaterCorePhysics")
 

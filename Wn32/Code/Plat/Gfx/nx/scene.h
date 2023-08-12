@@ -2,10 +2,10 @@
 #define __SCENE_H
 
 
-#include <core/defines.h>
-#include <core/math.h>
-#include <core/math/geometry.h>
-#include <gfx/NxHierarchy.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
+#include <Gfx/NxHierarchy.h>
 #include "texture.h"
 #include "mesh.h"
 #include "material.h"

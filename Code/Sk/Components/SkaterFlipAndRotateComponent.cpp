@@ -11,18 +11,18 @@
  * "Please!" says CSkaterFlipAndRotateComponent, "Deprecate me, and end my torturous existence!"
  */
 
-#include <sk/components/skaterflipandrotatecomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/Components/SkaterFlipAndRotateComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Net/Client/netclnt.h>
 
 namespace Obj
 {

@@ -9,16 +9,16 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/casutils.h>
+#include <Gfx/CasUtils.h>
 
-#include <core/math/math.h>
+#include <Core/Math/math.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h> 
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h> 
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
 
 /*****************************************************************************
 **								  Externals									**

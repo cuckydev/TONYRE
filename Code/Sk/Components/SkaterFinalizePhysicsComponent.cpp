@@ -5,16 +5,16 @@
 //* CREATION DATE:  3/26/3
 //****************************************************************************
 
-#include <sk/components/skaterfinalizephysicscomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/components/skaterloopingsoundcomponent.h>
-#include <sk/components/skatersoundcomponent.h>
+#include <Sk/Components/SkaterFinalizePhysicsComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Components/SkaterLoopingSoundComponent.h>
+#include <Sk/Components/SkaterSoundComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 				  
 namespace Obj
 {

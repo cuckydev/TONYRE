@@ -8,12 +8,12 @@
 #ifndef __GFX_BLENDCHANNEL_H__
 #define __GFX_BLENDCHANNEL_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gfx/animcontroller.h>
-#include <gfx/baseanimcontroller.h>
-#include <gfx/customanimkey.h>
+#include <Gfx/AnimController.h>
+#include <Gfx/baseanimcontroller.h>
+#include <Gfx/CustomAnimKey.h>
 	
 namespace Object
 {
@@ -71,7 +71,7 @@ public:
 	virtual void				Update();
 	virtual void				Reset();
 	virtual void				GetDebugInfo( Script::CStruct* p_info );
-	virtual void        		PlaySequence( uint32 animName, float start_time, float end_time, EAnimLoopingType loop_type, float blend_period, float speed, bool flipped );
+	virtual void				PlayBlendSequence( uint32 animName, float start_time, float end_time, EAnimLoopingType loop_type, float blend_period, float speed, bool flipped );
 
 public:
 	float						GetDegenerationTime() { return m_degenerationTime; }

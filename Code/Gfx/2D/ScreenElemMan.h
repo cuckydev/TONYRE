@@ -1,11 +1,11 @@
 #ifndef __GFX_2D_SCREENELEMMAN_H__
 #define __GFX_2D_SCREENELEMMAN_H__
 
-#include <gel/objman.h>
-#include <gel/event.h>
-#include <gfx/2D/ScreenElement2.h>
+#include <Gel/objman.h>
+#include <Gel/Event.h>
+#include <Gfx/2D/ScreenElement2.h>
 
-#include <sys/sioman.h>
+#include <Sys/sioman.h>
 
 namespace Script
 {

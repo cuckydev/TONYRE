@@ -26,9 +26,9 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <time.h>
-#include <sys/timer.h>
-#include <sys/profiler.h>
-#include <sys/config/config.h>
+#include <Sys/timer.h>
+#include <Sys/Profiler.h>
+#include <Sys/Config/config.h>
 
 #include <Plat/Gfx/nx/nx_init.h>
 

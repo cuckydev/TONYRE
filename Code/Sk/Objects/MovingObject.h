@@ -12,13 +12,13 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <core/math.h>
-#include <core/task.h>
+#include <Core/math.h>
+#include <Core/Task.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
 /*****************************************************************************
 **							Forward Declarations							**

@@ -8,10 +8,10 @@
 #ifndef __COMPONENTS_MODELLIGHTUPDATECOMPONENT_H__
 #define __COMPONENTS_MODELLIGHTUPDATECOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 #define		CRC_MODELLIGHTUPDATE Crc::ConstCRC("ModelLightUpdate")
 #define		GetModelLightUpdateComponent() ((Obj::CModelLightUpdateComponent*)GetComponent(CRC_MODELLIGHTUPDATE))

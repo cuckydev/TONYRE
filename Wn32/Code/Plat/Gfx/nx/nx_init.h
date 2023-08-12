@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 #include <Windows.h>
 
 #include <SDL.h>

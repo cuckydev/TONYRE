@@ -22,26 +22,26 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/crown.h>
+#include <Sk/Objects/crown.h>
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/objman.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/objman.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
 
-#include <gel/components/modelcomponent.h>
-#include <gel/components/motioncomponent.h>
-#include <gel/components/suspendcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/Components/SuspendComponent.h>
 					 
-#include <gfx/gfxutils.h>
-#include <gfx/debuggfx.h>
-#include <gfx/nxmodel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/debuggfx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/objects/skater.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Scripting/nodearray.h>
 
 /*****************************************************************************
 **								DBG Information								**

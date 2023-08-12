@@ -3,7 +3,7 @@
 #pragma once
 
 #include <Core/Defines.h>
-#include <Sys/Mem/Heap.h>
+#include <Sys/Mem/heap.h>
 
 void MemView_Display();
 void MemView_Input(uint buttons, uint makes, uint breaks);

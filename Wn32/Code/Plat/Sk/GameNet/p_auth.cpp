@@ -22,11 +22,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sys/McMan.h>
-#include <gel/mainloop.h>
-#include <gel/scripting/script.h>
-#include <sk/gamenet/gamenet.h>
+#include <Core/Defines.h>
+#include <Sys/McMan.h>
+#include <Gel/mainloop.h>
+#include <Gel/Scripting/script.h>
+#include <Sk/GameNet/GameNet.h>
 #include <Plat/Sk/GameNet/p_auth.h>
 #include <Plat/Sk/GameNet/p_buddy.h>
 #include <Plat/Sk/GameNet/p_voice.h>

@@ -22,23 +22,23 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gel/net/net.h>
+#include <Gel/Net/net.h>
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sys/timer.h>
-#include <sys/config/config.h>
-#include <sys/sioman.h>
-#include <sys/file/filesys.h>
+#include <Sys/timer.h>
+#include <Sys/Config/config.h>
+#include <Sys/sioman.h>
+#include <Sys/File/filesys.h>
 
 #include <stdlib.h>
 #include <string.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
 
 #ifndef __PLAT_WN32__
-#include <gel/music/music.h>
+#include <Gel/Music/music.h>
 #endif
 
 #ifdef __PLAT_XBOX__
@@ -46,7 +46,7 @@
 #include <winsockx.h>
 #endif
 
-#include <gel/mainloop.h>
+#include <Gel/mainloop.h>
 
 #ifdef __PLAT_NGPS__
 
@@ -67,7 +67,7 @@
 #define DEFAULT_SNPS2_SUB_MSK	"255.255.255.0"
 #define DEFAULT_SNPS2_GATEWAY	"192.168.0.1"
 
-const char  spduartArgs[]   = "-nogci\0dial=cdrom0:\\IOP\\DIAL_SPD.CNF;1";
+// const char  spduartArgs[]   = "-nogci\0dial=cdrom0:\\IOP\\DIAL_SPD.CNF;1";
 
 /*****************************************************************************
 **								DBG Defines									**

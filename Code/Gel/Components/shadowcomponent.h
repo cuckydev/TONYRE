@@ -8,15 +8,15 @@
 #ifndef __COMPONENTS_SHADOWCOMPONENT_H__
 #define __COMPONENTS_SHADOWCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
 // For EShadowType
-#include <gfx/shadow.h>
+#include <Gfx/shadow.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 			
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_SHADOW Crc::ConstCRC("shadow")

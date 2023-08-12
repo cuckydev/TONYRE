@@ -23,14 +23,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 #include <math.h>
 
 /*****************************************************************************
 **							  DBG Information								**
 *****************************************************************************/
 
-#include <core/math/math.h>
+#include <Core/Math/math.h>
 
 
 namespace Mth

@@ -5,11 +5,11 @@
 #define	__GFX_NX_TEXTURE_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 
-#include <gfx/image/imagebasic.h>
+#include <Gfx/Image/ImageBasic.h>
 
 
 namespace Nx

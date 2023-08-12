@@ -1,24 +1,24 @@
-#include	<sys/file/filesys.h>
+#include	<Sys/File/filesys.h>
 
-#include	"gfx\camera.h"
-#include	"gfx\gfxman.h"
-#include	"gfx\nx.h"
-#include	"gfx\nxtexman.h"
-#include	"gfx\nxviewman.h"
-#include	"gfx\NxQuickAnim.h"
-#include	"gfx\NxParticleMgr.h"
-#include	"gfx\NxMiscFX.h"
-#include	"gfx\debuggfx.h"
-#include	"core\math.h"
-#include 	"sk\engine\SuperSector.h"
-#include 	"gel\scripting\script.h"
+#include	<Gfx/camera.h>
+#include	<Gfx/gfxman.h>
+#include	<Gfx/nx.h>
+#include	<Gfx/NxTexMan.h>
+#include	<Gfx/NxViewMan.h>
+#include	<Gfx/NxQuickAnim.h>
+#include	<Gfx/nxparticlemgr.h>
+#include	<Gfx/NxMiscFX.h>
+#include	<Gfx/debuggfx.h>
+#include	<Core\math.h>
+#include 	<Sk/Engine/SuperSector.h>
+#include 	<Gel/Scripting/script.h>
 
 #include "p_NxMesh.h"
 #include "p_NxGeom.h"
 #include "p_NxSprite.h"
 #include "p_NxModel.h"
-#include "p_NxNewParticleMgr.h"
-#include "p_NxWeather.h"
+#include "p_nxnewparticlemgr.h"
+#include "p_nxweather.h"
 
 #include "nx/nx_init.h"
 #include "nx/scene.h"

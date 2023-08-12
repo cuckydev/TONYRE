@@ -8,18 +8,18 @@
 #ifndef __COMPONENTS_WALKCOMPONENT_H__
 #define __COMPONENTS_WALKCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <core/timestampedflag.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Core/TimestampedFlag.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/object/compositeobject.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/components/skaterphysicscontrolcomponent.h>
-#include <sk/engine/feeler.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
+#include <Sk/Engine/feeler.h>
 
 #ifdef __NOPT_ASSERT__
 #define WHEADER { printf("%" PRIu64 ":%s:%u: ", Tmr::GetRenderFrame(), __FILE__, __LINE__); }

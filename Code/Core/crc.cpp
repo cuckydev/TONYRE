@@ -22,7 +22,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 /*****************************************************************************
 **								DBG Information								**
@@ -155,7 +155,7 @@ uint32 GenerateCRC( const char *stream, int size )
 			ch='\\';
 		}	
 		
-        rc = CRCTable[(rc^ch) & 0xff] ^ ((rc>>8) & 0x00ffffff);
+        rc = CRCTable[(rc ^ (unsigned char)ch) & 0xff] ^ ((rc>>8) & 0x00ffffff);
     }
 
 	return rc;
@@ -201,7 +201,7 @@ uint32 GenerateCRCFromString( const char *pName )
 			ch='\\';
 		}	
 		
-        rc = CRCTable[(rc^ch) & 0xff] ^ ((rc>>8) & 0x00ffffff);
+        rc = CRCTable[(rc ^ (unsigned char)ch) & 0xff] ^ ((rc>>8) & 0x00ffffff);
     }
 
 	return rc;
@@ -240,7 +240,7 @@ uint32 ExtendCRCWithString( uint32 rc, const char *pName )
 			ch='\\';
 		}	
 		
-        rc = CRCTable[(rc^ch) & 0xff] ^ ((rc>>8) & 0x00ffffff);
+        rc = CRCTable[(rc ^ (unsigned char)ch) & 0xff] ^ ((rc>>8) & 0x00ffffff);
     }
 
 	return rc;

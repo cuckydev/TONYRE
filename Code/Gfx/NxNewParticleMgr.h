@@ -25,9 +25,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/hashtable.h>
-#include <gfx/nxnewparticle.h>
+#include <Core/Defines.h>
+#include <Core/HashTable.h>
+#include <Gfx/NxNewParticle.h>
 
 /*****************************************************************************
 **								   Defines									**

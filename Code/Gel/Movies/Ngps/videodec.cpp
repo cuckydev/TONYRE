@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <eetypes.h>
-#include "gel/movies/ngps/p_movies.h"
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/vobuf.h"
-#include "gel/movies/ngps/videodec.h"
-#include "gel/movies/ngps/disp.h"
+#include "Gel/movies/ngps/p_movies.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/vobuf.h"
+#include "Gel/movies/ngps/videodec.h"
+#include "Gel/movies/ngps/disp.h"
 
 namespace Flx
 {

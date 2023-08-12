@@ -1,28 +1,28 @@
 ///////////////////////////////////////////////////////
 // rail.cpp
 
-#include <sk/objects/navigation.h>
+#include <Sk/Objects/navigation.h>
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/math.h>
-#include <core/math/geometry.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
 
-#include <gel/modman.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/utils.h>
-#include <gel/environment/terrain.h>
-#include <gel/collision/collision.h>
+#include <Gel/modman.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Environment/terrain.h>
+#include <Gel/Collision/Collision.h>
 
-#include <gfx/nx.h>
-#include <gfx/debuggfx.h>
+#include <Gfx/nx.h>
+#include <Gfx/debuggfx.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Scripting/nodearray.h>
 		  
 
 namespace Obj

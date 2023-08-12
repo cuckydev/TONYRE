@@ -10,7 +10,7 @@
 **																			**
 **	Module:			List (Lst)												**
 **																			**
-**	File name:		core/list.h												**
+**	File name:		Core/List.h												**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -23,9 +23,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/list/node.h>
-#include <core/list/head.h>
-#include <core/list/search.h>
+#include <Core/List/Node.h>
+#include <Core/List/Head.h>
+#include <Core/List/Search.h>
 
 /*****************************************************************************
 **								   Defines									**

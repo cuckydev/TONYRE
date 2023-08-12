@@ -22,10 +22,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <objects/records.h>
-#include <gel/scripting/script.h> 
-#include <gel/scripting/struct.h> 
-#include <gel/scripting/array.h> 
+#include <Sk/Objects/records.h>
+#include <Gel/Scripting/script.h> 
+#include <Gel/Scripting/struct.h> 
+#include <Gel/Scripting/array.h> 
 
 /*****************************************************************************
 **								DBG Information								**

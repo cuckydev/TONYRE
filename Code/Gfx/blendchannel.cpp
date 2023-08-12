@@ -5,27 +5,27 @@
 //* CREATION DATE:  12/12/2002
 //****************************************************************************
 
-#include <gfx/blendchannel.h>
+#include <Gfx/blendchannel.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/components/animationcomponent.h>
+#include <Gel/Components/animationcomponent.h>
 
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
 							 
-#include <gfx/baseanimcontroller.h>
-#include <gfx/bonedanim.h>
-#include <gfx/nx.h>
-#include <gfx/nxanimcache.h>
-#include <gfx/pose.h>
-#include <gfx/skeleton.h>
-#include <gfx/subanimcontroller.h>
+#include <Gfx/baseanimcontroller.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxAnimCache.h>
+#include <Gfx/Pose.h>
+#include <Gfx/Skeleton.h>
+#include <Gfx/subanimcontroller.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 				  
 namespace Gfx
 {
@@ -456,7 +456,7 @@ bool CBlendChannel::IsDegenerating()
 /*                                                                */
 /******************************************************************/
 
-void CBlendChannel::PlaySequence( uint32 anim_name, float start_time, float end_time, EAnimLoopingType loop_type, float blend_period, float speed, bool flipped )
+void CBlendChannel::PlayBlendSequence( uint32 anim_name, float start_time, float end_time, EAnimLoopingType loop_type, float blend_period, float speed, bool flipped )
 {
 	// clear out any old custom keys, and add the new ones
 	delete_custom_keys();

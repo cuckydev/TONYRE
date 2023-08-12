@@ -24,19 +24,19 @@
 
 #include <string.h>
 
-#include <core/defines.h>
-#include <core/crc.h>
-#include <core/thread.h>
+#include <Core/Defines.h>
+#include <Core/crc.h>
+#include <Core/thread.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 #ifndef __PLAT_WN32__
-#include <sys/profiler.h>
+#include <Sys/Profiler.h>
 #endif// __PLAT_WN32__
 
-#include <gel/net/net.h>
+#include <Gel/Net/net.h>
 
-#include <gel/mainloop.h>
+#include <Gel/mainloop.h>
 
 
 /*****************************************************************************

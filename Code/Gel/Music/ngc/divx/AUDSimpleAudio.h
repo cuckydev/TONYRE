@@ -12,7 +12,7 @@
  *		1.0
  *
  * \author
- *		Thomas Engel/Achim Moller
+ *		Thomas EnGel/Achim Moller
  *
  ******************************************************************************
  */

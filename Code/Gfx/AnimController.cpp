@@ -13,13 +13,13 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/animcontroller.h>
+#include <Gfx/AnimController.h>
                                   
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
 								   
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 /*****************************************************************************
 **								DBG Information								**

@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Task (TSK_)												**
 **																			**
-**	File name:		core/task/hook.h										**
+**	File name:		Core/Task/Hook.h										**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**

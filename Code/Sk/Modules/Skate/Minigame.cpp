@@ -1,15 +1,15 @@
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sk/modules/skate/Minigame.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/skfuncs.h>
-#include <sk/scripting/Nodearray.h>
-#include <gel/scripting/struct.h>
+#include <Sk/Modules/Skate/Minigame.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/skfuncs.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Gel/Scripting/struct.h>
 
-#include <gfx/2D/ScreenElemMan.h>       // for minigame timer
-#include <gfx/2D/ScreenElement2.h>
-#include <gfx/2D/TextElement.h>
+#include <Gfx/2D/ScreenElemMan.h>       // for minigame timer
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/TextElement.h>
 
 namespace Game
 {

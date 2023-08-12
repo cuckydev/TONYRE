@@ -13,13 +13,13 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
+    #include <Core/Defines.h>
 #endif
 
-#include <core/math/math.h>
-#include <core/string/cstring.h>
+#include <Core/Math/math.h>
+#include <Core/String/CString.h>
 
-#include <gfx/bonedanimtypes.h>
+#include <Gfx/BonedAnimTypes.h>
 	
 /*****************************************************************************
 **								   Defines									**

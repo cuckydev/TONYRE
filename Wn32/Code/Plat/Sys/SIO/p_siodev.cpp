@@ -26,12 +26,12 @@
 #include <stdlib.h>
 #include <string.h>
 		 
-#include <core/defines.h>
-#include <sys/sioman.h>
-#include <sys/mem/memman.h>
-#include <sk/parkeditor2/parked.h>
-#include <gel/scripting/script.h>
-#include <gfx/2d/screenelemman.h>
+#include <Core/Defines.h>
+#include <Sys/sioman.h>
+#include <Sys/Mem/memman.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Gel/Scripting/script.h>
+#include <Gfx/2D/ScreenElemMan.h>
 
 #include "SDL.h"
 

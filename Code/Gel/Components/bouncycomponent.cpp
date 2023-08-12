@@ -7,26 +7,26 @@
 
 //#define	__DEBUG_BOUNCY__
 
-#include <gel/components/Bouncycomponent.h>
+#include <Gel/Components/BouncyComponent.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/objsearch.h>
-#include <gel/objman.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/objsearch.h>
+#include <Gel/objman.h>
 
-#include <core/math/slerp.h>
+#include <Core/Math/slerp.h>
 
-#include <sk/engine/feeler.h>
+#include <Sk/Engine/feeler.h>
 
-#include <gel/collision/collision.h>
+#include <Gel/Collision/Collision.h>
 
-//#include <sk/objects/movingobject.h>		// TODO:  remove - only used for getting the bouncing box via collision
-#include <sk/modules/skate/skate.h>				// and this
-#include <sk/objects/skater.h>				// and this
+//#include <Sk/Objects/MovingObject.h>		// TODO:  remove - only used for getting the bouncing box via collision
+#include <Sk/Modules/Skate/skate.h>				// and this
+#include <Sk/Objects/skater.h>				// and this
 
 namespace Obj
 {

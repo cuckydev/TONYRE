@@ -8,10 +8,10 @@
 #define __MUSIC_H__
 
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
 
-#include <gel/soundfx/soundfx.h>
+#include <Gel/SoundFX/soundfx.h>
 
 // change the following line to compile out music or streams:
 #define NO_MUSIC_PLEASE	0

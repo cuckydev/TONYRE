@@ -1,19 +1,19 @@
 // filming goal
 
-#include <sk/modules/skate/GoalManager.h>
-#include <sk/modules/skate/FilmGoal.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/FilmGoal.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/components/modelcomponent.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/checksum.h>
 
-#include <gfx/nx.h>
-#include <gfx/NxModel.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
 
 namespace Game
 {

@@ -9,10 +9,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/nxquickanim.h>
+#include <Gfx/NxQuickAnim.h>
 
-#include <gfx/bonedanim.h>
-#include <gfx/nxanimcache.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/NxAnimCache.h>
 
 /*****************************************************************************
 **								DBG Information								**

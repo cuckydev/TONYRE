@@ -2,9 +2,9 @@
 // NxLight.cpp
 
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include "gfx/NxLight.h"
+#include "Gfx/NxLight.h"
 
 namespace	Nx
 {

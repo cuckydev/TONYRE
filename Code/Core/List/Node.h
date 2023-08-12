@@ -10,7 +10,7 @@
 **																			**
 **	Module:			List (LST_)												**
 **																			**
-**	File name:		core/list/node.h										**
+**	File name:		Core/List/Node.h										**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -23,7 +23,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/support.h>
+#include <Core/support.h>
 
 /*****************************************************************************
 **								   Defines									**

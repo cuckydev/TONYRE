@@ -11,20 +11,27 @@ target_include_directories(TonyRE.Common INTERFACE "Code/Sk")
 
 target_compile_definitions(TonyRE.Common INTERFACE __PRETTY_FUNCTION__=__FILE__)
 
-# Set to use C++14 without extensions
-set_target_properties(TonyRE.Common PROPERTIES
-	CXX_STANDARD 14
-	CXX_STANDARD_REQUIRED ON
-	CXX_EXTENSIONS OFF
-)
+# Use C++14
+target_compile_features(TonyRE.Common INTERFACE cxx_std_14)
 
 # Define __NOPT_DEBUG__ if in debug build
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_compile_definitions(TonyRE.Common INTERFACE __NOPT_DEBUG__)
 endif()
 
-# I'm feeling lucky, treat warnings as errors
-if (MSVC)
+# Enable warnings
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	# target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra -Werror)
+
+	# Some stupid ones I can't be bothered to fix
+	# target_compile_options(TonyRE.Common INTERFACE -Wno-unused-const-variable -Wno-reserved-macro-identifier -Wno-c++98-compat-pedantic -Wno-reserved-identifier)
+	# target_compile_options(TonyRE.Common INTERFACE -Wno-shadow-field-in-constructor -Wno-old-style-cast -Wno-extra-semi-stmt)
+
+	# Some I want to fix later on
+	# target_compile_options(TonyRE.Common INTERFACE -Wno-extra-semi)
+
+	target_compile_options(TonyRE.Common INTERFACE -Wno-everything -Wnonportable-include-path -Werror)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 	target_compile_definitions(TonyRE.Common INTERFACE _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS)
 	target_compile_options(TonyRE.Common INTERFACE /W4 /WX)
 	target_link_options(TonyRE.Common INTERFACE /WX)
@@ -151,7 +158,7 @@ add_executable(TonyRE WIN32
 	"Code/Gel/Components/animationcomponent.h"
 	"Code/Gel/Components/avoidcomponent.cpp"
 	"Code/Gel/Components/avoidcomponent.h"
-	"Code/Gel/Components/bouncycomponent.cpp"
+	"Code/Gel/Components/BouncyComponent.cpp"
 	"Code/Gel/Components/BouncyComponent.h"
 	"Code/Gel/Components/CameraComponent.cpp"
 	"Code/Gel/Components/CameraComponent.h"
@@ -607,7 +614,7 @@ add_executable(TonyRE WIN32
 	"Code/Sk/Objects/cutscenedetails.h"
 	"Code/Sk/Objects/emitter.cpp"
 	"Code/Sk/Objects/emitter.h"
-	"Code/Sk/Objects/followob.cpp"
+	"Code/Sk/Objects/FollowOb.cpp"
 	"Code/Sk/Objects/FollowOb.h"
 	"Code/Sk/Objects/GameObj.cpp"
 	"Code/Sk/Objects/GameObj.h"

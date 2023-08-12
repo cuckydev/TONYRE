@@ -13,11 +13,11 @@
 #endif
 #endif
 
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/checksum.h>
 #include <string.h>	// For stricmp
-#include <core/crc.h>
-#include <sys/config/config.h>
-#include <gel/scripting/debugger.h>
+#include <Core/crc.h>
+#include <Sys/Config/config.h>
+#include <Gel/Scripting/debugger.h>
 
 // These are only referenced in the Playstation version.
 // They are set in NGPS.lk

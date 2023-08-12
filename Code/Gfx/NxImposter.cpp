@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Nx Imposter												**
 **																			**
-**	File name:		gfx/NxImposter.cpp										**
+**	File name:		Gfx/NxImposter.cpp										**
 **																			**
 **	Created by:		03/13/03	-	dc										**
 **																			**
@@ -28,8 +28,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <gfx/NxImposter.h>
+#include <Core/Defines.h>
+#include <Gfx/NxImposter.h>
 
 namespace Nx
 {

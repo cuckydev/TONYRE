@@ -7,11 +7,11 @@
 // @subindex Scripting Database
 // @index script | NxLoadScreen
 
-#include <core/defines.h>
-#include <gfx/NxLoadScreen.h>
+#include <Core/Defines.h>
+#include <Gfx/NxLoadScreen.h>
 
-#include <gel/Scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Nx
 {

@@ -23,11 +23,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/math.h>
-#include <gfx/bbox.h>
-#include <core/math/vector.h>
-#include <core/math/vector.inl>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Gfx/bbox.h>
+#include <Core/Math/vector.h>
+#include <Core/Math/vector.inl>
 
 
 /*****************************************************************************

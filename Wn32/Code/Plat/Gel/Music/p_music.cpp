@@ -27,15 +27,15 @@
 
 #include <Windows.h>
 
-#include <core/macros.h>
-#include <core/defines.h>
-#include <core/math.h>
-#include <core/crc.h>
+#include <Core/macros.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Core/crc.h>
 
 #include "p_music.h"
 
-#include <sys/config/config.h>
-#include <gel/soundfx/soundfx.h>
+#include <Sys/Config/config.h>
+#include <Gel/SoundFX/soundfx.h>
 
 #include <miniaudio.h>
 

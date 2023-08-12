@@ -52,17 +52,17 @@
 
 ****************************************************************************/
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectManager.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/checksum.h>
-#include <modules/skate/skate.h>
-#include <sk/scripting/nodearray.h> // Needed by GetDebugInfo
-#include <sk/engine/feeler.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/checksum.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Scripting/nodearray.h> // Needed by GetDebugInfo
+#include <Sk/Engine/feeler.h>
 
 
 namespace Obj

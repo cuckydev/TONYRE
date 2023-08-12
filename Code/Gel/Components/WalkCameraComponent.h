@@ -8,13 +8,13 @@
 #ifndef __COMPONENTS_WALKCAMERACOMPONENT_H__
 #define __COMPONENTS_WALKCAMERACOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/components/camerautil.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Components/CameraUtil.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
 #define		CRC_WALKCAMERA Crc::ConstCRC("WalkCamera")
 

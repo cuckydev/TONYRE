@@ -2,9 +2,9 @@
 #define __MESH_H
 
 #include "nx_init.h"
-#include <core\math.h>
-#include <core\math\geometry.h>
-#include <gfx\nx.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
+#include <Gfx/nx.h>
 #include "material.h"
 
 namespace NxWn32

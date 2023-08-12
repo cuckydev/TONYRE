@@ -1,12 +1,12 @@
-#include <sk/objects/skater.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/victorycond.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/GoalManager.h>
-#include <sk/modules/skate/NetGoal.h>
-#include <sk/components/skaterendruncomponent.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/VictoryCond.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/NetGoal.h>
+#include <Sk/Components/SkaterEndRunComponent.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 
 namespace Game
 {

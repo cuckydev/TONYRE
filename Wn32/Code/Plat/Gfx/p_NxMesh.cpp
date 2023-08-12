@@ -5,12 +5,12 @@
 //* CREATION DATE:  2/15/2002
 //****************************************************************************
 
-#include <core/defines.h>
-#include <core/string/stringutils.h>
-#include <sys/file/filesys.h>
-#include <gfx/nx.h>
-#include <gfx/nxtexman.h>
-#include <Plat/Gfx/p_nxmesh.h>
+#include <Core/Defines.h>
+#include <Core/String/stringutils.h>
+#include <Sys/File/filesys.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxTexMan.h>
+#include <Plat/Gfx/p_NxMesh.h>
 #include <Plat/Gfx/p_nxscene.h>
 #include <Plat/Gfx/nx/scene.h>
 #include <Plat/Gfx/nx/texture.h>

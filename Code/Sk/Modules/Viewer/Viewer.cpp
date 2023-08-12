@@ -22,30 +22,30 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/inpman.h>
-#include <gel/mainloop.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/inpman.h>
+#include <Gel/mainloop.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
 
-#include <gfx/nxviewman.h>
+#include <Gfx/NxViewMan.h>
 
-#include <modules/viewer/viewer.h>
+#include <Sk/Modules/Viewer/Viewer.h>
 
-#include <sk/objects/viewerobj.h>
-#include <sk/objects/skater.h>			// just to see if the select button is pressed!!!
+#include <Sk/Objects/ViewerObj.h>
+#include <Sk/Objects/skater.h>			// just to see if the select button is pressed!!!
 
-#include <gamenet/exportmsg.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/ExportMsg.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <scripting/gs_file.h>
-#include <gel/scripting/utils.h>
+#include <Sk/Scripting/gs_file.h>
+#include <Gel/Scripting/utils.h>
 
-#include <sys/config/config.h>
-#include <sys/profiler.h>
+#include <Sys/Config/config.h>
+#include <Sys/Profiler.h>
 
 /*****************************************************************************
 **								DBG Information								**

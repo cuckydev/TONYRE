@@ -5,12 +5,12 @@
 //* CREATION DATE:  8/6/3
 //****************************************************************************
 
-#include <gel/components/setdisplaymatrixcomponent.h>
+#include <Gel/Components/SetDisplayMatrixComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Obj
 {

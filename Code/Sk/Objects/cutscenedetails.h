@@ -12,10 +12,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <sk/objects/moviedetails.h>							   
+#include <Sk/Objects/moviedetails.h>							   
 
 /*****************************************************************************
 **							Forward Declarations							**

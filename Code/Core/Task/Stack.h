@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Task (TSK_)												**
 **																			**
-**	File name:		core/task/stack.h										**
+**	File name:		Core/Task/Stack.h										**
 **																			**
 **	Created:		05/27/99	-	mjb										**
 **																			**
@@ -23,8 +23,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/task/task.h>
-#include <core/task/list.h>
+#include <Core/Task/Task.h>
+#include <Core/Task/List.h>
 
 /*****************************************************************************
 **								   Defines									**

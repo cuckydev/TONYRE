@@ -24,7 +24,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -135,7 +135,7 @@ constexpr static inline uint32 ConstCRCCaseSensitive(const char *const literal, 
     if (*literal && max_length)
     {
         char ch = literal[0];
-        return ConstCRCCaseSensitive(&literal[1], max_length - 1, CRCTable[(rc ^ ch) & 0xff] ^ ((rc >> 8) & 0x00ffffff));
+        return ConstCRCCaseSensitive(&literal[1], max_length - 1, CRCTable[(rc ^ (unsigned char)ch) & 0xff] ^ ((rc >> 8) & 0x00ffffff));
     }
     return rc;
 }
@@ -157,7 +157,7 @@ constexpr static inline uint32 ConstCRC(const char *const literal, size_t max_le
             ch = '\\';
         }
 
-        return ConstCRC(&literal[1], max_length - 1, CRCTable[(rc ^ ch) & 0xff] ^ ((rc >> 8) & 0x00ffffff));
+        return ConstCRC(&literal[1], max_length - 1, CRCTable[(rc ^ (unsigned char)ch) & 0xff] ^ ((rc >> 8) & 0x00ffffff));
     }
     return rc;
 }

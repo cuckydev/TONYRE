@@ -1,26 +1,26 @@
 // goal ped!
 
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/goal.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/Goal.h>
 
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/objects/skater.h>
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/playerprofilemanager.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/PlayerProfileManager.h>
 
-#include <gel/assman/assman.h>
-#include <gel/music/music.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/Music/music.h>
 
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <gel/components/animationcomponent.h>
+#include <Gel/Components/animationcomponent.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
 
 namespace Game
 {

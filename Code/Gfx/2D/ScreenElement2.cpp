@@ -1,22 +1,22 @@
-#include <core/defines.h>
-#include <core/HashTable.h>
-#include <gfx/NxFontMan.h>
-#include <gfx/NxViewMan.h>
-#include <gfx/2D/ScreenElement2.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/2D/Window.h>
-#include <gel/Event.h>
-#include <gel/objtrack.h>
-#include <gel/Scripting/array.h>
-#include <gel/Scripting/scriptdefs.h>
-#include <gel/Scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/utils.h>
+#include <Core/Defines.h>
+#include <Core/HashTable.h>
+#include <Gfx/NxFontMan.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/Window.h>
+#include <Gel/Event.h>
+#include <Gel/objtrack.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/scriptdefs.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/utils.h>
 #ifdef	__PLAT_NGPS__	
-#include <gfx/ngps/nx/line.h>
+#include <Gfx/ngps/nx/line.h>
 #endif
 
 /*

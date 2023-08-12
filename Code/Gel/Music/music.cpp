@@ -27,32 +27,32 @@
 	Oh, yeah, just one more thing:  yo mamma, yo pappa, yo greasy bald gradma!
 */
 
-#include <core/defines.h>
-#include <core/macros.h>
-#include <core/singleton.h>
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
+#include <Core/math.h>
 
-#include <sys/timer.h>
-#include <sys/config/config.h>
+#include <Sys/timer.h>
+#include <Sys/Config/config.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
 
-#include <gel/soundfx/soundfx.h>
-#include <gel/music/music.h>
-#include <gel/components/streamcomponent.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Music/music.h>
+#include <Gel/Components/StreamComponent.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
 
-#include <gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 
 #include <Plat/Gel/Music/p_music.h>
 
-#include <sys/config/config.h>
-#include <sys/replay/replay.h>
-#include <sys/file/asyncfilesys.h>
+#include <Sys/Config/config.h>
+#include <Sys/Replay/replay.h>
+#include <Sys/File/AsyncFilesys.h>
 
 #define TEST_FROM_CD 0
 #define WAIT_AFTER_STOP_STREAM		0		// Set to 1 if we need to wait for stream to clear after stopping a stream

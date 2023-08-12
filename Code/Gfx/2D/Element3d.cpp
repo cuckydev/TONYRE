@@ -1,28 +1,28 @@
-#include <core/defines.h>
-#include <gfx/2D/Element3d.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gel/assman/assman.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/script.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <sk/scripting/nodearray.h>		// <<<<<<<< NEEDS MOVING!!!!
-#include <gfx/modelappearance.h>
-#include <gfx/modelbuilder.h>
-#include <gfx/skeleton.h>
-#include <gfx/nx.h>
-#include <gfx/nxgeom.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxviewman.h>
-#include <gfx/gfxutils.h>
-#include <sys/config/config.h>
-#include <sys/replay/replay.h>
+#include <Core/Defines.h>
+#include <Gfx/2D/Element3d.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Sk/Scripting/nodearray.h>		// <<<<<<<< NEEDS MOVING!!!!
+#include <Gfx/ModelAppearance.h>
+#include <Gfx/ModelBuilder.h>
+#include <Gfx/Skeleton.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxGeom.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/gfxutils.h>
+#include <Sys/Config/config.h>
+#include <Sys/Replay/replay.h>
 
 namespace Front
 {

@@ -9,32 +9,32 @@
 //  When these goals are met, the skaters stats are increased. These goals are pulled from
 //  the stats_goals script array in stats.q
 
-#include <gel/components/statsmanagercomponent.h>
+#include <Gel/Components/StatsManagerComponent.h>
 
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h> 
-#include <gel/scripting/checksum.h> 
-#include <gel/scripting/component.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h> 
+#include <Gel/Scripting/checksum.h> 
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/utils.h>
 
-#include <core/math.h>
-#include <core/math/math.h>
-#include <core/flags.h>
-#include <sk/modules/skate/score.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterbalancetrickcomponent.h>
+#include <Core/math.h>
+#include <Core/Math/math.h>
+#include <Core/flags.h>
+#include <Sk/Modules/Skate/score.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
 
-#include <sk/objects/playerprofilemanager.h>
+#include <Sk/Objects/PlayerProfileManager.h>
 
 
 namespace Obj

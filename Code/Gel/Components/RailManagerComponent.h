@@ -8,12 +8,12 @@
 #ifndef __COMPONENTS_RAILMANAGERCOMPONENT_H__
 #define __COMPONENTS_RAILMANAGERCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/objects/rail.h>
+#include <Sk/Objects/rail.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_RAILMANAGER								Crc::ConstCRC( "RailManager" )

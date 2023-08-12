@@ -2,7 +2,7 @@
 // the CD to SPU2 Sound Data Input area...
 
 #include <kernel.h>
-#include <sys/types.h>
+#include <Sys/types.h>
 #include <stdio.h>
 #include "sif.h"
 #include "sifcmd.h"

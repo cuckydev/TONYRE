@@ -1,8 +1,8 @@
 #include <Windows.h>
-#include <core\defines.h>
-#include <core\crc.h>
-#include <sys\file\filesys.h>
-#include <Plat/Gfx\p_nxtexture.h>
+#include <Core/Defines.h>
+#include <Core/crc.h>
+#include <Sys/File/filesys.h>
+#include <Plat/Gfx/p_nxtexture.h>
 #include "nx_init.h"
 #include "render.h"
 #include "grass.h"

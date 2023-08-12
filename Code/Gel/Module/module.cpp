@@ -23,9 +23,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/module.h>
+#include <Gel/module.h>
 
 /*****************************************************************************
 **								DBG Information								**

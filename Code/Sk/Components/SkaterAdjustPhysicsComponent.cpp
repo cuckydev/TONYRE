@@ -5,22 +5,22 @@
 //* CREATION DATE:  3/26/3
 //****************************************************************************
 
-#include <sk/components/skateradjustphysicscomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/engine/contact.h>
-#include <sk/engine/feeler.h>
-#include <sk/parkeditor2/parked.h>
+#include <Sk/Components/SkaterAdjustPhysicsComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Engine/contact.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/ParkEditor2/ParkEd.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/objtrack.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/objtrack.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gel/components/modelcomponent.h>
-#include <gel/components/shadowcomponent.h>
-#include <gel/components/movablecontactcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/shadowcomponent.h>
+#include <Gel/Components/MovableContactComponent.h>
 
 void	TrackingLine2(int type, Mth::Vector &start, Mth::Vector &end)
 {

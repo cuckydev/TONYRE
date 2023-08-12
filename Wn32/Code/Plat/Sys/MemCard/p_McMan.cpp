@@ -23,10 +23,10 @@
 *****************************************************************************/
 
 #include <Windows.h>
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
-#include <sys/mcman.h>
+#include <Sys/McMan.h>
 
 /*****************************************************************************
 **								DBG Information								**
@@ -192,9 +192,9 @@ const char *Card::GetPersonalizedName()
 				// as the xbox nullptr character by changing them to an invalid character.
 				switch (mp_personalized_name[i])
 				{
-				case '¡': case '¢': case '£': case '¤':
-				case '¥': case '¦': case '§': case '¨':
-				case '©': case 'ª': case '«': case '¬':
+				case 'ï¿½': case 'ï¿½': case 'ï¿½': case 'ï¿½':
+				case 'ï¿½': case 'ï¿½': case 'ï¿½': case 'ï¿½':
+				case 'ï¿½': case 'ï¿½': case 'ï¿½': case 'ï¿½':
 				case -1: // This is the weird lower-case-y-umlaut character.
 						 // Note: The upper case y-umlaut character appears to be viewed as a
 						 // terminator character by XMUNameFromDriveLetter ( = bug?)

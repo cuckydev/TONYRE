@@ -1,9 +1,9 @@
-#include <core/defines.h>
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
 
-#include <gfx/nxtextured3dpoly.h>
-#include <core/crc.h>
-#include <core/hashtable.h>
+#include <Gfx/NxTextured3dPoly.h>
+#include <Core/crc.h>
+#include <Core/HashTable.h>
 
 namespace Nx
 {

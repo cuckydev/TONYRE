@@ -3,16 +3,16 @@
 //
 //
 
-#include	"gfx\Nx.h"
-#include	"gfx\NxLoadScreen.h"
-#include	"Plat/Gfx\p_NxTexture.h"
-#include	"Plat/Gfx\p_NxSprite.h"
-#include	"Plat/Gfx\NX\sprite.h"
-#include	"Plat/Gfx\NX\scene.h"
-#include	"Plat/Gfx\NX\render.h"
-#include	"sys\config\config.h"
+#include	<Gfx/nx.h>
+#include	<Gfx/NxLoadScreen.h>
+#include	<Plat/Gfx/p_nxtexture.h>
+#include	<Plat/Gfx/p_NxSprite.h>
+#include	<Plat/Gfx/nx/sprite.h>
+#include	<Plat/Gfx/nx/scene.h>
+#include	<Plat/Gfx/nx/render.h>
+#include	<Sys/Config/config.h>
 
-#include	"core\macros.h"
+#include	<Core/macros.h>
 
 namespace	Nx
 {

@@ -5,16 +5,16 @@
 //* CREATION DATE:  2/27/3
 //****************************************************************************
 
-#include <sk/components/skatersoundcomponent.h>
+#include <Sk/Components/SkaterSoundComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/environment/terrain.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Environment/terrain.h>
 
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/skate.h>
 
 namespace Obj
 {

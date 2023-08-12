@@ -31,27 +31,27 @@
 #include <dolphin.h>
 #include <stdio.h>
 #include <string.h>
-#include <core/defines.h>
-#include <sys/ngc/p_display.h>
-#include <sys/ngc/p_prim.h>
+#include <Core/Defines.h>
+#include <Sys/ngc/p_display.h>
+#include <Sys/ngc/p_prim.h>
 #include <dolphin\dtk.h>
 #include <dolphin/mix.h>
 #include <dolphin.h>
 #include "sys\ngc\p_aram.h"
-#include <gel/mainloop.h>
-#include	<sys/ngc\p_dvd.h>
-#include <gel/soundfx/soundfx.h>
-#include <gel/music/music.h>
-#include	<sys/ngc\p_render.h>
-#include	<sys/ngc\p_display.h>
-#include	<sys/ngc\p_hw.h>
+#include <Gel/mainloop.h>
+#include	<Sys/ngc\p_dvd.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Music/music.h>
+#include	<Sys/ngc\p_render.h>
+#include	<Sys/ngc\p_display.h>
+#include	<Sys/ngc\p_hw.h>
 #include "sys/ngc/p_prim.h"
 #include "gel\music\ngc\p_music.h"
-#include "gfx/ngc/nx/nx_init.h"
+#include "Gfx/ngc/nx/nx_init.h"
 #include <gfx\ngc\nx\texture.h>
 #include <sys\ngc\p_gx.h>
 #include <gfx\ngc\nx\render.h>
-#include <gel/Scripting/script.h>
+#include <Gel/Scripting/script.h>
 
 #include "VIDSimpleDEMO.h"
 #include "VIDSimplePlayer.h"
@@ -59,7 +59,7 @@
 #include "VIDSimpleDraw.h"
 
 #include <charpipeline/GQRSetup.h>
-#include <sys/sioman.h>
+#include <Sys/sioman.h>
 
 #define MY_DEBUG
 

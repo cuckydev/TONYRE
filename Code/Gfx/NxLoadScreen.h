@@ -1,7 +1,7 @@
 #ifndef __GFX_NX_LOAD_SCREEN_H__
 #define __GFX_NX_LOAD_SCREEN_H__
 
-#include <gfx/image/imagebasic.h>
+#include <Gfx/Image/ImageBasic.h>
 
 namespace Script
 {

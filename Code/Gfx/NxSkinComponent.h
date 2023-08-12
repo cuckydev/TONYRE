@@ -8,7 +8,7 @@
 #ifndef	__GFX_NXSKINCOMPONENT_H__
 #define	__GFX_NXSKINCOMPONENT_H__
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 namespace Nx
 {

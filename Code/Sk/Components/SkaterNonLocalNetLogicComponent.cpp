@@ -5,35 +5,35 @@
 //* CREATION DATE:  3/11/3
 //****************************************************************************
 
-#include <core/math/slerp.h>
+#include <Core/Math/slerp.h>
 
-#include <gfx/baseanimcontroller.h>
-#include <gfx/animcontroller.h>
-#include <gfx/nxlight.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxflags.h>
+#include <Gfx/baseanimcontroller.h>
+#include <Gfx/AnimController.h>
+#include <Gfx/NxLight.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/nxflags.h>
 								
-#include <sk/components/skaternonlocalnetlogiccomponent.h>
-#include <sk/components/skaterstatehistorycomponent.h>
-#include <sk/components/skaterendruncomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterflipandrotatecomponent.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/components/skaterloopingsoundcomponent.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/modules/skate/gamemode.h>
+#include <Sk/Components/SkaterNonLocalNetLogicComponent.h>
+#include <Sk/Components/SkaterStateHistoryComponent.h>
+#include <Sk/Components/SkaterEndRunComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterFlipAndRotateComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Components/SkaterLoopingSoundComponent.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Modules/Skate/GameMode.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/specialitemcomponent.h>
-#include <gel/components/lockobjcomponent.h>
-#include <gel/components/shadowcomponent.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/specialitemcomponent.h>
+#include <Gel/Components/lockobjcomponent.h>
+#include <Gel/Components/shadowcomponent.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Net/Client/netclnt.h>
 
 namespace Obj
 {

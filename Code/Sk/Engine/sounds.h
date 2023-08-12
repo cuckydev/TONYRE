@@ -25,8 +25,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/list.h>
-#include <core/macros.h>
+#include <Core/List.h>
+#include <Core/macros.h>
 
 #include <Core/math.h>
 

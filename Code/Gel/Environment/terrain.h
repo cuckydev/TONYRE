@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Gel Module			 									**
 **																			**
-**	File name:		gel/environment/terrain.h								**
+**	File name:		Gel/environment/terrain.h								**
 **																			**
 **	Created by:		Garrett Feb. 2003										**
 **																			**
@@ -24,10 +24,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/macros.h>
-#include <core/math.h>
+#include <Core/macros.h>
+#include <Core/math.h>
 
-#include <gfx/nxflags.h>
+#include <Gfx/nxflags.h>
 
 namespace Script
 {

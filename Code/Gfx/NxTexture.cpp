@@ -1,15 +1,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 // NxTexture.cpp
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <core/crc.h>
-#include <core/math/vector.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
+#include <Core/crc.h>
+#include <Core/Math/vector.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
 									 
-#include <gfx/nx.h>
-#include <gfx/nxtexture.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxTexture.h>
 
 #include <cstring>
 

@@ -1,13 +1,13 @@
 // find x gaps
-#include <sk/modules/skate/GoalManager.h>
-#include <sk/modules/skate/FindGapsGoal.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/FindGapsGoal.h>
 
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/score.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/score.h>
 
-// #include <gel/scripting/utils.h>
+// #include <Gel/Scripting/utils.h>
 
 namespace Game
 {

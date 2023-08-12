@@ -4,10 +4,10 @@
 #ifndef	__GFX_FACE_MASSAGE_H__
 #define	__GFX_FACE_MASSAGE_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gfx/image/imagebasic.h>
+#include <Gfx/Image/ImageBasic.h>
 
 namespace Script
 {

@@ -1,7 +1,7 @@
 // Create-A-Trick goal!
 
-#include <sk/modules/skate/catgoal.h>
-#include <sk/modules/skate/GoalManager.h>
+#include <Sk/Modules/Skate/CATGoal.h>
+#include <Sk/Modules/Skate/GoalManager.h>
 
 namespace Game
 {

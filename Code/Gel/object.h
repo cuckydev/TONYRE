@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Object (OBJ)											**
 **																			**
-**	File name:		gel/object.h											**
+**	File name:		Gel/object.h											**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -35,14 +35,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/list.h>
-#include <core/macros.h>
-#include <core/math.h>
+#include <Core/List.h>
+#include <Core/macros.h>
+#include <Core/math.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
-#include <gel/ObjPtr.h>
-#include <gel/RefCounted.h>
+#include <Gel/ObjPtr.h>
+#include <Gel/RefCounted.h>
 
 namespace Script
 {

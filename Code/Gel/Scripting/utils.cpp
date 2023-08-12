@@ -6,15 +6,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/utils.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/string.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/string.h>
 
 #include <cstring>
 

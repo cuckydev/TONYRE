@@ -10,7 +10,7 @@
 **																			**
 **	Module:			List (LST_)												**
 **																			**
-**	File name:		core/list/head.h										**
+**	File name:		Core/List/Head.h										**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -23,7 +23,7 @@
 *****************************************************************************/
 
 #include <Core/support.h>
-#include <core/list/node.h>
+#include <Core/List/Node.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -51,7 +51,7 @@ nTemplateSubClass( _T, Head, Node< _T > )
 
 public:
 					Head( void );
-	virtual			~Head( void );
+	virtual			~Head( void ) override;
 
 	void			Merge( Head< _T >* dest );		// Source list will be empty after merge
 	uint			CountItems( void );

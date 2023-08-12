@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 // NxSector.cpp
 
-#include "gfx/nx.h"
-#include "gfx/nxgeom.h"
-#include "gfx/nxsector.h"
-#include "gfx/nxflags.h"
-#include "gel/collision/collision.h"
-#include <sys/replay/replay.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxGeom.h>
+#include <Gfx/NxSector.h>
+#include <Gfx/nxflags.h>
+#include <Gel/Collision/Collision.h>
+#include <Sys/Replay/replay.h>
 
 namespace	Nx
 {

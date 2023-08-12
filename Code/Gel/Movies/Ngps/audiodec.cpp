@@ -5,12 +5,12 @@
 #include <sifdev.h>
 #include <libsdr.h>
 #include <sdrcmd.h>
-#include "sys/config/config.h"
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/audiodec.h"
-#include "gel/movies/ngps/p_movies.h"
-#include "gel/music/music.h"
-#include "gel/soundfx/soundfx.h"
+#include "Sys/Config/config.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/audiodec.h"
+#include "Gel/movies/ngps/p_movies.h"
+#include "Gel/music/music.h"
+#include "Gel/soundfx/soundfx.h"
 
 #define AU_HEADER_SIZE 40
 #define UNIT_SIZE 1024

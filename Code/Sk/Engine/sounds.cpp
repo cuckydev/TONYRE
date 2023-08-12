@@ -10,18 +10,18 @@
 
 
 #include <string.h>
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
-#include <gel/soundfx/soundfx.h>
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/Scripting/checksum.h>
 						   
-#include <engine/sounds.h>
-#include <sk/gamenet/gamenet.h>
-#include <sys/config/config.h>
-#include <sys/replay/replay.h>
+#include <Sk/Engine/sounds.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sys/Config/config.h>
+#include <Sys/Replay/replay.h>
 
 
 

@@ -22,12 +22,12 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/skatertricks.h>
+#include <Sk/Objects/SkaterTricks.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
 
 /*****************************************************************************
 **								DBG Information								**

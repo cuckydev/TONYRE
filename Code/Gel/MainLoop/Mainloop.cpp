@@ -23,23 +23,23 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gel/mainloop.h>
+#include <Gel/mainloop.h>
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/task.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/Task.h>
 
-#include <gfx/nx.h>
+#include <Gfx/nx.h>
 
-#include <sys/profiler.h>
+#include <Sys/Profiler.h>
 
 #include <Plat/Gfx/p_memview.h>
 
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/symboltable.h>
 
 #ifdef	__PLAT_NGPS__
-    #include <gel/collision/batchtricoll.h>
-    #include <gel/soundfx/ngps/p_sfx.h>
+    #include <Gel/Collision/BatchTriColl.h>
+    #include <Gel/SoundFX/ngps/p_sfx.h>
 
     namespace NxPs2
     {

@@ -8,12 +8,12 @@
 #ifndef __COMPONENTS_HORSECAMERACOMPONENT_H__
 #define __COMPONENTS_HORSECAMERACOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/components/horsecomponent.h>
-#include <gel/components/inputcomponent.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Components/horsecomponent.h>
+#include <Gel/Components/InputComponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_HORSECAMERA Crc::ConstCRC("HorseCamera")

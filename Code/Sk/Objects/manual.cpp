@@ -24,44 +24,44 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gel/inpman.h>
-#include <gel/mainloop.h>
-#include <gel/net/server/netserv.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/objtrack.h>
-#include <gel/components/statsmanagercomponent.h>
+#include <Gel/inpman.h>
+#include <Gel/mainloop.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/objtrack.h>
+#include <Gel/Components/StatsManagerComponent.h>
 
-#include <objects/manual.h>
-#include <objects/rail.h>
-#include <objects/skaterprofile.h>
+#include <Sk/Objects/manual.h>
+#include <Sk/Objects/rail.h>
+#include <Sk/Objects/SkaterProfile.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 
-#include <engine/sounds.h>
+#include <Sk/Engine/sounds.h>
 
-#include <gfx/camera.h>
-#include <gfx/shadow.h>
+#include <Gfx/camera.h>
+#include <Gfx/shadow.h>
 
-#include <gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 
-#include <gel/soundfx/soundfx.h>
+#include <Gel/SoundFX/soundfx.h>
 
-#include <sk/modules/skate/skate.h> 
+#include <Sk/Modules/Skate/skate.h> 
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterbalancetrickcomponent.h>
-#include <sk/components/skaterscorecomponent.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
+#include <Sk/Components/SkaterScoreComponent.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
 
 /*****************************************************************************
 **								  Externals									**

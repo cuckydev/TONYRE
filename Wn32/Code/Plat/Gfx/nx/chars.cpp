@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <core/defines.h>
-#include <core/debug.h>
-#include <core/string/stringutils.h>
-#include <core/macros.h>
-#include <gfx/nxfontman.h>
-#include <sys/config/config.h>
-#include <sys/file/filesys.h>
+#include <Core/Defines.h>
+#include <Core/Debug.h>
+#include <Core/String/stringutils.h>
+#include <Core/macros.h>
+#include <Gfx/NxFontMan.h>
+#include <Sys/Config/config.h>
+#include <Sys/File/filesys.h>
 
 #include "nx_init.h"
 #include "render.h"

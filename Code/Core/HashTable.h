@@ -22,10 +22,10 @@
 #define __CORE_LIST_HASHTABLE_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <sys/mem/PoolManager.h>
+#include <Sys/Mem/PoolManager.h>
 
 /*****************************************************************************
 **							  	  Includes									**

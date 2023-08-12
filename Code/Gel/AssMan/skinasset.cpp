@@ -7,14 +7,14 @@
 //
 
 
-#include	<gel/assman/skinasset.h>
+#include	<Gel/AssMan/skinasset.h>
 
-#include	<core/string/stringutils.h>
+#include	<Core/String/stringutils.h>
 						   
-#include	<gel/assman/assettypes.h>
+#include	<Gel/AssMan/assettypes.h>
 
-#include	<gfx/nx.h>
-#include	<gfx/nxmesh.h>
+#include	<Gfx/nx.h>
+#include	<Gfx/NxMesh.h>
 
 namespace Ass
 {

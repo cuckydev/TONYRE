@@ -10,7 +10,7 @@
 **																			**
 **	Module:			SKATE													**
 **																			**
-**	File name:		modules/skate/skate.h									**
+**	File name:		Sk/Modules/Skate/skate.h									**
 **																			**
 **	Created: 		06/07/2000	-	spg										**
 **																			**
@@ -24,13 +24,13 @@
 *****************************************************************************/
 
 
-#include <core/singleton.h>
-#include <core/task.h>
+#include <Core/singleton.h>
+#include <Core/Task.h>
 
-#include <gel/module.h>
-#include <gel/net/net.h>
+#include <Gel/module.h>
+#include <Gel/Net/net.h>
 
-#include <gfx/shadow.h> // For EShadowType
+#include <Gfx/shadow.h> // For EShadowType
 
 /*****************************************************************************
 **								   Defines									**

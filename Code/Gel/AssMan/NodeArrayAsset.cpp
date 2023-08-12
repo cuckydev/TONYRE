@@ -7,12 +7,12 @@
 //
 
 
-#include	<gel/assman/nodearrayasset.h>
-#include	<gel/assman/assettypes.h>
-#include	<gfx/nx.h>
-#include	<gel/scripting/symboltable.h>
-#include	<gel/scripting/script.h>
-#include	<sk/scripting/gs_file.h>
+#include	<Gel/AssMan/NodeArrayAsset.h>
+#include	<Gel/AssMan/assettypes.h>
+#include	<Gfx/nx.h>
+#include	<Gel/Scripting/symboltable.h>
+#include	<Gel/Scripting/script.h>
+#include	<Sk/Scripting/gs_file.h>
 
 namespace Ass
 {

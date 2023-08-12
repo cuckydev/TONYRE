@@ -57,10 +57,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sys/mem/memdbg.h>
+#include <Sys/Mem/memdbg.h>
 
-#include "debug/messages.h"
-#include "debug/checks.h"
+#include <Core/Debug/Messages.h>
+#include <Core/Debug/Checks.h>
 
 /*****************************************************************************
 **								   Defines									**

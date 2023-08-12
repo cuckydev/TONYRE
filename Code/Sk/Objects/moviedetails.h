@@ -13,13 +13,13 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
+    #include <Core/Defines.h>
 #endif
 
-#include <core/list.h>
-#include <core/math.h>
+#include <Core/List.h>
+#include <Core/math.h>
 
-#include <gfx/animcontroller.h>						 
+#include <Gfx/AnimController.h>						 
 
 /*****************************************************************************
 **							Forward Declarations							**

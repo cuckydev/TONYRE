@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Task (TSK_)												**
 **																			**
-**	File name:		core/task/task.h										**
+**	File name:		Core/Task/Task.h										**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -24,10 +24,10 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/list.h>
-#include <core/task/list.h>
+#include <Core/List.h>
+#include <Core/Task/List.h>
 
 /*****************************************************************************
 **								   Defines									**

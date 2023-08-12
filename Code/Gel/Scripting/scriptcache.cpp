@@ -1,15 +1,15 @@
-#include <gel/scripting/scriptcache.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/parse.h>
-#include <core/compress.h>
-#include <gel/mainloop.h>
+#include <Gel/Scripting/scriptcache.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/parse.h>
+#include <Core/compress.h>
+#include <Gel/mainloop.h>
 
 #ifdef __PLAT_NGC__
-#include <sys/ngc/p_aram.h>
-#include <sys/ngc/p_dma.h>
+#include <Sys/ngc/p_aram.h>
+#include <Sys/ngc/p_dma.h>
 #endif		// __PLAT_NGC__
 
 #ifdef NO_SCRIPT_CACHING

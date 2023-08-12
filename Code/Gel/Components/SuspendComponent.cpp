@@ -5,26 +5,26 @@
 //* CREATION DATE:  ??/??/??
 //****************************************************************************
 
-#include <gel/components/suspendcomponent.h>
+#include <Gel/Components/SuspendComponent.h>
 
-#include <gel/components/modelcomponent.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gel/mainloop.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/mainloop.h>
 
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxviewman.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxViewMan.h>
 
-#include <sk/modules/skate/skate.h>		// <<<<<<<<<<<   GET RID OF THIS, use the NX camera's directly
-#include <sk/objects/skatercareer.h>	// <<<<<<<<<<<   GET RID OF THIS TOO!
+#include <Sk/Modules/Skate/skate.h>		// <<<<<<<<<<<   GET RID OF THIS, use the NX camera's directly
+#include <Sk/Objects/skatercareer.h>	// <<<<<<<<<<<   GET RID OF THIS TOO!
 
 namespace Obj
 {

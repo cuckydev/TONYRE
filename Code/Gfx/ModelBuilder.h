@@ -13,10 +13,10 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <gel/object.h>
+#include <Gel/object.h>
 
 /*****************************************************************************
 **								   Defines									**

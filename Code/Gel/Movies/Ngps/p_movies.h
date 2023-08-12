@@ -10,7 +10,7 @@
 **																			**
 **	Module:			ps2 movies												**
 **																			**
-**	File name:		gel/movies/ngps/p_movies.h 								**
+**	File name:		Gel/movies/ngps/p_movies.h 								**
 **																			**
 **	Created: 		5/14/01	-	mjd											**
 **																			**
@@ -24,21 +24,21 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/singleton.h>
-#include <core/list.h>
-#include <core/macros.h>
+#include <Core/singleton.h>
+#include <Core/List.h>
+#include <Core/macros.h>
 #include <libmpeg.h>
 #include <libpad.h>
 
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/vobuf.h"
-#include "gel/movies/ngps/vibuf.h"
-#include "gel/movies/ngps/strfile.h"
-#include "gel/movies/ngps/readbuf.h"
-#include "gel/movies/ngps/videodec.h"
-#include "gel/movies/ngps/audiodec.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/vobuf.h"
+#include "Gel/movies/ngps/vibuf.h"
+#include "Gel/movies/ngps/strfile.h"
+#include "Gel/movies/ngps/readbuf.h"
+#include "Gel/movies/ngps/videodec.h"
+#include "Gel/movies/ngps/audiodec.h"
 
 namespace Flx
 {

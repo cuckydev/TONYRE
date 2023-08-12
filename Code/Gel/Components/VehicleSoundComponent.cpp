@@ -5,20 +5,20 @@
 //* CREATION DATE:  7/2/3
 //****************************************************************************
 
-#include <gel/components/vehiclesoundcomponent.h>
-#include <gel/components/vehiclecomponent.h>
-#include <gel/components/soundcomponent.h>
+#include <Gel/Components/VehicleSoundComponent.h>
+#include <Gel/Components/vehiclecomponent.h>
+#include <Gel/Components/soundcomponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/soundfx/soundfx.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/SoundFX/soundfx.h>
 
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/parkeditor2/parked.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/ParkEditor2/ParkEd.h>
 
 #define MESSAGE(a) { printf("M:%s:%i: %s\n", __FILE__ + 15, __LINE__, a); }
 #define DUMPI(a) { printf("D:%s:%i: " #a " = %i\n", __FILE__ + 15, __LINE__, a); }

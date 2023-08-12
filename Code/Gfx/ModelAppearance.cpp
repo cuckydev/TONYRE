@@ -9,17 +9,17 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/modelappearance.h>
+#include <Gfx/ModelAppearance.h>
 
-#include <gfx/casutils.h>
-#include <gfx/facetexture.h>
-#include <gfx/modelbuilder.h>
+#include <Gfx/CasUtils.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/ModelBuilder.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
 
 /*****************************************************************************
 **								DBG Information								**

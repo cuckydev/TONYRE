@@ -22,30 +22,30 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/trickobject.h>
+#include <Sk/Objects/TrickObject.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
 
-#include <gfx/gfxutils.h>
-#include <gfx/nx.h>
-#include <gfx/nxsector.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxSector.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/skater.h>		   // just needed in mygetassociatednetworkconnection
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/skater.h>		   // just needed in mygetassociatednetworkconnection
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 
-#include <sk/components/RailEditorComponent.h>
+#include <Sk/Components/RailEditorComponent.h>
 
 #ifdef __NOPT_ASSERT__	
-//#include <sk/ParkEditor/ParkEd.h>
+//#include <Sk/ParkEditor/ParkEd.h>
 #endif
 
 /*****************************************************************************

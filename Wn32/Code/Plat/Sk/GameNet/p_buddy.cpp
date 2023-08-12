@@ -22,8 +22,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <gel/mainloop.h>
+#include <Core/Defines.h>
+#include <Gel/mainloop.h>
 #include <GameNet/GameNet.h>
 #include <Plat/Sk/GameNet/p_buddy.h>
 

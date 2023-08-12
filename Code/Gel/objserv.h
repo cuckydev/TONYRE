@@ -11,7 +11,7 @@
 **																			**
 **	Module:			Base Object-Server (OS)							        **
 **																			**
-**	File name:		gel/server/os_cb.h										**
+**	File name:		Gel/server/os_cb.h										**
 **																			**
 **	Created: 		07/23/99	-	mjb										**
 **																			**
@@ -25,10 +25,10 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/task.h>
-#include <core/list.h>
+#include <Core/Task.h>
+#include <Core/List.h>
 
 /*****************************************************************************
 **								   Defines									**

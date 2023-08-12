@@ -2,7 +2,7 @@
 #define __BILLBOARD_H
 
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 #include "render.h"
 
 namespace NxWn32

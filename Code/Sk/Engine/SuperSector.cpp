@@ -22,14 +22,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 
-#include <engine/SuperSector.h>					
-#include <gel/collision/collision.h>
-#include <gel/collision/colltridata.h>
+#include <Sk/Engine/SuperSector.h>					
+#include <Gel/Collision/Collision.h>
+#include <Gel/Collision/CollTriData.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 /*****************************************************************************
 **								DBG Information								**

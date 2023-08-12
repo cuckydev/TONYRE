@@ -22,10 +22,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gfx/NxNewParticleMgr.h>
-#include <gel/scripting/checksum.h>
+#include <Gfx/NxNewParticleMgr.h>
+#include <Gel/Scripting/checksum.h>
 
 /*****************************************************************************
 **								DBG Information								**

@@ -27,15 +27,15 @@
 #include <sifdev.h>
 #include <sifrpc.h>
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sys/sioman.h>
-#include <sys/siodev.h>
-#include <sys/sio/keyboard.h>
-#include <sys/file/filesys.h>
-#include <sys/file/AsyncFilesys.h>
-#include <sys/config/config.h>
-#include <gel/module.h>
+#include <Sys/sioman.h>
+#include <Sys/siodev.h>
+#include <Sys/SIO/keyboard.h>
+#include <Sys/File/filesys.h>
+#include <Sys/File/AsyncFilesys.h>
+#include <Sys/Config/config.h>
+#include <Gel/module.h>
 
 #include <libpad.h>
 #include <libcdvd.h>
@@ -48,9 +48,9 @@
 #include <sifcmd.h>
 #include <sifrpc.h>
 
-#include <gel/soundfx/soundfx.h>
-#include <gel/soundfx/ngps/p_sfx.h>
-#include <gel/music/music.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/SoundFX/ngps/p_sfx.h>
+#include <Gel/Music/music.h>
 
 #include <dnas/dnas2.h>
 

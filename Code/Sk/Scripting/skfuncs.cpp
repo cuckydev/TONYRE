@@ -15,64 +15,64 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/scripting/skfuncs.h>
+#include <Sk/Scripting/skfuncs.h>
 
-#include <gel/assman/assman.h>
+#include <Gel/AssMan/AssMan.h>
 							 
-#include <gel/objman.h>
-#include <gel/objtrack.h>
+#include <Gel/objman.h>
+#include <Gel/objtrack.h>
 
-#include <gel/components/modelcomponent.h>
-#include <gel/components/skatercameracomponent.h>
-#include <gel/components/trickcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/SkaterCameraComponent.h>
+#include <Gel/Components/trickcomponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <gel/scripting/script.h> 
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h> 
-#include <gel/scripting/checksum.h> 
-#include <gel/scripting/component.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/script.h> 
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h> 
+#include <Gel/Scripting/checksum.h> 
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/utils.h>
 
-#include <gel/music/music.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Music/music.h>
+#include <Gel/Net/Client/netclnt.h>
  
-#include <gfx/casutils.h>
-#include <gfx/facetexture.h>
-#include <gfx/gfxutils.h>
-#include <gfx/modelbuilder.h>
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
+#include <Gfx/CasUtils.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/ModelBuilder.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <sk/modules/skate/competition.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/horse.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/frontend/frontend.h>
+#include <Sk/Modules/Skate/competition.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/horse.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
 
-#include <sk/objects/gameobj.h>
-#include <sk/objects/moviecam.h>
-#include <sk/objects/records.h>
-#include <sk/objects/skater.h>
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/playerprofilemanager.h>
-#include <sk/objects/skatercareer.h>
+#include <Sk/Objects/GameObj.h>
+#include <Sk/Objects/moviecam.h>
+#include <Sk/Objects/records.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/PlayerProfileManager.h>
+#include <Sk/Objects/skatercareer.h>
 
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/parkeditor2/parked.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/ParkEditor2/ParkEd.h>
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 // #include <Gfx/NGPS/NX/chars.h>
 
-#include <sys/SIO/keyboard.h>
+#include <Sys/SIO/keyboard.h>
 
-#include <sys/file/filesys.h>
-#include <sys/file/pre.h>
+#include <Sys/File/filesys.h>
+#include <Sys/File/PRE.h>
 
 /*****************************************************************************
 **								DBG Information								**

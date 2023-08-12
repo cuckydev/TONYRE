@@ -22,9 +22,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gfx/NxNewParticle.h>
+#include <Gfx/NxNewParticle.h>
 
 /*****************************************************************************
 **								DBG Information								**

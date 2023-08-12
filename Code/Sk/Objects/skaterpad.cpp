@@ -1,8 +1,8 @@
 // SkaterPad.cpp
 
-#include <sk\objects\skaterpad.h>
-#include <gel\inpman.h>
-#include <core\math.h>
+#include <Sk/Objects/SkaterPad.h>
+#include <Gel/inpman.h>
+#include <Core/math.h>
 
 //#define		PS2_SIMULATING_XBOX
 

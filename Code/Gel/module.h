@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Module  (MDL)											**
 **																			**
-**	File name:		gel/module.h											**
+**	File name:		Gel/module.h											**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
@@ -22,8 +22,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/support.h>
-#include <core/task.h>
+#include <Core/support.h>
+#include <Core/Task.h>
 
 /*****************************************************************************
 **								   Defines									**

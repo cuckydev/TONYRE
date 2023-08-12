@@ -24,8 +24,8 @@
 *****************************************************************************/
 		
 #include <Windows.h>
-#include <sys/file/filesys.h>
-#include <gfx/gfxman.h>
+#include <Sys/File/filesys.h>
+#include <Gfx/gfxman.h>
 #include <Plat/Gfx/nx/nx_init.h>
 #include <Plat/Gfx/nx/gamma.h>
 

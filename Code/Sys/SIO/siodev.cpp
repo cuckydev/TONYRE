@@ -26,9 +26,9 @@
 #include <stdlib.h>
 #include <string.h>
          
-#include <core/defines.h>
-#include <sys/sioman.h>
-#include <sys/mem/memman.h>
+#include <Core/Defines.h>
+#include <Sys/sioman.h>
+#include <Sys/Mem/memman.h>
 #include <libpad.h>
 
 /*****************************************************************************

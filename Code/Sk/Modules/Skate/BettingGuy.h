@@ -2,9 +2,9 @@
 #ifndef _SK_MODULES_SKATE_BETTINGGUY_H_
 #define _SK_MODULES_SKATE_BETTINGGUY_H_
 
-#include <sk/modules/skate/goalmanager.h>
+#include <Sk/Modules/Skate/GoalManager.h>
 
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Game
 {

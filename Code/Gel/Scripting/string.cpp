@@ -22,8 +22,8 @@
 // depending on maxStrings.
 // (There's no function here yet for doing that, but easy to add)
 
-#include <gel/scripting/string.h>
-#include <core/crc.h>
+#include <Gel/Scripting/string.h>
+#include <Core/crc.h>
 
 #include <cstring>
 
@@ -234,7 +234,7 @@ void SetScriptString(uint32 n, const char *p_string)
 	Dbg_MsgAssert(n<MAX_SCRIPT_STRING,("Bad index of %d sent to SetScriptString, MAX_SCRIPT_STRING=%d",n,MAX_SCRIPT_STRING));
 	Dbg_MsgAssert(p_string,("nullptr p_string"));
 	
-	sprintf (sp_script_string[n],p_string);	
+	sprintf (sp_script_string[n],"%s", p_string);
 	Dbg_MsgAssert(strlen(sp_script_string[n])<SCRIPT_STRING_LENGTH,("Script String %d too big\n%s",n,sp_script_string[n]));
 }
 

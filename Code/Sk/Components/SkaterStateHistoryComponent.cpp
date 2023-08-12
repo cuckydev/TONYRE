@@ -5,23 +5,23 @@
 //* CREATION DATE:  3/13/3
 //****************************************************************************
 
-#include <sk/components/skaterstatehistorycomponent.h>
+#include <Sk/Components/SkaterStateHistoryComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/walkcomponent.h>
-#include <gel/net/server/netserv.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Net/Server/netserv.h>
 
-#include <sk/objects/crown.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/gamenet/gameNET.h>
-#include <sk/gamenet/gamemsg.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/components/skaterscorecomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
+#include <Sk/Objects/crown.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/GameNet/GameMsg.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Components/SkaterScoreComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
 
 namespace Obj
 {

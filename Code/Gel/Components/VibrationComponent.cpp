@@ -5,16 +5,16 @@
 //* CREATION DATE:  2/25/3
 //****************************************************************************
 
-#include <gel/components/vibrationcomponent.h>
+#include <Gel/Components/VibrationComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
 
-#include <sk/objects/skater.h>
-#include <sk/modules/frontend/frontend.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
 
 namespace Obj
 {

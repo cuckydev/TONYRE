@@ -5,25 +5,25 @@
 //* CREATION DATE:  10/22/2002
 //****************************************************************************
 
-#include <gel/components/skeletoncomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
 
-#include <gel/assman/assman.h>
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/skeleton.h>
+#include <Gfx/Skeleton.h>
 
 // TODO:  These won't be needed after the initial
 // matrix data gets moved to the SKE file
-#include <core/crc.h>
-#include <core/math.h>
-#include <gfx/nxanimcache.h>
-#include <gfx/bonedanim.h>
-#include <gfx/nxmiscfx.h>
+#include <Core/crc.h>
+#include <Core/math.h>
+#include <Gfx/NxAnimCache.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/NxMiscFX.h>
 
 // GJ:  CSkeletonComponent is supposed to be a wrapper
 // around the Gfx::CSkeleton, which contains a skeletal

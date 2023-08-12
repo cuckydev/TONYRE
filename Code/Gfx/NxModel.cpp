@@ -5,29 +5,29 @@
 //* CREATION DATE:  12/21/2001
 //****************************************************************************
 
-#include <gfx/nxmodel.h>
+#include <Gfx/NxModel.h>
 
-#include <core/string/stringutils.h>
+#include <Core/String/stringutils.h>
 
-#include <gel/assman/assman.h>
-#include <gel/assman/skinasset.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/AssMan/skinasset.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/debuggfx.h>
-#include <gfx/facetexture.h>
-#include <gfx/gfxutils.h>
-#include <gfx/nx.h>
-#include <gfx/nxgeom.h>
-#include <gfx/nxmesh.h>
-#include <gfx/nxlight.h>
-#include <gfx/nxtexman.h>
-#include <gfx/skeleton.h>
+#include <Gfx/debuggfx.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxGeom.h>
+#include <Gfx/NxMesh.h>
+#include <Gfx/NxLight.h>
+#include <Gfx/NxTexMan.h>
+#include <Gfx/Skeleton.h>
 
-#include <sys/file/filesys.h>
+#include <Sys/File/filesys.h>
 
 namespace Nx
 {

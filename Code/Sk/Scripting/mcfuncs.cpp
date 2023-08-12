@@ -19,25 +19,25 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/scripting/mcfuncs.h>
-#include <sys/file/filesys.h>
-#include <sys/mcman.h>
-#include <sys/config/config.h>
-#include <gel/music/music.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h> 
-#include <gel/scripting/utils.h>
-#include <gel/soundfx/soundfx.h>
-#include <sk/objects/records.h>
-#include <sk/objects/playerprofilemanager.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/modules/skate/GoalManager.h>
-#include <sk/parkeditor2/parked.h>
-#include <gel/scripting/component.h>
-#include <sys/replay/replay.h>
-#include <gel/objtrack.h>
-#include <sk/components/goaleditorcomponent.h>
-#include <sk/components/raileditorcomponent.h>
+#include <Sk/Scripting/mcfuncs.h>
+#include <Sys/File/filesys.h>
+#include <Sys/McMan.h>
+#include <Sys/Config/config.h>
+#include <Gel/Music/music.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h> 
+#include <Gel/Scripting/utils.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Sk/Objects/records.h>
+#include <Sk/Objects/PlayerProfileManager.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Gel/Scripting/component.h>
+#include <Sys/Replay/replay.h>
+#include <Gel/objtrack.h>
+#include <Sk/Components/GoalEditorComponent.h>
+#include <Sk/Components/RailEditorComponent.h>
 
 #ifdef __PLAT_NGPS__
 #include <libmc.h>

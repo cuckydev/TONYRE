@@ -23,20 +23,20 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
 #ifdef __NOPT_DEBUG__
-#include <sys/timer.h>
+#include <Sys/timer.h>
 #endif
 
-#include <sys/sioman.h>
-#include <sys/siodev.h>
+#include <Sys/sioman.h>
+#include <Sys/siodev.h>
  
-#include <gel/inpman.h>
+#include <Gel/inpman.h>
 
-#include <gel/scripting/script.h> 
-#include <gel/scripting/checksum.h> 
+#include <Gel/Scripting/script.h> 
+#include <Gel/Scripting/checksum.h> 
 
 /*****************************************************************************
 **								DBG Information								**

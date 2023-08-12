@@ -15,7 +15,7 @@
 //  - in CompositeObjectManager.cpp, in the CCompositeObjectManager constructor, add:
 //		  	RegisterComponent(CRC_WATCH,			CWatchComponent::s_create); 
 //  - and add the include of the header
-//			#include <gel/components/watchcomponent.h> 
+//			#include <Gel/Components/watchcomponent.h> 
 //  - Add it to build\gel.mkf, like:
 //          $(NGEL)/components/WatchComponent.cpp
 //  - Fill in the OWNER (yourself) and the CREATION DATE (today's date) in the .cpp and the .h files
@@ -23,17 +23,17 @@
 //  - remove these comments
 //  - add comments specfic to the component, explaining its usage
 
-#include <gel/components/CollideAndDieComponent.h>
+#include <Gel/Components/CollideAndDieComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/components/ProjectileCollisionComponent.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Components/ProjectileCollisionComponent.h>
+#include <Sk/GameNet/GameNet.h>
 
 #define vFIREBALL_LIFETIME 	Tmr::Seconds( 10 )
 

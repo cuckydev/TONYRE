@@ -5,18 +5,18 @@
 #define	__GFX_NX_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 
-#include <gfx/NxScene.h>
-#include <gfx/NxSector.h>
-#include <gfx/NxSprite.h>
-#include <gfx/NxImposter.h>
-#include <gfx/NxNewParticleMgr.h>
-#include <gfx/nxtexture.h>
-#include <gfx/nxtextured3dpoly.h>
-#include <gfx/nxweather.h>
+#include <Gfx/NxScene.h>
+#include <Gfx/NxSector.h>
+#include <Gfx/NxSprite.h>
+#include <Gfx/NxImposter.h>
+#include <Gfx/NxNewParticleMgr.h>
+#include <Gfx/NxTexture.h>
+#include <Gfx/NxTextured3dPoly.h>
+#include <Gfx/nxweather.h>
 
 namespace Obj
 {

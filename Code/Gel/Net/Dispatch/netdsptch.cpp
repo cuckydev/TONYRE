@@ -22,9 +22,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 #include <string.h>
-#include <gel/net/net.h>
+#include <Gel/Net/net.h>
 
 /*****************************************************************************
 **								  Externals									**
@@ -317,7 +317,7 @@ int	Dispatcher::DispatchMessage( MsgHandlerContext *context )
 			return result;
 		}		
 		// A higher int handler has chosen to mask this message from the rest
-		if( ( result == HANDLER_MSG_DONE ))
+		if (result == HANDLER_MSG_DONE)
 		{
 			return HANDLER_CONTINUE;
 		}

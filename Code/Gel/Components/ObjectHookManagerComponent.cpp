@@ -15,19 +15,19 @@
 //  - in CompositeObjectManager.cpp, in the CCompositeObjectManager constructor, add:
 //		  	RegisterComponent(CRC_WATCH,			CWatchComponent::s_create); 
 //  - and add the include of the header
-//			#include <gel/components/watchcomponent.h> 
+//			#include <Gel/Components/watchcomponent.h> 
 //  - Add it to build\gel.mkf, like:
 //          $(NGEL)/components/WatchComponent.cpp
 //  - Fill in the OWNER (yourself) and the CREATION DATE (today's date) in the .cpp and the .h files
 //	- Insert code as needed and remove generic comments
 //  - remove these comments
 //  - add comments specfic to the component, explaining its usage
-#include <gel/components/objecthookmanagercomponent.h>
+#include <Gel/Components/ObjectHookManagerComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/struct.h>
 
-#include <gel/components/nodearraycomponent.h>
+#include <Gel/Components/NodeArrayComponent.h>
 
 namespace Obj
 {

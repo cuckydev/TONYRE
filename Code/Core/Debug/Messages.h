@@ -23,11 +23,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/flags.h>
+#include <Core/flags.h>
 
-#include <core/debug/signatrs.h>
-#include <core/debug/project.h>
-#include <core/debug/module.h>
+#include <Core/Debug/Signatrs.h>
+#include <Core/Debug/Project.h>
+#include <Core/Debug/Module.h>
 
 #ifdef __NOPT_ASSERT__
 

@@ -5,22 +5,22 @@
 //* CREATION DATE:  10/31/2002
 //****************************************************************************
 
-#include <gel/components/Collisioncomponent.h>
+#include <Gel/Components/collisioncomponent.h>
 
-#include <gel/assman/assman.h>
-#include <gel/collision/collision.h>
-#include <gel/collision/movcollman.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Collision/MovCollMan.h>
 
-#include <gel/components/modelcomponent.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
 							
-#include <gfx/nx.h>
-#include <gfx/nxhierarchy.h>
-#include <gfx/nxmesh.h>
-#include <gfx/nxmodel.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxHierarchy.h>
+#include <Gfx/NxMesh.h>
+#include <Gfx/NxModel.h>
 
 namespace Obj
 {

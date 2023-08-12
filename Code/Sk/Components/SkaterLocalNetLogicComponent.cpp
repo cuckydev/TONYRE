@@ -5,20 +5,20 @@
 //* CREATION DATE:  3/12/3
 //****************************************************************************
 
-#include <core/math/slerp.h>
+#include <Core/Math/slerp.h>
 
-#include <sk/components/skaterlocalnetlogiccomponent.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/components/skaterendruncomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/Components/SkaterLocalNetLogicComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Components/SkaterEndRunComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Net/Client/netclnt.h>
 
 namespace Obj
 {

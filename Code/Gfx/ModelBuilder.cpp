@@ -9,23 +9,23 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/modelbuilder.h>
+#include <Gfx/ModelBuilder.h>
 
-#include <gfx/facetexture.h>
-#include <gfx/GfxUtils.h>
-#include <gfx/modelappearance.h>
-#include <gfx/Nx.h>
-#include <gfx/NxModel.h>
-#include <gfx/nxtexman.h>
-#include <gfx/nxtexture.h>
-#include <gfx/skeleton.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/ModelAppearance.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxTexMan.h>
+#include <Gfx/NxTexture.h>
+#include <Gfx/Skeleton.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/checksum.h>
 
 /*****************************************************************************
 **								DBG Information								**

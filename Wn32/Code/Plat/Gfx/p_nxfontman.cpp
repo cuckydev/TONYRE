@@ -10,7 +10,7 @@
 **																			**
 **	Module:						 		 									**
 **																			**
-**	File name:		gfx/xbox/p_nxfontman.cpp								**
+**	File name:		Gfx/xbox/p_nxfontman.cpp								**
 **																			**
 **	Created:		01/16/2002	-	dc										**
 **																			**
@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include	"gfx\nx.h"
-#include	"gfx\NxFontMan.h"
-#include	"Plat/Gfx\p_NxFont.h"
-#include 	"Plat/Gfx\nx\chars.h"
+#include	<Gfx/nx.h>
+#include	<Gfx/NxFontMan.h>
+#include	<Plat/Gfx/p_nxfont.h>
+#include 	<Plat/Gfx/nx/chars.h>
 
 /*****************************************************************************
 **								DBG Information								**

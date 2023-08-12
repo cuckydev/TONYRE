@@ -1,36 +1,33 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // NX.CPP - Platform independent interface to the platfrom specific engine code 
 
-#include <gfx/nx.h>
+#include <Gfx/nx.h>
 
-#include <core/debug.h>
-#include <core/string/stringutils.h>
+#include <Core/Debug.h>
+#include <Core/String/stringutils.h>
 
-#include <gel/objman.h>
+#include <Gel/objman.h>
                                
-#include <gel/scripting/script.h>	   
-#include <gel/scripting/struct.h>	   
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/script.h>	   
+#include <Gel/Scripting/struct.h>	   
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/nxfont.h>
-#include <gfx/nxmesh.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxsector.h>
-#include <gfx/nxtexman.h>
-#include <gfx/nxviewman.h>
-#include <gfx/nxwin2d.h>
-#include <gfx/nxmiscfx.h>
-#include <gfx/nxparticlemgr.h>
-#include <gfx/nxquickanim.h>
-#include <gfx/nxlightman.h>
-#include <gfx\nxweather.h>
-#ifdef __PLAT_NGC__
-#include <gfx\ngc\p_nxscene.h>
-#endif		// __PLAT_NGC__
+#include <Gfx/NxFont.h>
+#include <Gfx/NxMesh.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxSector.h>
+#include <Gfx/NxTexMan.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/NxWin2D.h>
+#include <Gfx/NxMiscFX.h>
+#include <Gfx/nxparticlemgr.h>
+#include <Gfx/NxQuickAnim.h>
+#include <Gfx/NxLightMan.h>
+#include <Gfx/nxweather.h>
 
-//#include <sk/modules/skate/skate.h>		// For getting list of movable objects
+//#include <Sk/Modules/Skate/skate.h>		// For getting list of movable objects
 
-#include <sys/replay/replay.h>
+#include <Sys/Replay/replay.h>
 
 #ifdef	__PLAT_NGPS__
 namespace NxPs2

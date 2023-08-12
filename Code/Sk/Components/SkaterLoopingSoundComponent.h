@@ -8,14 +8,14 @@
 #ifndef __COMPONENTS_SKATERLOOPINGSOUNDCOMPONENT_H__
 #define __COMPONENTS_SKATERLOOPINGSOUNDCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/environment/terrain.h>
-#include <gel/soundfx/soundfx.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Environment/terrain.h>
+#include <Gel/SoundFX/soundfx.h>
 
-#include <sk/objects/skaterflags.h>
+#include <Sk/Objects/skaterflags.h>
 
 #define		CRC_SKATERLOOPINGSOUND Crc::ConstCRC("SkaterLoopingSound")
 

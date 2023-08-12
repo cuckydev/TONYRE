@@ -24,30 +24,30 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __CORE_MATH_VECTOR_H
-#include <core/math/vector.h>
+#include <Core/Math/vector.h>
 #endif
 
-//#include <sys/timer.h>
+//#include <Sys/timer.h>
 
-//#include <gfx/gfxman.h>
+//#include <Gfx/gfxman.h>
 
-//#include <gfx/skin.h>
+//#include <Gfx/skin.h>
 
-//#include <gel/inpman.h>
-//#include <gel/object.h>
+//#include <Gel/inpman.h>
+//#include <Gel/object.h>
 
 //#include <servers/os_coll.h>
 
-//#include <core/math/matrix.h>
-//#include <core/math/vector.h>
+//#include <Core/Math/matrix.h>
+//#include <Core/Math/vector.h>
 
-//#include <sk/objects/movingobject.h>
+//#include <Sk/Objects/MovingObject.h>
 
-//#include <gel/scripting/script.h>
+//#include <Gel/Scripting/script.h>
 
 /*****************************************************************************
 **								   Defines									**

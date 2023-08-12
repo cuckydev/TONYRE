@@ -25,13 +25,13 @@
 
 #include <SDL.h>
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sys/sioman.h>
-#include <sys/siodev.h>
-#include <sys/sio/keyboard.h>
+#include <Sys/sioman.h>
+#include <Sys/siodev.h>
+#include <Sys/SIO/keyboard.h>
 
-#include <gel/module.h>
+#include <Gel/module.h>
 
 #include <Gel/Music/music.h>
 

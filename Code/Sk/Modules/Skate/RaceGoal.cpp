@@ -1,5 +1,5 @@
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/racegoal.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/RaceGoal.h>
 
 namespace Game
 {

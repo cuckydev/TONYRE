@@ -12,11 +12,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 
-#include <gel/assman/assettypes.h>
+#include <Gel/AssMan/assettypes.h>
 
 /*****************************************************************************
 **								   Defines									**

@@ -1,10 +1,10 @@
-#include <gel/scripting/eval.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/parse.h>
+#include <Gel/Scripting/eval.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/parse.h>
 
 #include <cstring>
 

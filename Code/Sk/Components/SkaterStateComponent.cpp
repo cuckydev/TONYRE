@@ -5,12 +5,12 @@
 //* CREATION DATE:  3/31/3
 //****************************************************************************
 
-#include <sk/components/skaterstatecomponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
 /*
  * Holds all skater state which is needed by both local and nonlocal clients.  This way, code external to the skater can access this information in a

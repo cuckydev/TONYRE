@@ -1,7 +1,7 @@
 #ifndef __SK_PARKEDITOR2_GAPMANAGER_H
 #define __SK_PARKEDITOR2_GAPMANAGER_H
 
-#include <sk/ParkEditor2/ParkGen.h>
+#include <Sk/ParkEditor2/ParkGen.h>
 
 namespace Script
 {

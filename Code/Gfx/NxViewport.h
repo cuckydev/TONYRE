@@ -10,26 +10,23 @@
 **																			**
 **	Module:			Graphics  (GFX)											**
 **																			**
-**	File name:		gfx/viewport.h											**
+**	File name:		Gfx/viewport.h											**
 **																			**
 **	Created: 		01/29/00	-	mjb										**
 **																			**
 *****************************************************************************/
 
-#ifndef __GFX_VIEWPORT_H
-#define __GFX_VIEWPORT_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
-#include <core/defines.h>
-#endif
-#include <core/support.h>
-#include <core/math.h>
-#include <gfx/camera.h>
-#include <gel/objptr.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Core/math.h>
+#include <Gfx/camera.h>
+#include <Gel/ObjPtr.h>
 			  
 /*****************************************************************************
 **								   Defines									**
@@ -213,5 +210,3 @@ inline void 			CViewport::SetCamera ( Gfx::Camera* cam )
 /******************************************************************/
 			
 } // namespace Nx
-
-#endif	// __GFX_VIEWPORT_H

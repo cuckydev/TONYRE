@@ -6,11 +6,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <core/crc.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Core/crc.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 DefinePoolableClass(Script::CSymbolTableEntry);
 

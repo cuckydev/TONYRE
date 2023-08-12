@@ -24,9 +24,9 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/support.h>
+#include <Core/support.h>
 
 /*****************************************************************************
 **								   Defines									**

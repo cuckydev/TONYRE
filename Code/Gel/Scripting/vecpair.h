@@ -2,11 +2,11 @@
 #define	__SCRIPTING_VECPAIR_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 namespace Script

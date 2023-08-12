@@ -8,8 +8,8 @@
 #ifndef	__GFX_NXANIMCACHE_H__
 #define	__GFX_NXANIMCACHE_H__
                    
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
 namespace Gfx
 {

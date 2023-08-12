@@ -5,37 +5,37 @@
 //* CREATION DATE:  10/24/2002
 //****************************************************************************
 
-#include <gel/components/animationcomponent.h>
+#include <Gel/Components/animationcomponent.h>
 
-#include <gel/components/modelcomponent.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/suspendcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/SuspendComponent.h>
 
 // TODO:  All the network code should
 // be at the skater- or the player- level
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/component.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/component.h>
 
-#include <gfx/baseanimcontroller.h>
-#include <gfx/bonedanim.h>
-#include <gfx/gfxutils.h>
-#include <gfx/nx.h>
-#include <gfx/nxanimcache.h>
-#include <gfx/nxmodel.h>
-#include <gfx/pose.h>
-#include <gfx/skeleton.h>
+#include <Gfx/baseanimcontroller.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxAnimCache.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Pose.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 		  
 namespace Obj
 {
@@ -1160,7 +1160,7 @@ void CAnimationComponent::PlayPrimarySequence( uint32 animName, bool propagate, 
 
 	Gfx::CBlendChannel* pPrimaryChannel = get_primary_channel();
 	Dbg_Assert( pPrimaryChannel );
-    pPrimaryChannel->PlaySequence( animName, start_time, end_time, loop_type, blend_period, speed, IsFlipped() );
+    pPrimaryChannel->PlayBlendSequence( animName, start_time, end_time, loop_type, blend_period, speed, IsFlipped() );
 
 	delete_anim_tags();
 	add_anim_tags( animName );

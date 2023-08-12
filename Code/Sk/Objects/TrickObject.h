@@ -26,11 +26,11 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
+    #include <Core/Defines.h>
 #endif
 
-#include <core/list/node.h>
-#include <core/hashtable.h>
+#include <Core/List/Node.h>
+#include <Core/HashTable.h>
 
 /*****************************************************************************
 **							Forward Declarations							**

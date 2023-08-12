@@ -1,29 +1,16 @@
-#ifndef	__SCRIPTING_SCRIPT_H
-#define	__SCRIPTING_SCRIPT_H
+#pragma once
 
-#ifndef __CORE_DEFINES_H
-#include <core/defines.h>
-#endif
+#include <Core/Defines.h>
 
-#ifndef	__SCRIPTING_SCRIPTDEFS_H
 // TODO: Remove this at some point, only necessary for the CScriptStructure define, to make everything compile.
-#include <gel/scripting/scriptdefs.h>
-#endif
+#include <Gel/Scripting/scriptdefs.h>
 
-#ifndef __SYS_TIMER_H
-#include <sys/timer.h> // For Tmr::Time
-#endif
-
-#ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
-#endif
-
-#ifndef __GEL_OBJECT_H
-#include <gel/object.h>
-#endif
+#include <Sys/timer.h> // For Tmr::Time
+#include <Sys/Mem/Poolable.h>
+#include <Gel/object.h>
 
 
-#include <gel/RefCounted.h>
+#include <Gel/RefCounted.h>
 
 
 namespace Obj
@@ -480,6 +467,3 @@ const char * GetCurrentScriptInfo();
 #endif
 
 } // namespace Script
-
-#endif	// __SCRIPTING_SCRIPT_H
-

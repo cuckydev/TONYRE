@@ -23,8 +23,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
 
 /*****************************************************************************
 **							  DBG Information								**
@@ -269,7 +269,7 @@ void Matrix::PrintContents() const
 // * "from" into another vector called "to".
 // * Input : from[3], to[3] which both must be *normalized* non-zero vectors
 // * Output: mtx[3][3] -- a 3x3 matrix in colum-major form
-// * Authors: Tomas Möller, John Hughes 1999
+// * Authors: Tomas Mï¿½ller, John Hughes 1999
 // 
 void fromToRotation(float from[3], float to[3], float mtx[3][3])
 {
@@ -381,7 +381,7 @@ void fromToRotation(float from[3], float to[3], float mtx[3][3])
 // * "from" into another vector called "to".
 // * Input : from[3], to[3] which both must be *normalized* non-zero vectors
 // * Output: mtx[3][3] -- a 3x3 matrix in colum-major form
-// * Authors: Tomas Möller, John Hughes 1999
+// * Authors: Tomas Mï¿½ller, John Hughes 1999
 // 
 //
 // Micknote .. on testing this, it seems like it produces the inverse of what we want

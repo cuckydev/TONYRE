@@ -1,13 +1,13 @@
 #ifndef __SK_PARKEDITOR2_PARKED_H
 #define __SK_PARKEDITOR2_PARKED_H
 
-#include <core/task.h>
-#include <core/math/vector.h>
-#include <gel/inpman.h>
-#include <gel/Event.h>
-#include <gel/modman.h>
-#include <gfx/camera.h>
-#include <sk/ParkEditor2/EdMap.h>
+#include <Core/Task.h>
+#include <Core/Math/vector.h>
+#include <Gel/inpman.h>
+#include <Gel/Event.h>
+#include <Gel/modman.h>
+#include <Gfx/camera.h>
+#include <Sk/ParkEditor2/EdMap.h>
 
 // At least this much is required on the top down heap during editing to ensure that
 // UpdateSuperSectors will have enough space to execute when raising large areas of ground.

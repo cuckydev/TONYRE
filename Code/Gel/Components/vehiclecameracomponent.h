@@ -8,11 +8,11 @@
 #ifndef __COMPONENTS_VEHICLECAMERACOMPONENT_H__
 #define __COMPONENTS_VEHICLECAMERACOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/components/vehiclecomponent.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Components/vehiclecomponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_VEHICLECAMERA Crc::ConstCRC("VehicleCamera")

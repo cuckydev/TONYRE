@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sk/modules/skate/GameFlow.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
+#include <Core/Defines.h>
+#include <Sk/Modules/Skate/GameFlow.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
 
 /*****************************************************************************
 **								DBG Information								**

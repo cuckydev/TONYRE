@@ -11,23 +11,23 @@
 // @subindex Scripting Database
 // @index script | motioncomponent
 
-#include <gel/components/motioncomponent.h>
-#include <gel/components/pedlogiccomponent.h>
-#include <gel/components/lockobjcomponent.h>
-#include <gel/components/modelcomponent.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/Components/PedLogicComponent.h>
+#include <Gel/Components/lockobjcomponent.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <core/math/slerp.h>
+#include <Core/Math/slerp.h>
 									
-#include <gel/collision/collision.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/objects/pathob.h>
-#include <sk/objects/pathman.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/objects/followob.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Objects/PathOb.h>
+#include <Sk/Objects/PathMan.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Objects/FollowOb.h>
 
 
 

@@ -34,21 +34,21 @@
 	case the moving object needs to run a script at the waypoint).
 */
 
-#include <objects/pathob.h>
+#include <Sk/Objects/PathOb.h>
 
-#include <core/debug.h>
+#include <Core/Debug.h>
 
-#include <gel/components/motioncomponent.h>
-#include <gel/inpman.h>
-#include <gel/mainloop.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/script.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/inpman.h>
+#include <Gel/mainloop.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/script.h>
 
-#include <gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 
-#include <sk/scripting/nodearray.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 /*****************************************************************************
 **								DBG Information								**

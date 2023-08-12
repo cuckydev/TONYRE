@@ -5,29 +5,29 @@
 //* CREATION DATE:  3/21/2003
 //****************************************************************************
 
-#include <sk/components/GoalEditorComponent.h>
-#include <sk/components/EditorCameraComponent.h>
-#include <sk/parkeditor2/parked.h>
-#include <gel/components/inputcomponent.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <gel/objman.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Components/GoalEditorComponent.h>
+#include <Sk/Components/EditorCameraComponent.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Gel/Components/InputComponent.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Gel/objman.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
 
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
-#include <sk/engine/feeler.h>
-#include <gel/objtrack.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Sk/Engine/feeler.h>
+#include <Gel/objtrack.h>
 
 //#define SIZE_TEST
 

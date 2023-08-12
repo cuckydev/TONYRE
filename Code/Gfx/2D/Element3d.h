@@ -2,9 +2,9 @@
 #define __GFX_2D_ELEMENT3D_H__
 
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
-#include <gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/ScreenElement2.h>
 
 namespace Gfx
 {

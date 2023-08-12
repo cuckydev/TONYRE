@@ -9,25 +9,19 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/bonedanim.h>
+#include <Gfx/BonedAnim.h>
 
-#include <gfx/bonedanimtypes.h>
-#include <gfx/nxquickanim.h>
-#include <sys/file/AsyncFilesys.h>
-#include <sys/file/filesys.h>
-#include <sys/mem/memman.h>
-#include <gel/object.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <sys/config/config.h>
-#include <core/string/stringutils.h>
-#include <sys/file/pip.h>
-
-#ifdef __PLAT_NGC__
-#include <dolphin.h>
-#include "sys/ngc/p_dma.h"
-#include "sys\ngc\p_aram.h"
-#endif		// __PLAT_NGC__
+#include <Gfx/BonedAnimTypes.h>
+#include <Gfx/NxQuickAnim.h>
+#include <Sys/File/AsyncFilesys.h>
+#include <Sys/File/filesys.h>
+#include <Sys/Mem/memman.h>
+#include <Gel/object.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Sys/Config/config.h>
+#include <Core/String/stringutils.h>
+#include <Sys/File/pip.h>
 
 /*****************************************************************************
 **								DBG Information								**

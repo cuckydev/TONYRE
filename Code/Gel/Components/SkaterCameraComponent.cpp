@@ -5,28 +5,28 @@
 //* CREATION DATE:  02/21/03
 //****************************************************************************
 
-#include <gel/components/skatercameracomponent.h>
+#include <Gel/Components/SkaterCameraComponent.h>
 
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/object/compositeobject.h>
-#include <gel/components/cameracomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/camerautil.h>
-#include <gel/components/cameralookaroundcomponent.h>
-#include <gel/components/movablecontactcomponent.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Components/CameraComponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/CameraUtil.h>
+#include <Gel/Components/CameraLookAroundComponent.h>
+#include <Gel/Components/MovableContactComponent.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/nxviewman.h>
+#include <Gfx/NxViewMan.h>
 
-#include <sk/objects/proxim.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterbalancetrickcomponent.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/modules/Skate/skate.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Modules/Skate/skate.h>
 
 
 namespace Obj

@@ -28,20 +28,20 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/scripting/struct.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/component.h>
-#include <gel/object.h>
-#include <gel/ObjPtr.h>
-#include <gel/objman.h>
-#include <gel/objtrack.h>
-#include <gel/objsearch.h>
-#include <gel/Event.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/object.h>
+#include <Gel/ObjPtr.h>
+#include <Gel/objman.h>
+#include <Gel/objtrack.h>
+#include <Gel/objsearch.h>
+#include <Gel/Event.h>
 
 /*****************************************************************************
 **								  Externals									**

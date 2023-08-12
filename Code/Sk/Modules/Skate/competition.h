@@ -25,9 +25,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/string/cstring.h>
+#include <Core/String/CString.h>
 
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/struct.h>
 
 /*****************************************************************************
 **								   Defines									**

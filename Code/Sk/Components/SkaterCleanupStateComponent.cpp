@@ -5,16 +5,16 @@
 //* CREATION DATE:  3/26/3
 //****************************************************************************
 
-#include <sk/components/skatercleanupstatecomponent.h>
-#include <sk/components/skaterstatecomponent.h>
+#include <Sk/Components/SkaterCleanupStateComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/components/suspendcomponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Components/SuspendComponent.h>
 
-#include <sys/replay/replay.h>
+#include <Sys/Replay/replay.h>
 
 namespace Obj
 {

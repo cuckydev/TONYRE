@@ -5,28 +5,28 @@
 //* CREATION DATE:  2/06/2003
 //****************************************************************************
 
-#include <gfx/subanimcontroller.h>
+#include <Gfx/subanimcontroller.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gel/components/animationcomponent.h>
-#include <gel/object/compositeobject.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Object/compositeobject.h>
 										   
-#include <gel/scripting/array.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
 						 
-#include <gfx/blendchannel.h>
-#include <gfx/gfxutils.h>
-#include <gfx/nx.h>
-#include <gfx/nxanimcache.h>
-#include <gfx/nxquickanim.h>
-#include <gfx/pose.h>
-#include <gfx/skeleton.h>
+#include <Gfx/blendchannel.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxAnimCache.h>
+#include <Gfx/NxQuickAnim.h>
+#include <Gfx/Pose.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/components/skaterflipandrotatecomponent.h>
+#include <Sk/Components/SkaterFlipAndRotateComponent.h>
 						  
 namespace Gfx
 {

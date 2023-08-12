@@ -1,7 +1,7 @@
 #ifndef	__GFX_NXMISCFX_H__
 #define	__GFX_NXMISCFX_H__
 
-#include <gfx/nx.h>
+#include <Gfx/nx.h>
 
 namespace Nx
 {

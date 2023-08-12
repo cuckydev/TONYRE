@@ -5,18 +5,18 @@
 //* CREATION DATE:  5/13/03
 //****************************************************************************
 
-#include <gel/components/cameralookaroundcomponent.h>
-#include <gel/components/inputcomponent.h>
+#include <Gel/Components/CameraLookAroundComponent.h>
+#include <Gel/Components/InputComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/nxviewman.h>
+#include <Gfx/NxViewMan.h>
 
-#include <gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 						   
 float	spin_modulator			= 1.0f;
 float	tilt_modulator			= 1.0f;

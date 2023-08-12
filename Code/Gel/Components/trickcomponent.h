@@ -8,18 +8,18 @@
 #ifndef __COMPONENTS_TRICKCOMPONENT_H__
 #define __COMPONENTS_TRICKCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <sk/objects/skater.h>
-#include <sk/objects/trickobject.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/TrickObject.h>
 
 #ifndef __OBJECT_BASECOMPONENT_H__
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 #endif
 
 #ifndef __GEL_INPMAN_H
-#include <gel/inpman.h>
+#include <Gel/inpman.h>
 #endif
 
 // Just thinking about it - a generic way of accessing the component				 

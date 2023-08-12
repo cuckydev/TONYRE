@@ -5,13 +5,13 @@
 //* CREATION DATE:  7/17/3
 //****************************************************************************
 
-#include <sk/components/skaterruntimercomponent.h>
+#include <Sk/Components/SkaterRunTimerComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/components/walkcomponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Components/WalkComponent.h>
 
 namespace Obj
 {

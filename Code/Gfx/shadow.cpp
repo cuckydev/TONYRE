@@ -14,15 +14,15 @@
 **																			**
 *****************************************************************************/
 
-#include <gfx/shadow.h>
+#include <Gfx/shadow.h>
 
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/camera.h>
-#include <gfx/gfxutils.h>
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxtextured3dpoly.h>
+#include <Gfx/camera.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxTextured3dPoly.h>
 
 namespace Gfx
 {

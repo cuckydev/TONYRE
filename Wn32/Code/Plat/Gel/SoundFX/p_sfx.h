@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Sound effects  (Sfx)									**
 **																			**
-**	File name:		gel/													**
+**	File name:		Gel/													**
 **																			**
 **	Created: 		01/10/2001	-	dc										**
 **																			**
@@ -23,7 +23,7 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
  
 /*****************************************************************************

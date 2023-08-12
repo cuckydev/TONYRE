@@ -25,13 +25,13 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/list.h>
-#include <sys/timer.h>
+#include <Core/List.h>
+#include <Sys/timer.h>
 
 #ifndef	__SYS_MEM_MEMPTR_H
-#include <sys/mem/memptr.h>
+#include <Sys/Mem/memptr.h>
 #endif
 /*****************************************************************************
 **								   Defines									**

@@ -1,8 +1,8 @@
 #include <Windows.h>
 
-#include <sys/timer.h>
-#include <sys/file/filesys.h>
-#include <core/macros.h>
+#include <Sys/timer.h>
+#include <Sys/File/filesys.h>
+#include <Core/macros.h>
 
 #include <stdio.h>
 #include <stdlib.h>

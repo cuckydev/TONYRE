@@ -7,14 +7,14 @@
 //
 
 
-#include	<gel/assman/animasset.h>
+#include	<Gel/AssMan/animasset.h>
 
-#include	<gel/assman/assettypes.h>
+#include	<Gel/AssMan/assettypes.h>
 
-#include	<gfx/bonedanim.h>
-#include	<gfx/nx.h>
+#include	<Gfx/BonedAnim.h>
+#include	<Gfx/nx.h>
 
-#include	<gel/scripting/symboltable.h>
+#include	<Gel/Scripting/symboltable.h>
 
 
 namespace Ass

@@ -13,14 +13,14 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/lookuptable.h>
+#include <Core/LookupTable.h>
                                
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
                                               
-#include <sk/objects/skaterprofile.h>
+#include <Sk/Objects/SkaterProfile.h>
 
 /*****************************************************************************
 **								   Defines									**

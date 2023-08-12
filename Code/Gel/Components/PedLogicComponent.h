@@ -9,17 +9,17 @@
 #ifndef __COMPONENTS_PEDLOGICCOMPONENT_H__
 #define __COMPONENTS_PEDLOGICCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <core/math/slerp.h>
+#include <Core/Math/slerp.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <gel/components/motioncomponent.h>
+#include <Gel/Components/motioncomponent.h>
 
-#include <sk/objects/skaterflags.h>
-#include <gfx/nxflags.h>
+#include <Sk/Objects/skaterflags.h>
+#include <Gfx/nxflags.h>
 
 #define		CRC_PEDLOGIC Crc::ConstCRC( "PedLogic" )
 #define		GetPedLogicComponent() ((Obj::CPedLogicComponent*)GetComponent(CRC_PEDLOGIC))

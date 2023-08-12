@@ -4,9 +4,9 @@
 #ifndef __OBJECTS_NAVIGATION_H
 #define __OBJECTS_NAVIGATION_H
                         
-#include <core/defines.h>
-#include <core/math.h>
-#include <gfx/nxflags.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Gfx/nxflags.h>
                            
 namespace Script
 {

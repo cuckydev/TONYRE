@@ -24,9 +24,9 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/singleton.h>
+#include <Core/singleton.h>
 #ifdef __PLAT_NGC__
 #include <dolphin.h>
 #endif

@@ -8,10 +8,10 @@
 #ifndef __COMPONENTS_SPECIALITEMCOMPONENT_H__
 #define __COMPONENTS_SPECIALITEMCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_SPECIALITEM Crc::ConstCRC("SpecialItem")

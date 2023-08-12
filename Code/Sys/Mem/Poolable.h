@@ -7,16 +7,43 @@
 #ifndef __SYS_MEM_POOLABLE_H
 #define __SYS_MEM_POOLABLE_H
 
-#include <sys/mem/CompactPool.h>
-#include <sys/mem/memman.h>
+#include <Sys/Mem/CompactPool.h>
+#include <Sys/Mem/memman.h>
 
+#define DefinePoolableClass(_T)
+
+namespace Mem
+{
+
+	template <class _T>
+	class CPoolable
+	{
+		public:
+			static void							SCreatePool(int num_items, const char *name) { (void)num_items; (void)name; }
+			static void							SAttachPool(CCompactPool *pPool) { (void)pPool; }
+			static void							SRemovePool() {}
+			static int							SGetMaxUsedItems() { return 0; }
+			static int							SGetNumUsedItems() { return 0; }
+			static int							SGetTotalItems() { return 0; }
+
+			static void							SPrintInfo() {}
+
+			static void							SSwitchToNextPool() {}
+			static void							SSwitchToPreviousPool() {}
+
+			static int							SGetCurrentPoolIndex() { return 0; }
+			static bool							SPoolExists() {}
+	};
+}
+
+#if 0
 #define DefinePoolableClass(_T)																\
 namespace Mem																				\
 {																							\
 	template<>																				\
-	Mem::CCompactPool *Mem::CPoolable<_T>::sp_pool[POOL_STACK_SIZE] = {nullptr,nullptr};	\
+	Mem::CCompactPool *Mem::CPoolable<_T>::sp_pool[POOL_STACK_SIZE] = {};					\
 	template<>																				\
-	bool Mem::CPoolable< _T >::s_internallyCreatedPool[POOL_STACK_SIZE] = {false,false};	\
+	bool Mem::CPoolable< _T >::s_internallyCreatedPool[POOL_STACK_SIZE] = {};				\
 	template<>																				\
 	int Mem::CPoolable< _T >::s_currentPool=0;												\
 }																							\
@@ -62,9 +89,6 @@ protected:
 	static bool	  						s_internallyCreatedPool[POOL_STACK_SIZE];  	
 	static int							s_currentPool;
 };
-
-
-
 
 class PoolTest : public CPoolable<PoolTest>
 {
@@ -242,5 +266,6 @@ void CPoolable<_T>::SPrintInfo()
 
 
 }
+#endif
 
 #endif

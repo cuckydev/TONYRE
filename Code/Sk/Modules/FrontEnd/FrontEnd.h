@@ -23,17 +23,17 @@
 #ifndef __FRONTEND_H
 #define __FRONTEND_H
 
-#include <core/support.h>
-#include <core/task.h>
-#include <core/string/cstring.h>
+#include <Core/support.h>
+#include <Core/Task.h>
+#include <Core/String/CString.h>
 
-#include <gel/module.h>
-#include <gel/inpman.h>
+#include <Gel/module.h>
+#include <Gel/inpman.h>
 
-#include <gfx/camera.h>
-#include <gfx/image/imagebasic.h>
+#include <Gfx/camera.h>
+#include <Gfx/Image/ImageBasic.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 /*****************************************************************************
 **								   Defines									**

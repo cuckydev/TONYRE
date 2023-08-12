@@ -24,16 +24,16 @@
 *****************************************************************************/
 
 #include <xtl.h>
-#include <core/defines.h>
-#include <core/macros.h>
-#include <core/singleton.h>
-#include <gfx/gfxman.h>
-#include <gfx/xbox/nx/render.h>
-#include <gel/soundfx/soundfx.h>
-#include <gel/music/music.h>
-#include <gel/movies/movies.h>
-#include <gel/movies/xbox/p_movies.h>
-#include <sys/sioman.h>
+#include <Core/Defines.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/xbox/nx/render.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Music/music.h>
+#include <Gel/Movies/Movies.h>
+#include <Gel/Movies/xbox/p_movies.h>
+#include <Sys/sioman.h>
 
 
 /*****************************************************************************

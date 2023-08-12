@@ -49,8 +49,8 @@
 
 #include "AUDSimplePlayer.h"
 #include "AUDSimpleAudio.h"
-#include "gel/soundfx/ngc/p_sfx.h"
-#include "gfx/ngc/nx/nx_init.h"
+#include "Gel/soundfx/ngc/p_sfx.h"
+#include "Gfx/ngc/nx/nx_init.h"
 
 /******************************************************************************
  *  DEFINES

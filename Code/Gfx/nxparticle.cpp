@@ -1,17 +1,17 @@
 ///////////////////////////////////////////////////////////////////////////////
 // NxParticle.cpp
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/math.h>
-#include <gfx/NxParticle.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/script.h>
-#include <sk/modules/frontend/frontend.h>
-#include <gel/components/suspendcomponent.h>
-#include <gfx/nx.h>
-#include <gfx/debuggfx.h>
-#include <sys/replay/replay.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/math.h>
+#include <Gfx/nxparticle.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Gel/Components/SuspendComponent.h>
+#include <Gfx/nx.h>
+#include <Gfx/debuggfx.h>
+#include <Sys/Replay/replay.h>
 
 #define next_random() ((((float)rand() / RAND_MAX ) * 2.0f ) - 1.0f)
 

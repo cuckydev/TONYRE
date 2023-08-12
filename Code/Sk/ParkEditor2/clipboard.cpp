@@ -1,25 +1,25 @@
-#include <core/defines.h>
-#include <gel/mainloop.h>
-#include <gel/objtrack.h>
-#include <gel/event.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <sk/ParkEditor2/ParkEd.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/modules/FrontEnd/FrontEnd.h>
-#include <gfx/nxviewman.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/2D/TextElement.h>
+#include <Core/Defines.h>
+#include <Gel/mainloop.h>
+#include <Gel/objtrack.h>
+#include <Gel/Event.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/TextElement.h>
 
-#include <sk/ParkEditor2/clipboard.h>
+#include <Sk/ParkEditor2/clipboard.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/components/RailEditorComponent.h>
-#include <gfx/nx.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Components/RailEditorComponent.h>
+#include <Gfx/nx.h>
 
 DefinePoolableClass(Ed::CClipboardEntry)
 DefinePoolableClass(Ed::CClipboard)

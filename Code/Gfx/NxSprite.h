@@ -6,13 +6,13 @@
 
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 
-#include <gfx/nxtexture.h>
-#include <gfx/nxviewport.h>
-#include <gfx/image/imagebasic.h>
+#include <Gfx/NxTexture.h>
+#include <Gfx/NxViewport.h>
+#include <Gfx/Image/ImageBasic.h>
 
 
 namespace Nx

@@ -15,22 +15,22 @@
 
 #include <libcdvd.h>
 
-#include <core/macros.h>
-#include <core/defines.h>
+#include <Core/macros.h>
+#include <Core/Defines.h>
 
-#include <sys/config/config.h>
-#include <sys/file/filesys.h>
-#include <sys/file/ngps/p_AsyncFilesys.h>
-#include <sys/file/ngps/hed.h>
-#include <gel/music/ngps/pcm/pcm.h>
+#include <Sys/Config/config.h>
+#include <Sys/File/filesys.h>
+#include <Sys/File/ngps/p_AsyncFilesys.h>
+#include <Sys/File/ngps/hed.h>
+#include <Gel/Music/ngps/pcm/pcm.h>
 
 // temp for debugging ghost voice:
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
 
 // temp for stream sim Rnd( ) call:
-#include <core/math/math.h>
+#include <Core/Math/math.h>
 
 #include "p_music.h"
 

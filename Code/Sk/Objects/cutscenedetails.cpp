@@ -9,60 +9,60 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/cutscenedetails.h>
+#include <Sk/Objects/cutscenedetails.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gel/assman/assman.h>
-#include <gel/assman/assettypes.h>
-#include <gel/assman/skeletonasset.h>
-#include <gel/assman/skinasset.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/AssMan/assettypes.h>
+#include <Gel/AssMan/skeletonasset.h>
+#include <Gel/AssMan/skinasset.h>
 
-#include <gfx/bonedanim.h>
-#include <gfx/camera.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/camera.h>
 
-#include <gel/music/music.h>
+#include <Gel/Music/music.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/file.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/file.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gfx/skeleton.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/skeletoncomponent.h>
+#include <Gfx/Skeleton.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
 
-#include <sys/file/AsyncFilesys.h>
-#include <sys/file/FileLibrary.h>
+#include <Sys/File/AsyncFilesys.h>
+#include <Sys/File/FileLibrary.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/movingobject.h>
-#include <gel/objman.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/components/animationcomponent.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/MovingObject.h>
+#include <Gel/objman.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Components/animationcomponent.h>
 
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
-#include <gfx/debuggfx.h>
-#include <gfx/facetexture.h>
-#include <gfx/nxanimcache.h>
-#include <gfx/nxquickanim.h>
-#include <gfx/nxlightman.h>
-#include <gfx/nxlight.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/debuggfx.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/NxAnimCache.h>
+#include <Gfx/NxQuickAnim.h>
+#include <Gfx/NxLightMan.h>
+#include <Gfx/NxLight.h>
 
-#include <sk/objects/skaterprofile.h>
-#include <gfx/modelappearance.h>
-#include <sys/mem/memman.h>
-#include <sys/timer.h>
-#include <sys/config/config.h>
-#include <sk/modules/FrontEnd/FrontEnd.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Gfx/ModelAppearance.h>
+#include <Sys/Mem/memman.h>
+#include <Sys/timer.h>
+#include <Sys/Config/config.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/vecpair.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/vecpair.h>
 
 
 /*****************************************************************************

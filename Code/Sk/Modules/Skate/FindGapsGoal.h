@@ -4,10 +4,10 @@
 #define __SK_MODULES_SKATE_FINDGAPSGOAL_H__
 
 #ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
+    #include <Core/Defines.h>
 #endif
 
-#include <sk/modules/skate/GoalManager.h>
+#include <Sk/Modules/Skate/GoalManager.h>
 
 namespace Game
 {

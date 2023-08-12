@@ -24,11 +24,11 @@
 *****************************************************************************/
 
 
-#include <core/math.h>
-#include <core/support.h>
-#include <core/singleton.h>
+#include <Core/math.h>
+#include <Core/support.h>
+#include <Core/singleton.h>
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
 
 /*****************************************************************************

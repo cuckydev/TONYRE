@@ -20,14 +20,14 @@ class CSmtPtr
 {
 	friend class CRefCounted;
 
-public:							
-							CSmtPtr();
-							CSmtPtr(T* pT);
-							CSmtPtr(CSmtPtr<T> &ref);
-							~CSmtPtr();
+public:
+	CSmtPtr();
+	CSmtPtr(T* pT);
+	CSmtPtr(const CSmtPtr<T> &ref);
+	~CSmtPtr();
 
 	CSmtPtr<T> &			operator=(T* pT);
-	CSmtPtr<T> &			operator=(CSmtPtr<T> &ref);
+	CSmtPtr<T> &			operator=(const CSmtPtr<T> &ref);
 	T *						operator->() const;
 	T &						operator*() const;
 	T **					operator&() const;
@@ -83,7 +83,7 @@ inline CSmtPtr<T>::CSmtPtr(T *pT)
 
 
 template<class T>
-inline CSmtPtr<T>::CSmtPtr(CSmtPtr<T> &ref)
+inline CSmtPtr<T>::CSmtPtr(const CSmtPtr<T> &ref)
 {
 	mp_prev_ptr = nullptr;
 	mp_next_ptr = nullptr;
@@ -120,7 +120,7 @@ inline CSmtPtr<T> & CSmtPtr<T>::operator=(T *pT)
 
 
 template<class T>
-inline CSmtPtr<T> & CSmtPtr<T>::operator=(CSmtPtr<T> &ref)
+inline CSmtPtr<T> & CSmtPtr<T>::operator=(const CSmtPtr<T> &ref)
 {
 	//printf("WWW in CSmtPtr<T>::operator=(const CSmtPtr<T> &ref) for pointer at 0x%x, object 0x%x (old) and 0x%x (new)\n", this, mp_object, ref.mp_object);
 	remove_ref();

@@ -7,24 +7,24 @@
 // @subindex Scripting Database
 // @index script | NxLightMan
 
-#include <core/defines.h>
-#include <gel/Scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Core/Defines.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <gfx/debuggfx.h> // for AddDebugLine( )
-#include <sk/objects/skater.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/scripting/nodearray.h>
-#include <core/math/math.h>
+#include <Gfx/debuggfx.h> // for AddDebugLine( )
+#include <Sk/Objects/skater.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Core/Math/math.h>
 
 // This should eventually be removed, only needed for a call to GamePaused, which should not be
 // called from here anyway.
-#include <sk/modules/frontend/frontend.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
 
-#include <gfx/nx.h>
-#include <gfx/NxGeom.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxGeom.h>
 
-#include "gfx/NxLightMan.h"
+#include "Gfx/NxLightMan.h"
 
 namespace	Nx
 {

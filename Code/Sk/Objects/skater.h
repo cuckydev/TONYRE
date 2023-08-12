@@ -23,31 +23,31 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <core/math/vector.h>
-#include <core/math/matrix.h>
-#include <core/string/cstring.h>
-// #include <core/timestampedflag.h>
+#include <Core/Math/vector.h>
+#include <Core/Math/matrix.h>
+#include <Core/String/CString.h>
+// #include <Core/TimestampedFlag.h>
 
-// #include <sk/objects/skaterflags.h>
+// #include <Sk/Objects/skaterflags.h>
 
-// #include <sk/objects/gap.h>
-// #include <sk/objects/manual.h>
-#include <sk/objects/movingobject.h>
-#include <sk/objects/trickobject.h>
-// #include <sk/objects/skaterpad.h>
+// #include <Sk/Objects/gap.h>
+// #include <Sk/Objects/manual.h>
+#include <Sk/Objects/MovingObject.h>
+#include <Sk/Objects/TrickObject.h>
+// #include <Sk/Objects/skaterpad.h>
 
-// #include <sys/timer.h>
+// #include <Sys/timer.h>
 
-#include <gel/inpman.h>
-// #include <gel/net/net.h>
+#include <Gel/inpman.h>
+// #include <Gel/Net/net.h>
 
-#include <sk/modules/skate/score.h>
-#include <sk/modules/skate/createatrick.h>
+#include <Sk/Modules/Skate/score.h>
+#include <Sk/Modules/Skate/CreateATrick.h>
 
-#include <gel/objptr.h>
+#include <Gel/ObjPtr.h>
 
 #define		SNAP_OVER_THIN_WALLS  	// snap over thin walls (like rails)
 #define		STICKY_WALLRIDES		 // attempt to snap sideways to wallrides

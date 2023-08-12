@@ -8,14 +8,14 @@
 #ifndef __COMPONENTS_STANCEPANELCOMPONENT_H__
 #define __COMPONENTS_STANCEPANELCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <sys/siodev.h>
+#include <Sys/siodev.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/components/skatercorephysicscomponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
 
 #define		CRC_SKATERSTANCEPANEL Crc::ConstCRC("SkaterStancePanel")
 

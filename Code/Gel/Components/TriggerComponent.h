@@ -8,13 +8,13 @@
 #ifndef __COMPONENTS_TRIGGERCOMPONENT_H__
 #define __COMPONENTS_TRIGGERCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/engine/rectfeeler.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Engine/RectFeeler.h>
 
 #define		CRC_TRIGGER Crc::ConstCRC("Trigger")
 

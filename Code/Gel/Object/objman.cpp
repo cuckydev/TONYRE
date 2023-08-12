@@ -22,17 +22,17 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
-#include <core/list.h>
-#include <core/task.h>
+#include <Core/List.h>
+#include <Core/Task.h>
 
-#include <gel/objman.h>
-#include <gel/objtrack.h>
-#include <gel/mainloop.h>
+#include <Gel/objman.h>
+#include <Gel/objtrack.h>
+#include <Gel/mainloop.h>
 
-#include <gel/scripting/script.h>
+#include <Gel/Scripting/script.h>
 
 /*****************************************************************************
 **								  Externals									**

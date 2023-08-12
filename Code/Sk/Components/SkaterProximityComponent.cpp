@@ -23,7 +23,7 @@
 //  - in CompositeObjectManager.cpp, in the CCompositeObjectManager constructor, add:
 //		  	RegisterComponent(CRC_WATCH,			CWatchComponent::s_create); 
 //  - and add the include of the header
-//			#include <gel/components/watchcomponent.h> 
+//			#include <Gel/Components/watchcomponent.h> 
 //  - Add it to build\gel.mkf, like:
 //          $(NGEL)/components/WatchComponent.cpp
 //  - Fill in the OWNER (yourself) and the CREATION DATE (today's date) in the .cpp and the .h files
@@ -31,19 +31,19 @@
 //  - remove these comments
 //  - add comments specfic to the component, explaining its usage
 
-#include <sk/components/SkaterProximitycomponent.h>
+#include <Sk/Components/SkaterProximityComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/objtrack.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/objtrack.h>
 
 
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/pathob.h>
-#include <sk/objects/skater.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/PathOb.h>
+#include <Sk/Objects/skater.h>
 
 
 #define	FLAGEXCEPTION(X) GetObj()->SelfEvent(X)

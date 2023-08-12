@@ -4,7 +4,7 @@
 #ifndef	__GFX_P_NX_IMPOSTER_H__
 #define	__GFX_P_NX_IMPOSTER_H__
 
-#include 	"gfx/NxImposter.h"
+#include 	"Gfx/NxImposter.h"
 
 namespace Nx
 {

@@ -5,17 +5,17 @@
 //* CREATION DATE:  3/13/3
 //****************************************************************************
 
-#include <gel/components/floatinglabelcomponent.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/modules/skate/gamemode.h>
+#include <Gel/Components/FloatingLabelComponent.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Modules/Skate/GameMode.h>
 
-#include <gfx/2d/screenelement2.h>
-#include <gfx/2d/screenelemman.h>
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/ScreenElemMan.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Obj
 {

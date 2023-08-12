@@ -29,45 +29,45 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/support.h>
-#include <core/task.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/support.h>
+#include <Core/Task.h>
 
-#include <gfx/gfxman.h>
-#include <gfx/camera.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/camera.h>
 
-#include <gel/inpman.h>
-#include <gel/module.h>
-#include <gel/music/music.h>
-#include <gel/soundfx/soundfx.h>
-#include <gel/net/net.h>
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/mainloop.h>
-#include <gel/objtrack.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/inpman.h>
+#include <Gel/module.h>
+#include <Gel/Music/music.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Net/net.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/mainloop.h>
+#include <Gel/objtrack.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <modules/FrontEnd/FrontEnd.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <objects/skaterprofile.h>
+#include <Sk/Objects/SkaterProfile.h>
 
-#include <gel/scripting/array.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <scripting/cfuncs.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Sk/Scripting/cfuncs.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sys/sio/keyboard.h>
-#include <sys/profiler.h>
-#include <sys/File/PRE.h>
-#include <sys/replay/replay.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sys/SIO/keyboard.h>
+#include <Sys/Profiler.h>
+#include <Sys/File/PRE.h>
+#include <Sys/Replay/replay.h>
 
 
-#include <gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/ScreenElemMan.h>
 
-#include <sk/objects/skater.h>		   // just for pausing the skater, and for running the "run me now" script
+#include <Sk/Objects/skater.h>		   // just for pausing the skater, and for running the "run me now" script
 
 										   
 extern bool run_runmenow;

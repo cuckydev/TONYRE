@@ -15,43 +15,43 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/car.h>
+#include <Sk/Objects/car.h>
 
-#include <gel/mainloop.h>
-#include <gel/objman.h>				
-#include <gel/objsearch.h>				
+#include <Gel/mainloop.h>
+#include <Gel/objman.h>				
+#include <Gel/objsearch.h>				
                          
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>	 
-#include <gel/scripting/struct.h>	 
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>	 
+#include <Gel/Scripting/struct.h>	 
+#include <Gel/Scripting/symboltable.h>
 
-#include <gel/components/carphysicscomponent.h>
-#include <gel/components/collisioncomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/motioncomponent.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/suspendcomponent.h>
-#include <gel/components/nodearraycomponent.h>
-#include <gel/components/railmanagercomponent.h>
-#include <gel/components/objecthookmanagercomponent.h>
-#include <gel/components/skitchcomponent.h>
+#include <Gel/Components/carphysicscomponent.h>
+#include <Gel/Components/collisioncomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/SuspendComponent.h>
+#include <Gel/Components/NodeArrayComponent.h>
+#include <Gel/Components/RailManagerComponent.h>
+#include <Gel/Components/ObjectHookManagerComponent.h>
+#include <Gel/Components/SkitchComponent.h>
 
-#include <gfx/debuggfx.h>
-#include <gfx/gfxutils.h>
-#include <gfx/nx.h>
-#include <gfx/nxgeom.h>
-#include <gfx/nxhierarchy.h>
-#include <gfx/nxmodel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/debuggfx.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxGeom.h>
+#include <Gfx/NxHierarchy.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/pathob.h>
-#include <sk/objects/skater.h>
-#include <sk/scripting/nodearray.h>	 
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/PathOb.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Scripting/nodearray.h>	 
 
-#include <sys/profiler.h>
+#include <Sys/Profiler.h>
 
 /*****************************************************************************
 **								DBG Information								**

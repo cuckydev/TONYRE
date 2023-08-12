@@ -22,9 +22,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/string/cstring.h>
-#include <sys/mem/memman.h>
+#include <Core/Defines.h>
+#include <Core/String/CString.h>
+#include <Sys/Mem/memman.h>
 
 /*****************************************************************************
 **								DBG Information								**

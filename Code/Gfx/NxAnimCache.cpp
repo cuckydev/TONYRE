@@ -5,15 +5,15 @@
 //* CREATION DATE:  5/06/2002
 //****************************************************************************
 
-#include <gfx/nxanimcache.h>
+#include <Gfx/NxAnimCache.h>
 
-#include <gel/assman/assman.h>
+#include <Gel/AssMan/AssMan.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
 
-#include <gfx/bonedanim.h>
-#include <gfx/nx.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/nx.h>
 
 namespace Nx
 {

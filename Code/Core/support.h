@@ -23,9 +23,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/support/class.h>
-#include <core/support/support.h>
-#include "sk/language.h"
+#include <Core/Support/class.h>
+#include <Core/Support/support.h>
+#include <Sk/language.h>
 
 /*****************************************************************************
 **								   Defines									**

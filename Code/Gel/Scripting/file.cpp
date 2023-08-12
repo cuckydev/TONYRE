@@ -6,15 +6,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <core/defines.h>
-#include <core/debug.h>
-#include <gel/scripting/file.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <core/crc.h> // For Crc::GenerateCRCFromString
-#include <sys/file/pip.h>
+#include <Core/Defines.h>
+#include <Core/Debug.h>
+#include <Gel/Scripting/file.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Core/crc.h> // For Crc::GenerateCRCFromString
+#include <Sys/File/pip.h>
 
 #include <cstring>
 

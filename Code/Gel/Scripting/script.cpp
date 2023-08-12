@@ -6,28 +6,28 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/scriptcache.h>
-#include <gel/scripting/tokens.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/utils.h>
-#include <core/crc.h>
-#include <gel/object/basecomponent.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/scriptcache.h>
+#include <Gel/Scripting/tokens.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/utils.h>
+#include <Core/crc.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/modules/skate/skate.h> // for SKATE_TYPE_SKATER
-#include <gel/scripting/debugger.h>
-#include <gel/net/client/netclnt.h> // For Net::Client class
-#include <sk/gamenet/gamenet.h> // For GameNet::Manager
-#include <sk/gamenet/scriptdebugger.h>
+#include <Sk/Modules/Skate/skate.h> // for SKATE_TYPE_SKATER
+#include <Gel/Scripting/debugger.h>
+#include <Gel/Net/Client/netclnt.h> // For Net::Client class
+#include <Sk/GameNet/GameNet.h> // For GameNet::Manager
+#include <Sk/GameNet/scriptdebugger.h>
 
 #ifdef	__SCRIPT_EVENT_TABLE__		
-#include <gel/Event.h>
-#include <gel/objtrack.h>
+#include <Gel/Event.h>
+#include <Gel/objtrack.h>
 #endif
 
 //char foo[sizeof(Script::SReturnAddress)/0];

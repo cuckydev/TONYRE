@@ -5,7 +5,7 @@
 #define __P_MUSIC_H__
 
 #include <dolphin.h>
-#include <gel/music/music.h>
+#include <Gel/Music/music.h>
 #include <dolphin/mix.h>
 
 namespace Pcm

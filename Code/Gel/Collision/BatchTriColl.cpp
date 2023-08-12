@@ -22,16 +22,16 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/collision/BatchTriColl.h>
-#include <gel/collision/collision.h>
+#include <Gel/Collision/BatchTriColl.h>
+#include <Gel/Collision/Collision.h>
 
 #ifdef	__PLAT_NGPS__
 #include <libdma.h>
 #include <devvu0.h>
-#include <gfx/ngps/nx/interrupts.h>
-#include <gfx/ngps/nx/resource.h>
+#include <Gfx/ngps/nx/interrupts.h>
+#include <Gfx/ngps/nx/resource.h>
 #endif //__PLAT_NGPS__
 
 /*****************************************************************************

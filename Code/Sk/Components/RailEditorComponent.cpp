@@ -5,22 +5,22 @@
 //* CREATION DATE:  3/21/2003
 //****************************************************************************
 
-#include <sk/components/RailEditorComponent.h>
-#include <sk/components/EditorCameraComponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/utils.h>
-#include <gfx/nx.h>
-#include <sk/parkeditor2/parked.h>
-#include <sk/engine/feeler.h>
+#include <Sk/Components/RailEditorComponent.h>
+#include <Sk/Components/EditorCameraComponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/utils.h>
+#include <Gfx/nx.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Sk/Engine/feeler.h>
 
 DefinePoolableClass(Obj::CEditedRailPoint);
 DefinePoolableClass(Obj::CEditedRail);

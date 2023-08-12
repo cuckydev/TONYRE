@@ -5,29 +5,29 @@
 //* CREATION DATE:  5/20/3
 //****************************************************************************
 
-#include <gel/components/ribboncomponent.h>
-#include <gel/components/skeletoncomponent.h>
+#include <Gel/Components/RibbonComponent.h>
+#include <Gel/Components/skeletoncomponent.h>
 
-#include <gel/collision/collcache.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Collision/CollCache.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/engine/feeler.h>
+#include <Sk/Engine/feeler.h>
 
-#define MESSAGE(a) { printf("M:%s:%i: %s\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPI(a) { printf("D:%s:%i: " #a " = %i\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPB(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__ + 15, __LINE__, a ? "true" : "false"); }
-#define DUMPF(a) { printf("D:%s:%i: " #a " = %g\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPE(a) { printf("D:%s:%i: " #a " = %e\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPS(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPP(a) { printf("D:%s:%i: " #a " = %p\n", __FILE__ + 15, __LINE__, a); }
-#define DUMPV(a) { printf("D:%s:%i: " #a " = %g, %g, %g\n", __FILE__ + 15, __LINE__, (a)[X], (a)[Y], (a)[Z]); }
-#define DUMP4(a) { printf("D:%s:%i: " #a " = %g, %g, %g, %g\n", __FILE__ + 15, __LINE__, (a)[X], (a)[Y], (a)[Z], (a)[W]); }
+#define MESSAGE(a) { printf("M:%s:%i: %s\n", __FILE__, __LINE__, a); }
+#define DUMPI(a) { printf("D:%s:%i: " #a " = %i\n", __FILE__, __LINE__, a); }
+#define DUMPB(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__, __LINE__, a ? "true" : "false"); }
+#define DUMPF(a) { printf("D:%s:%i: " #a " = %g\n", __FILE__, __LINE__, a); }
+#define DUMPE(a) { printf("D:%s:%i: " #a " = %e\n", __FILE__, __LINE__, a); }
+#define DUMPS(a) { printf("D:%s:%i: " #a " = %s\n", __FILE__, __LINE__, a); }
+#define DUMPP(a) { printf("D:%s:%i: " #a " = %p\n", __FILE__, __LINE__, a); }
+#define DUMPV(a) { printf("D:%s:%i: " #a " = %g, %g, %g\n", __FILE__, __LINE__, (a)[X], (a)[Y], (a)[Z]); }
+#define DUMP4(a) { printf("D:%s:%i: " #a " = %g, %g, %g, %g\n", __FILE__, __LINE__, (a)[X], (a)[Y], (a)[Z], (a)[W]); }
 #define DUMPM(a) { DUMP4(a[X]); DUMP4(a[Y]); DUMP4(a[Z]); DUMP4(a[W]); }
-#define DUMP2(a) { printf("D:%s:%i " #a " = ", __FILE__ + 15, __LINE__); for (int n = 32; n--; ) { printf("%c", ((a) & (1 << n)) ? '1' : '0'); } printf("\n"); }
-#define MARK { printf("K:%s:%i: %s\n", __FILE__ + 15, __LINE__, __PRETTY_FUNCTION__); }
+#define DUMP2(a) { printf("D:%s:%i " #a " = ", __FILE__, __LINE__); for (int n = 32; n--; ) { printf("%c", ((a) & (1 << n)) ? '1' : '0'); } printf("\n"); }
+#define MARK { printf("K:%s:%i: %s\n", __FILE__, __LINE__, __PRETTY_FUNCTION__); }
 #define PERIODIC(n) for (static int p__ = 0; (p__ = ++p__ % (n)) == 0; )
 
 namespace Obj

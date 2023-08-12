@@ -5,22 +5,22 @@
 //* CREATION DATE:  26 Mar 2003
 //****************************************************************************
 
-#include <sk/components/editorcameracomponent.h>
-#include <sk/components/raileditorcomponent.h>
-#include <sk/modules/skate/skate.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/symboltable.h>
-#include <sk/engine/feeler.h>
-#include <gfx/shadow.h>
-#include <sk/scripting/nodearray.h>
-#include <sys/config/config.h>
-#include <sk/parkeditor2/parked.h>
+#include <Sk/Components/EditorCameraComponent.h>
+#include <Sk/Components/RailEditorComponent.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Sk/Engine/feeler.h>
+#include <Gfx/shadow.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sys/Config/config.h>
+#include <Sk/ParkEditor2/ParkEd.h>
 
 //#define DEBUG_COLLISION
 

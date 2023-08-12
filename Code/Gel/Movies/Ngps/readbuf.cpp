@@ -1,5 +1,5 @@
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/readbuf.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/readbuf.h"
 
 #define BUFF_SIZE (N_READ_UNIT * READ_UNIT_SIZE)
 

@@ -28,22 +28,22 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/modules/frontend/frontend.h>
-#include <sk/modules/skate/GameMode.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/GoalManager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/skfuncs.h>
-#include <sk/objects/skater.h>		   // get player id
-#include <sk/components/skaterscorecomponent.h>
-#include <sys/config/config.h>
+#include <Core/Defines.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/skfuncs.h>
+#include <Sk/Objects/skater.h>		   // get player id
+#include <Sk/Components/SkaterScoreComponent.h>
+#include <Sys/Config/config.h>
 
 /*****************************************************************************
 **								DBG Information								**

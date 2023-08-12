@@ -1,9 +1,9 @@
 #include <string.h>
-#include <core/defines.h>
-#include <core/macros.h>
-#include <core/debug.h>
-#include <sys/config/config.h>
-#include <sys/file/filesys.h>
+#include <Core/Defines.h>
+#include <Core/macros.h>
+#include <Core/Debug.h>
+#include <Sys/Config/config.h>
+#include <Sys/File/filesys.h>
 #include "nx_init.h"
 #include "scene.h"
 #include "render.h"

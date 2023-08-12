@@ -1,13 +1,10 @@
 // Create-A-Trick goal!
 
-#ifndef __SK_MODULES_SKATE_CATGOAL_H__
-#define __SK_MODULES_SKATE_CATGOAL_H__
+#pragma once
 
-#ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
-#endif
+#include <Core/Defines.h>
 
-#include <sk/modules/skate/GoalManager.h>
+#include <Sk/Modules/Skate/GoalManager.h>
 
 namespace Game
 {
@@ -25,5 +22,3 @@ protected:
 };
 
 }
-
-#endif // #ifndef __SK_MODULES_SKATE_FINDGAPSGOAL_H__

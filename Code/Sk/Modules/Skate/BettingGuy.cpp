@@ -1,25 +1,25 @@
 // BettingGuy.cpp
 
-#include <sk/modules/skate/bettingguy.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/BettingGuy.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/skater.h>
-#include <sk/objects/restart.h>
-#include <sk/objects/movingobject.h>
-#include <sk/objects/ped.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/restart.h>
+#include <Sk/Objects/MovingObject.h>
+#include <Sk/Objects/ped.h>
 
-#include <gel/object.h>
-#include <gel/objtrack.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/object.h>
+#include <Gel/objtrack.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <gel/scripting/utils.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/scripting/nodearray.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <core/math/math.h>
+#include <Core/Math/math.h>
 
 namespace Game
 {

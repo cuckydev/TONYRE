@@ -5,21 +5,21 @@
 //* CREATION DATE:  3/18/3
 //****************************************************************************
 
-#include <gel/components/inputcomponent.h>
-#include <gel/components/vibrationcomponent.h>
-#include <gel/components/trickcomponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/VibrationComponent.h>
+#include <Gel/Components/trickcomponent.h>
 
-#include <gfx/2d/screenelemman.h>
+#include <Gfx/2D/ScreenElemMan.h>
 								
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/modules/frontend/frontend.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <gel/objtrack.h>
+#include <Gel/objtrack.h>
 
 namespace Obj
 {

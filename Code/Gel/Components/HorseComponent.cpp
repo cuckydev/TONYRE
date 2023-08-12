@@ -5,35 +5,35 @@
 //* CREATION DATE:  1/31/3
 //****************************************************************************
 
-#include <core/defines.h>
-#include <core/math.h>
-#include <core/math/slerp.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Core/Math/slerp.h>
 										
-#include <gel/components/horsecomponent.h>
-#include <gel/components/floatinglabelcomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/camerautil.h>
-#include <gel/components/horsecameracomponent.h>
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/collision/collcache.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Components/horsecomponent.h>
+#include <Gel/Components/FloatingLabelComponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/CameraUtil.h>
+#include <Gel/Components/horsecameracomponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Collision/CollCache.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/nxmodel.h>
-#include <gfx/nxhierarchy.h>
-#include <gfx/skeleton.h>
-#include <gfx/camera.h>
-#include <gfx/nxviewman.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxHierarchy.h>
+#include <Gfx/Skeleton.h>
+#include <Gfx/camera.h>
+#include <Gfx/NxViewMan.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/modules/viewer/viewer.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Viewer/Viewer.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/nodearray.h>
 
 #define MESSAGE(a) { printf("M:%s:%i: %s\n", __FILE__ + 15, __LINE__, a); }
 #define DUMPI(a) { printf("D:%s:%i: " #a " = %i\n", __FILE__ + 15, __LINE__, a); }

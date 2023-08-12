@@ -4,8 +4,8 @@
 #ifndef	__GFX_P_NX_WIN2D_H__
 #define	__GFX_P_NX_WIN2D_H__
 
-#include 	"Gfx/NxWin2D.h"
-#include 	"Plat/Gfx/NX/sprite.h"
+#include 	<Gfx/NxWin2D.h>
+#include 	<Plat/Gfx/nx/sprite.h>
 
 namespace Nx
 {

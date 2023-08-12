@@ -8,19 +8,19 @@
 #ifndef __COMPONENTS_RAILEDITORCOMPONENT_H__
 #define __COMPONENTS_RAILEDITORCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 #ifndef __OBJECT_BASECOMPONENT_H__
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 #endif
 
 #ifndef __GFX_IMAGE_IMAGEBASIC_H
-#include <gfx/image/imagebasic.h>
+#include <Gfx/Image/ImageBasic.h>
 #endif
 
 // Replace this with the CRCD of the component you are adding

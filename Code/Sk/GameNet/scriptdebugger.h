@@ -1,7 +1,7 @@
 #ifndef __GAMENET_SCRIPTDEBUGGER_H__
 #define	__GAMENET_SCRIPTDEBUGGER_H__
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 namespace GameNet
 {

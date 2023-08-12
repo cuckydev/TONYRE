@@ -24,15 +24,15 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __GEL_MODULE_H
-#include <gel/module.h>
+#include <Gel/module.h>
 #endif
 
-#include <sys/file/AsyncTypes.h>
-#include <sys/file/Pre.h>
+#include <Sys/File/AsyncTypes.h>
+#include <Sys/File/PRE.h>
 
 /*****************************************************************************
 **								   Defines									**

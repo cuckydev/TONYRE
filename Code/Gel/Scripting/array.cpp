@@ -6,7 +6,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/array.h>
+#include <Gel/Scripting/array.h>
 
 DefinePoolableClass(Script::CArray);
 

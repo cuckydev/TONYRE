@@ -2,15 +2,15 @@
 #define __SK_PARKEDITOR2_CLIPBOARD_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 #ifndef __SK_PARKEDITOR2_PARKGEN_H
-#include <sk/parkeditor2/parkgen.h>
+#include <Sk/ParkEditor2/parkgen.h>
 #endif
 
 namespace Obj

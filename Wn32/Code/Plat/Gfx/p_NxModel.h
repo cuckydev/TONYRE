@@ -8,9 +8,9 @@
 #ifndef	__GFX_P_NX_MODEL_H__
 #define	__GFX_P_NX_MODEL_H__
     
-#include "gfx/nxmodel.h"
-#include "Plat/Gfx/nx/instance.h"
-                   
+#include <Gfx/NxModel.h>
+#include <Plat/Gfx/nx/instance.h>
+
 namespace Nx
 {
 

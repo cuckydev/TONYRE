@@ -1,23 +1,23 @@
 // skatetris goal
-#include <sk/modules/skate/GoalManager.h>
-#include <sk/modules/skate/SkatetrisGoal.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/SkatetrisGoal.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/symboltype.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/symboltype.h>
 
-#include <gfx/2D/ScreenElemMan.h>       // for tetris tricks
-#include <gfx/2D/ScreenElement2.h>
-#include <gfx/2D/TextElement.h>
-#include <gfx/2D/SpriteElement.h>
+#include <Gfx/2D/ScreenElemMan.h>       // for tetris tricks
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/TextElement.h>
+#include <Gfx/2D/SpriteElement.h>
 
-#include <sk/objects/skater.h>
-#include <sk/objects/skaterprofile.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/SkaterProfile.h>
 
 namespace Game
 {

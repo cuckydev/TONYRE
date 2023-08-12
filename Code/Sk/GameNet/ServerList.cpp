@@ -22,24 +22,24 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/thread.h>
+#include <Core/Defines.h>
+#include <Core/thread.h>
 
-#include <sys/mcman.h>
+#include <Sys/McMan.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/mainloop.h>
-#include <gel/music/music.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/mainloop.h>
+#include <Gel/Music/music.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <sk/modules/frontend/frontend.h>
-//#include <sk/modules/frontend/mainmenu.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+//#include <Sk/Modules/frontend/mainmenu.h>
 
 #ifdef __PLAT_NGPS__
 #include <gamenet/lobby.h>
@@ -47,7 +47,7 @@
 #include <qr2/qr2.h>
 #include <ghttp/ghttp.h>
 #include <pt/pt.h>
-#include <sk/gamenet/ngps/p_buddy.h>
+#include <Sk/GameNet/ngps/p_buddy.h>
 #endif
 
 /*****************************************************************************

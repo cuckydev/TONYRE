@@ -24,9 +24,9 @@
 *****************************************************************************/
 
 
-#include <core/defines.h>
-#include <gfx/nxviewport.h>
-#include <gfx/nxviewman.h>
+#include <Core/Defines.h>
+#include <Gfx/NxViewport.h>
+#include <Gfx/NxViewMan.h>
 
 /*****************************************************************************
 **								DBG Information								**

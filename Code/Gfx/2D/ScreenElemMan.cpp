@@ -1,25 +1,25 @@
-#include <core/defines.h>
-#include <gel/objtrack.h>
-#include <gel/Event.h>
-#include <gel/Scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/2D/TextElement.h>
-#include <gfx/2D/SpriteElement.h>
-#include <gfx/2D/Element3d.h>
+#include <Core/Defines.h>
+#include <Gel/objtrack.h>
+#include <Gel/Event.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/TextElement.h>
+#include <Gfx/2D/SpriteElement.h>
+#include <Gfx/2D/Element3d.h>
                                           
-#include <gfx/2D/Window.h>
-#include <gfx/2D/Menu2.h>
-#include <gfx/2D/ScrollingMenu.h>
-#include <gfx/camera.h>
+#include <Gfx/2D/Window.h>
+#include <Gfx/2D/Menu2.h>
+#include <Gfx/2D/ScrollingMenu.h>
+#include <Gfx/camera.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/GameNet/GameNet.h>
 
 // start autoduck documentation
 // @DOC ScreenElemMan
@@ -146,7 +146,7 @@ CScreenElementPtr CScreenElementManager::CreateElement(uint32 type, uint32 id, S
 		switched = true;
 	}
 
-	switch(type)
+	switch (type)
 	{
 		case CScreenElement::TYPE_CONTAINER_ELEMENT:
 			p_new_element = new CContainerElement();

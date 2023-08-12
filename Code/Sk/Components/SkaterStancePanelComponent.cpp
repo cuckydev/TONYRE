@@ -5,15 +5,15 @@
 //* CREATION DATE:  2/25/3
 //****************************************************************************
 
-#include <sk/components/skaterstancepanelcomponent.h>
+#include <Sk/Components/SkaterStancePanelComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <gfx/2d/spriteelement.h>
-#include <gfx/2d/screenelemman.h>
+#include <Gfx/2D/SpriteElement.h>
+#include <Gfx/2D/ScreenElemMan.h>
 
 namespace Obj
 {

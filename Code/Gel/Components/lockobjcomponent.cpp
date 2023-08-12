@@ -5,28 +5,28 @@
 //* CREATION DATE:  10/31/2002
 //****************************************************************************
 
-#include <gel/components/lockobjcomponent.h>
+#include <Gel/Components/lockobjcomponent.h>
 
-#include <core/singleton.h>
+#include <Core/singleton.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/objman.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/script.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/objman.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/script.h>
 
-#include <gfx/nxmodel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 												   
 // for kludgy skater stuff
-#include <sk/modules/skate/skate.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/skeletoncomponent.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
 
 
 // For the manager ... messy
-#include <gel/mainloop.h>
+#include <Gel/mainloop.h>
 
 
 namespace Obj

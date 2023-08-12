@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // p_NxSprite.cpp
 
-#include 	"Plat/Gfx/p_NxSprite.h"
-#include 	"Plat/Gfx/p_NxTexture.h"
+#include 	<Plat/Gfx/p_NxSprite.h>
+#include 	<Plat/Gfx/p_nxtexture.h>
 
 namespace Nx
 {

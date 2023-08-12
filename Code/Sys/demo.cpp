@@ -9,12 +9,12 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sys/demo.h>
+#include <Sys/demo.h>
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/music/music.h>
-#include <gel/soundfx/soundfx.h>
+#include <Gel/Music/music.h>
+#include <Gel/SoundFX/soundfx.h>
 
 #ifdef __PLAT_NGPS__
     #include <eekernel.h>
@@ -26,10 +26,10 @@
     extern	sceDemoEndReason demo_exit_reason;
     extern "C" void sceSifExitCmd(void);
 
-    #include <gfx/ngps/nx/nx_init.h>
+    #include <Gfx/ngps/nx/nx_init.h>
 #endif // __PLAT_NGPS__
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 
 /*****************************************************************************
 **								DBG Information								**

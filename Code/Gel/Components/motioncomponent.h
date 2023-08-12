@@ -8,11 +8,11 @@
 #ifndef __COMPONENTS_MOTIONCOMPONENT_H__
 #define __COMPONENTS_MOTIONCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Core/math.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_MOTION Crc::ConstCRC("Motion")
@@ -258,7 +258,7 @@ private:
 		float					m_jump_original_speed;
 		float					m_jump_col_dist_above;
 		float					m_jump_col_dist_below;
-		float					m_jump_y;
+		// float				m_jump_y;
 		bool					m_jump_use_land_height;
 		float					m_jump_land_height;
 		// The whole start pos is stored rather than just the y so that it knows whether 

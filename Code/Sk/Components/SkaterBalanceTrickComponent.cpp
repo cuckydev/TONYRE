@@ -5,15 +5,15 @@
 //* CREATION DATE:  328/3
 //****************************************************************************
 
-#include <sk/components/skaterbalancetrickcomponent.h>
-#include <sk/components/skaterscorecomponent.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
+#include <Sk/Components/SkaterScoreComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
 namespace Obj
 {

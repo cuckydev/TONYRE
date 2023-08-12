@@ -10,7 +10,7 @@
 **																			**
 **	Module:			ps2 movies												**
 **																			**
-**	File name:		gel/movies/ngps/p_movies.h 								**
+**	File name:		Gel/movies/ngps/p_movies.h 								**
 **																			**
 **	Created: 		6/27/01	-	dc											**
 **																			**
@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/list.h>
-#include <core/macros.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/List.h>
+#include <Core/macros.h>
 
 namespace Flx
 {

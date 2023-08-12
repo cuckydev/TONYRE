@@ -1,12 +1,12 @@
 #include <libmpeg.h>
-#include <core/defines.h>
-#include <core/macros.h>
-#include <core/singleton.h>
-#include "gel/movies/ngps/p_movies.h"
-#include "gel/movies/ngps/readbuf.h"
-#include "gel/movies/ngps/videodec.h"
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/audiodec.h"
+#include <Core/Defines.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
+#include "Gel/movies/ngps/p_movies.h"
+#include "Gel/movies/ngps/readbuf.h"
+#include "Gel/movies/ngps/videodec.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/audiodec.h"
 
 namespace Flx
 {

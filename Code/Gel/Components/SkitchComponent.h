@@ -8,11 +8,11 @@
 #ifndef __COMPONENTS_SKITCHCOMPONENT_H__
 #define __COMPONENTS_SKITCHCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/components/objecthookmanagercomponent.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Components/ObjectHookManagerComponent.h>
 
 // Replace this with the CRCD of the component you are adding
 #define		CRC_SKITCH								Crc::ConstCRC( "Skitch" )

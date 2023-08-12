@@ -1,28 +1,25 @@
 ///////////////////////////////////////////////////////
 // ObjectHook.cpp
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/math.h>
-#include <sk/objects/ObjectHook.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <sk/scripting/nodearray.h>
-#include <gfx/debuggfx.h>
-#include <sk/modules/skate/skate.h>
-#include <gel/modman.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/math.h>
+#include <Sk/Objects/objecthook.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Gfx/debuggfx.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Gel/modman.h>
 
-#include <core/math/geometry.h>
-#include <engine/feeler.h>
+#include <Core/Math/geometry.h>
+#include <Sk/Engine/feeler.h>
 
 #ifdef	__PLAT_NGPS__	
-#include <gfx/ngps/nx/line.h>
+#include <Gfx/ngps/nx/line.h>
 #endif
-
-
-
 
 namespace Obj
 {

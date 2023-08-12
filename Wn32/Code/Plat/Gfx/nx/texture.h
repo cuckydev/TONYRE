@@ -3,7 +3,7 @@
 
 #include "nx_init.h"
 
-#include <core/HashTable.h>
+#include <Core/HashTable.h>
 
 namespace NxWn32
 {

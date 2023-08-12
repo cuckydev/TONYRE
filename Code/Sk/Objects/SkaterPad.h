@@ -4,10 +4,10 @@
 #define	__SK_OBJ_SKATERPAD_H__
 
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <core/math.h>
-#include <sk\objects\skaterbutton.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Core/math.h>
+#include <Sk/Objects/SkaterButton.h>
 
 namespace Inp
 {

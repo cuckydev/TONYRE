@@ -12,18 +12,18 @@
 // all you need to do is create the component on an object that already has
 // a ModelComponent with "UseModelLights" set in the InitStructure.
 
-#include <gel/components/ModelLightUpdateComponent.h>
-#include <gel/components/ModelComponent.h>
+#include <Gel/Components/ModelLightUpdateComponent.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <gfx/nxlight.h>
-#include <gfx/nxmodel.h>
+#include <Gfx/NxLight.h>
+#include <Gfx/NxModel.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/engine/feeler.h>
+#include <Sk/Engine/feeler.h>
 
 namespace Obj
 {

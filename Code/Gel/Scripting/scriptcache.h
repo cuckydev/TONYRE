@@ -2,19 +2,19 @@
 #define	__SCRIPTING_SCRIPTCACHE_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 #ifndef __CORE_LIST_HASHTABLE_H
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 #endif
 
 #ifndef __GEL_MODULE_H
-#include <gel/module.h>
+#include <Gel/module.h>
 #endif
 
 // If this is defined then GetScript will just return the mpScript as stored in the

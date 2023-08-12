@@ -5,27 +5,27 @@
 //* CREATION DATE:  4/2/3
 //****************************************************************************
 
-#include <gel/components/walkcomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/walkcameracomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/triggercomponent.h>
-#include <gel/components/movablecontactcomponent.h>
-#include <gel/components/railmanagercomponent.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/WalkCameraComponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/TriggerComponent.h>
+#include <Gel/Components/MovableContactComponent.h>
+#include <Gel/Components/RailManagerComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/collision/collcache.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Collision/CollCache.h>
 
-#include <sk/objects/rail.h>
-#include <sk/engine/feeler.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
+#include <Sk/Objects/rail.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
 
 
 /*

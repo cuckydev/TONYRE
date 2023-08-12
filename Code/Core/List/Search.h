@@ -10,7 +10,7 @@
 **																			**
 **	Module:			List (LST_)												**
 **																			**
-**	File name:		core/list/search.h										**
+**	File name:		Core/List/Search.h										**
 **																			**
 **	Created: 		04/02/99	-	mjb										**
 **																			**
@@ -23,7 +23,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/list/node.h>
+#include <Core/List/Node.h>
 
 /*****************************************************************************
 **								   Defines									**

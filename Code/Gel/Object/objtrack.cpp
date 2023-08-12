@@ -1,20 +1,20 @@
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 
-#include <gel/objman.h>
-#include <gel/objtrack.h>
-#include <gel/Event.h>
+#include <Gel/objman.h>
+#include <Gel/objtrack.h>
+#include <Gel/Event.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/component.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/component.h>
 
-#include <gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/ScreenElemMan.h>
 
 #include <cstring>
 

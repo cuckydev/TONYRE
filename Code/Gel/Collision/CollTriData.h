@@ -24,16 +24,16 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/math.h>
-#include <core/math/geometry.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
 
-#include <gfx/Image/ImageBasic.h>
+#include <Gfx/Image/ImageBasic.h>
 
-#include <gel/collision/collenums.h>
+#include <Gel/Collision/CollEnums.h>
 
-#include <gfx/nxscene.h>
+#include <Gfx/NxScene.h>
 
 /*****************************************************************************
 **								   Defines									**

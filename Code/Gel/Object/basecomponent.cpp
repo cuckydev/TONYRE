@@ -5,8 +5,8 @@
 //* CREATION DATE:  10/17/2002
 //****************************************************************************
 
-#include <gel/object/basecomponent.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Obj
 {

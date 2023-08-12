@@ -10,7 +10,7 @@
 **																			**
 **	Module:			soundfx													**
 **																			**
-**	File name:		gel/soundfx/soundfx.h  									**
+**	File name:		Gel/soundfx/soundfx.h  									**
 **																			**
 **	Created: 		1/4/01	-	mjd											**
 **																			**
@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/list.h>
-#include <core/macros.h>
-#include <core/math.h>
-#include <sys/timer.h>
+#include <Core/List.h>
+#include <Core/macros.h>
+#include <Core/math.h>
+#include <Sys/timer.h>
 
 #include <Plat/Gel/SoundFX/p_sfx.h>
 

@@ -5,11 +5,11 @@
 #define	__GFX_NX_TEX_MAN_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 
-#include <gfx/nxtexture.h>
+#include <Gfx/NxTexture.h>
 
 
 namespace Script

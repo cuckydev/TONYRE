@@ -1,8 +1,8 @@
 #ifndef __SK_PARKEDITOR2_PARKGEN_H
 #define __SK_PARKEDITOR2_PARKGEN_H
 
-#include <core/math/vector.h>
-#include <sk/parkeditor/edrail.h>
+#include <Core/Math/vector.h>
+#include <Sk/ParkEditor/EdRail.h>
 
 #define DEBUG_THIS_DAMN_THING 0
 

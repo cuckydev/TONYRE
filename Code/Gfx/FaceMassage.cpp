@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 // FaceMassage.cpp
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gel/Scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
 
-#include <gfx/NxTexture.h>
-#include <gfx/NxTexMan.h>
-#include <gfx/FaceMassage.h>
+#include <Gfx/NxTexture.h>
+#include <Gfx/NxTexMan.h>
+#include <Gfx/FaceMassage.h>
 
 namespace	Nx
 {

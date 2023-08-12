@@ -1,13 +1,12 @@
-#ifndef __GFX_2D_SCREENELEMENT2_H__
-#define __GFX_2D_SCREENELEMENT2_H__
+#pragma once
 
-#ifndef __GEL_OBJECT_H
-#include <gel/object.h>
-#endif
-#include <gel/event.h>
+#include <Core/Defines.h>
 
-#include <gfx/image/imagebasic.h>
-#include <gfx/NxViewport.h>
+#include <Gel/object.h>
+#include <Gel/Event.h>
+
+#include <Gfx/Image/ImageBasic.h>
+#include <Gfx/NxViewport.h>
 
 
 namespace Front
@@ -40,7 +39,7 @@ class CScreenElement : public Obj::CObject
 
 public:
 
-	enum EScreenElementType
+	enum EScreenElementType : uint32
 	{
 		TYPE_CONTAINER_ELEMENT						= 0x5b9da842,
 		TYPE_TEXT_ELEMENT							= 0x5200dfb6,
@@ -453,5 +452,3 @@ inline Image::RGBA			CScreenElement::ConcatProps::GetRGBA() const
 
 
 } // end namespace
-
-#endif

@@ -7,14 +7,14 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <sk/scripting/gs_init.h>
-#include <sk/scripting/gs_file.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/scripting/ftables.h>
-#include <gel/scripting/init.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
+#include <Sk/Scripting/gs_init.h>
+#include <Sk/Scripting/gs_file.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Scripting/ftables.h>
+#include <Gel/Scripting/init.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
 
 namespace SkateScript
 {

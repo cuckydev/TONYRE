@@ -5,11 +5,11 @@
 //* CREATION DATE:  01/13/2003
 //****************************************************************************
 
-#include <gel/assman/cutsceneasset.h>
+#include <Gel/AssMan/cutsceneasset.h>
 
-#include <gel/assman/assettypes.h>
-#include <gfx/nx.h>
-#include <sk/objects/cutscenedetails.h>
+#include <Gel/AssMan/assettypes.h>
+#include <Gfx/nx.h>
+#include <Sk/Objects/cutscenedetails.h>
 
 namespace Ass
 {

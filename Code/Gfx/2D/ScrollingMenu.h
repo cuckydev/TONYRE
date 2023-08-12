@@ -1,7 +1,7 @@
 #ifndef __GFX_2D_SCROLLINGMENU_H__
 #define __GFX_2D_SCROLLINGMENU_H__
 
-#include <gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/ScreenElement2.h>
 
 namespace Front
 {

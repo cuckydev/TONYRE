@@ -23,14 +23,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
 #ifdef __NOPT_DEBUG__
-#include <sys/timer.h>
+#include <Sys/timer.h>
 #endif
 
-#include <gel/modman.h>
+#include <Gel/modman.h>
 
 /*****************************************************************************
 **								DBG Information								**

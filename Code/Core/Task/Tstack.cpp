@@ -23,8 +23,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/task.h>
+#include <Core/Defines.h>
+#include <Core/Task.h>
 
 /*****************************************************************************
 **							  DBG Information								**

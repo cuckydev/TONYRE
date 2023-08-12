@@ -7,10 +7,10 @@
 #define __USEFUL_LITTLE_MACROS_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/support.h>
+#include <Core/support.h>
 
 #define PERCENT_MULT			( ( 1.0f ) / 100.0f )
 #define PERCENT( x, percent )	( ( ( ( ( float )( x ) ) * ( ( float )( percent ) ) ) * PERCENT_MULT ) )

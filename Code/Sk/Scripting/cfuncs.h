@@ -13,13 +13,13 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 // for now, include skfuncs.h, so that
 // it won't break the existing CPP files
 // that include cfuncs.h
-//#include <sk/scripting/skfuncs.h>
+//#include <Sk/Scripting/skfuncs.h>
 
 namespace Script
 {

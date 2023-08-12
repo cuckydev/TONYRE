@@ -22,45 +22,45 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sys/mcman.h>
-#include <sys/SIO/keyboard.h>
+#include <Sys/McMan.h>
+#include <Sys/SIO/keyboard.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/mainloop.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/mainloop.h>
 
-#include <gfx/vecfont.h>
+#include <Gfx/vecfont.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/parkeditor2/edmap.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/ParkEditor2/EdMap.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/frontend/frontend.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
 
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/proxim.h>
-#include <sk/objects/crown.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Objects/crown.h>
 
-#include <sk/components/skaterscorecomponent.h>
-#include <sk/components/GoalEditorComponent.h>
-#include <sk/components/RailEditorComponent.h>
+#include <Sk/Components/SkaterScoreComponent.h>
+#include <Sk/Components/GoalEditorComponent.h>
+#include <Sk/Components/RailEditorComponent.h>
 
-#include <sk/scripting/cfuncs.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/objects/skater.h>		   // 	 various high level network game things
+#include <Sk/Scripting/cfuncs.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Objects/skater.h>		   // 	 various high level network game things
 
 #ifdef __PLAT_NGPS__
-#include <sk/gamenet/ngps/p_buddy.h>
-#include <sk/gamenet/lobby.h>
-#include <sk/gamenet/ngps/p_stats.h>
+#include <Sk/GameNet/ngps/p_buddy.h>
+#include <Sk/GameNet/lobby.h>
+#include <Sk/GameNet/ngps/p_stats.h>
 #endif
 
 /*****************************************************************************

@@ -8,24 +8,24 @@
 #ifdef TESTING_GUNSLINGER
 
 // Replace the entire contents of this file with the new file.
-#include <gel/components/gunslingerwalkcameracomponent.cpp>
+#include <Gel/Components/gunslingerwalkcameracomponent.cpp>
 
 #else
 
-#include <gel/components/walkcameracomponent.h>
-#include <core/math/slerp.h>
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/components/walkcomponent.h>
-#include <gel/components/camerautil.h>
-#include <gel/components/cameralookaroundcomponent.h>
-#include <gel/components/cameracomponent.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
-#include <gel/components/skatercameracomponent.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gfx/debuggfx.h>
+#include <Gel/Components/WalkCameraComponent.h>
+#include <Core/Math/slerp.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Components/CameraUtil.h>
+#include <Gel/Components/CameraLookAroundComponent.h>
+#include <Gel/Components/CameraComponent.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
+#include <Gel/Components/SkaterCameraComponent.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gfx/debuggfx.h>
 
 namespace Obj
 {

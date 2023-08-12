@@ -22,8 +22,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sk/gamenet/gamenet.h>
+#include <Core/Defines.h>
+#include <Sk/GameNet/GameNet.h>
 #include <Plat/Sk/GameNet/p_match.h>
 
 /*****************************************************************************

@@ -1,17 +1,17 @@
-#include <sk/modules/skate/GoalManager.h>
-#include <sk/modules/skate/CompetitionGoal.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/CompetitionGoal.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/competition.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/competition.h>
 
-#include <sk/objects/skaterprofile.h>
+#include <Sk/Objects/SkaterProfile.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 
 namespace Game
 {

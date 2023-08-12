@@ -8,11 +8,11 @@
 #ifndef	__GFX_FACE_TEXTURE_H__
 #define	__GFX_FACE_TEXTURE_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
 // for SFacePoints
-#include <gfx/facemassage.h>
+#include <Gfx/FaceMassage.h>
 
 namespace Gfx
 {

@@ -1,29 +1,29 @@
-#include <core/defines.h>
-#include <gel/mainloop.h>
-#include <gel/objtrack.h>
-#include <gel/event.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/component.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <sk/ParkEditor2/ParkEd.h>
-#include <sk/scripting/cfuncs.h>
-#include <sk/modules/FrontEnd/FrontEnd.h>
-#include <gfx/nxviewman.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/2D/TextElement.h>
-#include <gel/components/cameracomponent.h>
-#include <sk/components/raileditorcomponent.h>
-#include <sk/components/goaleditorcomponent.h>
+#include <Core/Defines.h>
+#include <Gel/mainloop.h>
+#include <Gel/objtrack.h>
+#include <Gel/Event.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/TextElement.h>
+#include <Gel/Components/CameraComponent.h>
+#include <Sk/Components/RailEditorComponent.h>
+#include <Sk/Components/GoalEditorComponent.h>
 
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/ParkEditor2/clipboard.h>
-#include <core/string/stringutils.h>
+#include <Sk/ParkEditor2/clipboard.h>
+#include <Core/String/stringutils.h>
 
 //#define DONT_USE_CURSOR_META
 

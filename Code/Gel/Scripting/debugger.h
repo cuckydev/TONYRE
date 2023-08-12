@@ -2,27 +2,27 @@
 #define __GEL_SCRIPTING_DEBUGGER_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __GEL_MODULE_H
-#include <gel/module.h>
+#include <Gel/module.h>
 #endif
 
 #ifndef __NET_H__
-#include <gel/net/net.h>
+#include <Gel/Net/net.h>
 #endif
 
 #ifndef __NETSERV_H__
-#include <gel/net/server/netserv.h>
+#include <Gel/Net/Server/netserv.h>
 #endif
 
 #ifndef	__GFX_NXMODEL_H__
-#include <gfx/nxmodel.h>
+#include <Gfx/NxModel.h>
 #endif
 
 #ifndef __GEL_OBJPTR_H
-#include <gel/objptr.h>
+#include <Gel/ObjPtr.h>
 #endif
 
 // This is outside the #ifdef __NOPT_ASSERT__ so that they can be used in the PC code,

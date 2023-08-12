@@ -1,8 +1,8 @@
 /* Vag streaming into SPU2 -- from sony sample -- matt may 2001 */
 
 #include <kernel.h>
-#include <sys/types.h>
-#include <sys/file.h>
+#include <Sys/types.h>
+#include <Sys/file.h>
 #include <stdio.h>
 #include <string.h>
 #include <sif.h>

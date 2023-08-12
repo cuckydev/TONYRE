@@ -9,14 +9,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/math.h>
-#include <core/singleton.h>
-#include <gfx/gfxman.h>
-#include <gfx/camera.h>
-#include <gfx/nx.h>
-#include <gfx/nxviewman.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Core/math.h>
+#include <Core/singleton.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/camera.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxViewMan.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
 /*****************************************************************************
 **								DBG Information								**

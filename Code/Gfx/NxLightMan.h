@@ -5,18 +5,18 @@
 #define	__GFX_NX_LIGHT_MAN_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/math.h>
-#include <gfx/image/imagebasic.h>
+#include <Core/math.h>
+#include <Gfx/Image/ImageBasic.h>
 
 #ifndef __CORE_LIST_HASHTABLE_H
-#include <core/hashtable.h>
+#include <Core/HashTable.h>
 #endif
 
 #ifndef	__GFX_NXSECTOR_H__
-#include <gfx/NxSector.h>
+#include <Gfx/NxSector.h>
 #endif
 
 

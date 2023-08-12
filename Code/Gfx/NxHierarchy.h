@@ -10,10 +10,10 @@
 
                            
 #ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
+    #include <Core/Defines.h>
 #endif
 
-#include <core/math.h>
+#include <Core/math.h>
 
 namespace Nx
 {

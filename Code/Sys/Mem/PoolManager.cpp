@@ -1,5 +1,5 @@
-#include <sys/mem/PoolManager.h>
-#include <core/hashtable.h>
+#include <Sys/Mem/PoolManager.h>
+#include <Core/HashTable.h>
 
 //DefinePoolableClass(Lst::HashItem)
 

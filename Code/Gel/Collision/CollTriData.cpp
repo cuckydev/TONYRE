@@ -22,39 +22,21 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/collision/collision.h>
-#include <gel/collision/colltridata.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Collision/CollTriData.h>
 
-#include <gfx/nx.h>
-#include <gfx/nxflags.h>	// for face flag stuff
-#include <gfx/debuggfx.h>
+#include <Gfx/nx.h>
+#include <Gfx/nxflags.h>	// for face flag stuff
+#include <Gfx/debuggfx.h>
 
-#include <sk/engine/feeler.h>
+#include <Sk/Engine/feeler.h>
 
 
 // For debugging rendering
-#include <gfx/nxviewman.h>
-#include <gfx/camera.h>
-
-#ifdef	__PLAT_NGPS__	
-#include <gfx/ngps/nx/line.h>
-#include <gfx/ngps/p_nxsector.h>
-#include <gfx/ngps/nx/geomnode.h>
-#include <gfx/ngps/nx/render.h>
-namespace	NxPs2
-{
-	bool TestSphereAgainstOccluders( Mth::Vector *p_center, float radius, uint32 meshes = 1 );
-	bool	IsInFrame(Mth::Vector &center, float radius);
-}
-
-#endif
-
-#ifdef	__PLAT_NGC__
-#include <gfx/ngc/nx/scene.h>
-#include <gfx/ngc/p_nxscene.h>
-#endif		// __PLAT_NGC__
+#include <Gfx/NxViewMan.h>
+#include <Gfx/camera.h>
 
 
 /*****************************************************************************

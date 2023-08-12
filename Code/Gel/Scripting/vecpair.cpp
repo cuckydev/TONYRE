@@ -6,7 +6,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/vecpair.h>
+#include <Gel/Scripting/vecpair.h>
 
 DefinePoolableClass(Script::CVector);
 DefinePoolableClass(Script::CPair);

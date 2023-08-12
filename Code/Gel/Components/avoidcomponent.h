@@ -8,13 +8,13 @@
 #ifndef __COMPONENTS_AVOIDCOMPONENT_H__
 #define __COMPONENTS_AVOIDCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <core/math/slerp.h>
+#include <Core/Math/slerp.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/components/pedlogiccomponent.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Components/PedLogicComponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_AVOID Crc::ConstCRC("Avoid")

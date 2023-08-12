@@ -7,8 +7,8 @@
 // so you can have multiple indicies to reference an asset
 
 
-#include	<gel/assman/asset.h>
-#include	<gel/assman/refasset.h>
+#include	<Gel/AssMan/asset.h>
+#include	<Gel/AssMan/refasset.h>
 
 
 namespace Ass
@@ -76,6 +76,7 @@ CRefAsset::~CRefAsset()
 // all other functions simply call the appropiate function on the referenced asset
 // (might want to make these inline later)
 
+/*
 int 			CRefAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pExtraData)  	// create or load the asset
 {
 	(void)p_file;
@@ -87,7 +88,7 @@ int 			CRefAsset::Load(const char *p_file, bool async_load, bool use_pip, void* 
 //	return mp_asset->Load(p_file);
 	return 0;
 }
-
+*/
 
 int 			CRefAsset::Unload()                  	// Unload the asset
 {
@@ -138,13 +139,13 @@ EAssetType	  	CRefAsset::GetType()         			// type is hard wired into asset c
 }
 
 
-void     		CRefAsset::SetData(void *p_data)      // return a pointer to the asset….
+void     		CRefAsset::SetData(void *p_data)      // return a pointer to the assetï¿½.
 {
 	mp_asset->SetData(p_data);
 }
 
 
-void *    		CRefAsset::GetData()             		// return a pointer to the asset….
+void *    		CRefAsset::GetData()             		// return a pointer to the assetï¿½.
 {
 	return mp_asset->GetData();
 }

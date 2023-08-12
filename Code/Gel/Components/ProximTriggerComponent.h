@@ -8,10 +8,10 @@
 #ifndef __COMPONENTS_PROXIMTRIGGERCOMPONENT_H__
 #define __COMPONENTS_PROXIMTRIGGERCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 #define		CRC_PROXIMTRIGGER Crc::ConstCRC("ProximTrigger")
 
@@ -66,7 +66,7 @@ private:
 	int								m_viewport;
 	
 	// peer components
-	CCameraComponent*				mp_camera_component;
+	// CCameraComponent*				mp_camera_component;
 };
 
 }

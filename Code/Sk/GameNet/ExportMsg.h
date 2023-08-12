@@ -1,7 +1,7 @@
 #ifndef __ENGINE_EXPORTMSG_H__
 #define	__ENGINE_EXPORTMSG_H__
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 namespace Net
 {

@@ -28,136 +28,136 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/math.h>
-#include <core/math/slerp.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/math.h>
+#include <Core/Math/slerp.h>
 
-#include <sys/timer.h>
-#include <sys/sioman.h>
+#include <Sys/timer.h>
+#include <Sys/sioman.h>
 
-#include <gel/objtrack.h>
-#include <gel/assman/assman.h>
-#include <gel/collision/collcache.h>
-#include <gel/inpman.h>
-#include <gel/mainloop.h>
-#include <gel/environment/terrain.h>
-#include <gel/soundfx/soundfx.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/net/server/netserv.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/lockobjcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/motioncomponent.h>
-#include <gel/components/shadowcomponent.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/specialitemcomponent.h>
-#include <gel/components/suspendcomponent.h>
-#include <gel/components/trickcomponent.h>
-#include <gel/components/nodearraycomponent.h>
-#include <gel/components/railmanagercomponent.h>
-#include <gel/components/skitchcomponent.h>
-#include <gel/components/cameracomponent.h>
-#include <gel/components/skatercameracomponent.h>
-#include <gel/components/vibrationcomponent.h>
-#include <gel/components/proximtriggercomponent.h>
-#include <gel/components/triggercomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/collisioncomponent.h>
-#include <gel/components/walkcomponent.h>
-#include <gel/components/movablecontactcomponent.h>
-#include <gel/components/ribboncomponent.h>
-#include <gel/components/statsmanagercomponent.h>
-#include <gel/components/walkcameracomponent.h>
+#include <Gel/objtrack.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/Collision/CollCache.h>
+#include <Gel/inpman.h>
+#include <Gel/mainloop.h>
+#include <Gel/Environment/terrain.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/lockobjcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/Components/shadowcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/specialitemcomponent.h>
+#include <Gel/Components/SuspendComponent.h>
+#include <Gel/Components/trickcomponent.h>
+#include <Gel/Components/NodeArrayComponent.h>
+#include <Gel/Components/RailManagerComponent.h>
+#include <Gel/Components/SkitchComponent.h>
+#include <Gel/Components/CameraComponent.h>
+#include <Gel/Components/SkaterCameraComponent.h>
+#include <Gel/Components/VibrationComponent.h>
+#include <Gel/Components/ProximTriggerComponent.h>
+#include <Gel/Components/TriggerComponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/collisioncomponent.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Components/MovableContactComponent.h>
+#include <Gel/Components/RibbonComponent.h>
+#include <Gel/Components/StatsManagerComponent.h>
+#include <Gel/Components/WalkCameraComponent.h>
 #ifdef TESTING_GUNSLINGER
-#include <gel/components/ridercomponent.h>
-#include <gel/components/weaponcomponent.h>
+#include <Gel/Components/ridercomponent.h>
+#include <Gel/Components/weaponcomponent.h>
 #endif
 
 
-#include <gfx/camera.h>
-#include <gfx/shadow.h>
-#include <gfx/debuggfx.h>				// for debug lines
-#include <gfx/gfxutils.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxlight.h>
-#include <gfx/nxlightman.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/2D/SpriteElement.h>
-#include <gfx/2D/ScreenElement2.h>
-#include <gfx/skeleton.h>
-#include <gfx/nx.h>						// for sGetMovableObjects
-#include <gfx/NxMiscFX.h>
+#include <Gfx/camera.h>
+#include <Gfx/shadow.h>
+#include <Gfx/debuggfx.h>				// for debug lines
+#include <Gfx/gfxutils.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxLight.h>
+#include <Gfx/NxLightMan.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/SpriteElement.h>
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/Skeleton.h>
+#include <Gfx/nx.h>						// for sGetMovableObjects
+#include <Gfx/NxMiscFX.h>
 
                                    
-#include <sk/modules/skate/skate.h> // for SKATE_TYPE_*
-#include <sk/modules/FrontEnd/FrontEnd.h>
-#include <sk/modules/skate/competition.h>	  	// for CCompetition
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>   // for special goal
-#include <sk/modules/skate/CreateATrick.h>
+#include <Sk/Modules/Skate/skate.h> // for SKATE_TYPE_*
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/Skate/competition.h>	  	// for CCompetition
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>   // for special goal
+#include <Sk/Modules/Skate/CreateATrick.h>
 
-#include <sk/ParkEditor2/ParkEd.h>
+#include <Sk/ParkEditor2/ParkEd.h>
 
-#include <sk/objects/crown.h>
-#include <sk/objects/moviecam.h>
-#include <sk/objects/proxim.h>
-#include <sk/objects/rail.h>
-#include <sk/objects/objecthook.h>
-#include <sk/objects/restart.h>
-#include <sk/objects/skater.h>
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/objects/playerprofilemanager.h>
-#include <sk/components/skaterstancepanelcomponent.h>
-#include <sk/components/skaterloopingsoundcomponent.h>
-#include <sk/components/skatersoundcomponent.h>
-#include <sk/components/skatergapcomponent.h>
-#include <sk/components/skaterrotatecomponent.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
-#include <sk/components/skaterlocalnetlogiccomponent.h>
-#include <sk/components/skaternonlocalnetlogiccomponent.h>
-#include <sk/components/skaterscorecomponent.h>
-#include <sk/components/skatermatrixqueriescomponent.h>
-#include <sk/components/skaterfloatingnamecomponent.h>
-#include <sk/components/skaterstatehistorycomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skateradjustphysicscomponent.h>
-#include <sk/components/skaterfinalizephysicscomponent.h>
-#include <sk/components/skatercleanupstatecomponent.h>
-#include <sk/components/skaterendruncomponent.h>
-#include <sk/components/skaterbalancetrickcomponent.h>
-#include <sk/components/skaterflipandrotatecomponent.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/components/skaterruntimercomponent.h>
+#include <Sk/Objects/crown.h>
+#include <Sk/Objects/moviecam.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Objects/rail.h>
+#include <Sk/Objects/objecthook.h>
+#include <Sk/Objects/restart.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/PlayerProfileManager.h>
+#include <Sk/Components/SkaterStancePanelComponent.h>
+#include <Sk/Components/SkaterLoopingSoundComponent.h>
+#include <Sk/Components/SkaterSoundComponent.h>
+#include <Sk/Components/SkaterGapComponent.h>
+#include <Sk/Components/SkaterRotateComponent.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
+#include <Sk/Components/SkaterLocalNetLogicComponent.h>
+#include <Sk/Components/SkaterNonLocalNetLogicComponent.h>
+#include <Sk/Components/SkaterScoreComponent.h>
+#include <Sk/Components/SkaterMatrixQueriesComponent.h>
+#include <Sk/Components/SkaterFloatingNameComponent.h>
+#include <Sk/Components/SkaterStateHistoryComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterAdjustPhysicsComponent.h>
+#include <Sk/Components/SkaterFinalizePhysicsComponent.h>
+#include <Sk/Components/SkaterCleanupStateComponent.h>
+#include <Sk/Components/SkaterEndRunComponent.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
+#include <Sk/Components/SkaterFlipAndRotateComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Components/SkaterRunTimerComponent.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/engine/contact.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Engine/contact.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <sk/scripting/cfuncs.h>
+#include <Sk/Scripting/cfuncs.h>
 
-#include <sys/profiler.h>
-#include <sys/replay/replay.h>
+#include <Sys/Profiler.h>
+#include <Sys/Replay/replay.h>
 
-#include <core/math/geometry.h>
+#include <Core/Math/geometry.h>
 
-#include <gel/music/music.h>
+#include <Gel/Music/music.h>
 
-#include <gel/collision/collision.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/checksum.h>
-#include <sk/scripting/nodearray.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/checksum.h>
+#include <Sk/Scripting/nodearray.h>
 
 #ifdef __PLAT_NGC__
-#include "gfx/ngc/nx/nx_init.h"
+#include "Gfx/ngc/nx/nx_init.h"
 #endif		// __PLAT_NGC__
 
 

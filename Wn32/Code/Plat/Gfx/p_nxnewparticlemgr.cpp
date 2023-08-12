@@ -22,7 +22,7 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 #include "p_nxnewparticle.h"
 #include "p_nxnewparticlemgr.h"

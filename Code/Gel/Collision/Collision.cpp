@@ -22,20 +22,20 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/collision/collision.h>
-#include <gel/collision/colltridata.h>
-#include <gel/collision/movcollman.h>
-#include <gel/collision/collcache.h>
-#include <gel/collision/batchtricoll.h>
-#include <engine/SuperSector.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Collision/CollTriData.h>
+#include <Gel/Collision/MovCollMan.h>
+#include <Gel/Collision/CollCache.h>
+#include <Gel/Collision/BatchTriColl.h>
+#include <Sk/Engine/SuperSector.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gfx/nx.h>
-#include <gfx/nxflags.h>	// for face flag stuff
-#include <gfx/debuggfx.h>
+#include <Gfx/nx.h>
+#include <Gfx/nxflags.h>	// for face flag stuff
+#include <Gfx/debuggfx.h>
 
 /*****************************************************************************
 **								DBG Information								**

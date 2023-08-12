@@ -24,12 +24,12 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/math.h>
-#include <core/math/geometry.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
 
-#include <gel/collision/collenums.h>
+#include <Gel/Collision/CollEnums.h>
 
 /*****************************************************************************
 **								   Defines									**

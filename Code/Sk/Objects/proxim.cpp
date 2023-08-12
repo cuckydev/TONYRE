@@ -2,21 +2,21 @@
 // Proxim.cpp
 
 		  
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/math.h>
-#include <gfx/camera.h>
-#include <gfx/nx.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <modules/FrontEnd/FrontEnd.h>
-#include <sk/objects/Proxim.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/objects/skater.h>		   // used to get position of the skater's camera
-#include <sk/objects/moviecam.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/math.h>
+#include <Gfx/camera.h>
+#include <Gfx/nx.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Objects/skater.h>		   // used to get position of the skater's camera
+#include <Sk/Objects/moviecam.h>
 
 //#define	DEBUG_PROXIM
 

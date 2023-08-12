@@ -9,16 +9,16 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/playerprofilemanager.h>
+#include <Sk/Objects/PlayerProfileManager.h>
 
-#include <sk/objects/skaterprofile.h>
+#include <Sk/Objects/SkaterProfile.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
 
-#include <gfx/facetexture.h>
+#include <Gfx/FaceTexture.h>
 
 /*****************************************************************************
 **								DBG Information								**

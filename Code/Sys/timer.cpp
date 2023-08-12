@@ -23,8 +23,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sys/timer.h>
+#include <Core/Defines.h>
+#include <Sys/timer.h>
 
 /*****************************************************************************
 **							  DBG Information								**

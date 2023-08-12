@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 #include "memman.h"
 #include "pool.h"
-#include <sys\mem\region.h>
+#include <Sys/Mem/region.h>
 
 /*****************************************************************************
 **							  DBG Information								**

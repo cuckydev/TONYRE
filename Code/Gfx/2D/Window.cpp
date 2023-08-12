@@ -1,9 +1,9 @@
-#include <core/defines.h>
-#include <gfx/2D/Window.h>
-#include <gfx/NxWin2D.h>
+#include <Core/Defines.h>
+#include <Gfx/2D/Window.h>
+#include <Gfx/NxWin2D.h>
 
 #ifdef	__PLAT_NGPS__ 
-#include <gfx/NGPS/NX/chars.h>
+#include <Gfx/NGPS/NX/chars.h>
 #endif
 
 namespace Front

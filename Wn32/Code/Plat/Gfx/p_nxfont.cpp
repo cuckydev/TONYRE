@@ -2,7 +2,7 @@
 // p_NxFont.cpp
 
 #include 	<Plat/Gfx/p_nxfont.h>
-#include 	"sys/config/config.h"
+#include 	"Sys/Config/config.h"
 
 namespace Nx
 {

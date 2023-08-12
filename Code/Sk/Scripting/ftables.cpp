@@ -23,47 +23,47 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <scripting/ftables.h>
-#include <scripting/cfuncs.h>
-#include <scripting/skfuncs.h>
-#include <scripting/mcfuncs.h>
+#include <Sk/Scripting/ftables.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/skfuncs.h>
+#include <Sk/Scripting/mcfuncs.h>
 
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/struct.h>
 
-#include <modules/FrontEnd/FrontEnd.h>
-#include <sk/modules/skate/skate.h>
-#include <modules/Skate/GameMode.h>
-#include <modules/Skate/goalmanager.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
 
-#include <sk/objects/pathman.h>
+#include <Sk/Objects/PathMan.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 #ifdef __PLAT_NGPS__
-#include <sk/gamenet/lobby.h>
-#include <sk/gamenet/ngps/p_content.h>
-#include <sk/gamenet/ngps/p_buddy.h>
-#include <sk/gamenet/ngps/p_stats.h>
+#include <Sk/GameNet/lobby.h>
+#include <Sk/GameNet/ngps/p_content.h>
+#include <Sk/GameNet/ngps/p_buddy.h>
+#include <Sk/GameNet/ngps/p_stats.h>
 #endif
 
-#include <gel/objtrack.h>
-#include <gel/components/trickcomponent.h>
+#include <Gel/objtrack.h>
+#include <Gel/Components/trickcomponent.h>
 
-#include <sys/File/PRE.h>
-#include <sys/File/pip.h>
-#include <sys/replay/replay.h>
+#include <Sys/File/PRE.h>
+#include <Sys/File/pip.h>
+#include <Sys/Replay/replay.h>
 
-#include <gfx/Nx.h>
-#include <gfx/NxFontMan.h>
-#include <gfx/NxTexMan.h>
-#include <gfx/NxLightMan.h>
-#include <gfx/NxLoadScreen.h>
-#include <gfx/NxViewMan.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/FaceMassage.h>
-#include <gfx/nxweather.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxFontMan.h>
+#include <Gfx/NxTexMan.h>
+#include <Gfx/NxLightMan.h>
+#include <Gfx/NxLoadScreen.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/FaceMassage.h>
+#include <Gfx/nxweather.h>
 
-#include <sk/ParkEditor2/ParkEd.h>
-#include <sk/objects/gap.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Sk/Objects/gap.h>
 
 /*****************************************************************************
 **								DBG Information								**

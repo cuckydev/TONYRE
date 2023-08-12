@@ -8,11 +8,11 @@
 #ifndef __COMPONENTS_NODEARRAYCOMPONENT_H__
 #define __COMPONENTS_NODEARRAYCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 #include <cstring>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_NODEARRAY							Crc::ConstCRC( "NodeArray" )

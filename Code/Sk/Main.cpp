@@ -37,63 +37,63 @@ extern void test_render();
 #include <libsn.h>
 #endif
 
-#include <core/defines.h>	
-#include <core/thread.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>	
+#include <Core/thread.h>
+#include <Core/singleton.h>
 		 
-#include <sys/profiler.h>
-#include <sys/timer.h>
-#include <sys/mem/memman.h>
-#include <sys/mem/memtest.h>
-#include <sys/sioman.h>										   
-#include <sys/File/PRE.h>
-#include <sys/File/filesys.h>
-#include <sys/File/AsyncFilesys.h>
-#include <sys/mcman.h>
-#include <sys/config/config.h>
+#include <Sys/Profiler.h>
+#include <Sys/timer.h>
+#include <Sys/Mem/memman.h>
+#include <Sys/Mem/memtest.h>
+#include <Sys/sioman.h>										   
+#include <Sys/File/PRE.h>
+#include <Sys/File/filesys.h>
+#include <Sys/File/AsyncFilesys.h>
+#include <Sys/McMan.h>
+#include <Sys/Config/config.h>
 
 
-#include <gfx/gfxman.h>
-#include <gfx/nx.h>
-#include <gfx/nxloadscreen.h>
-// #include <gfx/ngps/nx/nx_init.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxLoadScreen.h>
+// #include <Gfx/ngps/nx/nx_init.h>
 
 
-#include <gel/modman.h>
-#include <gel/mainloop.h>
-#include <gel/objman.h>
-#include <gel/objtrack.h>
-#include <gel/inpman.h>
-#include <gel/soundfx/soundfx.h>
-#include <gel/music/music.h>
-#include <gel/net/net.h>
-#include <gel/assman/assman.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/FrontEnd/FrontEnd.h>
-#include <sk/objects/movingobject.h>
-#include <sk/gamenet/gamenet.h>
-#include <gel/scripting/scriptcache.h> 
-#include <gel/scripting/script.h> 
-#include <gel/scripting/parse.h> 
-#include <gel/scripting/symboltable.h> 
-#include <sk/scripting/gs_init.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <sys/mem/PoolManager.h>
-#include <objects/pathman.h>
-#include <sys/replay/replay.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/modman.h>
+#include <Gel/mainloop.h>
+#include <Gel/objman.h>
+#include <Gel/objtrack.h>
+#include <Gel/inpman.h>
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Music/music.h>
+#include <Gel/Net/net.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Objects/MovingObject.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Gel/Scripting/scriptcache.h> 
+#include <Gel/Scripting/script.h> 
+#include <Gel/Scripting/parse.h> 
+#include <Gel/Scripting/symboltable.h> 
+#include <Sk/Scripting/gs_init.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Sys/Mem/PoolManager.h>
+#include <Sk/Objects/PathMan.h>
+#include <Sys/Replay/replay.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <sk/ParkEditor2/ParkEd.h>
-#include <gel/scripting/Debugger.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Gel/Scripting/debugger.h>
 
-// #include <gfx/ngps/nx/pcrtc.h>
+// #include <Gfx/ngps/nx/pcrtc.h>
 
 #ifdef __PLAT_NGPS__
 #include <libgraph.h>
 #endif
 
 #ifdef __PLAT_NGC__
-#include <sys/ngc/p_display.h>
+#include <Sys/ngc/p_display.h>
 #endif		// __PLAT_NGC__
 
 #define MAINLOOP_MEMMARKER 16
@@ -430,7 +430,7 @@ int main ( sint argc, char** argv )
 		{
 			if(snProfInit(_4KHZ, profdata, sizeof(profdata)) != 0)
 			{
-				printf("Profiler init failed\n"); // see SN_PRF… in LIBSN.H
+				printf("Profiler init failed\n"); // see SN_PRFï¿½ in LIBSN.H
 			}
 		}	
 	}	

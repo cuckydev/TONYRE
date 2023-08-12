@@ -6,16 +6,16 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <core/crc.h>
-#include <core/math.h>
-#include <core/math/vector.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Core/crc.h>
+#include <Core/math.h>
+#include <Core/Math/vector.h>
 
 							 
 //#define	__DEBUG_STRUCT_ALLOCS
@@ -23,7 +23,7 @@
 // This does technically cause a cyclic dependency, but what the heck, it's only needed
 // for some debugging. (Making the Get function print the contents of the struct in
 // the event of not finding the required parameter)
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/utils.h>
 
 DefinePoolableClass(Script::CStruct);
 

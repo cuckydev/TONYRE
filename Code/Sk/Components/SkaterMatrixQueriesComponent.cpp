@@ -5,15 +5,15 @@
 //* CREATION DATE:  3/12/3
 //****************************************************************************
 
-#include <sk/components/skatermatrixqueriescomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
+#include <Sk/Components/SkaterMatrixQueriesComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/skate.h>
 
 namespace Obj
 {

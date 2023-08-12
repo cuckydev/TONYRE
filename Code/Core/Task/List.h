@@ -10,24 +10,21 @@
 **																			**
 **	Module:			Task (TSK_)												**
 **																			**
-**	File name:		core/task/list.h										**
+**	File name:		Core/Task/List.h										**
 **																			**
 **	Created: 		05/27/99	-	mjb										**
 **																			**
 *****************************************************************************/
 
-#ifndef	__CORE_TASK_LIST_H
-#define	__CORE_TASK_LIST_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
-#include <core/defines.h>
-#endif
-#include <core/list.h>
-#include "core/support/lock.h"
+#include <Core/Defines.h>
+#include <Core/List.h>
+#include <Core/Support/Lock.h>
 
 
 /*****************************************************************************
@@ -102,7 +99,3 @@ inline bool			List::IsEmpty ( void )
 
 
 } // namespace Tsk
-
-#endif	// __CORE_TASK_LIST_H
-
-

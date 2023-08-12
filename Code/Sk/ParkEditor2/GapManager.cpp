@@ -1,14 +1,14 @@
-#include <core/defines.h>
-#include <sk/ParkEditor2/EdMap.h>
-#include <sk/ParkEditor2/GapManager.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/objects/gap.h>
-#include <sk/components/GoalEditorComponent.h>
+#include <Core/Defines.h>
+#include <Sk/ParkEditor2/EdMap.h>
+#include <Sk/ParkEditor2/GapManager.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/gap.h>
+#include <Sk/Components/GoalEditorComponent.h>
 
 
 namespace Ed

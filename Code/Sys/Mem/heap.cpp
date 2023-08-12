@@ -36,10 +36,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 #include "memman.h"
 #include "heap.h"
-#include <sys\mem\region.h>
+#include <Sys/Mem/region.h>
 
 #define DUMP_HEAP 0			// Change to 1 to have a handy text dump in memory of the heap status.
 							// Use the debugger to see it - look at gMemStatus, 64 bytes per line.
@@ -145,9 +145,9 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript );
 }
 
 #ifdef	__PLAT_NGPS__
-#include <gfx/ngps/p_memview.h>
+#include <Gfx/ngps/p_memview.h>
 #elif defined( __PLAT_NGC__ )
-#include <gfx/ngc/p_memview.h>
+#include <Gfx/ngc/p_memview.h>
 #endif
 
 

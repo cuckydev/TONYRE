@@ -8,15 +8,15 @@
 #ifndef __COMPONENTS_SKATERSTATECOMPONENT_H__
 #define __COMPONENTS_SKATERSTATECOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <core/timestampedflag.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Core/TimestampedFlag.h>
 
-#include <sk/objects/skaterflags.h>
+#include <Sk/Objects/skaterflags.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <gfx/nxflags.h>
+#include <Gfx/nxflags.h>
 
 #define		CRC_SKATERSTATE Crc::ConstCRC("SkaterState")
 

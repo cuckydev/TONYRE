@@ -7,17 +7,17 @@
 #define	__USE_MJB_LIST__
 	  
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __CORE_MATH_H
-#include <core/math.h>
+#include <Core/math.h>
 #endif
 
-#include <core/list.h>
-#include <core/string/cstring.h>
+#include <Core/List.h>
+#include <Core/String/CString.h>
 
-#include <gel/scripting/array.h>
+#include <Gel/Scripting/array.h>
 
 namespace Script
 {

@@ -1,7 +1,7 @@
 #ifndef __SYS_MEM_POOLMANAGER_H
 #define __SYS_MEM_POOLMANAGER_H
 
-#include <sys/mem/CompactPool.h>
+#include <Sys/Mem/CompactPool.h>
 
 namespace Mem
 {

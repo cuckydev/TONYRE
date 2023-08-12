@@ -11,25 +11,25 @@
 // @subindex Scripting Database
 // @index script | soundcomponent
 
-#include <gel/components/soundcomponent.h>
+#include <Gel/Components/soundcomponent.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/utils.h>
-#include <gel/objsearch.h>
-#include <gel/objman.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/objsearch.h>
+#include <Gel/objman.h>
 
-#include <gel/object/compositeobject.h>
-#include <gfx/nxviewman.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gfx/NxViewMan.h>
 
 // TODO:  Refactor this - 
-#include <sk/modules/frontend/frontend.h>
-#include <sk/objects/emitter.h>
-#include <sk/objects/proxim.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Objects/emitter.h>
+#include <Sk/Objects/proxim.h>
 
 
 namespace Obj

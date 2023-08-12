@@ -3,7 +3,7 @@
 #ifndef _SK_MODULES_SKATE_CREATEATRICK_H_
 #define _SK_MODULES_SKATE_CREATEATRICK_H_
 
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Script
 {

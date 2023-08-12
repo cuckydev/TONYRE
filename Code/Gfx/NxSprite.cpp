@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // NxSprite.cpp
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include "gfx/NxSprite.h"
+#include "Gfx/NxSprite.h"
 
 namespace	Nx
 {

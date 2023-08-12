@@ -22,8 +22,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/DynamicTable.h>
+#include <Core/Defines.h>
+#include <Core/DynamicTable.h>
 
 //
 

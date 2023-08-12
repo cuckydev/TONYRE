@@ -26,7 +26,7 @@
 #include <xtl.h>
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 /*****************************************************************************

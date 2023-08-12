@@ -23,9 +23,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sys\mem\region.h>
-#include <sys/config/config.h>
+#include <Core/Defines.h>
+#include <Sys/Mem/region.h>
+#include <Sys/Config/config.h>
 #include "alloc.h"
 
 /*****************************************************************************

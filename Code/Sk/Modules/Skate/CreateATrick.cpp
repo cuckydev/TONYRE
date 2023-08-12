@@ -1,15 +1,15 @@
 // CreateATrick.cpp
 
-#include <sk/modules/skate/createatrick.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/CreateATrick.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <core/math/math.h>
+#include <Core/Math/math.h>
 
 namespace Game
 {

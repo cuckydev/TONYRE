@@ -5,14 +5,14 @@
 //* CREATION DATE:  2/27/2002
 //****************************************************************************
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gfx/nxgeom.h>
-#include <gfx/image/imagebasic.h>
+#include <Gfx/NxGeom.h>
+#include <Gfx/Image/ImageBasic.h>
 
-#include <gel/collision/colltridata.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Collision/CollTriData.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
 
 namespace Nx
 {

@@ -5,16 +5,16 @@
 //* CREATION DATE:  2/06/2003
 //****************************************************************************
 
-#include <gfx/baseanimcontroller.h>
+#include <Gfx/baseanimcontroller.h>
 
-#include <gel/components/skeletoncomponent.h>
-#include <gel/object/compositeobject.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 							 
-#include <gfx/blendchannel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/blendchannel.h>
+#include <Gfx/Skeleton.h>
 						  
 namespace Gfx
 {

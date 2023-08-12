@@ -8,7 +8,7 @@
 #ifndef	__GFX_P_NX_MESH_H__
 #define	__GFX_P_NX_MESH_H__
     
-#include "gfx/nxmesh.h"
+#include <Gfx/NxMesh.h>
 #include "p_nxscene.h"
 
 namespace NxWn32

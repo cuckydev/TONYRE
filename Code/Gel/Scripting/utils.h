@@ -2,7 +2,7 @@
 #define	__SCRIPTING_UTILS_H
 
 #ifndef	__SCRIPTING_SCRIPTDEFS_H
-#include <gel/scripting/scriptdefs.h> // For EAssertType
+#include <Gel/Scripting/scriptdefs.h> // For EAssertType
 #endif
 
 namespace Script

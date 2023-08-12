@@ -7,56 +7,56 @@
 */
 
 
-#include <sys/replay/replay.h>
+#include <Sys/Replay/replay.h>
 
 #if __USE_REPLAYS__
 
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 
-#include <sk/objects/movingobject.h>
+#include <Sk/Objects/MovingObject.h>
 
-#include <gfx/2D/ScreenElement2.h>
-#include <gfx/2D/SpriteElement.h>
-#include <gfx/skeleton.h>
-#include <gfx/nxgeom.h>
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/SpriteElement.h>
+#include <Gfx/Skeleton.h>
+#include <Gfx/NxGeom.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/utils.h>
-#include <gel/environment/terrain.h>
-#include <gel/soundfx/soundfx.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Environment/terrain.h>
+#include <Gel/SoundFX/soundfx.h>
 
-#include <gel/mainloop.h>
-#include <gel/music/music.h>
-#include <gel/assman/assman.h>
-#include <gel/objtrack.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/frontend/frontend.h>
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
-#include <gfx/nxmiscfx.h>
-#include <gfx/modelbuilder.h>
-#include <gfx/ModelAppearance.h>
-#include <gfx/gfxutils.h>
-#include <gfx/2d/textelement.h>
-#include <gfx/2d/screenelemman.h>
-#include <sk/objects/car.h>
-#include <sk/objects/ped.h>
-#include <sk/objects/skater.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/objects/skaterflags.h>
-#include <sk/objects/gameobj.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/gamenet/gamenet.h>
-#include <gfx/nxviewman.h>
-#include <sys/config/config.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/soundcomponent.h>
-#include <gel/components/vibrationcomponent.h>
-#include <gel/components/motioncomponent.h>
+#include <Gel/mainloop.h>
+#include <Gel/Music/music.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/objtrack.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/NxMiscFX.h>
+#include <Gfx/ModelBuilder.h>
+#include <Gfx/ModelAppearance.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/2D/textelement.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Sk/Objects/car.h>
+#include <Sk/Objects/ped.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/skaterflags.h>
+#include <Sk/Objects/GameObj.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Gfx/NxViewMan.h>
+#include <Sys/Config/config.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/soundcomponent.h>
+#include <Gel/Components/VibrationComponent.h>
+#include <Gel/Components/motioncomponent.h>
 
 // disabling replays while we refactor
 #define DISABLE_REPLAYS

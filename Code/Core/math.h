@@ -47,18 +47,18 @@ inline  float   fabs( float x ) {return fabsf( x );}
 
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/support.h>
-#include <core/math/math.h>
-#include <core/math/vector.h>
-#include <core/math/matrix.h>
-#include <core/math/quat.h>		  		// need quat.h before matrix, but after vector (for the GetScalar function)
+#include <Core/support.h>
+#include <Core/Math/math.h>
+#include <Core/Math/vector.h>
+#include <Core/Math/matrix.h>
+#include <Core/Math/quat.h>		  		// need quat.h before matrix, but after vector (for the GetScalar function)
 
-#include <core/math/vector.inl>
-#include <core/math/matrix.inl>
-#include <core/math/quat.inl>
-#include <core/math/rect.h>
+#include <Core/Math/vector.inl>
+#include <Core/Math/matrix.inl>
+#include <Core/Math/quat.inl>
+#include <Core/Math/rect.h>
 
 	
 /******************************************************************/

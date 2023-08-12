@@ -22,38 +22,38 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sys/mcman.h>
-#include <sys/SIO/keyboard.h>
+#include <Sys/McMan.h>
+#include <Sys/SIO/keyboard.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/mainloop.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/mainloop.h>
 
-#include <gfx/vecfont.h>
-#include <gfx/2d/screenelemman.h>
+#include <Gfx/vecfont.h>
+#include <Gfx/2D/ScreenElemMan.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/frontend/frontend.h>
-//#include <sk/modules/frontend/mainmenu.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+//#include <Sk/Modules/frontend/mainmenu.h>
 
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/proxim.h>
-#include <sk/objects/crown.h>
-#include <sk/objects/skatercam.h>
-#include <sk/components/skaterstatehistorycomponent.h>
-#include <sk/components/skaterscorecomponent.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Objects/crown.h>
+#include <Sk/Objects/skatercam.h>
+#include <Sk/Components/SkaterStateHistoryComponent.h>
+#include <Sk/Components/SkaterScoreComponent.h>
 
-#include <sk/scripting/cfuncs.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/objects/skater.h>		   // mostly getting score
+#include <Sk/Objects/skater.h>		   // mostly getting score
 
 
 /*****************************************************************************

@@ -22,8 +22,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sk/ParkEditor/EdRail.h>
+#include <Core/Defines.h>
+#include <Sk/ParkEditor/EdRail.h>
 
 #include <cstring>
 

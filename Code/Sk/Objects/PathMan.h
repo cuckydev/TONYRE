@@ -20,19 +20,19 @@
 #define __OBJECTS_PATHMAN_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 #ifndef __GEL_OBJPTR_H
-#include <gel/objptr.h>
+#include <Gel/ObjPtr.h>
 #endif
 
-#include <gel/scripting/struct.h>
-#include <gel/scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/script.h>
 
 namespace Obj
 {

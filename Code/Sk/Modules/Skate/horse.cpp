@@ -22,18 +22,18 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/modules/skate/horse.h>
+#include <Sk/Modules/Skate/horse.h>
 
-#include <core/defines.h>
-#include <core/math/math.h>						 // for Mth::Rnd()
-#include <core/string/stringutils.h>
+#include <Core/Defines.h>
+#include <Core/Math/math.h>						 // for Mth::Rnd()
+#include <Core/String/stringutils.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/objects/restart.h>
-#include <sk/objects/skater.h>
+#include <Sk/Objects/restart.h>
+#include <Sk/Objects/skater.h>
 
 /*****************************************************************************
 **								DBG Information								**

@@ -3,17 +3,17 @@
 #define	__ENGINE_FEELER_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <core/math.h>
-#include <gfx/debuggfx.h>
-#include <core/math/geometry.h>
-#include <gel/collision/collision.h>
-//#include <sk/objects/movingobject.h>		// needed for smart pointer destructor in feeler, dammit
-#include <gel/object/compositeobject.h>
-#include <gel/objptr.h>
+#include <Core/math.h>
+#include <Gfx/debuggfx.h>
+#include <Core/Math/geometry.h>
+#include <Gel/Collision/Collision.h>
+//#include <Sk/Objects/MovingObject.h>		// needed for smart pointer destructor in feeler, dammit
+#include <Gel/Object/compositeobject.h>
+#include <Gel/ObjPtr.h>
 
 namespace Nx
 {

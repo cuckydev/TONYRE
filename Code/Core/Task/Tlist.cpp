@@ -22,11 +22,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/task.h>
+#include <Core/Defines.h>
+#include <Core/Task.h>
 
-#include <sys/profiler.h>			// Including for debugging
-#include <sys/timer.h>				// Including for debugging
+#include <Sys/Profiler.h>			// Including for debugging
+#include <Sys/timer.h>				// Including for debugging
 
 /*****************************************************************************
 **							  DBG Information								**

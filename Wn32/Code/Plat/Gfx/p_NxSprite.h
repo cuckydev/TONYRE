@@ -4,9 +4,9 @@
 #ifndef	__GFX_P_NX_SPRITE_H__
 #define	__GFX_P_NX_SPRITE_H__
 
-#include 	"Gfx/NxSprite.h"
-#include 	"Plat/Gfx/NX/texture.h"
-#include 	"Plat/Gfx/NX/sprite.h"
+#include 	<Gfx/NxSprite.h>
+#include 	<Plat/Gfx/nx/texture.h>
+#include 	<Plat/Gfx/nx/sprite.h>
 
 namespace Nx
 {

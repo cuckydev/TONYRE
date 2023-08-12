@@ -10,7 +10,7 @@
 **																			**
 **	Module:			movies													**
 **																			**
-**	File name:		gel/movies/movies.h  									**
+**	File name:		Gel/movies/movies.h  									**
 **																			**
 **	Created: 		5/14/01	-	mjd											**
 **																			**
@@ -23,9 +23,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/list.h>
-#include <core/macros.h>
-//#include <gel/scripting/script.h>
+#include <Core/List.h>
+#include <Core/macros.h>
+//#include <Gel/Scripting/script.h>
 
 /*****************************************************************************
 **								   Defines									**

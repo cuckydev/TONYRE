@@ -25,18 +25,18 @@
 #include <string.h>
 
 
-#include <core/defines.h>
-#include <gfx/debuggfx.h>
-#include <sys/timer.h>				// Including for debugging
-#include <sys/config/config.h>
-#include <sys/profiler.h>
-#include <gel/scripting/symboltable.h>
+#include <Core/Defines.h>
+#include <Gfx/debuggfx.h>
+#include <Sys/timer.h>				// Including for debugging
+#include <Sys/Config/config.h>
+#include <Sys/Profiler.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/nxviewman.h>			// for camera
+#include <Gfx/NxViewMan.h>			// for camera
 
 #ifdef	__PLAT_NGPS__	
-#include <gfx/ngps/nx/line.h>
-#include <gfx/ngps/nx/render.h>
+#include <Gfx/ngps/nx/line.h>
+#include <Gfx/ngps/nx/render.h>
 namespace Sys
 {
 	extern void			box(int x0,int y0, int x1, int y1, uint32 color);
@@ -44,8 +44,8 @@ namespace Sys
 #endif
 
 #ifdef	__PLAT_XBOX__
-#include <gfx/xbox/nx/nx_init.h>
-#include <gfx/xbox/nx/render.h>
+#include <Gfx/xbox/nx/nx_init.h>
+#include <Gfx/xbox/nx/render.h>
 #endif
 
 /*****************************************************************************

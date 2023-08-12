@@ -8,39 +8,39 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __CORE_TASK_H
-#include <core/task.h>
+#include <Core/Task.h>
 #endif
 
 #ifndef __CORE_MATH_VECTOR_H
-#include <core/math/vector.h>
+#include <Core/Math/vector.h>
 #endif
 
 #ifndef __GFX_ANIMCONTROLLER_H
-#include <gfx/animcontroller.h>
+#include <Gfx/AnimController.h>
 #endif
 
 #ifndef	__GFX_NXMODEL_H__
-#include <gfx/nxmodel.h>
+#include <Gfx/NxModel.h>
 #endif
 
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
 
 #ifndef __GEL_SOUNDFX_H
-#include <gel/soundfx/soundfx.h>
+#include <Gel/SoundFX/soundfx.h>
 #endif
 
 #ifndef __GEL_COMPONENTS_VIBRATIONCOMPONENT_H
-#include <gel/components/vibrationcomponent.h>
+#include <Gel/Components/VibrationComponent.h>
 #endif
 
 #ifndef __OBJECTS_SKATER_H
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 #endif
 
 /*****************************************************************************

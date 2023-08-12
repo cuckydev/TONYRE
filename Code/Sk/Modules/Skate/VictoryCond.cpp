@@ -23,15 +23,15 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <gel/scripting/checksum.h>
-#include <sk/modules/skate/score.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/victorycond.h>
-#include <sk/objects/skater.h>
-#include <sk/gamenet/gamenet.h>
+#include <Core/Defines.h>
+#include <Gel/Scripting/checksum.h>
+#include <Sk/Modules/Skate/score.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/VictoryCond.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/GameNet/GameNet.h>
 
 /*****************************************************************************
 **								DBG Information								**

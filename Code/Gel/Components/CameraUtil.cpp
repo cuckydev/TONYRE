@@ -9,9 +9,9 @@
  * Utility functions for camera behavior components.
  */
 
-#include <gel/components/camerautil.h>
+#include <Gel/Components/CameraUtil.h>
 
-#include <sk/engine/feeler.h>
+#include <Sk/Engine/feeler.h>
 
 namespace Obj
 {

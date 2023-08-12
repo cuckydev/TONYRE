@@ -8,16 +8,16 @@
 #ifndef __COMPONENTS_VEHICLECOMPONENT_H__
 #define __COMPONENTS_VEHICLECOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/collision/collcache.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/triggercomponent.h>
-#include <gel/object/basecomponent.h>
+#include <Gel/Collision/CollCache.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/TriggerComponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/engine/rectfeeler.h>
-#include <sk/engine/feeler.h>
+#include <Sk/Engine/RectFeeler.h>
+#include <Sk/Engine/feeler.h>
 
 #define		CRC_VEHICLE Crc::ConstCRC("Vehicle")
 #define		GetVehicleComponent() ((Obj::CVehicleComponent*)GetComponent(CRC_VEHICLE))

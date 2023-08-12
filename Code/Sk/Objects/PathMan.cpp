@@ -1,12 +1,12 @@
-#include <core/defines.h>
-#include <core/math.h>
-#include <objects/pathman.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <sk/scripting/nodearray.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Sk/Objects/PathMan.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Sk/Scripting/nodearray.h>
 
 namespace Obj
 {

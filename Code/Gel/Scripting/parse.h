@@ -2,19 +2,19 @@
 #define	__SCRIPTING_PARSE_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef	__SCRIPTING_SCRIPTDEFS_H
-#include <gel/scripting/scriptdefs.h> // For enums
+#include <Gel/Scripting/scriptdefs.h> // For enums
 #endif
 
 #ifndef __SCRIPTING_TOKENS_H
-#include <gel/scripting/tokens.h>
+#include <Gel/Scripting/tokens.h>
 #endif
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 #ifdef __PLAT_NGC__

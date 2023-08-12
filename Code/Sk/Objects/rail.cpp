@@ -1,39 +1,39 @@
 ///////////////////////////////////////////////////////
 // rail.cpp
 
-#include <sk/objects/rail.h>
+#include <Sk/Objects/rail.h>
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/math.h>
-#include <core/math/geometry.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
 
-#include <gel/modman.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/utils.h>
-#include <gel/environment/terrain.h>
-#include <gel/collision/collision.h>
-#include <gel/components/walkcomponent.h>
+#include <Gel/modman.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Environment/terrain.h>
+#include <Gel/Collision/Collision.h>
+#include <Gel/Components/WalkComponent.h>
 
-#include <gfx/nx.h>
-#include <gfx/debuggfx.h>
+#include <Gfx/nx.h>
+#include <Gfx/debuggfx.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/objects/trickobject.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/ParkEditor2/ParkEd.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Objects/TrickObject.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Sk/Scripting/nodearray.h>
 		  
 // REMOVE
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 		  
 #ifdef	__PLAT_NGPS__	
-#include <gfx/nxviewman.h>			// for camera
-#include <gfx/ngps/nx/line.h>
-#include <gfx/ngps/nx/render.h>
+#include <Gfx/NxViewMan.h>			// for camera
+#include <Gfx/ngps/nx/line.h>
+#include <Gfx/ngps/nx/render.h>
 #endif
 
 //#define		DEBUG_EDITOR_RAILS

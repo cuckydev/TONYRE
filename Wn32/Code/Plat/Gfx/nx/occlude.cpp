@@ -24,8 +24,8 @@
 *****************************************************************************/
 		
 #include <Windows.h>
-#include <core/math.h>
-#include <gfx/debuggfx.h>
+#include <Core/math.h>
+#include <Gfx/debuggfx.h>
 #include "occlude.h"
 #include "render.h"
 

@@ -5,13 +5,13 @@
 #include <libipu.h>
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/macros.h>
-#include <core/singleton.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
 
 #define VIBUF_ELM_SIZE 2048
-#include "gel/movies/ngps/vibuf.h"
+#include "Gel/movies/ngps/vibuf.h"
 #define VIBUF_SIZE 256
 #define VIBUF_TS_SIZE (VIBUF_SIZE*2)
 

@@ -23,11 +23,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/singleton.h>
-#include <core/list.h>
-#include <core/task.h>
+#include <Core/singleton.h>
+#include <Core/List.h>
+#include <Core/Task.h>
 
-#include <sys/siodev.h>
+#include <Sys/siodev.h>
 
 /*****************************************************************************
 **								   Defines									**

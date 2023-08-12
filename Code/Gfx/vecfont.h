@@ -12,7 +12,7 @@
 **																			**
 **	Module:			Graphics  (GFX)											**
 **																			**
-**	File name:		gfx/vecfont.h											**
+**	File name:		Gfx/vecfont.h											**
 **																			**
 **	Created: 		11/11/99	-	mjb										**
 **																			**
@@ -26,10 +26,10 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <gfx/image/imagebasic.h>
+#include <Gfx/Image/ImageBasic.h>
 
 
 /*****************************************************************************

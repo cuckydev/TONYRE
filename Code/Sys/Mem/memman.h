@@ -22,10 +22,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/singleton.h>
-#include <core/list.h>
-#include <sys\mem\region.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
+#include <Core/List.h>
+#include <Sys/Mem/region.h>
 #include "heap.h"
 #include "alloc.h"
 #include "memptr.h"

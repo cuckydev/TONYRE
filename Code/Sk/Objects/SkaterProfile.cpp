@@ -9,23 +9,23 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/skaterprofile.h>
+#include <Sk/Objects/SkaterProfile.h>
 
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gel/components/trickcomponent.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Components/trickcomponent.h>
 
-#include <gfx/casutils.h>
-#include <gfx/facetexture.h>
+#include <Gfx/CasUtils.h>
+#include <Gfx/FaceTexture.h>
 
 // If possible, try to remove the dependency on these include files...
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/skater.h>                         // for updatetrickmapping
-#include <sk/objects/playerprofilemanager.h>           // for updatetrickmapping
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/skater.h>                         // for updatetrickmapping
+#include <Sk/Objects/PlayerProfileManager.h>           // for updatetrickmapping
 
 /*****************************************************************************
 **								DBG Information								**

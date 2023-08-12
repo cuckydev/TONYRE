@@ -11,33 +11,33 @@
 #include <sifdev.h>
 #include <libgraph.h>
 #include <libdev.h>
-#include <core/defines.h>
-#include <core/macros.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
 
-#include "gfx/gfxman.h"
+#include "Gfx/gfxman.h"
 
-#include "gfx/ngps/nx/nx_init.h"
-#include "gfx/ngps/nx/pcrtc.h"
-#include "gfx/ngps/nx/resource.h"
+#include "Gfx/ngps/nx/nx_init.h"
+#include "Gfx/ngps/nx/pcrtc.h"
+#include "Gfx/ngps/nx/resource.h"
 
-#include "gel/music/ngps/p_music.h"
+#include "Gel/music/ngps/p_music.h"
 
-#include "gel/movies/movies.h"
-#include "gel/movies/ngps/p_movies.h"
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/videodec.h"
-#include "gel/movies/ngps/disp.h"
-#include "gel/movies/ngps/readbuf.h"
-#include "gel/movies/ngps/vobuf.h"
-#include "gel/movies/ngps/audiodec.h"
-#include "gel/movies/ngps/strfile.h"
+#include "Gel/movies/movies.h"
+#include "Gel/movies/ngps/p_movies.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/videodec.h"
+#include "Gel/movies/ngps/disp.h"
+#include "Gel/movies/ngps/readbuf.h"
+#include "Gel/movies/ngps/vobuf.h"
+#include "Gel/movies/ngps/audiodec.h"
+#include "Gel/movies/ngps/strfile.h"
 #include "sys/timer.h"
 
-#include <sys/file/filesys.h>
-#include <sys/timer.h>
-#include <sys/config/config.h>
-#include <gel/music/music.h>
+#include <Sys/File/filesys.h>
+#include <Sys/timer.h>
+#include <Sys/Config/config.h>
+#include <Gel/Music/music.h>
 
 // K: To switch this off, make it 0 rather than undefining it, cos it won't compile otherwise
 #define FORCE_MOVIES_FROM_CD_PLEASE 0

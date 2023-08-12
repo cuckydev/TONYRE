@@ -8,18 +8,18 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <sk/scripting/nodearray.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/tokens.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/scriptcache.h>
-#include <core/crc.h> // For Crc::GenerateCRCFromString
-#include <core/math.h>
-#include <sk/components/goaleditorcomponent.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/tokens.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/scriptcache.h>
+#include <Core/crc.h> // For Crc::GenerateCRCFromString
+#include <Core/math.h>
+#include <Sk/Components/GoalEditorComponent.h>
 
 #include <cstring>
 

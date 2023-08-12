@@ -3,9 +3,9 @@
 #include <ctype.h>
 #include <eekernel.h>
 #include <sifdev.h>
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/strfile.h"
-#include <sys/config/config.h>
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/strfile.h"
+#include <Sys/Config/config.h>
 
 namespace Flx
 {

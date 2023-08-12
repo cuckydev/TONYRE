@@ -7,23 +7,23 @@
 // @subindex Scripting Database
 // @index script | nxtexman
 
-#include <core/defines.h>
-#include <core/crc.h>
-#include <gel/Scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
+#include <Core/Defines.h>
+#include <Core/crc.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
 
-#include "gfx/NxTexMan.h"
-#include "gfx/NxSprite.h"
-#include "gfx/Nx.h"
+#include <Gfx/NxTexMan.h>
+#include <Gfx/NxSprite.h>
+#include <Gfx/nx.h>
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 
 // for downloading faces
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/skaterprofile.h>
-#include <gfx/facetexture.h>
-#include <gfx/modelappearance.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/ModelAppearance.h>
 
 namespace	Nx
 {

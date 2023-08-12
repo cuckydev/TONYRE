@@ -25,11 +25,11 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/math.h>
-#include <core/math/geometry.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
 
-#include <gfx/image/imagebasic.h>
+#include <Gfx/Image/ImageBasic.h>
 
 
 /*****************************************************************************

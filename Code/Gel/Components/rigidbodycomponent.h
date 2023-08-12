@@ -8,11 +8,11 @@
 #ifndef __COMPONENTS_RIGIDBODYCOMPONENT_H__
 #define __COMPONENTS_RIGIDBODYCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/collision/collcache.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Collision/CollCache.h>
 
 #define		CRC_RIGIDBODY Crc::ConstCRC("RigidBody")
 #define		GetRigidBodyComponent() ((Obj::CRigidBodyComponent*)GetComponent(CRC_RIGIDBODY))

@@ -22,7 +22,7 @@
 #define __CORE_LIST_STRINGHASHTABLE_H
 
 #ifndef __PLAT_WN32__
-	#include <sys/mem/PoolManager.h>
+	#include <Sys/Mem/PoolManager.h>
 #endif
 
 #include "HashTable.h"

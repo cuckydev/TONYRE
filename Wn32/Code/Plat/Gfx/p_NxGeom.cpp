@@ -8,11 +8,11 @@
 
 #include <Plat/Gfx/p_NxGeom.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gfx/skeleton.h>
+#include <Gfx/Skeleton.h>
 #include <Plat/Gfx/p_NxMesh.h>
-#include <Plat/Gfx/p_nxmodel.h>
+#include <Plat/Gfx/p_NxModel.h>
 #include <Plat/Gfx/p_nxtexture.h>
 #include <Plat/Gfx/nx/instance.h>
 

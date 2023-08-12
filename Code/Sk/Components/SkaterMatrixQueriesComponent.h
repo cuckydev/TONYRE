@@ -8,12 +8,12 @@
 #ifndef __COMPONENTS_SKATERMATRIXQUERIESCOMPONENT_H__
 #define __COMPONENTS_SKATERMATRIXQUERIESCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 
 #define		CRC_SKATERMATRIXQUERIES Crc::ConstCRC("SkaterMatrixQueries")
 

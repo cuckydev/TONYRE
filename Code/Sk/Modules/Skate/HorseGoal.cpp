@@ -1,15 +1,15 @@
 // horse goal subclass
 
-#include <sk/modules/skate/GoalManager.h>
-#include <sk/modules/skate/HorseGoal.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/HorseGoal.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/score.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/score.h>
 
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
 
-#include <sk/objects/skater.h>
+#include <Sk/Objects/skater.h>
 
 namespace Game
 {

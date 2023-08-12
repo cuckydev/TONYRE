@@ -24,9 +24,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/vecfont.h>
-#include <sys/mem/memman.h>
-#include <gfx/image/imagebasic.h>
+#include <Gfx/vecfont.h>
+#include <Sys/Mem/memman.h>
+#include <Gfx/Image/ImageBasic.h>
 
 
 /*****************************************************************************

@@ -9,14 +9,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/gfxutils.h>
+#include <Gfx/gfxutils.h>
 
-#include <core/math.h>
-#include <core/math/vector.h>
+#include <Core/math.h>
+#include <Core/Math/vector.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
 
 /*****************************************************************************
 **								DBG Information								**

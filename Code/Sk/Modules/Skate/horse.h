@@ -25,9 +25,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/string/cstring.h>
-#include <sk/modules/skate/skate.h>
+#include <Core/Defines.h>
+#include <Core/String/CString.h>
+#include <Sk/Modules/Skate/skate.h>
 
 /*****************************************************************************
 **								   Defines									**

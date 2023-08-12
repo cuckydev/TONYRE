@@ -27,23 +27,23 @@
 *****************************************************************************/
 
 #include <dolphin.h>
-#include <core/macros.h>
-#include <core/defines.h>
-#include <sys/file/filesys.h>
-#include <sys/file/ngc/hed.h>
-#include <gel/music/ngc/pcm/pcm.h>
+#include <Core/macros.h>
+#include <Core/Defines.h>
+#include <Sys/File/filesys.h>
+#include <Sys/File/ngc/hed.h>
+#include <Gel/Music/ngc/pcm/pcm.h>
 #include <sys\timer.h>
 
 #ifdef USE_VORBIS
-#include <gel/music/ngc/divx/AUDSimpleAudio.h>
-#include <gel/music/ngc/divx/AUDSimplePlayer.h>
+#include <Gel/Music/ngc/divx/AUDSimpleAudio.h>
+#include <Gel/Music/ngc/divx/AUDSimplePlayer.h>
 #endif
 
-#include <gel/soundfx/soundfx.h>
-#include <gel/scripting/symboltype.h> 
+#include <Gel/SoundFX/soundfx.h>
+#include <Gel/Scripting/symboltype.h> 
 //#include <dolphin\dtk.h>
 #include "p_music.h"
-#include <sys/ngc/p_dvd.h>
+#include <Sys/ngc/p_dvd.h>
 #include "gfx\ngc\nx\nx_init.h"
 #include <charpipeline/GQRSetup.h>
 

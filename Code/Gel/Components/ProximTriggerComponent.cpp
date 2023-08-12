@@ -5,16 +5,16 @@
 //* CREATION DATE:  2/28/3
 //****************************************************************************
 
-#include <gel/components/proximtriggercomponent.h>
+#include <Gel/Components/ProximTriggerComponent.h>
 
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/objects/proxim.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Modules/Skate/skate.h>
 
 namespace Obj
 {

@@ -12,7 +12,7 @@
 **																			**
 **	Created:		03/20/00	-	mjb										**
 **																			**
-**	File name:		core/sys/mem/heap.h										**
+**	File name:		core/Sys/Mem/heap.h										**
 **																			**
 *****************************************************************************/
 
@@ -24,7 +24,7 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 #include "alloc.h"
 
@@ -62,13 +62,13 @@ public :
 	
 private :
 	
-	virtual		void*			allocate( size_t size, bool assert_on_fail );
-	virtual		void			free( BlockHeader* pHeader );
+	virtual		void*			allocate( size_t size, bool assert_on_fail ) override;
+	virtual		void			free( BlockHeader* pHeader ) override;
 
-	virtual		int				available();
-	virtual		void* 			reallocate_down( size_t new_size, void *pOld );
-	virtual		void*			reallocate_up( size_t newSize, void *pOld );
-	virtual		void*			reallocate_shrink( size_t newSize, void *pOld );
+	virtual		int				available() override;
+	virtual		void* 			reallocate_down( size_t new_size, void *pOld ) override;
+	virtual		void*			reallocate_up( size_t newSize, void *pOld ) override;
+	virtual		void*			reallocate_shrink( size_t newSize, void *pOld ) override;
 	
 				
 				BlockHeader*	next_addr( BlockHeader* pHeader );

@@ -1,6 +1,6 @@
-#include <core/defines.h>
-#include <gel/RefCounted.h>
-#include <gel/ObjPtr.h>
+#include <Core/Defines.h>
+#include <Gel/RefCounted.h>
+#include <Gel/ObjPtr.h>
 
 namespace Obj
 {

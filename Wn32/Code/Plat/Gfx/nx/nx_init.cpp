@@ -1,6 +1,6 @@
 #include <SDL.h>
 
-#include "sys/config/config.h"
+#include "Sys/Config/config.h"
 #include "nx_init.h"
 #include "sprite.h"
 #include "anim.h"
@@ -135,7 +135,7 @@ void InitialiseEngine( void )
 	{
 		params.Flags			|= D3DPRESENTFLAG_WIDESCREEN;
 
-		// Optionally set up 720×480 back buffer.
+		// Optionally set up 720ï¿½480 back buffer.
 		// Set up 16:9 projection transform.
 	}
 
@@ -267,10 +267,10 @@ void FatalFileError( uint32 error )
 	/*
 	static char*	p_error_message_english[2]	= {	"There's a problem with the disc you're using.",
 													"It may be dirty or damaged." };
-	static char*	p_error_message_french[2]	= {	"Le disque utilisé présente une anomalie.",
-													"Il est peut-être sale ou endommagé." };
+	static char*	p_error_message_french[2]	= {	"Le disque utilisï¿½ prï¿½sente une anomalie.",
+													"Il est peut-ï¿½tre sale ou endommagï¿½." };
 	static char*	p_error_message_german[2]	= {	"Bei der benutzten CD ist ein Problem aufgetreten.",
-													"Möglicherweise ist sie verschmutzt oder beschädigt." };
+													"Mï¿½glicherweise ist sie verschmutzt oder beschï¿½digt." };
 
 	// Turn off the loading bar if it is active.
 	if( EngineGlobals.loadingbar_timer_event != 0 )

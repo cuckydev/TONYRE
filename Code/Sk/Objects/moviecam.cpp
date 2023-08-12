@@ -9,26 +9,26 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/moviecam.h>
+#include <Sk/Objects/moviecam.h>
 
-#include <gel/assman/assman.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/bonedanim.h>
-#include <gfx/nxloadscreen.h>
-#include <gfx/nxviewman.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/NxLoadScreen.h>
+#include <Gfx/NxViewMan.h>
 
-#include <sk/modules/frontend/frontend.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/objects/cutscenedetails.h>
+#include <Sk/Objects/cutscenedetails.h>
 
 // TODO:  Remove dependency on CSkater class...
-#include <sk/objects/skater.h>
-#include <sk/modules/viewer/viewer.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Modules/Viewer/Viewer.h>
 
 /*****************************************************************************
 **								  Externals									**

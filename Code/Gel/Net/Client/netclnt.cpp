@@ -25,12 +25,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
-#include <gel/net/net.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Net/net.h>
+#include <Gel/Net/Client/netclnt.h>
 
 /*****************************************************************************
 **								  Externals									**

@@ -10,21 +10,21 @@
 
 
 #include <string.h>
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/environment/terrain.h>
-#include <gel/soundfx/soundfx.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/Environment/terrain.h>
+#include <Gel/SoundFX/soundfx.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sys/config/config.h>
-#include <sys/replay/replay.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sys/Config/config.h>
+#include <Sys/Replay/replay.h>
 
 
 

@@ -14,42 +14,42 @@
 // @subindex Scripting Database
 // @index script | movingobject
 
-#include <sk/objects/movingobject.h>
+#include <Sk/Objects/MovingObject.h>
 
-#include <gel/mainloop.h>
-#include <gel/objman.h>
-#include <gel/objsearch.h>
-#include <gel/objtrack.h>
+#include <Gel/mainloop.h>
+#include <Gel/objman.h>
+#include <Gel/objsearch.h>
+#include <Gel/objtrack.h>
 
-#include <gel/components/animationcomponent.h>
-#include <gel/components/lockobjcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/motioncomponent.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/suspendcomponent.h>
-#include <gel/components/soundcomponent.h>
-#include <gel/components/specialitemcomponent.h>
-#include <gel/components/streamcomponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/lockobjcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/SuspendComponent.h>
+#include <Gel/Components/soundcomponent.h>
+#include <Gel/Components/specialitemcomponent.h>
+#include <Gel/Components/StreamComponent.h>
 
-#include <sk/components/skaterproximitycomponent.h>
+#include <Sk/Components/SkaterProximityComponent.h>
 
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
 
-#include <gfx/debuggfx.h> // for AddDebugLine( )
-#include <gfx/bbox.h>
-#include <gfx/gfxutils.h>
-#include <gfx/nx.h>
-#include <gfx/nxmodel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/debuggfx.h> // for AddDebugLine( )
+#include <Gfx/bbox.h>
+#include <Gfx/gfxutils.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/skater.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Scripting/nodearray.h>
 
 namespace Obj
 {

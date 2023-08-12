@@ -8,10 +8,10 @@
 #ifndef __COMPONENTS_EDITORCAMERACOMPONENT_H__
 #define __COMPONENTS_EDITORCAMERACOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 // Replace this with the CRCD of the component you are adding
 #define		CRC_EDITORCAMERA Crc::ConstCRC("EditorCamera")

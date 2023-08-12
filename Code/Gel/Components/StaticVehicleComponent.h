@@ -8,12 +8,12 @@
 #ifndef __COMPONENTS_STATICVEHICLECOMPONENT_H__
 #define __COMPONENTS_STATICVEHICLECOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <gel/components/vehiclecomponent.h>
+#include <Gel/Components/vehiclecomponent.h>
 
 #define		CRC_STATICVEHICLE Crc::ConstCRC("StaticVehicle")
 

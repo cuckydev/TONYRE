@@ -4,11 +4,11 @@
 #include <eetypes.h>
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/macros.h>
-#include <core/singleton.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
 
 // ///////////////////////////////////////////////////////
 //

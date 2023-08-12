@@ -1,25 +1,25 @@
-#include <core/defines.h>
-#include <sk/ParkEditor/EdRail.h>
-#include <sk/ParkEditor2/EdMap.h>
-#include <sk/ParkEditor2/ParkEd.h>
-#include <sk/ParkEditor2/clipboard.h>
-#include <core/math.h>
-#include <core/crc.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/symboltype.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/utils.h>
-#include <gel/music/music.h>
-#include <sys/file/filesys.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/components/raileditorcomponent.h>
-#include <sk/components/goaleditorcomponent.h>
-#include <sk/engine/feeler.h>
+#include <Core/Defines.h>
+#include <Sk/ParkEditor/EdRail.h>
+#include <Sk/ParkEditor2/EdMap.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+#include <Sk/ParkEditor2/clipboard.h>
+#include <Core/math.h>
+#include <Core/crc.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/symboltype.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Music/music.h>
+#include <Sys/File/filesys.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Components/RailEditorComponent.h>
+#include <Sk/Components/GoalEditorComponent.h>
+#include <Sk/Engine/feeler.h>
 
 DefinePoolableClass(Ed::CMapListNode);
 
@@ -34,8 +34,8 @@ DefinePoolableClass(Ed::CMapListNode);
 #if 1
 #ifdef	__PLAT_NGPS__
 #define	__USE_EXTERNAL_BUFFER__
-#include <gfx/nx.h>
-#include <gfx/ngps/nx/dma.h>
+#include <Gfx/nx.h>
+#include <Gfx/ngps/nx/dma.h>
 #define	__EXTERNAL_BUFFER__ NxPs2::dma::pRuntimeBuffer
 #define	 ACQUIRE_BUFFER Nx::CEngine::sFinishRendering();
 #endif

@@ -13,15 +13,15 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/support.h>
-#include <core/math.h>
+#include <Core/support.h>
+#include <Core/math.h>
 #ifdef __PLAT_NGC__
 #include "sys/ngc/p_camera.h"
 #endif		// __PLAT_NGC__
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
 
 /*****************************************************************************

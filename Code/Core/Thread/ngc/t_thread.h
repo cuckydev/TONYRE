@@ -14,7 +14,7 @@
 #ifndef __CORE_THREAD_NGC_T_THREAD_H__
 #define __CORE_THREAD_NGC_T_THREAD_H__
 
-#include <core/support.h>
+#include <Core/support.h>
 //#include <eekernel.h>
 
 namespace Thread {

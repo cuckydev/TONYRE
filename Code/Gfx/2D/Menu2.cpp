@@ -1,12 +1,12 @@
-#include <core/defines.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <gel/objtrack.h>
-#include <gel/Event.h>
-#include <gfx/2D/Menu2.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <sys/timer.h>
+#include <Core/Defines.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/objtrack.h>
+#include <Gel/Event.h>
+#include <Gfx/2D/Menu2.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Sys/timer.h>
 
 namespace Front
 {

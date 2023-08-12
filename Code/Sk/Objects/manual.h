@@ -26,19 +26,19 @@
 
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
-#include <gfx/gfxman.h>
+#include <Gfx/gfxman.h>
 
-#include <gel/inpman.h>
-#include <gel/object.h>
-#include <gel/object/compositeobject.h>
+#include <Gel/inpman.h>
+#include <Gel/object.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <core/math/matrix.h>
-#include <core/math/vector.h>
+#include <Core/Math/matrix.h>
+#include <Core/Math/vector.h>
 
 /*****************************************************************************
 **								   Defines									**

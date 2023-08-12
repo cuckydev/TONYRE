@@ -24,18 +24,18 @@
 *****************************************************************************/
 
 
-#include <core/defines.h>
-#include <core/debug.h>
+#include <Core/Defines.h>
+#include <Core/Debug.h>
 
-#include <sys/profiler.h>
-#include <sys/timer.h>
+#include <Sys/Profiler.h>
+#include <Sys/timer.h>
 
-#include <gfx/gfxman.h>
-#include <gfx/nxviewport.h>
-#include <gfx/camera.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/NxViewport.h>
+#include <Gfx/camera.h>
 
-#include <gel/mainloop.h>
-#include <sys/config/config.h>
+#include <Gel/mainloop.h>
+#include <Sys/Config/config.h>
 
 
 /*****************************************************************************

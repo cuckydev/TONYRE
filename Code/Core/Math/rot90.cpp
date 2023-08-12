@@ -22,8 +22,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/math.h>
-#include <core/math/rot90.h>
+#include <Core/math.h>
+#include <Core/Math/rot90.h>
 
 namespace Mth
 {

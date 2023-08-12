@@ -22,14 +22,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 
-#include <gel/prefs/prefs.h>
+#include <Gel/Prefs/Prefs.h>
 
-#include <gel/scripting/utils.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
 
 #include <cstring>
 

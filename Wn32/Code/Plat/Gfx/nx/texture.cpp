@@ -1,9 +1,9 @@
 #include <string.h>
-#include <core/defines.h>
-#include <core/debug.h>
+#include <Core/Defines.h>
+#include <Core/Debug.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/file/filesys.h>
+#include <Sys/File/filesys.h>
 #include "nx_init.h"
 #include "chars.h"
 #include "texture.h"

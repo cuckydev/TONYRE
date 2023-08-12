@@ -21,14 +21,14 @@
 #ifndef __MODULES_SKATE_SCORE_H
 #define __MODULES_SKATE_SCORE_H
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <core/lookuptable.h>
-#include <core/dynamictable.h>
+#include <Core/LookupTable.h>
+#include <Core/DynamicTable.h>
 
-#include <gel/scripting/vecpair.h>
-#include <gel/scripting/array.h>
-#include <gfx/Image/ImageBasic.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gel/Scripting/array.h>
+#include <Gfx/Image/ImageBasic.h>
 
 
 /*****************************************************************************

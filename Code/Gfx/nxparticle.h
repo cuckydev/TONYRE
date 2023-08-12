@@ -7,14 +7,14 @@
 #define	__GFX_NXPARTICLE_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <gfx/image/imagebasic.h>
-#include <gfx/nxtexture.h>
+#include <Gfx/Image/ImageBasic.h>
+#include <Gfx/NxTexture.h>
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
-#include <sk/objects/movingobject.h>
+#include <Sk/Objects/MovingObject.h>
 
 
 

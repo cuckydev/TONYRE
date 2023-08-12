@@ -5,12 +5,12 @@
 #define	__GFX_P_NX_LIGHT_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/math.h>
-#include <gfx/image/imagebasic.h>
-#include <gfx/nxlight.h>
+#include <Core/math.h>
+#include <Gfx/Image/ImageBasic.h>
+#include <Gfx/NxLight.h>
 
 namespace Nx
 {

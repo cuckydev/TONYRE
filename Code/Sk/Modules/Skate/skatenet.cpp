@@ -25,52 +25,52 @@
 
 //#include <string.h>
 
-#include <core/defines.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/singleton.h>
 
-#include <core/task.h>
-#include <core/math.h>
+#include <Core/Task.h>
+#include <Core/math.h>
 
-#include <sys/sys.h>
-#include <sys/mem/memman.h>
-#include <sys/timer.h>
+#include <Sys/sys.h>
+#include <Sys/Mem/memman.h>
+#include <Sys/timer.h>
 
-#include <gfx/gfxman.h>
-#include <gfx/animcontroller.h>
-#include <gfx/facetexture.h>
-#include <gfx/skeleton.h>
-#include <gfx/nxmodel.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/AnimController.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/Skeleton.h>
+#include <Gfx/NxModel.h>
 
-//#include <gel/inpman.h>
-#include <gel/objman.h>
-#include <gel/object.h>
-#include <gel/net/net.h>
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/mainloop.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/environment/terrain.h>
+//#include <Gel/inpman.h>
+#include <Gel/objman.h>
+#include <Gel/object.h>
+#include <Gel/Net/net.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/mainloop.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Environment/terrain.h>
 
-#include <modules/skate/skate.h>
-#include <modules/skate/goalmanager.h>
-#include <modules/skate/gamemode.h>
-#include <modules/frontend/frontend.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
 
-#include <objects/skater.h>
-#include <objects/skaterprofile.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/objects/rail.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/rail.h>
 
-#include <sk/gamenet/gamenet.h>
-#include <sk/components/skaterstatehistorycomponent.h>
-#include <sk/components/skaterlocalnetlogiccomponent.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Components/SkaterStateHistoryComponent.h>
+#include <Sk/Components/SkaterLocalNetLogicComponent.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <scripting/cfuncs.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Sk/Scripting/cfuncs.h>
 
 
 /*****************************************************************************

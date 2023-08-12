@@ -8,11 +8,11 @@
 #ifndef __COMPONENTS_CAMERALOOKAROUNDCOMPONENT_H__
 #define __COMPONENTS_CAMERALOOKAROUNDCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <gel/components/inputcomponent.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Components/InputComponent.h>
 
 #define		CRC_CAMERALOOKAROUND Crc::ConstCRC("CameraLookAround")
 

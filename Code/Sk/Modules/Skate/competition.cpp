@@ -22,20 +22,20 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/math/math.h>						 // for Mth::Rnd2()
-#include <modules/skate/competition.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/array.h>
+#include <Core/Defines.h>
+#include <Core/Math/math.h>						 // for Mth::Rnd2()
+#include <Sk/Modules/Skate/competition.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/array.h>
 
-#include <sk/modules/skate/skate.h> 
-#include <sk/modules/skate/goalmanager.h>
+#include <Sk/Modules/Skate/skate.h> 
+#include <Sk/Modules/Skate/GoalManager.h>
 
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/objects/playerprofilemanager.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/PlayerProfileManager.h>
 
 /*****************************************************************************
 **								DBG Information								**

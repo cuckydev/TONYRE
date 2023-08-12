@@ -1,16 +1,13 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // NXSCENE.H - Neversoft Engine, Rendering portion, Platform independent interface
 
-#ifndef	__GFX_NX_SCENE_H__
-#define	__GFX_NX_SCENE_H__
+#pragma once
 
-#ifndef __CORE_DEFINES_H
-#include <core/defines.h>
-#endif
-#include <core/hashtable.h>
+#include <Core/Defines.h>
+#include <Core/HashTable.h>
 
-#include <sk/engine/supersector.h>
-#include 	<gfx/image/imagebasic.h>
+#include <Sk/Engine/SuperSector.h>
+#include <Gfx/Image/ImageBasic.h>
 
 
 namespace Script
@@ -316,7 +313,3 @@ inline void					CScene::remove_sector_from_table(uint32 sector_checksum)
 }
 
 }
-
-
-#endif
-

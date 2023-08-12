@@ -22,8 +22,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sys/profiler.h>
+#include <Core/Defines.h>
+#include <Sys/Profiler.h>
 
 /*****************************************************************************
 **								DBG Information								**

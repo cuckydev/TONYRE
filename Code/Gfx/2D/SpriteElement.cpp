@@ -1,14 +1,14 @@
-#include <core/defines.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/2D/SpriteElement.h>
-#include <gfx/2D/Window.h>
-#include <gfx/Nx.h>
-#include <gfx/nxtexture.h>
-#include <gfx/NxTexMan.h>
-#include <gfx/NxSprite.h>
+#include <Core/Defines.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/SpriteElement.h>
+#include <Gfx/2D/Window.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxTexture.h>
+#include <Gfx/NxTexMan.h>
+#include <Gfx/NxSprite.h>
 
 namespace Front
 {

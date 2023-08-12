@@ -12,10 +12,10 @@
 **								Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gfx/pose.h>
+#include <Gfx/Pose.h>
 
 /*****************************************************************************
 **								Defines									**

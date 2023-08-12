@@ -16,12 +16,12 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <core/list.h>
+#include <Core/List.h>
 
-#include <gfx/bonedanimtypes.h>
+#include <Gfx/BonedAnimTypes.h>
 
 /*****************************************************************************
 **								   Defines									**

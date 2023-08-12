@@ -5,28 +5,28 @@
 //* CREATION DATE:  11/02/2000
 //****************************************************************************
 
-#include <sk/objects/gameobj.h>
+#include <Sk/Objects/GameObj.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gel/objman.h>
-#include <gel/components/modelcomponent.h>
+#include <Gel/objman.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <gel/components/lockobjcomponent.h>  // needs some stupid special setup
+#include <Gel/Components/lockobjcomponent.h>  // needs some stupid special setup
 
 
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/nx.h>
-#include <gfx/nxparticle.h>
+#include <Gfx/nx.h>
+#include <Gfx/nxparticle.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Scripting/nodearray.h>
 
 /*****************************************************************************
 **								  Externals									**

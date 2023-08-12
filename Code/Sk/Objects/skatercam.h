@@ -13,14 +13,14 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
+    #include <Core/Defines.h>
 #endif
 
-#include <core/math/math.h>
-#include <core/math/matrix.h>
-#include <core/math/vector.h>
+#include <Core/Math/math.h>
+#include <Core/Math/matrix.h>
+#include <Core/Math/vector.h>
 
-#include <gfx/camera.h>
+#include <Gfx/camera.h>
 
 /*****************************************************************************
 **							Forward Declarations							**

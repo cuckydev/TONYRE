@@ -24,7 +24,7 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 /*****************************************************************************
@@ -99,7 +99,7 @@ class  AllocRegion : public  Region
 
 public :
 				AllocRegion( size_t size );
-	virtual		~AllocRegion( void );
+	virtual		~AllocRegion( void ) override;
 
 private :
 

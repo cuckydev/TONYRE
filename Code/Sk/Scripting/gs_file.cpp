@@ -11,21 +11,21 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <sk/scripting/gs_file.h>
-#include <gel/scripting/file.h>
-#include <gel/scripting/parse.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
-#include <sk/scripting/nodearray.h>
-#include <core/crc.h> // For Crc::GenerateCRCFromString
-#include <sk/components/goaleditorcomponent.h>
-#include <sys/file/pip.h>
-#include <sk/objects/pathman.h>
-#include <core/math.h>
+#include <Sk/Scripting/gs_file.h>
+#include <Gel/Scripting/file.h>
+#include <Gel/Scripting/parse.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Core/crc.h> // For Crc::GenerateCRCFromString
+#include <Sk/Components/GoalEditorComponent.h>
+#include <Sys/File/pip.h>
+#include <Sk/Objects/PathMan.h>
+#include <Core/math.h>
 #ifdef __PLAT_NGC__
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 #endif		// __PLAT_NGC__
 
 #include "string.h"

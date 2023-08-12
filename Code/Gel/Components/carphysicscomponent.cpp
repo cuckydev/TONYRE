@@ -5,20 +5,20 @@
 //* CREATION DATE:  11/4/2002
 //****************************************************************************
 
-#include <gel/components/carphysicscomponent.h>
+#include <Gel/Components/carphysicscomponent.h>
 
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/modelcomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/modelcomponent.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 	 
-#include <gfx/nxhierarchy.h>
-#include <gfx/nxmodel.h>
-#include <gfx/skeleton.h>
+#include <Gfx/NxHierarchy.h>
+#include <Gfx/NxModel.h>
+#include <Gfx/Skeleton.h>
 
 namespace Obj
 {

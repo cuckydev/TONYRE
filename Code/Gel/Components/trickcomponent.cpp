@@ -5,35 +5,35 @@
 //* CREATION DATE:  3 Jan 2003
 //****************************************************************************
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 
-#include <gel/components/trickcomponent.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/statsmanagercomponent.h>
+#include <Gel/Components/trickcomponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/StatsManagerComponent.h>
 
-#include <gel/objtrack.h>
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/component.h>
+#include <Gel/objtrack.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/component.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/score.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/objects/skater.h> // Needed for GetPhysicsInt(...)
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/rail.h>
-#include <sk/components/skaterbalancetrickcomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skatergapcomponent.h>
-#include <sk/components/skaterflipandrotatecomponent.h>
-#include <sk/components/skaterstatecomponent.h>
-#include <sk/components/skaterruntimercomponent.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/score.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Objects/skater.h> // Needed for GetPhysicsInt(...)
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/rail.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterGapComponent.h>
+#include <Sk/Components/SkaterFlipAndRotateComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
+#include <Sk/Components/SkaterRunTimerComponent.h>
 
 namespace Obj
 {

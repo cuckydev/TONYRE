@@ -5,18 +5,18 @@
 //* CREATION DATE:  3/28/3
 //****************************************************************************
 
-#include <sk/components/skaterendruncomponent.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/gamenet/gamenet.h>
-#include <sk/objects/skater.h>
+#include <Sk/Components/SkaterEndRunComponent.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/GameNet/GameNet.h>
+#include <Sk/Objects/skater.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/objtrack.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/objtrack.h>
 
 #define	FLAGEXCEPTION(X) GetObj()->SelfEvent(X)
 

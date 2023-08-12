@@ -27,14 +27,14 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <sys/file/filesys.h>
-#include <sys/file/AsyncFilesys.h>
-#include <sys/file/PRE.h>
-#include <sys/config/config.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Sys/File/filesys.h>
+#include <Sys/File/AsyncFilesys.h>
+#include <Sys/File/PRE.h>
+#include <Sys/Config/config.h>
 
-// #include <gfx/xbox/nx/nx_init.h>
+// #include <Gfx/xbox/nx/nx_init.h>
 
 /*****************************************************************************
 **							  DBG Information								**

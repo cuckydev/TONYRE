@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Input  (Inp)											**
 **																			**
-**	File name:		gel/inpman.h											**
+**	File name:		Gel/inpman.h											**
 **																			**
 **	Created: 		05/26/2000	-	spg										**
 **																			**
@@ -24,14 +24,14 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/singleton.h>
-#include <core/list.h>
-#include <core/task.h>
+#include <Core/singleton.h>
+#include <Core/List.h>
+#include <Core/Task.h>
 
-#include <sys/sioman.h>
-#include <sys/siodev.h>
+#include <Sys/sioman.h>
+#include <Sys/siodev.h>
  
 /*****************************************************************************
 **								   Defines									**

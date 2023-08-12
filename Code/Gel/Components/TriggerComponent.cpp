@@ -5,19 +5,19 @@
 //* CREATION DATE:  3/3/3
 //****************************************************************************
 
-#include <gel/components/triggercomponent.h>
+#include <Gel/Components/TriggerComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/components/nodearraycomponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Components/NodeArrayComponent.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Modules/Skate/skate.h>
 
 namespace Obj
 {

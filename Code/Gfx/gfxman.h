@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Graphics  (GFX)											**
 **																			**
-**	File name:		gfx/gfxman.h											**
+**	File name:		Gfx/gfxman.h											**
 **																			**
 **	Created: 		07/26/99	-	mjb										**
 **																			**
@@ -25,14 +25,14 @@
 
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/support.h>
-#include <core/singleton.h>
-#include <core/task.h>
-#include <core/macros.h>
+#include <Core/support.h>
+#include <Core/singleton.h>
+#include <Core/Task.h>
+#include <Core/macros.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 
 			  

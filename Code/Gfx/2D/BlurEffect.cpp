@@ -1,8 +1,8 @@
-#include <core/defines.h>
-#include <gfx/2D/BlurEffect.h>
+#include <Core/Defines.h>
+#include <Gfx/2D/BlurEffect.h>
 
-#include <gel/scripting/struct.h>
-#include <gel/scripting/vecpair.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/vecpair.h>
 
 namespace Front
 {

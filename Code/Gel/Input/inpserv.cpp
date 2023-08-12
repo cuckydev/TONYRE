@@ -23,31 +23,31 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
 
 
 
 #ifdef __NOPT_DEBUG__
-#include <sys/timer.h>
+#include <Sys/timer.h>
 #endif
 
-#include <sys/demo.h>
-#include <sys/sioman.h>
-#include <sys/siodev.h>
+#include <Sys/demo.h>
+#include <Sys/sioman.h>
+#include <Sys/siodev.h>
  
-#include <gel/inpman.h>
+#include <Gel/inpman.h>
 
 #include <string.h>
 
 #ifdef	__PLAT_NGPS__
-#include <gfx/ngps/p_memview.h>	  		// Mick:  needed for low level input patch bypassing task system
+#include <Gfx/ngps/p_memview.h>	  		// Mick:  needed for low level input patch bypassing task system
 #include <libscedemo.h>					// Mick: needed for low level inactivity timeout on PS2 demo disk
 #elif defined( __PLAT_NGC__ )
-#include <gfx/ngc/p_memview.h>
+#include <Gfx/ngc/p_memview.h>
 #endif
 
-#include <sys/config/config.h>
+#include <Sys/Config/config.h>
 
 #ifdef	__PLAT_NGPS__
 extern	sceDemoEndReason demo_exit_reason;

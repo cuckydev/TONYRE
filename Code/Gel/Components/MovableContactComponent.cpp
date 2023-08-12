@@ -5,14 +5,14 @@
 //* CREATION DATE:  5/19/3
 //****************************************************************************
 
-#include <gel/components/movablecontactcomponent.h>
+#include <Gel/Components/MovableContactComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/engine/feeler.h>
+#include <Sk/Engine/feeler.h>
 
 namespace Obj
 {

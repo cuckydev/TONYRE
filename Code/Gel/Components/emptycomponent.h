@@ -8,10 +8,10 @@
 #ifndef __COMPONENTS_EMPTYCOMPONENT_H__
 #define __COMPONENTS_EMPTYCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
 // Replace this with the CRCD of the component you are adding
 #define		CRC_EMPTY Crc::ConstCRC("Empty")

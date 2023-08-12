@@ -23,12 +23,12 @@
 // 11Dec02 JCB - Andre wanted me to use tolower() instead of strncmpi()
 #include <ctype.h>
 
-#include <sys/file/pip.h>
-#include <sys/file/pre.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <sys/file/filesys.h>
-#include <core/compress.h>
+#include <Sys/File/pip.h>
+#include <Sys/File/PRE.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Sys/File/filesys.h>
+#include <Core/compress.h>
 
 #include <cstring>
 

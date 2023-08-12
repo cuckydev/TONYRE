@@ -23,13 +23,13 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/macros.h>
-#include <core/singleton.h>
+#include <Core/Defines.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
 
 #include <Plat/Gel/Movies/p_movies.h>
 
-#include <sys/profiler.h>
+#include <Sys/Profiler.h>
 
 
 /*****************************************************************************

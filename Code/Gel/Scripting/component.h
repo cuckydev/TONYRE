@@ -2,15 +2,15 @@
 #define	__SCRIPTING_COMPONENT_H
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
+#include <Sys/Mem/Poolable.h>
 #endif
 
 #ifndef	__SCRIPTING_SYMBOLTYPE_H
-#include <gel/scripting/symboltype.h> // For ESymbolType
+#include <Gel/Scripting/symboltype.h> // For ESymbolType
 #endif
 
 namespace Script

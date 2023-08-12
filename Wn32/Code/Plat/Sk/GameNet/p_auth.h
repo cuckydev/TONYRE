@@ -25,9 +25,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/dynamictable.h>
-#include <sys/sioman.h>
+#include <Core/Defines.h>
+#include <Core/DynamicTable.h>
+#include <Sys/sioman.h>
 #include <Windows.h>
 
 /*****************************************************************************

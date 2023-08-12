@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Objects (OBJ) 											**
 **																			**
-**	File name:		gel/objsearch.h											**
+**	File name:		Gel/objsearch.h											**
 **																			**
 **	Created:		05/27/99	-	mjb										**
 **																			**
@@ -24,9 +24,9 @@
 *****************************************************************************/
 
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
-#include <core/list.h>
+#include <Core/List.h>
 
 /*****************************************************************************
 **								   Defines									**

@@ -26,11 +26,11 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/math/vector.h>
-#include <core/math/matrix.h>
+#include <Core/Math/vector.h>
+#include <Core/Math/matrix.h>
 	
 /*****************************************************************************
 **								   Defines									**

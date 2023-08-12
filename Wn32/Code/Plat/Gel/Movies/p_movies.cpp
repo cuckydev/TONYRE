@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/macros.h>
-#include <core/singleton.h>
-#include <gel/movies/movies.h>
+#include <Core/Defines.h>
+#include <Core/macros.h>
+#include <Core/singleton.h>
+#include <Gel/Movies/Movies.h>
 
 
 /*****************************************************************************

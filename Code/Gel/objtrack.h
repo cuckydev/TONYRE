@@ -1,7 +1,7 @@
 #ifndef __GEL_OBJTRACK_H
 #define __GEL_OBJTRACK_H
 
-#include <gel/event.h>
+#include <Gel/Event.h>
 
 namespace Script
 {

@@ -8,13 +8,13 @@
 #ifndef __COMPONENTS_MODELCOMPONENT_H__
 #define __COMPONENTS_MODELCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 
-#include <gel/object/basecomponent.h>
-#include <gfx/image/imagebasic.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gfx/Image/ImageBasic.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_MODEL Crc::ConstCRC("Model")

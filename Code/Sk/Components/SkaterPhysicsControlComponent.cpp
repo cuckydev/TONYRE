@@ -5,29 +5,29 @@
 //* CREATION DATE:  3/7/3
 //****************************************************************************
 
-#include <sk/components/skaterphysicscontrolcomponent.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/components/triggercomponent.h>
-#include <gel/components/walkcomponent.h>
-#include <gel/components/skatercameracomponent.h>
-#include <gel/components/walkcameracomponent.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Components/TriggerComponent.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Components/SkaterCameraComponent.h>
+#include <Gel/Components/WalkCameraComponent.h>
 
 #ifdef TESTING_GUNSLINGER
-#include <gel/components/ridercomponent.h>
+#include <Gel/Components/ridercomponent.h>
 #endif
 
-#include <sk/modules/skate/skate.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterrotatecomponent.h>
-#include <sk/components/skateradjustphysicscomponent.h>
-#include <sk/components/skaterfinalizephysicscomponent.h>
-#include <sk/components/skaterstatecomponent.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterRotateComponent.h>
+#include <Sk/Components/SkaterAdjustPhysicsComponent.h>
+#include <Sk/Components/SkaterFinalizePhysicsComponent.h>
+#include <Sk/Components/SkaterStateComponent.h>
 
 namespace Obj
 {

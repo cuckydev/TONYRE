@@ -24,11 +24,11 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
 #ifndef	__SCRIPTING_INIT_H
-#include <gel/scripting/init.h>
+#include <Gel/Scripting/init.h>
 #endif
 
 /*****************************************************************************

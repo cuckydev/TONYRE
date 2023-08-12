@@ -2,7 +2,7 @@
 #define	__SCRIPTING_FILE_H
 
 #ifndef	__SCRIPTING_SCRIPTDEFS_H
-#include <gel/scripting/scriptdefs.h> // For enums
+#include <Gel/Scripting/scriptdefs.h> // For enums
 #endif
 
 namespace Script

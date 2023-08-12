@@ -44,25 +44,25 @@ extern "C"
 extern void* ENTRYPOINT;		
 }
 
-#include <gfx/gfxman.h>
-#include <gfx/nxviewport.h>
-#include <gel/inpman.h>					// needed for buttons
+#include <Gfx/gfxman.h>
+#include <Gfx/NxViewport.h>
+#include <Gel/inpman.h>					// needed for buttons
 #include <Plat/Gfx/p_memview.h>
-#include <sys/file/filesys.h> 			// needed for loading map file
-#include <gel/scripting/script.h>
+#include <Sys/File/filesys.h> 			// needed for loading map file
+#include <Gel/Scripting/script.h>
 
 #include <stdio.h>
 #include <string.h>
 
-#include <sys\mem\memman.h>
-#include <sys\mem\heap.h>
-#include <sys\mem\region.h>
-#include <sys/config/config.h>
+#include <Sys/Mem/memman.h>
+#include <Sys/Mem/heap.h>
+#include <Sys/Mem/region.h>
+#include <Sys/Config/config.h>
 
 // needed for some VerticalMenu specific debugging							
-#include <core/support.h>
-#include <core/list.h>
-#include <core/String/CString.h>
+#include <Core/support.h>
+#include <Core/List.h>
+#include <Core/String/CString.h>
 
 
 extern volatile int	test_vblanks;

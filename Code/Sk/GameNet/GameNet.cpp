@@ -28,57 +28,57 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <sys/mcman.h>
-#include <sys/SIO/keyboard.h>
+#include <Sys/McMan.h>
+#include <Sys/SIO/keyboard.h>
 
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/mainloop.h>
-#include <gel/mainloop.h>
-#include <gel/objtrack.h>
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/soundfx/soundfx.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/mainloop.h>
+#include <Gel/mainloop.h>
+#include <Gel/objtrack.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/SoundFX/soundfx.h>
 
-#include <gfx/nxviewman.h>
-#include <gfx/skeleton.h>
-#include <gfx/2d/screenelemman.h>
-#include <gfx/FaceTexture.h>
-#include <gfx/FaceMassage.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/Skeleton.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/FaceTexture.h>
+#include <Gfx/FaceMassage.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/frontend/frontend.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/ParkEditor2/EdMap.h>
-#include <sk/ParkEditor2/parked.h>
-//#include <sk/modules/frontend/mainmenu.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/ParkEditor2/EdMap.h>
+#include <Sk/ParkEditor2/ParkEd.h>
+//#include <Sk/Modules/frontend/mainmenu.h>
 
-#include <sk/components/skaterscorecomponent.h>
-#include <sk/components/GoalEditorComponent.h>
-#include <sk/components/skaterstatehistoryComponent.h>
-#include <sk/components/skaterphysicscontrolComponent.h>
+#include <Sk/Components/SkaterScoreComponent.h>
+#include <Sk/Components/GoalEditorComponent.h>
+#include <Sk/Components/SkaterStateHistoryComponent.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
 
-#include <sk/objects/crown.h>
-#include <sk/objects/restart.h>
-#include <sk/objects/proxim.h>
-#include <sk/objects/skatercam.h>
-#include <sk/objects/skaterprofile.h>
+#include <Sk/Objects/crown.h>
+#include <Sk/Objects/restart.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Objects/skatercam.h>
+#include <Sk/Objects/SkaterProfile.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/array.h>
-#include <gel/components/skatercameracomponent.h>
-#include <gel/components/walkcameracomponent.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Components/SkaterCameraComponent.h>
+#include <Gel/Components/WalkCameraComponent.h>
 
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/components/RailEditorComponent.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Components/RailEditorComponent.h>
 
 #ifdef __PLAT_NGPS__
 #include <gamenet/lobby.h>
@@ -97,7 +97,7 @@
 #include <Plat/Sk/GameNet/p_buddy.h>
 #include <Plat/Sk/GameNet/p_voice.h>
 
-#include <sk/objects/skater.h>		   // we do various things with the skater, network play related
+#include <Sk/Objects/skater.h>		   // we do various things with the skater, network play related
 
 
 /*****************************************************************************

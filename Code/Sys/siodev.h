@@ -23,9 +23,9 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/list.h>
-#include <core/task.h>
-#include <core/support/ref.h>
+#include <Core/List.h>
+#include <Core/Task.h>
+#include <Core/Support/Ref.h>
 
 #ifdef __PLAT_NGPS__
 #include <libpad.h>

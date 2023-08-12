@@ -22,14 +22,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 #include <stdlib.h>
 #include <string.h>
 
-#include <gel/net/net.h>
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
+#include <Gel/Net/net.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
 
 /*****************************************************************************
 **								  Externals									**

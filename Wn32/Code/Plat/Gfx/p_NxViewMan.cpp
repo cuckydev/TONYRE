@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
 // p_NxViewMan.cpp - Xbox platform specific interface to CViewportManager
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include "gfx/NxViewMan.h"
+#include "Gfx/NxViewMan.h"
 #include "Plat/Gfx/p_NxViewport.h"
 
 namespace	Nx

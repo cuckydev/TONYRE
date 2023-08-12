@@ -1,8 +1,8 @@
 #ifndef __GFX_2D_BLUREFFECT_H__
 #define __GFX_2D_BLUREFFECT_H__
 
-#include <gfx/2D/ScreenElement2.h>
-#include <sys/timer.h>
+#include <Gfx/2D/ScreenElement2.h>
+#include <Sys/timer.h>
 
 namespace Script
 {

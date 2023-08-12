@@ -10,7 +10,7 @@
 **																			**
 **	Module:			NET  (Net)												**
 **																			**
-**	File name:		gel/net.h												**
+**	File name:		Gel/net.h												**
 **																			**
 **	Created: 		01/29/01	-	spg										**
 **																			**
@@ -22,14 +22,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/list.h>
-#include <core/task.h>
-#include <core/singleton.h>
-#include <core/thread.h>
-#include <core/support/ref.h>
+#include <Core/Defines.h>
+#include <Core/List.h>
+#include <Core/Task.h>
+#include <Core/singleton.h>
+#include <Core/thread.h>
+#include <Core/Support/Ref.h>
 
-#include <sys/timer.h>
+#include <Sys/timer.h>
 
 #if __PLAT_NGPS__
 #include <sifrpc.h>        /* For sceSifInitRpc()                    */
@@ -52,7 +52,7 @@
 
 #ifdef __PLAT_NGC__
 //// GameCube only.
-//#include <sys/ngc/p_hw.h>
+//#include <Sys/ngc/p_hw.h>
 //#include "sys/ngc/p_dl.h"
 //#include "sys/ngc/p_scene.h"
 //#include "sys/ngc/p_slerp.h"

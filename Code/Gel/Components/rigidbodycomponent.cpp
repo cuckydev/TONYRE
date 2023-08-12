@@ -7,27 +7,27 @@
 
 // An object component which dictates the motion of an object using an approximation of rigidbody physics.
 
-#include <gel/components/rigidbodycomponent.h>
-#include <gel/components/soundcomponent.h>
+#include <Gel/Components/rigidbodycomponent.h>
+#include <Gel/Components/soundcomponent.h>
 
-#include <core/math/matrix.h>
+#include <Core/Math/matrix.h>
 
-#include <gfx/nx.h>
+#include <Gfx/nx.h>
 
-#include <sk/engine/feeler.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/skater.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/collision/collcache.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/utils.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Collision/CollCache.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/utils.h>
 
 namespace Obj
 {

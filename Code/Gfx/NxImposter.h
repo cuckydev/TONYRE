@@ -5,11 +5,11 @@
 #define	__GFX_NX_IMPOSTER_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/hashtable.h>
-#include <core/math/geometry.h>
-#include <gfx/NxGeom.h>
+#include <Core/HashTable.h>
+#include <Core/Math/geometry.h>
+#include <Gfx/NxGeom.h>
 
 namespace Nx
 {

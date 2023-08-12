@@ -12,9 +12,9 @@
 //
 ///** include files **/
 //
-//#include <core/defines.h>
-//#include <core/target.h>
-//#include <core/task.h>
+//#include <Core/Defines.h>
+//#include <Core/target.h>
+//#include <Core/Task.h>
 ////#include <eekernel.h>
 //
 //#include "t_thread.h"

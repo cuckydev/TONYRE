@@ -16,8 +16,9 @@
 **																			**
 *****************************************************************************/
 
-#ifndef __CORE_DEBUG_MEM_STAT_H
-#define __CORE_DEBUG_MEM_STAT_H
+#pragma once
+
+#include <Core/Defines.h>
 
 #ifdef __NOPT_DEBUG__
 
@@ -86,6 +87,10 @@ inline Dbg_MEMORY_STATS::Dbg_MEMORY_STATS ( uint total,  uint spike,
 	:	total ( total ), spike ( spike ), 
 		system ( system ), fixed ( fixed )
 {
+	(void)this->total;
+	(void)this->spike;
+	(void)this->system;
+	(void)this->fixed;
 }
 
 #endif	// __NOPT_DEBUG__
@@ -94,9 +99,3 @@ inline Dbg_MEMORY_STATS::Dbg_MEMORY_STATS ( uint total,  uint spike,
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-
-#endif	// __CORE_DEBUG_SIGNATRS_H
-
-
-
-

@@ -6,8 +6,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <sys/file/AsyncFilesys.h>
-#include <gel/mainloop.h>
+#include <Sys/File/AsyncFilesys.h>
+#include <Gel/mainloop.h>
 
 namespace File
 {

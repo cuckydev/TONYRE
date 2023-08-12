@@ -11,7 +11,7 @@
 **																			**
 **	Module:			Nx Viewport Manager										**
 **																			**
-**	File name:		gfx/nxviewman.cpp										**
+**	File name:		Gfx/nxviewman.cpp										**
 **																			**
 **	Created by:		04/30/02	-	grj										**
 **																			**
@@ -30,12 +30,12 @@
 *****************************************************************************/
 
 #include <string.h>
-#include <core/defines.h>
-#include <gfx/NxViewMan.h>
-#include <gel/Scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
+#include <Core/Defines.h>
+#include <Gfx/NxViewMan.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
 
 namespace Nx
 {

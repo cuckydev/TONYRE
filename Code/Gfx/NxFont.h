@@ -7,10 +7,10 @@
 #define	__GFX_NXFONT_H__
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <gfx/NxViewport.h>
-#include <gfx/image/imagebasic.h>
+#include <Gfx/NxViewport.h>
+#include <Gfx/Image/ImageBasic.h>
 
 #define		__STATIC_FONT_STRINGS__ 0			// set to 1 to have the old statically allocated strings
 

@@ -5,12 +5,12 @@
 //* CREATION DATE:  ??/??/????
 //****************************************************************************
 
-#include <gel/assman/skeletonasset.h>
+#include <Gel/AssMan/skeletonasset.h>
 
-#include <gel/assman/assettypes.h>
+#include <Gel/AssMan/assettypes.h>
 
-#include <gfx/nx.h>
-#include <gfx/skeleton.h>
+#include <Gfx/nx.h>
+#include <Gfx/Skeleton.h>
 
 namespace Ass
 {

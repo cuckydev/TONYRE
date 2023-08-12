@@ -8,14 +8,14 @@
 #ifndef __COMPONENTS_ANIMATIONCOMPONENT_H__
 #define __COMPONENTS_ANIMATIONCOMPONENT_H__
 								   
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <core/list.h>
+#include <Core/List.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <gfx/blendchannel.h>
+#include <Gfx/blendchannel.h>
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_ANIMATION Crc::ConstCRC("Animation")

@@ -20,12 +20,12 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
 		
-#include <gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 
-#include <sk/engine/rectfeeler.h>
+#include <Sk/Engine/RectFeeler.h>
 
 /*****************************************************************************
 **								 Private Data								**

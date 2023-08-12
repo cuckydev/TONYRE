@@ -4,40 +4,40 @@
 // @subindex Scripting Database
 // @index script | goal
 							   
-#include <sk/modules/skate/goalmanager.h>
+#include <Sk/Modules/Skate/GoalManager.h>
 
-#include <sk/modules/skate/gamemode.h>
+#include <Sk/Modules/Skate/GameMode.h>
 
-#include <core/string/stringutils.h>
+#include <Core/String/stringutils.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/component.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/component.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gel/net/client/netclnt.h>
-#include <gel/object/compositeobjectmanager.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/Object/compositeobjectmanager.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 								
-#include <sk/objects/skater.h>
-#include <sk/objects/trickobject.h>
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/objects/playerprofilemanager.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterendruncomponent.h>
-#include <sk/components/skaterscorecomponent.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/TrickObject.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/PlayerProfileManager.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterEndRunComponent.h>
+#include <Sk/Components/SkaterScoreComponent.h>
 					   
-#include <sk/modules/skate/score.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Modules/Skate/score.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/skfuncs.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/skfuncs.h>
 
 
 namespace Front

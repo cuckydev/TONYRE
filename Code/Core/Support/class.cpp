@@ -25,9 +25,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <sys/mem/memman.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Sys/Mem/memman.h>
 
 /*****************************************************************************
 **							  DBG Information								**

@@ -8,12 +8,12 @@
 #ifndef __COMPONENTS_MOVABLECONTACTCOMPONENT_H__
 #define __COMPONENTS_MOVABLECONTACTCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/engine/contact.h>
+#include <Sk/Engine/contact.h>
 
 #define		CRC_MOVABLECONTACT Crc::ConstCRC("MovableContact")
 

@@ -9,10 +9,10 @@
 // position, due to changes on the object it is on
 
 
-#include <engine/contact.h>
-#include <sk/objects/movingobject.h>
-#include <gfx/debuggfx.h>
-#include <gfx/nx.h>
+#include <Sk/Engine/contact.h>
+#include <Sk/Objects/MovingObject.h>
+#include <Gfx/debuggfx.h>
+#include <Gfx/nx.h>
 
 						
 					

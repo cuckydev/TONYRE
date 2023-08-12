@@ -5,27 +5,27 @@
 //* CREATION DATE:  12/02/02
 //****************************************************************************
 
-#include <gel/components/avoidcomponent.h>
+#include <Gel/Components/avoidcomponent.h>
 
-#include <core/math.h>
+#include <Core/math.h>
 									
-#include <gel/object/compositeobject.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gel/components/animationcomponent.h>
-#include <gel/components/motioncomponent.h>
-#include <gel/components/skeletoncomponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/Components/skeletoncomponent.h>
 
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/skeleton.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/pathob.h>
-#include <sk/objects/skater.h>
-#include <sk/engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/PathOb.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Engine/feeler.h>
 
 namespace Obj
 {

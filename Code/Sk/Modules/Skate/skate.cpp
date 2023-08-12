@@ -32,92 +32,92 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <core/defines.h>
-#include <core/math.h>
-#include <core/singleton.h>
-#include <core/task.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Core/singleton.h>
+#include <Core/Task.h>
 
-#include <core/string/stringutils.h>
+#include <Core/String/stringutils.h>
 
-#include <gfx/gfxman.h>
-#include <gfx/nx.h>
-#include <gfx/nxmiscfx.h>
-#include <gfx/nxparticlemgr.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxMiscFX.h>
+#include <Gfx/nxparticlemgr.h>
 
-#include <gfx/2D/ScreenElement2.h>
-#include <gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/ScreenElemMan.h>
 
-#include <gel/objman.h>
-#include <gel/module.h>
-#include <gel/mainloop.h>
-#include <gel/components/suspendcomponent.h>
-#include <gel/components/vibrationcomponent.h>
-#include <gel/components/inputcomponent.h>
-#include <gel/components/trickcomponent.h>
-#include <gel/components/shadowcomponent.h>
-#include <gel/components/railmanagercomponent.h>
-#include <gel/music/music.h>
-#include <gel/net/server/netserv.h>
-#include <gel/net/client/netclnt.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/prefs/prefs.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/string.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/soundfx/soundfx.h>
+#include <Gel/objman.h>
+#include <Gel/module.h>
+#include <Gel/mainloop.h>
+#include <Gel/Components/SuspendComponent.h>
+#include <Gel/Components/VibrationComponent.h>
+#include <Gel/Components/InputComponent.h>
+#include <Gel/Components/trickcomponent.h>
+#include <Gel/Components/shadowcomponent.h>
+#include <Gel/Components/RailManagerComponent.h>
+#include <Gel/Music/music.h>
+#include <Gel/Net/Server/netserv.h>
+#include <Gel/Net/Client/netclnt.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Prefs/Prefs.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/string.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/SoundFX/soundfx.h>
 
-#include <sk/engine/sounds.h>
+#include <Sk/Engine/sounds.h>
 
-#include <sk/gamenet/gamenet.h>
+#include <Sk/GameNet/GameNet.h>
 
-#include <sk/scripting/cfuncs.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Scripting/cfuncs.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <sk/modules/FrontEnd/FrontEnd.h>
-#include <sk/modules/skate/gameflow.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/competition.h>
-#include <sk/modules/skate/horse.h>
-#include <sk/modules/Viewer/Viewer.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/Skate/GameFlow.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/competition.h>
+#include <Sk/Modules/Skate/horse.h>
+#include <Sk/Modules/Viewer/Viewer.h>
 
-#include <sk/objects/crown.h>
-#include <sk/objects/moviecam.h>
-#include <sk/objects/playerprofilemanager.h>
-#include <sk/objects/emitter.h>
-#include <sk/objects/proxim.h>
-#include <sk/objects/rail.h>
-#include <sk/objects/records.h>
-#include <sk/objects/restart.h>
-#include <sk/objects/skater.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/objects/skaterprofile.h>
-#include <sk/objects/skatertricks.h>
-#include <sk/objects/trickObject.h>
+#include <Sk/Objects/crown.h>
+#include <Sk/Objects/moviecam.h>
+#include <Sk/Objects/PlayerProfileManager.h>
+#include <Sk/Objects/emitter.h>
+#include <Sk/Objects/proxim.h>
+#include <Sk/Objects/rail.h>
+#include <Sk/Objects/records.h>
+#include <Sk/Objects/restart.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/SkaterProfile.h>
+#include <Sk/Objects/SkaterTricks.h>
+#include <Sk/Objects/TrickObject.h>
 
 #ifdef TESTING_GUNSLINGER
-#include <sk/objects/navigation.h>
+#include <Sk/Objects/navigation.h>
 #endif
 
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterstatehistorycomponent.h>
-#include <sk/components/skaterendruncomponent.h>
-#include <sk/components/skaterbalancetrickcomponent.h>
-#include <sk/components/RailEditorComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterStateHistoryComponent.h>
+#include <Sk/Components/SkaterEndRunComponent.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
+#include <Sk/Components/RailEditorComponent.h>
 
-#include <sk/parkEditor2/edmap.h>
+#include <Sk/ParkEditor2/EdMap.h>
 
-#include <sys/sys.h>
-#include <sys/mem/memman.h>
-#include <sys/timer.h>
-#include <sys/file/filesys.h>
-#include <sys/file/pre.h>
-#include <sys/config/config.h>
-#include <sys/replay/replay.h>
+#include <Sys/sys.h>
+#include <Sys/Mem/memman.h>
+#include <Sys/timer.h>
+#include <Sys/File/filesys.h>
+#include <Sys/File/PRE.h>
+#include <Sys/Config/config.h>
+#include <Sys/Replay/replay.h>
 
 #include <Plat/Gfx/p_memview.h>
 

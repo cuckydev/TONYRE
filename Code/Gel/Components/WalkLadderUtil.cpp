@@ -5,19 +5,19 @@
 //* CREATION DATE:  4/29/3
 //****************************************************************************
 
-#include <gel/components/walkcomponent.h>
-#include <gel/components/triggercomponent.h>
-#include <gel/components/movablecontactcomponent.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Components/TriggerComponent.h>
+#include <Gel/Components/MovableContactComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
 
-#include <sk/objects/rail.h>
-#include <sk/engine/feeler.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/components/skatercorephysicscomponent.h>
+#include <Sk/Objects/rail.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
 
 // NOTE: The ladder walking code currently ignores movable rail managers!
                  

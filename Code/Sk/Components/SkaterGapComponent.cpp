@@ -5,29 +5,29 @@
 //* CREATION DATE:  3/5/3
 //****************************************************************************
 
-#include <sk/components/skatergapcomponent.h>
-#include <sk/components/skatercorephysicscomponent.h>
-#include <sk/components/skaterbalancetrickcomponent.h>
-#include <sk/components/skaterphysicscontrolcomponent.h>
+#include <Sk/Components/SkaterGapComponent.h>
+#include <Sk/Components/SkaterCorePhysicsComponent.h>
+#include <Sk/Components/SkaterBalanceTrickComponent.h>
+#include <Sk/Components/SkaterPhysicsControlComponent.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/object/compositeobjectmanager.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/components/trickcomponent.h>
-#include <gel/components/walkcomponent.h>
-#include <gel/components/vehiclecomponent.h>
-#include <gel/objtrack.h>							// for event broadcasting on sucess of a gap
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Object/compositeobjectmanager.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Components/trickcomponent.h>
+#include <Gel/Components/WalkComponent.h>
+#include <Gel/Components/vehiclecomponent.h>
+#include <Gel/objtrack.h>							// for event broadcasting on sucess of a gap
 
-#include <sk/objects/gap.h>
-#include <sk/objects/skatercareer.h>
-#include <sk/scripting/nodearray.h>
-#include <sk/modules/skate/score.h>
-#include <sk/modules/skate/skate.h>
+#include <Sk/Objects/gap.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Scripting/nodearray.h>
+#include <Sk/Modules/Skate/score.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/parkeditor2/parked.h>
+#include <Sk/ParkEditor2/ParkEd.h>
 
 // #define DEBUG_GAPS
 

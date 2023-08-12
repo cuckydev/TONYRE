@@ -10,7 +10,7 @@
 **																			**
 **	Module:			Shadow  (GFX)											**
 **																			**
-**	File name:		gfx/shadow.h											**
+**	File name:		Gfx/shadow.h											**
 **																			**
 **	Created: 		01/25/01	-	dc										**
 **																			**
@@ -24,10 +24,10 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/support.h>
-#include <core/math.h>
+#include <Core/support.h>
+#include <Core/math.h>
 
 namespace Nx
 {

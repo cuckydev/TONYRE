@@ -11,10 +11,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-#include <gel/scripting/component.h>
+#include <Gel/Scripting/component.h>
 
 #ifndef	__SCRIPTING_SCRIPTDEFS_H
-#include <gel/scripting/scriptdefs.h>
+#include <Gel/Scripting/scriptdefs.h>
 #endif
 
 DefinePoolableClass(Script::CComponent);

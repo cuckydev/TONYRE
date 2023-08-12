@@ -8,9 +8,9 @@
 #ifndef __COMPONENTS_CAMERAUTIL_H__
 #define __COMPONENTS_CAMERAUTIL_H__
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <core/math.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Core/math.h>
 
 #define SKATERCAMERACOMPONENT_PERFECT_ABOVE			(3.0f)
 			

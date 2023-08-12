@@ -5,7 +5,7 @@
 //* CREATION DATE:  12/21/2001
 //****************************************************************************
 
-#include "gfx/nxskincomponent.h"
+#include <Gfx/NxSkinComponent.h>
 
 namespace Nx
 {

@@ -13,18 +13,18 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/support.h>
+#include <Core/support.h>
 
-#include <gel/inpman.h>
+#include <Gel/inpman.h>
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
 
-#include <gel/net/net.h>
+#include <Gel/Net/net.h>
 
-#include <sk/objects/movingobject.h>
+#include <Sk/Objects/MovingObject.h>
 
 /*****************************************************************************
 **							Forward Declarations						**

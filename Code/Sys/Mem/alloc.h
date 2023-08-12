@@ -23,10 +23,10 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <core/support.h>
-#include <sys\mem\region.h>
-#include <sys/mem/memdbg.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
+#include <Sys/Mem/region.h>
+#include <Sys/Mem/memdbg.h>
 
 #ifdef __PLAT_NGC__
 #define __EFFICIENT__		// Comment in for efficient allocation.

@@ -26,16 +26,16 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/list.h>
-#include <gel/scripting/struct.h>
-#include <sk/modules/skate/victorycond.h>
-#include <gfx/nxviewman.h>
-#include <sys/timer.h>
+#include <Core/List.h>
+#include <Gel/Scripting/struct.h>
+#include <Sk/Modules/Skate/VictoryCond.h>
+#include <Gfx/NxViewMan.h>
+#include <Sys/timer.h>
 
 #ifndef	__SCRIPTING_UTILS_H
-#include <gel/scripting/utils.h>
+#include <Gel/Scripting/utils.h>
 #endif
 
 /*****************************************************************************

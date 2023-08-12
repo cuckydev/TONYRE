@@ -8,11 +8,11 @@
 #ifndef __COMPONENTS_OBJECTHOOKMANAGERCOMPONENT_H__
 #define __COMPONENTS_OBJECTHOOKMANAGERCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
-#include <sk/objects/objecthook.h>	
+#include <Gel/Object/basecomponent.h>
+#include <Sk/Objects/objecthook.h>	
 
 // Just thinking about it - a generic way of accessing the component				 
 #define		CRC_OBJECTHOOKMANAGER							Crc::ConstCRC( "ObjectHookManager" )

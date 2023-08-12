@@ -8,12 +8,12 @@
 #ifndef __OBJECT_COMPOSITEOBJECT_H__
 #define __OBJECT_COMPOSITEOBJECT_H__
 
-#include <core/defines.h>
-#include <core/list.h>
-#include <core/math.h>
-#include <sys/profiler.h>
-#include <gel/object.h>
-#include <gel/object/basecomponent.h>
+#include <Core/Defines.h>
+#include <Core/List.h>
+#include <Core/math.h>
+#include <Sys/Profiler.h>
+#include <Gel/object.h>
+#include <Gel/Object/basecomponent.h>
 
 namespace Obj
 {

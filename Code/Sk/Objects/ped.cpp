@@ -30,21 +30,21 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/ped.h>
+#include <Sk/Objects/ped.h>
 
-#include <gel/objman.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <sk/components/skaterproximitycomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/motioncomponent.h>
+#include <Gel/objman.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Sk/Components/SkaterProximityComponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/motioncomponent.h>
 
-#include <sk/modules/skate/skate.h>
-#include <sk/objects/movingobject.h>
-#include <sk/objects/pathob.h>
-#include <sk/scripting/nodearray.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Objects/MovingObject.h>
+#include <Sk/Objects/PathOb.h>
+#include <Sk/Scripting/nodearray.h>
 
 /*****************************************************************************
 **								DBG Information								**

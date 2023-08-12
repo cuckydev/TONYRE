@@ -1,21 +1,10 @@
-#ifndef	__SCRIPTING_STRUCT_H
-#define	__SCRIPTING_STRUCT_H
+#pragma once
 
-#ifndef __CORE_DEFINES_H
-#include <core/defines.h>
-#endif
+#include <Core/Defines.h>
+#include <Sys/Mem/Poolable.h>
 
-#ifndef __SYS_MEM_POOLABLE_H
-#include <sys/mem/poolable.h>
-#endif
-
-#ifndef	__SCRIPTING_SCRIPTDEFS_H
-#include <gel/scripting/scriptdefs.h> // For EAssertType
-#endif
-
-#ifndef	__SCRIPTING_SYMBOLTYPE_H
-#include <gel/scripting/symboltype.h> // For ESymbolType
-#endif
+#include <Gel/Scripting/scriptdefs.h> // For EAssertType
+#include <Gel/Scripting/symboltype.h> // For ESymbolType
 
 namespace Mth
 {
@@ -278,5 +267,3 @@ void DumpStructs();
 
 
 } // namespace Script
-
-#endif // #ifndef	__SCRIPTING_STRUCT_H

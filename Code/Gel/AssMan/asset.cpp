@@ -7,8 +7,8 @@
 // provides basic interface to them
 
 
-#include	<gel/assman/asset.h>
-#include 	<gel/assman/assettypes.h>
+#include	<Gel/AssMan/asset.h>
+#include 	<Gel/AssMan/assettypes.h>
 
 
 namespace Ass

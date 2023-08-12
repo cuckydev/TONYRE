@@ -1,11 +1,11 @@
 //****************************************************************************
 //* MODULE:         Gfx
-//* FILENAME:       p_NxWeather.cpp
+//* FILENAME:       p_nxweather.cpp
 //* OWNER:          Dave Cowling
 //* CREATION DATE:  6/19/2003
 //****************************************************************************
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 #include "p_nxweather.h"
 

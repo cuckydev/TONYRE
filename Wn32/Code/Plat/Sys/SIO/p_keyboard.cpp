@@ -23,8 +23,8 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
-#include <sys/sio/keyboard.h>
+#include <Core/Defines.h>
+#include <Sys/SIO/keyboard.h>
 
 /*****************************************************************************
 **								DBG Information								**

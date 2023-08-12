@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // p_NxLight.cpp - Xbox platform specific interface to CModelLights
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
 #include <Plat/Gfx/p_NxLight.h>
 #include <Plat/Gfx/nx/nx_init.h>

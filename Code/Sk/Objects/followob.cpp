@@ -1,7 +1,7 @@
-#include <sk/objects/followob.h>
-#include <gel/object.h>
-#include <sk/objects/movingobject.h>
-#include <core/math.h>
+#include <Sk/Objects/FollowOb.h>
+#include <Gel/object.h>
+#include <Sk/Objects/MovingObject.h>
+#include <Core/math.h>
 
 namespace Obj
 {

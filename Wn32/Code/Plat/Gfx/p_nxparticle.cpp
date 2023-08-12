@@ -5,7 +5,7 @@
 //* CREATION DATE:  3/27/2002
 //****************************************************************************
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 #include "Plat/Gfx/nx/nx_init.h"
 #include "Plat/Gfx/p_nxparticle.h"
 // #include "Plat/Gfx/p_nxparticleline.h"

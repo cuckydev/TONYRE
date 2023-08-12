@@ -127,7 +127,7 @@ typedef	sint64				nID64;
 //	readable from a memory dump, where as IDs would be reversed on little
 //	endian machines
 
-#if		__CPU_BIG_ENDIAN__
+#ifdef __CPU_BIG_ENDIAN__
 #define	nMakeStructID(a,b,c,d) ( (nID) ( ((nID)(a))<<24 | ((nID)(b))<<16 | \
 										  ((nID)(c))<<8  | ((nID)(d)) ))
 #else
@@ -142,7 +142,7 @@ typedef	sint64				nID64;
 #define	nReverse32(L)	( (( (L)>>24 ) & 0xff) | (((L)>>8) &0xff00) | (((L)<<8)&0xff0000) | (((L)<<24)&0xff000000))
 #define	nReverse16(L)	( (( (L)>>8 ) & 0xff) | (((L)<<8)&0xff00) )
 
-#if	__CPU_BIG_ENDIAN__
+#ifdef __CPU_BIG_ENDIAN__
 
 #define	nBgEn32(L) 	(L)
 #define	nBgEn16(L) 	(L)
@@ -190,12 +190,12 @@ typedef	sint64				nID64;
 **								   Includes									**
 *****************************************************************************/
 
-#include <core/debug.h>
+#include <Core/Debug.h>
 
-#include <core/support.h>
-#include <sys/mem/memman.h>
+#include <Core/support.h>
+#include <Sys/Mem/memman.h>
 
-#include <core/crc.h>
+#include <Core/crc.h>
 
 #include <Plat/Gfx/p_memview.h>
 

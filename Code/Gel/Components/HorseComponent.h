@@ -8,21 +8,21 @@
 #ifndef __COMPONENTS_HORSECOMPONENT_H__
 #define __COMPONENTS_HORSECOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/collision/collcache.h>
-#include <gel/components/skeletoncomponent.h>
-#include <gel/components/modelcomponent.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/movablecontactcomponent.h>
-#include <gel/object/basecomponent.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Collision/CollCache.h>
+#include <Gel/Components/skeletoncomponent.h>
+#include <Gel/Components/modelcomponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/MovableContactComponent.h>
+#include <Gel/Object/basecomponent.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/engine/rectfeeler.h>
-#include <sk/engine/feeler.h>
-#include <sk/objects/navigation.h>
+#include <Sk/Engine/RectFeeler.h>
+#include <Sk/Engine/feeler.h>
+#include <Sk/Objects/navigation.h>
 
 #define		CRC_HORSE Crc::ConstCRC("Horse")
 #define		GetHorseComponent() ((Obj::CHorseComponent*)GetComponent(CRC_HORSE))

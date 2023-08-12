@@ -3,12 +3,12 @@
 #ifndef __MODULES_SKATE_GOALPED_H
 #define __MODULES_SKATE_GOALPED_H
 
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/goal.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/Goal.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
 
 namespace Game
 {

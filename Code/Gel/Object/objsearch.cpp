@@ -23,13 +23,13 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <core/defines.h>
+#include <Core/Defines.h>
 
-#include <core/list.h>
-#include <core/task.h>
+#include <Core/List.h>
+#include <Core/Task.h>
 
-#include <gel/objsearch.h>
-#include <gel/mainloop.h>
+#include <Gel/objsearch.h>
+#include <Gel/mainloop.h>
 
 
 /*****************************************************************************

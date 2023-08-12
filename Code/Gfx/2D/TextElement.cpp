@@ -1,16 +1,16 @@
-#include <core/defines.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/vecpair.h>
-#include <gfx/NxFontMan.h>
-#include <gfx/NxFont.h>
-#include <gfx/2D/ScreenElement2.h>
-#include <gfx/2D/ScreenElemMan.h>
-#include <gfx/2D/TextElement.h>
-#include <gfx/2D/BlurEffect.h>
-#include <gfx/2D/Window.h>
+#include <Core/Defines.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/vecpair.h>
+#include <Gfx/NxFontMan.h>
+#include <Gfx/NxFont.h>
+#include <Gfx/2D/ScreenElement2.h>
+#include <Gfx/2D/ScreenElemMan.h>
+#include <Gfx/2D/TextElement.h>
+#include <Gfx/2D/BlurEffect.h>
+#include <Gfx/2D/Window.h>
 
 #include <cstring>
 

@@ -11,34 +11,34 @@
 // @subindex Scripting Database
 // @index script | pedlogiccomponent
 
-#include <sk/components/skaterloopingsoundcomponent.h>
-#include <sk/components/skatersoundcomponent.h>
+#include <Sk/Components/SkaterLoopingSoundComponent.h>
+#include <Sk/Components/SkaterSoundComponent.h>
 
-#include <gel/components/pedlogiccomponent.h>
-#include <gel/components/animationcomponent.h>
-#include <gel/components/motioncomponent.h>
-#include <gel/components/avoidcomponent.h>
+#include <Gel/Components/PedLogicComponent.h>
+#include <Gel/Components/animationcomponent.h>
+#include <Gel/Components/motioncomponent.h>
+#include <Gel/Components/avoidcomponent.h>
 
-#include <gel/environment/terrain.h>
+#include <Gel/Environment/terrain.h>
 
-#include <gel/object/compositeobject.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Object/compositeobject.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/objects/skater.h>
-#include <sk/objects/pathob.h>
-#include <sk/objects/pathman.h>
-#include <sk/objects/skaterflags.h>
-#include <sk/engine/feeler.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/PathOb.h>
+#include <Sk/Objects/PathMan.h>
+#include <Sk/Objects/skaterflags.h>
+#include <Sk/Engine/feeler.h>
 
-#include <sk/modules/skate/skate.h>
+#include <Sk/Modules/Skate/skate.h>
 
-#include <sk/scripting/nodearray.h>
+#include <Sk/Scripting/nodearray.h>
 
-#include <gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 
 namespace Obj
 {

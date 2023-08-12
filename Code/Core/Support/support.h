@@ -28,7 +28,7 @@
 #else
 #include <typeinfo>
 #endif
-#include <core/support/class.h>
+#include <Core/Support/class.h>
 
 /*****************************************************************************
 **								   Defines									**

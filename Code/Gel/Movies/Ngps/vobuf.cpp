@@ -1,6 +1,6 @@
 #include <eekernel.h>
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/vobuf.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/vobuf.h"
 
 namespace Flx
 {

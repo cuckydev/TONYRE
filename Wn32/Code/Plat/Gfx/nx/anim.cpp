@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <core/defines.h>
-#include <core/debug.h>
-#include <core/HashTable.h>
-#include <core/math.h>
-#include <core/math/geometry.h>
-#include <sys/file/filesys.h>
-#include <sys/timer.h>
+#include <Core/Defines.h>
+#include <Core/Debug.h>
+#include <Core/HashTable.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
+#include <Sys/File/filesys.h>
+#include <Sys/timer.h>
 
 #include "nx_init.h"
 #include "mesh.h"

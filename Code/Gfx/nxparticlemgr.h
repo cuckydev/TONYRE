@@ -8,7 +8,7 @@
 #ifndef	__GFX_P_NX_PARTICLE_MGR_H__
 #define	__GFX_P_NX_PARTICLE_MGR_H__
     
-#include "gfx/nxparticle.h"
+#include "Gfx/nxparticle.h"
                    
 namespace Nx
 {

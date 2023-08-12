@@ -9,27 +9,27 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <sk/objects/moviedetails.h>
+#include <Sk/Objects/moviedetails.h>
 
-#include <gel/components/modelcomponent.h>
+#include <Gel/Components/modelcomponent.h>
 								
-#include <gfx/bonedanim.h>
-#include <gfx/camera.h>
-#include <gfx/nxviewman.h>
+#include <Gfx/BonedAnim.h>
+#include <Gfx/camera.h>
+#include <Gfx/NxViewMan.h>
 
-#include <gel/assman/assman.h>
-#include <gel/objman.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/AssMan/AssMan.h>
+#include <Gel/objman.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <sk/modules/skate/skate.h>
-#include <gel/object/compositeobject.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Gel/Object/compositeobject.h>
 
-#include <gfx/skeleton.h>
+#include <Gfx/Skeleton.h>
 
-#include <sk/modules/FrontEnd/FrontEnd.h>
+#include <Sk/Modules/FrontEnd/FrontEnd.h>
 
 /*****************************************************************************
 **								  Externals									**

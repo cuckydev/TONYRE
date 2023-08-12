@@ -3,22 +3,22 @@
 
                            
 #ifndef __CORE_DEFINES_H
-    #include <core/defines.h>
+    #include <Core/Defines.h>
 #endif
 
 #ifndef __SYS_TIMER_H
-    #include <sys/timer.h> // For Tmr::Time
+    #include <Sys/timer.h> // For Tmr::Time
 #endif
 							  
-#include <sk/modules/skate/goalmanager.h>
-#include <sk/modules/skate/goalped.h>
+#include <Sk/Modules/Skate/GoalManager.h>
+#include <Sk/Modules/Skate/GoalPed.h>
 
-#include <core/list/node.h>
-#include <core/lookuptable.h>
+#include <Core/List/Node.h>
+#include <Core/LookupTable.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
 
 
 namespace Game

@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // p_NxTexture.cpp
 
-#include "Gfx/Nx.h"
-#include "p_nxtexture.h"
-#include "sys/file/filesys.h"
+#include <Gfx/nx.h>
+#include <Plat/Gfx/p_nxtexture.h>
+#include <Sys/File/filesys.h>
 
 #include "Com/texturedecode.h"
 

@@ -22,17 +22,17 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <objects/skatercareer.h>
-#include <objects/gap.h>
-#include <gel/scripting/script.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/utils.h>
-#include <gel/scripting/string.h>
-#include <sk/modules/skate/skate.h>
-#include <sk/modules/skate/gamemode.h>
-#include <sk/gamenet/gamenet.h>
+#include <Sk/Objects/skatercareer.h>
+#include <Sk/Objects/gap.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/utils.h>
+#include <Gel/Scripting/string.h>
+#include <Sk/Modules/Skate/skate.h>
+#include <Sk/Modules/Skate/GameMode.h>
+#include <Sk/GameNet/GameNet.h>
 
 
 bool g_CheatsEnabled = false;

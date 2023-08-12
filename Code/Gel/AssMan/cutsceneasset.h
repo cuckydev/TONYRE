@@ -10,10 +10,10 @@
 #ifndef	__GEL_CUTSCENEASSET_H__
 #define	__GEL_CUTSCENEASSET_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/assman/asset.h>
+#include <Gel/AssMan/asset.h>
 
 namespace Ass
 {

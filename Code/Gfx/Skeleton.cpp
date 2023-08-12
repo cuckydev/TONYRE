@@ -12,18 +12,18 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/skeleton.h>
+#include <Gfx/Skeleton.h>
 
-#include <gel/scripting/script.h>
-#include <gel/scripting/array.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/array.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
 
-#include <gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 
-#include <sys/file/filesys.h>
-#include <core/crc.h>
+#include <Sys/File/filesys.h>
+#include <Core/crc.h>
 
 #include <cstring>
 

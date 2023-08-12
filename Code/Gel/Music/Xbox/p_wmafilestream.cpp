@@ -25,11 +25,11 @@
 
 #include <xtl.h>
 
-#include <core/macros.h>
-#include <core/defines.h>
-#include <core/math.h>
-#include <core/crc.h>
-#include <gel/soundfx/soundfx.h>
+#include <Core/macros.h>
+#include <Core/Defines.h>
+#include <Core/math.h>
+#include <Core/crc.h>
+#include <Gel/SoundFX/soundfx.h>
 
 #include "p_music.h"
 #include "p_wmafilestream.h"

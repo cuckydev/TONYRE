@@ -9,18 +9,18 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <gfx/customanimkey.h>
+#include <Gfx/CustomAnimKey.h>
 								   
-#include <gel/scripting/script.h>
-#include <gel/scripting/struct.h>
-#include <gel/scripting/symboltable.h>
-#include <gel/scripting/checksum.h>
-#include <gel/scripting/utils.h>
-#include <sys/file/filesys.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/Scripting/struct.h>
+#include <Gel/Scripting/symboltable.h>
+#include <Gel/Scripting/checksum.h>
+#include <Gel/Scripting/utils.h>
+#include <Sys/File/filesys.h>
 
-#include <core/math/quat.h>
-#include <core/math/vector.h>
-#include <gfx/camera.h>
+#include <Core/Math/quat.h>
+#include <Core/Math/vector.h>
+#include <Gfx/camera.h>
 
 /*****************************************************************************
 **								DBG Information								**

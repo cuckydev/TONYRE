@@ -2,7 +2,7 @@
 #define __GEL_EVENT_H
 
 #ifndef __GEL_OBJECT_H
-#include <gel/object.h>
+#include <Gel/object.h>
 #endif
 
 namespace Script

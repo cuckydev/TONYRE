@@ -5,19 +5,16 @@
 //* CREATION DATE:  11/29/2000
 //****************************************************************************
 
-#ifndef __OBJECTS_SKATERPROFILE_H
-#define __OBJECTS_SKATERPROFILE_H
+#pragma once
 
 /*****************************************************************************
 **							  	  Includes									**
 *****************************************************************************/
 
-#ifndef __CORE_DEFINES_H
-#include <core/defines.h>
-#endif
+#include <Core/Defines.h>
 
-#include <gfx/modelappearance.h>
-#include <sk/objects/skatertricks.h>
+#include <Gfx/ModelAppearance.h>
+#include <Sk/Objects/SkaterTricks.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -139,8 +136,6 @@ private:
 
 
 } // namespace Obj
-
-#endif	// __OBJECTS_SKATERPROFILE_H
 
 #if 0
 	// UI

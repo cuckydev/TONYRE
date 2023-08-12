@@ -98,12 +98,12 @@ does no addition processing.  It's easier to type as well.
 *****************************************************************************/
 	
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
-#include <core/support.h>
+#include <Core/support.h>
 
 #ifndef	__SYS_MEM_MEMPTR_H
-#include <sys/mem/memptr.h>
+#include <Sys/Mem/memptr.h>
 #endif
 		  
 /*****************************************************************************

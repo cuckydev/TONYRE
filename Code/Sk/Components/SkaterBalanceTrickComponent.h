@@ -8,13 +8,13 @@
 #ifndef __COMPONENTS_SKATERBALANCETRICKCOMPONENT_H__
 #define __COMPONENTS_SKATERBALANCETRICKCOMPONENT_H__
 
-#include <core/defines.h>
-#include <core/support.h>
+#include <Core/Defines.h>
+#include <Core/support.h>
 
-#include <gel/object/basecomponent.h>
+#include <Gel/Object/basecomponent.h>
 
-#include <sk/objects/skater.h>
-#include <sk/objects/manual.h>
+#include <Sk/Objects/skater.h>
+#include <Sk/Objects/manual.h>
 
 #define		CRC_SKATERBALANCETRICK Crc::ConstCRC("SkaterBalanceTrick")
 

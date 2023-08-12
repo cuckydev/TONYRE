@@ -26,13 +26,13 @@
 *****************************************************************************/
 
 #ifndef __CORE_DEFINES_H
-#include <core/defines.h>
+#include <Core/Defines.h>
 #endif
 
-#include <core/macros.h>
-#include <core/math.h>
+#include <Core/macros.h>
+#include <Core/math.h>
 
-#include <sk/objects/movingobject.h>
+#include <Sk/Objects/MovingObject.h>
 
 /*****************************************************************************
 **								   Defines									**

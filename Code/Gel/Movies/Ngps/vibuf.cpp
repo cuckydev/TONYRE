@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <sifdev.h>
-#include "gel/movies/ngps/defs.h"
-#include "gel/movies/ngps/vibuf.h"
-#include "gel/movies/ngps/p_movies.h"
+#include "Gel/movies/ngps/defs.h"
+#include "Gel/movies/ngps/vibuf.h"
+#include "Gel/movies/ngps/p_movies.h"
 
 // ////////////////////////////////////////////////////////////////
 //

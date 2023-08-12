@@ -2,9 +2,9 @@
 #define __RENDER_H
 
 #include <Windows.h>
-#include <core/math.h>
-#include <core/math/geometry.h>
-#include <Plat/Gfx/p_nxmodel.h>
+#include <Core/math.h>
+#include <Core/Math/geometry.h>
+#include <Plat/Gfx/p_NxModel.h>
 #include "nx_init.h"
 #include "mesh.h"
 
