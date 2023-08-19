@@ -15857,6 +15857,7 @@ bool ScriptSkaterIsCustom(Script::CStruct *pParams, Script::CScript *pScript)
 	(void)pParams;
 	(void)pScript;
 	// TODO: This affects the Create-A-Skater menu, which you normally can't access without a custom skater
+	// If this returns false, you can't edit skater scale and tattoos
 	return true;
 }
 
