@@ -7,6 +7,8 @@
 
 #include "Com/texturedecode.h"
 
+#include <Windows.h>
+
 namespace Nx
 {
 

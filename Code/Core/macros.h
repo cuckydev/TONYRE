@@ -6,11 +6,10 @@
 #ifndef __USEFUL_LITTLE_MACROS_H__
 #define __USEFUL_LITTLE_MACROS_H__
 
-#ifndef __CORE_DEFINES_H
 #include <Core/Defines.h>
-#endif
-
 #include <Core/support.h>
+
+#include <Plat/Gfx/nx/nx_init.h>
 
 #define PERCENT_MULT			( ( 1.0f ) / 100.0f )
 #define PERCENT( x, percent )	( ( ( ( ( float )( x ) ) * ( ( float )( percent ) ) ) * PERCENT_MULT ) )
@@ -41,9 +40,10 @@
 
 // Takes screen coordinates in 'default' screen space - 640x448 - and converts them based on PAL and system defines.
 
+
 // Convert from logical to SCREEN coordinates
-#define SCREEN_CONV_X( x ) (x)
-#define SCREEN_CONV_Y( y ) (y)
+#define SCREEN_CONV_X( x ) ((( x ) * NxWn32::EngineGlobals.screen_conv_x_multiplier ) + NxWn32::EngineGlobals.screen_conv_x_offset )
+#define SCREEN_CONV_Y( y ) ((( y ) * NxWn32::EngineGlobals.screen_conv_y_multiplier ) + NxWn32::EngineGlobals.screen_conv_y_offset )
 
 // Convert from screen to LOGICAL coordinates
 #define		LOGICAL_CONV_X( x ) (x)

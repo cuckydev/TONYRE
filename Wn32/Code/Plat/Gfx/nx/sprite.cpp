@@ -408,49 +408,104 @@ void sSprite::Draw( void )
 	float b = ((m_rgba >> 16) & 0xFF) / 128.0f;
 	float a = ((m_rgba >> 24) & 0xFF) / 128.0f;
 
-	// Get points
-	Mth::Vector p0(x0, y0, 0.0f, 0.0f);
-	Mth::Vector p1(x1, y0, 0.0f, 0.0f);
-	Mth::Vector p2(x0, y1, 0.0f, 0.0f);
-	Mth::Vector p3(x1, y1, 0.0f, 0.0f);
-
-	p0.RotateZ(m_rot);
-	p1.RotateZ(m_rot);
-	p2.RotateZ(m_rot);
-	p3.RotateZ(m_rot);
-
-	p0[X] = SCREEN_CONV_X(p0[X] + m_xpos);
-	p0[Y] = SCREEN_CONV_Y(p0[Y] + m_ypos);
-	p1[X] = SCREEN_CONV_X(p1[X] + m_xpos);
-	p1[Y] = SCREEN_CONV_Y(p1[Y] + m_ypos);
-	p2[X] = SCREEN_CONV_X(p2[X] + m_xpos);
-	p2[Y] = SCREEN_CONV_Y(p2[Y] + m_ypos);
-	p3[X] = SCREEN_CONV_X(p3[X] + m_xpos);
-	p3[Y] = SCREEN_CONV_Y(p3[Y] + m_ypos);
-
-	// Push vertices
 	size_t vi = m_verts.size();
+	if (m_rot != 0.0f)
+	{
+		// Get points
+		Mth::Vector p0(x0, y0, 0.0f, 0.0f);
+		Mth::Vector p1(x1, y0, 0.0f, 0.0f);
+		Mth::Vector p2(x0, y1, 0.0f, 0.0f);
+		Mth::Vector p3(x1, y1, 0.0f, 0.0f);
 
-	m_verts.push_back(sVert2D{
-		p0[X], p0[Y], 0.0f,
-		u0, v0,
-		r, g, b, a
-	});
-	m_verts.push_back(sVert2D{
-		p1[X], p1[Y], 0.0f,
-		u1, v0,
-		r, g, b, a
-	});
-	m_verts.push_back(sVert2D{
-		p2[X], p2[Y], 0.0f,
-		u0, v1,
-		r, g, b, a
-	});
-	m_verts.push_back(sVert2D{
-		p3[X], p3[Y], 0.0f,
-		u1, v1,
-		r, g, b, a
-	});
+		p0.RotateZ(m_rot);
+		p1.RotateZ(m_rot);
+		p2.RotateZ(m_rot);
+		p3.RotateZ(m_rot);
+
+		p0[X] = SCREEN_CONV_X(p0[X] + m_xpos);
+		p0[Y] = SCREEN_CONV_Y(p0[Y] + m_ypos);
+		p1[X] = SCREEN_CONV_X(p1[X] + m_xpos);
+		p1[Y] = SCREEN_CONV_Y(p1[Y] + m_ypos);
+		p2[X] = SCREEN_CONV_X(p2[X] + m_xpos);
+		p2[Y] = SCREEN_CONV_Y(p2[Y] + m_ypos);
+		p3[X] = SCREEN_CONV_X(p3[X] + m_xpos);
+		p3[Y] = SCREEN_CONV_Y(p3[Y] + m_ypos);
+
+		// Push vertices
+		m_verts.push_back(sVert2D{
+			p0[X], p0[Y], 0.0f,
+			u0, v0,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			p1[X], p1[Y], 0.0f,
+			u1, v0,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			p2[X], p2[Y], 0.0f,
+			u0, v1,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			p3[X], p3[Y], 0.0f,
+			u1, v1,
+			r, g, b, a
+		});
+	}
+	else
+	{
+		x0 += m_xpos;
+		y0 += m_ypos;
+		x1 += m_xpos;
+		y1 += m_ypos;
+
+		// Nasty hack - if the sprite is intended to cover the screen from top to bottom or left to right,
+		// bypass the addtional offset added by SCREEN_CONV.
+		if ((x0 <= 0.0f) && (x1 >= 640.0f))
+		{
+			x0 = 0.0f;
+			x1 = 640.0f;
+		}
+		else
+		{
+			x0 = SCREEN_CONV_X(x0);
+			x1 = SCREEN_CONV_X(x1);
+		}
+
+		if ((y0 <= 0.0f) && (y1 >= 480.0f))
+		{
+			y0 = 0.0f;
+			y1 = 480.0f;
+		}
+		else
+		{
+			y0 = SCREEN_CONV_Y(y0);
+			y1 = SCREEN_CONV_Y(y1);
+		}
+
+		// Push vertices
+		m_verts.push_back(sVert2D{
+			x0, y0, 0.0f,
+			u0, v0,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			x1, y0, 0.0f,
+			u1, v0,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			x0, y1, 0.0f,
+			u0, v1,
+			r, g, b, a
+		});
+		m_verts.push_back(sVert2D{
+			x1, y1, 0.0f,
+			u1, v1,
+			r, g, b, a
+		});
+	}
 
 	// Push indices
 	m_indices.push_back((GLushort)(vi + 0));

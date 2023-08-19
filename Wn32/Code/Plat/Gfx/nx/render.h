@@ -118,14 +118,15 @@ namespace NxWn32
 	// void		calculate_tex_proj_matrix( XGMATRIX *p_tex_view_matrix, XGMATRIX *p_tex_proj_matrix, XGMATRIX *p_tex_transform_matrix, XGMATRIX *p_world_matrix = nullptr );
 	
 	// MSM PERFCHANGE - added scale.
-	void	set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_angle, float aspect_ratio, bool render_at_infinity = false );
-	void	set_frustum_bbox_transform( Mth::Matrix *p_transform );
-	bool	frustum_check_sphere( const glm::vec3 &p_center, float radius );
-	float	get_bounding_sphere_nearest_z( void );
-	bool	IsVisible( Mth::Vector &center, float radius );
-	void	render_shadow_targets();
-	void	render_light_glows( bool test );
-	void	render_scene( sScene *p_scene, uint32 flags = ( vRENDER_OPAQUE | vRENDER_SEMITRANSPARENT ), uint32 viewport = 0 );
+	void set_dimensions(int width, int height);
+	void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_angle, float aspect_ratio, bool render_at_infinity = false );
+	void set_frustum_bbox_transform( Mth::Matrix *p_transform );
+	bool frustum_check_sphere( const glm::vec3 &p_center, float radius );
+	float get_bounding_sphere_nearest_z( void );
+	bool IsVisible( Mth::Vector &center, float radius );
+	void render_shadow_targets();
+	void render_light_glows( bool test );
+	void render_scene( sScene *p_scene, uint32 flags = ( vRENDER_OPAQUE | vRENDER_SEMITRANSPARENT ), uint32 viewport = 0 );
 
 } // namespace NxWn32
 

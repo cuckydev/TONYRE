@@ -1781,6 +1781,19 @@ void set_texture_projection_camera( sTexture *p_texture, XGVECTOR3 *p_pos, XGVEC
 /*                                                                */
 /*                                                                */
 /******************************************************************/
+void set_dimensions(int width, int height)
+{
+	EngineGlobals.aspect_correction = ((float)width / (float)height) / (640.0f / 480.0f);
+
+	EngineGlobals.backbuffer_width = width;
+	EngineGlobals.backbuffer_height = height;
+
+	EngineGlobals.screen_conv_x_multiplier = 1.0f / EngineGlobals.aspect_correction;
+	EngineGlobals.screen_conv_y_multiplier = 1.0f;
+	EngineGlobals.screen_conv_x_offset = ((640.0f * EngineGlobals.aspect_correction) - 640.0f) / EngineGlobals.aspect_correction * 0.5f;
+	EngineGlobals.screen_conv_y_offset = 16;
+}
+
 // MSM PERFCHANGE - added scale.
 void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_angle, float aspect_ratio, bool render_at_infinity )
 {

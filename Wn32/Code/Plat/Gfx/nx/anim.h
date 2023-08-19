@@ -1,6 +1,9 @@
 #ifndef __ANIM_H
 #define __ANIM_H
 
+#include <Core/Defines.h>
+#include <Windows.h>
+
 /*
 extern DWORD WeightedMeshVS_VXC_1Weight;
 extern DWORD WeightedMeshVS_VXC_2Weight;

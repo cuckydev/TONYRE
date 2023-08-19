@@ -67,7 +67,7 @@ namespace Nx
 						case SDL_WINDOWEVENT_RESIZED:
 							// Set viewport
 							glViewport(0, 0, event.window.data1, event.window.data2);
-							NxWn32::EngineGlobals.aspect_correction = ((float)event.window.data1 / (float)event.window.data2) / (640.0f / 480.0f);
+							NxWn32::set_dimensions(event.window.data1, event.window.data2);
 							break;
 					}
 					break;

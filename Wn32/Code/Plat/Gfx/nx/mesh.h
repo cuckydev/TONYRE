@@ -6,6 +6,7 @@
 #include <Core/Math/geometry.h>
 #include <Gfx/nx.h>
 #include "material.h"
+#include <Windows.h>
 
 namespace NxWn32
 {

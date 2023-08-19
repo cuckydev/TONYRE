@@ -1,10 +1,16 @@
 #pragma once
 
 #include <Core/Defines.h>
-#include <Windows.h>
 
 #include <SDL.h>
+
+#ifdef APIENTRY
+#undef APIENTRY
+#endif
+#define APIENTRY __stdcall
 #include <glad/glad.h>
+#undef APIENTRY
+
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -108,8 +114,6 @@ struct sEngineGlobals
 	glm::vec3 cam_up;
 	glm::vec3 cam_right;
 
-	float aspect_correction = 0.0f; // Correct perspective for non-4:3 aspect ratios
-
 	// For bounding sphere culling calculations.
 	float ViewFrustumTX = 0.0f;
 	float ViewFrustumTY = 0.0f;
@@ -117,6 +121,17 @@ struct sEngineGlobals
 	float ViewFrustumSY = 0.0f;
 	float ViewFrustumCX = 0.0f;
 	float ViewFrustumCY = 0.0f;
+
+	// Screen state
+	float aspect_correction = 0.0f; // Correct perspective for non-4:3 aspect ratios
+
+	int backbuffer_width;
+	int backbuffer_height;
+
+	float screen_conv_x_multiplier;
+	float screen_conv_y_multiplier;
+	float screen_conv_x_offset;
+	float screen_conv_y_offset;
 
 	/*
 	// XGMATRIX			world_matrix;

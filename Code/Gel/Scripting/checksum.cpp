@@ -258,13 +258,7 @@ const char *FindChecksumName(uint32 checksum)
 	}
 	else
 	{
-		#ifdef __PLAT_WN32__
-		// The monitor.exe application requires that the unknown checksum be
-		// displayed like this.
-		sprintf(sp_unknown_checksum_buf,"0x%08x",checksum);	
-		#else
-		sprintf(sp_unknown_checksum_buf,"Unknown(0x%08x)",checksum);	
-		#endif
+		sprintf(sp_unknown_checksum_buf,"Unknown(0x%08x)",checksum);
 		return sp_unknown_checksum_buf;		
 	}	
 }
