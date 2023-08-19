@@ -108,6 +108,8 @@ struct sEngineGlobals
 	glm::vec3 cam_up;
 	glm::vec3 cam_right;
 
+	float aspect_correction = 0.0f; // Correct perspective for non-4:3 aspect ratios
+
 	// For bounding sphere culling calculations.
 	float ViewFrustumTX = 0.0f;
 	float ViewFrustumTY = 0.0f;

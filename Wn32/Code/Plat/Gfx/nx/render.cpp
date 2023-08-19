@@ -1798,14 +1798,19 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 
 	// Figure width and height of viewport at near clip plane.
 	float half_screen_angle_in_radians = Mth::DegToRad(screen_angle * 0.5f); 
-	float width = EngineGlobals.near_plane * 2.0f * tanf(half_screen_angle_in_radians);
+	float width = 2.0f * tanf(half_screen_angle_in_radians);
 	float height = width / aspect_ratio;
 	float fov_y = atan(tanf(half_screen_angle_in_radians) / aspect_ratio) * 2.0f;
 
+	// Aspect correction
+	width *= EngineGlobals.aspect_correction;
+	aspect_ratio *= EngineGlobals.aspect_correction;
+
+	// Get projection matrix
 	EngineGlobals.projection_matrix = glm::perspective(fov_y, aspect_ratio, EngineGlobals.near_plane, EngineGlobals.far_plane);
 
-	EngineGlobals.near_plane_width = width;
-	EngineGlobals.near_plane_height = height;
+	EngineGlobals.near_plane_width = width * EngineGlobals.near_plane;
+	EngineGlobals.near_plane_height = height * EngineGlobals.near_plane;
 
 	if (render_at_infinity)
 	{
@@ -1817,8 +1822,9 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 	}
 
 	// Set up view frustum values for bounding sphere culling.
-	EngineGlobals.ViewFrustumTX = tanf(Mth::DegToRad(screen_angle * 0.5f));
-	EngineGlobals.ViewFrustumTY = -(EngineGlobals.ViewFrustumTX / aspect_ratio);
+	EngineGlobals.ViewFrustumTX = width * 0.5f;
+	EngineGlobals.ViewFrustumTY = height * -0.5f;
+
 	EngineGlobals.ViewFrustumSX = 1.0f / sqrtf(1.0f + 1.0f / (EngineGlobals.ViewFrustumTX * EngineGlobals.ViewFrustumTX));
 	EngineGlobals.ViewFrustumSY = 1.0f / sqrtf(1.0f + 1.0f / (EngineGlobals.ViewFrustumTY * EngineGlobals.ViewFrustumTY));
 	EngineGlobals.ViewFrustumCX = 1.0f / sqrtf(1.0f + EngineGlobals.ViewFrustumTX * EngineGlobals.ViewFrustumTX);

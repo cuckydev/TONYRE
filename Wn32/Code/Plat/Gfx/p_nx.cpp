@@ -1,17 +1,18 @@
-#include	<Sys/File/filesys.h>
+#include <Sys/File/filesys.h>
 
-#include	<Gfx/camera.h>
-#include	<Gfx/gfxman.h>
-#include	<Gfx/nx.h>
-#include	<Gfx/NxTexMan.h>
-#include	<Gfx/NxViewMan.h>
-#include	<Gfx/NxQuickAnim.h>
-#include	<Gfx/nxparticlemgr.h>
-#include	<Gfx/NxMiscFX.h>
-#include	<Gfx/debuggfx.h>
-#include	<Core\math.h>
-#include 	<Sk/Engine/SuperSector.h>
-#include 	<Gel/Scripting/script.h>
+#include <Gfx/camera.h>
+#include <Gfx/gfxman.h>
+#include <Gfx/nx.h>
+#include <Gfx/NxTexMan.h>
+#include <Gfx/NxViewMan.h>
+#include <Gfx/NxQuickAnim.h>
+#include <Gfx/nxparticlemgr.h>
+#include <Gfx/NxMiscFX.h>
+#include <Gfx/debuggfx.h>
+#include <Core\math.h>
+#include <Sk/Engine/SuperSector.h>
+#include <Gel/Scripting/script.h>
+#include <Gel/mainloop.h>
 
 #include "p_NxMesh.h"
 #include "p_NxGeom.h"
@@ -56,7 +57,19 @@ namespace Nx
 			switch (event.type)
 			{
 				case SDL_QUIT:
-					// exit(0);
+					// Mlp::Manager *mlp_manager = Mlp::Manager::Instance();
+					// mlp_manager->QuitLoop();
+					_exit(0);
+					break;
+				case SDL_WINDOWEVENT:
+					switch (event.window.event)
+					{
+						case SDL_WINDOWEVENT_RESIZED:
+							// Set viewport
+							glViewport(0, 0, event.window.data1, event.window.data2);
+							NxWn32::EngineGlobals.aspect_correction = ((float)event.window.data1 / (float)event.window.data2) / (640.0f / 480.0f);
+							break;
+					}
 					break;
 			}
 		}

@@ -225,7 +225,7 @@ class MusicDecoder : public Streamer
 	public:
 		MusicDecoder(const char *name)
 		{
-			ma_decoder_config config = ma_decoder_config_init(ma_format_s16, 2, 48000);
+			ma_decoder_config config = ma_decoder_config_init(ma_format_f32, 5, 48000);
 			ma_decoder_init_file(name, &config, &decoder);
 		}
 
@@ -234,8 +234,8 @@ class MusicDecoder : public Streamer
 		{
 			// Read from decoder
 			ma_uint64 frames_read = 0;
-			ma_decoder_read_pcm_frames(&decoder, p, bytes / 4, &frames_read);
-			return (size_t)(frames_read * 4);
+			ma_decoder_read_pcm_frames(&decoder, p, bytes / (sizeof(float) * 5), &frames_read);
+			return (size_t)(frames_read * (sizeof(float) * 5));
 		}
 };
 
@@ -252,7 +252,7 @@ void AudioCallback(void *userdata, Uint8 *stream, int len)
 	// Clear the stream
 	memset(stream, 0, len);
 	if (decoder != nullptr)
-		decoder->Request((char *)stream, len);
+		decoder->Request((char*)stream, len);
 }
 
 /******************************************************************/
@@ -263,9 +263,9 @@ void PCMAudio_Init( void )
 {
 	// Audio device spec
 	SDL_AudioSpec s_wanted_spec = {};
-	s_wanted_spec.format = AUDIO_S16SYS;
+	s_wanted_spec.format = AUDIO_F32SYS;
 	s_wanted_spec.freq = 48000;
-	s_wanted_spec.channels = 2;
+	s_wanted_spec.channels = 5;
 	s_wanted_spec.samples = 1024;
 	s_wanted_spec.callback = AudioCallback;
 
