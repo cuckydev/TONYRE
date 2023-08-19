@@ -15856,7 +15856,8 @@ bool ScriptSkaterIsCustom(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	(void)pParams;
 	(void)pScript;
-	return false;
+	// TODO: This affects the Create-A-Skater menu, which you normally can't access without a custom skater
+	return true;
 }
 
 /******************************************************************/
