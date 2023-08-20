@@ -17,6 +17,8 @@
 
 #include <Sk/Objects/moviedetails.h>							   
 
+#include <Sys/timer.h>
+
 /*****************************************************************************
 **							Forward Declarations							**
 *****************************************************************************/
@@ -153,7 +155,7 @@ protected:
 
 	float						m_oldTime;
 	float						m_currentTime;
-	uint64						m_initialVBlanks;
+	Tmr::Time					m_startTime;
 };
 
 class CCutsceneDetails : public CMovieDetails

@@ -28,7 +28,6 @@ static constexpr double c_frame_time = 1000.0 / 60.0;
 
 void WaitForNextFrame(void)
 {
-	/*
 	// Wait until next frame
 	while (1)
 	{
@@ -38,14 +37,13 @@ void WaitForNextFrame(void)
 			s_next_frame += c_frame_time;
 			break;
 		}
-		if (now >= s_next_frame + 100.0)
+		if (now >= s_next_frame + (c_frame_time * 5.0f))
 		{
 			s_next_frame = now + c_frame_time;
 			break;
 		}
 		SDL_Delay(1);
 	}
-	*/
 }
 
 void InitialiseEngine( void )

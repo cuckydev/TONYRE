@@ -4355,7 +4355,7 @@ void CCutsceneData::update_video_playback( Gfx::Camera* pCamera, Script::CStruct
 		pCamera->SetHFOV(fov_in_degrees);
 
 		m_oldTime = 0.0f;
-		m_initialVBlanks = Tmr::GetVblanks();
+		m_startTime = Tmr::GetTime();
 	}
 
 	// update universal cutscene time
@@ -4383,7 +4383,7 @@ void CCutsceneData::update_video_playback( Gfx::Camera* pCamera, Script::CStruct
 
 	m_currentTime = Script::GetFloat( "cutscene_test_time" ) + cutscene_test_time_offset;//(float)( Tmr::GetVblanks() - m_initialVBlanks ) / Config::FPS();
 #else
-	m_currentTime = (float)( Tmr::GetVblanks() - m_initialVBlanks ) / Config::FPS();
+	m_currentTime = (float)( Tmr::GetTime() - m_startTime) / Tmr::vRESOLUTION;
 #endif
 
 	// if the CUT file is really small, then chances are
