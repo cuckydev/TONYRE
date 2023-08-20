@@ -261,7 +261,7 @@ private:
 	// if so.
 	int								m_currentSpinTrick;
 
-	int								m_specialScore;
+	float							m_specialScore;
 	bool							m_specialIsActive;
 
 	enum

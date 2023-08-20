@@ -102,6 +102,20 @@ Manager::~Manager ( void )
 /*****************************************************************************
 **							   Public Functions								**
 *****************************************************************************/
+
+static double GetDoubleTime(void)
+{
+	static LARGE_INTEGER freq;
+	static bool first = true;
+	if (first)
+	{
+		QueryPerformanceFrequency(&freq);
+		first = false;
+	}
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
+	return (double)now.QuadPart / (double)freq.QuadPart;
+}
  
 void Init(void)
 {
@@ -125,17 +139,17 @@ uint64 GetRenderFrame(void)
 
 uint64 GetTimeInCPUCycles(void)
 {
-	return GetTickCount64();
+	return GetTimeInUSeconds();
 }
 
 Time GetTime ( void )
 {
-	return (Time)GetTickCount64();
+	return (Time)(GetDoubleTime() * 1000.0);
 }
 
 MicroSeconds GetTimeInUSeconds( void )
 {
-	return GetTickCount64() * 1000;
+	return (MicroSeconds)(GetDoubleTime() * 1000000.0);
 }
 
 float GetSlomo(void)
@@ -157,9 +171,15 @@ void RecallTimerInfo(void)
 {
 }
 
+double delta = 0.001;
 void OncePerRender(void)
 {
-	
+	static double last_tick = GetDoubleTime();
+	double now = GetDoubleTime();
+	delta = now - last_tick;
+	if (delta < 0.001)
+		delta = 0.001;
+	last_tick = now;
 }
 
 uint64 GetVblanks(void)
@@ -169,12 +189,13 @@ uint64 GetVblanks(void)
 
 float FrameLength()
 {
-	return 1.0f / 60.0f * GetSlomo();
+	return (float)(UncappedFrameLength() * GetSlomo());
 }
 
 double UncappedFrameLength()
 {
-	return 1.0 / 60.0;
+	return delta;
+	// return 1.0 / 60.0;
 }
 
 void VSync(void)

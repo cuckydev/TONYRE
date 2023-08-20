@@ -28,6 +28,7 @@ static constexpr double c_frame_time = 1000.0 / 60.0;
 
 void WaitForNextFrame(void)
 {
+	/*
 	// Wait until next frame
 	while (1)
 	{
@@ -44,6 +45,7 @@ void WaitForNextFrame(void)
 		}
 		SDL_Delay(1);
 	}
+	*/
 }
 
 void InitialiseEngine( void )
@@ -86,6 +88,10 @@ void InitialiseEngine( void )
 
 	// Initialize frame counter
 	s_next_frame = (double)SDL_GetTicks64();
+
+	// Enable vsync
+	if (SDL_GL_SetSwapInterval(-1) < 0)
+		SDL_GL_SetSwapInterval(1);
 
 	/*
 	D3DPRESENT_PARAMETERS   params;

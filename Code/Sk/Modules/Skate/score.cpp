@@ -147,7 +147,7 @@ Score::Score() :
 	m_currentBlockingTrick = -1;
 	m_currentSpinTrick = -1;
 
-	m_specialScore = 0;
+	m_specialScore = 0.0f;
 	set_special_is_active(false);
 
 	m_special_interpolator = 0.0f;
@@ -292,17 +292,25 @@ void Score::print_trick_info_table()
 
 void Score::Update()
 {
-	if (m_specialScore)
+	if (m_specialScore > 0.0f)
 	{
 		// shrink special bar
+		// NOTE: This code shouldn't divide by vRESOLUTION, because FrameLength returns in seconds
+		// originally m_specialScore was an integer, so subtracting such a small number always ended up
+		// in truncation, causing the special bar to go down -1 per frame
+		// This code simply doesn't work with other framerates, so I've replaced it with
+		// decreasing the meter by 60 per second
+		/*
 		if (m_specialIsActive)
-			m_specialScore = (int) ((float) m_specialScore - (float) Tmr::FrameLength() * 200.0f / Tmr::vRESOLUTION);			
+			m_specialScore -= (Tmr::FrameLength() * 200.0f / Tmr::vRESOLUTION);
 		else
-			m_specialScore = (int) ((float) m_specialScore - (float) Tmr::FrameLength() * 50.0f / Tmr::vRESOLUTION);			
-		if (m_specialScore <= 0)
+			m_specialScore -= (Tmr::FrameLength() * 50.0f / Tmr::vRESOLUTION);
+		*/
+		m_specialScore -= Tmr::FrameLength() * 60.0f;
+		if (m_specialScore <= 0.0f)
 		{
 			set_special_is_active(false);
-			m_specialScore = 0;
+			m_specialScore = 0.0f;
 		}
 	}
 
@@ -1020,14 +1028,14 @@ void Score::Land( void )
 	{
 		// update special meter (when we land)
 		m_specialScore += m_scorePot * m_currentMult;
-		if (m_specialScore >= 3000)
+		if (m_specialScore >= 3000.0f)
 		{
 			set_special_is_active(true);
-			m_specialScore = 3000;
+			m_specialScore = 3000.0f;
 		}
-		if (m_specialScore < 0)
+		if (m_specialScore < 0.0f)
 		{
-			m_specialScore = 0;
+			m_specialScore = 0.0f;
 		}
 	}
 	else
@@ -1185,7 +1193,7 @@ void Score::Land( void )
 void Score::ForceSpecial( void )
 {
 	set_special_is_active(true);
-	m_specialScore = 3000;
+	m_specialScore = 3000.0f;
 }
 
 
@@ -1239,7 +1247,7 @@ void Score::Bail( bool clearScoreText )
 	
 	resetScorePot();
 
-	m_specialScore = 0;
+	m_specialScore = 0.0f;
 	set_special_is_active(false);
 	
 	Obj::CSkaterRunTimerComponent* pSkaterRunTimerComponent
@@ -1297,7 +1305,7 @@ void Score::Reset()
 	m_scorePot = 0;
 	m_recentScorePot = 0;
 	m_recentSpecialScorePot = 0;
-	m_specialScore = 0;
+	m_specialScore = 0.0f;
 	m_bestGameCombo = 0;
 	
 	set_special_is_active(false);
@@ -1412,15 +1420,15 @@ void Score::captureScore()
 		{
 			// update special meter (constantly, as we score)
 			m_specialScore += m_scorePot * m_currentMult - m_recentSpecialScorePot;
-			if (m_specialScore <0)
+			if (m_specialScore < 0.0f)
 			{
 				set_special_is_active(false);
-				m_specialScore = 0;
+				m_specialScore = 0.0f;
 			}
-			if (m_specialScore >= 3000)
+			if (m_specialScore >= 3000.0f)
 			{
 				set_special_is_active(true);
-				m_specialScore = 3000;
+				m_specialScore = 3000.0f;
 			}	
 		}
 	}
