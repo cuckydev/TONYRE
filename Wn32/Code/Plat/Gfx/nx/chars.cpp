@@ -588,14 +588,14 @@ void SText::Draw( void )
 					
 					pChar = p_font->pChars + p_font->SpecialMap[digit];
 					got_char_tag = true;
-					
+
 					EndDraw();
+					spOverrideFont = p_font;
 					BeginDraw();
 
 					// Reset the vertex data pointer.
 					// p_vert = ((sFontVert*)p_locked_font_vertex_buffer ) + font_vertex_offset;
 					
-					spOverrideFont = p_font;
 					break;
 				}
 				default:

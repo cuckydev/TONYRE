@@ -202,6 +202,15 @@ static void* prefopen( const char *filename, const char *mode )
 		nameConversionBuffer[index - 4] = 0;
 	}
 
+	// If file ends in .ps2 remove
+	if((( nameConversionBuffer[index - 1] ) == '2' ) &&
+		(( nameConversionBuffer[index - 2] ) == 's' ) &&
+		(( nameConversionBuffer[index - 3] ) == 'p' ) &&
+		(( nameConversionBuffer[index - 4] ) == '.' ))
+	{
+		nameConversionBuffer[index - 4] = 0;
+	}
+
 	// Open the file
 	HANDLE h_file = CreateFile( nameConversionBuffer, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr );
 
