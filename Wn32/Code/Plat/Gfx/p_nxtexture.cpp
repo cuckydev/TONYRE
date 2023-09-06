@@ -414,9 +414,15 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 
 		// Create texture
 		glGenTextures(1, &p_texture->GLTexture);
+		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+
+		// Set mipmaps range
 		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_BASE_LEVEL, 0);
 		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_MAX_LEVEL, levels);
-		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+
+		// Disable mipmaps and clamp to edges
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Determine texture format
 		void (*TextureDecodeLambda)(const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height);
@@ -571,9 +577,15 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 
 		// Create texture
 		glGenTextures(1, &p_texture->GLTexture);
-		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_BASE_LEVEL, 0);
-		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_MAX_LEVEL, levels);
 		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+
+		// Set mipmaps range
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, levels - 1);
+
+		// Disable mipmaps and clamp to edges
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Determine texture format
 		void (*TextureDecodeLambda)(const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height);

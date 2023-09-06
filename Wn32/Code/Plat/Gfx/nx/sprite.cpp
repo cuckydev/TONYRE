@@ -14,6 +14,7 @@ namespace NxWn32
 
 // Shaders
 static const char *vertex_shader = R"(#version 330 core
+
 layout (location = 0) in vec3 i_pos;
 layout (location = 1) in vec2 i_uv;
 layout (location = 2) in vec4 i_col;
@@ -30,10 +31,11 @@ void main()
 )";
 
 static const char *fragment_shader = R"(#version 330 core
+
 in vec2 f_uv;
 in vec4 f_col;
 
-layout(location = 0) out vec4 o_col;
+layout (location = 0) out vec4 o_col;
 
 uniform sampler2D u_texture_0;
 

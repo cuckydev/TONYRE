@@ -33,6 +33,8 @@
 #include <Gel/Scripting/script.h>
 #include <Gfx/2D/ScreenElemMan.h>
 
+#include <Sys/Config/config.h>
+
 #include "SDL.h"
 
 //#include <libpad.h>
@@ -212,6 +214,11 @@ void Device::read_data ( void )
 	{
 		m_data.m_control_data[20] |= (1 << 0); // Black button
 	}
+
+	if (keystate[SDL_SCANCODE_EQUALS])
+		Config::gCD = false;
+	if (keystate[SDL_SCANCODE_MINUS])
+		Config::gCD = true;
 
 	/*
 	XINPUT_STATE	xis;

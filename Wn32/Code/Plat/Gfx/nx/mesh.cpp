@@ -640,33 +640,38 @@ void sMesh::Submit( void )
 	// Draw mesh
 	static const char *test_v = R"(#version 330 core
 
-layout(location = 0) in vec3 i_pos;
-layout(location = 3) in vec3 i_nor;
+layout (location = 0) in vec3 i_pos;
+layout (location = 3) in vec3 i_nor;
+layout (location = 4) in vec4 i_col;
+layout (location = 5) in vec2 i_uv;
 
+out vec2 f_uv;
 out vec4 f_col;
 
-uniform mat4 u_mvp;
+uniform vec3 u_col;
 
-float rand(vec2 co){
-	return 0.5f + 0.5f * fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
-}
+uniform mat4 u_mvp;
 
 void main()
 {
 	gl_Position = u_mvp * vec4(i_pos, 1.0f);
-	vec4 rng = vec4(rand(i_pos.xy), rand(i_pos.zy), rand(i_pos.xz), 1.0f);
-	f_col = vec4(vec3(0.5f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.5f), 1.0f) * rng;
+	f_uv = i_uv;
+	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f); // * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
 }
 	)";
 	static const char *test_f = R"(#version 330 core
 
+in vec2 f_uv;
 in vec4 f_col;
 
-layout(location = 0) out vec4 o_col;
+layout (location = 0) out vec4 o_col;
+
+uniform sampler2D u_texture_0;
 
 void main()
 {
-	o_col = f_col;
+	vec4 texel = texture(u_texture_0, f_uv);
+	o_col = texel * f_col;
 }
 	)";
 	static sShader *test_s = new sShader(test_v, test_f);
@@ -675,11 +680,22 @@ void main()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
+	// Bind first material texture
+	if (mp_material != nullptr && mp_material->m_passes != 0 && mp_material->mp_tex[0] != nullptr)
+	{
+		glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[0]->GLTexture);
+	}
+
 	// Send MVP matrix
 	glm::mat4 mvp = EngineGlobals.projection_matrix * EngineGlobals.view_matrix * EngineGlobals.model_matrix;
 
 	glUseProgram(test_s->program);
 	glUniformMatrix4fv(glGetUniformLocation(test_s->program, "u_mvp"), 1, GL_FALSE, &mvp[0][0]);
+
+	if (m_flags & MESH_FLAG_MATERIAL_COLOR_OVERRIDE)
+		glUniform3fv(glGetUniformLocation(test_s->program, "u_col"), 1, &m_material_color_override[0]);
+	else
+		glUniform3f(glGetUniformLocation(test_s->program, "u_col"), 1.0f, 1.0f, 1.0f);
 
 	glBindVertexArray(mp_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
@@ -948,6 +964,11 @@ void sMesh::SetupVAO(void)
 	{
 		glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, m_vertex_stride, (void*)m_diffuse_offset);
 		glEnableVertexAttribArray(4);
+	}
+	if (m_uv0_offset != 0)
+	{
+		glVertexAttribPointer(5, 2, GL_FLOAT, GL_TRUE, m_vertex_stride, (void*)m_uv0_offset);
+		glEnableVertexAttribArray(5);
 	}
 }
 

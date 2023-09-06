@@ -154,7 +154,7 @@ public:
 	GLuint mp_vbo = 0;
 
 	float m_bounding_sphere_nearest_z = 0.0f; // Used for dynamic sorting during front-back block sorting.
-	float m_material_color_override[3] = {};
+	float m_material_color_override[3] = {1.0f, 1.0f, 1.0f};
 
 	char *mp_vc_wibble_data = nullptr;
 
