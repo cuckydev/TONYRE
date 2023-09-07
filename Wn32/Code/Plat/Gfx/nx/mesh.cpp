@@ -643,9 +643,9 @@ void sMesh::Submit( void )
 layout (location = 0) in vec3 i_pos;
 layout (location = 3) in vec3 i_nor;
 layout (location = 4) in vec4 i_col;
-layout (location = 5) in vec2 i_uv;
+layout (location = 5) in vec2 i_uv[4];
 
-out vec2 f_uv;
+out vec2 f_uv[4];
 out vec4 f_col;
 
 uniform vec3 u_col;
@@ -655,23 +655,72 @@ uniform mat4 u_mvp;
 void main()
 {
 	gl_Position = u_mvp * vec4(i_pos, 1.0f);
-	f_uv = i_uv;
+	f_uv[0] = i_uv[0];
+	f_uv[1] = i_uv[1];
+	f_uv[2] = i_uv[2];
+	f_uv[3] = i_uv[3];
 	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f); // * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
 }
 	)";
 	static const char *test_f = R"(#version 330 core
 
-in vec2 f_uv;
+const uint MATFLAG_UV_WIBBLE = (1u<<0u);
+const uint MATFLAG_VC_WIBBLE = (1u<<1u);
+const uint MATFLAG_TEXTURED = (1u<<2u);
+const uint MATFLAG_ENVIRONMENT = (1u<<3u);
+const uint MATFLAG_DECAL = (1u<<4u);
+const uint MATFLAG_SMOOTH = (1u<<5u);
+const uint MATFLAG_TRANSPARENT = (1u<<6u);
+const uint MATFLAG_PASS_COLOR_LOCKED = (1u<<7u);
+const uint MATFLAG_SPECULAR = (1u<<8u); // Specular lighting is enabled on this material (Pass0).
+const uint MATFLAG_BUMP_SIGNED_TEXTURE = (1u<<9u); // This pass uses an offset texture which needs to be treated as signed data.
+const uint MATFLAG_BUMP_LOAD_MATRIX = (1u<<10u); // This pass requires the bump mapping matrix elements to be set up.
+const uint MATFLAG_PASS_TEXTURE_ANIMATES = (1u<<11u); // This pass has a texture which animates.
+const uint MATFLAG_PASS_IGNORE_VERTEX_ALPHA = (1u<<12u); // This pass should not have the texel alpha modulated by the vertex alpha.
+const uint MATFLAG_EXPLICIT_UV_WIBBLE = (1u<<14u); // Uses explicit uv wibble (set via script) rather than calculated.
+const uint MATFLAG_WATER_EFFECT = (1u<<27u); // This material should be processed to provide the water effect.
+const uint MATFLAG_NO_MAT_COL_MOD = (1u<<28u); // No material color modulation required (all passes have m.rgb = 0.5).
+
+in vec2 f_uv[4];
 in vec4 f_col;
 
 layout (location = 0) out vec4 o_col;
 
 uniform sampler2D u_texture_0;
+uniform sampler2D u_texture_1;
+uniform sampler2D u_texture_2;
+uniform sampler2D u_texture_3;
+
+uniform uint u_passes;
+
+uniform uvec4 u_pass_flag;
 
 void main()
 {
-	vec4 texel = texture(u_texture_0, f_uv);
-	o_col = texel * f_col;
+	vec4 accum = vec4(0.0f);
+	for (uint i = 0u; i < u_passes; i++)
+	{
+		uint flag = u_pass_flag[i];
+
+		vec4 texel = f_col;
+		if ((flag & MATFLAG_PASS_IGNORE_VERTEX_ALPHA) != 0u)
+			texel.a = 1.0f;
+
+		if ((flag & MATFLAG_TEXTURED) != 0u)
+		{
+			if (i == 0u)
+				texel *= texture(u_texture_0, f_uv[i]);
+			else if (i == 1u)
+				texel *= texture(u_texture_1, f_uv[i]);
+			else if (i == 2u)
+				texel *= texture(u_texture_2, f_uv[i]);
+			else if (i == 3u)
+				texel *= texture(u_texture_3, f_uv[i]);
+		}
+		
+		accum += texel;
+	}
+	o_col = accum;
 }
 	)";
 	static sShader *test_s = new sShader(test_v, test_f);
@@ -680,10 +729,31 @@ void main()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
-	// Bind first material texture
-	if (mp_material != nullptr && mp_material->m_passes != 0 && mp_material->mp_tex[0] != nullptr)
+	// Enable or disable depth write
+	if (m_flags & MESH_FLAG_NO_ZWRITE)
+		glDepthMask(GL_FALSE);
+	else
+		glDepthMask(GL_TRUE);
+
+	// Setup passes
+	char uniform_name[32];
+
+	glUniform1ui(glGetUniformLocation(test_s->program, "u_passes"), mp_material->m_passes);
+	glUniform4ui(glGetUniformLocation(test_s->program, "u_pass_flag"), mp_material->m_flags[0], mp_material->m_flags[1], mp_material->m_flags[2], mp_material->m_flags[3]);
+
+	for (uint32 i = 0; i < mp_material->m_passes; i++)
 	{
-		glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[0]->GLTexture);
+		// Set texture
+		if (mp_material->mp_tex[i])
+		{
+			// Bind texture
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[i]->GLTexture);
+
+			// Set texture uniform
+			sprintf(uniform_name, "u_texture_%d", i);
+			glUniform1i(glGetUniformLocation(test_s->program, uniform_name), i);
+		}
 	}
 
 	// Send MVP matrix
@@ -945,30 +1015,33 @@ void sMesh::SetupVAO(void)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, m_vertex_stride, (void *)0);
 	glEnableVertexAttribArray(0);
 
-	if (m_weights_offset != 0)
+	if (m_weights_offset != nullptr)
 	{
 		glVertexAttribIPointer(1, 1, GL_UNSIGNED_INT, m_vertex_stride, (void*)m_weights_offset);
 		glEnableVertexAttribArray(1);
 	}
-	if (m_matindices_offset != 0)
+	if (m_matindices_offset != nullptr)
 	{
 		glVertexAttribIPointer(2, 4, GL_UNSIGNED_SHORT, m_vertex_stride, (void*)m_matindices_offset);
 		glEnableVertexAttribArray(2);
 	}
-	if (m_normal_offset != 0)
+	if (m_normal_offset != nullptr)
 	{
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, m_vertex_stride, (void*)m_normal_offset);
 		glEnableVertexAttribArray(3);
 	}
-	if (m_diffuse_offset != 0)
+	if (m_diffuse_offset != nullptr)
 	{
 		glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, m_vertex_stride, (void*)m_diffuse_offset);
 		glEnableVertexAttribArray(4);
 	}
-	if (m_uv0_offset != 0)
+	for (uint32 i = 0; i < MAX_PASSES; i++)
 	{
-		glVertexAttribPointer(5, 2, GL_FLOAT, GL_TRUE, m_vertex_stride, (void*)m_uv0_offset);
-		glEnableVertexAttribArray(5);
+		if (m_uv_offset[i] != nullptr)
+		{
+			glVertexAttribPointer(5 + i, 2, GL_FLOAT, GL_TRUE, m_vertex_stride, (void*)m_uv_offset[i]);
+			glEnableVertexAttribArray(5 + i);
+		}
 	}
 }
 
@@ -1323,10 +1396,10 @@ void sMesh::Initialize( int				num_vertices,
 		}
 	}
 
-	if (tex_coord_pass > 0)
+	for (uint32 i = 0; i < tex_coord_pass; i++)
 	{
-		m_uv0_offset = (const void *)vertex_size;
-		vertex_size += 2 * sizeof(float) * tex_coord_pass;
+		m_uv_offset[i] = (const void*)vertex_size;
+		vertex_size += 2 * sizeof(float);
 	}
 
 	// Assume no normals for now, unless weight information indicates an animating mesh
@@ -1457,7 +1530,7 @@ void sMesh::Initialize( int				num_vertices,
 	// Write texture coordinates
 	if ((tex_coord_pass > 0) && (p_tex_coords != nullptr))
 	{
-		float *p_out = (float*)((char*)p_vbo + (uintptr_t)m_uv0_offset);
+		float *p_out = (float*)((char*)p_vbo + (uintptr_t)m_uv_offset[0]);
 		float *p_in = p_tex_coords + (min_index * 2 * num_tc_sets);
 
 		for (uint16 v = min_index; v <= max_index; v++)

@@ -120,16 +120,15 @@ public:
 	sMaterial *mp_material = nullptr;
 
 	GLsizei m_vertex_stride = 0;
-	const void *m_weights_offset = nullptr; // Offset into vertex format for weights component.
+	const void *m_weights_offset = nullptr;    // Offset into vertex format for weights component.
 	const void *m_matindices_offset = nullptr; // Offset into vertex format for matrix indices component.
-	const void *m_diffuse_offset = nullptr; // Offset into vertex format for diffuse color component.
-	const void *m_normal_offset = nullptr;  // Offset into vertex format for normal component.
-	const void *m_uv0_offset = nullptr;     // Offset into vertex format for uv0 component.
+	const void *m_diffuse_offset = nullptr;    // Offset into vertex format for diffuse color component.
+	const void *m_normal_offset = nullptr;     // Offset into vertex format for normal component.
+	const void *m_uv_offset[4] = {};           // Offset into vertex format for uv components.
 
 	uint8 m_current_write_vertex_buffer = 0;
 
 	uint8 m_visibility_mask = 0;
-
 
 	int8 m_bone_index = -1;
 
