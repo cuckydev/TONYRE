@@ -478,6 +478,8 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		}
 		
 		// Decode texture
+		uint8 *out_buffer = new uint8[base_width * base_height * 4];
+
 		for (uint8 mip_level = 0; mip_level < p_texture->Levels; ++mip_level)
 		{
 			// Read input data
@@ -488,18 +490,18 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 			MemoryRead(in_buffer, texture_level_data_size, 1, p_data);
 
 			// Decode texture
-			uint8 *out_buffer = new uint8[base_width * base_height * 4];
 			TextureDecodeLambda(in_buffer, pal, out_buffer, base_width, base_height);
 			delete[] in_buffer;
 
 			// Store to texture
 			glTexImage2D(GL_TEXTURE_2D, mip_level, GL_RGBA, base_width, base_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, out_buffer);
-			delete[] out_buffer;
 
 			// Shift down to next mip level
 			base_width >>= 1;
 			base_height >>= 1;
 		}
+
+		delete[] out_buffer;
 
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();
@@ -641,6 +643,8 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		}
 
 		// Decode texture
+		uint8 *out_buffer = new uint8[base_width * base_height * 4];
+
 		for (uint8 mip_level = 0; mip_level < p_texture->Levels; mip_level++)
 		{
 			// Read input data
@@ -651,18 +655,18 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 			File::Read(in_buffer, texture_level_data_size, 1, p_FH);
 
 			// Decode texture
-			uint8 *out_buffer = new uint8[base_width * base_height * 4];
 			TextureDecodeLambda(in_buffer, pal, out_buffer, base_width, base_height);
 			delete[] in_buffer;
 
 			// Store to texture
 			glTexImage2D(GL_TEXTURE_2D, mip_level, GL_RGBA, base_width, base_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, out_buffer);
-			delete[] out_buffer;
 
 			// Shift down to next mip level
 			base_width >>= 1;
 			base_height >>= 1;
 		}
+
+		delete[] out_buffer;
 		
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();

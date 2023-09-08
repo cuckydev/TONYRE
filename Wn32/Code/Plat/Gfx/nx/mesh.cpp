@@ -686,10 +686,7 @@ in vec4 f_col;
 
 layout (location = 0) out vec4 o_col;
 
-uniform sampler2D u_texture_0;
-uniform sampler2D u_texture_1;
-uniform sampler2D u_texture_2;
-uniform sampler2D u_texture_3;
+uniform sampler2D u_texture[4];
 
 uniform uint u_passes;
 
@@ -708,14 +705,7 @@ void main()
 
 		if ((flag & MATFLAG_TEXTURED) != 0u)
 		{
-			if (i == 0u)
-				texel *= texture(u_texture_0, f_uv[i]);
-			else if (i == 1u)
-				texel *= texture(u_texture_1, f_uv[i]);
-			else if (i == 2u)
-				texel *= texture(u_texture_2, f_uv[i]);
-			else if (i == 3u)
-				texel *= texture(u_texture_3, f_uv[i]);
+			texel *= texture(u_texture[i], f_uv[i]);
 		}
 		
 		accum += texel;
@@ -751,7 +741,7 @@ void main()
 			glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[i]->GLTexture);
 
 			// Set texture uniform
-			sprintf(uniform_name, "u_texture_%d", i);
+			sprintf(uniform_name, "u_texture[%d]", i);
 			glUniform1i(glGetUniformLocation(test_s->program, uniform_name), i);
 		}
 	}
