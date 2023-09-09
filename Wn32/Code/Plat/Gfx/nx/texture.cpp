@@ -227,6 +227,12 @@ sTexture *LoadTexture( const char *p_filename )
 		// Create the texture object.
 		sTexture *p_texture = new sTexture();
 
+		// Clamp at edges
+		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 		// Create palette if required
 		uint8 pal[256][4] = {};
 		if( header.clut_bit_depth > 0 )
