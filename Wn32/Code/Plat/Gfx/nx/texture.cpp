@@ -21,7 +21,13 @@ namespace NxWn32
 /******************************************************************/
 sTexture::sTexture()
 {
-	GLTexture = 0;
+	// Create texture
+	glGenTextures(1, &GLTexture);
+	glBindTexture(GL_TEXTURE_2D, GLTexture);
+
+	// Enable mipmaps
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 
@@ -33,35 +39,10 @@ sTexture::sTexture()
 sTexture::~sTexture()
 {
 	// Delete texture
+	if (Data != nullptr)
+		delete[] Data;
+
 	glDeleteTextures(1, &GLTexture);
-	/*
-	ULONG rr;
-
-	if( pD3DTexture )
-	{
-		rr = pD3DTexture->Release();
-		Dbg_Assert( rr == 0 );
-
-		// Ensure that this texture is no longer referenced in the EngineGlobals.
-		for( int p = 0; p < 4; ++p )
-		{
-			if( EngineGlobals.p_texture[p] == pD3DTexture )
-			{
-				set_texture( p, nullptr );
-			}
-		}
-	}
-	if( pD3DPalette )
-	{
-		rr = pD3DPalette->Release();
-		Dbg_Assert( rr == 0 );
-	}
-	if( pD3DSurface )
-	{
-		rr = pD3DSurface->Release();
-		Dbg_Assert( rr == 0 );
-	}
-	*/
 }
 
 
@@ -72,9 +53,8 @@ sTexture::~sTexture()
 /******************************************************************/
 void sTexture::Set( int pass )
 {
-	(void)pass;
-	// Set this texture as the active texture for a specific pass.
-	// set_texture( pass, pD3DTexture, pD3DPalette );
+	glActiveTexture(GL_TEXTURE0 + pass);
+	glBindTexture(GL_TEXTURE_2D, GLTexture);
 }
 
 
@@ -154,6 +134,34 @@ static bool is_power_of_two( uint32 a )
 	return (( a & ( a - 1 )) == 0 );
 }
 
+
+// Upload Data to GLTexture
+void sTexture::Upload()
+{
+	// Bind texture
+	glBindTexture(GL_TEXTURE_2D, GLTexture);
+
+	// Set mipmaps minimum and maximum
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, Levels - 1);
+
+	// Set texture data
+	uint8 *datap = Data;
+
+	size_t base_width = BaseWidth;
+	size_t base_height = BaseHeight;
+	
+	for (uint8 mip_level = 0; mip_level < Levels; mip_level++)
+	{
+		// Write to texture
+		glTexImage2D(GL_TEXTURE_2D, mip_level, GL_RGBA, base_width, base_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, datap);
+
+		// Shift to next mip level
+		datap += (base_width * base_height * 4);
+		base_width >>= 1;
+		base_height >>= 1;
+	}
+}
 
 
 /******************************************************************/
@@ -236,8 +244,19 @@ sTexture *LoadTexture( const char *p_filename )
 		Dbg_MsgAssert(len == num_bytes, ("couldn't read texture data from texture file %s", p_filename));
 		File::Close(p_FH);
 
+		// Set texture size
+		p_texture->BaseWidth = (uint16)header.width;
+		p_texture->BaseHeight = (uint16)header.height;
+		p_texture->ActualWidth = (uint16)header.original_width;
+		p_texture->ActualHeight = (uint16)header.original_height;
+
+		p_texture->Levels = 1;
+
 		// Convert to 32 bit
-		uint8 *texture_data = new uint8[header.width * header.height * 4];
+		size_t texture_size = p_texture->GetDataSize();
+		uint8 *texture_data = new uint8[texture_size];
+
+		Dbg_Assert(texture_size != 0);
 
 		switch (header.bit_depth)
 		{
@@ -255,52 +274,29 @@ sTexture *LoadTexture( const char *p_filename )
 		}
 		delete[] source_data;
 
-		// Create texture
-		glGenTextures(1, &p_texture->GLTexture);
-		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
-
-		// Disable mipmaps and clamp to edges
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
 		// Unswizzle texture
 		if (is_power_of_two(header.width) && is_power_of_two(header.height))
 		{
-			uint8 *unswizzled_texture_data = new uint8[header.width * header.height * 4];
+			uint8 *unswizzled_texture_data = new uint8[texture_size];
 			TextureDecode::Swizzle_Decode(texture_data, unswizzled_texture_data, header.width, header.height);
 			delete[] texture_data;
 
-			// Write to texture
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, unswizzled_texture_data);
-				
-			delete[] unswizzled_texture_data;
-
-			// Set size
-			p_texture->BaseWidth = (uint16)header.width;
-			p_texture->BaseHeight = (uint16)header.height;
-			p_texture->ActualWidth = (uint16)header.original_width;
-			p_texture->ActualHeight = (uint16)header.original_height;
+			// Set texture data
+			p_texture->Data = unswizzled_texture_data;
 		}
 		else
 		{
-			// Write to texture
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header.original_width, header.original_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
-			delete[] texture_data;
-
-			// Set size
-			p_texture->BaseWidth = (uint16)header.original_width;
-			p_texture->BaseHeight = (uint16)header.original_height;
-			p_texture->ActualWidth = (uint16)header.original_width;
-			p_texture->ActualHeight = (uint16)header.original_height;
+			// Set texture data
+			p_texture->Data = texture_data;
 		}
+
+		// Upload texture
+		p_texture->Upload();
 
 		// Set up some member values
 		p_texture->PaletteDepth	= (uint8)header.clut_bit_depth;
 		p_texture->TexelDepth	= (uint8)header.bit_depth;
 		p_texture->DXT			= 0;
-		p_texture->Levels		= 1;
 			
 		return p_texture;
 	}

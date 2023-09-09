@@ -120,6 +120,13 @@ namespace Nx
 			if (p_cur_camera == nullptr)
 				continue;
 
+			// Set viewport
+			GLint left = (GLint)(p_cur_viewport->GetOriginX() * NxWn32::EngineGlobals.backbuffer_width);
+			GLint top = (GLint)((1.0f - (p_cur_viewport->GetOriginY() + p_cur_viewport->GetHeight())) * NxWn32::EngineGlobals.backbuffer_height);
+			GLsizei width = (GLsizei)(p_cur_viewport->GetWidth() * NxWn32::EngineGlobals.backbuffer_width);
+			GLsizei height = (GLsizei)(p_cur_viewport->GetHeight() * NxWn32::EngineGlobals.backbuffer_height);
+			glViewport(left, top, width, height);
+
 			// There is no bounding box transform for rendering the world.
 			NxWn32::set_frustum_bbox_transform(nullptr);
 
@@ -146,14 +153,35 @@ namespace Nx
 				}
 			}
 
-			// Render the sky, followed by all the non-sky semitransparent scene geometry. There is no bounding box transform for rendering the world.
-			NxWn32::set_frustum_bbox_transform(nullptr);
-
 			// Render imposters
 			CEngine::sGetImposterManager()->DrawImposters();
 
 			// Render opaque instances
 			NxWn32::render_instances(NxWn32::vRENDER_OPAQUE);
+
+			// Render the sky, followed by all the non-sky semitransparent scene geometry. There is no bounding box transform for rendering the world.
+			NxWn32::set_frustum_bbox_transform(nullptr);
+
+			// Set up the sky camera.
+			Mth::Vector	centre_pos(0.0f, 0.0f, 0.0f);
+			NxWn32::set_camera(&(p_cur_camera->GetMatrix()), &centre_pos, p_cur_camera->GetAdjustedHFOV(), aspect_ratio, true);
+
+			// Render the sky
+			for (int i = 0; i < MAX_LOADED_SCENES; i++)
+			{
+				if (sp_loaded_scenes[i] != nullptr)
+				{
+					CXboxScene *pXboxScene = static_cast<CXboxScene *>(sp_loaded_scenes[i]);
+					if (pXboxScene->IsSky())
+					{
+						// No anisotropic filtering for the sky.
+						NxWn32::render_scene(pXboxScene->GetEngineScene(), NxWn32::vRENDER_OPAQUE | NxWn32::vRENDER_SEMITRANSPARENT, v);
+					}
+				}
+			}
+
+			// Revert to the regular camera
+			NxWn32::set_camera(&(p_cur_camera->GetMatrix()), &(p_cur_camera->GetPos()), p_cur_camera->GetAdjustedHFOV(), aspect_ratio);
 
 			// Render all semitransparent instances.
 			NxWn32::render_instances(NxWn32::vRENDER_SEMITRANSPARENT | NxWn32::vRENDER_INSTANCE_PRE_WORLD_SEMITRANSPARENT);
@@ -179,6 +207,9 @@ namespace Nx
 			// Render all semitransparent instances.
 			NxWn32::render_instances(NxWn32::vRENDER_SEMITRANSPARENT | NxWn32::vRENDER_INSTANCE_POST_WORLD_SEMITRANSPARENT);
 		}
+
+		// Reset viewport
+		glViewport(0, 0, NxWn32::EngineGlobals.backbuffer_width, NxWn32::EngineGlobals.backbuffer_height);
 
 		// Draw 2D sprites
 		NxWn32::SDraw2D::DrawAll();

@@ -82,16 +82,29 @@ bool CXboxTexture::plat_load_texture( const char *p_texture_name, bool sprite, b
 /******************************************************************/
 bool CXboxTexture::plat_replace_texture( CTexture *p_texture )
 {
-	(void)p_texture;
-	// CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>(p_texture);
+	CXboxTexture *p_xbox_texture = static_cast<CXboxTexture *>(p_texture);
 
 	// Go through and copy the texture.
-	// NxWn32::sTexture *p_src = p_xbox_texture->GetEngineTexture();
+	NxWn32::sTexture *p_src = p_xbox_texture->GetEngineTexture();
 	NxWn32::sTexture *p_dst = GetEngineTexture();
+	
+	// Copy buffer
+	if (p_dst->Data != nullptr)
+		delete[] p_dst->Data;
 
-	// TODO: actually copy
-	glDeleteTextures(1, &p_dst->GLTexture);
-	glGenTextures(1, &p_dst->GLTexture);
+	p_dst->BaseWidth = p_src->BaseWidth;
+	p_dst->BaseHeight = p_src->BaseHeight;
+	p_dst->ActualWidth = p_src->ActualWidth;
+	p_dst->ActualHeight = p_src->ActualHeight;
+	p_dst->Levels = p_src->Levels;
+
+	size_t size = p_src->GetDataSize();
+	p_dst->Data = new uint8[size];
+	memcpy(p_dst->Data, p_src->Data, size);
+
+	// Upload texture
+	p_dst->Upload();
+
 	return true;
 }
 
@@ -412,18 +425,6 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 		if (palette_size > 0)
 			MemoryRead(pal, palette_size, 1, p_data);
 
-		// Create texture
-		glGenTextures(1, &p_texture->GLTexture);
-		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
-
-		// Set mipmaps range
-		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_BASE_LEVEL, 0);
-		glTexParameteri(p_texture->GLTexture, GL_TEXTURE_MAX_LEVEL, levels);
-
-		// Disable mipmaps and clamp to edges
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 		// Determine texture format
 		void (*TextureDecodeLambda)(const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height);
 
@@ -476,11 +477,12 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 			Dbg_Assert(0);
 			return nullptr;
 		}
-		
-		// Decode texture
-		uint8 *out_buffer = new uint8[base_width * base_height * 4];
 
-		for (uint8 mip_level = 0; mip_level < p_texture->Levels; ++mip_level)
+		// Decode texture
+		p_texture->Data = new uint8[p_texture->GetDataSize()];
+
+		uint8 *texture_datap = p_texture->Data;
+		for (uint8 mip_level = 0; mip_level < p_texture->Levels; mip_level++)
 		{
 			// Read input data
 			uint32 texture_level_data_size;
@@ -490,18 +492,17 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::Has
 			MemoryRead(in_buffer, texture_level_data_size, 1, p_data);
 
 			// Decode texture
-			TextureDecodeLambda(in_buffer, pal, out_buffer, base_width, base_height);
+			TextureDecodeLambda(in_buffer, pal, texture_datap, base_width, base_height);
 			delete[] in_buffer;
 
-			// Store to texture
-			glTexImage2D(GL_TEXTURE_2D, mip_level, GL_RGBA, base_width, base_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, out_buffer);
-
 			// Shift down to next mip level
+			texture_datap += (base_width * base_height * 4);
 			base_width >>= 1;
 			base_height >>= 1;
 		}
 
-		delete[] out_buffer;
+		// Upload texture
+		p_texture->Upload();
 
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();
@@ -577,18 +578,6 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		if (palette_size > 0)
 			File::Read(pal, 4, palette_size, p_FH);
 
-		// Create texture
-		glGenTextures(1, &p_texture->GLTexture);
-		glBindTexture(GL_TEXTURE_2D, p_texture->GLTexture);
-
-		// Set mipmaps range
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, levels - 1);
-
-		// Disable mipmaps and clamp to edges
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 		// Determine texture format
 		void (*TextureDecodeLambda)(const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height);
 
@@ -643,8 +632,9 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		}
 
 		// Decode texture
-		uint8 *out_buffer = new uint8[base_width * base_height * 4];
+		p_texture->Data = new uint8[p_texture->GetDataSize()];
 
+		uint8 *texture_datap = p_texture->Data;
 		for (uint8 mip_level = 0; mip_level < p_texture->Levels; mip_level++)
 		{
 			// Read input data
@@ -655,18 +645,17 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 			File::Read(in_buffer, texture_level_data_size, 1, p_FH);
 
 			// Decode texture
-			TextureDecodeLambda(in_buffer, pal, out_buffer, base_width, base_height);
+			TextureDecodeLambda(in_buffer, pal, texture_datap, base_width, base_height);
 			delete[] in_buffer;
 
-			// Store to texture
-			glTexImage2D(GL_TEXTURE_2D, mip_level, GL_RGBA, base_width, base_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, out_buffer);
-
 			// Shift down to next mip level
+			texture_datap += (base_width * base_height * 4);
 			base_width >>= 1;
 			base_height >>= 1;
 		}
 
-		delete[] out_buffer;
+		// Upload texture
+		p_texture->Upload();
 		
 		// Add this texture to the table.
 		Nx::CXboxTexture *p_xbox_texture = new Nx::CXboxTexture();

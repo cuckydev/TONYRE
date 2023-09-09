@@ -967,8 +967,8 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	pData += sizeof(SPlatformFileHeader);
 
 	m_numBones = pThePlatformHeader->numBones;
-	m_num_qFrames = (short)pThePlatformHeader->numQKeys;
-	m_num_tFrames = (short)pThePlatformHeader->numTKeys;
+	m_num_qFrames = pThePlatformHeader->numQKeys;
+	m_num_tFrames = pThePlatformHeader->numTKeys;
 	
 	uint32 qAllocSize = *((uint32*)pData);
 	pData += sizeof(uint32);
@@ -1154,8 +1154,8 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 
 	for (size_t i = 0; i < m_numBones; i++)
 	{
-		runningQCount += get_num_qkeys( mp_perBoneFrames, (int)i );
-		runningTCount += get_num_tkeys( mp_perBoneFrames, (int)i );
+		runningQCount += get_num_qkeys( mp_perBoneFrames, i );
+		runningTCount += get_num_tkeys( mp_perBoneFrames, i );
 	}
 
 	Dbg_MsgAssert( runningQCount == m_num_qFrames, ( "Wrong number of qframes in %x %d %d", m_fileNameCRC, runningQCount, m_num_qFrames ) );
@@ -1761,8 +1761,8 @@ bool CBonedAnimFrameData::GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth
 
 	for ( uint32 i = 0; i < m_numBones; i++ )
 	{
-		int numQKeys = get_num_qkeys( p_bone_frames, (int)i );
-		int numTKeys = get_num_tkeys( p_bone_frames, (int)i );
+		int numQKeys = get_num_qkeys( p_bone_frames, i );
+		int numTKeys = get_num_tkeys( p_bone_frames, i );
 
 #ifdef __ARAM__
 		int q_off = 0;
@@ -2397,8 +2397,8 @@ bool CBonedAnimFrameData::GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vect
 
 	for ( uint32 i = 0; i < m_numBones; i++ )
 	{
-		int numQKeys = get_num_qkeys( p_bone_frames, (int)i );
-		int numTKeys = get_num_tkeys( p_bone_frames, (int)i );
+		int numQKeys = get_num_qkeys( p_bone_frames, i );
+		int numTKeys = get_num_tkeys( p_bone_frames, i );
 
 #ifdef __ARAM__
 		int q_off = 0;

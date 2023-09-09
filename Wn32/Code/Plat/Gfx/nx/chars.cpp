@@ -197,6 +197,10 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	glGenTextures(1, &pFont->GLTexture);
 	glBindTexture(GL_TEXTURE_2D, pFont->GLTexture);
 
+	// Set mipmap range
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL,  0);
+
 	// Disable mipmaps and clamp to edges
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
