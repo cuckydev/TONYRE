@@ -47,11 +47,13 @@ out vec4 f_col;
 
 uniform vec3 u_col;
 
-uniform mat4 u_mvp;
+uniform mat4 u_m;
+uniform mat4 u_v;
+uniform mat4 u_p;
 
 void main()
 {
-	gl_Position = u_mvp * vec4(i_pos, 1.0f);
+	gl_Position = (u_p * u_v * u_m) * vec4(i_pos, 1.0f);
 	f_uv[0] = i_uv[0];
 	f_uv[1] = i_uv[1];
 	f_uv[2] = i_uv[2];
@@ -73,7 +75,9 @@ out vec4 f_col;
 
 uniform vec3 u_col;
 
-uniform mat4 u_mvp;
+uniform mat4 u_m;
+uniform mat4 u_v;
+uniform mat4 u_p;
 
 uniform mat4 u_bone[55];
 
@@ -88,7 +92,7 @@ void main()
 	vec4 pos = bone_matrix * vec4(i_pos, 1.0f);
 
 	// Transform
-	gl_Position = u_mvp * pos;
+	gl_Position = (u_p * u_v * u_m) * pos;
 	f_uv[0] = i_uv[0];
 	f_uv[1] = i_uv[1];
 	f_uv[2] = i_uv[2];

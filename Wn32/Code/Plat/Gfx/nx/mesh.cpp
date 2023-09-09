@@ -647,14 +647,17 @@ void sMesh::Submit( void )
 	else
 		glDepthMask(GL_TRUE);
 
-	// Setup passes
-	char uniform_name[32];
-
+	// Get shader
 	sShader *shader;
 	if (m_matindices_offset != nullptr)
 		shader = BonedShader();
 	else
 		shader = BasicShader();
+
+	glUseProgram(shader->program);
+
+	// Setup passes
+	char uniform_name[32];
 
 	glUniform1ui(glGetUniformLocation(shader->program, "u_passes"), mp_material->m_passes);
 	glUniform4ui(glGetUniformLocation(shader->program, "u_pass_flag"), mp_material->m_flags[0], mp_material->m_flags[1], mp_material->m_flags[2], mp_material->m_flags[3]);
@@ -671,10 +674,9 @@ void sMesh::Submit( void )
 	}
 
 	// Send MVP matrix
-	glm::mat4 mvp = EngineGlobals.projection_matrix * EngineGlobals.view_matrix * EngineGlobals.model_matrix;
-
-	glUseProgram(shader->program);
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_mvp"), 1, GL_FALSE, &mvp[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_m"), 1, GL_FALSE, &EngineGlobals.model_matrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_v"), 1, GL_FALSE, &EngineGlobals.view_matrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_p"), 1, GL_FALSE, &EngineGlobals.projection_matrix[0][0]);
 
 	if (m_flags & MESH_FLAG_MATERIAL_COLOR_OVERRIDE)
 		glUniform3fv(glGetUniformLocation(shader->program, "u_col"), 1, &m_material_color_override[0]);
