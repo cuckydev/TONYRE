@@ -328,181 +328,20 @@ void setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matric
 
 	// Get boned shader
 	sShader *shader = BonedShader();
+	glUseProgram(shader->program);
 
 	// Send matrices
 	float *inner = (float *)p_bone_matrices;
 
 	for (int i = 0; i < num_bone_matrices; i++)
 	{
+		// Send matrix to shader
 		char uniform_name[32];
 		sprintf(uniform_name, "u_bone[%d]", i);
 
-		// Send matrix
-		// glUniformMatrix4x3fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, (float*)p_bone_matrices + i * 12);
-		// Swap to column major
-
-		// glUniformMatrix4x3fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, inner);
 		glUniformMatrix4fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, inner);
 		inner += 16;
 	}
-
-	/*
-	XGMATRIX	dest_matrix;
-	XGMATRIX	inverse_view_matrix;
-	XGMATRIX	temp_matrix;
-	XGMATRIX	projMatrix;
-	XGMATRIX	viewMatrix;
-	XGMATRIX	worldMatrix;
-
-	// Projection matrix.
-	XGMatrixTranspose( &projMatrix, &EngineGlobals.projection_matrix );
-	
-	// View matrix.
-	XGMatrixTranspose( &viewMatrix, &EngineGlobals.view_matrix );
-    viewMatrix.m[3][0] = 0.0f;
-    viewMatrix.m[3][1] = 0.0f;
-    viewMatrix.m[3][2] = 0.0f;
-    viewMatrix.m[3][3] = 1.0f;
-	
-	// World space transformation matrix. (3x3 rotation plus 3 element translation component).
-	worldMatrix.m[0][0] = ((float*)p_root_matrix )[0];
-	worldMatrix.m[0][1] = ((float*)p_root_matrix )[1];
-	worldMatrix.m[0][2] = ((float*)p_root_matrix )[2];
-	worldMatrix.m[0][3] = ((float*)p_root_matrix )[3];
-	worldMatrix.m[1][0] = ((float*)p_root_matrix )[4];
-	worldMatrix.m[1][1] = ((float*)p_root_matrix )[5];
-	worldMatrix.m[1][2] = ((float*)p_root_matrix )[6];
-	worldMatrix.m[1][3] = ((float*)p_root_matrix )[7];
-	worldMatrix.m[2][0] = ((float*)p_root_matrix )[8];
-	worldMatrix.m[2][1] = ((float*)p_root_matrix )[9];
-	worldMatrix.m[2][2] = ((float*)p_root_matrix )[10];
-	worldMatrix.m[2][3] = ((float*)p_root_matrix )[11];
-	worldMatrix.m[3][0] = 0.0f;
-	worldMatrix.m[3][1] = 0.0f;
-	worldMatrix.m[3][2] = 0.0f;
-	worldMatrix.m[3][3] = 1.0f;
-
-	// Calculate composite world->view->projection matrix.
-	XGMatrixMultiply( &temp_matrix, &viewMatrix, &worldMatrix );
-	XGMatrixMultiply( &dest_matrix, &projMatrix, &temp_matrix );
-
-	// Switch to 192 constant mode, removing the lock on the reserved constants c-38 and c-37.
-//	D3DDevice_SetShaderConstantMode( D3DSCM_192CONSTANTS | D3DSCM_NORESERVEDCONSTANTS );
-
-	// Load up the combined world, camera & projection matrix.
-	D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_TRANSFORM_OFFSET, (void*)&dest_matrix, VSCONST_REG_TRANSFORM_SIZE );
-	D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_WORLD_TRANSFORM_OFFSET,	(void*)&worldMatrix, VSCONST_REG_WORLD_TRANSFORM_SIZE );
-
-	// We want to transform the light directions by the inverse of the world transform - this means we don't have to transform
-	// the normal by the world transform for every vertex in the vertex shader. However, the function D3DXVec3TransformNormal
-	// (used below) does the inverse transform for us, so need to actually figure the inverse...
-//	XGMATRIX inverse_world_transform = worldMatrix;
-//	D3DXMatrixInverse( &inverse_world_transform, nullptr, &worldMatrix );
-
-	float directional_light_color[24];
-	CopyMemory( directional_light_color, EngineGlobals.directional_light_color, sizeof( float ) * 24 );
-	
-	XGVec3TransformNormal((XGVECTOR3*)&directional_light_color[0],	(XGVECTOR3*)&EngineGlobals.directional_light_color[0], &worldMatrix );
-	XGVec3TransformNormal((XGVECTOR3*)&directional_light_color[8],	(XGVECTOR3*)&EngineGlobals.directional_light_color[8], &worldMatrix );
-	XGVec3TransformNormal((XGVECTOR3*)&directional_light_color[16],	(XGVECTOR3*)&EngineGlobals.directional_light_color[16], &worldMatrix );
-	
-	XGVec3Normalize((XGVECTOR3*)&directional_light_color[0], (XGVECTOR3*)&directional_light_color[0] ); 
-	XGVec3Normalize((XGVECTOR3*)&directional_light_color[8], (XGVECTOR3*)&directional_light_color[8] ); 
-	XGVec3Normalize((XGVECTOR3*)&directional_light_color[16], (XGVECTOR3*)&directional_light_color[16] ); 
-
-	// Load up the directional light data.
-	D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_DIR_LIGHT_OFFSET, (void*)directional_light_color, 6 );
-
-	// Load up the ambient light color.
-	D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_AMB_LIGHT_OFFSET, (void*)EngineGlobals.ambient_light_color, 1 );
-	
-	// Calculate and load up the model-relative camera position.
-	EngineGlobals.model_relative_cam_position = XGVECTOR3( EngineGlobals.cam_position.x - worldMatrix.m[0][3],
-														   EngineGlobals.cam_position.y - worldMatrix.m[1][3],
-														   EngineGlobals.cam_position.z - worldMatrix.m[2][3] );
-	XGVec3TransformNormal( &EngineGlobals.model_relative_cam_position, &EngineGlobals.model_relative_cam_position, &worldMatrix );
-
-	float specular_attribs[4] = { EngineGlobals.model_relative_cam_position.x,
-								  EngineGlobals.model_relative_cam_position.y,
-								  EngineGlobals.model_relative_cam_position.z,
-								  0.0f };
-	D3DDevice_SetVertexShaderConstantFast( VSCONST_REG_CAM_POS_OFFSET, (void*)&specular_attribs, 1 );
-
-	// Safety check here to limit number of bones to that available.
-	if( num_bone_matrices > 55 )
-	{
-		num_bone_matrices = 55;
-	}
-
-	DWORD*	p_bone_element	= (DWORD*)p_bone_matrices;
-
-	// Begin state block to set vertex shader constants for bone transforms.
-	DWORD *p_push;
-	EngineGlobals.p_Device->BeginState(( num_bone_matrices * ( 12 + 1 )) + 3, &p_push );
-
-	// 1 here isn't the parameter for SET_TRANSFORM_CONSTANT_LOAD; rather, it's the number of dwords written to that register.
-	p_push[0] = D3DPUSH_ENCODE( D3DPUSH_SET_TRANSFORM_CONSTANT_LOAD, 1 ); 
-
-	// Here is the actual parameter for SET_TRANSFORM_CONSTANT_LOAD. Always add 96 to the constant register.
-	p_push[1] = VSCONST_REG_MATRIX_OFFSET + 96;
-
-	p_push += 2;
-
-	while( num_bone_matrices > 0 )
-	{
-		// A 3x4 matrix is 12 dwords. You can encode a maximum of 32 dwords to D3DPUSH_SET_TRANSFORM_CONSTANT before needing another D3DPUSH_ENCODE.
-		p_push[0]		= D3DPUSH_ENCODE( D3DPUSH_SET_TRANSFORM_CONSTANT, 12 );
-
-		p_push[1]		= p_bone_element[0];
-		p_push[2]		= p_bone_element[4];
-		p_push[3]		= p_bone_element[8];
-		p_push[4]		= p_bone_element[12];
-
-		p_push[5]		= p_bone_element[1];
-		p_push[6]		= p_bone_element[5];
-		p_push[7]		= p_bone_element[9];
-		p_push[8]		= p_bone_element[13];
-
-		p_push[9]		= p_bone_element[2];
-		p_push[10]		= p_bone_element[6];
-		p_push[11]		= p_bone_element[10];
-		p_push[12]		= p_bone_element[14];
-
-		--num_bone_matrices;
-
-		p_bone_element	+= 16;
-		p_push			+= 13;
-	}
-
-	EngineGlobals.p_Device->EndState( p_push );
-
-	// Load up the replacement registers for c-38 and c-37
-	// The z value is 2^24 - to take 1.0f to the max z buffer value for a 24bit z buffer.
-	static float homogenous_to_screen_reg[8] = { 320.0f, -240.0f, 1.6777215e7f, 0.0f, 320.53125f, 240.53125f, 0.0f, 0.0f };
-	
-	if( EngineGlobals.is_orthographic )
-	{
-		homogenous_to_screen_reg[0] = 128.0f;
-		homogenous_to_screen_reg[1] = -128.0f;
-
-		homogenous_to_screen_reg[2] = 1.6777215e7f;
-		
-		homogenous_to_screen_reg[4] = 128.53125f;
-		homogenous_to_screen_reg[5] = 128.53125f;
-	}
-	else
-	{
-		homogenous_to_screen_reg[0] = (float)EngineGlobals.viewport.Width * 0.5f;
-		homogenous_to_screen_reg[1] = (float)EngineGlobals.viewport.Height * -0.5f;
-
-		homogenous_to_screen_reg[2] = ( EngineGlobals.zstencil_depth == 16 ) ? 65535.0f : 1.6777215e7f;
-
-		homogenous_to_screen_reg[4] = (float)NxWn32::EngineGlobals.viewport.X + ((float)NxWn32::EngineGlobals.viewport.Width * 0.5f ) + 0.53125f;
-		homogenous_to_screen_reg[5] = (float)NxWn32::EngineGlobals.viewport.Y + ((float)NxWn32::EngineGlobals.viewport.Height * 0.5f ) + 0.53125f;
-	}
-
-	D3DDevice_SetVertexShaderConstantFast( 94, (void*)homogenous_to_screen_reg, 2 );
-	*/
 }
 
 

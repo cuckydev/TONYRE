@@ -416,6 +416,23 @@ void CInstance::Render( uint32 flags )
 				Mth::Matrix temp = *GetTransform();
 				temp = GetBoneTransforms()[lp] * temp;
 				set_frustum_bbox_transform( &temp );
+
+				EngineGlobals.model_matrix[0][0] = temp.GetRight().GetX();
+				EngineGlobals.model_matrix[0][1] = temp.GetRight().GetY();
+				EngineGlobals.model_matrix[0][2] = temp.GetRight().GetZ();
+				EngineGlobals.model_matrix[0][3] = 0.0f;
+				EngineGlobals.model_matrix[1][0] = temp.GetUp().GetX();
+				EngineGlobals.model_matrix[1][1] = temp.GetUp().GetY();
+				EngineGlobals.model_matrix[1][2] = temp.GetUp().GetZ();
+				EngineGlobals.model_matrix[1][3] = 0.0f;
+				EngineGlobals.model_matrix[2][0] = temp.GetAt().GetX();
+				EngineGlobals.model_matrix[2][1] = temp.GetAt().GetY();
+				EngineGlobals.model_matrix[2][2] = temp.GetAt().GetZ();
+				EngineGlobals.model_matrix[2][3] = 0.0f;
+				EngineGlobals.model_matrix[3][0] = temp.GetPos().GetX();
+				EngineGlobals.model_matrix[3][1] = temp.GetPos().GetY();
+				EngineGlobals.model_matrix[3][2] = temp.GetPos().GetZ();
+				EngineGlobals.model_matrix[3][3] = 1.0f;
 				// D3DDevice_SetTransform( D3DTS_WORLD, (D3DXMATRIX*)&temp );
 
 				// Scan through the meshes, setting only those with the current bone active.

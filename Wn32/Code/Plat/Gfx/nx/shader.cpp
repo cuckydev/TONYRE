@@ -93,7 +93,7 @@ void main()
 	f_uv[1] = i_uv[1];
 	f_uv[2] = i_uv[2];
 	f_uv[3] = i_uv[3];
-	f_col = vec4(i_weight, 1.0f);
+	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f); // * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
 }
 	)";
 
