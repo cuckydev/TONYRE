@@ -1438,9 +1438,14 @@ SCFunction CFunctionLookupTable[]=
 #endif		// __PLAT_NGC__
 
 	// Functions that don't seem to exist but are referenced by scripts
-	{"IsInternetGameHost", CFuncs::ScriptIsInternetGameHost},
-	{"IsJoiningInternetGame", CFuncs::ScriptIsJoiningInternetGame},
-	{"MultiPlayerOnly", CFuncs::ScriptMultiPlayerOnly},
+	{ "IsInternetGameHost", CFuncs::ScriptIsInternetGameHost },
+	{ "IsJoiningInternetGame", CFuncs::ScriptIsJoiningInternetGame },
+	{ "TryJoinServerIPSuccess", CFuncs::ScriptIsJoiningInternetGame },
+	{ "GSDisableNet", CFuncs::ScriptIsJoiningInternetGame },
+
+	// { "ProfileLoggedIn", CFuncs::ScriptIsJoiningInternetGame },
+
+	{ "MultiPlayerOnly", CFuncs::ScriptMultiPlayerOnly },
 
 	{ "SkaterIsCustom", CFuncs::ScriptSkaterIsCustom },
 };
