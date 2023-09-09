@@ -53,12 +53,17 @@ uniform mat4 u_p;
 
 void main()
 {
+	// Transform position
 	gl_Position = (u_p * u_v * u_m) * vec4(i_pos, 1.0f);
+
+	// Transform normal (no translation)
+	vec4 nor = u_m * vec4(i_nor, 0.0f);
+
 	f_uv[0] = i_uv[0];
 	f_uv[1] = i_uv[1];
 	f_uv[2] = i_uv[2];
 	f_uv[3] = i_uv[3];
-	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f); // * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
+	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
 }
 	)";
 
@@ -88,16 +93,22 @@ void main()
 	bone_matrix += u_bone[i_index[1]] * i_weight[1];
 	bone_matrix += u_bone[i_index[2]] * i_weight[2];
 
+	// Rotate bone matrix to world space
+	bone_matrix = u_m * bone_matrix;
+
 	// Transform position
 	vec4 pos = bone_matrix * vec4(i_pos, 1.0f);
 
+	// Transform normal (no translation)
+	vec4 nor = bone_matrix * vec4(i_nor, 0.0f);
+
 	// Transform
-	gl_Position = (u_p * u_v * u_m) * pos;
+	gl_Position = (u_p * u_v) * pos;
 	f_uv[0] = i_uv[0];
 	f_uv[1] = i_uv[1];
 	f_uv[2] = i_uv[2];
 	f_uv[3] = i_uv[3];
-	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f); // * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
+	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.675f + dot(nor.xyz, vec3(0.707106f, 0.707106f, 0.0f)) * 0.325f), 1.0f);
 }
 	)";
 
