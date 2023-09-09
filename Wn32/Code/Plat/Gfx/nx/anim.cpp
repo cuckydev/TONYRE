@@ -15,6 +15,8 @@
 #include "mesh.h"
 #include "scene.h"
 #include "anim.h"
+#include "shader.h"
+
 // #include "anim_vertdefs.h"
 // 
 // #include "WeightedMeshVS_VXC_1Weight.h"
@@ -323,6 +325,27 @@ void setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matric
 	(void)p_root_matrix;
 	(void)p_bone_matrices;
 	(void)num_bone_matrices;
+
+	// Get boned shader
+	sShader *shader = BonedShader();
+
+	// Send matrices
+	float *inner = (float *)p_bone_matrices;
+
+	for (int i = 0; i < num_bone_matrices; i++)
+	{
+		char uniform_name[32];
+		sprintf(uniform_name, "u_bone[%d]", i);
+
+		// Send matrix
+		// glUniformMatrix4x3fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, (float*)p_bone_matrices + i * 12);
+		// Swap to column major
+
+		// glUniformMatrix4x3fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, inner);
+		glUniformMatrix4fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, inner);
+		inner += 16;
+	}
+
 	/*
 	XGMATRIX	dest_matrix;
 	XGMATRIX	inverse_view_matrix;

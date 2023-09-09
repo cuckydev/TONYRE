@@ -12,39 +12,6 @@
 namespace NxWn32
 {
 
-// Shaders
-static const char *vertex_shader = R"(#version 330 core
-
-layout (location = 0) in vec3 i_pos;
-layout (location = 1) in vec2 i_uv;
-layout (location = 2) in vec4 i_col;
-
-out vec2 f_uv;
-out vec4 f_col;
-
-void main()
-{
-	gl_Position = vec4(-1.0 + i_pos.x / 320.0, 1.0 - i_pos.y / 240.0, i_pos.z, 1.0);
-	f_uv = i_uv;
-	f_col = i_col;
-}
-)";
-
-static const char *fragment_shader = R"(#version 330 core
-
-in vec2 f_uv;
-in vec4 f_col;
-
-layout (location = 0) out vec4 o_col;
-
-uniform sampler2D u_texture_0;
-
-void main()
-{
-	o_col = texture(u_texture_0, f_uv) * f_col;
-}
-)";
-
 /******************************************************************/
 /*                                                                */
 /* SDraw2D														  */
@@ -53,7 +20,6 @@ void main()
 
 SDraw2D *SDraw2D::sp_2D_draw_list = nullptr;
 
-sShader *SDraw2D::sp_shader = nullptr;
 GlMesh *SDraw2D::sp_mesh = nullptr;
 
 GLuint SDraw2D::sp_current_texture = 0;
@@ -79,7 +45,7 @@ void SDraw2D::Submit(void)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, sp_current_texture);
 
-	glUseProgram(sp_shader->program);
+	glUseProgram(SpriteShader()->program);
 
 	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_SHORT, nullptr);
 
@@ -91,7 +57,6 @@ void SDraw2D::Submit(void)
 void SDraw2D::Init(void)
 {
 	// Compile shader
-	sp_shader = new sShader(vertex_shader, fragment_shader);
 	sp_mesh = new GlMesh();
 
 	// Set VAO layout

@@ -637,84 +637,6 @@ void sMesh::Submit( void )
 
 	Dbg_AssertPtr(mp_index_buffer[lod]);
 
-	// Draw mesh
-	static const char *test_v = R"(#version 330 core
-
-layout (location = 0) in vec3 i_pos;
-layout (location = 3) in vec3 i_nor;
-layout (location = 4) in vec4 i_col;
-layout (location = 5) in vec2 i_uv[4];
-
-out vec2 f_uv[4];
-out vec4 f_col;
-
-uniform vec3 u_col;
-
-uniform mat4 u_mvp;
-
-void main()
-{
-	gl_Position = u_mvp * vec4(i_pos, 1.0f);
-	f_uv[0] = i_uv[0];
-	f_uv[1] = i_uv[1];
-	f_uv[2] = i_uv[2];
-	f_uv[3] = i_uv[3];
-	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f); // * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
-}
-	)";
-	static const char *test_f = R"(#version 330 core
-
-const uint MATFLAG_UV_WIBBLE = (1u<<0u);
-const uint MATFLAG_VC_WIBBLE = (1u<<1u);
-const uint MATFLAG_TEXTURED = (1u<<2u);
-const uint MATFLAG_ENVIRONMENT = (1u<<3u);
-const uint MATFLAG_DECAL = (1u<<4u);
-const uint MATFLAG_SMOOTH = (1u<<5u);
-const uint MATFLAG_TRANSPARENT = (1u<<6u);
-const uint MATFLAG_PASS_COLOR_LOCKED = (1u<<7u);
-const uint MATFLAG_SPECULAR = (1u<<8u); // Specular lighting is enabled on this material (Pass0).
-const uint MATFLAG_BUMP_SIGNED_TEXTURE = (1u<<9u); // This pass uses an offset texture which needs to be treated as signed data.
-const uint MATFLAG_BUMP_LOAD_MATRIX = (1u<<10u); // This pass requires the bump mapping matrix elements to be set up.
-const uint MATFLAG_PASS_TEXTURE_ANIMATES = (1u<<11u); // This pass has a texture which animates.
-const uint MATFLAG_PASS_IGNORE_VERTEX_ALPHA = (1u<<12u); // This pass should not have the texel alpha modulated by the vertex alpha.
-const uint MATFLAG_EXPLICIT_UV_WIBBLE = (1u<<14u); // Uses explicit uv wibble (set via script) rather than calculated.
-const uint MATFLAG_WATER_EFFECT = (1u<<27u); // This material should be processed to provide the water effect.
-const uint MATFLAG_NO_MAT_COL_MOD = (1u<<28u); // No material color modulation required (all passes have m.rgb = 0.5).
-
-in vec2 f_uv[4];
-in vec4 f_col;
-
-layout (location = 0) out vec4 o_col;
-
-uniform sampler2D u_texture[4];
-
-uniform uint u_passes;
-
-uniform uvec4 u_pass_flag;
-
-void main()
-{
-	vec4 accum = vec4(0.0f);
-	for (uint i = 0u; i < u_passes; i++)
-	{
-		uint flag = u_pass_flag[i];
-
-		vec4 texel = f_col;
-		if ((flag & MATFLAG_PASS_IGNORE_VERTEX_ALPHA) != 0u)
-			texel.a = 1.0f;
-
-		if ((flag & MATFLAG_TEXTURED) != 0u)
-		{
-			texel *= texture(u_texture[i], f_uv[i]);
-		}
-		
-		accum += texel;
-	}
-	o_col = accum;
-}
-	)";
-	static sShader *test_s = new sShader(test_v, test_f);
-
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -728,8 +650,14 @@ void main()
 	// Setup passes
 	char uniform_name[32];
 
-	glUniform1ui(glGetUniformLocation(test_s->program, "u_passes"), mp_material->m_passes);
-	glUniform4ui(glGetUniformLocation(test_s->program, "u_pass_flag"), mp_material->m_flags[0], mp_material->m_flags[1], mp_material->m_flags[2], mp_material->m_flags[3]);
+	sShader *shader;
+	if (m_matindices_offset != nullptr)
+		shader = BonedShader();
+	else
+		shader = BasicShader();
+
+	glUniform1ui(glGetUniformLocation(shader->program, "u_passes"), mp_material->m_passes);
+	glUniform4ui(glGetUniformLocation(shader->program, "u_pass_flag"), mp_material->m_flags[0], mp_material->m_flags[1], mp_material->m_flags[2], mp_material->m_flags[3]);
 
 	for (uint32 i = 0; i < mp_material->m_passes; i++)
 	{
@@ -739,23 +667,19 @@ void main()
 			// Bind texture
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[i]->GLTexture);
-
-			// Set texture uniform
-			sprintf(uniform_name, "u_texture[%d]", i);
-			glUniform1i(glGetUniformLocation(test_s->program, uniform_name), i);
 		}
 	}
 
 	// Send MVP matrix
 	glm::mat4 mvp = EngineGlobals.projection_matrix * EngineGlobals.view_matrix * EngineGlobals.model_matrix;
 
-	glUseProgram(test_s->program);
-	glUniformMatrix4fv(glGetUniformLocation(test_s->program, "u_mvp"), 1, GL_FALSE, &mvp[0][0]);
+	glUseProgram(shader->program);
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_mvp"), 1, GL_FALSE, &mvp[0][0]);
 
 	if (m_flags & MESH_FLAG_MATERIAL_COLOR_OVERRIDE)
-		glUniform3fv(glGetUniformLocation(test_s->program, "u_col"), 1, &m_material_color_override[0]);
+		glUniform3fv(glGetUniformLocation(shader->program, "u_col"), 1, &m_material_color_override[0]);
 	else
-		glUniform3f(glGetUniformLocation(test_s->program, "u_col"), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(shader->program, "u_col"), 1.0f, 1.0f, 1.0f);
 
 	glBindVertexArray(mp_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
@@ -1007,7 +931,7 @@ void sMesh::SetupVAO(void)
 
 	if (m_weights_offset != nullptr)
 	{
-		glVertexAttribIPointer(1, 1, GL_UNSIGNED_INT, m_vertex_stride, (void*)m_weights_offset);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, m_vertex_stride, (void*)m_weights_offset);
 		glEnableVertexAttribArray(1);
 	}
 	if (m_matindices_offset != nullptr)
@@ -1316,7 +1240,7 @@ void sMesh::Initialize( int				num_vertices,
 	uintptr_t vertex_size	 = 3 * sizeof(float);
 
 	// Include weights if present
-	// uint32 biggest_index_used = 0;
+	uint32 biggest_index_used = 0;
 	if (p_weights != nullptr)
 	{
 		Dbg_AssertPtr(p_matrix_indices);
@@ -1331,14 +1255,14 @@ void sMesh::Initialize( int				num_vertices,
 				uint32 w2 = ((p_weight_read[0] >> 22) & 0x3FF);
 				if (w2 > 0)
 				{
-					// biggest_index_used = 2;
+					biggest_index_used = 2;
 					break;
 				}
 				else
 				{
 					uint32 w1 = ((p_weight_read[0] >> 11) & 0x7FF);
 					if (w1 > 0)
-					{} // biggest_index_used = 1;
+						biggest_index_used = 1;
 				}
 			}
 
@@ -1346,7 +1270,7 @@ void sMesh::Initialize( int				num_vertices,
 		}
 
 		m_weights_offset = (const void*)vertex_size;
-		vertex_size	+= sizeof(uint32);
+		vertex_size += sizeof(uint32) * 3;
 	}
 
 	// Include indices (for weighted animation) if present
@@ -1354,7 +1278,7 @@ void sMesh::Initialize( int				num_vertices,
 	{
 		Dbg_AssertPtr(p_weights);
 
-		m_matindices_offset = (const void *)vertex_size;
+		m_matindices_offset = (const void*)vertex_size;
 		vertex_size	+= sizeof(uint16) * 4;
 	}
 	
@@ -1447,15 +1371,19 @@ void sMesh::Initialize( int				num_vertices,
 	// Write weights
 	if (p_weights != nullptr)
 	{
-		uint32 *p_out = (uint32*)((char*)p_vbo + (uintptr_t)m_weights_offset);
+		float *p_out = (float *)((char*)p_vbo + (uintptr_t)m_weights_offset);
 		uint32 *p_in = p_weights + min_index;
 
 		for (uint16 v = min_index; v <= max_index; v++)
 		{
 			if (p_mesh_workspace_array[v] == 0)
 			{
-				p_out[0] = p_in[0];
-				p_out = (uint32*)((char*)p_out + vertex_size);
+				// Unpack weights
+				p_out[0] = (float)(p_in[0] & 0x7FF) / 1024.0f;
+				p_out[1] = (float)((p_in[0] >> 11) & 0x7FF) / 1024.0f;
+				p_out[2] = (float)((p_in[0] >> 22) & 0x3FF) / 512.0f;
+
+				p_out = (float*)((char*)p_out + vertex_size);
 			}
 			p_in++;
 		}

@@ -14,4 +14,8 @@ namespace NxWn32
 			sShader(const char *vertex, const char *fragment);
 			~sShader();
 	};
+
+	sShader *SpriteShader();
+	sShader *BasicShader();
+	sShader *BonedShader();
 } // namespace NxWn32

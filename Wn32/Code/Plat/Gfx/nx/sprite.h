@@ -53,7 +53,6 @@ namespace NxWn32
 			static SDraw2D *sp_2D_draw_list;
 
 			// Mesh and shader
-			static sShader *sp_shader;
 			static GlMesh *sp_mesh;
 
 			// Render state
