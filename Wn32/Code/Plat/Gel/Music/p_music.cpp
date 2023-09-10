@@ -139,13 +139,6 @@ class Streamer
 					if (db_thread_busy)
 						break;
 
-					// Check if no data was read
-					if (buffer_read[db_i] == 0)
-					{
-						playing = false;
-						return 0;
-					}
-
 					// Start streaming
 					db_streaming[db_i] = false;
 					db_point = 0;
@@ -177,12 +170,12 @@ class Streamer
 				// If buffer is completed, swap
 				if (db_left == 0)
 				{
-					db_i ^= 1;
 					if (buffer_read[db_i] < buffer_size[db_i])
 					{
 						playing = false;
 						return bytes - to_read;
 					}
+					db_i ^= 1;
 				}
 			}
 

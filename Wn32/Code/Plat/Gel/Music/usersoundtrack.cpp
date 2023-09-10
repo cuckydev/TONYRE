@@ -19,7 +19,16 @@ namespace UserSoundtrack
 			{
 				// Create soundtrack
 				Soundtrack soundtrack;
-				soundtrack.name = entry.path().filename().string();
+				std::filesystem::path::string_type name = entry.path().filename().native();
+				
+				soundtrack.name.reserve(name.size());
+				for (auto &c : name)
+				{
+					if (c >= 0x20 && c < 0x80)
+						soundtrack.name.push_back(c);
+					else
+						soundtrack.name.push_back('?');
+				}
 
 				// Iterate over files in soundtrack path
 				for (const auto &entry : std::filesystem::recursive_directory_iterator(entry.path()))
