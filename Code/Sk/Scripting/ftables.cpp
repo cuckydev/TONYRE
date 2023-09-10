@@ -1440,8 +1440,9 @@ SCFunction CFunctionLookupTable[]=
 	// Functions that don't seem to exist but are referenced by scripts
 	{ "IsInternetGameHost", CFuncs::ScriptIsInternetGameHost },
 	{ "IsJoiningInternetGame", CFuncs::ScriptIsJoiningInternetGame },
-	{ "TryJoinServerIPSuccess", CFuncs::ScriptIsJoiningInternetGame },
-	{ "GSDisableNet", CFuncs::ScriptIsJoiningInternetGame },
+
+	{ "TryJoinServerIPSuccess", CFuncs::ScriptSkaterIsCustom },
+	{ "GSDisableNet", CFuncs::ScriptSkaterIsCustom },
 
 	// { "ProfileLoggedIn", CFuncs::ScriptIsJoiningInternetGame },
 

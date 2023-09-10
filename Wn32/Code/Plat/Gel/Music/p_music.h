@@ -75,4 +75,8 @@ namespace Pcm
 
 	uint32 PCMAudio_FindNameFromChecksum(uint32 checksum, int ch);
 
+	// User soundtracks
+	size_t GetNumSoundtracks();
+	size_t GetSoundtrackNumSongs(size_t i);
+	const char *GetSoundtrackName(size_t i);
 } // namespace PCM

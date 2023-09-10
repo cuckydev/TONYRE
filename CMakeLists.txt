@@ -11,8 +11,8 @@ target_include_directories(TonyRE.Common INTERFACE "Code/Sk")
 
 target_compile_definitions(TonyRE.Common INTERFACE __PRETTY_FUNCTION__=__FILE__)
 
-# Use C++14
-target_compile_features(TonyRE.Common INTERFACE cxx_std_14)
+# Use C++20
+target_compile_features(TonyRE.Common INTERFACE cxx_std_20)
 
 # Define __NOPT_DEBUG__ if in debug build
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")

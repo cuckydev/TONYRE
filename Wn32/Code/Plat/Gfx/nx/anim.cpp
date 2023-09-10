@@ -331,17 +331,7 @@ void setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matric
 	glUseProgram(shader->program);
 
 	// Send matrices
-	float *inner = (float *)p_bone_matrices;
-
-	for (int i = 0; i < num_bone_matrices; i++)
-	{
-		// Send matrix to shader
-		char uniform_name[32];
-		sprintf(uniform_name, "u_bone[%d]", i);
-
-		glUniformMatrix4fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, inner);
-		inner += 16;
-	}
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_bone[0]"), num_bone_matrices, GL_FALSE, (GLfloat*)p_bone_matrices);
 }
 
 

@@ -35,8 +35,34 @@ void main()
 }
 )";
 
+	// 3D shader header
+	static std::string shader_header = R"(#version 330 core
+const uint MATFLAG_UV_WIBBLE = (1u<<0u);
+const uint MATFLAG_VC_WIBBLE = (1u<<1u);
+const uint MATFLAG_TEXTURED = (1u<<2u);
+const uint MATFLAG_ENVIRONMENT = (1u<<3u);
+const uint MATFLAG_DECAL = (1u<<4u);
+const uint MATFLAG_SMOOTH = (1u<<5u);
+const uint MATFLAG_TRANSPARENT = (1u<<6u);
+const uint MATFLAG_PASS_COLOR_LOCKED = (1u<<7u);
+const uint MATFLAG_SPECULAR = (1u<<8u); // Specular lighting is enabled on this material (Pass0).
+const uint MATFLAG_BUMP_SIGNED_TEXTURE = (1u<<9u); // This pass uses an offset texture which needs to be treated as signed data.
+const uint MATFLAG_BUMP_LOAD_MATRIX = (1u<<10u); // This pass requires the bump mapping matrix elements to be set up.
+const uint MATFLAG_PASS_TEXTURE_ANIMATES = (1u<<11u); // This pass has a texture which animates.
+const uint MATFLAG_PASS_IGNORE_VERTEX_ALPHA = (1u<<12u); // This pass should not have the texel alpha modulated by the vertex alpha.
+const uint MATFLAG_EXPLICIT_UV_WIBBLE = (1u<<14u); // Uses explicit uv wibble (set via script) rather than calculated.
+const uint MATFLAG_WATER_EFFECT = (1u<<27u); // This material should be processed to provide the water effect.
+const uint MATFLAG_NO_MAT_COL_MOD = (1u<<28u); // No material color modulation required (all passes have m.rgb = 0.5).
+
+uniform uint u_passes;
+uniform uvec4 u_pass_flag;
+
+uniform uint u_ignore_bf;
+
+	)";
+
 	// 3D shaders
-	static std::string basic_vertex = R"(#version 330 core
+	static std::string basic_vertex = shader_header + R"(
 layout (location = 0) in vec3 i_pos;
 layout (location = 3) in vec3 i_nor;
 layout (location = 4) in vec4 i_col;
@@ -57,16 +83,16 @@ void main()
 	gl_Position = (u_p * u_v * u_m) * vec4(i_pos, 1.0f);
 	vec4 nor = u_m * vec4(i_nor, 0.0f);
 
-	// Pass UV and color
-	f_uv[0] = i_uv[0];
-	f_uv[1] = i_uv[1];
-	f_uv[2] = i_uv[2];
-	f_uv[3] = i_uv[3];
+	// Pass pass information
+	for (uint i = 0u; i < u_passes; i++)
+		f_uv[i] = i_uv[i];
+
+	// Pass vertex color
 	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
 }
 	)";
 
-	static std::string boned_vertex = R"(#version 330 core
+	static std::string boned_vertex = shader_header + R"(
 layout (location = 0) in vec3 i_pos;
 layout (location = 1) in vec3 i_weight;
 layout (location = 2) in uvec4 i_index;
@@ -103,43 +129,22 @@ void main()
 	gl_Position = (u_p * u_v * u_m) * vec4(skin_pos, 1.0f);
 	skin_nor = (u_m * vec4(skin_nor, 0.0f)).xyz;
 
-	// Pass UV and color
-	f_uv[0] = i_uv[0];
-	f_uv[1] = i_uv[1];
-	f_uv[2] = i_uv[2];
-	f_uv[3] = i_uv[3];
+	// Pass pass information
+	for (uint i = 0u; i < u_passes; i++)
+		f_uv[i] = i_uv[i];
+
+	// Pass vertex color
 	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.675f + dot(skin_nor, vec3(0.707106f, 0.707106f, 0.0f)) * 0.325f), 1.0f);
 }
 	)";
 
-	static std::string basic_fragment = R"(#version 330 core
-const uint MATFLAG_UV_WIBBLE = (1u<<0u);
-const uint MATFLAG_VC_WIBBLE = (1u<<1u);
-const uint MATFLAG_TEXTURED = (1u<<2u);
-const uint MATFLAG_ENVIRONMENT = (1u<<3u);
-const uint MATFLAG_DECAL = (1u<<4u);
-const uint MATFLAG_SMOOTH = (1u<<5u);
-const uint MATFLAG_TRANSPARENT = (1u<<6u);
-const uint MATFLAG_PASS_COLOR_LOCKED = (1u<<7u);
-const uint MATFLAG_SPECULAR = (1u<<8u); // Specular lighting is enabled on this material (Pass0).
-const uint MATFLAG_BUMP_SIGNED_TEXTURE = (1u<<9u); // This pass uses an offset texture which needs to be treated as signed data.
-const uint MATFLAG_BUMP_LOAD_MATRIX = (1u<<10u); // This pass requires the bump mapping matrix elements to be set up.
-const uint MATFLAG_PASS_TEXTURE_ANIMATES = (1u<<11u); // This pass has a texture which animates.
-const uint MATFLAG_PASS_IGNORE_VERTEX_ALPHA = (1u<<12u); // This pass should not have the texel alpha modulated by the vertex alpha.
-const uint MATFLAG_EXPLICIT_UV_WIBBLE = (1u<<14u); // Uses explicit uv wibble (set via script) rather than calculated.
-const uint MATFLAG_WATER_EFFECT = (1u<<27u); // This material should be processed to provide the water effect.
-const uint MATFLAG_NO_MAT_COL_MOD = (1u<<28u); // No material color modulation required (all passes have m.rgb = 0.5).
-
+	static std::string basic_fragment = shader_header + R"(
 in vec2 f_uv[4];
 in vec4 f_col;
 
 layout (location = 0) out vec4 o_col;
 
 uniform sampler2D u_texture[4];
-
-uniform uint u_passes;
-
-uniform uvec4 u_pass_flag;
 
 void main()
 {

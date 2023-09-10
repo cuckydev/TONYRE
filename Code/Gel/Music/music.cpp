@@ -57,6 +57,8 @@
 #define TEST_FROM_CD 0
 #define WAIT_AFTER_STOP_STREAM		0		// Set to 1 if we need to wait for stream to clear after stopping a stream
 
+#define USER_SOUNDTRACKS 1
+
 namespace Pcm
 {
 
@@ -109,7 +111,7 @@ static bool 			gMusicStreamWaitingToStart;	// true if we are still waiting for t
 // Limit is actually 500 ...
 #define			MAX_USER_SONGS					600
 
-#ifdef __PLAT_XBOX__
+#ifdef USER_SOUNDTRACKS
 static bool		s_xbox_play_user_soundtracks	= false;
 static int		s_xbox_user_soundtrack			= 0;
 static uint32	s_xbox_user_soundtrack_song		= 0;
@@ -280,10 +282,10 @@ bool SetStreamPitchFromID( uint32 streamID, float pitch )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-#ifdef __PLAT_XBOX__
+#ifdef USER_SOUNDTRACKS
 static void sGenerateRandomSongOrder( void )
 {
-	int num_songs=Pcm::GetSoundtrackNumSongs( s_xbox_user_soundtrack );
+	int num_songs = Pcm::GetSoundtrackNumSongs( s_xbox_user_soundtrack );
 
 	if( num_songs == 0 )
 	{
@@ -345,7 +347,7 @@ static void sGenerateRandomSongOrder( void )
 		sp_xbox_randomized_songs[b]=temp;
 	}
 }
-#endif // __PLAT_XBOX__
+#endif // USER_SOUNDTRACKS
 
 
 
@@ -357,7 +359,7 @@ void UseUserSoundtrack( int soundtrack )
 {
 	(void)soundtrack;
 
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 
 	Dbg_MsgAssert(soundtrack>=0 && soundtrack<Pcm::GetNumSoundtracks(),("Bad soundtrack"));
 
@@ -373,7 +375,7 @@ void UseUserSoundtrack( int soundtrack )
 	{
 		s_xbox_user_soundtrack_song=0;
 	}	
-#	endif // __PLAT_XBOX__
+#	endif // USER_SOUNDTRACKS
 }
 
 
@@ -384,7 +386,7 @@ void UseUserSoundtrack( int soundtrack )
 /******************************************************************/
 void UseStandardSoundtrack( void )
 {
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 	s_xbox_play_user_soundtracks = false;
 #	endif
 }
@@ -397,7 +399,7 @@ void UseStandardSoundtrack( void )
 /******************************************************************/
 bool UsingUserSoundtrack( void )
 {
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 	return s_xbox_play_user_soundtracks;
 #	else
 	return false;
@@ -414,27 +416,17 @@ void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 {
 	(void)pStuff;
 
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 	Dbg_MsgAssert( pStuff,("nullptr pStuff"));
 		
 	if (s_xbox_play_user_soundtracks)
 	{
 		pStuff->AddComponent(Script::GenerateCRC("UserSoundtrackIndex"),ESYMBOLTYPE_INTEGER,s_xbox_user_soundtrack);
 
-		char p_buf[100];
-		const WCHAR* p_soundtrack_name_wide=Pcm::GetSoundtrackName(s_xbox_user_soundtrack);
-		if (p_soundtrack_name_wide)
-		{
-			wsprintfA( p_buf, "%ls", p_soundtrack_name_wide);
-		}	
-		else
-		{
-			p_buf[0]=0;
-		}	
-				
+		const char *p_buf = Pcm::GetSoundtrackName(s_xbox_user_soundtrack);
 		pStuff->AddComponent(Script::GenerateCRC("UserSoundtrackName"),ESYMBOLTYPE_STRING,p_buf);
 	}	
-#	endif // __PLAT_XBOX__
+#	endif // USER_SOUNDTRACKS
 }
 
 
@@ -447,7 +439,7 @@ void GetSoundtrackFromStructure( Script::CStruct *pStuff)
 {
 	(void)pStuff;
 
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 	
 	int user_soundtrack_index=0;
@@ -457,22 +449,13 @@ void GetSoundtrackFromStructure( Script::CStruct *pStuff)
 		// machine, ie, they could have put the mem card into a different xbox ...
 		
 		// Get the name of this soundtrack on this machine
-		char p_buf[100];
-		const WCHAR* p_soundtrack_name_wide=Pcm::GetSoundtrackName(user_soundtrack_index);
-		if (p_soundtrack_name_wide)
-		{
-			wsprintfA( p_buf, "%ls", p_soundtrack_name_wide);
-		}	
-		else
-		{
-			p_buf[0]=0;
-		}	
+		const char *p_buf = Pcm::GetSoundtrackName(user_soundtrack_index);
 	
 		// Get the name as stored on the mem card
 		const char *p_stored_name="";
 		pStuff->GetText("UserSoundtrackName",&p_stored_name);
 		
-		if (strcmp(p_stored_name,p_buf)==0)
+		if (strcmp(p_stored_name, p_buf)==0)
 		{
 			// They match! So use that soundtrack.
 			UseUserSoundtrack(user_soundtrack_index);
@@ -482,7 +465,7 @@ void GetSoundtrackFromStructure( Script::CStruct *pStuff)
 	
 	// Oh well, use the standard soundtrack instead.
 	UseStandardSoundtrack();
-#	endif	// __PLAT_XBOX__
+#	endif	// USER_SOUNDTRACKS
 }
 
 
@@ -494,7 +477,7 @@ bool _PlayMusicTrack( const char *filename, float volume )
 	Dbg_MsgAssert( gPcmInitialized,( "Calling playtrack %s, when PCM Audio not initialized.", filename ));
 	Dbg_MsgAssert( strlen( filename ) < 200,( "Filename too long" ));
 
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	if( s_xbox_play_user_soundtracks && !skate_mod->GetGameMode()->IsFrontEnd())
 	{
@@ -541,7 +524,7 @@ bool _PlayMusicTrack( const char *filename, float volume )
 	{
 		return false;
 	}
-#	endif // __PLAT_XBOX__
+#	endif // USER_SOUNDTRACKS
 
 //	volume = volume * Config::GetMasterVolume()/100.0f;
 //	if (volume <0.1f)
@@ -588,9 +571,9 @@ int _PlayStream( uint32 checksum, Sfx::sVolume *p_volume, float pitch, int prior
 {
 	if (StreamsDisabled()) return -1;
 	
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 	Dbg_MsgAssert( gPcmInitialized,( "Calling _PlayStream(), when PCM Audio not initialized." ));
-#	endif // __PLAT_XBOX__
+#	endif // USER_SOUNDTRACKS
 
 	// Initialize lowest to a valid entry
 	int lowest_priority = gCurrentStreamInfo[ 0 ].priority;
@@ -1481,7 +1464,7 @@ void SetRandomMode( int randomModeOn )
 
 	gMusicInRandomMode = randomModeOn;
 
-#	ifdef __PLAT_XBOX__
+#	ifdef USER_SOUNDTRACKS
 	s_xbox_user_soundtrack_random = ( randomModeOn > 0 );
 	if( randomModeOn )
 	{
@@ -1490,7 +1473,7 @@ void SetRandomMode( int randomModeOn )
 		s_xbox_random_index = 0;
 		s_xbox_user_soundtrack_song = sp_xbox_randomized_songs[0];
 	}
-#	endif // __PLAT_XBOX__
+#	endif // USER_SOUNDTRACKS
 	
 	Dbg_MsgAssert(gCurrentTrackList>=0 && gCurrentTrackList<NUM_TRACKLISTS,("Bad gCurrentTrackList"));
 	TrackList *pTrackList = &gTrackLists[ gCurrentTrackList ];
@@ -1533,7 +1516,7 @@ static void _StartMusicStream()
 
 static void sSetCorrectMusicVolume()
 {
-	#ifdef __PLAT_XBOX__
+	#ifdef USER_SOUNDTRACKS
 	if (s_xbox_play_user_soundtracks)
 	{
 		// This 'if' is part of the fix to TT6957, where user soundtracks were getting sfx vol
@@ -1895,7 +1878,7 @@ void Update( void )
 		return;
 	}
 
-	#ifdef __PLAT_XBOX__
+	#ifdef USER_SOUNDTRACKS
 	// This is part of the fix to TT6957, 
 	// where user soundtracks were getting sfx vol when music vol turned down to zero.
 	// (The other part of the fix is a bit further down, search for TT6957)

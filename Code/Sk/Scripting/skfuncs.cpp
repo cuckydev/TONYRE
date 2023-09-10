@@ -74,6 +74,8 @@
 #include <Sys/File/filesys.h>
 #include <Sys/File/PRE.h>
 
+#include <Plat/Gel/Music/p_music.h>
+
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/
@@ -7085,7 +7087,7 @@ bool ScriptGetNumSoundtracks( Script::CStruct *pParams, Script::CScript *pScript
 	(void)pScript;
 
 	Dbg_MsgAssert( Config::GetHardware() == Config::HARDWARE_XBOX, ( "GetNumSoundtracks can only be called on XBox" ) );
-	int numSoundtracks = Nx::CEngine::sGetNumSoundtracks();
+	int numSoundtracks = Pcm::GetNumSoundtracks();
 	pScript->GetParams()->AddInteger( "numSoundtracks", numSoundtracks );
 	return true;
 }
@@ -7103,7 +7105,7 @@ bool ScriptGetSoundtrackName( Script::CStruct *pParams, Script::CScript *pScript
 	Dbg_MsgAssert( Config::GetHardware() == Config::HARDWARE_XBOX, ( "GetNumSoundtracks can only be called on XBox" ) );
 	int soundtrack_number;
 	pParams->GetInteger( NONAME, &soundtrack_number, Script::ASSERT );
-	const char* pSoundtrackName = Nx::CEngine::sGetSoundtrackName( soundtrack_number );
+	const char* pSoundtrackName = Pcm::GetSoundtrackName( soundtrack_number );
 	pScript->GetParams()->AddString( "soundtrackName", pSoundtrackName );
 	return true;
 }

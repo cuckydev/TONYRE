@@ -34,6 +34,8 @@
 
 #include "p_music.h"
 
+#include "usersoundtrack.h"
+
 #include <Sys/Config/config.h>
 #include <Gel/SoundFX/soundfx.h>
 
@@ -599,8 +601,14 @@ bool PCMAudio_PlayMusicTrack( const char *filename )
 /******************************************************************/
 bool PCMAudio_PlaySoundtrackMusicTrack( int soundtrack, int track )
 {
-	(void)soundtrack;
-	(void)track;
+	// Play song
+	SDL_LockAudioDevice(s_audio_device);
+	if (decoder != nullptr)
+		delete decoder;
+	const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
+	std::string name = soundtracks.at(soundtrack).tracks.at(track).path.string();
+	decoder = new MusicDecoder(name.c_str());
+	SDL_UnlockAudioDevice(s_audio_device);
 	return true;
 }
 
@@ -632,5 +640,23 @@ bool PCMAudio_PlayStream( uint32 checksum, int whichStream, Sfx::sVolume *p_volu
 	return true;
 }
 
+// User soundtracks
+size_t GetNumSoundtracks()
+{
+	const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
+	return soundtracks.size();
+}
+
+size_t GetSoundtrackNumSongs(size_t i)
+{
+	const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
+	return soundtracks.at(i).tracks.size();
+}
+
+const char *GetSoundtrackName(size_t i)
+{
+	const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
+	return soundtracks.at(i).name.c_str();
+}
 
 } // namespace PCM
