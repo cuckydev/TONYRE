@@ -576,7 +576,7 @@ Lst::HashTable<Nx::CTexture>* LoadTextureFile( const char *Filename, Lst::HashTa
 		// Load palette
 		uint8 pal[256 * 4] = {};
 		if (palette_size > 0)
-			File::Read(pal, 4, palette_size, p_FH);
+			File::Read(pal, 1, palette_size, p_FH);
 
 		// Determine texture format
 		void (*TextureDecodeLambda)(const uint8 *in_buffer, const uint8 *pal, uint8 *out_buffer, size_t width, size_t height);
