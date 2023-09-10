@@ -123,6 +123,8 @@ struct sEngineGlobals
 	float ViewFrustumCY = 0.0f;
 
 	// Screen state
+	bool letterbox_active = false;
+
 	float aspect_correction = 0.0f; // Correct perspective for non-4:3 aspect ratios
 
 	int backbuffer_width;

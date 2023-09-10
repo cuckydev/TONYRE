@@ -125,6 +125,13 @@ namespace Nx
 			GLint top = (GLint)((1.0f - (p_cur_viewport->GetOriginY() + p_cur_viewport->GetHeight())) * NxWn32::EngineGlobals.backbuffer_height);
 			GLsizei width = (GLsizei)(p_cur_viewport->GetWidth() * NxWn32::EngineGlobals.backbuffer_width);
 			GLsizei height = (GLsizei)(p_cur_viewport->GetHeight() * NxWn32::EngineGlobals.backbuffer_height);
+
+			if (NxWn32::EngineGlobals.letterbox_active)
+			{
+				top += (DWORD)(NxWn32::EngineGlobals.backbuffer_height / 8);
+				height -= (DWORD)(NxWn32::EngineGlobals.backbuffer_height / 4);
+			}
+
 			glViewport(left, top, width, height);
 
 			// There is no bounding box transform for rendering the world.
@@ -874,7 +881,7 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_letterbox(bool letterbox)
 	{
-		(void)letterbox;
+		NxWn32::EngineGlobals.letterbox_active = letterbox;
 	}
 
 
