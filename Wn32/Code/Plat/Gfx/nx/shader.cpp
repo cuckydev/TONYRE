@@ -85,7 +85,22 @@ void main()
 
 	// Pass pass information
 	for (uint i = 0u; i < u_passes; i++)
-		f_uv[i] = i_uv[i];
+	{
+		uint flag = u_pass_flag[i];
+
+		// Check if environment mapped
+		if ((flag & MATFLAG_ENVIRONMENT) != 0u)
+		{
+			// Pass reflection vector
+			// TODO: This is not correct
+			f_uv[i] = (vec4(i_nor, 0.0f) * (u_v * u_m)).xy * -0.5f + 0.5f;
+		}
+		else
+		{
+			// Pass texture coordinates
+			f_uv[i] = i_uv[i];
+		}
+	}
 
 	// Pass vertex color
 	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
@@ -131,7 +146,22 @@ void main()
 
 	// Pass pass information
 	for (uint i = 0u; i < u_passes; i++)
-		f_uv[i] = i_uv[i];
+	{
+		uint flag = u_pass_flag[i];
+
+		// Check if environment mapped
+		if ((flag & MATFLAG_ENVIRONMENT) != 0u)
+		{
+			// Pass reflection vector
+			// TODO: This is not correct
+			f_uv[i] = (vec4(i_nor, 0.0f) * (u_v * u_m)).xy * -0.5f + 0.5f;
+		}
+		else
+		{
+			// Pass texture coordinates
+			f_uv[i] = i_uv[i];
+		}
+	}
 
 	// Pass vertex color
 	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.675f + dot(skin_nor, vec3(0.707106f, 0.707106f, 0.0f)) * 0.325f), 1.0f);
