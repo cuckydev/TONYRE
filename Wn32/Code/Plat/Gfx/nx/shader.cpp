@@ -59,6 +59,8 @@ uniform uvec4 u_pass_flag;
 
 uniform uint u_ignore_bf;
 
+uniform mat4 u_env_mat[4];
+
 	)";
 
 	// 3D shaders
@@ -80,8 +82,11 @@ uniform mat4 u_p;
 void main()
 {
 	// Transform
-	gl_Position = (u_p * u_v * u_m) * vec4(i_pos, 1.0f);
-	vec4 nor = u_m * vec4(i_nor, 0.0f);
+	vec4 pos = (u_p * u_v * u_m) * vec4(i_pos, 1.0f);
+	vec3 nor = (u_m * vec4(i_nor, 0.0f)).xyz;
+	vec3 vnor = (u_v * vec4(nor, 0.0f)).xyz;
+
+	gl_Position = pos;
 
 	// Pass pass information
 	for (uint i = 0u; i < u_passes; i++)
@@ -93,7 +98,7 @@ void main()
 		{
 			// Pass reflection vector
 			// TODO: This is not correct
-			f_uv[i] = (vec4(i_nor, 0.0f) * (u_v * u_m)).xy * -0.5f + 0.5f;
+			f_uv[i] = (u_env_mat[i] * vec4(reflect(normalize(pos.xyz), vnor), 0.0f)).xy;
 		}
 		else
 		{
@@ -103,7 +108,7 @@ void main()
 	}
 
 	// Pass vertex color
-	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.8f + dot(i_nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
+	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.8f + dot(nor, vec3(1.0f, 1.0f, 0.0f)) * 0.2f), 1.0f);
 }
 	)";
 
@@ -141,8 +146,11 @@ void main()
 	}
 
 	// Transform
-	gl_Position = (u_p * u_v * u_m) * vec4(skin_pos, 1.0f);
-	skin_nor = (u_m * vec4(skin_nor, 0.0f)).xyz;
+	vec4 pos = (u_p * u_v * u_m) * vec4(skin_pos, 1.0f);
+	vec3 nor = (u_m * vec4(skin_nor, 0.0f)).xyz;
+	vec3 vnor = (u_v * vec4(nor, 0.0f)).xyz;
+
+	gl_Position = pos;
 
 	// Pass pass information
 	for (uint i = 0u; i < u_passes; i++)
@@ -154,7 +162,7 @@ void main()
 		{
 			// Pass reflection vector
 			// TODO: This is not correct
-			f_uv[i] = (vec4(i_nor, 0.0f) * (u_v * u_m)).xy * -0.5f + 0.5f;
+			f_uv[i] = (u_env_mat[i] * vec4(reflect(normalize(pos.xyz), vnor), 1.0f)).xy;
 		}
 		else
 		{
@@ -164,7 +172,7 @@ void main()
 	}
 
 	// Pass vertex color
-	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.675f + dot(skin_nor, vec3(0.707106f, 0.707106f, 0.0f)) * 0.325f), 1.0f);
+	f_col = vec4((i_col.rgb * 2.0f) * u_col, i_col.a * 2.0f) * vec4(vec3(0.675f + dot(nor, vec3(0.707106f, 0.707106f, 0.0f)) * 0.325f), 1.0f);
 }
 	)";
 
@@ -205,7 +213,7 @@ void main()
 		GLuint shader = glCreateShader(type);
 
 		// Compile source
-		glShaderSource(shader, 1, &src, NULL);
+		glShaderSource(shader, 1, &src, nullptr);
 		glCompileShader(shader);
 
 		// Check for errors

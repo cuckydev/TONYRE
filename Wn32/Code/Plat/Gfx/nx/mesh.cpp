@@ -671,7 +671,25 @@ void sMesh::Submit( void )
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[i]->GLTexture);
 		}
+		if (mp_material->m_flags[i] & MATFLAG_ENVIRONMENT)
+		{
+			static glm::mat4 env_mat = {
+				0.5f, 0.0f, 0.0f, 0.0f,
+				0.0f, -0.5f, 0.0f, 0.0f,
+				0.0f, 0.0f, 0.0f, 0.0f,
+				0.5f, 0.5f, 0.0f, 0.0f
+			};
+
+			env_mat[0][0] = 0.5f * mp_material->m_envmap_tiling[i][0];
+			env_mat[1][1] = 0.5f * mp_material->m_envmap_tiling[i][1];
+
+			sprintf(uniform_name, "u_env_mat[%u]", i);
+			glUniformMatrix4fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, &env_mat[0][0]);
+		}
 	}
+
+	// Send environment matrix
+
 
 	// Send MVP matrix
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_m"), 1, GL_FALSE, &EngineGlobals.model_matrix[0][0]);
