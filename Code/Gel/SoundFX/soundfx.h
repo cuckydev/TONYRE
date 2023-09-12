@@ -35,26 +35,12 @@
 *****************************************************************************/
 
 // change the following line to compile out soundfx from the game:
-#ifdef __PLAT_XBOX__
 #define NO_SOUND_PLEASE	0
-#else
-#define NO_SOUND_PLEASE	0
-#endif
 
 // if we need more, NO PROBLEMA!  Change this:
-#if defined( __PLAT_NGPS__ )
 #define WAVE_TABLE_MAX_ENTRIES			256	// non-permanent sounds
 #define PERM_WAVE_TABLE_MAX_ENTRIES		256	// permanent sounds
 #define MAX_POSITIONAL_SOUNDS			128
-#elif defined( __PLAT_XBOX__ )
-#define WAVE_TABLE_MAX_ENTRIES			256	// non-permanent sounds
-#define PERM_WAVE_TABLE_MAX_ENTRIES		256	// permanent sounds
-#define MAX_POSITIONAL_SOUNDS			128
-#else
-#define WAVE_TABLE_MAX_ENTRIES			256	// non-permanent sounds
-#define PERM_WAVE_TABLE_MAX_ENTRIES		256	// permanent sounds
-#define MAX_POSITIONAL_SOUNDS			128
-#endif
 
 #define DIST_FROM_DROPOFF_AT_WHICH_TO_START_SOUND	FEET_TO_INCHES( 20.0f )
 #define DFDAWTSS									DIST_FROM_DROPOFF_AT_WHICH_TO_START_SOUND
@@ -66,9 +52,7 @@
 #define DEFAULT_DROPOFF_DIST						FEET_TO_INCHES( 85.0f )
 
 // When a voice is set to negative volume on some platforms, it puts the sound 'out of phase' to sound like it's behind you...
-#if defined( __PLAT_NGPS__ ) || defined( __PLAT_XBOX__ )
 #define PLATFORM_SUPPORTS_VOLUME_PHASING			1
-#endif
 
 #define MAX_VOL_ALLOWED								1000 // 1000 percent (10 times)
 

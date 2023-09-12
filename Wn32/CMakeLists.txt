@@ -12,8 +12,8 @@ add_library(TonyRE.Wn32 STATIC
 	"Code/Plat/Gel/Music/usersoundtrack.cpp"
 	"Code/Plat/Gel/Music/usersoundtrack.h"
 
-	# "Code/Plat/Gel/SoundFX/p_sfx.cpp"
-	# "Code/Plat/Gel/SoundFX/p_sfx.h"
+	"Code/Plat/Gel/SoundFX/p_sfx.cpp"
+	"Code/Plat/Gel/SoundFX/p_sfx.h"
 
 	# Gfx
 	"Code/Plat/Gfx/nx/anim.cpp"
