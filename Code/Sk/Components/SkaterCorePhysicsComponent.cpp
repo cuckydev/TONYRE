@@ -2618,11 +2618,7 @@ void CSkaterCorePhysicsComponent::snap_to_ground (   )
 					// angle between the old plane and the new plane is either the same, or withing the set limits
 					// (like, < 60 degrees, or so, see physics.q) now calculate the drop distance, based on the angle
 					
-#ifdef __PLAT_NGC__
 					float angle = acosf(Mth::Clamp(up_dot, -1.0f, 1.0f));
-#else
-					float angle = acosf(up_dot);
-#endif // __PLAT_NGC__
 
 					Mth::Vector	last_move = GetPos() - GetOldPos();
 					
