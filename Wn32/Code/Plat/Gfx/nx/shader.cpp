@@ -84,6 +84,8 @@ void main()
 	// Transform
 	vec4 pos = (u_p * u_v * u_m) * vec4(i_pos, 1.0f);
 	vec3 nor = (u_m * vec4(i_nor, 0.0f)).xyz;
+
+	vec4 vpos = (u_v * u_m) * vec4(i_pos, 1.0f);
 	vec3 vnor = (u_v * vec4(nor, 0.0f)).xyz;
 
 	gl_Position = pos;
@@ -98,7 +100,7 @@ void main()
 		{
 			// Pass reflection vector
 			// TODO: This is not correct
-			f_uv[i] = (u_env_mat[i] * vec4(reflect(normalize(pos.xyz), vnor), 0.0f)).xy;
+			f_uv[i] = (u_env_mat[i] * vec4(reflect(normalize(vpos.xyz), vnor), 1.0f)).xy;
 		}
 		else
 		{
