@@ -1,5 +1,9 @@
 # Wn32 platform library
 add_library(TonyRE.Wn32 STATIC
+	# Audio
+	"Code/Plat/Audio/Mixer.cpp"
+	"Code/Plat/Audio/Mixer.h"
+
 	# Core
 	"Code/Plat/Core/Debug/P_debug.cpp"
 
@@ -108,6 +112,7 @@ add_library(TonyRE.Wn32 STATIC
 	"Code/Plat/Sys/File/p_AsyncFilesys.cpp"
 	"Code/Plat/Sys/File/p_AsyncFilesys.cpp"
 	"Code/Plat/Sys/File/p_filesys.cpp"
+	"Code/Plat/Sys/File/p_filesys.h"
 
 	"Code/Plat/Sys/MemCard/p_McMan.cpp"
 

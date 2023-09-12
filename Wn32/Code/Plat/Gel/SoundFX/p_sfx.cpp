@@ -5,6 +5,8 @@
 
 #include "p_sfx.h"
 
+#include <Plat/Audio/Mixer.h>
+
 namespace Sfx
 {
 
@@ -20,7 +22,8 @@ namespace Sfx
 	// Sound API
 	void InitSoundFX(CSfxManager *p_sfx_manager)
 	{
-		
+		// Initialize mixer
+		Audio::Init();
 	}
 
 	void CleanUpSoundFX(void)

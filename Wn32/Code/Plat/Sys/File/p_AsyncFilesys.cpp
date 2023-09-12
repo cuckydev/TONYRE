@@ -56,6 +56,7 @@ CXboxAsyncFileHandle::~CXboxAsyncFileHandle()
 /******************************************************************/
 bool CXboxAsyncFileHandle::plat_open( const char *filename )
 {
+	Dbg_Assert(0);
 	(void)filename;
 
 	m_position = 0;

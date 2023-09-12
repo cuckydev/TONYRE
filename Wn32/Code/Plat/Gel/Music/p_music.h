@@ -18,6 +18,9 @@ namespace Pcm
 		MUSIC_CHANNEL,
 	};
 
+	// Mixer
+	void PCMAudio_Mix(char *buffer, size_t size);
+
 	// Onetime call once upon loading the game...
 	void PCMAudio_Init(void);
 

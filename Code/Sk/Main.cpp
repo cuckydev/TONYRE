@@ -193,6 +193,12 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		argv[i] = new char[wcslen(argvW[i])+1];
 		wcstombs( argv[i], argvW[i], wcslen(argvW[i])+1 );
 	}
+
+	// Create a console window
+	AllocConsole();
+	freopen( "CONOUT$", "w", stdout );
+	freopen( "CONOUT$", "w", stderr );
+
 #else
 int main ( sint argc, char** argv )
 {
