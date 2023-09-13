@@ -446,9 +446,7 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_PreLoadStream( uint32 checksum, int whichStream )
 	{
-		(void)checksum;
-		(void)whichStream;
-		Dbg_Assert(0);
+		PCMAudio_PlayStream(checksum, whichStream, nullptr, 0.0f, true);
 		return true;
 	}
 
@@ -481,6 +479,16 @@ namespace Pcm
 		(void)whichStream;
 		(void)p_volume;
 		(void)pitch;
+
+		PCMAudio_SetStreamVolume(p_volume, whichStream);
+
+		Audio::Lock();
+
+		if (stream_stream[whichStream] != nullptr)
+			stream_stream[whichStream]->Play();
+
+		Audio::Unlock();
+		
 		return true;
 	}
 
@@ -525,8 +533,10 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_StartPreLoadedMusicStream( void )
 	{
+		Audio::Lock();
 		if (music_stream != nullptr)
 			music_stream->Play();
+		Audio::Unlock();
 		return true;
 	}
 
@@ -662,9 +672,14 @@ namespace Pcm
 	/******************************************************************/
 	uint32 PCMAudio_FindNameFromChecksum( uint32 checksum, int ch )
 	{
-		(void)checksum;
-		(void)ch;
-		return 0;
+		if (ch != EXTRA_CHANNEL)
+			return 0;
+
+		auto it = stream_paths.find(checksum);
+		if (it == stream_paths.end())
+			return 0;
+
+		return checksum;
 	}
 
 
@@ -837,7 +852,6 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_PlayStream( uint32 checksum, int whichStream, Sfx::sVolume *p_volume, float fPitch, bool preload )
 	{
-		(void)p_volume;
 		(void)fPitch;
 
 		auto it = stream_paths.find(checksum);
@@ -853,7 +867,8 @@ namespace Pcm
 		if (!preload)
 			stream_stream[whichStream]->Play();
 
-		PCMAudio_SetStreamVolume(p_volume, whichStream);
+		if (p_volume != nullptr)
+			PCMAudio_SetStreamVolume(p_volume, whichStream);
 
 		Audio::Unlock();
 
