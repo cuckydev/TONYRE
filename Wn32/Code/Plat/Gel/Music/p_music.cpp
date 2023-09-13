@@ -23,6 +23,10 @@
 
 namespace Pcm
 {
+	// Volume constants
+	static constexpr float MUSIC_VOLUME = 1.0f;
+	static constexpr float STREAM_VOLUME = 0.5f; // Streams are too loud, ripped from PS2
+
 	// Music decoder using miniaudio
 	class Streamer
 	{
@@ -190,11 +194,13 @@ namespace Pcm
 			bool paused = true;
 			bool playing = true;
 
+			float volume[5] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+
 		public:
 			virtual void Rewind() = 0;
 			virtual size_t Stream(char *p, size_t bytes) = 0;
 
-			size_t Request(char *out, size_t bytes)
+			size_t Mix(char *out, size_t bytes)
 			{
 				// If stopped or paused, return 0
 				if (!playing || paused)
@@ -211,8 +217,11 @@ namespace Pcm
 				// Accumulate
 				float *a = (float*)out;
 				float *b = (float*)buffer.data();
-				for (size_t i = 0; i < read / sizeof(float); i++)
-					*a++ += *b++;
+				for (size_t i = 0; i < read / sizeof(float) / 5; i++)
+				{
+					for (int c = 0; c < 5; c++)
+						*a++ += *b++ * volume[c];
+				}
 
 				return read;
 			}
@@ -236,6 +245,12 @@ namespace Pcm
 
 			bool IsPaused() const { return paused; }
 			bool IsPlaying() const { return playing; }
+
+			void SetVolume(float *coefs)
+			{
+				for (int i = 0; i < 5; i++)
+					volume[i] = coefs[i];
+			}
 	};
 
 	class MusicDecoder : public Streamer
@@ -287,31 +302,45 @@ namespace Pcm
 			}
 	};
 
-	// Streams
-	MusicDecoder *music_stream = nullptr;
-	MusicDecoder *stream_stream[NUM_STREAMS] = {};
+	// Mixing streams
+	Streamer *music_stream = nullptr;
+	Streamer *stream_stream[NUM_STREAMS] = {};
 
 	// Mixer
 	void PCMAudio_Mix(char *buffer, size_t size)
 	{
 		// Mix music
 		if (music_stream != nullptr)
-			music_stream->Request(buffer, size);
+			music_stream->Mix(buffer, size);
 
 		// Mix streams
 		for (auto &i : stream_stream)
 			if (i != nullptr)
-				i->Request(buffer, size);
+				i->Mix(buffer, size);
 	}
 
 	/******************************************************************/
 	/*                                                                */
 	/*                                                                */
 	/******************************************************************/
+	static std::unordered_map<uint32, std::string> stream_paths;
+
 	void PCMAudio_Init( void )
 	{
 		// Initialize mixer
 		Audio::Init();
+
+		// Index streams
+		std::filesystem::path path = File::DataPath() / "streams";
+		for (auto &i : std::filesystem::recursive_directory_iterator(path))
+		{
+			if (i.is_regular_file())
+			{
+				std::string name = i.path().stem().string();
+				uint32 checksum = Crc::GenerateCRCFromString(name.c_str());
+				stream_paths[checksum] = std::filesystem::relative(i.path(), File::DataPath()).string();
+			}
+		}
 	}
 
 
@@ -489,8 +518,19 @@ namespace Pcm
 	/******************************************************************/
 	int PCMAudio_GetStreamStatus( int whichStream )
 	{
-		(void)whichStream;
-		return PCM_STATUS_PLAYING;
+		Audio::Lock();
+
+		int status;
+		Streamer *stream = stream_stream[whichStream];
+		if (stream == nullptr)
+			status = PCM_STATUS_FREE;
+		else if (stream->IsPlaying())
+			status = PCM_STATUS_PLAYING;
+		else
+			status = PCM_STATUS_FREE;
+		
+		Audio::Unlock();
+		return status;
 	}
 
 
@@ -505,6 +545,7 @@ namespace Pcm
 		(void)ch;
 
 		Audio::Lock();
+
 		if (ch == MUSIC_CHANNEL)
 		{
 			if (music_stream != nullptr)
@@ -515,6 +556,20 @@ namespace Pcm
 					music_stream->Play();
 			}
 		}
+		else
+		{
+			for (auto &i : stream_stream)
+			{
+				if (i != nullptr)
+				{
+					if (pause)
+						i->Pause();
+					else
+						i->Play();
+				}
+			}
+		}
+
 		Audio::Unlock();
 	}
 
@@ -578,8 +633,46 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_SetStreamVolume( Sfx::sVolume *p_volume, int whichStream )
 	{
-		(void)p_volume;
-		(void)whichStream;
+		Audio::Lock();
+
+		if (stream_stream[whichStream] != nullptr)
+		{
+			Spt::SingletonPtr< Sfx::CSfxManager > sfx_manager;
+
+			float coef[5] = {};
+
+			switch (p_volume->GetVolumeType())
+			{
+				case Sfx::VOLUME_TYPE_5_CHANNEL_DOLBY5_1:
+				{
+					// NOTE: sVolume is in the order of FL, C, FR, BL, BR
+					// So we need to swap C and FR to match what the mixer expects
+					Dbg_Assert(0);
+					coef[0] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(0)) / 100.0f * STREAM_VOLUME;
+					coef[1] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(2)) / 100.0f * STREAM_VOLUME;
+					coef[2] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(1)) / 100.0f * STREAM_VOLUME;
+					coef[3] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(3)) / 100.0f * STREAM_VOLUME;
+					coef[4] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(4)) / 100.0f * STREAM_VOLUME;
+					break;
+				}
+				case Sfx::VOLUME_TYPE_2_CHANNEL_DOLBYII:
+				{
+					coef[0] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(0)) / 100.0f * STREAM_VOLUME;
+					coef[1] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(1)) / 100.0f * STREAM_VOLUME;
+					break;
+				}
+				case Sfx::VOLUME_TYPE_BASIC_2_CHANNEL:
+				{
+					coef[0] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(0)) / 100.0f * STREAM_VOLUME;
+					coef[1] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(1)) / 100.0f * STREAM_VOLUME;
+					break;
+				}
+			}
+
+			stream_stream[whichStream]->SetVolume(coef);
+		}
+
+		Audio::Unlock();
 		return true;
 	}
 
@@ -592,6 +685,21 @@ namespace Pcm
 	int PCMAudio_SetMusicVolume( float volume )
 	{
 		(void)volume;
+
+		Audio::Lock();
+
+		if (music_stream != nullptr)
+		{
+			float coef[5] = {};
+			coef[0] = volume / 100.0f;
+			coef[1] = volume / 100.0f;
+			coef[2] = volume / 100.0f;
+			coef[3] = volume / 100.0f;
+			coef[4] = volume / 100.0f;
+			music_stream->SetVolume(coef);
+		}
+
+		Audio::Unlock();
 		return true;
 	}
 
@@ -670,7 +778,12 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_StartStream( int whichStream )
 	{
-		(void)whichStream;
+		Audio::Lock();
+
+		if (stream_stream[whichStream] != nullptr)
+			stream_stream[whichStream]->Play();
+
+		Audio::Unlock();
 
 		return true;
 	}
@@ -683,15 +796,26 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_PlayStream( uint32 checksum, int whichStream, Sfx::sVolume *p_volume, float fPitch, bool preload )
 	{
-		(void)checksum;
-		(void)whichStream;
 		(void)p_volume;
 		(void)fPitch;
-		(void)preload;
-		OutputDebugStringA("PLAYING STREAM ");
-		OutputDebugStringA(Script::FindChecksumName(checksum));
-		OutputDebugStringA("\n");
-		std::cout << File::DataPath() << std::endl;
+
+		auto it = stream_paths.find(checksum);
+		if (it == stream_paths.end())
+			return false;
+
+		Audio::Lock();
+
+		if (stream_stream[whichStream] != nullptr)
+			delete stream_stream[whichStream];
+
+		stream_stream[whichStream] = new MusicDecoder(File::Open(it->second.c_str(), "rb"));
+		if (!preload)
+			stream_stream[whichStream]->Play();
+
+		PCMAudio_SetStreamVolume(p_volume, whichStream);
+
+		Audio::Unlock();
+
 		return true;
 	}
 

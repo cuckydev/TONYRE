@@ -21,7 +21,7 @@ namespace File
 	// Return module path
 	static std::filesystem::path GetModulePath()
 	{
-		// Get module name
+		// Get module namethe
 		std::basic_string<WCHAR> module_name(MAX_PATH, '\0');
 
 		while (1)
@@ -78,7 +78,7 @@ namespace File
 
 		// Open the file
 		std::filesystem::path full_path = DataPath() / file_path;
-		HANDLE h_file = CreateFileW(full_path.native().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+		HANDLE h_file = CreateFileW(full_path.native().c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 		// Deal with various error returns.
 		if (h_file == INVALID_HANDLE_VALUE)
@@ -89,6 +89,7 @@ namespace File
 			// is valid to just return the error code if it doesn't.
 			if (error != ERROR_FILE_NOT_FOUND)
 			{
+				std::cerr << "Error opening file " << full_path << std::endl;
 				Dbg_Assert(0);
 			}
 			return nullptr;
