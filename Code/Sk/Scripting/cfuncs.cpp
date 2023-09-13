@@ -640,7 +640,7 @@ bool ScriptWait(Script::CStruct *pParams, Script::CScript *pScript)
 
 	if (pParams->ContainsFlag(0x4a07c332/*"frame"*/) || pParams->ContainsFlag(0x19176c5/*"frames"*/))
 	{
-		pScript->WaitOnePerFrame((int)Period);
+		pScript->Wait((int)Period);
 		// pScript->WaitTime((int)(Period * 1000.0f / 60.0f)); // This should NOT be changed for PAL, as Tmr::GetTime accounts for PAL
 		return true;
 	}		
