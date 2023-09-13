@@ -18,6 +18,7 @@
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <fstream>
 
 #include <Windows.h>
 
@@ -257,26 +258,39 @@ namespace Pcm
 	{
 		private:
 			ma_decoder decoder = {};
-			void *file = nullptr;
+			std::ifstream file;
 
 		public:
-			MusicDecoder(void *_file) : file(_file)
+			MusicDecoder(std::filesystem::path path) : file(path, std::ios::binary)
 			{
 				ma_decoder_config config = ma_decoder_config_init(ma_format_f32, 5, 48000);
 				ma_decoder_init(
 					[](ma_decoder *pDecoder, void *pBufferOut, size_t bytesToRead, size_t *pBytesRead) -> ma_result
 					{
-						void *file = pDecoder->pUserData;
-						*pBytesRead = File::Read(pBufferOut, 1, bytesToRead, file);
+						MusicDecoder *self = (MusicDecoder *)pDecoder->pUserData;
+						self->file.read((char*)pBufferOut, bytesToRead);
+						if (pBytesRead != nullptr)
+							*pBytesRead = self->file.gcount();
 						return MA_SUCCESS;
 					},
 					[](ma_decoder *pDecoder, ma_int64 byteOffset, ma_seek_origin origin) -> ma_result
 					{
-						void *file = pDecoder->pUserData;
-						File::Seek(file, byteOffset, origin);
+						MusicDecoder *self = (MusicDecoder*)pDecoder->pUserData;
+						switch (origin)
+						{
+							case ma_seek_origin_start:
+								self->file.seekg(byteOffset, std::ios::beg);
+								break;
+							case ma_seek_origin_current:
+								self->file.seekg(byteOffset, std::ios::cur);
+								break;
+							case ma_seek_origin_end:
+								self->file.seekg(byteOffset, std::ios::end);
+								break;
+						}
 						return MA_SUCCESS;
 					},
-					file,
+					this,
 					&config,
 					&decoder
 				);
@@ -284,7 +298,7 @@ namespace Pcm
 
 			~MusicDecoder()
 			{
-				File::Close(file);
+
 			}
 
 		private:
@@ -508,7 +522,7 @@ namespace Pcm
 
 		if (music_stream != nullptr)
 			delete music_stream;
-		music_stream = new MusicDecoder(File::Open(it->second.c_str(), "rb"));
+		music_stream = new MusicDecoder(File::DataPath() / it->second);
 
 		Audio::Unlock();
 		return true;
@@ -798,7 +812,7 @@ namespace Pcm
 			delete music_stream;
 
 		std::string name = std::string(filename) + ".wav";
-		music_stream = new MusicDecoder(File::Open(name.c_str(), "rb"));
+		music_stream = new MusicDecoder(File::DataPath() / name);
 		music_stream->Play();
 
 		Audio::Unlock();
@@ -813,16 +827,17 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_PlaySoundtrackMusicTrack( int soundtrack, int track )
 	{
-		/*
 		// Play song
 		Audio::Lock();
+
 		if (music_stream != nullptr)
 			delete music_stream;
+
 		const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
-		std::string name = soundtracks.at(soundtrack).tracks.at(track).path.string();
-		music_stream = new MusicDecoder(name.c_str());
+		music_stream = new MusicDecoder(soundtracks.at(soundtrack).tracks.at(track).path);
+		music_stream->Play();
+
 		Audio::Unlock();
-		*/
 		return true;
 	}
 
@@ -863,7 +878,7 @@ namespace Pcm
 		if (stream_stream[whichStream] != nullptr)
 			delete stream_stream[whichStream];
 
-		stream_stream[whichStream] = new MusicDecoder(File::Open(it->second.c_str(), "rb"));
+		stream_stream[whichStream] = new MusicDecoder(File::DataPath() / it->second);
 		if (!preload)
 			stream_stream[whichStream]->Play();
 

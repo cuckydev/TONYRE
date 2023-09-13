@@ -1,5 +1,7 @@
 #include "usersoundtrack.h"
 
+#include <Plat/Sys/File/p_filesys.h>
+
 #include <filesystem>
 
 namespace UserSoundtrack
@@ -8,7 +10,7 @@ namespace UserSoundtrack
 	Soundtracks IndexSoundtracks()
 	{
 		// Get user soundtrack path
-		std::filesystem::path usersoundtrack_path = "Soundtracks";
+		std::filesystem::path usersoundtrack_path = File::ModulePath() / "Soundtracks";
 
 		// Iterate over folders in user soundtrack path
 		Soundtracks soundtracks;
