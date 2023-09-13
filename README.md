@@ -15,6 +15,14 @@ cmake --build build
 
 Make sure you compile in 32-bit mode, as the game will not run in 64-bit mode.
 
+## Additional notes
+
+I'm not interested in pulling in any Bink 1.0 decoder as a dependency, so you'll need the music and streams in `.wav` format.
+
+If you have the PS2 version, you can extract `.wav` files from the `.wad` files using [TonyWad](https://github.com/cuckydev/TonyWad).
+
+The `music` and `streams` folders go under `Game/Data`.
+
 ## Contributing
 
 Have something to contribute to the project? Feel free to open a pull request!
