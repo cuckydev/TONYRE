@@ -27,3 +27,4 @@ Consider joining our [Discord Server](https://discord.gg/TvyX2jxAX8) to discuss 
 - Backend unfinished
 - Game depends on hack to clear class memory on construction automatically (see Code/Core/Support/Class.cpp)
 - Create-A-Park crashes
+- Original memory management code is still partially in place
