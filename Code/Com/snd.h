@@ -15,6 +15,7 @@ namespace Snd
 			// Sound state
 			bool playing = false;
 			bool paused = false;
+			bool looping = false;
 
 			unsigned long frequency = 0;
 			unsigned long coord = 0, step = 0;
@@ -33,8 +34,16 @@ namespace Snd
 					// Check if at end
 					if (ima.AtEnd())
 					{
-						playing = false;
-						return 0.0f;
+						if (looping)
+						{
+							// Rewind stream
+							ima.Rewind();
+						}
+						else
+						{
+							playing = false;
+							return 0.0f;
+						}
 					}
 
 					// Fetch new sample
@@ -71,8 +80,12 @@ namespace Snd
 				sample_a = ima.Fetch();
 				sample_b = ima.Fetch();
 
-				// Setup frequency
 				frequency = _frequency;
+
+				// Setup sound state
+				playing = false;
+				paused = false;
+				looping = false;
 			}
 
 			void Rewind()
@@ -88,39 +101,43 @@ namespace Snd
 
 			void Play()
 			{
-				// Start playing
 				playing = true;
 				paused = false;
 			}
 
 			void Pause()
 			{
-				// Toggle paused
 				paused = true;
 			}
 
 			void Stop()
 			{
-				// Stop playing
 				Rewind();
 				playing = false;
 			}
 
+			void SetLooping(bool loops)
+			{
+				looping = loops;
+			}
+
 			bool IsPlaying()
 			{
-				// Return playing state
 				return playing;
 			}
 
 			bool IsPaused()
 			{
-				// Return paused state
 				return paused;
+			}
+
+			bool IsLooping()
+			{
+				return looping;
 			}
 
 			void SetVolume(float *coef)
 			{
-				// Set volume
 				volume[0] = coef[0];
 				volume[1] = coef[1];
 				volume[2] = coef[2];
@@ -130,7 +147,6 @@ namespace Snd
 
 			void SetPitch(float pitch)
 			{
-				// Set pitch
 				step = (unsigned long)((pitch / 100.0f) * (float)frequency / (float)48000 * (float)0x10000);
 			}
 

@@ -47,6 +47,7 @@ namespace Sfx
 				uint16 block_align;
 				uint16 bits_per_sample;
 			} format = {};
+			bool looping = false;
 
 			CXBSound(void *fp)
 			{
@@ -69,6 +70,7 @@ namespace Sfx
 					switch (header.id)
 					{
 						case ' tmf':
+						{
 							// Read format
 							if (header.size < sizeof(Format))
 							{
@@ -86,20 +88,44 @@ namespace Sfx
 								File::Seek(fp, header.size - sizeof(Format), SEEK_CUR);
 							}
 							break;
+						}
 						case 'atad':
+						{
 							// Read data
 							size = header.size;
 							data = std::make_unique<unsigned char[]>(size);
 							File::Read(data.get(), size, 1, fp);
 							break;
+						}
 						case 'lpms':
+						{
 							// Read loop data
-							// TODO
-							// Fallthrough
+							if (header.size >= (0x1C + 0x4))
+							{
+								// Read DWORD at 0x1C
+								File::Seek(fp, 0x1C, SEEK_CUR);
+
+								uint32 smpl_loops = 0;
+								File::Read(&smpl_loops, sizeof(uint32), 1, fp);
+								if (smpl_loops)
+									looping = true;
+
+								// Skip rest of block
+								File::Seek(fp, header.size - (0x1C + 0x4), SEEK_CUR);
+							}
+							else
+							{
+								// Skip block
+								File::Seek(fp, header.size, SEEK_CUR);
+							}
+							break;
+						}
 						default:
+						{
 							// Skip unknown block
 							File::Seek(fp, header.size, SEEK_CUR);
 							break;
+						}
 					}
 				}
 
@@ -179,9 +205,8 @@ namespace Sfx
 			return false;
 
 		// Create sound
-		std::cout << "Reading " << sound_name << std::endl;
 		pInfo->p_sound_data = new CXBSound(fp);
-		pInfo->looping = false;
+		pInfo->looping = pInfo->p_sound_data->looping;
 		pInfo->permanent = loadPerm;
 
 		return true;
@@ -207,6 +232,7 @@ namespace Sfx
 
 		sound->SetPointer(pInfo->p_sound_data->data.get(), pInfo->p_sound_data->size, pInfo->p_sound_data->format.sample_rate);
 		sound->Play();
+		sound->SetLooping(pInfo->p_sound_data->looping);
 
 		SetVoiceParameters(voice, p_vol, pitch);
 
