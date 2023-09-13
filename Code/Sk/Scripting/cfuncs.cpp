@@ -5304,9 +5304,6 @@ bool ScriptPrintf(Script::CStruct *pParams, Script::CScript *pScript)
 	
 	printf( buffer );
 
-	OutputDebugStringA(buffer);
-
-
 	return true;
 }
 
@@ -8430,7 +8427,7 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
     AddStr( "%4d total kb of physical memory.\n", stat.dwTotalPhys / KB );
     AddStr( "%4d  free kb of physical memory.\n", stat.dwAvailPhys / KB );
 //	AddStr( "%4d  percent of memory is in use.\n", stat.dwMemoryLoad );
-    OutputDebugString( strOut );
+    printf( strOut );
 #	endif
 	
 #	ifdef __PLAT_NGPS__

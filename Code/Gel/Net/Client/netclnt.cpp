@@ -386,7 +386,7 @@ void	Client::ReceiveData( void )
 #ifdef NET_DEBUG_MESSAGES
 				Dbg_Printf( "Client Receive Error :" );
 #ifdef __PLAT_WN32__
-				OutputDebugString( "Client Receive Error!\n" );
+				printf( "Client Receive Error!\n" );
 #endif
 				ReportError();
 #endif
@@ -439,9 +439,7 @@ void	Client::ReceiveData( void )
 				else
 				{
 #ifdef __PLAT_WN32__
-					char message[1024];
-					sprintf( message, "****** %d: Dropped Packet\n", m_Timestamp );
-					OutputDebugString( message ); 
+					printf( "****** %d: Dropped Packet\n", m_Timestamp );
 #endif	// __PLAT_WN32__					
 				}
 			}

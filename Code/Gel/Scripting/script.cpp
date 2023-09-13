@@ -146,9 +146,7 @@ static void s_send_script_name(uint32 script_name, int numReturnAddresses)
 
 	// Get name of checksum
 	const char *p_script_name = FindChecksumName(script_name);
-	OutputDebugStringA("s_send_script_name ");
-	OutputDebugStringA(p_script_name);
-	OutputDebugStringA("\n");
+	printf("s_send_script_name \"%s\"\n", FindChecksumName(script_name));
 }
 #endif
 

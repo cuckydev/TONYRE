@@ -95,17 +95,7 @@ void		close_down ( void )
 
 void	default_print ( const char *text )
 {
-
-#ifdef __PLAT_WN32__
-	
-	OutputDebugString ( text );
-
-#else
-
 	printf ( text );
-
-#endif // __CC_VISUALC__
-
 }
 
 /******************************************************************/

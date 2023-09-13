@@ -2036,7 +2036,7 @@ bool		Manager::ScriptChooseServer(Script::CScriptStructure *pParams, Script::CSc
 		if( XNetRegisterKey( &p_server->m_XboxKeyId, 
 			&p_server->m_XboxKey ) != NO_ERROR )
 		{
-			OutputDebugString( "**** Failed to register key\n" );
+			printf( "**** Failed to register key\n" );
 			return false;
 		}
 		
@@ -2045,7 +2045,7 @@ bool		Manager::ScriptChooseServer(Script::CScriptStructure *pParams, Script::CSc
 		if( XNetXnAddrToInAddr( &p_server->m_XboxAddr, &p_server->m_XboxKeyId,
 				&host_addr ) != NO_ERROR )
 		{
-			OutputDebugString( "**** Failed to get inaddr from xnaddr\n" );
+			printf( "**** Failed to get inaddr from xnaddr\n" );
 			return false;
 		}
 		

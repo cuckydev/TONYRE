@@ -327,7 +327,7 @@ void MemView_DumpBlockInfo(int cursor)
 		CCallStack *c = (CCallStack*)pBlock->mp_debug_data;
 		if (!c)
 		{
-//			OutputDebugString( "Block with No Debug Info!!\n" );
+//			printf( "Block with No Debug Info!!\n" );
 		}
 		else
 		{

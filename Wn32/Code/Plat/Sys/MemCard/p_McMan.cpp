@@ -208,9 +208,7 @@ const char *Card::GetPersonalizedName()
 		else
 		{
 			#ifdef __NOPT_ASSERT__
-			char p_temp[100];
-			sprintf(p_temp,"XMUNameFromDriveLetter error code = %d\n",rv);
-			OutputDebugString(p_temp);
+			printf("XMUNameFromDriveLetter error code = %d\n",rv);
 			#endif
 		}	
 	}

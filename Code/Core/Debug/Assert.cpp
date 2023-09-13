@@ -112,20 +112,17 @@ void	screen_assert( bool on )
 
 void		Assert( const char* file, uint line, const char* reason )
 {
-	static	char		assert_buffer1[vASSERT_BUFFER_SIZE];
-
-	sprintf(assert_buffer1, "\n--------------------------------------------------\nPLEASE COPY FROM A FEW LINES ABOVE HERE\n\nCURRENT MEM CONTEXT: %s\n\n", Mem::Manager::sHandle().GetContextName());
-	OutputDebugStringA(assert_buffer1);
+	printf("\n--------------------------------------------------\nPLEASE COPY FROM A FEW LINES ABOVE HERE\n\nCURRENT MEM CONTEXT: %s\n\n", Mem::Manager::sHandle().GetContextName());
 
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
 
-	OutputDebugStringA("Name            Used  Frag  Free   Min  Blocks\n");
-	OutputDebugStringA("--------------- ----- ----- ---- ------ ------\n");
+	printf("Name            Used  Frag  Free   Min  Blocks\n");
+	printf("--------------- ----- ----- ---- ------ ------\n");
 	Mem::Heap* heap;
 	for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
 	{		
 			Mem::Region* region = heap->ParentRegion();			
-			sprintf(assert_buffer1, "%12s: %5dK %4dK %4dK %4dK  %5d \n",
+			printf("%12s: %5dK %4dK %4dK %4dK  %5d \n",
 					heap->GetName(),
 					heap->mUsedMem.m_count / 1024,
 					heap->mFreeMem.m_count / 1024,
@@ -133,17 +130,17 @@ void		Assert( const char* file, uint line, const char* reason )
 					region->MinMemAvailable() / 1024,
 					heap->mUsedBlocks.m_count
 					);
-			OutputDebugStringA(assert_buffer1);
 	}
 
 	// Show an assertion failure dialog box
 	#ifdef __PLAT_WN32__
 		// Check if debugger is present
+		static char assert_buffer1[vASSERT_BUFFER_SIZE];
 		sprintf(assert_buffer1, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
 		if (IsDebuggerPresent())
 		{
 			// There will be a breakpoint triggered later on..
-			OutputDebugStringA(assert_buffer1);
+			printf("%s", assert_buffer1);
 		}
 		else
 		{

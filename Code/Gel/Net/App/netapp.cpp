@@ -2395,11 +2395,7 @@ void		App::ReportError( void )
 	
 
 #ifdef WIN32
-	char msg[1024];
-
-	//Dbg_Printf( "%s: Error %d\n", m_name, WSAGetLastError());
-	sprintf( msg, "%s: Error %d\n", m_name, WSAGetLastError());
-	OutputDebugString( msg );
+	printf("%s: Error %d\n", m_name, WSAGetLastError());
 #else
 #ifdef __PLAT_NGPS__
 #ifdef DEBUG_MESSAGES
