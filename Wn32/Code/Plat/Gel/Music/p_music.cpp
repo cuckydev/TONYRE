@@ -256,8 +256,8 @@ namespace Pcm
 	class MusicDecoder : public Streamer
 	{
 		private:
-			ma_decoder decoder;
-			void *file;
+			ma_decoder decoder = {};
+			void *file = nullptr;
 
 		public:
 			MusicDecoder(void *_file) : file(_file)
@@ -689,12 +689,11 @@ namespace Pcm
 				{
 					// NOTE: sVolume is in the order of FL, C, FR, BL, BR
 					// So we need to swap C and FR to match what the mixer expects
-					Dbg_Assert(0);
 					coef[0] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(0)) / 100.0f * STREAM_VOLUME;
-					coef[1] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(2)) / 100.0f * STREAM_VOLUME;
-					coef[2] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(1)) / 100.0f * STREAM_VOLUME;
-					coef[3] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(3)) / 100.0f * STREAM_VOLUME;
-					coef[4] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(4)) / 100.0f * STREAM_VOLUME;
+					coef[1] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(1)) / 100.0f * STREAM_VOLUME;
+					coef[2] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(4)) / 100.0f * STREAM_VOLUME;
+					coef[3] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(2)) / 100.0f * STREAM_VOLUME;
+					coef[4] = PERCENT(sfx_manager->GetMainVolume(), p_volume->GetChannelVolume(3)) / 100.0f * STREAM_VOLUME;
 					break;
 				}
 				case Sfx::VOLUME_TYPE_2_CHANNEL_DOLBYII:

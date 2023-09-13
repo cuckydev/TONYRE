@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 
+#include <Plat/Gel/SoundFX/p_sfx.h>
 #include <Plat/Gel/Music/p_music.h>
 
 #include <Windows.h>
@@ -21,6 +22,9 @@ namespace Audio
 
 		// Mix music
 		Pcm::PCMAudio_Mix((char*)stream, len);
+
+		// Mix sound effects
+		Sfx::MixSoundFX((char*)stream, len);
 	}
 
 	// Mixer API

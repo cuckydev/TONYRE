@@ -80,6 +80,9 @@ struct PlatformWaveInfo
 extern float	gSfxVolume;
 struct sVolume;
 
+// Mixer
+void MixSoundFX(char *buffer, size_t size);
+
 /*****************************************************************************
 **							   Public Prototypes							**
 *****************************************************************************/

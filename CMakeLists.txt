@@ -50,7 +50,11 @@ endif()
 # Compile TonyRE executable
 add_executable(TonyRE WIN32
 	# Com
+	"Code/Com/ima.cpp"
+	"Code/Com/ima.h"
 	"Code/Com/miniaudio.cpp"
+	"Code/Com/snd.cpp"
+	"Code/Com/snd.h"
 	"Code/Com/texturedecode.cpp"
 	"Code/Com/texturedecode.h"
 
