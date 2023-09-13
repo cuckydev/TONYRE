@@ -323,24 +323,32 @@ namespace Pcm
 	/*                                                                */
 	/*                                                                */
 	/******************************************************************/
+	static std::unordered_map<uint32, std::string> music_paths;
 	static std::unordered_map<uint32, std::string> stream_paths;
 
-	void PCMAudio_Init( void )
+	static std::unordered_map<uint32, std::string> Index(std::filesystem::path path)
 	{
-		// Initialize mixer
-		Audio::Init();
-
-		// Index streams
-		std::filesystem::path path = File::DataPath() / "streams";
+		std::unordered_map<uint32, std::string> paths;
 		for (auto &i : std::filesystem::recursive_directory_iterator(path))
 		{
 			if (i.is_regular_file())
 			{
 				std::string name = i.path().stem().string();
 				uint32 checksum = Crc::GenerateCRCFromString(name.c_str());
-				stream_paths[checksum] = std::filesystem::relative(i.path(), File::DataPath()).string();
+				paths[checksum] = std::filesystem::relative(i.path(), File::DataPath()).string();
 			}
 		}
+		return paths;
+	}
+
+	void PCMAudio_Init( void )
+	{
+		// Initialize mixer
+		Audio::Init();
+
+		// Index music and streams
+		music_paths = Index(File::DataPath() / "music");
+		stream_paths = Index(File::DataPath() / "streams");
 	}
 
 
@@ -462,7 +470,17 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_PreLoadMusicStream( uint32 checksum )
 	{
-		(void)checksum;
+		auto it = music_paths.find(checksum);
+		if (it == music_paths.end())
+			return false;
+
+		Audio::Lock();
+
+		if (music_stream != nullptr)
+			delete music_stream;
+		music_stream = new MusicDecoder(File::Open(it->second.c_str(), "rb"));
+
+		Audio::Unlock();
 		return true;
 	}
 
@@ -485,6 +503,8 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_StartPreLoadedMusicStream( void )
 	{
+		if (music_stream != nullptr)
+			music_stream->Play();
 		return true;
 	}
 
