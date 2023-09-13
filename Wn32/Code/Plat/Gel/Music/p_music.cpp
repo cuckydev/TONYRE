@@ -375,11 +375,13 @@ namespace Pcm
 		(void)waitPlease;
 
 		Audio::Lock();
+
 		if (music_stream != nullptr)
 		{
 			delete music_stream;
 			music_stream = nullptr;
 		}
+
 		Audio::Unlock();
 	}
 
@@ -391,8 +393,17 @@ namespace Pcm
 	/******************************************************************/
 	void PCMAudio_StopStream( int whichStream, bool waitPlease )
 	{
-		(void)whichStream;
 		(void)waitPlease;
+
+		Audio::Lock();
+
+		if (stream_stream[whichStream] != nullptr)
+		{
+			delete stream_stream[whichStream];
+			stream_stream[whichStream] = nullptr;
+		}
+
+		Audio::Unlock();
 	}
 
 
@@ -403,7 +414,18 @@ namespace Pcm
 	/******************************************************************/
 	void PCMAudio_StopStreams( void )
 	{
-	
+		Audio::Lock();
+
+		for (auto &i : stream_stream)
+		{
+			if (i != nullptr)
+			{
+				delete i;
+				i = nullptr;
+			}
+		}
+
+		Audio::Unlock();
 	}
 
 
