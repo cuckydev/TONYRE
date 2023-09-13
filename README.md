@@ -19,7 +19,7 @@ Make sure you compile in 32-bit mode, as the game will not run in 64-bit mode.
 
 Have something to contribute to the project? Feel free to open a pull request!
 
-Consider joining our (Discord Server)[https://discord.gg/TvyX2jxAX8] to discuss the project and get help with development.
+Consider joining our [Discord Server](https://discord.gg/TvyX2jxAX8) to discuss the project and get help with development.
 
 ## Current major issues
 
