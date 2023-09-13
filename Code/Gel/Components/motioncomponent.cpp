@@ -1845,6 +1845,7 @@ bool CMotionComponent::Move_Init( Script::CStruct* pParams, Script::CScript* pSc
 	float speed;
 
 	m_moveto_pos = pos;
+	m_moveto_pos += (m_moveto_pos - GetObj()->GetPos());
 	m_moveto_dist = Mth::Distance( m_moveto_pos, GetObj()->GetPos() );
 	m_moveto_acceleration = 0.0f;
 	
@@ -1859,7 +1860,15 @@ bool CMotionComponent::Move_Init( Script::CStruct* pParams, Script::CScript* pSc
 	{
 		// time is in seconds:
 		Dbg_MsgAssert( time,( "\n%s\nCan't have zero for time...", pScript->GetScriptInfo( ) ));
-		m_moveto_speed = m_moveto_dist / time;
+		if (time < 0.015f)
+		{
+			GetObj()->SetPos(m_moveto_pos);
+			m_movingobj_status &= ~MOVINGOBJ_STATUS_MOVETO;
+		}
+		else
+		{
+			m_moveto_speed = m_moveto_dist / time;
+		}
 	}
 	else if ( pParams->GetFloat( 0xf0d90109, &speed ) ) // "speed"
 	{	// use speed and acceleration:
