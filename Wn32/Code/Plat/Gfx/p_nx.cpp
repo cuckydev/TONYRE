@@ -86,9 +86,6 @@ namespace Nx
 		NxWn32::sShader *shader = NxWn32::DirectShader();
 		glUseProgram(shader->program);
 
-		// Disable depth
-		glDisable(GL_DEPTH_TEST);
-
 		// If blurring, render blur buffer to backbuffer
 		if (NxWn32::EngineGlobals.screen_blur > 0.0f)
 		{
@@ -96,6 +93,7 @@ namespace Nx
 			{
 				// Bind backbuffer FBO
 				NxWn32::EngineGlobals.backbuffer->BindFBO();
+				glClear(GL_DEPTH_BUFFER_BIT);
 
 				// Get alpha to blur at
 				glUniform4f(glGetUniformLocation(shader->program, "u_col"), 1.0f, 1.0f, 1.0f, NxWn32::EngineGlobals.screen_blur);
@@ -108,6 +106,8 @@ namespace Nx
 				NxWn32::EngineGlobals.fullscreen_quad->Bind();
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 			}
+
+			// Tick blur
 			NxWn32::EngineGlobals.screen_blur_duration++;
 		}
 		else
@@ -149,7 +149,7 @@ namespace Nx
 	void CEngine::s_plat_render_world(void)
 	{
 		// Bind FBO
-		if (NxWn32::EngineGlobals.screen_blur > 0.0f)
+		if (NxWn32::EngineGlobals.screen_blur > 0.0f && (NxWn32::EngineGlobals.screen_blur_duration > 1))
 			NxWn32::EngineGlobals.blurbuffer->BindFBO();
 		else
 			NxWn32::EngineGlobals.backbuffer->BindFBO();

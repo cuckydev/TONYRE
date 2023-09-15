@@ -686,9 +686,6 @@ void sMesh::Submit( void )
 		}
 	}
 
-	// Send environment matrix
-
-
 	// Send MVP matrix
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_m"), 1, GL_FALSE, &EngineGlobals.model_matrix[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_v"), 1, GL_FALSE, &EngineGlobals.view_matrix[0][0]);
