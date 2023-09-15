@@ -89,25 +89,28 @@ namespace Nx
 		// If blurring, render blur buffer to backbuffer
 		if (NxWn32::EngineGlobals.screen_blur > 0.0f)
 		{
-			// Bind backbuffer FBO
-			NxWn32::EngineGlobals.backbuffer->BindFBO();
+			if (NxWn32::EngineGlobals.screen_blur_duration > 1)
+			{
+				// Bind backbuffer FBO
+				NxWn32::EngineGlobals.backbuffer->BindFBO();
 
-			// Get alpha to blur at
-			float alpha = (255.0f - NxWn32::EngineGlobals.screen_blur) / 512.0f;
-			if (alpha < 0.125f)
-				alpha = 0.125f;
+				// Get alpha to blur at
+				glUniform4f(glGetUniformLocation(shader->program, "u_col"), 1.0f, 1.0f, 1.0f, NxWn32::EngineGlobals.screen_blur);
 
-			glUniform4f(glGetUniformLocation(shader->program, "u_col"), 1.0f, 1.0f, 1.0f, alpha);
+				// Bind blur texture
+				glActiveTexture(GL_TEXTURE0);
+				NxWn32::EngineGlobals.blurbuffer->BindColorTexture();
 
-			// Bind blur texture
-			glActiveTexture(GL_TEXTURE0);
-			NxWn32::EngineGlobals.blurbuffer->BindColorTexture();
-
-			// Draw blur quad
-			NxWn32::EngineGlobals.fullscreen_quad->Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
-
-			NxWn32::EngineGlobals.screen_blur -= 1.0f;
+				// Draw blur quad
+				NxWn32::EngineGlobals.fullscreen_quad->Bind();
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
+			}
+			NxWn32::EngineGlobals.screen_blur_duration++;
+		}
+		else
+		{
+			// Reset blur
+			NxWn32::EngineGlobals.screen_blur_duration = 0;
 		}
 
 		// Bind screen FBO
@@ -893,7 +896,16 @@ namespace Nx
 	/******************************************************************/
 	void CEngine::s_plat_set_screen_blur(uint32 amount)
 	{
-		NxWn32::EngineGlobals.screen_blur = (float)amount;
+		if (amount == 0)
+		{
+			NxWn32::EngineGlobals.screen_blur = 0.0f;
+			return;
+		}
+
+		float alpha = (255.0f - amount) / 512.f;
+		if (alpha < 0.125f)
+			alpha = 0.125f;
+		NxWn32::EngineGlobals.screen_blur = alpha;
 	}
 
 

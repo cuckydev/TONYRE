@@ -134,12 +134,14 @@ struct sEngineGlobals
 	float screen_conv_x_offset;
 	float screen_conv_y_offset;
 
-	// Framebuffers
+	// Backbuffer state
 	sFBO *backbuffer = nullptr;
-	sFBO *blurbuffer = nullptr;
 
 	// Screen blur state
+	sFBO *blurbuffer = nullptr;
+
 	float screen_blur = 0.0f;
+	uint32 screen_blur_duration = 0; // How many frames the screen blur has been active for.
 
 	// Fullscreen quad
 	GlMesh *fullscreen_quad = nullptr;
