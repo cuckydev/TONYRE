@@ -15,6 +15,8 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
+#include "fbo.h"
+
 namespace NxWn32
 {
 	class sShader;
@@ -91,9 +93,6 @@ struct sEngineGlobals
 	SDL_Window *window = nullptr;
 	SDL_GLContext context = nullptr;
 
-	// Render state
-	glm::vec3 clear_color;
-
 	// Frame counter
 	uint64 frame_count = 0;
 
@@ -134,6 +133,16 @@ struct sEngineGlobals
 	float screen_conv_y_multiplier;
 	float screen_conv_x_offset;
 	float screen_conv_y_offset;
+
+	// Framebuffers
+	sFBO *backbuffer = nullptr;
+	sFBO *blurbuffer = nullptr;
+
+	// Screen blur state
+	float screen_blur = 0.0f;
+
+	// Fullscreen quad
+	GlMesh *fullscreen_quad = nullptr;
 
 	/*
 	// XGMATRIX			world_matrix;

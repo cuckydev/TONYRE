@@ -15,6 +15,7 @@ namespace NxWn32
 			~sShader();
 	};
 
+	sShader *DirectShader();
 	sShader *SpriteShader();
 	sShader *BasicShader();
 	sShader *BonedShader();

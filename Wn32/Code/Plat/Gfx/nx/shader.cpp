@@ -4,6 +4,35 @@
 
 namespace NxWn32
 {
+	// Direct shaders
+	static std::string direct_vertex = R"(#version 330 core
+layout (location = 0) in vec4 i_pos;
+layout (location = 1) in vec2 i_uv;
+
+out vec2 f_uv;
+
+void main()
+{
+	gl_Position = i_pos;
+	f_uv = i_uv;
+}
+)";
+
+	static std::string direct_fragment = R"(#version 330 core
+in vec2 f_uv;
+
+layout (location = 0) out vec4 o_col;
+
+uniform sampler2D u_texture[4];
+
+uniform vec4 u_col;
+
+void main()
+{
+	o_col = texture(u_texture[0], f_uv) * u_col;
+}
+)";
+
 	// 2D shaders
 	static std::string sprite_vertex = R"(#version 330 core
 layout (location = 0) in vec3 i_pos;
@@ -278,6 +307,12 @@ void main()
 	}
 
 	// Shader programs
+	sShader *DirectShader()
+	{
+		static sShader shader(direct_vertex.c_str(), direct_fragment.c_str());
+		return &shader;
+	}
+
 	sShader *SpriteShader()
 	{
 		static sShader shader(sprite_vertex.c_str(), sprite_fragment.c_str());

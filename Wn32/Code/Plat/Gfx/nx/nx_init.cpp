@@ -87,9 +87,6 @@ void InitialiseEngine( void )
 	// Disable vsync
 	SDL_GL_SetSwapInterval(0);
 
-	// Set initial clear color
-	EngineGlobals.clear_color = { 0.3137f, 0.3764f, 0.4392f };
-
 	// Initalize 2D render
 	SDraw2D::Init();
 
@@ -99,6 +96,34 @@ void InitialiseEngine( void )
 	// Enable vsync
 	if (SDL_GL_SetSwapInterval(-1) < 0)
 		SDL_GL_SetSwapInterval(1);
+
+	// Create backbuffer FBO
+	EngineGlobals.backbuffer = new sFBO(width, height, true);
+	EngineGlobals.blurbuffer = new sFBO(width, height, true);
+
+	// Create fullscreen quad
+	EngineGlobals.fullscreen_quad = new GlMesh();
+
+	static GLfloat quad_data[6 * 4] = {
+		-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // Bottom left
+		1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, // Bottom right
+		1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, // Top right
+		-1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f // Top left
+	};
+	static GLushort quad_indices[6] = {
+		0, 1, 2, // Triangle 1
+		0, 2, 3 // Triangle 2
+	};
+
+	EngineGlobals.fullscreen_quad->Bind();
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(4 * sizeof(GLfloat)));
+
+	EngineGlobals.fullscreen_quad->Submit(quad_data, sizeof(quad_data), quad_indices, sizeof(quad_indices));
 
 	/*
 	D3DPRESENT_PARAMETERS   params;
