@@ -13,11 +13,22 @@
 
 #include <Windows.h>
 
+#include <fstream>
+
 namespace File
 {
+	// File handle
+	struct sFileHandle
+	{
+		std::ifstream file;
+		size_t filesize = 0;
 
-#define READBUFFERSIZE				10240
-#define	PREPEND_START_POS			8
+		sFileHandle(const std::filesystem::path &path) : file(path, std::ios::binary)
+		{
+			if (file.is_open())
+				filesize = std::filesystem::file_size(path);
+		}
+	};
 
 	// Return module path
 	static std::filesystem::path GetModulePath()
@@ -79,27 +90,15 @@ namespace File
 
 		// Open the file
 		std::filesystem::path full_path = DataPath() / file_path;
-		HANDLE h_file = CreateFileW(full_path.native().c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+		sFileHandle *h_file = new sFileHandle(full_path);
 
-		// Deal with various error returns.
-		if (h_file == INVALID_HANDLE_VALUE)
+		if (!h_file->file.is_open())
 		{
-			DWORD error = GetLastError();
-
-			// Need to exclude this error from the test, since screenshot and other code sometimes check to see if a file exists, and it
-			// is valid to just return the error code if it doesn't.
-			if (error != ERROR_FILE_NOT_FOUND)
-			{
-				std::cerr << "Error opening file " << full_path << std::endl;
-				Dbg_Assert(0);
-			}
+			delete h_file;
 			return nullptr;
 		}
-		else
-		{
-			// All is well.
-			return h_file;
-		}
+
+		return h_file;
 	}
 
 	void InstallFileSystem( void )
@@ -164,9 +163,8 @@ namespace File
 				return retval;
 		}
 	
-		LARGE_INTEGER	li;
-		GetFileSizeEx((HANDLE)pFP, &li );
-		return (long)li.LowPart;
+		sFileHandle *h_file = (sFileHandle*)pFP;
+		return h_file->filesize;
 	}
 
 	long GetFilePosition( void *pFP )
@@ -180,11 +178,8 @@ namespace File
 				return retval;
 		}
 
-		long pos = SetFilePointer(	(HANDLE)pFP,	// Handle to file
-									0,				// Bytes to move pointer
-									0,				// High bytes to move pointer
-									FILE_CURRENT );	// Starting point
-		return pos;
+		sFileHandle *h_file = (sFileHandle *)pFP;
+		return h_file->file.tellg();
 	}
 
 	void InitQuickFileSystem( void )
@@ -251,8 +246,8 @@ namespace File
 				return retval;
 		}
 
-		CloseHandle((HANDLE)pFP );
-
+		sFileHandle *h_file = (sFileHandle *)pFP;
+		delete h_file;
 		return 0;
 	}
 
@@ -265,26 +260,9 @@ namespace File
 				return retval;
 		}
 
-		DWORD bytes_read;
-		if( ReadFile((HANDLE)pFP, addr, size * count, &bytes_read, nullptr ))
-		{
-			// All is well.
-			return bytes_read;
-		}
-		else
-		{
-			// Read error.
-			DWORD last_error = GetLastError();
-
-			if( last_error == ERROR_HANDLE_EOF )
-			{
-				// Continue in this case.
-				return bytes_read;
-			}
-
-			// NxWn32::FatalFileError( last_error );
-			return bytes_read;
-		}
+		sFileHandle *h_file = (sFileHandle*)pFP;
+		h_file->file.read((char*)addr, size * count);
+		return h_file->file.gcount();
 	}
 	
 	size_t ReadInt( void *addr, void *pFP )
@@ -344,7 +322,10 @@ namespace File
 			if( PreMgr::sPreExecuteSuccess())
 				return retval;
 		}
-		return SetFilePointer((HANDLE)pFP, offset, nullptr, ( origin == SEEK_CUR ) ? FILE_CURRENT : (( origin == SEEK_SET ) ? FILE_BEGIN : FILE_END ));
+
+		sFileHandle *h_file = (sFileHandle*)pFP;
+		h_file->file.seekg(offset, (origin == SEEK_CUR) ? std::ios::cur : ((origin == SEEK_SET) ? std::ios::beg : std::ios::end));
+		return h_file->file.tellg();
 	}
 
 	int Flush( void *pFP )
