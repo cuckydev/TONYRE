@@ -86,6 +86,9 @@ namespace Nx
 		NxWn32::sShader *shader = NxWn32::DirectShader();
 		glUseProgram(shader->program);
 
+		// Disable depth
+		glDisable(GL_DEPTH_TEST);
+
 		// If blurring, render blur buffer to backbuffer
 		if (NxWn32::EngineGlobals.screen_blur > 0.0f)
 		{
@@ -902,9 +905,9 @@ namespace Nx
 			return;
 		}
 
-		float alpha = (255.0f - amount) / 512.f;
-		if (alpha < 0.125f)
-			alpha = 0.125f;
+		float alpha = (255.0f - amount) / 255.0f;
+		if (alpha < 0.25f)
+			alpha = 0.25f;
 		NxWn32::EngineGlobals.screen_blur = alpha;
 	}
 
