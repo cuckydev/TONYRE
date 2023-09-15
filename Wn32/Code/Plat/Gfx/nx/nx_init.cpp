@@ -70,8 +70,6 @@ void InitialiseEngine( void )
 	EngineGlobals.window = SDL_CreateWindow("Tony Hawk's Underground", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	Dbg_AssertPtr(EngineGlobals.window);
 
-	set_dimensions(width, height);
-
 	// Create OpenGL context
 	EngineGlobals.context = SDL_GL_CreateContext(EngineGlobals.window);
 	Dbg_AssertPtr(EngineGlobals.context);
@@ -93,13 +91,8 @@ void InitialiseEngine( void )
 	// Initialize frame counter
 	s_next_frame = (double)SDL_GetTicks64();
 
-	// Enable vsync
-	if (SDL_GL_SetSwapInterval(-1) < 0)
-		SDL_GL_SetSwapInterval(1);
-
-	// Create backbuffer FBO
-	EngineGlobals.backbuffer = new sFBO(width, height, true);
-	EngineGlobals.blurbuffer = new sFBO(width, height, true);
+	// Set screen dimensions
+	set_dimensions(width, height);
 
 	// Create fullscreen quad
 	EngineGlobals.fullscreen_quad = new GlMesh();

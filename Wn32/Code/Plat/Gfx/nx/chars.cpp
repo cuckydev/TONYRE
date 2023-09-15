@@ -616,17 +616,17 @@ void SText::Draw( void )
 		{
 			if (!pChar)
 				pChar = p_font->pChars + p_font->Map[(uint8) *pLetter];
-			yt = y0 + ((float)(p_font->DefaultBase - pChar->Baseline) * m_yscale) * EngineGlobals.screen_conv_y_multiplier;
+			yt = y0 + ((float)(p_font->DefaultBase - pChar->Baseline) * m_yscale);
 			u0 = pChar->u0;
 			v0 = pChar->v0;
 			u1 = pChar->u1;
 			v1 = pChar->v1;
-			x1 = x0 + (pChar->w * m_xscale * EngineGlobals.screen_conv_x_multiplier);
-			y1 = yt + (pChar->h * m_yscale * EngineGlobals.screen_conv_y_multiplier);
+			x1 = x0 + (pChar->w * m_xscale);
+			y1 = yt + (pChar->h * m_yscale);
 		}
 		else
 		{
-			x0 += (space_spacing + char_spacing) * EngineGlobals.screen_conv_x_multiplier;
+			x0 += (space_spacing + char_spacing);
 			continue;
 		}
 
@@ -710,7 +710,7 @@ void SText::Draw( void )
 		}
 		*/
 
-		x0 = x1 + (char_spacing * EngineGlobals.screen_conv_x_multiplier);
+		x0 = x1 + (char_spacing);
 
 		if( p_font != mp_font )
 		{

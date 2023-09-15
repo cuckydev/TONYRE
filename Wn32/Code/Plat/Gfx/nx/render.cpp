@@ -1765,10 +1765,14 @@ void set_dimensions(int width, int height)
 	EngineGlobals.backbuffer_width = width;
 	EngineGlobals.backbuffer_height = height;
 
-	EngineGlobals.screen_conv_x_multiplier = 1.0f / EngineGlobals.aspect_correction;
-	EngineGlobals.screen_conv_y_multiplier = 1.0f;
-	EngineGlobals.screen_conv_x_offset = ((640.0f * EngineGlobals.aspect_correction) - 640.0f) / EngineGlobals.aspect_correction * 0.5f;
-	EngineGlobals.screen_conv_y_offset = 16;
+	// Create FBOs
+	if (EngineGlobals.backbuffer != nullptr)
+		delete EngineGlobals.backbuffer;
+	EngineGlobals.backbuffer = new sFBO(width, height, true);
+
+	if (EngineGlobals.blurbuffer != nullptr)
+		delete EngineGlobals.blurbuffer;
+	EngineGlobals.blurbuffer = new sFBO(width, height, true);
 }
 
 // MSM PERFCHANGE - added scale.

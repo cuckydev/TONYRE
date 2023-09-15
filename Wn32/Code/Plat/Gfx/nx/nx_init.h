@@ -126,13 +126,8 @@ struct sEngineGlobals
 
 	float aspect_correction = 0.0f; // Correct perspective for non-4:3 aspect ratios
 
-	int backbuffer_width;
-	int backbuffer_height;
-
-	float screen_conv_x_multiplier;
-	float screen_conv_y_multiplier;
-	float screen_conv_x_offset;
-	float screen_conv_y_offset;
+	int backbuffer_width = 0;
+	int backbuffer_height = 0;
 
 	// Backbuffer state
 	sFBO *backbuffer = nullptr;

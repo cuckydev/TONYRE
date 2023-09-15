@@ -9,8 +9,6 @@
 #include <Core/Defines.h>
 #include <Core/support.h>
 
-#include <Plat/Gfx/nx/nx_init.h>
-
 #define PERCENT_MULT			( ( 1.0f ) / 100.0f )
 #define PERCENT( x, percent )	( ( ( ( ( float )( x ) ) * ( ( float )( percent ) ) ) * PERCENT_MULT ) )
 
@@ -42,8 +40,8 @@
 
 
 // Convert from logical to SCREEN coordinates
-#define SCREEN_CONV_X( x ) ((( x ) * NxWn32::EngineGlobals.screen_conv_x_multiplier ) + NxWn32::EngineGlobals.screen_conv_x_offset )
-#define SCREEN_CONV_Y( y ) ((( y ) * NxWn32::EngineGlobals.screen_conv_y_multiplier ) + NxWn32::EngineGlobals.screen_conv_y_offset )
+#define SCREEN_CONV_X( x ) (x)
+#define SCREEN_CONV_Y( y ) (y)
 
 // Convert from screen to LOGICAL coordinates
 #define		LOGICAL_CONV_X( x ) (x)
