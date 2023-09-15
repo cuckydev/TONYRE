@@ -1,12 +1,10 @@
-#ifndef __MESH_H
-#define __MESH_H
+#pragma once
 
 #include "nx_init.h"
 #include <Core/math.h>
 #include <Core/Math/geometry.h>
 #include <Gfx/nx.h>
 #include "material.h"
-#include <Windows.h>
 
 namespace NxWn32
 {
@@ -89,7 +87,7 @@ public:
 								float			*p_normals,
 								float			*p_tex_coords,
 								int				num_tc_sets,
-								DWORD			*p_colors,
+								uint32			*p_colors,
 								int				num_index_sets,			// How many sets of indices there are (usually 1 set)
 								int				*p_num_indices,			// Pointer to an array of ints containing number of indices per set
 								uint16			**pp_indices,			// Pointer to an array of pointers to the actual indices
@@ -167,6 +165,3 @@ void ApplyMeshScaling( float* p_vertices, int num_verts );
 
 
 } // namespace NxWn32
-
-#endif // __MESH_H
-

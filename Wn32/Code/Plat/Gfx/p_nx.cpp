@@ -174,8 +174,8 @@ namespace Nx
 
 			if (NxWn32::EngineGlobals.letterbox_active)
 			{
-				top += (DWORD)(NxWn32::EngineGlobals.backbuffer_height / 8);
-				height -= (DWORD)(NxWn32::EngineGlobals.backbuffer_height / 4);
+				top += NxWn32::EngineGlobals.backbuffer_height / 8;
+				height -= NxWn32::EngineGlobals.backbuffer_height / 4;
 			}
 
 			glViewport(left, top, width, height);
@@ -292,7 +292,7 @@ namespace Nx
 		return p_new_scene;
 	}
 
-	#define MemoryRead( dst, size, num, src )	CopyMemory(( dst ), ( src ), (( num ) * ( size )));	\
+	#define MemoryRead( dst, size, num, src )	memcpy(( dst ), ( src ), (( num ) * ( size )));	\
 											( src ) += (( num ) * ( size ))
 
 	/******************************************************************/

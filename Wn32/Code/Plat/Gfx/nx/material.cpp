@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <string.h>
 #include <Core/Defines.h>
 #include <Core/Debug.h>
@@ -29,9 +28,6 @@ static const float pi_over_180 = (float)Mth::PI / 180.0f;
 /******************************************************************/
 sUVWibbleParams::sUVWibbleParams( void )
 {
-	// Zero out the members.
-	ZeroMemory( this, sizeof( sUVWibbleParams ));
-
 	// Set the matrix correctly.
 	m_UVMatrix[0] = 1.0f;
 }
@@ -264,14 +260,6 @@ void sMaterial::figure_wibble_texture( void )
 	}
 }
 
-
-
-inline DWORD F2DW( FLOAT f )
-{
-	return *( ( DWORD *) & f );
-}
-
-					
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -552,7 +540,7 @@ sMaterial* GetMaterial( uint32 checksum, sScene *p_scene )
 
 
 
-#define MemoryRead( dst, size, num, src )	CopyMemory(( dst ), ( src ), (( num ) * ( size )));	\
+#define MemoryRead( dst, size, num, src )	memcpy(( dst ), ( src ), (( num ) * ( size )));	\
 											( src ) += (( num ) * ( size ))
 
 /******************************************************************/
@@ -744,7 +732,6 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 				if( pMat->mp_wibble_texture_params == nullptr )
 				{
 					pMat->mp_wibble_texture_params = new NxWn32::sTextureWibbleParams;
-					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxWn32::sTextureWibbleParams ));
 
 					// Flag the material as having texture wibble.
 					pMat->m_texture_wibble = true;
@@ -1057,7 +1044,6 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 				if( pMat->mp_wibble_texture_params == nullptr )
 				{
 					pMat->mp_wibble_texture_params = new NxWn32::sTextureWibbleParams;
-					ZeroMemory( pMat->mp_wibble_texture_params, sizeof( NxWn32::sTextureWibbleParams ));
 
 					// Flag the material as having texture wibble.
 					pMat->m_texture_wibble = true;

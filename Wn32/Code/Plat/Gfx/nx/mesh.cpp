@@ -1,5 +1,3 @@
-#include <Windows.h>
-
 #include <Sys/timer.h>
 #include <Sys/File/filesys.h>
 #include <Core/macros.h>
@@ -826,7 +824,7 @@ sMesh *sMesh::Clone( bool instance )
 {
 	// Clone mesh data
 	sMesh *p_clone = new sMesh();
-	CopyMemory(p_clone, this, sizeof(sMesh));
+	memcpy(p_clone, this, sizeof(sMesh));
 
 	if (instance)
 	{
@@ -850,7 +848,7 @@ sMesh *sMesh::Clone( bool instance )
 			if (p_clone->m_num_indices[ib] > 0)
 			{
 				p_clone->mp_index_buffer[ib] = new uint16[p_clone->m_num_indices[ib]];
-				CopyMemory(p_clone->mp_index_buffer[ib], mp_index_buffer[ib], sizeof(uint16) * p_clone->m_num_indices[ib]);
+				memcpy(p_clone->mp_index_buffer[ib], mp_index_buffer[ib], sizeof(uint16) * p_clone->m_num_indices[ib]);
 			}
 		}
 	}
@@ -915,7 +913,7 @@ void sMesh::Crunch( void )
 					p_indices[i - invalid]	= p_indices[i - invalid - 1];
 
 					// With an even number of invalid entries, the wind order won't change during crunch.
-					MoveMemory(p_indices + i - invalid + 1, p_indices + i - 3, sizeof(uint16) * (m_num_indices[0] - i + 3));
+					memmove(p_indices + i - invalid + 1, p_indices + i - 3, sizeof(uint16) * (m_num_indices[0] - i + 3));
 
 					m_num_indices[0] -= (uint16)(invalid - 4);
 					i -= invalid - 4;
@@ -930,7 +928,7 @@ void sMesh::Crunch( void )
 					p_indices[i - invalid + 1]	= p_indices[i - invalid];
 
 					// With an odd number of invalid entries, the wind order will change during crunch, so use one extra index.
-					MoveMemory(p_indices + i - invalid + 2, p_indices + i - 3, sizeof(uint16) * (m_num_indices[0] - i + 3));
+					memmove(p_indices + i - invalid + 2, p_indices + i - 3, sizeof(uint16) * (m_num_indices[0] - i + 3));
 					m_num_indices[0] -= (uint16)(invalid - 5);
 					i -= invalid - 5;
 				}
@@ -1195,7 +1193,7 @@ void sMesh::Initialize( int				num_vertices,
 						float			*p_normals,
 						float			*p_tex_coords,
 						int				num_tc_sets,
-						DWORD			*p_colors,
+						uint32			*p_colors,
 						int				num_index_sets,			// How many sets of indices there are (usually 1 set)
 						int				*p_num_indices,			// Pointer to an array of ints containing number of indices per set
 						uint16			**pp_indices,			// Pointer to an array of pointers to the actual indices
@@ -1452,7 +1450,7 @@ void sMesh::Initialize( int				num_vertices,
 	if (use_colors)
 	{
 		uint32 *p_out = (uint32*)((char*)p_vbo + (uintptr_t)m_diffuse_offset);
-		DWORD *p_in = p_colors + min_index;
+		uint32 *p_in = p_colors + min_index;
 
 		for (uint16 v = min_index; v <= max_index; v++)
 		{

@@ -514,7 +514,7 @@ void CXboxGeom::plat_set_bone_matrix_data( Mth::Matrix* pBoneMatrices, int numBo
 	if( mp_instance )
 	{
 		Mth::Matrix* p_bone_matrices	= mp_instance->GetBoneTransforms();
-		CopyMemory( p_bone_matrices, pBoneMatrices, numBones * sizeof( Mth::Matrix ));
+		memcpy( p_bone_matrices, pBoneMatrices, numBones * sizeof( Mth::Matrix ));
 	}
 }
 

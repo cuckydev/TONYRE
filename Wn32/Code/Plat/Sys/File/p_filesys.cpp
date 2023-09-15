@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -11,6 +10,8 @@
 #include <Sys/Config/config.h>
 
 // #include <Gfx/xbox/nx/nx_init.h>
+
+#include <Windows.h>
 
 namespace File
 {

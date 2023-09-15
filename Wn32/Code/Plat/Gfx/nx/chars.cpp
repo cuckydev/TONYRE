@@ -123,7 +123,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	}
 	else
 	{
-		CopyMemory( FontBuf, Filename, 16 );
+		memcpy( FontBuf, Filename, 16 );
 		Filename += 16;
 	}
 
@@ -146,7 +146,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	}
 	else
 	{
-		CopyMemory( FontBuf, Filename, NumChars << 2 );
+		memcpy( FontBuf, Filename, NumChars << 2 );
 		Filename += NumChars << 2;
 	}
 
@@ -185,7 +185,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	}
 	else
 	{
-		CopyMemory( FontBuf, Filename, 16 );
+		memcpy( FontBuf, Filename, 16 );
 		Filename += 16;
 	}
 
@@ -218,7 +218,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	}
 	else
 	{
-		CopyMemory(p_texel_data, Filename, NumBytes );
+		memcpy(p_texel_data, Filename, NumBytes );
 		Filename += NumBytes;
 	}
 	
@@ -232,7 +232,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	}
 	else
 	{
-		CopyMemory(p_clut, Filename, sizeof(p_clut));
+		memcpy(p_clut, Filename, sizeof(p_clut));
 		Filename += sizeof(p_clut);
 	}
 
@@ -263,7 +263,7 @@ SFont* LoadFont( const char *Filename, bool memory_resident )
 	}
 	else
 	{
-		CopyMemory( FontBuf, Filename, ( NumChars << 3 ) + 4 );
+		memcpy( FontBuf, Filename, ( NumChars << 3 ) + 4 );
 		Filename += ( NumChars << 3 ) + 4;
 	}
 

@@ -213,7 +213,7 @@ void sScene::RemoveMeshes( int num_meshes, sMesh **pp_meshes )
 				// Only worth copying if there is anything beyond this mesh.
 				if( i < ( m_num_mesh_entries - 1 ))
 				{
-					CopyMemory( &m_meshes[i], &m_meshes[i + 1], sizeof( sMesh* ) * ( m_num_mesh_entries - ( i + 1 )));
+					memcpy( &m_meshes[i], &m_meshes[i + 1], sizeof( sMesh* ) * ( m_num_mesh_entries - ( i + 1 )));
 				}
 				--num_mesh_entries_removed;
 				--m_num_mesh_entries;
@@ -354,7 +354,7 @@ void sScene::HidePolys( uint32 mask, sCASData *p_cas_data, uint32 num_entries )
 //	Tmr::Time start = Tmr::GetTimeInUSeconds();
 	
 	int indices_added[64];
-	ZeroMemory( indices_added, sizeof( int ) * 64 );
+	memset( indices_added, 0, sizeof( int ) * 64 );
 	
 	// Check against every CAS entry.
 	sCASData *p_cas_entry = p_cas_data;
@@ -434,7 +434,7 @@ void sScene::HidePolys( uint32 mask, sCASData *p_cas_data, uint32 num_entries )
 			p_mesh->mp_index_buffer[0]	= new uint16[p_mesh->m_num_indices[0]];
 
 			// And copy in the new indices from the workbuffer.
-			CopyMemory( p_mesh->mp_index_buffer[0], index_workbuffer, sizeof( uint16 ) * p_mesh->m_num_indices[0] );
+			memcpy( p_mesh->mp_index_buffer[0], index_workbuffer, sizeof( uint16 ) * p_mesh->m_num_indices[0] );
 		}
 	}
 

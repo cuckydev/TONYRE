@@ -1,7 +1,6 @@
 #ifndef __RENDER_H
 #define __RENDER_H
 
-#include <Windows.h>
 #include <Core/math.h>
 #include <Core/Math/geometry.h>
 #include <Plat/Gfx/p_NxModel.h>
@@ -29,22 +28,6 @@
 #define		RS_MINMAGFILTER1		33
 #define		RS_MINMAGFILTER2		34
 #define		RS_MINMAGFILTER3		35
-
-extern		DWORD PixelShader0;
-extern		DWORD PixelShader0IVA;
-extern		DWORD PixelShader1;
-extern		DWORD PixelShader2;
-extern		DWORD PixelShader3;
-extern		DWORD PixelShader4;
-extern		DWORD PixelShader5;
-extern		DWORD PixelShaderBrighten;
-extern		DWORD PixelShaderBrightenIVA;
-extern		DWORD PixelShaderFocusBlur;
-extern		DWORD PixelShaderFocusIntegrate;
-extern		DWORD PixelShaderFocusLookupIntegrate;
-extern		DWORD PixelShaderNULL;
-extern		DWORD PixelShaderPointSprite;
-extern		DWORD PixelShaderBumpWater;
 
 namespace NxWn32
 {
@@ -106,7 +89,7 @@ namespace NxWn32
 	void		GetPixelShader( sMaterial *p_material, uint32 *p_pixel_shader_id );
 	void		set_pixel_shader( uint32 shader_id );
 	void		set_pixel_shader( uint32 shader_id, uint32 num_passes );
-	void		set_vertex_shader( DWORD shader_id );
+	void		set_vertex_shader(uint32 shader_id );
 
 	void		set_render_state( uint32 type, uint32 state );
 	void		set_blend_mode( uint32 mode );

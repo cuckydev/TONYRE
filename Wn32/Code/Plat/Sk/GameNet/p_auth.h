@@ -28,7 +28,6 @@
 #include <Core/Defines.h>
 #include <Core/DynamicTable.h>
 #include <Sys/sioman.h>
-#include <Windows.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -54,12 +53,12 @@ public:
 	void	EndInput( void );
 	void	ClearInput( void );
 	bool	Complete( void );
-	BYTE*	GetPin( void );
+	unsigned char*	GetPin( void );
 
 private:
 //	XPININPUTHANDLE m_pin_input;                  // PIN input handle
-	BYTE		m_frame_entry;				// PIN entry this frame
-//    BYTE		m_pin[ XONLINE_PIN_LENGTH ];  // Current PIN
+	unsigned char		m_frame_entry;				// PIN entry this frame
+//    unsigned char		m_pin[ XONLINE_PIN_LENGTH ];  // Current PIN
     int			m_pin_length;                // number of buttons entered
 	bool		m_got_entry;
 	bool		m_cancelled;
@@ -107,7 +106,7 @@ public:
 	void	UserLogon( void );
 	void	CancelLogon( void );
 	void	SelectAccount( int index );
-	void	PinAttempt( BYTE* pin );
+	void	PinAttempt(unsigned char * pin );
 	void	SetState( LogonState state );
 	void	SignOut( void );
 	bool	SignedIn( void );

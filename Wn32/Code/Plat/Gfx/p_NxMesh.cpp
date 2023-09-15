@@ -103,7 +103,7 @@ bool CXboxMesh::build_casdata_table( const char* pFileName )
 
 
 
-#define MemoryRead( dst, size, num, src )	CopyMemory(( dst ), ( src ), (( num ) * ( size )));	\
+#define MemoryRead( dst, size, num, src )	memcpy(( dst ), ( src ), (( num ) * ( size )));	\
 											( src ) += (( num ) * ( size ))
 
 /******************************************************************/

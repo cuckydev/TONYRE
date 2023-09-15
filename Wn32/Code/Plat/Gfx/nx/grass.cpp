@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <Core/Defines.h>
 #include <Core/crc.h>
 #include <Sys/File/filesys.h>
@@ -75,9 +74,9 @@ VOID XBUtil_SwizzleTexture2D( D3DLOCKED_RECT* pLock, const D3DSURFACE_DESC* pDes
 /* There are 17 frames. Each has 3 level mipmaps				  */
 /*                                                                */
 /******************************************************************/
+/*
 HRESULT LoadBumpTextures( void )
 {
-	/*
 	HRESULT hr = S_OK;
 	for( int i = 0; i < 17; ++i )
     {
@@ -171,9 +170,9 @@ HRESULT LoadBumpTextures( void )
 	waterTextures[0].pD3DTexture = pBumpTextures[0];
 
 	return hr;
-	*/
 	return S_OK;
 }
+	*/
 
 
 

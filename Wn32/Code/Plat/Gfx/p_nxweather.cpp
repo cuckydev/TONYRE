@@ -9,8 +9,6 @@
 
 #include "p_nxweather.h"
 
-#include <Windows.h>
-
 #define FEELER_START			50000.0f
 #define NUM_LINES_PER_BATCH		80
 #define NUM_SPRITES_PER_BATCH	80
@@ -437,10 +435,6 @@ void CXboxWeather::plat_process( float delta_time )
 	}
 	*/
 }
-
-
-
-inline DWORD FtoDW( FLOAT f ) { return *((DWORD*)&f); }
 
 /******************************************************************/
 /*                                                                */

@@ -118,10 +118,6 @@ void CParticleStream::AdvanceSeed( int num_places )
 	m_rand_a	= rand_a;
 	m_rand_b	= rand_b;
 }
-	
-	
-	
-inline DWORD FtoDW( FLOAT f ) { return *((DWORD*)&f); }
 
 /******************************************************************/
 /*                                                                */

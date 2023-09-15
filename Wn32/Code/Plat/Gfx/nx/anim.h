@@ -2,7 +2,6 @@
 #define __ANIM_H
 
 #include <Core/Defines.h>
-#include <Windows.h>
 
 /*
 extern DWORD WeightedMeshVS_VXC_1Weight;
@@ -28,7 +27,7 @@ extern DWORD ShadowBufferStaticGeomVS;
 namespace NxWn32
 {
 
-DWORD	GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_used );
+// DWORD	GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_used );
 void	CreateWeightedMeshVertexShaders( void );
 void	startup_weighted_mesh_vertex_shader( void );
 void	setup_weighted_mesh_vertex_shader( void *p_root_matrix, void *p_bone_matrices, int num_bone_matrices );

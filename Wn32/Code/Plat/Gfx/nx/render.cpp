@@ -1,9 +1,10 @@
 #include <Core/Defines.h>
 #include <Core/Debug.h>
 #include <Core/HashTable.h>
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <Windows.h>
+
 #include <Plat/Gfx/p_NxGeom.h>
 #include <Sys/timer.h>
 #include "nx_init.h"
@@ -13,30 +14,10 @@
 #include "occlude.h"
 #include "billboard.h"
 
-DWORD PixelShader0;
-DWORD PixelShader0IVA;
-DWORD PixelShader1;
-DWORD PixelShader2;
-DWORD PixelShader3;
-DWORD PixelShader4;
-DWORD PixelShader5;
-DWORD PixelShaderBrighten;
-DWORD PixelShaderBrightenIVA;
-DWORD PixelShaderFocusBlur;
-DWORD PixelShaderFocusIntegrate;
-DWORD PixelShaderFocusLookupIntegrate;
-DWORD PixelShaderNULL;
-DWORD PixelShaderPointSprite;
-DWORD PixelShader_ShadowBuffer;
-DWORD PixelShaderBumpWater;
-DWORD ShadowBufferStaticGeomPS;
-
 //D3DXMATRIX *p_bbox_transform = nullptr;
 //D3DXMATRIX bbox_transform;
 // XGMATRIX	*p_bbox_transform = nullptr;
 // XGMATRIX	bbox_transform;
-
-extern DWORD ShadowBufferStaticGeomVS;
 
 namespace NxWn32
 {
@@ -49,10 +30,6 @@ const float FRONT_TO_BACK_SORT_CUTOFF	= ( 50.0f * 12.0f );
 Lst::HashTable< sTextureProjectionDetails >	*pTextureProjectionDetailsTable = nullptr;
 
 // For converting a FLOAT to a DWORD (useful for SetRenderState() calls)
-inline DWORD FtoDW( FLOAT f ) { return *((DWORD*)&f); }
-
-static Lst::HashTable<DWORD> sPixelShaderTable( 8 );
-
 
 static const int MAX_FREE_TESTS					= 1024;
 static bool		visibilityTestValuesInitialised = false;
@@ -162,7 +139,7 @@ sVisibilityTestFIFO::sVisibilityTestFIFO()
 
 	if( !visibilityTestValuesInitialised )
 	{
-		ZeroMemory( visibilityTestValues, sizeof( uint8 ) * MAX_FREE_TESTS );
+		memset( visibilityTestValues, 0, sizeof( uint8 ) * MAX_FREE_TESTS );
 
 		// The first index is always reserved.
 		visibilityTestValues[0] = 1;
@@ -284,7 +261,7 @@ uint32 sVisibilityTestFIFO::GetStatus( void )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-DWORD get_pixel_shader( sMaterial *p_material )
+uint32 get_pixel_shader( sMaterial *p_material )
 {
 	(void)p_material;
 	/*
@@ -1345,7 +1322,7 @@ void set_blend_mode( uint32 mode )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void set_vertex_shader( DWORD shader_id )
+void set_vertex_shader(uint32 shader_id )
 {
 	(void)shader_id;
 	/*

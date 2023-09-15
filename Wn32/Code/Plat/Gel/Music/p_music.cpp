@@ -20,8 +20,6 @@
 #include <functional>
 #include <fstream>
 
-#include <Windows.h>
-
 namespace Pcm
 {
 	// Volume constants

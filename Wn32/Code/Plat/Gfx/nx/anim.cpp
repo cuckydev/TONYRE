@@ -1,5 +1,3 @@
-#include <Windows.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -125,13 +123,13 @@ namespace NxWn32
 /*                                                                */
 /*                                                                */
 /******************************************************************/
+/*
 DWORD GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_used )
 {
 	(void)vertex_colors;
 	(void)specular;
 	(void)max_weights_used;
 
-	/*
 	Dbg_Assert( max_weights_used > 0 );
 	
 	if( vertex_colors )
@@ -152,9 +150,8 @@ DWORD GetVertexShader( bool vertex_colors, bool specular, uint32 max_weights_use
 
 	Dbg_Assert( 0 );
 	return 0;
-	*/
-	return 0;
 }
+*/
 
 
 

@@ -26,7 +26,7 @@ CXboxSector::CXboxSector()
 
 
 
-#define MemoryRead( dst, size, num, src )	CopyMemory(( dst ), ( src ), (( num ) * ( size )));	\
+#define MemoryRead( dst, size, num, src )	memcpy(( dst ), ( src ), (( num ) * ( size )));	\
 											( src ) += (( num ) * ( size ))
 
 /******************************************************************/
@@ -133,10 +133,10 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	}
 	
 	// Grab a buffer for the raw vertex colors stream (if present), and read it.
-	DWORD* p_vertex_colors = ( m_flags & 0x02 ) ? new DWORD[num_vertices] : nullptr;
+	uint32 *p_vertex_colors = ( m_flags & 0x02 ) ? new uint32[num_vertices] : nullptr;
 	if( p_vertex_colors )
 	{
-		MemoryRead( p_vertex_colors, sizeof( DWORD ), num_vertices, p_data );
+		MemoryRead( p_vertex_colors, sizeof(uint32), num_vertices, p_data );
 	}
 
 	// Grab a buffer for the vertex color wibble stream (if present), and read it.
@@ -383,10 +383,10 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	}
 	
 	// Grab a buffer for the raw vertex colors stream (if present), and read it.
-	DWORD* p_vertex_colors = ( m_flags & 0x02 ) ? new DWORD[num_vertices] : nullptr;
+	uint32 *p_vertex_colors = ( m_flags & 0x02 ) ? new uint32[num_vertices] : nullptr;
 	if( p_vertex_colors )
 	{
-		File::Read( p_vertex_colors, sizeof( DWORD ), num_vertices, p_file );
+		File::Read( p_vertex_colors, sizeof(uint32), num_vertices, p_file );
 	}
 
 	// Grab a buffer for the vertex color wibble stream (if present), and read it.
