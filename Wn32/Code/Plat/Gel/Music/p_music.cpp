@@ -38,6 +38,8 @@ namespace Pcm
 			float volume[5] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
 
 		public:
+			virtual ~Streamer() = default;
+
 			virtual void Rewind() = 0;
 			virtual size_t Stream(char *p, size_t bytes) = 0;
 
