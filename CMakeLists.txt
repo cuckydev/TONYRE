@@ -14,6 +14,14 @@ target_compile_definitions(TonyRE.Common INTERFACE __PRETTY_FUNCTION__=__FILE__)
 # Use C++20
 target_compile_features(TonyRE.Common INTERFACE cxx_std_20)
 
+# Enable link-time optimization
+include(CheckIPOSupported)
+
+check_ipo_supported(RESULT result)
+if(result)
+	set_target_properties(TonyRE.Common PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+
 # Define __NOPT_DEBUG__ if in debug build
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_compile_definitions(TonyRE.Common INTERFACE __NOPT_DEBUG__)
