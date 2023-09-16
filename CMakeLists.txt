@@ -55,8 +55,8 @@ else()
 	target_link_options(TonyRE.Common INTERFACE -static)
 endif()
 
-# Compile TonyRE executable
-add_executable(TonyRE WIN32
+# Compile TonyRE code
+add_library(TonyRE.Code STATIC
 	# Com
 	"Code/Com/ima.cpp"
 	"Code/Com/ima.h"
@@ -719,7 +719,7 @@ add_executable(TonyRE WIN32
 
 	"Code/Sk/heap_sizes.h"
 	"Code/Sk/language.h"
-	"Code/Sk/Main.cpp"
+	# "Code/Sk/Main.cpp"
 	"Code/Sk/product_codes.h"
 	# "Code/Sk/template.h"
 
@@ -771,24 +771,14 @@ add_executable(TonyRE WIN32
 	# "Code/Sys/SIO/sioman.cpp"
 )
 
-target_link_libraries(TonyRE PRIVATE TonyRE.Common)
+target_link_libraries(TonyRE.Code PUBLIC TonyRE.Common)
 
 # Include miniaudio
 target_include_directories(TonyRE.Common INTERFACE "External/miniaudio")
 
 # Compile GameSpy SDK
 add_subdirectory("GameSpy" EXCLUDE_FROM_ALL)
-target_link_libraries(TonyRE PRIVATE GameSpy)
-
-# Send compiled executable to Game folder
-set(BUILD_DIRECTORY ${CMAKE_SOURCE_DIR}/Game)
-set_target_properties(TonyRE PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIRECTORY}
-	RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BUILD_DIRECTORY}
-	RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${BUILD_DIRECTORY}
-	RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${BUILD_DIRECTORY}
-	RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIRECTORY}
-)
+target_link_libraries(TonyRE.Code PUBLIC GameSpy)
 
 # Platform select
 if(TRUE) # If WIN32
@@ -799,5 +789,23 @@ if(TRUE) # If WIN32
 
 	# Compile Win32 platform
 	add_subdirectory("Wn32" EXCLUDE_FROM_ALL)
-	target_link_libraries(TonyRE PRIVATE TonyRE.Wn32)
+	target_link_libraries(TonyRE.Code PUBLIC TonyRE.Wn32)
+
+	# Compile Win32 executable
+	add_executable(TonyRE WIN32
+		"Code/Sk/Main.cpp"
+		"Resources/Win32/THUG.rc"
+	)
+
+	target_link_libraries(TonyRE PUBLIC TonyRE.Common TonyRE.Code)
+
+	# Send compiled executable to Game folder
+	set(BUILD_DIRECTORY ${CMAKE_SOURCE_DIR}/Game)
+	set_target_properties(TonyRE PROPERTIES
+		RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIRECTORY}
+		RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BUILD_DIRECTORY}
+		RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${BUILD_DIRECTORY}
+		RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${BUILD_DIRECTORY}
+		RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIRECTORY}
+	)
 endif()
