@@ -791,11 +791,18 @@ if(TRUE) # If WIN32
 	add_subdirectory("Wn32" EXCLUDE_FROM_ALL)
 	target_link_libraries(TonyRE.Code PUBLIC TonyRE.Wn32)
 
+	if(WIN32)
 	# Compile Win32 executable
 	add_executable(TonyRE WIN32
 		"Code/Sk/Main.cpp"
 		"Resources/Win32/THUG.rc"
 	)
+	else()
+		# Compile an executable
+		add_executable(TonyRE
+			"Code/Sk/Main.cpp"
+		)
+	endif()
 
 	target_link_libraries(TonyRE PUBLIC TonyRE.Common TonyRE.Code)
 

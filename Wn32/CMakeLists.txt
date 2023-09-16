@@ -125,8 +125,19 @@ add_library(TonyRE.Wn32 STATIC
 target_link_libraries(TonyRE.Wn32 PUBLIC TonyRE.Common)
 target_include_directories(TonyRE.Wn32 PUBLIC "Code")
 
-# Set platform defines
-target_compile_definitions(TonyRE.Wn32 PUBLIC __PLAT_WN32__)
+if(WIN32)
+	# Set platform defines
+	target_compile_definitions(TonyRE.Wn32 PUBLIC __PLAT_WN32__)
 
-# Link libraries
-target_link_libraries(TonyRE.Wn32 PUBLIC Ws2_32 SDL2-static glad glm)
+	# Link libraries
+	target_link_libraries(TonyRE.Wn32 PUBLIC Ws2_32 SDL2-static glad glm)
+endif()
+
+
+if (UNIX)
+	# Set platform defines
+	target_compile_definitions(TonyRE.Wn32 PUBLIC __PLAT_LINUX__)
+
+	# Link libraries
+	target_link_libraries(TonyRE.Wn32 PUBLIC SDL2-static glad glm)
+endif()
