@@ -1845,7 +1845,6 @@ bool CMotionComponent::Move_Init( Script::CStruct* pParams, Script::CScript* pSc
 	float speed;
 
 	m_moveto_pos = pos;
-	m_moveto_pos += (m_moveto_pos - GetObj()->GetPos());
 	m_moveto_dist = Mth::Distance( m_moveto_pos, GetObj()->GetPos() );
 	m_moveto_acceleration = 0.0f;
 	
