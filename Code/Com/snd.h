@@ -88,17 +88,6 @@ namespace Snd
 				looping = false;
 			}
 
-			void Rewind()
-			{
-				// Rewind stream
-				ima.Rewind();
-
-				// Setup sound stream
-				coord = 0;
-				sample_a = ima.Fetch();
-				sample_b = ima.Fetch();
-			}
-
 			void Play()
 			{
 				playing = true;
@@ -112,7 +101,6 @@ namespace Snd
 
 			void Stop()
 			{
-				Rewind();
 				playing = false;
 			}
 
