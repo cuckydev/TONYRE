@@ -5,8 +5,6 @@
 #include <Plat/Gel/SoundFX/p_sfx.h>
 #include <Plat/Gel/Music/p_music.h>
 
-#include <Windows.h>
-
 namespace Audio
 {
 	// Audio device
