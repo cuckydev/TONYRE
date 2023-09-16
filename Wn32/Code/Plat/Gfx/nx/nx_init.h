@@ -4,12 +4,7 @@
 
 #include <SDL.h>
 
-#ifdef APIENTRY
-#undef APIENTRY
-#endif
-#define APIENTRY __stdcall
 #include <glad/glad.h>
-#undef APIENTRY
 
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
