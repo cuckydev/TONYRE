@@ -1797,8 +1797,11 @@ void set_camera( Mth::Matrix *p_matrix, Mth::Vector *p_position, float screen_an
 	float fov_y = atan(tanf(half_screen_angle_in_radians) / aspect_ratio) * 2.0f;
 
 	// Aspect correction
-	width *= EngineGlobals.aspect_correction;
-	aspect_ratio *= EngineGlobals.aspect_correction;
+	if (!EngineGlobals.letterbox_active)
+	{
+		width *= EngineGlobals.aspect_correction;
+		aspect_ratio *= EngineGlobals.aspect_correction;
+	}
 
 	// Get projection matrix
 	EngineGlobals.projection_matrix = glm::perspective(fov_y, aspect_ratio, EngineGlobals.near_plane, EngineGlobals.far_plane);

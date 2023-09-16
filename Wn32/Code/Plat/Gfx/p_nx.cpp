@@ -180,8 +180,24 @@ namespace Nx
 
 			if (NxWn32::EngineGlobals.letterbox_active)
 			{
-				top += NxWn32::EngineGlobals.backbuffer_height / 8;
-				height -= NxWn32::EngineGlobals.backbuffer_height / 4;
+				// If letterbox active, adjust viewport to 16:9
+				// The original game does it like this for multiple viewports, which I don't think
+				// should happen, but I'm doing it like this just in case.
+				float aspect_ratio = (float)width / (float)height;
+				float intended_aspect_ratio = (p_cur_viewport->GetWidth() * 640.0f) / (p_cur_viewport->GetHeight() * (480.0f * 3.0f / 4.0f));
+
+				if (aspect_ratio > intended_aspect_ratio)
+				{
+					float new_width = (float)height * intended_aspect_ratio;
+					left += (width - (GLsizei)new_width) / 2;
+					width = (GLsizei)new_width;
+				}
+				else
+				{
+					float new_height = (float)width / intended_aspect_ratio;
+					top += (height - (GLsizei)new_height) / 2;
+					height = (GLsizei)new_height;
+				}
 			}
 
 			glViewport(left, top, width, height);
