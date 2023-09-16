@@ -3,6 +3,7 @@
 #define MA_NO_DEVICE_IO
 #define MA_NO_THREADING
 #define MA_NO_GENERATION
+#define MA_NO_RESOURCE_MANAGER
 
 // Disable some warnings for clang
 #if defined(__clang__)
