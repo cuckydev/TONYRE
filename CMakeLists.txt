@@ -178,7 +178,7 @@ add_library(TonyRE.Code STATIC
 	"Code/Gel/Components/animationcomponent.h"
 	"Code/Gel/Components/avoidcomponent.cpp"
 	"Code/Gel/Components/avoidcomponent.h"
-	"Code/Gel/Components/bouncyComponent.cpp"
+	"Code/Gel/Components/bouncycomponent.cpp"
 	"Code/Gel/Components/BouncyComponent.h"
 	"Code/Gel/Components/CameraComponent.cpp"
 	"Code/Gel/Components/CameraComponent.h"
