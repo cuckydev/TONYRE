@@ -28,7 +28,7 @@ namespace UserSoundtrack
 				soundtrack.name.reserve(name.size());
 				for (auto &c : name)
 				{
-					if ((unsigned char)c >= 0x20 && (unsigned char)c < 0x80)
+					if (c >= 0x20 && c < 0x80)
 						soundtrack.name.push_back(c);
 					else
 						soundtrack.name.push_back('?');
