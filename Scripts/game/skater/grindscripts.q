@@ -315,9 +315,9 @@ SCRIPT Grind GrindTweak = 7 boardscuff = 0 InitSpeed = 1.00000000000
 		DoBalanceTrick ButtonA = Right ButtonB = Left Type = <Type> DoFlipCheck 
 	ENDIF 
 	Wait 15 frames 
-	IF IsPs2 
+	// IF IsPs2 
 		SetExtraTricks GrindRelease 
-	ENDIF 
+	// ENDIF 
 	Wait 1 frame 
 	IF GotParam IsSpecial 
 		LaunchSpecialMessage text = "Special Grind" 
@@ -363,15 +363,15 @@ SCRIPT Grind GrindTweak = 7 boardscuff = 0 InitSpeed = 1.00000000000
 		Wait 0.25000000000 seconds 
 	ENDIF 
 	IF GotParam Extratricks 
-		IF IsPs2 
+		// IF IsPs2 
 			SetExtraTricks <Extratricks> ignore = <Name> GrindRelease 
-		ELSE 
-			SetExtraTricks <Extratricks> ignore = <Name> 
-		ENDIF 
+		// ELSE 
+		// 	SetExtraTricks <Extratricks> ignore = <Name> 
+		// ENDIF 
 	ELSE 
-		IF IsPs2 
+		// IF IsPs2 
 			SetExtraTricks GrindRelease 
-		ENDIF 
+		// ENDIF 
 	ENDIF 
 	IF GotParam ScreenShake 
 		Grind_ScreenShake ScreenShake = <ScreenShake> 
