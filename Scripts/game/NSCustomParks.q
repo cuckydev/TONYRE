@@ -1,0 +1,23 @@
+(NS_Custom_Parks) = [ 
+	"Neurotic Beach" 
+	"Pro Spot Check" 
+	"Lava Park" 
+	"DDT 2" 
+	"Skillz Lab" 
+	"Pit of Death 2" 
+	"Toodles" 
+	"Trailer Attraction" 
+	"8uN9h013" 
+	"100 Large Park" 
+	"The \'Lines\' Park of IC" 
+	"Slap Maze" 
+	"Pool\'s Paradise" 
+	"High Stat Rail Factory" 
+	"Ji-Land" 
+	"Chicken\'s Coop 2" 
+	"Stallion\'s Wild Ride" 
+	"Glenn\'s Love Grotto" 
+	"Fong\'s Beach Contest" 
+	"Noel\'s Xcavation" 
+] 
+

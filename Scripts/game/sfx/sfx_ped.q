@@ -1,0 +1,3 @@
+
+(PEDSFX_FOOTSTEP) = 0 
+

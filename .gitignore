@@ -1,11 +1,11 @@
 # Ignore IDE directories
-.vs
-.vscode
+/.vs
+/.vscode
 
 # Ignore build directories
-build
-out
-CMakeSettings.json
+/build
+/out
+/CMakeSettings.json
 
 # Ignore Game directory
-Game
+/Game
