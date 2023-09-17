@@ -121,17 +121,17 @@ inline void Dbg_Error( const char* A ... )		{ (void)A; };
 
 
 #ifdef	__NOPT_DEBUG__
-#define Dbg_Printf(A...)		{ printf(##A); 		}
-#define Dbg_Message(A...) 		{ Dbg::current_sig = &Dbg_signature; Dbg::message(##A);	}
-#define Dbg_Notify(A...) 		{ Dbg::current_sig = &Dbg_signature; Dbg::notify(##A);	}
-#define Dbg_Warning(A...) 		{ Dbg::current_sig = &Dbg_signature; Dbg::warning(##A);	}
-#define Dbg_Error(A...) 		{ Dbg::current_sig = &Dbg_signature; Dbg::error(##A);	}
+#define Dbg_Printf(...)		{ printf(__VA_ARGS__); 		}
+#define Dbg_Message(...) 		{ /*Dbg::current_sig = &Dbg_signature;*/ Dbg::message(__VA_ARGS__);	}
+#define Dbg_Notify(...) 		{ /*Dbg::current_sig = &Dbg_signature;*/ Dbg::notify(__VA_ARGS__);	}
+#define Dbg_Warning(...) 		{ /*Dbg::current_sig = &Dbg_signature;*/ Dbg::warning(__VA_ARGS__);	}
+#define Dbg_Error(...) 		{ /*Dbg::current_sig = &Dbg_signature;*/ Dbg::error(__VA_ARGS__);	}
 #else
-#define Dbg_Printf(A...)		{ printf(##A); 		}
-#define Dbg_Message(A...) 		{ Dbg::message(##A);	}
-#define Dbg_Notify(A...) 		{ Dbg::notify(##A);	}
-#define Dbg_Warning(A...) 		{ Dbg::warning(##A);	}
-#define Dbg_Error(A...) 		{ Dbg::error(##A);	}
+#define Dbg_Printf(...)		{ printf(__VA_ARGS__); 		}
+#define Dbg_Message(...) 		{ Dbg::message(__VA_ARGS__);	}
+#define Dbg_Notify(...) 		{ Dbg::notify(__VA_ARGS__);	}
+#define Dbg_Warning(...) 		{ Dbg::warning(__VA_ARGS__);	}
+#define Dbg_Error(...) 		{ Dbg::error(__VA_ARGS__);	}
 #endif
 
 #endif	// __PLAT_XBOX__
