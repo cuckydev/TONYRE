@@ -1,4 +1,4 @@
-(NS_Custom_Parks) = [ 
+NS_Custom_Parks = [ 
 	"Neurotic Beach" 
 	"Pro Spot Check" 
 	"Lava Park" 

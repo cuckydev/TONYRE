@@ -1,5 +1,5 @@
 
-SCRIPT (init_cash_icon) (amount) = 100 
+SCRIPT init_cash_icon amount = 100 
 ENDSCRIPT
 
 

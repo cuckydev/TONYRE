@@ -1,3 +1,3 @@
 
-(give_neversoft_skaters) = 1 
+give_neversoft_skaters = 1 
 

@@ -1,216 +1,216 @@
 
-SCRIPT (load_textures_to_main_memory) 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/balancemeter" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/balancearrow_glow" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/score_small" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/specialbar" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/fakie_icon" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/switch_icon" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/nollie_icon" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/pressure_icon" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/sw_pressure_icon" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/cash_goal" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/options_bg" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/black" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/white" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/white2" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/special" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/watch" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_1" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_2" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_3" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_4" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_5" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_6" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_7" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/time_8" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/hand" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/hoop" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/piepiece" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/bg_grain" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/hair" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_attack" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_score" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_mambo" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_slap" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_koth" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_graffiti" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_horse" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_free" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_flag" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_goal" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/2p_fire" 
-	(LoadTexture) (no_vram_alloc) "Themes/pa_theme/PA_network" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/regions" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/esrb" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/dialog_frame" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/dialog_frame_b" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/dialog_middle" 
-	(LoadTexture) (no_vram_alloc) "goalsprites/GO_done" 
-	(LoadTexture) (no_vram_alloc) "goalsprites/GO_fail" 
-	(LoadTexture) (no_vram_alloc) "goalsprites/GO_new" 
-	(LoadTexture) (no_vram_alloc) "MainMenuSprites/SharedSprites/highlight_bar" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/mini_score_HUD" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemcardSprites/mem_frame_piece" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemcardSprites/mem_bg_piece" 
-	(LoadTexture) (no_vram_alloc) "MainMenuSprites/SharedSprites/mouse_cursor" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/paused" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_highlight_bar" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_top_bar" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_top_bar_2" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_top_bar_3" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_top_bar_4" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_T_L" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_T_M" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_T_R" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_M_L" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_M_M" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_M_R" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_B_L" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_B_M" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/DE_B_R" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_T_L" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_T_M" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_T_R" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_M_L" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_M_M" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_M_R" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_B_L" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_B_M" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spec_B_R" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/goal_left" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/goal_mid" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/goal_right" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/goal_line" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/stats_notch" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/stats_notch_bg" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/slider_piece" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/stats_point" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/framebody" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/framecap" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/statbody" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/statcap" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/generic_key" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/key_left" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/key_middle" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/key_right" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/SkateSprites/left_arrow" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/SkateSprites/right_arrow" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/SkateSprites/up_arrow" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/SkateSprites/down_arrow" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemCardSprites/mem_career" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemCardSprites/mem_park" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemCardSprites/mem_skater" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemCardSprites/mem_bad" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemCardSprites/mem_net" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemCardSprites/mem_tricks" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/MemCardSprites/mem_goals" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/comp_single_line" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/parked_piece_frame" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/HighScore" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/bot_gradient" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/top_gradient" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/bink" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/comp_base_line" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/comp_fill" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/comp_end_cap" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/comp_hori_lines" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/comp_tall_line" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/spot_goals" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/scj_goals" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/5050_goals" 
-	(LoadTexture) (no_vram_alloc) "Themes/pa_theme/PA_goals" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/nixon" 
-	IF (IsXBox) 
-		(LoadTexture) (no_vram_alloc) "PanelSprites/gslogo" 
+SCRIPT load_textures_to_main_memory 
+	LoadTexture no_vram_alloc "PanelSprites/balancemeter" 
+	LoadTexture no_vram_alloc "PanelSprites/balancearrow_glow" 
+	LoadTexture no_vram_alloc "PanelSprites/score_small" 
+	LoadTexture no_vram_alloc "PanelSprites/specialbar" 
+	LoadTexture no_vram_alloc "PanelSprites/fakie_icon" 
+	LoadTexture no_vram_alloc "PanelSprites/switch_icon" 
+	LoadTexture no_vram_alloc "PanelSprites/nollie_icon" 
+	LoadTexture no_vram_alloc "PanelSprites/pressure_icon" 
+	LoadTexture no_vram_alloc "PanelSprites/sw_pressure_icon" 
+	LoadTexture no_vram_alloc "PanelSprites/cash_goal" 
+	LoadTexture no_vram_alloc "PanelSprites/options_bg" 
+	LoadTexture no_vram_alloc "PanelSprites/black" 
+	LoadTexture no_vram_alloc "PanelSprites/white" 
+	LoadTexture no_vram_alloc "PanelSprites/white2" 
+	LoadTexture no_vram_alloc "PanelSprites/special" 
+	LoadTexture no_vram_alloc "PanelSprites/watch" 
+	LoadTexture no_vram_alloc "PanelSprites/time_1" 
+	LoadTexture no_vram_alloc "PanelSprites/time_2" 
+	LoadTexture no_vram_alloc "PanelSprites/time_3" 
+	LoadTexture no_vram_alloc "PanelSprites/time_4" 
+	LoadTexture no_vram_alloc "PanelSprites/time_5" 
+	LoadTexture no_vram_alloc "PanelSprites/time_6" 
+	LoadTexture no_vram_alloc "PanelSprites/time_7" 
+	LoadTexture no_vram_alloc "PanelSprites/time_8" 
+	LoadTexture no_vram_alloc "PanelSprites/hand" 
+	LoadTexture no_vram_alloc "PanelSprites/hoop" 
+	LoadTexture no_vram_alloc "PanelSprites/piepiece" 
+	LoadTexture no_vram_alloc "MainmenuSprites/bg_grain" 
+	LoadTexture no_vram_alloc "MainmenuSprites/hair" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_attack" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_score" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_mambo" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_slap" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_koth" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_graffiti" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_horse" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_free" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_flag" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_goal" 
+	LoadTexture no_vram_alloc "PanelSprites/2p_fire" 
+	LoadTexture no_vram_alloc "Themes/pa_theme/PA_network" 
+	LoadTexture no_vram_alloc "MainmenuSprites/regions" 
+	LoadTexture no_vram_alloc "PanelSprites/esrb" 
+	LoadTexture no_vram_alloc "PanelSprites/dialog_frame" 
+	LoadTexture no_vram_alloc "PanelSprites/dialog_frame_b" 
+	LoadTexture no_vram_alloc "PanelSprites/dialog_middle" 
+	LoadTexture no_vram_alloc "goalsprites/GO_done" 
+	LoadTexture no_vram_alloc "goalsprites/GO_fail" 
+	LoadTexture no_vram_alloc "goalsprites/GO_new" 
+	LoadTexture no_vram_alloc "MainMenuSprites/SharedSprites/highlight_bar" 
+	LoadTexture no_vram_alloc "PanelSprites/mini_score_HUD" 
+	LoadTexture no_vram_alloc "PanelSprites/MemcardSprites/mem_frame_piece" 
+	LoadTexture no_vram_alloc "PanelSprites/MemcardSprites/mem_bg_piece" 
+	LoadTexture no_vram_alloc "MainMenuSprites/SharedSprites/mouse_cursor" 
+	LoadTexture no_vram_alloc "PanelSprites/paused" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_highlight_bar" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_top_bar" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_top_bar_2" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_top_bar_3" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_top_bar_4" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_T_L" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_T_M" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_T_R" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_M_L" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_M_M" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_M_R" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_B_L" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_B_M" 
+	LoadTexture no_vram_alloc "PanelSprites/DE_B_R" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_T_L" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_T_M" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_T_R" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_M_L" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_M_M" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_M_R" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_B_L" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_B_M" 
+	LoadTexture no_vram_alloc "PanelSprites/spec_B_R" 
+	LoadTexture no_vram_alloc "PanelSprites/goal_left" 
+	LoadTexture no_vram_alloc "PanelSprites/goal_mid" 
+	LoadTexture no_vram_alloc "PanelSprites/goal_right" 
+	LoadTexture no_vram_alloc "PanelSprites/goal_line" 
+	LoadTexture no_vram_alloc "PanelSprites/stats_notch" 
+	LoadTexture no_vram_alloc "PanelSprites/stats_notch_bg" 
+	LoadTexture no_vram_alloc "PanelSprites/slider_piece" 
+	LoadTexture no_vram_alloc "PanelSprites/stats_point" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/framebody" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/framecap" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/statbody" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/statcap" 
+	LoadTexture no_vram_alloc "PanelSprites/generic_key" 
+	LoadTexture no_vram_alloc "PanelSprites/key_left" 
+	LoadTexture no_vram_alloc "PanelSprites/key_middle" 
+	LoadTexture no_vram_alloc "PanelSprites/key_right" 
+	LoadTexture no_vram_alloc "PanelSprites/SkateSprites/left_arrow" 
+	LoadTexture no_vram_alloc "PanelSprites/SkateSprites/right_arrow" 
+	LoadTexture no_vram_alloc "PanelSprites/SkateSprites/up_arrow" 
+	LoadTexture no_vram_alloc "PanelSprites/SkateSprites/down_arrow" 
+	LoadTexture no_vram_alloc "PanelSprites/MemCardSprites/mem_career" 
+	LoadTexture no_vram_alloc "PanelSprites/MemCardSprites/mem_park" 
+	LoadTexture no_vram_alloc "PanelSprites/MemCardSprites/mem_skater" 
+	LoadTexture no_vram_alloc "PanelSprites/MemCardSprites/mem_bad" 
+	LoadTexture no_vram_alloc "PanelSprites/MemCardSprites/mem_net" 
+	LoadTexture no_vram_alloc "PanelSprites/MemCardSprites/mem_tricks" 
+	LoadTexture no_vram_alloc "PanelSprites/MemCardSprites/mem_goals" 
+	LoadTexture no_vram_alloc "PanelSprites/comp_single_line" 
+	LoadTexture no_vram_alloc "PanelSprites/parked_piece_frame" 
+	LoadTexture no_vram_alloc "PanelSprites/HighScore" 
+	LoadTexture no_vram_alloc "PanelSprites/bot_gradient" 
+	LoadTexture no_vram_alloc "PanelSprites/top_gradient" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/bink" 
+	LoadTexture no_vram_alloc "PanelSprites/comp_base_line" 
+	LoadTexture no_vram_alloc "PanelSprites/comp_fill" 
+	LoadTexture no_vram_alloc "PanelSprites/comp_end_cap" 
+	LoadTexture no_vram_alloc "PanelSprites/comp_hori_lines" 
+	LoadTexture no_vram_alloc "PanelSprites/comp_tall_line" 
+	LoadTexture no_vram_alloc "PanelSprites/spot_goals" 
+	LoadTexture no_vram_alloc "PanelSprites/scj_goals" 
+	LoadTexture no_vram_alloc "PanelSprites/5050_goals" 
+	LoadTexture no_vram_alloc "Themes/pa_theme/PA_goals" 
+	LoadTexture no_vram_alloc "PanelSprites/nixon" 
+	IF IsXBox 
+		LoadTexture no_vram_alloc "PanelSprites/gslogo" 
 	ENDIF 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/bg_gradient_1" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/kyron" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/cat_bar" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/cat_box" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/cat_point" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/cat_anim_rot" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_t_l" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_t_m" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_t_r" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_m_l" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_m_m" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_m_r" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_b_l" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_b_m" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/snaz_b_r" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_1" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_2" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_3" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_4" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_5" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_6" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_7" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_8" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_9" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/strip_10" 
-	(LoadTexture) (no_vram_alloc) "PanelSprites/streak_2" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/checkmark" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/checkbox" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/recdot" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/videoscreen" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/hangoverscreen" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/videoborder" 
-	(LoadTexture) (no_vram_alloc) "MainmenuSprites/SharedSprites/videowhite" 
+	LoadTexture no_vram_alloc "PanelSprites/bg_gradient_1" 
+	LoadTexture no_vram_alloc "MainmenuSprites/kyron" 
+	LoadTexture no_vram_alloc "PanelSprites/cat_bar" 
+	LoadTexture no_vram_alloc "PanelSprites/cat_box" 
+	LoadTexture no_vram_alloc "PanelSprites/cat_point" 
+	LoadTexture no_vram_alloc "PanelSprites/cat_anim_rot" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_t_l" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_t_m" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_t_r" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_m_l" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_m_m" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_m_r" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_b_l" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_b_m" 
+	LoadTexture no_vram_alloc "PanelSprites/snaz_b_r" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_1" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_2" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_3" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_4" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_5" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_6" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_7" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_8" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_9" 
+	LoadTexture no_vram_alloc "PanelSprites/strip_10" 
+	LoadTexture no_vram_alloc "PanelSprites/streak_2" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/checkmark" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/checkbox" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/recdot" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/videoscreen" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/hangoverscreen" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/videoborder" 
+	LoadTexture no_vram_alloc "MainmenuSprites/SharedSprites/videowhite" 
 ENDSCRIPT
 
-(debug_sprites) = 0 
-SCRIPT (load_array_of_textures) (pre_file) = "panelsprites.pre" 
-	(GetArraySize) <textures> 
-	(index) = 0 
-	(PushMemProfile) "Fonts and Bitmaps" 
+debug_sprites = 0 
+SCRIPT load_array_of_textures pre_file = "panelsprites.pre" 
+	GetArraySize <textures> 
+	index = 0 
+	PushMemProfile "Fonts and Bitmaps" 
 	IF ( <pre_file> = "Themes.pre" ) 
-		(MemPushContext) (ThemeHeap) 
+		MemPushContext ThemeHeap 
 	ENDIF 
-	IF NOT (GotParam) (unload) 
-		(LoadLevelPreFile) <pre_file> 
+	IF NOT GotParam unload 
+		LoadLevelPreFile <pre_file> 
 	ENDIF 
 	BEGIN 
-		IF (GotParam) (unload) 
-			IF ( (debug_sprites) = 1 ) 
-				(printf) "unloading %t" (t) = ( <textures> [ <index> ] ) 
+		IF GotParam unload 
+			IF ( debug_sprites = 1 ) 
+				printf "unloading %t" t = ( <textures> [ <index> ] ) 
 			ENDIF 
-			(UnloadTexture) ( <textures> [ <index> ] ) 
+			UnloadTexture ( <textures> [ <index> ] ) 
 		ELSE 
-			IF ( (debug_sprites) = 1 ) 
-				(printf) "loading %t" (t) = ( <textures> [ <index> ] ) 
+			IF ( debug_sprites = 1 ) 
+				printf "loading %t" t = ( <textures> [ <index> ] ) 
 			ENDIF 
-			(LoadTexture) (no_vram_alloc) ( <textures> [ <index> ] ) 
+			LoadTexture no_vram_alloc ( <textures> [ <index> ] ) 
 		ENDIF 
-		(index) = ( <index> + 1 ) 
+		index = ( <index> + 1 ) 
 	REPEAT <array_size> 
-	IF NOT (GotParam) (unload) 
-		(UnLoadPreFile) <pre_file> (dont_assert) 
+	IF NOT GotParam unload 
+		UnLoadPreFile <pre_file> dont_assert 
 	ENDIF 
 	IF ( <pre_file> = "Themes.pre" ) 
-		(MemPopContext) 
+		MemPopContext 
 	ENDIF 
-	(PopMemProfile) 
+	PopMemProfile 
 ENDSCRIPT
 
-SCRIPT (load_theme_textures_to_main_memory) 
-	(pre_file) = "Themes.pre" 
-	IF (GotParam) (unload_current) 
-		(theme) = (current_theme_prefix) 
-		(unload) = 1 
-		(printf) "load_theme_textures_to_main_memory unload_current %t" (t) = <theme> 
+SCRIPT load_theme_textures_to_main_memory 
+	pre_file = "Themes.pre" 
+	IF GotParam unload_current 
+		theme = current_theme_prefix 
+		unload = 1 
+		printf "load_theme_textures_to_main_memory unload_current %t" t = <theme> 
 	ELSE 
-		IF (GotParam) (unload) 
-			(theme) = (last_theme_prefix) 
-			(printf) "load_theme_textures_to_main_memory unload %t" (t) = <theme> 
+		IF GotParam unload 
+			theme = last_theme_prefix 
+			printf "load_theme_textures_to_main_memory unload %t" t = <theme> 
 		ELSE 
-			(theme) = (current_theme_prefix) 
-			(printf) "load_theme_textures_to_main_memory %t" (t) = <theme> 
+			theme = current_theme_prefix 
+			printf "load_theme_textures_to_main_memory %t" t = <theme> 
 		ENDIF 
 	ENDIF 
 	SWITCH <theme> 
 		CASE 0 
-			(textures) = [ 
+			textures = [ 
 				"Themes/de_theme/DE_paused_piece" 
 				"Themes/de_theme/DE_paused_icon" 
 				"Themes/de_theme/DE_grunge" 
@@ -268,7 +268,7 @@ SCRIPT (load_theme_textures_to_main_memory)
 				"Themes/de_theme/DE_vault" 
 			] 
 		CASE 1 
-			(textures) = [ 
+			textures = [ 
 				"Themes/pa_theme/PA_paused_piece" 
 				"Themes/pa_theme/PA_paused_icon" 
 				"Themes/pa_theme/PA_grunge" 
@@ -326,7 +326,7 @@ SCRIPT (load_theme_textures_to_main_memory)
 				"Themes/pa_theme/PA_vault" 
 			] 
 		CASE 2 
-			(textures) = [ 
+			textures = [ 
 				"Themes/al_theme/AL_paused_piece" 
 				"Themes/al_theme/AL_paused_icon" 
 				"Themes/al_theme/AL_grunge" 
@@ -384,7 +384,7 @@ SCRIPT (load_theme_textures_to_main_memory)
 				"Themes/al_theme/AL_vault" 
 			] 
 		CASE 3 
-			(textures) = [ 
+			textures = [ 
 				"Themes/fu_theme/FU_paused_piece" 
 				"Themes/fu_theme/FU_paused_icon" 
 				"Themes/fu_theme/FU_grunge" 
@@ -442,7 +442,7 @@ SCRIPT (load_theme_textures_to_main_memory)
 				"Themes/fu_theme/FU_vault" 
 			] 
 		CASE 4 
-			(textures) = [ 
+			textures = [ 
 				"Themes/ns_theme/NS_paused_piece" 
 				"Themes/ns_theme/NS_paused_icon" 
 				"Themes/ns_theme/NS_grunge" 
@@ -500,7 +500,7 @@ SCRIPT (load_theme_textures_to_main_memory)
 				"Themes/ns_theme/NS_vault" 
 			] 
 		CASE 5 
-			(textures) = [ 
+			textures = [ 
 				"Themes/ug_theme/UG_paused_piece" 
 				"Themes/ug_theme/UG_paused_icon" 
 				"Themes/ug_theme/UG_grunge" 
@@ -568,66 +568,66 @@ SCRIPT (load_theme_textures_to_main_memory)
 		CASE 14 
 			SWITCH <theme> 
 				CASE 6 
-					(textures) = [ 
+					textures = [ 
 						"Themes/sp1_theme/SP1_mainmenu" 
 						"Themes/sp1_theme/SP1_mainicon" 
 						"Themes/sp1_theme/SP1_paused_piece" 
 						"Themes/sp1_theme/SP1_sponsor" 
 					] 
 				CASE 7 
-					(textures) = [ 
+					textures = [ 
 						"Themes/sp2_theme/SP2_mainmenu" 
 						"Themes/sp2_theme/SP2_mainicon" 
 						"Themes/sp2_theme/SP2_paused_piece" 
 						"Themes/sp2_theme/SP2_sponsor" 
 					] 
 				CASE 8 
-					(textures) = [ 
+					textures = [ 
 						"Themes/sp3_theme/SP3_mainmenu" 
 						"Themes/sp3_theme/SP3_mainicon" 
 						"Themes/sp3_theme/SP3_paused_piece" 
 						"Themes/sp3_theme/SP3_sponsor" 
 					] 
 				CASE 9 
-					(textures) = [ 
+					textures = [ 
 						"Themes/sp4_theme/SP4_mainmenu" 
 						"Themes/sp4_theme/SP4_mainicon" 
 						"Themes/sp4_theme/SP4_paused_piece" 
 						"Themes/sp4_theme/SP4_sponsor" 
 					] 
 				CASE 10 
-					(textures) = [ 
+					textures = [ 
 						"Themes/sp5_theme/SP5_mainmenu" 
 						"Themes/sp5_theme/SP5_mainicon" 
 						"Themes/sp5_theme/SP5_paused_piece" 
 						"Themes/sp5_theme/SP5_sponsor" 
 					] 
 				CASE 11 
-					(textures) = [ 
+					textures = [ 
 						"Themes/ss1_theme/SS1_mainmenu" 
 						"Themes/ss1_theme/SS1_mainicon" 
 						"Themes/ss1_theme/SS1_paused_piece" 
 						"Themes/ss1_theme/SS1_sponsor" 
 					] 
 				CASE 12 
-					(textures) = [ 
+					textures = [ 
 						"Themes/ss2_theme/SS2_mainmenu" 
 						"Themes/ss2_theme/SS2_mainicon" 
 						"Themes/ss2_theme/SS2_paused_piece" 
 						"Themes/ss2_theme/SS2_sponsor" 
 					] 
 				CASE 13 
-					(textures) = [ 
+					textures = [ 
 						"Themes/ss3_theme/SS3_mainmenu" 
 						"Themes/ss3_theme/SS3_mainicon" 
 						"Themes/ss3_theme/SS3_paused_piece" 
 						"Themes/ss3_theme/SS3_sponsor" 
 					] 
 				DEFAULT 
-					(printf) "the game just crashed cause the theme swap got confused..." 
+					printf "the game just crashed cause the theme swap got confused..." 
 			ENDSWITCH 
-			(load_array_of_textures) <...> 
-			(textures) = [ 
+			load_array_of_textures <...> 
+			textures = [ 
 				"Themes/sp_theme/SP_paused_icon" 
 				"Themes/sp_theme/SP_grunge" 
 				"Themes/sp_theme/SP_sub_frame" 
@@ -683,17 +683,17 @@ SCRIPT (load_theme_textures_to_main_memory)
 		DEFAULT 
 			RETURN 
 	ENDSWITCH 
-	(load_array_of_textures) <...> 
+	load_array_of_textures <...> 
 ENDSCRIPT
 
-SCRIPT (load_level_select_textures_to_main_memory) 
-	(pre_file) = "Levelselect.pre" 
-	IF (GotParam) (unload) 
-		(printf) "load_level_select_textures_to_main_memory unload" 
+SCRIPT load_level_select_textures_to_main_memory 
+	pre_file = "Levelselect.pre" 
+	IF GotParam unload 
+		printf "load_level_select_textures_to_main_memory unload" 
 	ELSE 
-		(printf) "load_level_select_textures_to_main_memory" 
+		printf "load_level_select_textures_to_main_memory" 
 	ENDIF 
-	(textures) = [ 
+	textures = [ 
 		"LevelSelect/level_selected_dot" 
 		"LevelSelect/level_dot" 
 		"LevelSelect/secret_level_dot" 
@@ -706,18 +706,18 @@ SCRIPT (load_level_select_textures_to_main_memory)
 		"Chapters/chapter_bg" 
 		"PanelSprites/bg_elements" 
 	] 
-	(load_array_of_textures) <...> 
-	(printf) "done load_level_select_textures_to_main_memory" 
+	load_array_of_textures <...> 
+	printf "done load_level_select_textures_to_main_memory" 
 ENDSCRIPT
 
-SCRIPT (load_chapter_textures_to_main_memory) 
-	(pre_file) = "Chapters.pre" 
-	IF (GotParam) (unload) 
-		(printf) "load_chapter_textures_to_main_memory unload" 
+SCRIPT load_chapter_textures_to_main_memory 
+	pre_file = "Chapters.pre" 
+	IF GotParam unload 
+		printf "load_chapter_textures_to_main_memory unload" 
 	ELSE 
-		(printf) "load_chapter_textures_to_main_memory" 
+		printf "load_chapter_textures_to_main_memory" 
 	ENDIF 
-	(textures) = [ 
+	textures = [ 
 		"PanelSprites/filmstripbar" 
 		"PanelSprites/final" 
 		"PanelSprites/bg_elements" 
@@ -738,17 +738,17 @@ SCRIPT (load_chapter_textures_to_main_memory)
 		"Chapters/chap_graphic_25" 
 		"Chapters/chap_graphic_26" 
 	] 
-	(load_array_of_textures) <...> 
+	load_array_of_textures <...> 
 ENDSCRIPT
 
-SCRIPT (load_cas_textures_to_main_memory) 
-	(pre_file) = "MainmenuSprites.pre" 
-	IF (GotParam) (unload) 
-		(printf) "load_cas_textures_to_main_memory unload" 
+SCRIPT load_cas_textures_to_main_memory 
+	pre_file = "MainmenuSprites.pre" 
+	IF GotParam unload 
+		printf "load_cas_textures_to_main_memory unload" 
 	ELSE 
-		(printf) "load_cas_textures_to_main_memory" 
+		printf "load_cas_textures_to_main_memory" 
 	ENDIF 
-	(textures) = [ 
+	textures = [ 
 		"MainmenuSprites/SharedSprites/tab1" 
 		"MainmenuSprites/SharedSprites/tab2" 
 		"MainmenuSprites/SharedSprites/tab3" 
@@ -1162,17 +1162,17 @@ SCRIPT (load_cas_textures_to_main_memory)
 		"../textures/skater_male/CS_DM_Tat_Extra_Arm_1" 
 		"../textures/skater_male/CS_DM_Tat_Extra_Arm_2" 
 	] 
-	(load_array_of_textures) <...> 
+	load_array_of_textures <...> 
 ENDSCRIPT
 
-SCRIPT (load_boardshop_textures_to_main_memory) 
-	(pre_file) = "MainmenuSprites.pre" 
-	IF (GotParam) (unload) 
-		(printf) "load_boardshop_textures_to_main_memory unload" 
+SCRIPT load_boardshop_textures_to_main_memory 
+	pre_file = "MainmenuSprites.pre" 
+	IF GotParam unload 
+		printf "load_boardshop_textures_to_main_memory unload" 
 	ELSE 
-		(printf) "load_boardshop_textures_to_main_memory" 
+		printf "load_boardshop_textures_to_main_memory" 
 	ENDIF 
-	(textures) = [ 
+	textures = [ 
 		"MainmenuSprites/SharedSprites/tab1" 
 		"MainmenuSprites/SharedSprites/tab2" 
 		"MainmenuSprites/SharedSprites/tab3" 
@@ -1296,27 +1296,27 @@ SCRIPT (load_boardshop_textures_to_main_memory)
 		"../textures/boards/MuskaG01" 
 		"../textures/boards/ThomasG01" 
 	] 
-	(load_array_of_textures) <...> 
+	load_array_of_textures <...> 
 ENDSCRIPT
 
-(ParkedTexturesAreLoaded) = 0 
-SCRIPT (load_parked_textures_to_main_memory) 
-	(printscriptinfo) 
-	IF (GotParam) (unload) 
-		(Change) (ParkedTexturesAreLoaded) = 0 
+ParkedTexturesAreLoaded = 0 
+SCRIPT load_parked_textures_to_main_memory 
+	printscriptinfo 
+	IF GotParam unload 
+		Change ParkedTexturesAreLoaded = 0 
 	ELSE 
-		IF ( (ParkedTexturesAreLoaded) = 1 ) 
+		IF ( ParkedTexturesAreLoaded = 1 ) 
 			RETURN 
 		ENDIF 
-		(Change) (ParkedTexturesAreLoaded) = 1 
+		Change ParkedTexturesAreLoaded = 1 
 	ENDIF 
-	(pre_file) = "MainmenuSprites.pre" 
-	IF (GotParam) (unload) 
-		(printf) "load_parked_textures_to_main_memory unload" 
+	pre_file = "MainmenuSprites.pre" 
+	IF GotParam unload 
+		printf "load_parked_textures_to_main_memory unload" 
 	ELSE 
-		(printf) "load_parked_textures_to_main_memory" 
+		printf "load_parked_textures_to_main_memory" 
 	ENDIF 
-	(textures) = [ 
+	textures = [ 
 		"MainMenuSprites/SharedSprites/PA_startauto" 
 		"MainMenuSprites/MM_T_L" 
 		"MainMenuSprites/MM_T_M" 
@@ -1354,18 +1354,18 @@ SCRIPT (load_parked_textures_to_main_memory)
 		"MainmenuSprites/SharedSprites/grungeframe_mid" 
 		"MainmenuSprites/SharedSprites/grungeframe_bot" 
 	] 
-	(load_array_of_textures) <...> 
+	load_array_of_textures <...> 
 ENDSCRIPT
 
-SCRIPT (load_mainmenu_textures_to_main_memory) 
-	(printscriptinfo) 
-	(pre_file) = "MainmenuSprites.pre" 
-	IF (GotParam) (unload) 
-		(printf) "load_mainmenu_textures_to_main_memory unload" 
+SCRIPT load_mainmenu_textures_to_main_memory 
+	printscriptinfo 
+	pre_file = "MainmenuSprites.pre" 
+	IF GotParam unload 
+		printf "load_mainmenu_textures_to_main_memory unload" 
 	ELSE 
-		(printf) "load_mainmenu_textures_to_main_memory" 
+		printf "load_mainmenu_textures_to_main_memory" 
 	ENDIF 
-	(textures) = [ 
+	textures = [ 
 		"MainMenuSprites/SharedSprites/PA_shop" 
 		"MainMenuSprites/SharedSprites/PA_startauto" 
 		"MainMenuSprites/SharedSprites/PA_stopauto" 
@@ -1473,12 +1473,12 @@ SCRIPT (load_mainmenu_textures_to_main_memory)
 		"MainmenuSprites/rank_9" 
 		"MainmenuSprites/rank_10" 
 	] 
-	(load_array_of_textures) <...> 
-	IF (GotParam) (unload) 
+	load_array_of_textures <...> 
+	IF GotParam unload 
 	ELSE 
-		(PushMemProfile) "Permanent Models" 
-		(LoadAsset) "models\\mainmenu_bg\\mainmenu_bg.mdl" 
-		(PopMemProfile) 
+		PushMemProfile "Permanent Models" 
+		LoadAsset "models\\mainmenu_bg\\mainmenu_bg.mdl" 
+		PopMemProfile 
 	ENDIF 
 ENDSCRIPT
 

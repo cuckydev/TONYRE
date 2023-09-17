@@ -1,4 +1,4 @@
-SCRIPT (SetUpBasicLights) 
+SCRIPT SetUpBasicLights 
 ENDSCRIPT
 
 

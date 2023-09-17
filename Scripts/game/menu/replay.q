@@ -1,3 +1,3 @@
-(EndOfReplayShouldJumpToPauseMenu) = 0 
-(InGameReplay) = 0 
+EndOfReplayShouldJumpToPauseMenu = 0 
+InGameReplay = 0 
 

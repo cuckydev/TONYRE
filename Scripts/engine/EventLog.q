@@ -1,5 +1,5 @@
 
-(event_type_array) = [ 
+event_type_array = [ 
 	"focus" 
 	"unfocus" 
 	"notify_child_lock" 

@@ -1,29 +1,29 @@
-SCRIPT (PlaySelectSound) 
-	(PlaySound) (select2b) (vol) = 10 
+SCRIPT PlaySelectSound 
+	PlaySound select2b vol = 10 
 ENDSCRIPT
 
-SCRIPT (PlayAcceptSound) 
-	(PlaySound) (DE_MenuSelect) 
+SCRIPT PlayAcceptSound 
+	PlaySound DE_MenuSelect 
 ENDSCRIPT
 
-SCRIPT (PlayBackSound) 
-	(PlaySound) (DE_MenuBack) (vol) = 80 
+SCRIPT PlayBackSound 
+	PlaySound DE_MenuBack vol = 80 
 ENDSCRIPT
 
-SCRIPT (PlayStatsSound) 
-	(PlaySound) (GUI_stat03) 
+SCRIPT PlayStatsSound 
+	PlaySound GUI_stat03 
 ENDSCRIPT
 
-SCRIPT (PlayBuzzSound) 
-	(PlaySound) (GUI_buzzer01) 
+SCRIPT PlayBuzzSound 
+	PlaySound GUI_buzzer01 
 ENDSCRIPT
 
-SCRIPT (PlayTypingSound) 
-	(PlaySound) (GUI_type02) 
+SCRIPT PlayTypingSound 
+	PlaySound GUI_type02 
 ENDSCRIPT
 
-SCRIPT (PlayChooseSkaterSound) 
-	(PlaySound) (Menu_left_rightB) 
+SCRIPT PlayChooseSkaterSound 
+	PlaySound Menu_left_rightB 
 ENDSCRIPT
 
 

@@ -1,5 +1,5 @@
 
-SCRIPT (CJR_Nullscript) 
+SCRIPT CJR_Nullscript 
 ENDSCRIPT
 
 

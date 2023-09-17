@@ -1,4 +1,4 @@
 
-(goal_rewards) = { 
+goal_rewards = { 
 } 
 
