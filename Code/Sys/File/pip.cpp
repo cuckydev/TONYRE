@@ -568,7 +568,6 @@ static const char *sGetPreName(SPreContained *p_contained_file)
 
 void* Load(const char* p_fileName)
 {
-	std::cout << "PIP LOADING " << p_fileName << std::endl;
 	uint32 filename_checksum=Crc::GenerateCRCFromString(p_fileName);
 	
 	// First, see if the file is in one of the loaded pre files.

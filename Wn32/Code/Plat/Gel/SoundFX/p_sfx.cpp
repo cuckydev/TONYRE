@@ -206,6 +206,8 @@ namespace Sfx
 
 		// Create sound
 		pInfo->p_sound_data = new CXBSound(fp);
+		File::Close(fp);
+
 		pInfo->looping = pInfo->p_sound_data->looping;
 		pInfo->permanent = loadPerm;
 
