@@ -1,0 +1,4 @@
+SCRIPT (SetUpBasicLights) 
+ENDSCRIPT
+
+
