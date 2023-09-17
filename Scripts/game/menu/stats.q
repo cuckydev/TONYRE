@@ -27,7 +27,7 @@
 	{ (stattype) = (manual_balance) (goaltype) = (manualtime) (value) = [ 8 , 10 , 17 ] (complete) = 2 (text) = "Manual for %i seconds" } 
 	{ (stattype) = (manual_balance) (goaltype) = (trickcount) (value) = [ 1 , 3 , 5 ] (complete) = 2 (text) = "%s %i times in one combo" (value_trick) = [ (Manual) , (Manual) , (Pogo) ] (value_string) = [ "Manual" , "Manual" , "Pogo" ] (value_taps) = [ 1 , 1 , 1 ] } 
 	{ (stattype) = (manual_balance) (goaltype) = (trickcount) (value) = [ 2 , 5 , 6 ] (complete) = 3 (text) = "%s %i times in one combo" (value_trick) = [ (Manual) , (Manual) , (Casper) ] (value_string) = [ "Manual" , "Manual" , "Casper" ] (value_taps) = [ 1 , 1 , 1 ] } 
-	{ (stattype) = (manual_balance) (goaltype) = (trickcount) (value) = [ 3 , 2 , 6 ] (complete) = 3 (text) = "%s %i times in one combo" (value_trick) = [ (Manual) , (Pogo) , (Half Cab Impossible) ] (value_string) = [ "Manual" , "Pogo" , "Half Cab Impossible" ] (value_taps) = [ 1 , 1 , 1 ] } 
+	{ (stattype) = (manual_balance) (goaltype) = (trickcount) (value) = [ 3 , 2 , 6 ] (complete) = 3 (text) = "%s %i times in one combo" (value_trick) = [ (Manual) , (Pogo) , (%"Half Cab Impossible") ] (value_string) = [ "Manual" , "Pogo" , "Half Cab Impossible" ] (value_taps) = [ 1 , 1 , 1 ] } 
 	{ (stattype) = (rail_balance) (goaltype) = (grindtime) (value) = [ 4 , 5 , 10 ] (complete) = 0 (text) = "Grind for %i seconds" } 
 	{ (stattype) = (rail_balance) (goaltype) = (grindtime) (value) = [ 6 , 10 , 15 ] (complete) = 0 (text) = "Grind for %i seconds" } 
 	{ (stattype) = (rail_balance) (goaltype) = (grindtime) (value) = [ 8 , 15 , 20 ] (complete) = 0 (text) = "Grind for %i seconds" } 

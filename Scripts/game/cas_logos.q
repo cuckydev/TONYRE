@@ -153,14 +153,14 @@
 		(sponsor) = (Globe) 
 	} 
 	{ 
-		(desc_id) = (Hawk Clothing) 
+		(desc_id) = (%"Hawk Clothing") 
 		(frontend_desc) = #"Hawk Clothing" 
 		(common_hatlogo_params) 
 		(with) = "textures/logos/Hat_hawkc01" 
 		(sponsor) = (hawkapp) 
 	} 
 	{ 
-		(desc_id) = (Hawk Shoes) 
+		(desc_id) = (%"Hawk Shoes") 
 		(frontend_desc) = #"Hawk Shoes" 
 		(common_hatlogo_params) 
 		(with) = "textures/logos/Hat_hawks01" 
@@ -258,7 +258,7 @@
 		(sponsor) = (Ricta) 
 	} 
 	{ 
-		(desc_id) = (Shorty's) 
+		(desc_id) = (%"Shorty's") 
 		(frontend_desc) = #"Shorty\'s" 
 		(common_hatlogo_params) 
 		(with) = "textures/logos/Hat_shortys01" 
@@ -435,7 +435,7 @@
 		(sponsor) = (Circa) 
 	} 
 	{ 
-		(desc_id) = (DC Shoes) 
+		(desc_id) = (%"DC Shoes") 
 		(frontend_desc) = #"DC Shoes" 
 		(common_frontlogo_params) 
 		(with) = "textures/logos/Sht_DCShoes01" 
@@ -498,14 +498,14 @@
 		(sponsor) = (Globe) 
 	} 
 	{ 
-		(desc_id) = (Hawk Clothing) 
+		(desc_id) = (%"Hawk Clothing") 
 		(frontend_desc) = #"Hawk Clothing" 
 		(common_frontlogo_params) 
 		(with) = "textures/logos/Sht_hawkc01" 
 		(sponsor) = (hawkapp) 
 	} 
 	{ 
-		(desc_id) = (Hawk Shoes) 
+		(desc_id) = (%"Hawk Shoes") 
 		(frontend_desc) = #"Hawk Shoes" 
 		(common_frontlogo_params) 
 		(with) = "textures/logos/Sht_hawks01" 
@@ -603,7 +603,7 @@
 		(sponsor) = (Ricta) 
 	} 
 	{ 
-		(desc_id) = (Shorty's) 
+		(desc_id) = (%"Shorty's") 
 		(frontend_desc) = #"Shorty\'s" 
 		(common_frontlogo_params) 
 		(with) = "textures/logos/Sht_shortys01" 
@@ -694,14 +694,14 @@
 		(sponsor) = (neversoft) 
 	} 
 	{ 
-		(desc_id) = (Braineaters.com) 
+		(desc_id) = (%"Braineaters.com") 
 		(frontend_desc) = #"Braineaters.com" 
 		(common_frontlogo_params) 
 		(with) = "textures/logos/Sht_braineaters01" 
 		(sponsor) = (neversoft) 
 	} 
 	{ 
-		(desc_id) = (Dead End Road) 
+		(desc_id) = (%"Dead End Road") 
 		(frontend_desc) = #"Dead End Road" 
 		(common_frontlogo_params) 
 		(with) = "textures/logos/Sht_deadend01" 
@@ -730,7 +730,7 @@
 		(hidden) 
 	} 
 	{ 
-		(desc_id) = (Cab Zen Soldier) 
+		(desc_id) = (%"Cab Zen Soldier") 
 		(frontend_desc) = #"Cab Zen Soldier" 
 		(common_frontlogo_params) 
 		(with) = "textures/logos/Sht_Cab_Zen" 
@@ -817,7 +817,7 @@
 		(sponsor) = (Circa) 
 	} 
 	{ 
-		(desc_id) = (DC Shoes) 
+		(desc_id) = (%"DC Shoes") 
 		(frontend_desc) = #"DC Shoes" 
 		(common_backlogo_params) 
 		(with) = "textures/logos/Sht_DCShoes01" 
@@ -880,14 +880,14 @@
 		(sponsor) = (Globe) 
 	} 
 	{ 
-		(desc_id) = (Hawk Clothing) 
+		(desc_id) = (%"Hawk Clothing") 
 		(frontend_desc) = #"Hawk Clothing" 
 		(common_backlogo_params) 
 		(with) = "textures/logos/Sht_hawkc01" 
 		(sponsor) = (hawkapp) 
 	} 
 	{ 
-		(desc_id) = (Hawk Shoes) 
+		(desc_id) = (%"Hawk Shoes") 
 		(frontend_desc) = #"Hawk Shoes" 
 		(common_backlogo_params) 
 		(with) = "textures/logos/Sht_hawks01" 
@@ -985,7 +985,7 @@
 		(sponsor) = (Ricta) 
 	} 
 	{ 
-		(desc_id) = (Shorty's) 
+		(desc_id) = (%"Shorty's") 
 		(frontend_desc) = #"Shorty\'s" 
 		(common_backlogo_params) 
 		(with) = "textures/logos/Sht_shortys01" 
@@ -1076,14 +1076,14 @@
 		(sponsor) = (neversoft) 
 	} 
 	{ 
-		(desc_id) = (Braineaters.com) 
+		(desc_id) = (%"Braineaters.com") 
 		(frontend_desc) = #"Braineaters.com" 
 		(common_backlogo_params) 
 		(with) = "textures/logos/Sht_braineaters01" 
 		(sponsor) = (neversoft) 
 	} 
 	{ 
-		(desc_id) = (Dead End Road) 
+		(desc_id) = (%"Dead End Road") 
 		(frontend_desc) = #"Dead End Road" 
 		(common_backlogo_params) 
 		(with) = "textures/logos/Sht_deadend01" 
@@ -1104,7 +1104,7 @@
 		(sponsor) = (Westies) 
 	} 
 	{ 
-		(desc_id) = (Cab Signature) 
+		(desc_id) = (%"Cab Signature") 
 		(frontend_desc) = #"Cab Signature" 
 		(common_backlogo_params) 
 		(with) = "textures/logos/Sht_Cab_Sign" 

@@ -92,23 +92,23 @@ SCRIPT (select_sponsor_choose)
 		CASE (sponsor_birdhouse) 
 			(theme_num) = 6 
 			<team_name> = "Birdhouse" 
-			(Change_Clothes) (part_id) = (Birdhouse Team) 
+			(Change_Clothes) (part_id) = (%"Birdhouse Team") 
 		CASE (sponsor_element) 
 			(theme_num) = 7 
 			<team_name> = "Element" 
-			(Change_Clothes) (part_id) = (Element Team) 
+			(Change_Clothes) (part_id) = (%"Element Team") 
 		CASE (sponsor_flip) 
 			(theme_num) = 8 
 			<team_name> = "Flip" 
-			(Change_Clothes) (part_id) = (Flip Team) 
+			(Change_Clothes) (part_id) = (%"Flip Team") 
 		CASE (sponsor_girl) 
 			(theme_num) = 9 
 			<team_name> = "Girl" 
-			(Change_Clothes) (part_id) = (Girl Team) 
+			(Change_Clothes) (part_id) = (%"Girl Team") 
 		CASE (sponsor_zero) 
 			(theme_num) = 10 
 			<team_name> = "Zero" 
-			(Change_Clothes) (part_id) = (Zero Team) 
+			(Change_Clothes) (part_id) = (%"Zero Team") 
 		DEFAULT 
 			(printstruct) <...> 
 			(script_assert) "wtf?" 

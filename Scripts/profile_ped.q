@@ -139,42 +139,42 @@
 	(ped_board) = { (desc_id) = (Skateboard) } 
 } 
 (Ped_Bum_01) = { 
-	(ped_body) = { (desc_id) = (Bum 01) } 
+	(ped_body) = { (desc_id) = (%"Bum 01") } 
 } 
 (Ped_Crackhead_01) = { 
-	(ped_body) = { (desc_id) = (Crack Head) } 
+	(ped_body) = { (desc_id) = (%"Crack Head") } 
 } 
 (Ped_Drugdealer_01) = { 
-	(ped_body) = { (desc_id) = (Drug dealer 01) } 
+	(ped_body) = { (desc_id) = (%"Drug dealer 01") } 
 	(Stocky_scale_info) 
 } 
 (Ped_Drugdealer_02) = { 
-	(ped_body) = { (desc_id) = (Drug dealer 02) } 
+	(ped_body) = { (desc_id) = (%"Drug dealer 02") } 
 	(scale) = VECTOR(0.9, 1.13, 0.9) 
 } 
 (Ped_Drugdealer_03) = { 
-	(ped_body) = { (desc_id) = (Drug dealer 03) } 
+	(ped_body) = { (desc_id) = (%"Drug dealer 03") } 
 } 
 (Ped_FactoryWorker_01) = { 
-	(ped_body) = { (desc_id) = (Factory Worker 01) } 
+	(ped_body) = { (desc_id) = (%"Factory Worker 01") } 
 	(body_shape) = (Fatman_scale_info) 
 } 
 (Ped_FactoryWorker_02) = { 
-	(ped_body) = { (desc_id) = (Factory Worker 02) } 
+	(ped_body) = { (desc_id) = (%"Factory Worker 02") } 
 } 
 (Ped_Security_Train) = { 
-	(ped_body) = { (desc_id) = (Security Train) } 
+	(ped_body) = { (desc_id) = (%"Security Train") } 
 	(body_shape) = (Fatman_scale_info) 
 } 
 (Ped_Street_Warrior_01) = { 
-	(ped_body) = { (desc_id) = (Street Warrior 01) } 
+	(ped_body) = { (desc_id) = (%"Street Warrior 01") } 
 } 
 (Ped_Street_Warrior_02) = { 
-	(ped_body) = { (desc_id) = (Street Warrior 02) } 
+	(ped_body) = { (desc_id) = (%"Street Warrior 02") } 
 	(ped_m_legs) = { (randomized_desc_id) } 
 } 
 (Ped_Street_Warrior_03) = { 
-	(ped_body) = { (desc_id) = (Street Warrior 03) } 
+	(ped_body) = { (desc_id) = (%"Street Warrior 03") } 
 	(ped_m_legs) = { (randomized_desc_id) } 
 } 
 (Ped_Tombstone) = { 
@@ -182,14 +182,14 @@
 	(scale) = VECTOR(1.1, 0.9, 0.9) 
 } 
 (Ped_Businesswoman_01) = { 
-	(ped_body) = { (desc_id) = (Businesswoman 01) } 
+	(ped_body) = { (desc_id) = (%"Businesswoman 01") } 
 } 
 (Ped_M_NYPD_01) = { 
-	(ped_body) = { (desc_id) = (M_NYPD 01) } 
+	(ped_body) = { (desc_id) = (%"M_NYPD 01") } 
 	(Stocky_scale_info) 
 } 
 (Ped_F_NYPD_01) = { 
-	(ped_body) = { (desc_id) = (F_NYPD 01) } 
+	(ped_body) = { (desc_id) = (%"F_NYPD 01") } 
 } 
 (Ped_Construction_Jhammer) = { 
 	(ped_m_head) = { (desc_id) = (Ped_Worker_Head01) } 
@@ -215,24 +215,24 @@
 	(ped_body) = { (desc_id) = (Ped_Chef) } 
 } 
 (Ped_BusinessMan_01) = { 
-	(ped_body) = { (desc_id) = (BusinessMan 01) } 
+	(ped_body) = { (desc_id) = (%"BusinessMan 01") } 
 } 
 (Ped_BusinessMan_02) = { 
-	(ped_body) = { (desc_id) = (BusinessMan 02) } 
+	(ped_body) = { (desc_id) = (%"BusinessMan 02") } 
 } 
 (Ped_BusinessMan_03) = { 
-	(ped_body) = { (desc_id) = (BusinessMan 03) } 
+	(ped_body) = { (desc_id) = (%"BusinessMan 03") } 
 } 
 (Ped_BlkKid_01) = { 
-	(ped_body) = { (desc_id) = (BlkKid 01) } 
+	(ped_body) = { (desc_id) = (%"BlkKid 01") } 
 	(body_shape) = (kid1_scale_info) 
 } 
 (Ped_BlkKid_02) = { 
-	(ped_body) = { (desc_id) = (BlkKid 02) } 
+	(ped_body) = { (desc_id) = (%"BlkKid 02") } 
 	(body_shape) = (kid1_scale_info) 
 } 
 (Ped_BlkKid_03) = { 
-	(ped_body) = { (desc_id) = (BlkKid 03) } 
+	(ped_body) = { (desc_id) = (%"BlkKid 03") } 
 	(body_shape) = (kid3_scale_info) 
 } 
 (Ped_Trooper) = { 
@@ -242,10 +242,10 @@
 	(ped_body) = { (desc_id) = (Ped_Todd) } 
 } 
 (Ped_F_Dancer_01) = { 
-	(ped_body) = { (desc_id) = (Dancer 01) } 
+	(ped_body) = { (desc_id) = (%"Dancer 01") } 
 } 
 (Ped_F_Dancer_02) = { 
-	(ped_body) = { (desc_id) = (Dancer 02) } 
+	(ped_body) = { (desc_id) = (%"Dancer 02") } 
 } 
 (Ped_Clemens) = { 
 	(ped_m_head) = { (desc_id) = (Ped_Clemens_head) } 
@@ -258,14 +258,14 @@
 	(ped_m_legs) = { (randomized_desc_id) } 
 } 
 (Ped_Doorman_01) = { 
-	(ped_body) = { (desc_id) = (Doorman 01) } 
+	(ped_body) = { (desc_id) = (%"Doorman 01") } 
 	(Stocky_scale_info) 
 } 
 (Ped_Deskclerk_01) = { 
-	(ped_body) = { (desc_id) = (Deskclerk 01) } 
+	(ped_body) = { (desc_id) = (%"Deskclerk 01") } 
 } 
 (Ped_F_Deskclerk_01) = { 
-	(ped_body) = { (desc_id) = (F_Deskclerk 01) } 
+	(ped_body) = { (desc_id) = (%"F_Deskclerk 01") } 
 } 
 (Ped_Leafblower) = { 
 	(ped_body) = { (desc_id) = (Ped_Leafblower) } 
@@ -332,50 +332,50 @@
 } 
 (Ped_Official_SC_01) = { 
 	(ped_m_head) = { (desc_id) = (Head_OfficialA) } 
-	(ped_body) = { (desc_id) = (Official SC 01) } 
+	(ped_body) = { (desc_id) = (%"Official SC 01") } 
 } 
 (Ped_Official_SC_02) = { 
 	(ped_m_head) = { (desc_id) = (Head_OfficialB) } 
-	(ped_body) = { (desc_id) = (Official SC 01) } 
+	(ped_body) = { (desc_id) = (%"Official SC 01") } 
 } 
 (Ped_Monsterped_A_01) = { 
-	(ped_body) = { (desc_id) = (Monster Ped A 01) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped A 01") } 
 } 
 (Ped_Monsterped_A_01B) = { 
-	(ped_body) = { (desc_id) = (Monster Ped A 01B) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped A 01B") } 
 } 
 (Ped_Monsterped_B_01) = { 
-	(ped_body) = { (desc_id) = (Monster Ped B 01) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped B 01") } 
 } 
 (Ped_Monsterped_C_01) = { 
-	(ped_body) = { (desc_id) = (Monster Ped C 01) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped C 01") } 
 } 
 (Ped_Monsterped_A_02) = { 
-	(ped_body) = { (desc_id) = (Monster Ped A 02) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped A 02") } 
 } 
 (Ped_Monsterped_B_02) = { 
-	(ped_body) = { (desc_id) = (Monster Ped B 02) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped B 02") } 
 } 
 (Ped_Monsterped_C_02) = { 
-	(ped_body) = { (desc_id) = (Monster Ped C 02) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped C 02") } 
 } 
 (Ped_Monsterped_A_03) = { 
-	(ped_body) = { (desc_id) = (Monster Ped A 03) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped A 03") } 
 } 
 (Ped_Monsterped_B_03) = { 
-	(ped_body) = { (desc_id) = (Monster Ped B 03) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped B 03") } 
 } 
 (Ped_Monsterped_C_03) = { 
-	(ped_body) = { (desc_id) = (Monster Ped C 03) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped C 03") } 
 } 
 (Ped_Monsterped_A_04) = { 
-	(ped_body) = { (desc_id) = (Monster Ped A 04) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped A 04") } 
 } 
 (Ped_Monsterped_B_04) = { 
-	(ped_body) = { (desc_id) = (Monster Ped B 04) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped B 04") } 
 } 
 (Ped_Monsterped_C_04) = { 
-	(ped_body) = { (desc_id) = (Monster Ped C 04) } 
+	(ped_body) = { (desc_id) = (%"Monster Ped C 04") } 
 } 
 (Ped_QBert) = { 
 	(ped_body) = { (desc_id) = (Ped_QBert) } 

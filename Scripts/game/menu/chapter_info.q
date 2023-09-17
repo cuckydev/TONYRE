@@ -619,7 +619,7 @@ ENDSCRIPT
 
 SCRIPT (change_deck_to_muska) 
 	(GetCurrentSkaterProfileIndex) 
-	(EditPlayerAppearance) (profile) = <currentSkaterProfileIndex> (target) = (SetPart) (targetParams) = { (part) = (deck_graphic) (desc_id) = (PR Deck 17) } 
+	(EditPlayerAppearance) (profile) = <currentSkaterProfileIndex> (target) = (SetPart) (targetParams) = { (part) = (deck_graphic) (desc_id) = (%"PR Deck 17") } 
 	(FormatText) (checksumName) = (grip_id) "Generic 2" 
 	(EditPlayerAppearance) (profile) = <currentSkaterProfileIndex> (target) = (SetPart) (targetParams) = { (part) = (griptape) (desc_id) = <grip_id> } 
 	(SetPlayerAppearanceColor) (player) = <currentSkaterProfileIndex> (part) = (board) (h) = 50 (s) = 0 (v) = 0 (use_default_hsv) = 1 
@@ -627,7 +627,7 @@ SCRIPT (change_deck_to_muska)
 	(RefreshSkaterColors) (Skater) = <currentSkaterProfileIndex> (profile) = <currentSkaterProfileIndex> 
 ENDSCRIPT
 
-SCRIPT (change_clothes) (male_part) = (skater_m_torso) (part_id) = (Birdhouse Team) 
+SCRIPT (change_clothes) (male_part) = (skater_m_torso) (part_id) = (%"Birdhouse Team") 
 	(GetCurrentSkaterProfileIndex) 
 	(GetSkaterProfileInfo) (player) = <currentSkaterProfileIndex> 
 	IF ( <is_male> = 1 ) 
@@ -729,7 +729,7 @@ SCRIPT (NJ_StageSwitch_2_2_to_3_1_WeatherChange)
 		(PlaySkaterCamAnim) (Skater) = 0 { (virtual_cam) 
 			(targetid) = (world) 
 			(targetOffset) = VECTOR(-5332.70019531250, -1993.90002441406, -8017.10009765625) 
-			(positionOffset) = VECTOR(-3759.89990234375, 134.69999694824, 1626.30004882813) 
+			(positionOffset) = VECTOR(-3759.89990234375, 134.69999694824, 1626.30004882812) 
 			(frames) = 100 
 			(skippable) = 1 
 			(play_hold) 
@@ -938,7 +938,7 @@ SCRIPT (NY_StageSwitch_2_3_to_3_1)
 ENDSCRIPT
 
 SCRIPT (NY03_CutscenePlay) 
-	(change_clothes) (male_part) = (skater_m_torso) (part_id) = (Peralta Team) 
+	(change_clothes) (male_part) = (skater_m_torso) (part_id) = (%"Peralta Team") 
 	(PlayCutscene) (name) = "cutscenes\\NY_03.cut" (exitScript) = (NY03_SkateshopUnlocked) 
 ENDSCRIPT
 
@@ -1627,7 +1627,7 @@ SCRIPT (RU_play_intro_cutscene)
 ENDSCRIPT
 
 SCRIPT (VC_StageSwitch_GoingToRU_LevelChangeSave_Spawned) 
-	(change_clothes) (male_part) = (skater_m_torso) (part_id) = (Russian Coat) 
+	(change_clothes) (male_part) = (skater_m_torso) (part_id) = (%"Russian Coat") 
 	(goal_want_to_save) 
 	(SpawnScript) (RU_waitforsave) 
 ENDSCRIPT
@@ -1785,7 +1785,7 @@ ENDSCRIPT
 
 SCRIPT (NJ_IntroCutscene) 
 	(DisplayLoadingScreen) (Blank) 
-	(change_clothes) (male_part) = (skater_m_torso) (part_id) = (Peralta Team) 
+	(change_clothes) (male_part) = (skater_m_torso) (part_id) = (%"Peralta Team") 
 	(SpawnScript) (NJ_IntroCutsceneSave_Spawned) (params) = <...> 
 ENDSCRIPT
 

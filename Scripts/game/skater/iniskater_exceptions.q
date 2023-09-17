@@ -37,7 +37,7 @@ SCRIPT (cas_disq_handle_weird_items)
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
 					(target) = (SetPart) 
-					(targetParams) = { (part) = (skater_m_torso) (desc_id) = (T-shirt) } 
+					(targetParams) = { (part) = (skater_m_torso) (desc_id) = (%"T-shirt") } 
 				} 
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
@@ -64,7 +64,7 @@ SCRIPT (cas_disq_handle_weird_items)
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
 					(target) = (SetPart) 
-					(targetParams) = { (part) = (skater_m_torso) (desc_id) = (T-shirt) } 
+					(targetParams) = { (part) = (skater_m_torso) (desc_id) = (%"T-shirt") } 
 				} 
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
@@ -140,7 +140,7 @@ SCRIPT (cas_disq_remove_bulky_shirt)
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
 					(target) = (SetPart) 
-					(targetParams) = { (part) = (skater_m_torso) (desc_id) = (T-shirt) } 
+					(targetParams) = { (part) = (skater_m_torso) (desc_id) = (%"T-shirt") } 
 				} 
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
@@ -155,7 +155,7 @@ SCRIPT (cas_disq_remove_bulky_shirt)
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
 					(target) = (SetPart) 
-					(targetParams) = { (part) = (skater_f_torso) (desc_id) = (T-shirt) } 
+					(targetParams) = { (part) = (skater_f_torso) (desc_id) = (%"T-shirt") } 
 				} 
 				(EditPlayerAppearance) { 
 					(profile) = <currentSkaterProfileIndex> 
@@ -353,7 +353,7 @@ SCRIPT (cas_temp_disq_force_big_kneepads)
 				ENDIF 
 			ENDIF 
 		ENDIF 
-		(SetPart) (part) = (kneepads) (desc_id) = (Knee Pads Big) (use_default_hsv) = <use_default_hsv> (h) = <h> (s) = <s> (v) = <v> 
+		(SetPart) (part) = (kneepads) (desc_id) = (%"Knee Pads Big") (use_default_hsv) = <use_default_hsv> (h) = <h> (s) = <s> (v) = <v> 
 	ENDIF 
 ENDSCRIPT
 

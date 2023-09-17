@@ -9,7 +9,7 @@
 		(hidden) 
 	} 
 	{ 
-		(desc_id) = (Light Skin 1) 
+		(desc_id) = (%"Light Skin 1") 
 		(frontend_desc) = #"Light Skin 1" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(mesh_if_facemapped) = "models/skater_female/Facemap_female_01.skin" 
@@ -20,7 +20,7 @@
 		(skintone) = (light) 
 	} 
 	{ 
-		(desc_id) = (Light Skin 2) 
+		(desc_id) = (%"Light Skin 2") 
 		(frontend_desc) = #"Light Skin 2" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -33,7 +33,7 @@
 		(skintone) = (light) 
 	} 
 	{ 
-		(desc_id) = (Light Skin 3) 
+		(desc_id) = (%"Light Skin 3") 
 		(frontend_desc) = #"Light Skin 3" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -46,7 +46,7 @@
 		(skintone) = (light) 
 	} 
 	{ 
-		(desc_id) = (Dark Skin 1) 
+		(desc_id) = (%"Dark Skin 1") 
 		(frontend_desc) = #"Dark Skin 1" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -59,7 +59,7 @@
 		(skintone) = (dark) 
 	} 
 	{ 
-		(desc_id) = (Dark Skin 2) 
+		(desc_id) = (%"Dark Skin 2") 
 		(frontend_desc) = #"Dark Skin 2" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -72,7 +72,7 @@
 		(skintone) = (dark) 
 	} 
 	{ 
-		(desc_id) = (Dark Skin 3) 
+		(desc_id) = (%"Dark Skin 3") 
 		(frontend_desc) = #"Dark Skin 3" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -85,7 +85,7 @@
 		(skintone) = (dark) 
 	} 
 	{ 
-		(desc_id) = (Tan Skin 1) 
+		(desc_id) = (%"Tan Skin 1") 
 		(frontend_desc) = #"Tan Skin 1" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -98,7 +98,7 @@
 		(skintone) = (tan) 
 	} 
 	{ 
-		(desc_id) = (Tan Skin 2) 
+		(desc_id) = (%"Tan Skin 2") 
 		(frontend_desc) = #"Tan Skin 2" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -111,7 +111,7 @@
 		(skintone) = (tan) 
 	} 
 	{ 
-		(desc_id) = (Tan Skin 3) 
+		(desc_id) = (%"Tan Skin 3") 
 		(frontend_desc) = #"Tan Skin 3" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -124,7 +124,7 @@
 		(skintone) = (tan) 
 	} 
 	{ 
-		(desc_id) = (Grey Skin 1) 
+		(desc_id) = (%"Grey Skin 1") 
 		(frontend_desc) = #"Grey Skin 1" 
 		(mesh) = "models/skater_female/head_Female_01.skin" 
 		(replace) = "CS_NSN_F_wht_Head01" 
@@ -306,7 +306,7 @@
 		(hair_type) = (Mohawk) 
 	} 
 	{ 
-		(desc_id) = (Mohawk 2) 
+		(desc_id) = (%"Mohawk 2") 
 		(frontend_desc) = #"Mohawk 2" 
 		(mesh) = "models/skater_female/Hair_F_Mohawk2.skin" 
 		(hair_type) = (Mohawk) 
@@ -315,7 +315,7 @@
 		(default_v) = 56 
 	} 
 	{ 
-		(desc_id) = (Mohawk 3) 
+		(desc_id) = (%"Mohawk 3") 
 		(frontend_desc) = #"Mohawk 3" 
 		(mesh) = "models/skater_female/Hair_F_Mohawk.skin" 
 		(hair_type) = (Mohawk) 
@@ -324,7 +324,7 @@
 		(default_v) = 50 
 	} 
 	{ 
-		(desc_id) = (Liberty Spikes) 
+		(desc_id) = (%"Liberty Spikes") 
 		(frontend_desc) = #"Liberty Spikes" 
 		(mesh) = "models/skater_male/Hair_M_LibertySpikes.skin" 
 		(hair_type) = (Mohawk) 
@@ -364,7 +364,7 @@
 		(no_color) 
 	} 
 	{ 
-		(desc_id) = (T-shirt) 
+		(desc_id) = (%"T-shirt") 
 		(frontend_desc) = #"T-Shirt" 
 		(mesh) = "models/skater_female/shirt_tshirt.skin" 
 		(replace) = "CS_NSN_F_TShirt01.png" 
@@ -376,7 +376,7 @@
 		(force_big_elbowpads) 
 	} 
 	{ 
-		(desc_id) = (Shirt line) 
+		(desc_id) = (%"Shirt line") 
 		(frontend_desc) = #"Shirt Line" 
 		(mesh) = "models/skater_female/shirt_tshirt.skin" 
 		(supports_logo) 
@@ -384,7 +384,7 @@
 		(force_big_elbowpads) 
 	} 
 	{ 
-		(desc_id) = (Camo T-shirt) 
+		(desc_id) = (%"Camo T-shirt") 
 		(frontend_desc) = #"Camo T-Shirt" 
 		(mesh) = "models/skater_female/shirt_tshirt.skin" 
 		(replace) = "CS_NSN_F_TShirt01.png" 
@@ -408,7 +408,7 @@
 		(force_big_elbowpads) 
 	} 
 	{ 
-		(desc_id) = (Tie-Dye) 
+		(desc_id) = (%"Tie-Dye") 
 		(frontend_desc) = #"Tie-Dye" 
 		(mesh) = "models/skater_female/shirt_tshirt.skin" 
 		(replace) = "CS_NSN_F_TShirt01.png" 
@@ -420,13 +420,13 @@
 		(force_big_elbowpads) 
 	} 
 	{ 
-		(desc_id) = (Button Open SS) 
+		(desc_id) = (%"Button Open SS") 
 		(frontend_desc) = #"Button Open SS" 
 		(mesh) = "models/skater_female/shirt_button_open_ss.skin" 
 		(force_big_elbowpads) 
 	} 
 	{ 
-		(desc_id) = (Button Open LS) 
+		(desc_id) = (%"Button Open LS") 
 		(frontend_desc) = #"Button Open LS" 
 		(mesh) = "models/skater_female/Shirt_button_open_ls.skin" 
 		(multicolor) = 1 
@@ -436,12 +436,12 @@
 		ENDSCRIPT
 
 	} 
-	{ (desc_id) = (Halter Top) 
+	{ (desc_id) = (%"Halter Top") 
 		(frontend_desc) = #"Halter Top" 
 		(mesh) = "models/skater_female/Shirt_haltertop.skin" 
 	} 
 	{ 
-		(desc_id) = (Baseball-T) 
+		(desc_id) = (%"Baseball-T") 
 		(frontend_desc) = #"Baseball-T" 
 		(mesh) = "models/skater_female/Shirt_baseball-t.skin" 
 		(supports_logo) 
@@ -459,7 +459,7 @@
 		(no_back_logo) 
 	} 
 	{ 
-		(desc_id) = (Button SS) 
+		(desc_id) = (%"Button SS") 
 		(frontend_desc) = #"Button SS" 
 		(mesh) = "models/skater_female/shirt_button_ss.skin" 
 	} 
@@ -484,7 +484,7 @@
 		(multicolor) = 1 
 	} 
 	{ 
-		(desc_id) = (T-shirt Long Sleeve) 
+		(desc_id) = (%"T-shirt Long Sleeve") 
 		(frontend_desc) = #"T-shirt Long Sleeve" 
 		(mesh) = "models/skater_female/shirt_T_longsleeve.skin" 
 		(supports_logo) 
@@ -499,7 +499,7 @@
 		(default_v) = 52 
 	} 
 	{ 
-		(desc_id) = (Button LS) 
+		(desc_id) = (%"Button LS") 
 		(frontend_desc) = #"Button LS" 
 		(mesh) = "models/skater_female/shirt_button_ls.skin" 
 		(force_big_elbowpads) 
@@ -512,7 +512,7 @@
 		(default_v) = 44 
 	} 
 	{ 
-		(desc_id) = (V-Neck) 
+		(desc_id) = (%"V-Neck") 
 		(frontend_desc) = #"V-Neck" 
 		(mesh) = "models/skater_female/shirt_SSVneck.skin" 
 		(multicolor) = 1 
@@ -525,7 +525,7 @@
 		(not_with_backpack) 
 	} 
 	{ 
-		(desc_id) = (Tanktop short) 
+		(desc_id) = (%"Tanktop short") 
 		(frontend_desc) = #"Tanktop Short" 
 		(mesh) = "models/skater_female/shirt_tanktop_2.skin" 
 		(supports_logo) 
@@ -539,7 +539,7 @@
 		(no_back_logo) 
 	} 
 	{ 
-		(desc_id) = (Tie-Dye Tank) 
+		(desc_id) = (%"Tie-Dye Tank") 
 		(frontend_desc) = #"Tie-Dye Tank" 
 		(mesh) = "models/skater_female/shirt_tanktop.skin" 
 		(replace) = "CS_Nsn_female_tanktop.png" 
@@ -548,7 +548,7 @@
 		(no_back_logo) 
 	} 
 	{ 
-		(desc_id) = (Floral Tank) 
+		(desc_id) = (%"Floral Tank") 
 		(frontend_desc) = #"Floral Tank" 
 		(mesh) = "models/skater_female/shirt_tanktop.skin" 
 		(replace) = "CS_Nsn_female_tanktop.png" 
@@ -557,7 +557,7 @@
 		(no_back_logo) 
 	} 
 	{ 
-		(desc_id) = (Denim Jacket) 
+		(desc_id) = (%"Denim Jacket") 
 		(frontend_desc) = #"Denim Jacket" 
 		(mesh) = "models/skater_female/shirt_denimjacket.skin" 
 		(shows_panties) 
@@ -570,14 +570,14 @@
 
 	} 
 	{ 
-		(desc_id) = (Baggy Vest) 
+		(desc_id) = (%"Baggy Vest") 
 		(frontend_desc) = #"Baggy Vest" 
 		(mesh) = "models/skater_female/shirt_baggyvest.skin" 
 		(shows_panties) 
 		(not_with_backpack) 
 	} 
 	{ 
-		(desc_id) = (Leather Vest) 
+		(desc_id) = (%"Leather Vest") 
 		(frontend_desc) = #"Leather Vest" 
 		(mesh) = "models/skater_female/shirt_baggyvest.skin" 
 		(replace) = "CS_NH_baggyvest.png" 
@@ -586,7 +586,7 @@
 		(not_with_backpack) 
 	} 
 	{ 
-		(desc_id) = (Hoody Up) 
+		(desc_id) = (%"Hoody Up") 
 		(frontend_desc) = #"Hoody Up" 
 		(mesh) = "models/skater_female/shirt_F_Hoodyup.skin" 
 		(supports_logo) 
@@ -604,7 +604,7 @@
 		(default_v) = 26 
 	} 
 	{ 
-		(desc_id) = (Hoody Down) 
+		(desc_id) = (%"Hoody Down") 
 		(frontend_desc) = #"Hoody Down" 
 		(mesh) = "models/skater_female/shirt_F_Hoodydown.skin" 
 		(supports_logo) 
@@ -620,18 +620,18 @@
 		(default_v) = 34 
 	} 
 	{ 
-		(desc_id) = (Tube Top) 
+		(desc_id) = (%"Tube Top") 
 		(frontend_desc) = #"Tube Top" 
 		(mesh) = "models/skater_female/shirt_tube.skin" 
 	} 
 	{ 
-		(desc_id) = (Coconut Bra) 
+		(desc_id) = (%"Coconut Bra") 
 		(frontend_desc) = #"Coconut Bra" 
 		(mesh) = "models/skater_female/shirt_coconutbra.skin" 
 		(not_with_backpack) 
 	} 
 	{ 
-		(desc_id) = (Russian coat) 
+		(desc_id) = (%"Russian coat") 
 		(frontend_desc) = #"Russian coat" 
 		(mesh) = "models/skater_male/shirt_jacket_bomber.skin" 
 		(not_with_backpack) 
@@ -644,7 +644,7 @@
 		(multicolor) = 1 
 	} 
 	{ 
-		(desc_id) = (Jogger Jacket) 
+		(desc_id) = (%"Jogger Jacket") 
 		(frontend_desc) = #"Jogger Jacket" 
 		(mesh) = "models/skater_female/shirt_jogger.skin" 
 		(not_with_elbowpads) 
@@ -671,7 +671,7 @@
 		(shows_panties) 
 	} 
 	{ 
-		(desc_id) = (Shorts Denim) 
+		(desc_id) = (%"Shorts Denim") 
 		(frontend_desc) = #"Shorts Denim" 
 		(mesh) = "models/skater_female/pant_shorts.skin" 
 		(replace) = "CAS_CRS_Shorts_Cargo.png" 
@@ -679,13 +679,13 @@
 		(shows_panties) 
 	} 
 	{ 
-		(desc_id) = (Short Shorts Denim) 
+		(desc_id) = (%"Short Shorts Denim") 
 		(frontend_desc) = #"Short Shorts Denim" 
 		(mesh) = "models/skater_female/pant_shortshorts.skin" 
 		(shows_panties) 
 	} 
 	{ 
-		(desc_id) = (Short Flowers) 
+		(desc_id) = (%"Short Flowers") 
 		(frontend_desc) = #"Short Flowers" 
 		(mesh) = "models/skater_female/pant_shortshorts.skin" 
 		(replace) = "CAS_CRS_Shorts_Denim.png" 
@@ -693,12 +693,12 @@
 		(shows_panties) 
 	} 
 	{ 
-		(desc_id) = (Shorts Daisy) 
+		(desc_id) = (%"Shorts Daisy") 
 		(frontend_desc) = #"Shorts Daisy" 
 		(mesh) = "models/skater_female/pant_daisy.skin" 
 	} 
 	{ 
-		(desc_id) = (Mini Skirt) 
+		(desc_id) = (%"Mini Skirt") 
 		(frontend_desc) = #"Mini Skirt" 
 		(mesh) = "models/skater_female/pant_miniskirt.skin" 
 		(default_h) = 200 
@@ -740,7 +740,7 @@
 		(covers_socks) 
 	} 
 	{ 
-		(desc_id) = (Snow Pants) 
+		(desc_id) = (%"Snow Pants") 
 		(frontend_desc) = #"Snow Pants" 
 		(mesh) = "models/skater_male/pants_baggy.skin" 
 		(replace) = "CS_NSN_pants_denim01.png" 
@@ -749,7 +749,7 @@
 		(covers_socks) 
 	} 
 	{ 
-		(desc_id) = (Camo Pants) 
+		(desc_id) = (%"Camo Pants") 
 		(frontend_desc) = #"Camo Pants" 
 		(mesh) = "models/skater_female/pant_baggy.skin" 
 		(replace) = "CS_NSN_pants_feamle.png" 
@@ -758,7 +758,7 @@
 		(covers_socks) 
 	} 
 	{ 
-		(desc_id) = (Stripe Pants) 
+		(desc_id) = (%"Stripe Pants") 
 		(frontend_desc) = #"Stripe Pants" 
 		(mesh) = "models/skater_female/pant_regular.skin" 
 		(replace) = "CS_NSN_pants_feamle.png" 
@@ -777,7 +777,7 @@
 		(covers_socks) 
 	} 
 	{ 
-		(desc_id) = (Ankle Pants) 
+		(desc_id) = (%"Ankle Pants") 
 		(frontend_desc) = #"Ankle Pants" 
 		(mesh) = "models/skater_female/pant_ankle.skin" 
 		(shows_panties) 
@@ -866,7 +866,7 @@
 		(is_backpack) 
 	} 
 	{ 
-		(desc_id) = (Backpack 2) 
+		(desc_id) = (%"Backpack 2") 
 		(frontend_desc) = #"Backpack 2" 
 		(mesh) = "models/skater_male/extra_backpack.skin" 
 		(replace) = "CAS_TZ_Backpack02.png" 
@@ -874,13 +874,13 @@
 		(is_backpack) 
 	} 
 	{ 
-		(desc_id) = (Backpack 3) 
+		(desc_id) = (%"Backpack 3") 
 		(frontend_desc) = #"Backpack 3" 
 		(mesh) = "models/skater_male/extra_backpack02.skin" 
 		(is_backpack) 
 	} 
 	{ 
-		(desc_id) = (Backpack 4) 
+		(desc_id) = (%"Backpack 4") 
 		(frontend_desc) = #"Backpack 4" 
 		(mesh) = "models/skater_male/extra_backpack02.skin" 
 		(replace) = "CAS_TZ_Backpack03.png" 

@@ -482,7 +482,7 @@
 ] 
 (ped_body) = [ 
 	{ 
-		(desc_id) = (Bum 01) 
+		(desc_id) = (%"Bum 01") 
 		(mesh) = "models/peds/ped_Bum1/ped_Bum1.skin" 
 		(no_random) 
 	} 
@@ -492,53 +492,53 @@
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Crack Head) 
+		(desc_id) = (%"Crack Head") 
 		(mesh) = "models/peds/ped_crackhead/ped_crackhead.skin" 
 		(body_shape) = (female_scale_info) 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Drug dealer 01) 
+		(desc_id) = (%"Drug dealer 01") 
 		(mesh) = "models/peds/ped_Drugdealer1/Ped_Drugdealer1.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Drug dealer 02) 
+		(desc_id) = (%"Drug dealer 02") 
 		(mesh) = "models/peds/ped_Drugdealer2/Ped_Drugdealer2.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Drug dealer 03) 
+		(desc_id) = (%"Drug dealer 03") 
 		(mesh) = "models/peds/ped_Drugdealer3/Ped_Drugdealer3.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Factory Worker 01) 
+		(desc_id) = (%"Factory Worker 01") 
 		(mesh) = "models/peds/ped_FactoryWorker1/Ped_FactoryWorker1.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Factory Worker 02) 
+		(desc_id) = (%"Factory Worker 02") 
 		(mesh) = "models/peds/ped_FactoryWorker2/Ped_FactoryWorker2.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Street Warrior 01) 
+		(desc_id) = (%"Street Warrior 01") 
 		(mesh) = "models/peds/ped_StreetWarrior1/ped_StreetWarrior1.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Street Warrior 02) 
+		(desc_id) = (%"Street Warrior 02") 
 		(mesh) = "models/peds/ped_StreetWarrior2/ped_StreetWarrior2.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Street Warrior 03) 
+		(desc_id) = (%"Street Warrior 03") 
 		(mesh) = "models/peds/ped_StreetWarrior3/ped_StreetWarrior3.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Security Train) 
+		(desc_id) = (%"Security Train") 
 		(mesh) = "models/peds/ped_Security_Train/ped_Security_Train.skin" 
 		(no_random) 
 		(body_shape) = (Fatman_scale_info) 
@@ -549,37 +549,37 @@
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (BusinessMan 01) 
+		(desc_id) = (%"BusinessMan 01") 
 		(mesh) = "models/peds/ped_BusinessMan1/ped_BusinessMan1.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (BusinessMan 02) 
+		(desc_id) = (%"BusinessMan 02") 
 		(mesh) = "models/peds/ped_BusinessMan2/ped_BusinessMan2.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (BusinessMan 03) 
+		(desc_id) = (%"BusinessMan 03") 
 		(mesh) = "models/peds/ped_BusinessMan3/ped_BusinessMan3.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Businesswoman 01) 
+		(desc_id) = (%"Businesswoman 01") 
 		(mesh) = "models/peds/Ped_Businesswoman/Ped_Businesswoman.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (BlkKid 01) 
+		(desc_id) = (%"BlkKid 01") 
 		(mesh) = "models/peds/Ped_BlkKid1/Ped_BlkKid1.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (BlkKid 02) 
+		(desc_id) = (%"BlkKid 02") 
 		(mesh) = "models/peds/Ped_BlkKid2/Ped_BlkKid2.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (BlkKid 03) 
+		(desc_id) = (%"BlkKid 03") 
 		(mesh) = "models/peds/Ped_BlkKid3/Ped_BlkKid3.skin" 
 		(no_random) 
 	} 
@@ -594,22 +594,22 @@
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Dancer 01) 
+		(desc_id) = (%"Dancer 01") 
 		(mesh) = "models/peds/Ped_F_Dancer1/Ped_F_Dancer1.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Dancer 02) 
+		(desc_id) = (%"Dancer 02") 
 		(mesh) = "models/peds/Ped_F_Dancer2/Ped_F_Dancer2.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (M_NYPD 01) 
+		(desc_id) = (%"M_NYPD 01") 
 		(mesh) = "models/peds/Ped_NYPD_M/Ped_M_NYPD.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (F_NYPD 01) 
+		(desc_id) = (%"F_NYPD 01") 
 		(mesh) = "models/peds/Ped_NYPD_F/Ped_F_NYPD.skin" 
 		(no_random) 
 	} 
@@ -679,17 +679,17 @@
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Doorman 01) 
+		(desc_id) = (%"Doorman 01") 
 		(mesh) = "models/peds/Ped_Doorman/Ped_Doorman.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Deskclerk 01) 
+		(desc_id) = (%"Deskclerk 01") 
 		(mesh) = "models/peds/Ped_deskclerk1/Ped_Deskclerk1.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (F_Deskclerk 01) 
+		(desc_id) = (%"F_Deskclerk 01") 
 		(mesh) = "models/peds/Ped_F_Deskclerk/Ped_F_Deskclerk.skin" 
 		(no_random) 
 	} 
@@ -699,72 +699,72 @@
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Official SC 01) 
+		(desc_id) = (%"Official SC 01") 
 		(mesh) = "models/peds/Ped_Official_SC/Ped_Official_SC.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped A 01) 
+		(desc_id) = (%"Monster Ped A 01") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdA_01.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped A 01B) 
+		(desc_id) = (%"Monster Ped A 01B") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdA_01B.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped A 02) 
+		(desc_id) = (%"Monster Ped A 02") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdA_02.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped A 03) 
+		(desc_id) = (%"Monster Ped A 03") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdA_03.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped A 04) 
+		(desc_id) = (%"Monster Ped A 04") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdA_04.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped B 01) 
+		(desc_id) = (%"Monster Ped B 01") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdB_01.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped B 02) 
+		(desc_id) = (%"Monster Ped B 02") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdB_02.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped B 03) 
+		(desc_id) = (%"Monster Ped B 03") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdB_03.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped B 04) 
+		(desc_id) = (%"Monster Ped B 04") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdB_04.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped C 01) 
+		(desc_id) = (%"Monster Ped C 01") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdC_01.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped C 02) 
+		(desc_id) = (%"Monster Ped C 02") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdC_02.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped C 03) 
+		(desc_id) = (%"Monster Ped C 03") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdC_03.skin" 
 		(no_random) 
 	} 
 	{ 
-		(desc_id) = (Monster Ped C 04) 
+		(desc_id) = (%"Monster Ped C 04") 
 		(mesh) = "models/Peds/Ped_Crowds\\Ped_CrowdC_04.skin" 
 		(no_random) 
 	} 

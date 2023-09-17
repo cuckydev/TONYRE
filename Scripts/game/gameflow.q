@@ -194,7 +194,7 @@ SCRIPT (GameFlow_StartRun)
 	IF NOT (LevelIs) (load_skateshop) 
 		IF (GameModeEquals) (is_singlesession) 
 			(GoalManager_SetEndRunType) (name) = (TrickAttack) (EndOfRun) 
-			(GoalManager_EditGoal) (name) = (TrickAttack) (params) = { (time) = 120 (restart_node) = (P1: Restart) } 
+			(GoalManager_EditGoal) (name) = (TrickAttack) (params) = { (time) = 120 (restart_node) = (%"P1: Restart") } 
 		ENDIF 
 	ENDIF 
 	IF (InSplitScreenGame) 

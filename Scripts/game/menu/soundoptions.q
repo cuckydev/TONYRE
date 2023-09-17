@@ -1,5 +1,5 @@
 
-(current_soundtrack) = () 
+(current_soundtrack) = (%"") 
 SCRIPT (launch_sound_options_menu) 
 	IF (GotParam) (from_options) 
 		(create_sound_options_menu) (from_options) 
@@ -42,7 +42,8 @@ SCRIPT (create_sound_options_menu)
 		(pad_choose_script) = (skip_track) 
 		(pad_choose_params) = { } 
 	} 
-	IF NOT (isxbox) 
+	
+	IF (isxbox) 
 		IF NOT ( (DEMO_BUILD) ) 
 			(theme_menu_add_item) { (text) = "Soundtrack" 
 				(id) = (menu_soundtrack) 
@@ -52,7 +53,7 @@ SCRIPT (create_sound_options_menu)
 		ENDIF 
 	ENDIF 
 	IF NOT (inNetGame) 
-		IF ( (current_soundtrack) = () ) 
+		IF ( (current_soundtrack) = (%"") ) 
 			(theme_menu_add_item) { (text) = "Playlist" 
 				(id) = (menu_playlist) 
 				(pad_choose_script) = (create_playlist_menu) 
@@ -255,7 +256,7 @@ SCRIPT (GetTracksEnabled)
 ENDSCRIPT
 
 SCRIPT (add_music_track_text) (parent) = (current_menu_anchor) (pos) = PAIR(575.00000000000, 320.00000000000) 
-	IF NOT ( (current_soundtrack) = () ) 
+	IF NOT ( (current_soundtrack) = (%"") ) 
 		RETURN 
 	ENDIF 
 	(GetTracksEnabled) 
@@ -1463,7 +1464,7 @@ SCRIPT (set_loaded_soundtrack)
 		RETURN 
 	ENDIF 
 	(current_soundtrack_exists) 
-	IF NOT ( (current_soundtrack) = () ) 
+	IF NOT ( (current_soundtrack) = (%"") ) 
 		(StopMusic) 
 	ENDIF 
 	IF ( <index> = -1 ) 
