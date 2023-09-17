@@ -126,12 +126,12 @@ private :
 **								Inline Functions							**
 *****************************************************************************/
 
-inline int Region::TotalSize( void )
-{
-	
-		
-	return ((int)mp_end - (int)mp_start);
-}
+//inline int Region::TotalSize( void )
+//{
+//
+//
+//	return ((int)mp_end - (int)mp_start);
+//}
 
 /******************************************************************/
 /*                                                                */
