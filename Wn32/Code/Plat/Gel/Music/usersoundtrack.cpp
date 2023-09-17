@@ -11,6 +11,8 @@ namespace UserSoundtrack
 	{
 		// Get user soundtrack path
 		std::filesystem::path usersoundtrack_path = File::ModulePath() / "Soundtracks";
+		if (!std::filesystem::exists(usersoundtrack_path))
+			return Soundtracks();
 
 		// Iterate over folders in user soundtrack path
 		Soundtracks soundtracks;
@@ -26,7 +28,7 @@ namespace UserSoundtrack
 				soundtrack.name.reserve(name.size());
 				for (auto &c : name)
 				{
-					if (c >= 0x20 && c < 0x80)
+					if ((unsigned char)c >= 0x20 && (unsigned char)c < 0x80)
 						soundtrack.name.push_back(c);
 					else
 						soundtrack.name.push_back('?');
