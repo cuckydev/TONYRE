@@ -71,7 +71,7 @@ void CheckForPossibleInfiniteLoops(uint32 scriptName, uint8 *p_token, const char
 	Script::CArray *p_blocking_functions=Script::GetArray(Crc::ConstCRC("BlockingFunctions"));
 	
 			
-	while (*p_token!=ESCRIPTTOKEN_KEYWORD_ENDSCRIPT) 
+	while (*p_token != ESCRIPTTOKEN_KEYWORD_ENDSCRIPT) 
 	{
 		switch (*p_token)
 		{
@@ -1245,7 +1245,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 
 	#ifdef __NOPT_ASSERT__
-	CheckForPossibleInfiniteLoops(nameChecksum,(uint8*)(uint32)p_data, p_fileName);
+	CheckForPossibleInfiniteLoops(nameChecksum,(uint8*)p_data, p_fileName);
 	#endif
 
 	CSymbolTableEntry *p_new=CreateNewSymbolEntry(nameChecksum);

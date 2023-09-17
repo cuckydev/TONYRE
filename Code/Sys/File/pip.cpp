@@ -49,33 +49,33 @@ enum EQuadAligned
 
 struct SPreHeader
 {
-	int		mSize;
-	int		mVersion;
-	int		mNumFiles;
+	uint32 mSize;
+	uint32 mVersion;
+	uint32 mNumFiles;
 };
 
 
 struct SPreContained
 {
-	uint32	mDataSize;
-	uint32	mCompressedSize;
-	uint16	mNameSize;
+	uint32 mDataSize;
+	uint32 mCompressedSize;
+	uint16 mNameSize;
 
 	// In makepre.cpp, mNameSize is stored in 4 bytes. When the pre is in memory though, I'm
 	// borrowing the two high bytes to use as a usage indicator to indicate whether this
 	// contained file is 'open', ie has had Load called on it. The count value is the number
 	// of times the file has been opened using Load. Gets decremented when Unload is called.
 	// (The LoadPre function checks that they are all zero to start with when a new pre is loaded)
-	uint16  mUsage;
+	uint16 mUsage;
 
 	// Mick - added space for a checksum of mpName
 	// as otherwise we spend over five seconds at boot up in re-calculating checksums n^2 times	
-	uint32 	mChecksum;
+	uint32	mChecksum;
 	
 	// Keep mpName the last member of this struct, cos I calculate the space used by the other
 	// members by subtracting &p->mDataSize from p->mpName.
 	// mpName will probably not move anyway, cos this strcture is part of the pre file format.
-	char	mpName[1];
+	char mpName[1];
 };
 
 
@@ -149,7 +149,7 @@ static SPreContained *sSkipToNextPreContained(SPreContained *p_preContained, EQu
 
 //	printf ("p_preContained = %p\n, total_data = %d, name = (%p) %s",p_preContained,total_data_size,p_preContained->mpName,p_preContained->mpName);
 	
-	uint32 p_next=(uint32)p_preContained->mpName;
+	uintptr_t p_next = (uintptr_t)p_preContained->mpName;
 	p_next+=p_preContained->mNameSize;
 	if (quadWordAlignedData)
 	{
@@ -164,9 +164,9 @@ static SPreHeader *sSkipOverPreName(const char *p_pre_name)
 {
 	Dbg_MsgAssert(p_pre_name,("nullptr p_pre_name"));
 
-	int len=strlen(p_pre_name)+1; // +1 for terminator
-	len=(len+15)&~15;	// Round up to a multiple of 16
-	return (SPreHeader*)(p_pre_name+len);
+	size_t len = strlen(p_pre_name) + 1; // +1 for terminator
+	len = (len + 15) & ~15;	// Round up to a multiple of 16
+	return (SPreHeader*)(p_pre_name + len);
 }
 
 // Loads a pre file into memory. The name must have no path since the pre is
@@ -177,12 +177,12 @@ void LoadPre(const char *p_preFileName)
 	Dbg_MsgAssert(p_preFileName,("nullptr p_preFileName"));
 
 	// Check to see if the pre is already loaded, and return without doing anything if it is.
-	for (int i=0; i<MAX_PRE_FILES; ++i)
+	for (int i = 0; i < MAX_PRE_FILES; ++i)
 	{
 		if (spp_pre_files[i])
 		{
 			// Do a case-insensitive comparison.
-			if (_stricmp(spp_pre_files[i],p_preFileName)==0)
+			if (_stricmp(spp_pre_files[i], p_preFileName)==0)
 			{
 				// Found it! Nothing to do.
 				return;
@@ -192,8 +192,8 @@ void LoadPre(const char *p_preFileName)
 
 	// Not loaded already, so need to load it.
 	// Find a spare slot ...
-	int spare_index=-1;
-	for (int pre=0; pre<MAX_PRE_FILES; ++pre)
+	int spare_index = -1;
+	for (int pre = 0; pre < MAX_PRE_FILES; ++pre)
 	{
 		if (!spp_pre_files[pre])
 		{
@@ -201,7 +201,7 @@ void LoadPre(const char *p_preFileName)
 			break;
 		}
 	}
-	Dbg_MsgAssert(spare_index!=-1, ("Reached limit of %d pre files loaded at once.",MAX_PRE_FILES));
+	Dbg_MsgAssert(spare_index != -1, ("Reached limit of %d pre files loaded at once.", MAX_PRE_FILES));
 
 	// Prefix with 'pre\'
 	char p_full_pre_name[500];
@@ -214,10 +214,8 @@ void LoadPre(const char *p_preFileName)
 
 	// Calculate the space needed to store the pre name, which will get stuck before the
 	// file data.
-	int name_size=strlen(p_preFileName)+1;
-	name_size=(name_size+15)&~15;
-
-
+	size_t name_size = strlen(p_preFileName) + 1;
+	name_size = (name_size + 15) & ~15;
 
 	char *p_old_file_data=nullptr;
 	uint32 original_file_size = File::CanFileBeLoadedQuickly( p_full_pre_name );
@@ -389,9 +387,9 @@ void LoadPre(const char *p_preFileName)
 		// cause the new data to overwrite the contents of p_source_contained.
 		SPreContained *p_next_source_contained=sSkipToNextPreContained(p_source_contained,NOT_QUAD_WORD_ALIGNED);
 
-		uint8 *p_file_source=(uint8*)(p_source_contained->mpName+p_source_contained->mNameSize);
-		uint8 *p_file_dest=(uint8*)(p_dest_contained->mpName+p_dest_contained->mNameSize);
-		p_file_dest = (uint8*)(((uint32)p_file_dest + 15) & ~15);
+		uint8 *p_file_source=(uint8*)(p_source_contained->mpName + p_source_contained->mNameSize);
+		uint8 *p_file_dest=(uint8*)(p_dest_contained->mpName + p_dest_contained->mNameSize);
+		p_file_dest = (uint8*)(((uintptr_t)p_file_dest + 15) & ~15);
 
 		if (p_source_contained->mCompressedSize)
 		{
@@ -570,6 +568,7 @@ static const char *sGetPreName(SPreContained *p_contained_file)
 
 void* Load(const char* p_fileName)
 {
+	std::cout << "PIP LOADING " << p_fileName << std::endl;
 	uint32 filename_checksum=Crc::GenerateCRCFromString(p_fileName);
 	
 	// First, see if the file is in one of the loaded pre files.
