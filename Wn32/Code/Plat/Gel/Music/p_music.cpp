@@ -105,12 +105,15 @@ namespace Pcm
 		public:
 			MusicDecoder(std::filesystem::path path) : file(path, std::ios::binary)
 			{
+				if (!file.is_open())
+					return;
+
 				ma_decoder_config config = ma_decoder_config_init(ma_format_f32, 5, 48000);
 				ma_decoder_init(
 					[](ma_decoder *pDecoder, void *pBufferOut, size_t bytesToRead, size_t *pBytesRead) -> ma_result
 					{
-						MusicDecoder *self = (MusicDecoder *)pDecoder->pUserData;
-						self->file.read((char*)pBufferOut, bytesToRead);
+						MusicDecoder *self = (MusicDecoder*)pDecoder->pUserData;
+						self->file.read((char *)pBufferOut, bytesToRead);
 						if (pBytesRead != nullptr)
 							*pBytesRead = self->file.gcount();
 						return MA_SUCCESS;
@@ -140,6 +143,9 @@ namespace Pcm
 
 			~MusicDecoder()
 			{
+				if (!file.is_open())
+					return;
+				
 				// Close decoder
 				ma_decoder_uninit(&decoder);
 			}
@@ -147,11 +153,17 @@ namespace Pcm
 		private:
 			void Rewind() override
 			{
+				if (!file.is_open())
+					return;
+
 				ma_decoder_seek_to_pcm_frame(&decoder, 0);
 			}
 
 			size_t Stream(char *p, size_t bytes) override
 			{
+				if (!file.is_open())
+					return 0;
+
 				// Read from decoder
 				ma_uint64 frames_read = 0;
 				ma_decoder_read_pcm_frames(&decoder, p, bytes / (sizeof(float) * 5), &frames_read);
@@ -185,6 +197,9 @@ namespace Pcm
 
 	static std::unordered_map<uint32, std::string> Index(std::filesystem::path path)
 	{
+		if (!std::filesystem::exists(path))
+			return {};
+
 		std::unordered_map<uint32, std::string> paths;
 		for (auto &i : std::filesystem::recursive_directory_iterator(path))
 		{
