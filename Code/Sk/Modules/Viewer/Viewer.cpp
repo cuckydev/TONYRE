@@ -667,15 +667,6 @@ int CViewer::s_handle_run_script_command( Net::MsgHandlerContext* context )
 
 void CViewer::AddViewerObject( Script::CStruct* pParams )
 {
-	if (Config::GotExtraMemory())
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-	}
-	else
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	}
-		
 	// if the viewer object exists already,
 	// clear it out
 	if ( mp_viewerObject )
@@ -686,8 +677,6 @@ void CViewer::AddViewerObject( Script::CStruct* pParams )
 	Dbg_Assert( !mp_viewerObject );
 	mp_viewerObject = new Obj::CViewerObject( mp_server );
 	mp_viewerObject->LoadModel( pParams );
-	
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -714,12 +703,6 @@ void	CViewer::v_start_cb ( void )
 {
 	Inp::Manager* inp_manager = Inp::Manager::Instance();
 	Mlp::Manager* mlp_manager = Mlp::Manager::Instance();
-
-	#ifdef		__USE_PROFILER__	
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ProfilerHeap());
-	#else
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-	#endif
 
 	// Sorry Steve, but we need the shift input handler on the CD, so I'm going
 	// to have to start this module all the time.
@@ -768,8 +751,6 @@ void	CViewer::v_start_cb ( void )
 	printf("Adding shift input handlers\n)");	
 	inp_manager->AddHandler( *mp_shift_input_handler );
 	mlp_manager->AddLogicTask( *mp_shift_logic_task );
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/

@@ -272,7 +272,7 @@ public:
 
 	void DodgyTest();
 
-	enum	EPushStyle
+	enum	EPushStyle : uint32
 	{
 		vNEVER_MONGO = 0x8b966093,			// "never_mongo"
 		vALWAYS_MONGO = 0x16c6df0b,			// "always_mongo"

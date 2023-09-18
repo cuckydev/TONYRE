@@ -1361,6 +1361,7 @@ bool ScriptRemoveComponent(Script::CStruct *pParams, Script::CScript *pScript)
 
 static uint32 s_get_bottom_up_free(bool includeFrag)
 {
+	/*
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
 	Mem::Heap* p_heap = mem_man.GetHeap( Crc::ConstCRC("BottomUpHeap") );
 	Mem::Region* p_region = p_heap->ParentRegion();
@@ -1370,6 +1371,8 @@ static uint32 s_get_bottom_up_free(bool includeFrag)
 		return p_heap->mFreeMem.m_count + p_region->MemAvailable();
 	}
 	return p_region->MemAvailable();
+	*/
+	return 0x7FFFFFFF;
 }
 
 // @script | SetScriptString | 
@@ -3078,9 +3081,7 @@ bool ScriptLoadMusicHeader( Script::CStruct *pParams, Script::CScript *pScript )
 	if ( pName )
 	{
 		// Mick:  Moved to BottomUpHeap, as it is a lot bigger now, and only loaded at startup
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 		bool done =  ( Pcm::LoadMusicHeader( pName ) );
-		Mem::Manager::sHandle().PopContext();
 		return done;
 		
 	}
@@ -3105,9 +3106,7 @@ bool ScriptLoadStreamHeader( Script::CStruct *pParams, Script::CScript *pScript 
 	if ( pName )
 	{
 		// Mick:  Moved to BottomUpHeap, as it is a lot bigger now, and only loaded at startup
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 		bool done = ( Pcm::LoadStreamHeader( pName ) );
-		Mem::Manager::sHandle().PopContext();
 		return done;
 	}
 	return ( false );
@@ -5575,15 +5574,11 @@ bool ScriptAddScene(Script::CStruct *pParams, Script::CScript *pScript)
 	pParams->GetText( "add",&p_add_name );
 	if (p_scene_name && p_add_name)
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-
 		#ifdef	__NOPT_ASSERT__
 		Nx::CScene * p_scene =
 		#endif
 		Nx::CEngine::sAddScene(p_scene_name, p_add_name);
 		Dbg_MsgAssert(p_scene,("ERROR adding scene for %s\n",p_scene_name));
-
-		Mem::Manager::sHandle().PopContext();
 	}
 
 	return true;
@@ -5730,6 +5725,7 @@ bool ScriptCreateFromNode( Script::CStruct *pNode )
 	}
 
 #ifdef __NOPT_ASSERT__
+	/*
 	Mem::Allocator* pCurrentHeapContext = Mem::Manager::sHandle().GetContextAllocator();
 	if ( !( pCurrentHeapContext == Mem::Manager::sHandle().CutsceneBottomUpHeap()
 		 || pCurrentHeapContext == Mem::Manager::sHandle().BottomUpHeap() ) )
@@ -5741,6 +5737,7 @@ bool ScriptCreateFromNode( Script::CStruct *pNode )
 		// was always the default context anyway...  i think.
 		Dbg_MsgAssert( 0, ( "Was expecting bottomupheap context" ) );
 	}
+	*/
 #endif
 
 	/*
@@ -5768,44 +5765,34 @@ bool ScriptCreateFromNode( Script::CStruct *pNode )
 	{
 		case 0xe47f1b79: //vehicle
 			Dbg_MsgLog(("Vehicle"));
-			Mem::PushMemProfile("Vehicles");
 			Obj::CreateCar( skate_mod->GetObjectManager(), pNode );
-			Mem::PopMemProfile();
 			break;
 	
 		case 0xa0dfac98:  //pedestrian
 		case 0x061a741e:  //ped
 			{
 				Dbg_MsgLog(("Pedestrian"));
-				Mem::PushMemProfile("Pedestrians");
 				Obj::CreatePed( skate_mod->GetObjectManager(), pNode );
-				Mem::PopMemProfile();
 			}
 			break;
 
 		case 0xef59c100:  //gameobject
 			{
 				Dbg_MsgLog(("gameobject"));
-				Mem::PushMemProfile("Game Objects");
 				Obj::CreateGameObj( skate_mod->GetObjectManager(), pNode );
-				Mem::PopMemProfile();
 			}
 			break;
 			
 		case 0x19b1e241: // ParticleEmitter
 			{
 				Dbg_MsgLog(("ParticleEmitter"));
-				Mem::PushMemProfile("Particle Systems");
 				Obj::CreateParticleEmitter( skate_mod->GetObjectManager(), pNode );
-				Mem::PopMemProfile();
 			}
 			break;
 		case 0x9e7d469e: // ParticleObject
 			{
 				Dbg_MsgLog(("ParticleObject"));
-				Mem::PushMemProfile("Particle Systems");
 				Obj::CreateParticleObject( skate_mod->GetObjectManager(), pNode );
-				Mem::PopMemProfile();
 			}
 			break;
 
@@ -5813,9 +5800,7 @@ bool ScriptCreateFromNode( Script::CStruct *pNode )
 			{
 				Dbg_MsgLog(("LevelObject"));
 				// create a level object here
-				Mem::PushMemProfile("LevelObjects");
 				Obj::CreateLevelObj( skate_mod->GetObjectManager(), pNode );
-				Mem::PopMemProfile();
 				// Note, we used to turn off the original sector here
 				// this is now done to all LevelObjects in ParseNodeArray
 			}
@@ -6463,8 +6448,6 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 	(void)pParams;
 	(void)pScript;
 
-	Mem::PushMemProfile("ParseNodeArray");
-
 	CleanupBeforeParseNodeArray();	
 
 	Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
@@ -6474,11 +6457,9 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 	Dbg_MsgAssert(pNodeArray,("No NodeArray found in ParseNodeArray"));
 
 	// Rails are now added seperately
-	Mem::PushMemProfile("Rail Nodes");
 	Obj::CRailManager *p_rail_man = skate_mod->GetRailManager();
-	Dbg_MsgAssert(p_rail_man,("Missing rail manager"));					 
-	p_rail_man->AddRailsFromNodeArray(pNodeArray );					 									  
-	Mem::PopMemProfile();
+	Dbg_MsgAssert(p_rail_man,("Missing rail manager"));
+	p_rail_man->AddRailsFromNodeArray(pNodeArray );
 	
 	// Nav nodes are added separately.
 #	ifdef TESTING_GUNSLINGER
@@ -6668,7 +6649,6 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 				// Only add trick objects is they are not flagged as absentinnetgames
 				if ( !skate_mod->ShouldBeAbsentNode( pNode ) && is_trick_object )
 				{
-					Mem::PushMemProfile("Trick Object Clusters");
 					// get the node name
 					pNode->GetChecksum( "name", &checksumName, true );
 	
@@ -6678,7 +6658,6 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 						
 					// add the environment object to this cluster
 					skate_mod->GetTrickObjectManager()->AddTrickObjectToCluster( checksumName, clusterName );
-					Mem::PopMemProfile();
 				}
 				break;
 			}
@@ -6704,16 +6683,12 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 				
 				if (ClassChecksum == 0x8470f2e) // checksum 'ProximNode'
 				{
-					Mem::PushMemProfile("Proximity Nodes");
 					Obj::Proxim_AddNode( i, pNode->ContainsFlag( 0x7c2552b9/*"CreatedAtStart"*/ ) );
-					Mem::PopMemProfile();
 				}
 				
 				if (ClassChecksum == 0xd64dc7c2) // checksum 'EmitterObject'
 				{
-					Mem::PushMemProfile("Emitter Objects");
 					Obj::CEmitterManager::sAddEmitter( i, pNode->ContainsFlag( 0x7c2552b9/*"CreatedAtStart"*/ ) );
-					Mem::PopMemProfile();
 				}
 
 				if ( pNode->ContainsFlag( 0x7c2552b9 /*"CreatedAtStart"*/ ) )
@@ -6817,9 +6792,6 @@ bool ScriptParseNodeArray( Script::CStruct *pParams, Script::CScript *pScript )
 		}
 	}	
 	
-
-	Mem::PopMemProfile(/*"ParseNodeArray"*/);
-
 	return true;
 }	
 
@@ -6836,8 +6808,7 @@ bool ScriptLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 {
 	(void)pParams;
 	(void)pScript;
-	Mem::PushMemProfile("LoadNodeArray");
-	
+
 	// Remove any spawned scripts that might have been left over from the previous level.
 	Script::DeleteSpawnedScripts();
 		
@@ -6871,8 +6842,7 @@ bool ScriptLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 		// not a park editor QB, parse as normal
 //		ScriptPreloadModels( nullptr, nullptr );
 	}
-	Mem::PopMemProfile(/*"LoadNodeArray"*/);
-	
+
 	return true;
 }
 
@@ -6893,9 +6863,6 @@ bool ScriptReLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 	(void)pParams;
 	(void)pScript;	
 	
-	// We try to use the Debug heap, as we assume we will be fragmenting memory like a jackass
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-	
 	const char *pFileName=LastNodeArrayLoaded;
 	// Load the QB
 	SkateScript::LoadQB(pFileName);
@@ -6912,8 +6879,6 @@ bool ScriptReLoadNodeArray(Script::CStruct *pParams, Script::CScript *pScript)
 		pStructure->AddInteger("nodeIndex", i);
 	}
 	
-	Mem::Manager::sHandle().PopContext();
-
 	return true;
 }
 
@@ -8337,7 +8302,7 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 		//skate_mod->UnloadSkaters();
 		// as we're leaving a level,
 		// clean up any additional heaps we might have allocated for the other skaters...
-		Mem::Manager::sHandle().DeleteSkaterHeaps();
+		// Mem::Manager::sHandle().DeleteSkaterHeaps();
 	}
 
 
@@ -8365,82 +8330,12 @@ bool ScriptCleanup(Script::CStruct *pParams, Script::CScript *pScript)
 	if( skate_mod->ShouldAllocateNetMiscHeap())
 	{
 		Dbg_Printf( "****** LEVEL: 0x%x  0x%x 0x%x\n", skate_mod->m_requested_level, skate_mod->m_cur_level, skate_mod->m_prev_level );
-		Mem::Manager::sHandle().InitNetMiscHeap();
+		// Mem::Manager::sHandle().InitNetMiscHeap();
 	}
 	else
 	{
-		Mem::Manager::sHandle().DeleteNetMiscHeap();
+		// Mem::Manager::sHandle().DeleteNetMiscHeap();
 	}
-
-
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	
-	// destroy the custom heaps, if they exist
-	// (TODO:  Move this to script, since it really
-	// only applies to the skateshop)
-	mem_man.DeleteNamedHeap( Script::GenerateCRC("preview"), false );
-
-	#ifdef	__NOPT_ASSERT__
-	// sanity checks for fragmentation
-	Mem::Heap* heap = mem_man.BottomUpHeap();
-	int fragmentation = heap->mFreeMem.m_count;
-	
-	#if 1	
-	if (fragmentation > 10000)
-	{
-		// not guaranteed to do anything useful.... might crash the debugger (Mick)
-		printf ("Dumping Fragments.....\n");
-		MemView_DumpFragments(heap);
-		printf ("Done Dumping Fragments.....\n");
-	}
-	#endif
-	
-	// Dbg_MsgAssert(fragmentation < 10000, ("Excessive bottom up fragmentation (%d) after cleanup",fragmentation)); 
-	
-#ifndef __PLAT_NGC__
-	heap = mem_man.TopDownHeap();
-	fragmentation = heap->mFreeMem.m_count;
-	if (fragmentation > 10000)
-	{
-		// not guaranteed to do anything useful.... might crash the debugger (Mick)
-		printf ("Dumping Fragments.....\n");
-		MemView_DumpFragments(heap);
-		printf ("Done Dumping Fragments.....\n");
-	}
-	
-	Dbg_MsgAssert(fragmentation < 10000, ("Excessive top down fragmentation (%d) after cleanup",fragmentation)); 
-#endif		// __PLAT_NGC__
-	#endif
-
-#	if defined( __PLAT_XBOX__ ) && defined( __NOPT_ASSERT__ )
-#	define AddStr(a,b)	( pstrOut += wsprintf( pstrOut, a, b ))
-#	define KB			( 1024 )
-	MEMORYSTATUS stat;
-	char strOut[1024], *pstrOut;
-
-    // Get the memory status.
-    GlobalMemoryStatus( &stat );
-
-    // Setup the output string.
-    pstrOut = strOut;
-//	AddStr( "%4d total kb of virtual memory.\n", stat.dwTotalVirtual / KB );
-//	AddStr( "%4d  free kb of virtual memory.\n", stat.dwAvailVirtual / KB );
-    AddStr( "%4d total kb of physical memory.\n", stat.dwTotalPhys / KB );
-    AddStr( "%4d  free kb of physical memory.\n", stat.dwAvailPhys / KB );
-//	AddStr( "%4d  percent of memory is in use.\n", stat.dwMemoryLoad );
-    printf( strOut );
-#	endif
-	
-#	ifdef __PLAT_NGPS__
-	if( skate_mod->ShouldAllocateInternetHeap())
-	{
-		Mem::Manager::sHandle().InitInternetHeap();
-	}
-	else
-	{
-		Mem::Manager::sHandle().DeleteInternetHeap();
-	}
-#	endif // __PLAT_NGPS__
 
 	return true;
 }
@@ -10158,9 +10053,6 @@ bool ScriptStartServer(Script::CStruct *pParams, Script::CScript *pScript )
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
-	// set the appropriate memory context
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-
 	skate_mod->StartServer();
 
 	if (gamenet_man->InInternetMode())
@@ -10177,9 +10069,6 @@ bool ScriptStartServer(Script::CStruct *pParams, Script::CScript *pScript )
 		// if we're in LAN mode, start the game immediately
 	}
 		
-	// pop the memory context
-	Mem::Manager::sHandle().PopContext();
-	
 	return true;
 }
 
@@ -10234,8 +10123,6 @@ bool ScriptJoinServer(Script::CStruct *pParams, Script::CScript *pScript )
 	 Mdl::Skate * skate_mod =  Mdl::Skate::Instance();
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-    
 	if( gamenet_man->OnServer())
 	{
 		uint32 i;
@@ -10301,8 +10188,6 @@ bool ScriptJoinServer(Script::CStruct *pParams, Script::CScript *pScript )
 #endif
 	}
     
-	Mem::Manager::sHandle().PopContext();
-    	
 	return true;
 }
 
@@ -13777,7 +13662,6 @@ bool ScriptPushMemProfile( Script::CStruct* pParams, Script::CScript* pScript )
 	
 	const char* pContext;
 	pParams->GetText( NONAME, &pContext, true );
-	Mem::PushMemProfile((char*)pContext);
 	return true;
 }
 
@@ -13792,7 +13676,6 @@ bool ScriptPopMemProfile( Script::CStruct* pParams, Script::CScript* pScript )
 	(void)pParams;
 	(void)pScript;
 
-	Mem::PopMemProfile();
 	return true;
 }
 
@@ -14175,34 +14058,6 @@ bool ScriptMemPushContext( Script::CStruct *pParams, Script::CScript *pScript )
 	(void)pParams;
 	(void)pScript;
 
-//	MemViewToggle();
-	
-	// 0 is the special case name
-	int Val=0;			   			// default to 0
-	if ( pParams->GetInteger(NONAME,&Val,false) )
-	{
-		if ( Val == 0 )
-		{
-			// is the bottom up heap
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-		}
-		else
-		{
-			Dbg_MsgAssert( 0, ( "Must specify heap name (instead of number) for MemPushContext (ex: BottomUpHeap)" ) );
-		}
-	}
-	else
-	{
-		// otherwise, look it up by name
-		uint32 whichHeap;
-		pParams->GetChecksum( NONAME, &whichHeap, true );
-		Mem::Manager& mem_man = Mem::Manager::sHandle();
-		Mem::Heap* pHeap = mem_man.GetHeap( whichHeap );
-		Dbg_Assert( pHeap );
-
-		Mem::Manager::sHandle().PushContext( pHeap );
-	}
-
 	return true;
 }
 
@@ -14217,7 +14072,6 @@ bool ScriptMemPopContext( Script::CStruct *pParams, Script::CScript *pScript )
 	(void)pParams;
 	(void)pScript;
 
-	Mem::Manager::sHandle().PopContext();
 	return true;
 }
 
@@ -14239,12 +14093,6 @@ bool ScriptMemInitHeap(Script::CStruct *pParams, Script::CScript *pScript)
 	int heapSize;
 	pParams->GetInteger( "size", &heapSize, true );
 
-	uint32 heapName;
-	heapName = Script::GenerateCRC( pHeapName );
-
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	Dbg_MsgAssert( !mem_man.NamedHeap(heapName, false), ( "named heap %s already exists", pHeapName ) )
-	mem_man.InitNamedHeap( heapName, heapSize, pHeapName );
 	return true;
 }
 
@@ -14262,8 +14110,7 @@ bool ScriptMemDeleteHeap(Script::CStruct *pParams, Script::CScript *pScript)
 	const char* pHeapName;
 	pParams->GetText( "name", &pHeapName, true );
 
-	Mem::Manager& mem_man = Mem::Manager::sHandle();	
-	return mem_man.DeleteNamedHeap( Script::GenerateCRC( pHeapName ), false );
+	return true;
 }
 
 /******************************************************************/
@@ -14276,14 +14123,6 @@ bool ScriptMemThreadSafe( Script::CStruct *pParams, Script::CScript *pScript )
 	(void)pParams;
 	(void)pScript;
 
-	if (pParams->ContainsFlag( Script::GenerateCRC( "off" )))
-	{
-		Mem::SetThreadSafe( false );
-	}
-	else
-	{
-		Mem::SetThreadSafe( true );
-	}
 	return true;
 }
 
@@ -14298,24 +14137,6 @@ bool ScriptAnalyzeHeap( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	(void)pParams;
 	(void)pScript;
-
-	// GJ:  I am planning to refactor this!
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	Mem::Heap* pHeap = nullptr;
-	uint32 whichHeap = Script::GenerateCRC("BottomUpHeap");
-	if ( pParams )
-	{
-		pParams->GetChecksum( NONAME, &whichHeap );
-	}
-
-	pHeap = mem_man.GetHeap( whichHeap );
-
-#ifndef __PLAT_NGC__
-	if ( pHeap )
-	{
-		MemView_AnalyzeHeap( pHeap );
-	}
-#endif		// __PLAT_NGC__
 
 	return true;
 }
@@ -14332,37 +14153,6 @@ bool ScriptPrintMemInfo( Script::CStruct *pParams, Script::CScript *pScript )
 	(void)pParams;
 	(void)pScript;
 
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	Mem::Heap* pHeap = nullptr;
-	char buf[64];
-	uint32 whichHeap = Script::GenerateCRC("BottomUpHeap");
-	if ( pParams )
-	{
-		pParams->GetChecksum( NONAME, &whichHeap );
-	}
-	
-	pHeap = mem_man.GetHeap( whichHeap );
-	strcpy( buf, mem_man.GetHeapName( whichHeap ) );
-
-	if ( pHeap )
-	{
-		printf(  "\n" );
-
-		printf( "%s:\n", buf );
-		printf( "Used %dK (%d) Peak %dK (%d)\n",
-				pHeap->mUsedMem.m_count / 1024,
-				pHeap->mUsedBlocks.m_count,
-				pHeap->mUsedMem.m_peak / 1024,
-				pHeap->mUsedBlocks.m_peak );
-		printf( "Frag %dK (%d) Peak %dK (%d)\n",
-				pHeap->mFreeMem.m_count / 1024,
-				pHeap->mFreeBlocks.m_count,
-				pHeap->mFreeMem.m_peak / 1024,
-				pHeap->mFreeBlocks.m_peak );
-
-		printf(  "\n" );
-	}
-	
 	return true;
 }
 
@@ -14378,28 +14168,6 @@ bool ScriptDisplayFreeMem( Script::CStruct *pParams, Script::CScript *pScript )
 	(void)pParams;
 	(void)pScript;
 
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-
-	Mem::Heap* heap;
-   
-	Script::CStruct* params;
-
-	params = new Script::CStruct;
-	for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
-	{		
-			Mem::Region* region = heap->ParentRegion();			
-			
-			params->Clear();
-			
-			params->AddChecksum( "id", Script::GenerateCRC( heap->GetName() ) );
-			params->AddInteger( "free_mem", region->MemAvailable() );
-			params->AddInteger( "min_free_mem", region->MinMemAvailable() );
-
-			Script::RunScript( "UpdateDisplayFreeMemory", params );
-			
-	}
-
-	delete params;
 	return true;
 }
 
@@ -14415,146 +14183,6 @@ bool ScriptDumpHeaps( Script::CStruct *pParams, Script::CScript *pScript )
 	(void)pParams;
 	(void)pScript;
 
-#	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
-
-	Script::DumpLastStructs();
-
-#if 0
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-
-#	ifndef __PLAT_XBOX__
-#ifndef __PLAT_NGC__
-	char buf[512];
-#endif		// __PLAT_NGC__
-#	endif
-
-	Mem::Heap* heap;
-
-#	ifndef __PLAT_XBOX__
-#ifndef __PLAT_NGC__
-	dump_open("blah.txt");
-#endif		// __PLAT_NGC__
-#	endif
-
-	if (pParams->ContainsFlag(Crc::ConstCRC("ExactValues")))
-	{
-		printf("Name              Used    Frag    Free    Min Blocks\n");
-		printf("--------------- ------ ------- ------- ------ ------\n");
-		for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
-		{		
-				Mem::Region* region = heap->ParentRegion();			
-				printf( "%12s: %8d %7d %7d %7d  %5d \n",
-						heap->GetName(),
-						heap->mUsedMem.m_count ,
-						heap->mFreeMem.m_count ,
-						region->MemAvailable() ,
-						region->MinMemAvailable() ,
-						heap->mUsedBlocks.m_count
-						);										
-		}
-	}	
-	else
-	{
-		printf("Name            Used  Frag  Free   Min  Blocks\n");
-		printf("--------------- ----- ----- ---- ------ ------\n");
-		for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
-		{		
-				Mem::Region* region = heap->ParentRegion();			
-				printf( "%12s: %5dK %4dK %4dK %4dK  %5d \n",
-						heap->GetName(),
-						heap->mUsedMem.m_count / 1024,
-						heap->mFreeMem.m_count / 1024,
-						region->MemAvailable() / 1024,
-						region->MinMemAvailable() / 1024,
-						heap->mUsedBlocks.m_count
-						);										
-		}
-	}
-
-#	ifndef __PLAT_XBOX__
-#ifndef __PLAT_NGC__
-	dump_close();
-#endif		// __PLAT_NGC__
-#	endif
-	
-	Sfx::CSfxManager * sfx_manager =  Sfx::CSfxManager::Instance();
-	printf( "\nSound mem free %d K  (%d bytes)\n", 
-		 sfx_manager->MemAvailable() / 1024, sfx_manager->MemAvailable() );
-
-#	ifndef __PLAT_XBOX__
-#ifndef __PLAT_NGC__
-	char fileName[256];
-	int i = 0;
-	while ( TRUE )
-	{
-		// The filename is formed from the level name a number, and the free memory
-		// you should sort them by DATE, and not by filename
-		// 
-		sprintf( fileName, "dumps\\%s_dump_%02d_%s.txt",
-						   s_level_name,
-//						   __nDATE__,
-					//	   __nTIME__,
-						   i,
-						   Str::PrintThousands((mem_man.BottomUpHeap()->ParentRegion()->MemAvailable())) );
-
-		printf ("Filename = <%s>, %d chars\n",fileName,strlen(fileName));
-						   
-		if ( FALSE == File::Exist( fileName ))
-			break;
-
-		i++;
-	}
-#endif		// __PLAT_NGC__
-#	endif // __PLAT_XBOX__
-
-#	ifndef __PLAT_XBOX__
-#ifndef __PLAT_NGC__
-	if( dump_open(fileName))
-	{
-		sprintf(buf,"Name            Used  Frag  Free   Blocks\n");
-		dump_printf(buf);
-		sprintf(buf,"--------------- ----- ----- ------ ------\n");
-		dump_printf(buf);
-		for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
-		{		
-				Mem::Region* region = heap->ParentRegion();			
-				sprintf(buf, "%12s: %5dK %4dK %4dK   %5d \n",
-						heap->GetName(),
-						heap->mUsedMem.m_count / 1024,
-						heap->mFreeMem.m_count / 1024,
-						region->MemAvailable() / 1024,
-						heap->mUsedBlocks.m_count
-						);										
-				dump_printf(buf);
-		}
-		sprintf( buf, "\nSound mem free %d K  (%d bytes)\n\n\n", 
-			 sfx_manager->MemAvailable() / 1024, sfx_manager->MemAvailable() );
-		dump_printf(buf);
-	
-		sprintf(buf,"Summary\n----------\n\n");
-		dump_printf(buf);
-		Mem::DumpMemProfile(3);
-		sprintf(buf,"\n\nDetails\n----------\n\n");
-		dump_printf(buf);
-		Mem::DumpMemProfile(100);
-
-		dump_close();
-	}
-#endif		// __PLAT_NGC__
-#	endif //__PLAT_XBOX__
-#endif
-	printf("\nScript pool usage:\n");
-	printf("CStruct:           %5d of %5d, max %5d\n",CStruct::SGetNumUsedItems(),CStruct::SGetTotalItems(),CStruct::SGetMaxUsedItems());
-	printf("CComponent:        %5d of %5d, max %5d\n",CComponent::SGetNumUsedItems(),CComponent::SGetTotalItems(),CComponent::SGetMaxUsedItems());
-	printf("CSymbolTableEntry: %5d of %5d, max %5d\n",CSymbolTableEntry::SGetNumUsedItems(),CSymbolTableEntry::SGetTotalItems(),CSymbolTableEntry::SGetMaxUsedItems());
-	printf("CVector:           %5d of %5d, max %5d\n",CVector::SGetNumUsedItems(),CVector::SGetTotalItems(),CVector::SGetMaxUsedItems());
-	printf("CPair:             %5d of %5d, max %5d\n",CPair::SGetNumUsedItems(),CPair::SGetTotalItems(),CPair::SGetMaxUsedItems());
-	printf("CArray:            %5d of %5d, max %5d\n",CArray::SGetNumUsedItems(),CArray::SGetTotalItems(),CArray::SGetMaxUsedItems());
-	printf("CScript:           %5d of %5d, max %5d\n",CScript::SGetNumUsedItems(),CScript::SGetTotalItems(),CScript::SGetMaxUsedItems());
-	Mem::CCompactPool *p_hash = Mem::PoolManager::SGetPool(Mem::PoolManager::vHASH_ITEM_POOL);
-	printf("CHashItem:         %5d of %5d, max %5d\n",p_hash->GetNumUsedItems(),p_hash->GetTotalItems(),p_hash->GetMaxUsedItems());
-	printf("\n(HashItems are init in main.cpp, others are in init.cpp)\n");
-#endif		// __NOPT_FINAL__
 	return true;
 }
 
@@ -14568,44 +14196,6 @@ bool ScriptDumpFragments( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	(void)pParams;
 	(void)pScript;
-
-	int maxFragmentation = 10000;
-	pParams->GetInteger( NONAME, &maxFragmentation, Script::NO_ASSERT );
-
-	if ( pParams->ContainsFlag( "K" ) )
-	{
-		maxFragmentation *= 1024;
-	}
-
-#ifdef __NOPT_ASSERT__
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	
-	// sanity checks for fragmentation
-	Mem::Heap* heap = mem_man.BottomUpHeap();
-	int fragmentation = heap->mFreeMem.m_count;
-	
-	if (fragmentation > maxFragmentation)
-	{
-		// not guaranteed to do anything useful.... might crash the debugger (Mick)
-		printf ("Dumping Fragments.....\n");
-		MemView_DumpFragments(heap);
-		printf ("Done Dumping Fragments.....\n");
-	}
-	
-	Dbg_MsgAssert(fragmentation < maxFragmentation, ("Excessive bottom up fragmentation (%d) after cleanup (max=%d)",fragmentation,maxFragmentation)); 
-	
-	heap = mem_man.TopDownHeap();
-	fragmentation = heap->mFreeMem.m_count;
-	if (fragmentation > maxFragmentation)
-	{
-		// not guaranteed to do anything useful.... might crash the debugger (Mick)
-		printf ("Dumping Fragments.....\n");
-		MemView_DumpFragments(heap);
-		printf ("Done Dumping Fragments.....\n");
-	}
-	
-	Dbg_MsgAssert(fragmentation < maxFragmentation, ("Excessive top down fragmentation (%d) after cleanup (max=%d)",fragmentation,maxFragmentation)); 
-#endif
 
 	return true;
 }
@@ -15386,7 +14976,6 @@ bool ScriptShowTracking(Script::CStruct* pParams, Script::CScript* pScript)
 	(void)pScript;
 
 	Gfx::DebugGfx_CleanUp();
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
 
 	bool do_bonks = pParams->ContainsFlag(Crc::ConstCRC("bonks"));														   
 	bool do_grinds = pParams->ContainsFlag(Crc::ConstCRC("grinds"));														   
@@ -15409,14 +14998,12 @@ bool ScriptShowTracking(Script::CStruct* pParams, Script::CScript* pScript)
 		p_name+=2;
 	}
 	int size=0;
-	void * p_file;
+	char *p_file;
 	if (File::Exist(p_name))
 	{
-		p_file = File::LoadAlloc(p_name,&size);
+		p_file = (char*)File::LoadAlloc(p_name,&size);
 	
 		printf ("Loaded %s, size = %d, at %p\n",p_name,size,p_file);
-	
-		Mem::Manager::sHandle().PopContext();
 	}
 	else
 	{
@@ -15502,7 +15089,7 @@ sorry:
 	
 	printf ("Bonks = %d,  Grinds = %d, verts= %d, lines = %d\n",bonks, grinds, verts, lines);
 	
-	Mem::Free(p_file);	
+	delete[] p_file;
 	return true;
 }
 

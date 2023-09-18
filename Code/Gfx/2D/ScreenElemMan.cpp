@@ -81,69 +81,39 @@ CScreenElementPtr CScreenElementManager::CreateElement(uint32 type, uint32 id, S
 	
 	uint32 heap_crc;
 	int heap_num = 0;
-	bool switched = false;
 	if (pProps->GetChecksum("heap", &heap_crc))
 	{
 		switch ( heap_crc )
 		{
 			case 0x477fc6de:		// topdown
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-				switched = true;
 				break;
 			case 0xc80bf12d:		// bottomup 
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-				switched = true;
 				break;
 			case 0xe37e78c5:		// script
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-				switched = true;
 				break;
 			case 0x9f7b7843:		// network
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-				switched = true;
 				break;
 			case 0x03c84a59:		// profiler
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ProfilerHeap());
-				switched = true;
 				break;
 			case 0x935ab858:		// debug
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-				switched = true;
 				break;
 			case 0x5b8ab877:		// skater
 				pProps->GetInteger("heapnum", &heap_num);
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(heap_num));
-				switched = true;
 				break;
 			case 0xeabd217b:		// skaterinfo
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-				switched = true;
 				break;
 			case 0x39fb63cc:		// skatergeom
 				pProps->GetInteger("heapnum", &heap_num);
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterGeomHeap(heap_num));
-				switched = true;
 				break;
 			case 0xe3f81b18:		// internettopdown
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().InternetTopDownHeap());
-				switched = true;
 				break;
 			case 0xbaa81175:		// internetbottomup
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().InternetBottomUpHeap());
-				switched = true;
 				break;
 			case 0x1ca1ff20:		// default (ie don't change context).
 				break;
 			default:	// Default = frontend
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-				switched = true;
 				break;
 		}
-	}
-	else
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-		switched = true;
 	}
 
 	switch (type)
@@ -188,9 +158,6 @@ CScreenElementPtr CScreenElementManager::CreateElement(uint32 type, uint32 id, S
 	
 	p_new_element->SetProperties(pProps);
 	p_new_element->SetMorph(pProps);
-	
-	if ( switched ) Mem::Manager::sHandle().PopContext();
-	
 	
 	return p_new_element;
 }
@@ -1152,9 +1119,7 @@ bool ScriptScreenElementSystemInit(Script::CScriptStructure *pParams, Script::CS
 	(void)pParams;
 	(void)pScript;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 	CWindowElement *p_window = new CWindowElement();
-	Mem::Manager::sHandle().PopContext();
 
 	p_window->SetID(Script::GenerateCRC("root_window"));
 

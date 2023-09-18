@@ -164,18 +164,11 @@ void CModelBuilder::BuildModel( CModelAppearance* pAppearance, Nx::CModel* pMode
 	// clear it out from the previous use
 	mp_appearance->Init();
 
-	// GJ 9/8/03:  since it's a temporary variable, we don't want 
-	// it on the skater geom heap (which would fragment it on the
-	// PS2 with 17K worth of face texture data)
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-
   	// copy over the desired appearance
 	// (must make a copy, so that we can
 	// make changes to it)
 	*mp_appearance = *pAppearance;
 	
-   	Mem::Manager::sHandle().PopContext();
-
 	// this script is responsible for looping
 	// through all the supported partChecksums
 	// and running all the supported operations

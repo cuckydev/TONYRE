@@ -278,13 +278,7 @@ void		Skate::v_start_cb ( void )
     Script::RunScript("LoadPermSounds");
 
 	// Run the script for loading the skater animations
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	
-	Mem::PushMemProfile("Permanent Assets");
 	Script::RunScript( "load_permanent_assets" );
-	Mem::PopMemProfile(/*"Permanent Assets"*/);
-
-	Mem::Manager::sHandle().PopContext();
 
 	// initialize the pro skater profiles here
 	GetPlayerProfileManager()->Init();
@@ -381,7 +375,7 @@ int				Skate::GetNextUnusedSkaterHeapIndex( bool for_local_skater )
 	
 	// We assume that these skater heaps are totally empty
 	// so if something is aleft on them, then assert
-
+	/*
 #ifdef	__NOPT_ASSERT__	
 	Mem::Heap *skater_heap = Mem::Manager::sHandle().SkaterHeap(heap_index);
 	Dbg_MsgAssert( skater_heap != nullptr, ( "Invalid skater heap : %d\n", heap_index ));
@@ -407,7 +401,7 @@ int				Skate::GetNextUnusedSkaterHeapIndex( bool for_local_skater )
 	}
 	
 	#endif
-	
+	*/
 
 	return heap_index;
 }
@@ -489,14 +483,12 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 	
 ////////////////////////////////////////////////////////////////////////////////////					
 // Changing the id means we have to destroy and re-create the particle systems
-// as they are referenced by the id of the skater.					
-					Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(skater->GetHeapIndex()));
+// as they are referenced by the id of the skater.
 					Script::RunScript( "DestroySkaterParticles", nullptr, skater );
 
 					skater->SetID( obj_id );
 					
 					Script::RunScript( "InitSkaterParticles", nullptr, skater );
-					Mem::Manager::sHandle().PopContext();
 ////////////////////////////////////////////////////////////////////////////////////					
 					
 					score = skater->GetScoreObject();
@@ -546,14 +538,9 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 		Dbg_MsgAssert( GetNumSkaters() < GetGameMode()->GetMaximumNumberOfPlayers(),( "Trying to add too many players %d : %d", GetNumSkaters(), GetGameMode()->GetMaximumNumberOfPlayers()));
 	}
 
-    Mem::PushMemProfile("Skater"); // Could possibly replace this with the name of the skater, when we have one, so can compare in multi player
-
-		
 	Dbg_MsgAssert(( obj_id >= 0 ) && ( obj_id < vMAX_SKATERS ),( "Invalid skater object id\n" ));
 	
 	heap_index = GetNextUnusedSkaterHeapIndex( local_client );
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(heap_index));
 
 	Obj::CSkater* skater;
 
@@ -622,9 +609,6 @@ Obj::CSkater*	Skate::add_skater ( Obj::CSkaterProfile* pSkaterProfile, bool loca
 		Dbg_Assert(p_trick_component);
 		p_trick_component->UpdateTrickMappings( pSkaterProfile );
 	}
-
-	Mem::PopMemProfile(/*"Skater"*/);
-	Mem::Manager::sHandle().PopContext();
 
     return skater;
 }
@@ -1946,9 +1930,6 @@ void Skate::OpenLevel(uint32 level_script)
 	GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 //	CloseLevel();
 
-	Mem::PushMemProfile("LaunchLevel");
-
-
 	if( gamenet_man->InNetGame())
 	{
 		if( gamenet_man->OnServer())
@@ -2033,8 +2014,6 @@ void Skate::OpenLevel(uint32 level_script)
 			}
 		}
 	}
-
-	Mem::PopMemProfile(/*"LaunchLevel"*/);
 }
 
 /******************************************************************/
@@ -2124,10 +2103,6 @@ void Skate::ChangeLevel( uint32 level_id )
 	//uint32 i;
 	Script::CStruct* pTempStructure;
 
-	// TODO:  is this necessary?   since we push individual heaps below
-	// maybe, if there is anyhting else that might allocate stuff 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	// requests the new level...
 	pTempStructure = new Script::CStruct;
 	pTempStructure->Clear();
@@ -2172,8 +2147,6 @@ void Skate::ChangeLevel( uint32 level_id )
 	// restarts the gameflow
 	Dbg_AssertPtr( mp_gameFlow );
 	mp_gameFlow->Reset( Script::GenerateCRC( "ChangeLevelGameFlow" ) );
-	
-	Mem::Manager::sHandle().PopContext();
 }
 
 
@@ -2258,8 +2231,6 @@ void Skate::LaunchGame()
 	 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
 	front->PauseGame(false);
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-
 	printf ("\nLAUNCH GAME CALLED with %d skaters \n\n",GetNumSkaters());			   
 			   
 	//if (!GetNumSkaters())
@@ -2269,10 +2240,10 @@ void Skate::LaunchGame()
 		// If we are starting a game with possibly more than two players
 		// then we want to allocate 	
 		Dbg_Printf( "*** Max players: %d\n", GetGameMode()->GetMaximumNumberOfPlayers());
-		if (GetGameMode()->GetMaximumNumberOfPlayers() > NUM_PERM_SKATER_HEAPS)
-		{
-			Mem::Manager::sHandle().InitSkaterHeaps(GetGameMode()->GetMaximumNumberOfPlayers());
-		}
+		// if (GetGameMode()->GetMaximumNumberOfPlayers() > NUM_PERM_SKATER_HEAPS)
+		// {
+		// 	Mem::Manager::sHandle().InitSkaterHeaps(GetGameMode()->GetMaximumNumberOfPlayers());
+		// }
 	
 		// start the game flow
 		Dbg_AssertPtr( mp_gameFlow );
@@ -2310,8 +2281,6 @@ void Skate::LaunchGame()
 	{
 		gamenet_man->CreateTeamFlags( GetGameMode()->NumTeams());
 	}
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -2748,10 +2717,8 @@ bool ScriptRetry(Script::CStruct *pParams, Script::CScript *pScript)
 	(void)pScript;
 
 	Skate* skate_mod = Skate::Instance();
-	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	skate_mod->LaunchGame();	
-	Mem::Manager::sHandle().PopContext();
+	skate_mod->LaunchGame();
+
 	return true;
 }
 
@@ -2766,9 +2733,7 @@ bool ScriptLaunchGame(Script::CStruct *pParams, Script::CScript *pScript)
 	(void)pParams;
 	(void)pScript;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	Skate::Instance()->LaunchGame();	
-	Mem::Manager::sHandle().PopContext();
+	Skate::Instance()->LaunchGame();
 	return true;
 }
 
@@ -2791,8 +2756,6 @@ bool ScriptFillRankingScreen(Script::CStruct *pParams, Script::CScript *pScript)
 	GameNet::ScoreRank* rank, *next;
 	bool in_goal_attack;
 	int i;
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 
 	in_goal_attack = skate_mod->GetGameMode()->GetNameChecksum() == Script::GenerateCRC( "netgoalattack" );
 
@@ -2991,7 +2954,6 @@ bool ScriptFillRankingScreen(Script::CStruct *pParams, Script::CScript *pScript)
 		}
 	}
 
-	Mem::Manager::sHandle().PopContext();
 	return true;
 }
 
@@ -3013,9 +2975,6 @@ bool ScriptInitSkaterHeaps(Script::CStruct *pParams, Script::CScript *pScript)
 	(void)pParams;
 	(void)pScript;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	
-	
 	int num_skater_heaps_required=1;
 	
     Skate *p_skate = Skate::Instance();
@@ -3030,7 +2989,8 @@ bool ScriptInitSkaterHeaps(Script::CStruct *pParams, Script::CScript *pScript)
 	}
 		
 	Dbg_Printf( "\nInitializing %d Skater Heaps\n", num_skater_heaps_required);
-			   
+	
+	/*
 	// If we are startinga  game with possibly more than two players
 	// then we want to allocate     
 	if( num_skater_heaps_required > NUM_PERM_SKATER_HEAPS )
@@ -3038,8 +2998,8 @@ bool ScriptInitSkaterHeaps(Script::CStruct *pParams, Script::CScript *pScript)
 		Mem::Manager::sHandle().DeleteSkaterHeaps();
 		Mem::Manager::sHandle().InitSkaterHeaps(num_skater_heaps_required);
 	}
+	*/
 
-	Mem::Manager::sHandle().PopContext();
 	return true;
 }
 
@@ -3065,9 +3025,7 @@ bool ScriptResetLevel(Script::CStruct *pParams, Script::CScript *pScript)
 		pScript->mIsSpawned = false;
 	}
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	skate_mod->ResetLevel();	
-	Mem::Manager::sHandle().PopContext();
+	skate_mod->ResetLevel();
 	
 	if( pScript )
 	{

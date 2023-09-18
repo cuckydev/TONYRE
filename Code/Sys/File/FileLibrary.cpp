@@ -112,7 +112,7 @@ CFileLibrary::~CFileLibrary()
 #else
 	if ( mp_baseBuffer )
 	{
-		Mem::Free( mp_baseBuffer );
+		delete[] mp_baseBuffer;
 		mp_baseBuffer = nullptr;
 	}
 #endif		// __PLAT_NGC__
@@ -270,13 +270,8 @@ bool CFileLibrary::Load( const char* p_fileName, bool assertOnFail, bool async_l
 	Dbg_MsgAssert( !async_load, ( "Cutscenes aren't supposed to be async loaded anymore" ) );
 	int file_size;
 	
-	Dbg_MsgAssert( Mem::Manager::sHandle().CutsceneBottomUpHeap(), ( "No cutscene heap?" ) ); 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().CutsceneBottomUpHeap());
-	
 	mp_baseBuffer = (uint8*)LoadAlloc( p_fileName, &file_size );
 	mp_fileBuffer = mp_baseBuffer;
-	
-	Mem::Manager::sHandle().PopContext();
 	
 	return PostLoad(assertOnFail, file_size);
 #else

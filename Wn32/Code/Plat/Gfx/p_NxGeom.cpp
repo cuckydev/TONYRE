@@ -74,9 +74,7 @@ CXboxGeom::~CXboxGeom( void )
 /******************************************************************/
 void CXboxGeom::InitMeshList( void )
 {
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
 	mp_init_mesh_list = new Lst::Head< NxWn32::sMesh >;
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -87,10 +85,8 @@ void CXboxGeom::AddMesh( NxWn32::sMesh *mesh )
 {
 	Dbg_Assert( mp_init_mesh_list );
 
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
 	Lst::Node< NxWn32::sMesh > *node = new Lst::Node< NxWn32::sMesh > (mesh);
 	mp_init_mesh_list->AddToTail( node );
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/

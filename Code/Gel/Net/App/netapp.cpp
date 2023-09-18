@@ -1100,8 +1100,6 @@ Conn *App::NewConnection( int ip, unsigned short port, int flags )
 
 	conn = nullptr;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	if( m_num_connections < m_max_connections )
 	{
 		conn = new Conn( flags );
@@ -1112,8 +1110,6 @@ Conn *App::NewConnection( int ip, unsigned short port, int flags )
 		conn->m_last_comm_time = Tmr::GetTime();
 		m_connections.AddToTail( &conn->m_node );
 	}
-
-	Mem::Manager::sHandle().PopContext();
 
 	return conn;
 }
@@ -1624,7 +1620,6 @@ void App::EnqueueMessage( int handle, MsgDesc* desc )
 #ifdef __PLAT_NGPS__
 	WaitSema( m_send_semaphore_id );
 #endif
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
 	// Make sure the message + headers isn't larger than a packet or else it will never be sent
 	Dbg_MsgAssert( desc->m_Length < ( Manager::vMAX_PAYLOAD - 64 ), ("Network Message size (%d) is bigger than %d",desc->m_Length, Manager::vMAX_PAYLOAD - 64) );
 	
@@ -1903,8 +1898,6 @@ void App::EnqueueMessage( int handle, MsgDesc* desc )
 
 	}
 	
-	Mem::Manager::sHandle().PopContext();
-
 #ifdef __PLAT_NGPS__
 	SignalSema( m_send_semaphore_id );
 #endif
@@ -1990,8 +1983,6 @@ void	App::StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned s
 			int num_extra_msgs;
 			char* send_data;
 	
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-	
 			num_extra_msgs = ( msg_len - 1 ) / MAX_STREAM_CHUNK_LENGTH;
 			
 			if( send_in_place )
@@ -2024,8 +2015,6 @@ void	App::StreamMessageToConn( Net::Conn* conn, unsigned char msg_id, unsigned s
 			//Dbg_Printf( "******** [%d] Stream rest (%d bytes, %d chunks) later....\n", conn->m_NextStreamId, msg_len - size, num_extra_msgs );
 	
 			conn->m_SequenceId[group_id] += num_extra_msgs;
-			
-			Mem::Manager::sHandle().PopContext();
 		}
 	}
 

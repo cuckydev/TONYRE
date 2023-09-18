@@ -514,9 +514,6 @@ void CShadowComponent::SwitchOnSkaterShadow()
 	
 	Gfx::EShadowType mode = Gfx::vDETAILED_SHADOW;
 	
-	// put it on the bottom up heap, because we don't want to fragment the skater geom heap...
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(pSkater->GetHeapIndex()));
-
 	// In Splitscreen games, shadow type for local player is optional
 	if (CFuncs::ScriptInSplitScreenGame(nullptr, nullptr))
 	{
@@ -537,8 +534,6 @@ void CShadowComponent::SwitchOnSkaterShadow()
 
 	SwitchOffShadow();
 	SwitchOnShadow(mode);
-
-	Mem::Manager::sHandle().PopContext();
 }
 	
 }

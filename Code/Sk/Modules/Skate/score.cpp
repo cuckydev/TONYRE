@@ -555,8 +555,6 @@ void Score::Trigger(char *trick_name, int base_score, Flags flags)
 		}
 	}
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-	
 	// trick type is based on id + switch mode
 	uint32 id = Script::GenerateCRC(trick_name);
 	uint32 switch_mode = (flags & (vSWITCH | vNOLLIE)) >> 1;
@@ -751,7 +749,6 @@ void Score::Trigger(char *trick_name, int base_score, Flags flags)
 		mp_trickWindow->AddTrick(trick_name, m_currentTrick, trick_type);
 	}
 	*/
-	Mem::Manager::sHandle().PopContext();
 }
 
 

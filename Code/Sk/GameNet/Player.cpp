@@ -576,16 +576,12 @@ void	PlayerInfo::SetFaceData( uint8* face_data, int size )
 	Dbg_Assert( face_data != nullptr );
 	Dbg_Assert( m_Skater != nullptr );
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetMiscHeap());
-
 	uint32 player_id = m_Skater->GetID();
 		 
 	// Store the player's skater id as the first byte of the face data
 	m_face_data = new uint8[size+1];
 	*m_face_data = (uint8)player_id;
 	memcpy( m_face_data + 1, face_data, size );
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -606,10 +602,6 @@ uint8*	PlayerInfo::GetFaceData( void )
 
 void	PlayerInfo::CopyProfile( Obj::CSkaterProfile* pSkaterProfile )
 {
-	
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	Dbg_Assert( pSkaterProfile );
 
 #if 0
@@ -626,8 +618,6 @@ void	PlayerInfo::CopyProfile( Obj::CSkaterProfile* pSkaterProfile )
 	// now uses assignment operator to copy over the info as well
 	mp_SkaterProfile = new Obj::CSkaterProfile;
 	*mp_SkaterProfile = *pSkaterProfile;
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -1410,16 +1400,12 @@ bool	PlayerInfo::IsPendingPlayer( void )
 
 NewPlayerInfo::NewPlayerInfo(void)
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	mpSkaterProfile = new Obj::CSkaterProfile;
 	JumpInFrame = 0;
 	Profile = 0;
 	Rating = 0;
 	Score = 0;
 	VehicleControlType = 0;
-	
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/

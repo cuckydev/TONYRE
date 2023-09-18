@@ -418,9 +418,6 @@ private:
 	Nx::CScene *					mp_cloned_scene;
 
 	uint32							m_next_id;
-	
-	Mem::Region*					mp_mem_region;
-	Mem::Heap*						mp_mem_heap;
 
 	int								m_max_players;
 		

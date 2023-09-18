@@ -63,12 +63,12 @@ void AllocatePermanentStringHeap(uint32 maxSize, uint32 maxStrings)
 	
 	// Allocate the string buffer.
 	Dbg_MsgAssert(sp_permanent_string_heap==nullptr,("sp_permanent_string_heap not nullptr ???"));
-	sp_permanent_string_heap=(char*)Mem::Malloc(s_permanent_string_heap_size);
+	sp_permanent_string_heap= new char[s_permanent_string_heap_size];
 	sp_permanent_string_heap_top=sp_permanent_string_heap;
 	
 	// Allocate the array of checksums.
 	Dbg_MsgAssert(sp_permanent_string_checksums==nullptr,("sp_permanent_string_checksums not nullptr ???"));
-	sp_permanent_string_checksums=(SSpecialStringChecksum*)Mem::Malloc(s_max_permanent_string_checksums*sizeof(SSpecialStringChecksum));
+	sp_permanent_string_checksums = new SSpecialStringChecksum[s_max_permanent_string_checksums];
 	s_num_permanent_string_checksums=0;
 }
 
@@ -76,7 +76,7 @@ void DeallocatePermanentStringHeap()
 {
 	// Deallocate the string buffer.
 	Dbg_MsgAssert(sp_permanent_string_heap,("nullptr sp_permanent_string_heap ?"));
-	Mem::Free(sp_permanent_string_heap);
+	delete[] sp_permanent_string_heap;
 	sp_permanent_string_heap=nullptr;
 	sp_permanent_string_heap_top=nullptr;
 	s_permanent_string_heap_size=0;
@@ -84,7 +84,7 @@ void DeallocatePermanentStringHeap()
 	// Deallocate the array of checksums.
 	// MEMOPT: TODO: Destroy this when UseRegularStringHeap is called too, to free up memory ?
 	Dbg_MsgAssert(sp_permanent_string_checksums,("nullptr sp_permanent_string_checksums ?"));
-	Mem::Free(sp_permanent_string_checksums);
+	delete[] sp_permanent_string_checksums;
 	sp_permanent_string_checksums=nullptr;
 	s_num_permanent_string_checksums=0;
 	s_max_permanent_string_checksums=0;
@@ -156,7 +156,7 @@ void UseRegularStringHeap()
 	// (End of THPS6 and memory is tight)
 	if (sp_permanent_string_checksums)
 	{
-		Mem::Free(sp_permanent_string_checksums);
+		delete[] sp_permanent_string_checksums;
 		sp_permanent_string_checksums=nullptr;
 	}	
 }
@@ -176,12 +176,8 @@ char *CreateString(const char *p_string)
 	}
 
 	// Just do a regular allocation.	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-
-	char *p_new_string=(char*)Mem::Malloc(strlen(p_string)+1); // +1 for terminator
-	strcpy(p_new_string,p_string);
-	
-	Mem::Manager::sHandle().PopContext();
+	char *p_new_string = new char[strlen(p_string) + 1]; // +1 for terminator
+	strcpy(p_new_string, p_string);
 	
 	return p_new_string;
 }
@@ -192,14 +188,14 @@ void DeleteString(char *p_string)
 
 	// Check whether the string is in the permanent-string buffer.
 	Dbg_MsgAssert(sp_permanent_string_heap,("nullptr sp_permanent_string_heap ?"));
-	if (p_string>=sp_permanent_string_heap && p_string<sp_permanent_string_heap+s_permanent_string_heap_size)
+	if (p_string >= sp_permanent_string_heap && p_string < sp_permanent_string_heap+s_permanent_string_heap_size)
 	{
 		// It is in the permanent-string buffer, so nothing to do.
 	}
 	else
 	{
 		// Must have been allocated the usual way, so free it.
-		Mem::Free(p_string);
+		delete[] p_string;
 	}
 }
 

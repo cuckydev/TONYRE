@@ -497,9 +497,9 @@ void CTracker::ValidateReceivers()
 					
 					Obj::CEventHandlerTable * p_event_handler_table = p_script->GetEventHandlerTable();
 					// Validate the table object
-					Dbg_MsgAssert(Mem::Valid(p_event_handler_table),("Corrupt Event handler table object for event %s\n",Script::FindChecksumName(entry_key)));
+					// Dbg_MsgAssert(Mem::Valid(p_event_handler_table),("Corrupt Event handler table object for event %s\n",Script::FindChecksumName(entry_key)));
 					// and the table it contains
-					Dbg_MsgAssert(!p_event_handler_table->m_num_entries || Mem::Valid(p_event_handler_table->mp_tab),("Corrupt Event handler table actual table for event %s\n",Script::FindChecksumName(entry_key)));
+					// Dbg_MsgAssert(!p_event_handler_table->m_num_entries || Mem::Valid(p_event_handler_table->mp_tab),("Corrupt Event handler table actual table for event %s\n",Script::FindChecksumName(entry_key)));
 
 					p_node = p_node->GetNext();					
 				}
@@ -807,7 +807,6 @@ void		CTracker::RegisterEventReceiver(uint32 type, Script::CScript *p_obj)
 void		CTracker::RegisterEventReceiver(uint32 type, CObject *p_obj)
 #endif
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 //	printf ("Registering Event %s from Object %s\n",Script::FindChecksumName(type), Script::FindChecksumName(p_obj->GetID()));
 // If there is no CEventList in the hash table for "type" then create one
 	CEventReceiverList *p_event_list = mp_event_receiver_table->GetItem(type);
@@ -819,8 +818,6 @@ void		CTracker::RegisterEventReceiver(uint32 type, CObject *p_obj)
 	
 // Add this object to the that list, if it is not already added
 	p_event_list->RegisterEventReceiverObject(p_obj);
-	
-	Mem::Manager::sHandle().PopContext();		
 }
 
 
@@ -876,9 +873,7 @@ void		CEventReceiverList::RegisterEventReceiverObject(Script::CScript *p_script)
 	}
 	
 	// Create a new node for adding to the list
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 	Lst::Node<Script::CScript>* p_node = new Lst::Node<Script::CScript>(p_script);
-	Mem::Manager::sHandle().PopContext();	
 	// Just add it to the tail of the list
 	m_objects.AddToTail(p_node);
 }

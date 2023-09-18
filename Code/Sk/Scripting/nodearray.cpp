@@ -487,7 +487,7 @@ static uint32 sFindPrefixLookup(uint32 checksum)
 static void sCreateTempNodes()
 {
 	Dbg_MsgAssert(sp_temp_nodes==nullptr,("sp_temp_nodes not nullptr ?"));
-	sp_temp_nodes=(STempNode*)Mem::Malloc(NUM_TEMP_NODES*sizeof(STempNode));
+	sp_temp_nodes = new STempNode[NUM_TEMP_NODES];
 	Dbg_MsgAssert(sp_temp_nodes,("Could not allocate sp_temp_nodes"));
 	
 	// Link them all into a free list.
@@ -505,7 +505,7 @@ static void sDeleteTempNodes()
 {
     if (sp_temp_nodes)
 	{
-		Mem::Free(sp_temp_nodes);
+		delete[] sp_temp_nodes;
 		sp_temp_nodes=nullptr;
 		sp_free_temp_nodes=nullptr;
 	}	
@@ -992,19 +992,15 @@ void CreateNodeArray(int size, bool hackUseFrontEndHeap)
 	Dbg_MsgAssert(GetArray(Crc::ConstCRC("NodeArray"))==nullptr,("Called CreateNodeArray when a NodeArray already exists"));
 
 
-	// Create a dummy QB file, and parse it the usual way.	
-	if (hackUseFrontEndHeap)
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap()); // Use the temporary heap.
-	else
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap()); // Use the temporary heap.
-	uint8 *p_dummy_qb=(uint8*)Mem::Malloc((1			// ESCRIPTTOKEN_NAME
+	// Create a dummy QB file, and parse it the usual way.
+	uint8 *p_dummy_qb = new uint8[(1			// ESCRIPTTOKEN_NAME
 										 +4			// Checksum of 'NodeArray'
 										 +1			// ESCRIPTTOKEN_EQUALS
 										 +1			// ESCRIPTTOKEN_STARTARRAY
 										 +2*size	// ESCRIPTTOKEN_STARTSTRUCT,ESCRIPTTOKEN_ENDSTRUCT pairs
 										 +1			// ESCRIPTTOKEN_ENDARRAY
 										 +1			// ESCRIPTTOKEN_ENDOFFILE
-										 )*sizeof(uint8));
+										 )*sizeof(uint8)];
 	uint8 *p_qb=p_dummy_qb;
 	
 	*p_qb++=ESCRIPTTOKEN_NAME;
@@ -1038,8 +1034,7 @@ void CreateNodeArray(int size, bool hackUseFrontEndHeap)
 
 	Obj::InsertGoalEditorNodes();
 	
-	Mem::Free(p_dummy_qb);
-	Mem::Manager::sHandle().PopContext();
+	delete[] p_dummy_qb;
 }
 
 ////////////////////////////////////////////////////////////////////

@@ -415,8 +415,6 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 	}
 
 */
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-
 	// create new table	(this is the one with problems with p_params)
 	// the values are not initialized
 	// so if it's allocated over an old one, then
@@ -503,9 +501,6 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 	delete [] mp_tab;  					// old table has been coped over, so we can delete it
 	mp_tab = p_edit_tab;				// and make the newly constructed table the active table
 	m_num_entries = new_entry_index;	// set the number of entries to the actual counted entries (not the size of the array)
-	
-	Mem::Manager::sHandle().PopContext();
-	
 }
 
 
@@ -598,10 +593,7 @@ void CEventHandlerTable::compress_table()
 	}
 	else
 	{
-		
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-		Entry *p_new_tab = new Entry[new_size];		
-		Mem::Manager::sHandle().PopContext();
+		Entry *p_new_tab = new Entry[new_size];
 		
 		int out = 0;
 		for (in = 0; in < m_num_entries; in++)
@@ -672,9 +664,8 @@ void CEventHandlerTable::pass_event(CEvent *pEvent, Script::CScript *pScript, bo
 	m_in_immediate_use_counter++;
 	
 	// Need to assert that mp_tab is valid (or we have no entries in it)
-	Dbg_MsgAssert(!m_num_entries || Mem::Valid(mp_tab),("Invalid event handler table for Event %s", Script::FindChecksumName(pEvent->GetType())));
+	// Dbg_MsgAssert(!m_num_entries || Mem::Valid(mp_tab),("Invalid event handler table for Event %s", Script::FindChecksumName(pEvent->GetType())));
 
-	
 	Entry *p_entry = mp_tab;
 	for (int i = 0; i < m_num_entries; i++)
 	{  

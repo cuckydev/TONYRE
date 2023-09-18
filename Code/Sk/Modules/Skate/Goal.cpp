@@ -157,8 +157,6 @@ CGoal::CGoal( Script::CStruct* pParams ) : Lst::Node<CGoal>( this )
 	
 void CGoal::Init()
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-
 	// overwrite any params with difficulty level params
 	AppendDifficultyLevelParams();
 
@@ -178,8 +176,6 @@ void CGoal::Init()
 	{
 		m_unlimitedTime = true;
 	}
-	
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -515,7 +511,6 @@ bool CGoal::Activate()
 {
     if ( !IsActive() )
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 		// Warning! Make sure there are no 'return's between the above pushcontext and the 
 		// popcontext below ...
 		
@@ -617,7 +612,6 @@ bool CGoal::Activate()
 		//if ( !mp_params->ContainsFlag( "quick_start" ) )
 			//PauseGoal();
 		SetActive();
-		Mem::Manager::sHandle().PopContext();
 		
 		return true;
 	}

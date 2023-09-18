@@ -133,18 +133,15 @@ FrontEnd::~FrontEnd()
 
 void FrontEnd::v_start_cb ( void )
 {
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-		Mlp::Manager * mlp_manager = Mlp::Manager::Instance(); 
-		mlp_manager->AddLogicTask ( *m_logic_task );
-		Inp::Manager * inp_manager = Inp::Manager::Instance(); 
+	Mlp::Manager * mlp_manager = Mlp::Manager::Instance(); 
+	mlp_manager->AddLogicTask ( *m_logic_task );
+	Inp::Manager * inp_manager = Inp::Manager::Instance(); 
 		
-		for ( int i = 0; i < SIO::vMAX_DEVICES; i++ )
-		{
-			Inp::Handler< FrontEnd >* p_handler = GetInputHandler( i );
-			inp_manager->AddHandler( *p_handler );
-		}
-	Mem::Manager::sHandle().PopContext();	
+	for ( int i = 0; i < SIO::vMAX_DEVICES; i++ )
+	{
+		Inp::Handler< FrontEnd >* p_handler = GetInputHandler( i );
+		inp_manager->AddHandler( *p_handler );
+	}	
 }
 
 
@@ -557,8 +554,6 @@ void FrontEnd::s_input_logic_code ( const Inp::Handler < FrontEnd >& handler )
 
 void FrontEnd::s_logic_code ( const Tsk::Task< FrontEnd >& task )
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-
 	FrontEnd&	mdl = task.GetData();
 
 	mdl.update(mdl.m_paused);
@@ -576,9 +571,7 @@ void FrontEnd::s_logic_code ( const Tsk::Task< FrontEnd >& task )
 
 #		ifdef __USE_PROFILER__
 		Sys::CPUProfiler->PopContext(  ); 	
-#		endif // __USE_PROFILER__
-	
-	Mem::Manager::sHandle().PopContext();		
+#		endif // __USE_PROFILER__	
 }
 
 
@@ -668,12 +661,6 @@ void FrontEnd::update(bool game_is_paused)
 
 	if ( !game_is_paused )
 	{
-		// Mick: using the default heap here....
-		// as spawned scripts can fill up the front end heap in an unpredictable manner
-		// like with the LA earthquake	
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-
-
 #		ifdef __USE_PROFILER__
 		Sys::CPUProfiler->PushContext( 128, 0, 0 ); 	// red under green = Positional Sounds
 #		endif // __USE_PROFILER__
@@ -683,12 +670,7 @@ void FrontEnd::update(bool game_is_paused)
 #		ifdef __USE_PROFILER__
 		Sys::CPUProfiler->PopContext( ); 	// 
 #		endif // __USE_PROFILER__
-
-		Mem::Manager::sHandle().PopContext();
 	}
-
-	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 
 #	ifdef __USE_PROFILER__
 	Sys::CPUProfiler->PushContext( 128, 128, 128 ); 	// gray under green = spawned scripts
@@ -713,8 +695,6 @@ void FrontEnd::update(bool game_is_paused)
 #	ifdef __USE_PROFILER__
 	Sys::CPUProfiler->PopContext( ); 	// 
 #	endif // __USE_PROFILER__
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 

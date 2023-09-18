@@ -180,9 +180,7 @@ void CTextElement::SetText(const char *pText)
 	{
 		if (mp_text)
 			delete mp_text;	
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		mp_text = new char[new_length];
-		Mem::Manager::sHandle().PopContext();
 	}
 	// copy pText to mp_text, replacing '\m' tags with '\b' tags
 	const char *p_in = pText;
@@ -321,11 +319,9 @@ void CTextElement::AttachBlurEffect()
 		destroy_text_instances();
 		
 		// create blur effect according to specs
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		mp_blur_effect = new CBlurEffect();
 		// mp_blur_effect->SetRGBA(m_rgba);
 		mp_blur_effect->SetRGBA( m_local_props.GetRGBA() );
-		Mem::Manager::sHandle().PopContext();
 	
 		// get number of CText objects needed
 		// create 'em
@@ -551,9 +547,7 @@ void CTextElement::create_text_instances(int numEntries, bool shadow_only)
 
 	if (m_use_shadow)
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		mpp_shadow_req_tab = new Nx::CText*[numEntries];
-		Mem::Manager::sHandle().PopContext();
 		for (int i = 0; i < numEntries; i++)
 		{
 			mpp_shadow_req_tab[i] = Nx::CTextMan::sGetTextInstance();
@@ -565,9 +559,7 @@ void CTextElement::create_text_instances(int numEntries, bool shadow_only)
 		Dbg_Assert(!m_num_tab_entries);
 	
 		m_num_tab_entries = numEntries;
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		mpp_text_req_tab = new Nx::CText*[numEntries];
-		Mem::Manager::sHandle().PopContext();
 		for (int i = 0; i < numEntries; i++)
 		{
 			mpp_text_req_tab[i] = Nx::CTextMan::sGetTextInstance();
@@ -708,11 +700,9 @@ void CTextBlockElement::SetProperties(Script::CStruct *pProps)
 	if (pProps->ContainsFlag(Crc::ConstCRC("blur_effect")) && !mp_blur_effect)
 	{
 		#if BLUR_EFFECT_ON
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		mp_blur_effect = new CBlurEffect();
 		// mp_blur_effect->SetRGBA(m_rgba);
 		mp_blur_effect->SetRGBA( m_local_props.GetRGBA() );
-		Mem::Manager::sHandle().PopContext();
 		#endif
 	}
 	else if (pProps->ContainsFlag(Crc::ConstCRC("no_blur_effect")) && mp_blur_effect)
@@ -870,12 +860,10 @@ void CTextBlockElement::SetText(const char **ppTextLines, int numLines)
 	}
 	Dbg_Assert( !GetFirstChild() );
 
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().FrontEndHeap() );
 	mpp_parsed_lines = new char*[MAX_LINES];
 	// (Mick) in order to avoid doing multiple allocations, we just
 	// allocate a single array big enough for all the lines
 	mpp_parsed_lines[0] = new char[MAX_CHARS * MAX_LINES];
-	Mem::Manager::sHandle().PopContext();
 	// then calculate the pointers for all the other lines, as an offset to this
 	for ( int l = 1; l < MAX_LINES; l++ )
 	{
@@ -958,9 +946,7 @@ void CTextBlockElement::SetText(const char **ppTextLines, int numLines)
 	m_total_height = 0.0f;
 	for (int i = 0; i < m_total_out_lines; i++)
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		CTextElement *p_new_elem = new CTextElement();
-		Mem::Manager::sHandle().PopContext();
 		p_manager->RegisterObject(*p_new_elem);
 		p_manager->SetParent(this, p_new_elem);
 		p_new_elem->SetFont(m_font);

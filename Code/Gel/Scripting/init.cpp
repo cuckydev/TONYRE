@@ -31,65 +31,39 @@ void AllocatePools()
 	// in NGPS.lk and defined by _script_start and _script_end
 	// On other platforms it does dynamically allocate the space.
 	// The function will not do anything if Config::GotExtraMemory() returns false.
-	Mem::PushMemProfile("AllocateChecksumNameLookupTables");
 	AllocateChecksumNameLookupTables();
-	Mem::PopMemProfile();
 	
-	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-
 	#ifdef NO_SCRIPT_CACHING
 	#else
-	Mem::PushMemProfile("CScriptCacheEntry");
 	// 32ish bytes each
 	CScriptCacheEntry::SCreatePool(MAX_DECOMPRESSED_SCRIPTS, "CScriptCacheEntry");
-	Mem::PopMemProfile();
 	#endif
-		
-	Mem::PushMemProfile("CComponent and Reserve CComponent");
 	
 	// 16 bytes each
 	CComponent::SCreatePool(84000, "CComponent");  // Mick:  increased by 2000 (82000 to 84000) to account for gap lists
 
-	Mem::PopMemProfile();
-	
-
-	Mem::PushMemProfile("CStruct");
 	// 4 bytes each  (Actually 8, or 12 with asserts)
 	CStruct::SCreatePool(18800, "CStruct");
-	Mem::PopMemProfile();
 	
 	// 12 bytes each  (Actually 16)
-	Mem::PushMemProfile("CVector");
 	CVector::SCreatePool(9600, "CVector");
-	Mem::PopMemProfile();
 	
 	// 8 bytes each	  (Actually 12)
-	Mem::PushMemProfile("CPair");
 	CPair::SCreatePool(1000, "CPair");	 // Mick: was 5000, but only used 308 at last count
-	Mem::PopMemProfile();
 	
 	// 12 bytes each
-	Mem::PushMemProfile("CArray");
 	//CArray::SCreatePool(6000, "CArray");
 	CArray::SCreatePool(7500, "CArray");
-	Mem::PopMemProfile();
 	
 	
 	// 12 bytes each (actually 16)
-	Mem::PushMemProfile("CSymbolTableEntry");
 	CSymbolTableEntry::SCreatePool(8500, "CSymbolTableEntry");
-	Mem::PopMemProfile();
 
-	Mem::PushMemProfile("CScript");
 	// 1080 bytes each, bloody hell (Actually ~1238!!!)
 	CScript::SCreatePool(MAX_CSCRIPTS, "CScript");
-	Mem::PopMemProfile();
 
-	Mem::PushMemProfile("CStoredRandom");
 	// 80 bytes each (100)
 	CStoredRandom::SCreatePool(MAX_STORED_RANDOMS,"CStoredRandom");
-	Mem::PopMemProfile();
 
 
 	// This will create a further 4096 CSymbolTableEntry's, but as a contiguous array.
@@ -100,11 +74,7 @@ void AllocatePools()
 	// 60500 bytes was needed for foreign languages on THPS3, 48000 for English.
 	// 4000 is the max number of strings.
 	//AllocatePermanentStringHeap(60500,4000);
-	Mem::PushMemProfile("AllocatePermanentStringHeap");
-	AllocatePermanentStringHeap(160000,7000);	
-	Mem::PopMemProfile();
-	
-	Mem::Manager::sHandle().PopContext();
+	AllocatePermanentStringHeap(160000,7000);
 }
 
 void DeallocatePools()

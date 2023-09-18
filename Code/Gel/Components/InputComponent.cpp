@@ -274,14 +274,10 @@ void CInputComponent::BindToController ( int controller )
 {
 	if (!m_input_handler)
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 		m_input_handler = new Inp::Handler< CInputComponent >(0, CInputComponent::s_input_logic_code, *this, Tsk::BaseTask::Node::vNORMAL_PRIORITY - 1);
 		Inp::Manager::Instance()->AddHandler(*m_input_handler);
 		m_input_handler2 = new Inp::Handler< CInputComponent >(1, CInputComponent::s_input_logic_code2, *this, Tsk::BaseTask::Node::vNORMAL_PRIORITY - 1);
 		Inp::Manager::Instance()->AddHandler(*m_input_handler2);
-
-		Mem::Manager::sHandle().PopContext();
 	}
 
 	Inp::Manager::Instance()->ReassignHandler(*m_input_handler, controller);

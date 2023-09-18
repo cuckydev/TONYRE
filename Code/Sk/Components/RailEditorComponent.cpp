@@ -200,7 +200,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 	Dbg_MsgAssert(num_render_verts == num_indices*2,("Unexpected extra vertices in rail sector, expected %d, got %d",2*num_indices,num_render_verts));
 	
 	// SPEEDOPT: If necessary, could use a static buffer for the verts
-	Mth::Vector *p_modified_render_verts=(Mth::Vector*)Mem::Malloc(num_render_verts * sizeof(Mth::Vector));
+	Mth::Vector *p_modified_render_verts = new Mth::Vector[num_render_verts];
 	p_source_geom->GetRenderVerts(p_modified_render_verts);
 
 	#ifdef __NOPT_ASSERT__
@@ -227,7 +227,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		
 		int last_num_render_verts=p_last_geom->GetNumRenderVerts();
 		// SPEEDOPT: If necessary, could use a static buffer for the verts
-		Mth::Vector *p_last_verts=(Mth::Vector*)Mem::Malloc(last_num_render_verts * sizeof(Mth::Vector));
+		Mth::Vector *p_last_verts = new Mth::Vector[last_num_render_verts];
 		p_last_geom->GetRenderVerts(p_last_verts);
 
 		// Tie the end verts to the new start verts.
@@ -239,7 +239,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 
 		p_last_geom->SetRenderVerts(p_last_verts);
 
-		Mem::Free(p_last_verts);
+		delete[] p_last_verts;
 	}
 	else
 	{
@@ -266,7 +266,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 	{
 		// Get the source render verts again so that we can match up the source collision verts with them, and hence get
 		// the index of the modified render vert to use for each collision vert.
-		Mth::Vector *p_source_render_verts=(Mth::Vector*)Mem::Malloc(num_render_verts * sizeof(Mth::Vector));
+		Mth::Vector *p_source_render_verts = new Mth::Vector[num_render_verts];
 		p_source_geom->GetRenderVerts(p_source_render_verts);
 		// The source render verts are in relative coords.
 	
@@ -274,7 +274,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		Nx::CCollObjTriData *p_source_col_data = p_source_geom->GetCollTriData();
 		size_t num_source_col_verts = p_source_col_data->GetNumVerts();
 
-		Mth::Vector *p_collision_verts=(Mth::Vector*)Mem::Malloc(num_source_col_verts * sizeof(Mth::Vector));
+		Mth::Vector *p_collision_verts = new Mth::Vector[num_source_col_verts];
 		p_source_col_data->GetRawVertices(p_collision_verts);
 	
 		// For each of the collision verts, look for a matching coord in the source render verts,
@@ -338,11 +338,11 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		#endif
 
 		p_clonedSector->SetRawCollVertices(p_collision_verts);
-		Mem::Free(p_collision_verts);
-		Mem::Free(p_source_render_verts);
+		delete[] p_collision_verts;
+		delete[] p_source_render_verts;
 	}
 	
-	Mem::Free(p_modified_render_verts);	
+	delete[] p_modified_render_verts;
 } 
 
 // Returns true if the skater will be able to grind from a to b to c without being forced off
@@ -518,7 +518,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	
 	int num_verts=p_source_geom->GetNumRenderVerts();
 	// SPEEDOPT: If necessary, could use a static buffer for the verts
-	Mth::Vector *p_verts=(Mth::Vector*)Mem::Malloc(num_verts * sizeof(Mth::Vector));
+	Mth::Vector *p_verts = new Mth::Vector[num_verts];
 	p_source_geom->GetRenderVerts(p_verts);
 
 	// Find the y coords of the top and bottom
@@ -640,7 +640,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	Dbg_MsgAssert(p_geom,("nullptr p_geom ?"));
 	Dbg_MsgAssert(p_geom->GetNumRenderVerts()==p_source_geom->GetNumRenderVerts(),("Source geom num verts mismatch"));
 	p_geom->SetRenderVerts(p_verts);
-	Mem::Free(p_verts);	
+	delete[] p_verts;
 }
 
 void CEditedRailPoint::DestroyRailGeometry()

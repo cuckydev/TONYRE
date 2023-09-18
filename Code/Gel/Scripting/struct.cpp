@@ -94,7 +94,7 @@ void CleanUpComponent(CComponent *p_comp)
 		case ESYMBOLTYPE_QSCRIPT:
             if (p_comp->mpScript)
 			{
-				Mem::Free(p_comp->mpScript);
+				delete[] p_comp->mpScript;
 			}
 			p_comp->mScriptSize=0;
 			break;	
@@ -176,11 +176,9 @@ void CopyComponent(CComponent *p_dest, const CComponent *p_source)
 		Dbg_MsgAssert(p_source->mpScript,("nullptr p_source->mpScript ?"));
 		
 		// Allocate a buffer off the script heap
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 		Dbg_MsgAssert(p_source->mScriptSize,("Zero source script size"));
-		p_dest->mpScript=(uint8*)Mem::Malloc(p_source->mScriptSize);
+		p_dest->mpScript= new uint8[p_source->mScriptSize];
 		p_dest->mScriptSize=p_source->mScriptSize;
-		Mem::Manager::sHandle().PopContext();
 		
 		// Copy the script into the new buffer.
 		const uint8 *p_from=p_source->mpScript;
@@ -1221,10 +1219,8 @@ void CStruct::AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, uint32
 	p_new->mScriptSize = (uint16)size;
 	
 	// Allocate a buffer off the script heap
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 	Dbg_MsgAssert(size,("Zero script size"));
-	uint8 *p_new_script=(uint8*)Mem::Malloc(size);
-	Mem::Manager::sHandle().PopContext();
+	uint8 *p_new_script = new uint8[size];
 	
 	// Copy the script into the new buffer.
 	Dbg_MsgAssert(p_scriptTokens,("nullptr p_scriptTokens"));

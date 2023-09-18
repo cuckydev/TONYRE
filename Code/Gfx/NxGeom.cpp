@@ -1035,9 +1035,7 @@ void CGeom::GetOrigRenderColors(Image::RGBA *p_colors)				// - gets an array of 
 		// because the "fake lights" are only used in non-net games
 		// we use the frontend/net heap to store the original colors
 		// as it is under utilized in a a single player game
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());		
-		mp_orig_render_colors = (Image::RGBA*) Mem::Malloc(verts * sizeof(Image::RGBA));
-		Mem::Manager::sHandle().PopContext();
+		mp_orig_render_colors = new Image::RGBA[verts];
 		
 		GetRenderColors(mp_orig_render_colors);
 	}

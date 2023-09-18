@@ -47,7 +47,6 @@ using namespace Script;
 
 void LoadAllStartupQBFiles()
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
 #ifdef __PLAT_NGC__
 	switch ( Config::GetLanguage() )
 	{
@@ -64,7 +63,6 @@ void LoadAllStartupQBFiles()
 #else
 	Pip::LoadPre("qb.pre");
 #endif		// __PLAT_NGC__
-	Mem::Manager::sHandle().PopContext();
 
 	// Load the qdir.txt file
 	const char *p_qdir=(const char *)Pip::Load(QDIR_FILE);

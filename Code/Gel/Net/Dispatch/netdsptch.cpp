@@ -94,13 +94,9 @@ MsgHandler*	Dispatcher::AddHandler( unsigned char net_msg_id, MsgHandlerCode *co
 {	
 	MsgHandler* handler;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	handler = new MsgHandler( code, flags, data, pri );
 
 	m_handler_list[net_msg_id].AddNode( handler );
-
-	Mem::Manager::sHandle().PopContext();
 
 	return handler;
 }

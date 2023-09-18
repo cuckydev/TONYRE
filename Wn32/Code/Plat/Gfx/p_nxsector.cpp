@@ -90,9 +90,6 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	int vertex_data_stride;
 	MemoryRead( &vertex_data_stride, sizeof( int ), 1, p_data );
 
-	// We want all the temporary buffer allocations to come off of the top down heap.
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
-	
 	// Grab a buffer for the raw vertex data position stream, and read it.
 	float* p_vertex_positions = new float[num_vertices * 3];
 	MemoryRead( p_vertex_positions, sizeof( float ) * 3, num_vertices, p_data );
@@ -146,9 +143,6 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		MemoryRead( p_vc_wibble_indices, sizeof( char ), num_vertices, p_data );
 	}
 	
-	// Remove TopDownHeap context.
-	Mem::Manager::sHandle().PopContext();
-
 	// Preprocess verts that require cutscene scaling.
 	NxWn32::ApplyMeshScaling( p_vertex_positions, num_vertices );
 
@@ -193,9 +187,7 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 			MemoryRead( &num_indices[lod_level], sizeof( int ), 1, p_data );
 		
 			// Again, we want all the temporary buffer allocations to come off of the top down heap.
-			Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
 			p_indices[lod_level] = new uint16[num_indices[lod_level]];
-			Mem::Manager::sHandle().PopContext();
 
 			MemoryRead( p_indices[lod_level], sizeof( uint16 ), num_indices[lod_level], p_data );
 		}
@@ -340,9 +332,6 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	int vertex_data_stride;
 	File::Read( &vertex_data_stride, sizeof( int ), 1, p_file );
 
-	// We want all the temporary buffer allocations to come off of the top down heap.
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
-	
 	// Grab a buffer for the raw vertex data position stream, and read it.
 	float* p_vertex_positions = new float[num_vertices * 3];
 	File::Read( p_vertex_positions, sizeof( float ) * 3, num_vertices, p_file );
@@ -397,8 +386,6 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	}
 	
 	// Remove TopDownHeap context.
-	Mem::Manager::sHandle().PopContext();
-
 	for( uint m = 0; m < p_geom->m_num_mesh; ++m )
 	{
 		unsigned long	material_checksum;
@@ -440,9 +427,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 			File::Read( &num_indices[lod_level], sizeof( int ), 1, p_file );
 		
 			// Again, we want all the temporary buffer allocations to come off of the top down heap.
-			Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
 			p_indices[lod_level] = new uint16[num_indices[lod_level]];
-			Mem::Manager::sHandle().PopContext();
 
 			File::Read( p_indices[lod_level], sizeof( uint16 ), num_indices[lod_level], p_file );
 		}

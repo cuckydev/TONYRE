@@ -750,9 +750,7 @@ void CScript::SetScript(const SStructScript *p_structScript, CStruct *p_params, 
 	uint32 size=SkipOverScript(p_structScript->mpScriptTokens)-p_structScript->mpScriptTokens;
 	
 	// Allocate a buffer and make a copy of the script (since the source may get deleted)
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-	uint8 *p_new_script=(uint8*)Mem::Malloc(size);
-	Mem::Manager::sHandle().PopContext();
+	uint8 *p_new_script = new uint8[size];
 	
 	uint8 *p_source=p_structScript->mpScriptTokens;
 	uint8 *p_dest=p_new_script;
@@ -811,7 +809,7 @@ void CScript::ClearScript()
 {
 	if (mp_struct_script)
 	{
-		Mem::Free(mp_struct_script);
+		delete[] mp_struct_script;
 		mp_struct_script=nullptr;
 	}
 
@@ -853,7 +851,7 @@ void CScript::ClearScript()
 	if (mp_return_addresses != mp_return_addresses_small_buffer)
 	{
 		Dbg_MsgAssert(mp_return_addresses,("nullptr mp_return_addresses ?"));
-		Mem::Free(mp_return_addresses);
+		delete[] mp_return_addresses;
 	}
 	mp_return_addresses=mp_return_addresses_small_buffer;
 
@@ -862,7 +860,7 @@ void CScript::ClearScript()
 	if (mp_loops != mp_loops_small_buffer)
 	{
 		Dbg_MsgAssert(mp_loops,("nullptr mp_loops ?"));
-		Mem::Free(mp_loops);
+		delete[] mp_loops;
 	}
 	mp_loops=mp_loops_small_buffer;
 	
@@ -1113,9 +1111,7 @@ void CScript::call_script(uint32 newScriptChecksum, uint8 *p_script, CStruct *p_
 	if (mp_return_addresses == mp_return_addresses_small_buffer && 
 		m_num_return_addresses == RETURN_ADDRESSES_SMALL_BUFFER_SIZE)
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-		mp_return_addresses=(SReturnAddress*)Mem::Malloc(MAX_RETURN_ADDRESSES * sizeof(SReturnAddress));
-		Mem::Manager::sHandle().PopContext();
+		mp_return_addresses = new SReturnAddress[MAX_RETURN_ADDRESSES];
 		
 		for (int i=0; i<RETURN_ADDRESSES_SMALL_BUFFER_SIZE; ++i)
 		{
@@ -2152,9 +2148,7 @@ void CScript::execute_begin()
 		Dbg_MsgAssert(mp_loops==mp_loops_small_buffer,("Expected mp_loops==mp_loops_small_buffer, %x, %x",mp_loops,mp_loops_small_buffer));
 		
 		// Dynamically allocate a bigger buffer, and change mp_loops to point to that instead
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-		mp_loops=(SLoop*)Mem::Malloc(MAX_NESTED_BEGIN_REPEATS * sizeof(SLoop));
-		Mem::Manager::sHandle().PopContext();
+		mp_loops = new SLoop[MAX_NESTED_BEGIN_REPEATS];
 		
 		// Then copy over the contents of the small buffer, and update mp_current_loop to point into the new buffer.
 		int i;
@@ -3027,13 +3021,11 @@ void RunScript(uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_object,
 		
 		case ESYMBOLTYPE_QSCRIPT:
 		{
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 			CScript *p_script=new CScript;
 			#ifdef __NOPT_ASSERT__
 			p_script->SetCommentString("Created by RunScript(...)");
 			#endif
 			p_script->SetScript(scriptChecksum,p_params,p_object);
-			Mem::Manager::sHandle().PopContext();
 		
 			while (true)
 			{
@@ -3279,9 +3271,7 @@ CScript* SpawnScript(uint32 scriptChecksum, CStruct *p_scriptParams, uint32 call
 			// pointer in any call to GetScriptInfo if an assert goes off. 
 			// So we need to pass a dummy rather than nullptr so that it does not crash if it
 			// dereferences the pointer.
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-			CScript *p_dummy=new CScript;
-			Mem::Manager::sHandle().PopContext();
+			CScript *p_dummy = new CScript;
 			
 			(*p_entry->mpCFunction)(p_scriptParams,p_dummy);
 			
@@ -3682,8 +3672,6 @@ void DumpScripts()
 */
 void CScript::SetEventHandlers(Script::CArray *pArray, EReplaceEventHandlers replace)
 {
-	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 	if (!mp_event_handler_table)
 	{
 		mp_event_handler_table = new Obj::CEventHandlerTable();
@@ -3701,15 +3689,11 @@ void CScript::SetEventHandlers(Script::CArray *pArray, EReplaceEventHandlers rep
 	
 	mp_event_handler_table->register_all(this);
 
-	Mem::Manager::sHandle().PopContext();
-
 }
 
 
 void	CScript::SetEventHandler(uint32 ex, uint32 scr, uint32 group, bool exception, CStruct *p_params)
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-
 	// Need to create the table if not there	
 	if (!mp_event_handler_table)
 	{
@@ -3725,8 +3709,6 @@ void	CScript::SetEventHandler(uint32 ex, uint32 scr, uint32 group, bool exceptio
 	// there is nothing specific to the actual handler
 	// if the script is already in the list, then nothing needs changing. 
 	Obj::CTracker::Instance()->RegisterEventReceiver(ex, this); 
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 

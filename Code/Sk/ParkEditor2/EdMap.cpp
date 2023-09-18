@@ -194,9 +194,7 @@ void CMetaPiece::SetRot(Mth::ERot90 newRot)
 	SMetaDescriptor *p_meta_tab = nullptr;
 	if (mp_additional_desc_tab)
 	{
-		Mem::Manager::sHandle().PushContext(CParkManager::sInstance()->GetGenerator()->GetParkEditorHeap());
 		p_meta_tab = new SMetaDescriptor[m_total_entries-USUAL_NUM_DESCRIPTORS];
-		Mem::Manager::sHandle().PopContext();
 	}
 	for (uint i = 0; i < m_num_used_entries; i++)
 	{
@@ -314,9 +312,7 @@ void CMetaPiece::initialize_desc_table(int numEntries)
 	SMetaDescriptor *p_new_tab = nullptr;
 	if (numEntries > USUAL_NUM_DESCRIPTORS) 
 	{
-		Mem::Manager::sHandle().PushContext(CParkManager::sInstance()->GetGenerator()->GetParkEditorHeap());
 		p_new_tab = new SMetaDescriptor[numEntries-USUAL_NUM_DESCRIPTORS];
-		Mem::Manager::sHandle().PopContext();
 	}
 
 	// Copy old table, if any. Only copied if there are to be at least as many entries as
@@ -1011,7 +1007,7 @@ CParkManager::~CParkManager()
 	if (mp_build_list_entry)
 	{
 		#ifndef	__USE_EXTERNAL_BUFFER__
-		Mem::Free(mp_build_list_entry);
+		delete[] mp_build_list_entry;
 		#endif
 		mp_build_list_entry=nullptr;
 	}	
@@ -1045,14 +1041,11 @@ void CParkManager::Initialize()
 		return;
 	m_state_on = true;
 
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
 	Mem::CPoolable<CMapListNode>::SCreatePool(16000, "CMapListNode");
 	Mem::CPoolable<CMapListNode>::SPrintInfo();
 
 	Mem::CPoolable<CClipboardEntry>::SCreatePool(MAX_CLIPBOARD_METAS, "CClipboardEntry");
 	Mem::CPoolable<CClipboard>::SCreatePool(MAX_CLIPBOARDS, "CClipboard");
-	Mem::Manager::sHandle().PopContext();
 
 	mp_generator->InitializeMasterPieces(MAX_WIDTH, 16, MAX_LENGTH, GetTheme());
 	mp_generator->ReadInRailInfo();
@@ -1453,7 +1446,7 @@ void CParkManager::AccessDisk(bool save, int fileSlot)
 		Script::CStruct *p_struct=new Script::CStruct;
 		WriteIntoStructure(p_struct);
 		uint32 size=Script::CalculateBufferSize(p_struct);
-		uint8 *p_buffer=(uint8*)Mem::Malloc(size);
+		uint8 *p_buffer = new uint8[size];
 		Script::WriteToBuffer(p_struct,p_buffer,size);
 		
 		void *fp = File::Open(fullname, "wb");
@@ -1461,7 +1454,7 @@ void CParkManager::AccessDisk(bool save, int fileSlot)
 		File::Write(p_buffer, size, 1, fp);
 		File::Close(fp);
 		
-		Mem::Free(p_buffer);
+		delete[] p_buffer;
 		delete p_struct;
 	}
 	else
@@ -1473,14 +1466,14 @@ void CParkManager::AccessDisk(bool save, int fileSlot)
 		
 		int size=File::GetFileSize(fp);
 
-		uint8 *p_buffer=(uint8*)Mem::Malloc(size);
+		uint8 *p_buffer = new uint8[size];
 		
 		File::Read(p_buffer, size, 1, fp);
 		File::Close(fp);
 		
 		Script::CStruct *p_struct=new Script::CStruct;
 		Script::ReadFromBuffer(p_struct,p_buffer);
-		Mem::Free(p_buffer);
+		delete[] p_buffer;
 
 		#ifdef __PLAT_NGC__
 		ReadFromStructure(p_struct,false,true);
@@ -2082,9 +2075,7 @@ CConcreteMetaPiece *CParkManager::CreateConcreteMeta(CAbstractMetaPiece *pSource
 	Dbg_Assert(m_state_on);
 	Dbg_Assert(pSource);
 	
-	Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 	CConcreteMetaPiece *p_meta = new CConcreteMetaPiece();
-	Mem::Manager::sHandle().PopContext();
 	
 	int num_entries = pSource->count_descriptors_expanded();
 	p_meta->initialize_desc_table(num_entries);
@@ -2152,9 +2143,7 @@ CConcreteMetaPiece *CParkManager::CreateConcreteMeta(CAbstractMetaPiece *pSource
 	#endif
 	#endif
 	
-	Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 	CMapListNode *p_node = new CMapListNode();
-	Mem::Manager::sHandle().PopContext();
 	p_node->mp_meta = p_meta;
 
 	#if 0	
@@ -3523,10 +3512,8 @@ void CParkManager::build_add_floor_piece(BuildFloorParams &params)
 		if (!mp_build_list_entry)
 		{
 			Dbg_MsgAssert(m_build_list_size==0,("Expected m_build_list_size to be 0"));
-			#ifndef	__USE_EXTERNAL_BUFFER__			
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-			mp_build_list_entry=(SBuildListEntry*)Mem::Malloc(MAX_BUILD_LIST_SIZE * sizeof(SBuildListEntry));
-			Mem::Manager::sHandle().PopContext();
+			#ifndef	__USE_EXTERNAL_BUFFER__
+			mp_build_list_entry = new SBuildListEntry[MAX_BUILD_LIST_SIZE];
 			#else
 			ACQUIRE_BUFFER
 			mp_build_list_entry = (SBuildListEntry*)__EXTERNAL_BUFFER__;
@@ -3767,9 +3754,7 @@ bool CParkManager::slide_column_part_one(GridDims area, int bottom, int top, ESl
 			*/
 			
 			p_meta->set_flag(CMetaPiece::mMARK_AS_SLID);
-			Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 			CMapListNode *p_new_node = new CMapListNode();
-			Mem::Manager::sHandle().PopContext();
 			p_new_node->mp_next = *ppMoveList;
 			p_new_node->mp_meta = p_meta;			
 			*ppMoveList = p_new_node;
@@ -3918,7 +3903,7 @@ void CParkManager::create_metas_in_build_list()
 	if (mp_build_list_entry)
 	{
 		#ifndef	__USE_EXTERNAL_BUFFER__
-		Mem::Free(mp_build_list_entry);
+		delete[] mp_build_list_entry;
 		#endif
 		mp_build_list_entry=nullptr;
 	}	
@@ -4073,9 +4058,7 @@ void CParkManager::add_metapiece_to_node_list(CMetaPiece *pMetaToAdd, CMapListNo
 	}
 
 	// not in list already, so add it
-	Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 	CMapListNode *p_new_node = new CMapListNode();
-	Mem::Manager::sHandle().PopContext();
 	p_new_node->mp_meta = pMetaToAdd;
 	p_new_node->mp_next = *ppList;
 	*ppList = p_new_node;
@@ -4118,9 +4101,7 @@ void CParkManager::bucketify_metapiece(CConcreteMetaPiece *pMeta)
 	{
 		for (int z = 0; z < pMeta->m_cell_area.GetL(); z++)
 		{
-			Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 			CMapListNode *p_new_entry = new CMapListNode();
-			Mem::Manager::sHandle().PopContext();
 			p_new_entry->mp_meta = pMeta;
 			
 			p_new_entry->mp_next = mp_bucket_list[x + pMeta->m_cell_area.GetX()][z + pMeta->m_cell_area.GetZ()];
@@ -4197,9 +4178,7 @@ void CParkManager::create_abstract_metapieces()
 	{
 		Script::CStruct *p_entry = p_metapiece_array->GetStructure(i);
 		
-		Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 		CAbstractMetaPiece *p_meta = new CAbstractMetaPiece();
-		Mem::Manager::sHandle().PopContext();
 		
 		// see if singular or multiple metapiece
 		uint32 single_crc = 0;
@@ -4375,9 +4354,7 @@ void CParkManager::create_abstract_metapieces()
 			p_meta->set_flag(CMetaPiece::mNO_RAILS);
 		}
 		
-		Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 		CMapListNode *p_node = new CMapListNode();
-		Mem::Manager::sHandle().PopContext();
 		p_node->mp_meta = p_meta;
 		p_node->mp_next = mp_abstract_metapiece_list;
 		mp_abstract_metapiece_list = p_node;
@@ -4390,9 +4367,7 @@ void CParkManager::create_abstract_metapieces()
 		if (GetAbstractMeta(add_later_tab[i]))
 			continue;
 		
-		Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 		CAbstractMetaPiece *p_meta = new CAbstractMetaPiece();
-		Mem::Manager::sHandle().PopContext();
 		
 		p_meta->initialize_desc_table(1);
 		CSourcePiece *p_source_piece = mp_generator->GetMasterPiece(add_later_tab[i], true);
@@ -4404,9 +4379,7 @@ void CParkManager::create_abstract_metapieces()
 		p_meta->m_name_checksum = add_later_tab[i];
 		p_meta->set_flag(CMetaPiece::mSINGULAR);
 
-		Mem::Manager::sHandle().PushContext(mp_generator->GetParkEditorHeap());
 		CMapListNode *p_node = new CMapListNode();
-		Mem::Manager::sHandle().PopContext();
 		p_node->mp_meta = p_meta;
 		p_node->mp_next = mp_abstract_metapiece_list;
 		mp_abstract_metapiece_list = p_node;

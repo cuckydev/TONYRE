@@ -56,8 +56,6 @@ int CSkeletonAsset::Load( uint32* p_data, int data_size )
 	char pDebugAssetString[256];
 	sprintf( pDebugAssetString, "skeleton from data stream" );
 	
-	Mem::PushMemProfile((char*)pDebugAssetString);
-
 	// Load the data, add it to the list:
 	Gfx::CSkeletonData* pSkeletonData = new Gfx::CSkeletonData;
 	
@@ -68,8 +66,6 @@ int CSkeletonAsset::Load( uint32* p_data, int data_size )
 	}
 
 	SetData((void*)pSkeletonData);
-
-	Mem::PopMemProfile(/*"skeleton from data stream"*/);
 
 	return 0;
 }

@@ -112,26 +112,6 @@ void	screen_assert( bool on )
 
 void		Assert( const char* file, uint line, const char* reason )
 {
-	printf("\n--------------------------------------------------\nPLEASE COPY FROM A FEW LINES ABOVE HERE\n\nCURRENT MEM CONTEXT: %s\n\n", Mem::Manager::sHandle().GetContextName());
-
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-
-	printf("Name            Used  Frag  Free   Min  Blocks\n");
-	printf("--------------- ----- ----- ---- ------ ------\n");
-	Mem::Heap* heap;
-	for (heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
-	{		
-			Mem::Region* region = heap->ParentRegion();			
-			printf("%12s: %5dK %4dK %4dK %4dK  %5d \n",
-					heap->GetName(),
-					heap->mUsedMem.m_count / 1024,
-					heap->mFreeMem.m_count / 1024,
-					region->MemAvailable() / 1024,
-					region->MinMemAvailable() / 1024,
-					heap->mUsedBlocks.m_count
-					);
-	}
-
 	// Show an assertion failure dialog box
 	#ifdef __PLAT_WN32__
 		// Check if debugger is present

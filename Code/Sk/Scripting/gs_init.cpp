@@ -23,21 +23,13 @@ namespace SkateScript
 void Init()
 {
 	// Do the non-game-specific script system initialisation
-	Mem::PushMemProfile("Script::AllocatePools");
 	Script::AllocatePools();
-	Mem::PopMemProfile();
-	
-	
-	// Now do the game-specific script system initialisation
-	Mem::PushMemProfile("InitNodeNameHashTable");
-	InitNodeNameHashTable();
-	Mem::PopMemProfile();
-	
 
-	Mem::PushMemProfile("Registering script functions");
+	// Now do the game-specific script system initialisation
+	InitNodeNameHashTable();
+	
 	Script::RegisterCFunctions(CFunctionLookupTable,GetCFunctionLookupTableSize());
 	Script::RegisterMemberFunctions(ppMemberFunctionNames,GetNumMemberFunctions());
-	Mem::PopMemProfile();
 	
 }
 

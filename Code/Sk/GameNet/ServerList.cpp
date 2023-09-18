@@ -489,8 +489,6 @@ int Manager::s_handle_server_response( Net::MsgHandlerContext* context )
 	}
 #endif
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	server_info = new ServerInfo;
 	
 	strcpy( server_info->m_Name, msg->m_Name );
@@ -524,8 +522,6 @@ int Manager::s_handle_server_response( Net::MsgHandlerContext* context )
 	//manager->m_servers.AddToTail( server_info );
 	manager->m_temp_servers.AddToTail( server_info );
     
-	Mem::Manager::sHandle().PopContext();
-
 	return Net::HANDLER_CONTINUE;
 }
 
@@ -740,7 +736,6 @@ void Manager::AddServerToMenu( ServerInfo* server, int index )
 	(void)index;
 
 	Script::CStruct* p_item_params;
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 	uint32 server_id;
 		
 	// If this is our first listed server, destroy the "no servers found" message
@@ -784,8 +779,6 @@ void Manager::AddServerToMenu( ServerInfo* server, int index )
 
 	delete p_item_params;
 	delete p_script_params;
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -1287,11 +1280,7 @@ bool	Manager::StartServerList( void )
 
 		MatchClientShutdown();
 
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 		client = SpawnMatchClient();
-
-		Mem::Manager::sHandle().PopContext();
 
 		if( client == nullptr )
 		{
@@ -1412,8 +1401,6 @@ void	Manager::RefreshServerList( bool force_refresh )
 	s_last_refresh_time = Tmr::GetTime();
 	s_refresh_pending = true;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	StopServerList();
 	FreeServerList();
 	StartServerList();
@@ -1438,7 +1425,6 @@ void	Manager::RefreshServerList( bool force_refresh )
 	{   
 		FindServersOnLAN();
 	}
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -1629,21 +1615,11 @@ void	ServerInfo::AddPlayer( char* name, int rating )
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	PlayerInfo* player;
 
-	if( gamenet_man->InInternetMode())
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().InternetBottomUpHeap());
-	}
-	else
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-	}
-	
 	player = new PlayerInfo( 0 );
 	player->m_Rating = rating;
 	strncpy( player->m_Name, name, vMAX_PLAYER_NAME_LEN );
 	player->m_Name[ vMAX_PLAYER_NAME_LEN ] = '\0';
 	m_players.AddToTail( player );
-	Mem::Manager::sHandle().PopContext();
 	
 }
 
@@ -1837,8 +1813,6 @@ bool		Manager::ScriptDescribeServer(Script::CScriptStructure *pParams, Script::C
 
 	Script::RunScript( "destroy_server_desc_children" );
 
-    Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-
 	if( p_server->m_GameStarted )
 	{
         // In Progress
@@ -1961,8 +1935,6 @@ bool		Manager::ScriptDescribeServer(Script::CScriptStructure *pParams, Script::C
 		Script::RunScript("net_game_info_add_player", p_item_params );
 		delete p_item_params;
 	}
-
-	Mem::Manager::sHandle().PopContext();
 
 	return true;
 }

@@ -258,72 +258,72 @@ static uint8 *sCalculateRandomRange(uint8 *p_token, CComponent *p_comp, bool use
 // skip over the whole structure.
 static uint8 *sSkipType(uint8 *p_token)
 {
-    switch (*p_token)
-    {
-        case ESCRIPTTOKEN_NAME:
-        case ESCRIPTTOKEN_INTEGER:
-        case ESCRIPTTOKEN_HEXINTEGER:
-        case ESCRIPTTOKEN_FLOAT:
-            p_token+=1+4;
-            break;
-        case ESCRIPTTOKEN_PAIR:
-            p_token+=1+2*4;
-            break;
-        case ESCRIPTTOKEN_VECTOR:
-            p_token+=1+3*4;
-            break;
-        case ESCRIPTTOKEN_STRING:
-        case ESCRIPTTOKEN_LOCALSTRING:
-            p_token+=1+4+Read4Bytes(p_token+1).mUInt;
-            break;
-        case ESCRIPTTOKEN_STARTSTRUCT:
+	switch (*p_token)
+	{
+		case ESCRIPTTOKEN_NAME:
+		case ESCRIPTTOKEN_INTEGER:
+		case ESCRIPTTOKEN_HEXINTEGER:
+		case ESCRIPTTOKEN_FLOAT:
+			p_token+=1+4;
+			break;
+		case ESCRIPTTOKEN_PAIR:
+			p_token+=1+2*4;
+			break;
+		case ESCRIPTTOKEN_VECTOR:
+			p_token+=1+3*4;
+			break;
+		case ESCRIPTTOKEN_STRING:
+		case ESCRIPTTOKEN_LOCALSTRING:
+			p_token+=1+4+Read4Bytes(p_token+1).mUInt;
+			break;
+		case ESCRIPTTOKEN_STARTSTRUCT:
 		{
-            int StructCount=1;
-            while (StructCount)
-            {
-                p_token=SkipToken(p_token);
-                if (*p_token==ESCRIPTTOKEN_STARTSTRUCT) 
+			int StructCount=1;
+			while (StructCount)
+			{
+				p_token=SkipToken(p_token);
+				if (*p_token==ESCRIPTTOKEN_STARTSTRUCT) 
 				{
 					++StructCount;
 				}	
-                else if (*p_token==ESCRIPTTOKEN_ENDSTRUCT)
+				else if (*p_token==ESCRIPTTOKEN_ENDSTRUCT)
 				{
-                    --StructCount;
+					--StructCount;
 				}	
-            }
-            ++p_token;
-            break;
+			}
+			++p_token;
+			break;
 		}	
-        case ESCRIPTTOKEN_STARTARRAY:
+		case ESCRIPTTOKEN_STARTARRAY:
 		{
-            int ArrayCount=1;
-            while (ArrayCount)
-            {
-                p_token=SkipToken(p_token);
-                if (*p_token==ESCRIPTTOKEN_STARTARRAY)
+			int ArrayCount=1;
+			while (ArrayCount)
+			{
+				p_token=SkipToken(p_token);
+				if (*p_token==ESCRIPTTOKEN_STARTARRAY)
 				{
-                    ++ArrayCount;
+					++ArrayCount;
 				}	
-                else if (*p_token==ESCRIPTTOKEN_ENDARRAY)
+				else if (*p_token==ESCRIPTTOKEN_ENDARRAY)
 				{
-                    --ArrayCount;
+					--ArrayCount;
 				}	
-            }
-            ++p_token;
-            break;
+			}
+			++p_token;
+			break;
 		}	
-        default:
-            Dbg_MsgAssert(0,("Unrecognized type"));
-            break;
-    }
-    return p_token;
+		default:
+			Dbg_MsgAssert(0,("Unrecognized type"));
+			break;
+	}
+	return p_token;
 }
 
 // Returns true if pToken points to and end-of-line, end-of-line-number or end-of-file token.
 static bool sIsEndOfLine(const uint8 *p_token)
 {
 	Dbg_MsgAssert(p_token,("nullptr p_token"));
-    return (*p_token==ESCRIPTTOKEN_ENDOFLINE || *p_token==ESCRIPTTOKEN_ENDOFLINENUMBER || *p_token==ESCRIPTTOKEN_ENDOFFILE);
+	return (*p_token==ESCRIPTTOKEN_ENDOFLINE || *p_token==ESCRIPTTOKEN_ENDOFLINENUMBER || *p_token==ESCRIPTTOKEN_ENDOFFILE);
 }
 
 // Given that p_token points to a ESCRIPTTOKEN_STARTARRAY token, this will parse the
@@ -333,94 +333,94 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 {
 	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
 	Dbg_MsgAssert(p_token,("nullptr p_token"));
-    Dbg_MsgAssert(*p_token==ESCRIPTTOKEN_STARTARRAY,("p_token does not point to an array"));
+	Dbg_MsgAssert(*p_token==ESCRIPTTOKEN_STARTARRAY,("p_token does not point to an array"));
 	
 	// Remember the start, since we're going to do a first pass through to determine the array type and size.
 	uint8 *p_start=p_token;	
-    
+	
 	// Skip over the startarray token.
-    ++p_token;
+	++p_token;
 	// Execute any random operators.
 	p_token=DoAnyRandomsOrJumps(p_token);
 
 	ESymbolType type=ESYMBOLTYPE_NONE;
 	uint32 size=0;
 	
-    while (*p_token!=ESCRIPTTOKEN_ENDARRAY)
-    {
+	while (*p_token!=ESCRIPTTOKEN_ENDARRAY)
+	{
 		// Determine type.
-        switch (*p_token)
-        {
-            case ESCRIPTTOKEN_ENDOFLINE:
-            case ESCRIPTTOKEN_ENDOFLINENUMBER:
-            case ESCRIPTTOKEN_COMMA:
-                break;
-            case ESCRIPTTOKEN_NAME:
-                type=ESYMBOLTYPE_NAME;
-                break;
-            case ESCRIPTTOKEN_INTEGER:
-            case ESCRIPTTOKEN_HEXINTEGER:
+		switch (*p_token)
+		{
+			case ESCRIPTTOKEN_ENDOFLINE:
+			case ESCRIPTTOKEN_ENDOFLINENUMBER:
+			case ESCRIPTTOKEN_COMMA:
+				break;
+			case ESCRIPTTOKEN_NAME:
+				type=ESYMBOLTYPE_NAME;
+				break;
+			case ESCRIPTTOKEN_INTEGER:
+			case ESCRIPTTOKEN_HEXINTEGER:
 				// Integers don't override floats.
-                if (type!=ESYMBOLTYPE_FLOAT) 
+				if (type!=ESYMBOLTYPE_FLOAT) 
 				{
 					type=ESYMBOLTYPE_INTEGER;
 				}	
-                break;
-            case ESCRIPTTOKEN_FLOAT:
-                type=ESYMBOLTYPE_FLOAT;
-                break;
-            case ESCRIPTTOKEN_PAIR:
-                type=ESYMBOLTYPE_PAIR;
-                break;
-            case ESCRIPTTOKEN_VECTOR:
-                type=ESYMBOLTYPE_VECTOR;
-                break;
-	        case ESCRIPTTOKEN_STRING:
-                type=ESYMBOLTYPE_STRING;
-                break;
-            case ESCRIPTTOKEN_LOCALSTRING:
-                type=ESYMBOLTYPE_LOCALSTRING;
-                break;
-            case ESCRIPTTOKEN_STARTSTRUCT:
-                type=ESYMBOLTYPE_STRUCTURE;
-                break;
-            case ESCRIPTTOKEN_STARTARRAY:
-                type=ESYMBOLTYPE_ARRAY;
-                break;
-            default:
-                Dbg_MsgAssert(0,("Unrecognized data type in array, File %s, line %d\n",GetSourceFile(p_token),GetLineNumber(p_token)));
-                break;
-        }
+				break;
+			case ESCRIPTTOKEN_FLOAT:
+				type=ESYMBOLTYPE_FLOAT;
+				break;
+			case ESCRIPTTOKEN_PAIR:
+				type=ESYMBOLTYPE_PAIR;
+				break;
+			case ESCRIPTTOKEN_VECTOR:
+				type=ESYMBOLTYPE_VECTOR;
+				break;
+			case ESCRIPTTOKEN_STRING:
+				type=ESYMBOLTYPE_STRING;
+				break;
+			case ESCRIPTTOKEN_LOCALSTRING:
+				type=ESYMBOLTYPE_LOCALSTRING;
+				break;
+			case ESCRIPTTOKEN_STARTSTRUCT:
+				type=ESYMBOLTYPE_STRUCTURE;
+				break;
+			case ESCRIPTTOKEN_STARTARRAY:
+				type=ESYMBOLTYPE_ARRAY;
+				break;
+			default:
+				Dbg_MsgAssert(0,("Unrecognized data type in array, File %s, line %d\n",GetSourceFile(p_token),GetLineNumber(p_token)));
+				break;
+		}
 		
 		// Update the size and advance p_token.
-        switch (*p_token)
-        {
-            case ESCRIPTTOKEN_ENDOFLINE:
-            case ESCRIPTTOKEN_ENDOFLINENUMBER:
-            case ESCRIPTTOKEN_COMMA:
-                p_token=SkipToken(p_token);
-                break;
-            case ESCRIPTTOKEN_NAME:
-            case ESCRIPTTOKEN_INTEGER:
-            case ESCRIPTTOKEN_HEXINTEGER:
-            case ESCRIPTTOKEN_FLOAT:
-            case ESCRIPTTOKEN_PAIR:
-            case ESCRIPTTOKEN_VECTOR:
-	        case ESCRIPTTOKEN_STRING:
-            case ESCRIPTTOKEN_LOCALSTRING:
-            case ESCRIPTTOKEN_STARTSTRUCT:
-            case ESCRIPTTOKEN_STARTARRAY:
-                ++size;
-                p_token=sSkipType(p_token);
-                break;
-            default:
-                Dbg_MsgAssert(0,("Unrecognized data type in array, File %s, line %d\n",GetSourceFile(p_token),GetLineNumber(p_token)));
-                break;
-        }
+		switch (*p_token)
+		{
+			case ESCRIPTTOKEN_ENDOFLINE:
+			case ESCRIPTTOKEN_ENDOFLINENUMBER:
+			case ESCRIPTTOKEN_COMMA:
+				p_token=SkipToken(p_token);
+				break;
+			case ESCRIPTTOKEN_NAME:
+			case ESCRIPTTOKEN_INTEGER:
+			case ESCRIPTTOKEN_HEXINTEGER:
+			case ESCRIPTTOKEN_FLOAT:
+			case ESCRIPTTOKEN_PAIR:
+			case ESCRIPTTOKEN_VECTOR:
+			case ESCRIPTTOKEN_STRING:
+			case ESCRIPTTOKEN_LOCALSTRING:
+			case ESCRIPTTOKEN_STARTSTRUCT:
+			case ESCRIPTTOKEN_STARTARRAY:
+				++size;
+				p_token=sSkipType(p_token);
+				break;
+			default:
+				Dbg_MsgAssert(0,("Unrecognized data type in array, File %s, line %d\n",GetSourceFile(p_token),GetLineNumber(p_token)));
+				break;
+		}
 		
 		// Execute any random operators. This has to be done each time p_token is advanced.
 		p_token=DoAnyRandomsOrJumps(p_token);
-    }
+	}
 
 	if (type==ESYMBOLTYPE_NONE)
 	{
@@ -437,9 +437,7 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 	
 	// Make sure we're using the script heap, because the CArray is not hard-wired to
 	// allocate it's buffer off it.
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 	p_dest->SetSizeAndType(size,type);
-	Mem::Manager::sHandle().PopContext();
 
 	// Just to be totally sure, cos we're about to write into it ...
 	Dbg_MsgAssert(p_dest->GetArrayPointer(),("nullptr array pinter ???"));
@@ -448,8 +446,8 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 	int size_check=size;
 	#endif
 		
-    switch (type)
-    {
+	switch (type)
+	{
 		case ESYMBOLTYPE_INTEGER:
 		{
 			int *p_int=(int*)p_dest->GetArrayPointer();
@@ -877,7 +875,7 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 		default:
 			Dbg_MsgAssert(0,("Unsupported array type, File %s, line %d\n",GetSourceFile(p_token),GetLineNumber(p_token)));
 			break;
-    }
+	}
 
 	return p_token;
 }
@@ -999,7 +997,7 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 			
 			// No need to set which heap we're using, cos CStruct's and their CComponent's come off
 			// their own pools.
-			CStruct *p_structure=new CStruct;
+			CStruct *p_structure = new CStruct;
 			p_token=sAddComponentsWithinCurlyBraces(p_structure,p_token,p_args);
 			p_dest->AddStructurePointer(nameChecksum,p_structure);
 			// Note: Not deleting p_structure, because it has been given to p_dest, which will delete
@@ -1013,9 +1011,7 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 			
 			// The CArray constructor is not hard-wired to use the script heap for it's buffer, so need
 			// to make sure we're using the script heap here.
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-			CArray *p_array=new CArray;
-			Mem::Manager::sHandle().PopContext();			
+			CArray *p_array = new CArray;
 			
 			p_token=sInitArrayFromQB(p_array,p_token,p_args);
 			p_dest->AddArrayPointer(nameChecksum,p_array);
@@ -1041,7 +1037,7 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 			
 			// This will create a new buffer and copy in the script data.
 			p_dest->AddScript(nameChecksum,p_script,size);
- 			break;
+			break;
 		}	
 		case ESCRIPTTOKEN_ARG:
 		{
@@ -1113,7 +1109,7 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 			Dbg_MsgAssert(0,("\nBad token '%s' encountered when creating component, File %s, line %d",GetTokenName((EScriptToken)*p_token),GetSourceFile(p_token),GetLineNumber(p_token)));
 			break;
 	}
-    return p_token;    
+	return p_token;    
 }
 
 // Parses the components in QB format pointed to by p_token, and adds them to p_dest until the 
@@ -1128,12 +1124,12 @@ static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, C
 {
 	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
 	Dbg_MsgAssert(p_token,("nullptr p_token"));
-    Dbg_MsgAssert(*p_token==ESCRIPTTOKEN_STARTSTRUCT,("p_token expected to point to ESCRIPTTOKEN_STARTSTRUCT, File %s, line %d",GetSourceFile(p_token),GetLineNumber(p_token)));
+	Dbg_MsgAssert(*p_token==ESCRIPTTOKEN_STARTSTRUCT,("p_token expected to point to ESCRIPTTOKEN_STARTSTRUCT, File %s, line %d",GetSourceFile(p_token),GetLineNumber(p_token)));
 	// Skip over the ESCRIPTTOKEN_STARTSTRUCT
-    ++p_token;
+	++p_token;
 
-    while (true)
-    {
+	while (true)
+	{
 		p_token=SkipEndOfLines(p_token);
 		// Execute any random operators. This has to be done each time p_token is advanced.
 		p_token=DoAnyRandomsOrJumps(p_token);
@@ -1142,20 +1138,20 @@ static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, C
 			break;
 		}	
 		
-        switch (*p_token)
-        {
-            case ESCRIPTTOKEN_NAME:
-            {
-                uint8 *p_name_token=p_token;
-                ++p_token;
-                uint32 name_checksum=Read4Bytes(p_token).mChecksum;
-                p_token+=4;
-                p_token=SkipEndOfLines(p_token);
+		switch (*p_token)
+		{
+			case ESCRIPTTOKEN_NAME:
+			{
+				uint8 *p_name_token=p_token;
+				++p_token;
+				uint32 name_checksum=Read4Bytes(p_token).mChecksum;
+				p_token+=4;
+				p_token=SkipEndOfLines(p_token);
 				p_token=DoAnyRandomsOrJumps(p_token);
-                if (*p_token==ESCRIPTTOKEN_EQUALS)
-                {
-                    ++p_token;
-                    p_token=SkipEndOfLines(p_token);
+				if (*p_token==ESCRIPTTOKEN_EQUALS)
+				{
+					++p_token;
+					p_token=SkipEndOfLines(p_token);
 					p_token=DoAnyRandomsOrJumps(p_token);
 					
 					if (*p_token==ESCRIPTTOKEN_OPENPARENTH)
@@ -1176,16 +1172,16 @@ static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, C
 					{
 						p_token=sAddComponentFromQB(p_dest,name_checksum,p_token,p_args);
 					}
-                }
-                else
+				}
+				else
 				{
-                    p_token=sAddComponentFromQB(p_dest,NO_NAME,p_name_token,p_args);
+					p_token=sAddComponentFromQB(p_dest,NO_NAME,p_name_token,p_args);
 				}	
-                break;
-            }    
-            case ESCRIPTTOKEN_STARTSTRUCT:
-                p_token=sAddComponentsWithinCurlyBraces(p_dest,p_token,p_args);
-                break;
+				break;
+			}    
+			case ESCRIPTTOKEN_STARTSTRUCT:
+				p_token=sAddComponentsWithinCurlyBraces(p_dest,p_token,p_args);
+				break;
 			case ESCRIPTTOKEN_COMMA:	
 				++p_token;
 				break;
@@ -1193,7 +1189,7 @@ static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, C
 			case ESCRIPTTOKEN_ENDOFLINENUMBER:
 				p_token=SkipEndOfLines(p_token);				
 				break;
-            default:
+			default:
 			{
 				if (*p_token==ESCRIPTTOKEN_OPENPARENTH)
 				{
@@ -1227,14 +1223,14 @@ static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, C
 				{
 					p_token=sAddComponentFromQB(p_dest,NO_NAME,p_token,p_args);
 				}	
-                break;
+				break;
 			}	
-        }            
-    } 
+		}            
+	} 
 
 	// Skip over the ESCRIPTTOKEN_ENDSTRUCT
-    ++p_token;
-    return p_token;
+	++p_token;
+	return p_token;
 }
 
 // Creates a new script symbol entry, allocates memory for the script data and copies it in, prefixing
@@ -1277,7 +1273,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	{
 		COMPRESS_BUFFER_SIZE=20000,
 	};	
-	uint8 *p_compress_buffer=(uint8*)Mem::Malloc(COMPRESS_BUFFER_SIZE);
+	uint8 *p_compress_buffer = new uint8[COMPRESS_BUFFER_SIZE];
 	
 	// Compress the script data.
 	int compressed_size=Encode((char*)p_data,(char*)p_compress_buffer,size,false);
@@ -1297,7 +1293,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	}
 	
 	// Allocate space for the content checksum, decompressed size, compressed size, and the compressed data.
-	uint8 *p_new_script=(uint8*)Mem::Malloc(SCRIPT_HEADER_SIZE+compressed_size);
+	uint8 *p_new_script = new uint8[SCRIPT_HEADER_SIZE + compressed_size];
 
 	// p_new_script will be long-word aligned so OK to cast to a uint32*
 	*(uint32*)(p_new_script+0)=contentsChecksum;
@@ -1319,7 +1315,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	p_new->mpScript=p_new_script;
 #endif		// __PLAT_NGC__
 	
-	Mem::Free(p_compress_buffer);
+	delete[] p_compress_buffer;
 	
 	// Now that the new script has been loaded, the script cache needs to be refreshed in case any existing
 	// CScript's are running this script. They will all get restarted later (see file.cpp)
@@ -1543,7 +1539,7 @@ static CStoredRandom *sCreateNewStoredRandom()
 
 S4Bytes Read4Bytes(const uint8 *p_long)
 {
-    S4Bytes four_bytes;
+	S4Bytes four_bytes;
 	
 	#ifdef __PLAT_NGPS__
 	if ( (((uint32)p_long)&3)==0 )
@@ -1558,15 +1554,15 @@ S4Bytes Read4Bytes(const uint8 *p_long)
 	#else
 	four_bytes.mUInt=(p_long[0])|(p_long[1]<<8)|(p_long[2]<<16)|(p_long[3]<<24);
 	#endif
-    return four_bytes;
+	return four_bytes;
 }
 
 // Gets 2 bytes from p_short, which may not be long word aligned.
 S2Bytes Read2Bytes(const uint8 *p_short)
 {
-    S2Bytes two_bytes;
-    two_bytes.mUInt=p_short[0]|(p_short[1]<<8);
-    return two_bytes;
+	S2Bytes two_bytes;
+	two_bytes.mUInt=p_short[0]|(p_short[1]<<8);
+	return two_bytes;
 }
 
 // Used by WriteToBuffer and ReadFromBuffer in utils.cpp
@@ -1601,24 +1597,24 @@ uint8 *Write2Bytes(uint8 *p_buffer, uint16 val)
 uint8 *SkipEndOfLines(uint8 *p_token)
 {
 	Dbg_MsgAssert(p_token,("nullptr p_token"));
-    while (true)
-    {
+	while (true)
+	{
 		if (*p_token==ESCRIPTTOKEN_ENDOFLINE)
 		{
-            ++p_token;
+			++p_token;
 		}	
-        else if (*p_token==ESCRIPTTOKEN_ENDOFLINENUMBER)
+		else if (*p_token==ESCRIPTTOKEN_ENDOFLINENUMBER)
 		{
-            // ESCRIPTTOKEN_ENDOFLINENUMBER contains the line number of the previous line,
-            // so that the line number of errors can be displayed.
-            p_token+=5;
+			// ESCRIPTTOKEN_ENDOFLINENUMBER contains the line number of the previous line,
+			// so that the line number of errors can be displayed.
+			p_token+=5;
 		}	
-        else   
+		else   
 		{
-            break;
+			break;
 		}	
-    }
-    return p_token;
+	}
+	return p_token;
 }
 
 CStoredRandom::CStoredRandom()
@@ -1827,7 +1823,7 @@ uint8 *DoAnyRandomsOrJumps(uint8 *p_token)
 		case ESCRIPTTOKEN_JUMP:
 		{
 			++p_token; // Skip over the jump token.
-            sint32 offset=Read4Bytes(p_token).mInt;
+			sint32 offset=Read4Bytes(p_token).mInt;
 			p_token+=4; // Skip over the offset
 			p_token+=offset; // Do the jump
 			break;
@@ -1909,59 +1905,59 @@ int GetLineNumber(uint8 *p_token)
 		return 0;
 	}	
 	
-    switch (*p_token)
+	switch (*p_token)
 	{
-	    case ESCRIPTTOKEN_ENDOFFILE:
-	    case ESCRIPTTOKEN_ENDOFLINE:
-	    case ESCRIPTTOKEN_ENDOFLINENUMBER:
-	    case ESCRIPTTOKEN_STARTSTRUCT:
-	    case ESCRIPTTOKEN_ENDSTRUCT:
-	    case ESCRIPTTOKEN_STARTARRAY:
-	    case ESCRIPTTOKEN_ENDARRAY:
-	    case ESCRIPTTOKEN_EQUALS:
-	    case ESCRIPTTOKEN_DOT:
-	    case ESCRIPTTOKEN_COMMA:
-	    case ESCRIPTTOKEN_MINUS:
-	    case ESCRIPTTOKEN_ADD:
-	    case ESCRIPTTOKEN_DIVIDE:
-	    case ESCRIPTTOKEN_MULTIPLY:
-	    case ESCRIPTTOKEN_OPENPARENTH:
-	    case ESCRIPTTOKEN_CLOSEPARENTH:
-	    case ESCRIPTTOKEN_DEBUGINFO:
-	    case ESCRIPTTOKEN_SAMEAS:
-	    case ESCRIPTTOKEN_LESSTHAN:
-	    case ESCRIPTTOKEN_LESSTHANEQUAL:
-	    case ESCRIPTTOKEN_GREATERTHAN:
-	    case ESCRIPTTOKEN_GREATERTHANEQUAL:
-	    case ESCRIPTTOKEN_NAME:
-	    case ESCRIPTTOKEN_INTEGER:
-	    case ESCRIPTTOKEN_HEXINTEGER:
-        case ESCRIPTTOKEN_ENUM:
-	    case ESCRIPTTOKEN_FLOAT:
-	    case ESCRIPTTOKEN_STRING:
-	    case ESCRIPTTOKEN_LOCALSTRING:
-	    case ESCRIPTTOKEN_ARRAY:
-	    case ESCRIPTTOKEN_VECTOR:
-	    case ESCRIPTTOKEN_PAIR:
-	    case ESCRIPTTOKEN_KEYWORD_BEGIN:
-	    case ESCRIPTTOKEN_KEYWORD_REPEAT:
-	    case ESCRIPTTOKEN_KEYWORD_BREAK:
-	    case ESCRIPTTOKEN_KEYWORD_SCRIPT:
-	    case ESCRIPTTOKEN_KEYWORD_ENDSCRIPT:
-	    case ESCRIPTTOKEN_KEYWORD_IF:
-	    case ESCRIPTTOKEN_KEYWORD_ELSE:
-	    case ESCRIPTTOKEN_KEYWORD_ELSEIF:
-	    case ESCRIPTTOKEN_KEYWORD_ENDIF:
-	    case ESCRIPTTOKEN_KEYWORD_RETURN:
-	    case ESCRIPTTOKEN_KEYWORD_NOT:
+		case ESCRIPTTOKEN_ENDOFFILE:
+		case ESCRIPTTOKEN_ENDOFLINE:
+		case ESCRIPTTOKEN_ENDOFLINENUMBER:
+		case ESCRIPTTOKEN_STARTSTRUCT:
+		case ESCRIPTTOKEN_ENDSTRUCT:
+		case ESCRIPTTOKEN_STARTARRAY:
+		case ESCRIPTTOKEN_ENDARRAY:
+		case ESCRIPTTOKEN_EQUALS:
+		case ESCRIPTTOKEN_DOT:
+		case ESCRIPTTOKEN_COMMA:
+		case ESCRIPTTOKEN_MINUS:
+		case ESCRIPTTOKEN_ADD:
+		case ESCRIPTTOKEN_DIVIDE:
+		case ESCRIPTTOKEN_MULTIPLY:
+		case ESCRIPTTOKEN_OPENPARENTH:
+		case ESCRIPTTOKEN_CLOSEPARENTH:
+		case ESCRIPTTOKEN_DEBUGINFO:
+		case ESCRIPTTOKEN_SAMEAS:
+		case ESCRIPTTOKEN_LESSTHAN:
+		case ESCRIPTTOKEN_LESSTHANEQUAL:
+		case ESCRIPTTOKEN_GREATERTHAN:
+		case ESCRIPTTOKEN_GREATERTHANEQUAL:
+		case ESCRIPTTOKEN_NAME:
+		case ESCRIPTTOKEN_INTEGER:
+		case ESCRIPTTOKEN_HEXINTEGER:
+		case ESCRIPTTOKEN_ENUM:
+		case ESCRIPTTOKEN_FLOAT:
+		case ESCRIPTTOKEN_STRING:
+		case ESCRIPTTOKEN_LOCALSTRING:
+		case ESCRIPTTOKEN_ARRAY:
+		case ESCRIPTTOKEN_VECTOR:
+		case ESCRIPTTOKEN_PAIR:
+		case ESCRIPTTOKEN_KEYWORD_BEGIN:
+		case ESCRIPTTOKEN_KEYWORD_REPEAT:
+		case ESCRIPTTOKEN_KEYWORD_BREAK:
+		case ESCRIPTTOKEN_KEYWORD_SCRIPT:
+		case ESCRIPTTOKEN_KEYWORD_ENDSCRIPT:
+		case ESCRIPTTOKEN_KEYWORD_IF:
+		case ESCRIPTTOKEN_KEYWORD_ELSE:
+		case ESCRIPTTOKEN_KEYWORD_ELSEIF:
+		case ESCRIPTTOKEN_KEYWORD_ENDIF:
+		case ESCRIPTTOKEN_KEYWORD_RETURN:
+		case ESCRIPTTOKEN_KEYWORD_NOT:
 		case ESCRIPTTOKEN_KEYWORD_SWITCH:
 		case ESCRIPTTOKEN_KEYWORD_ENDSWITCH:
 		case ESCRIPTTOKEN_KEYWORD_CASE:
 		case ESCRIPTTOKEN_KEYWORD_DEFAULT:
-        case ESCRIPTTOKEN_UNDEFINED:
-	    case ESCRIPTTOKEN_CHECKSUM_NAME:
-	    case ESCRIPTTOKEN_KEYWORD_ALLARGS:
-	    case ESCRIPTTOKEN_ARG:	
+		case ESCRIPTTOKEN_UNDEFINED:
+		case ESCRIPTTOKEN_CHECKSUM_NAME:
+		case ESCRIPTTOKEN_KEYWORD_ALLARGS:
+		case ESCRIPTTOKEN_ARG:	
 		case ESCRIPTTOKEN_JUMP:
 		case ESCRIPTTOKEN_KEYWORD_RANDOM:
 		case ESCRIPTTOKEN_KEYWORD_RANDOM2:
@@ -1983,9 +1979,9 @@ int GetLineNumber(uint8 *p_token)
 			break;
 	}		
 	
-    while (true)
-    {
-        switch (*p_token)
+	while (true)
+	{
+		switch (*p_token)
 		{
 		case ESCRIPTTOKEN_ENDOFLINE:
 			return 0;
@@ -1994,7 +1990,7 @@ int GetLineNumber(uint8 *p_token)
 		case ESCRIPTTOKEN_ENDOFLINENUMBER:
 			++p_token;
 			return Read4Bytes(p_token).mInt;
-            break;
+			break;
 		
 		case ESCRIPTTOKEN_ENDOFFILE:
 			return -1;
@@ -2018,7 +2014,7 @@ int GetLineNumber(uint8 *p_token)
 			p_token=SkipToken(p_token);
 			break;		
 		}	
-    }
+	}
 }
 
 // Returns true if the passed p_token points somewhere in the passed p_script.
@@ -2214,9 +2210,7 @@ uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_com
 			
 			// The CArray constructor is not hard-wired to use the script heap for it's buffer, so need
 			// to make sure we're using the script heap here.
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-			CArray *p_array=new CArray;
-			Mem::Manager::sHandle().PopContext();			
+			CArray *p_array = new CArray;
 			
 			p_token=sInitArrayFromQB(p_array,p_token,p_args);
 			
@@ -2248,10 +2242,8 @@ uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_com
 			p_comp->mType=ESYMBOLTYPE_QSCRIPT;
 			
 			// Allocate a buffer off the script heap
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 			Dbg_MsgAssert(size,("Zero script size"));
-			uint8 *p_new_script=(uint8*)Mem::Malloc(size);
-			Mem::Manager::sHandle().PopContext();
+			uint8 *p_new_script = new uint8[size];
 			
 			// Copy the script into the new buffer.
 			const uint8 *p_source=p_script;
@@ -2264,7 +2256,7 @@ uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_com
 			// Give the new buffer to the component.
 			p_comp->mpScript=p_new_script;
 			
- 			break;
+			break;
 		}	
 
 		case ESCRIPTTOKEN_ARG:
@@ -2454,7 +2446,7 @@ uint8 *Evaluate(uint8 *p_token, CStruct *p_args, CComponent *p_result)
 			p_token=FillInComponentUsingQB(p_token,p_args,&sTemp);
 			
 			// TODO: Use ResolveNameComponent instead of this switch ...
-            CSymbolTableEntry *p_entry=nullptr;
+			CSymbolTableEntry *p_entry=nullptr;
 			if (operator_is_dot)
 			{
 				// This is a bit of a hack ...
@@ -2535,7 +2527,7 @@ uint8 *Evaluate(uint8 *p_token, CStruct *p_args, CComponent *p_result)
 					// TODO: Problem if AddComponentsUntilEndOfLine calls Evaluate() again,
 					// since only one instance of CExpressionEvaluator.
 					p_token=AddComponentsUntilEndOfLine(p_function_params,p_token,p_args);
-	                sTemp.mIntegerValue=(*p_entry->mpCFunction)(p_function_params,p_script);
+					sTemp.mIntegerValue=(*p_entry->mpCFunction)(p_function_params,p_script);
 					delete p_function_params;
 					
 					sExpressionEvaluator.Input(&sTemp);
@@ -2726,12 +2718,12 @@ uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_a
 	Dbg_MsgAssert(p_dest,("nullptr p_dest"));
 	Dbg_MsgAssert(p_token,("nullptr p_token"));
 	
-    while (true)
-    {
+	while (true)
+	{
 		// Execute any random operators.
 		p_token=DoAnyRandomsOrJumps(p_token);
 
-        if (sIsEndOfLine(p_token)) 
+		if (sIsEndOfLine(p_token)) 
 		{
 			break;
 		}	
@@ -2743,23 +2735,23 @@ uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_a
 			break;
 		}
 			
-        switch (*p_token)
-        {
-            case ESCRIPTTOKEN_NAME:
-            {
-                uint8 *p_name_token=p_token;
-                ++p_token;
-                uint32 name_checksum=Read4Bytes(p_token).mChecksum;
-                p_token+=4;
+		switch (*p_token)
+		{
+			case ESCRIPTTOKEN_NAME:
+			{
+				uint8 *p_name_token=p_token;
+				++p_token;
+				uint32 name_checksum=Read4Bytes(p_token).mChecksum;
+				p_token+=4;
 				// Execute any random operators. This has to be done each time p_token is advanced.
 				p_token=DoAnyRandomsOrJumps(p_token);
 
-                if (*p_token==ESCRIPTTOKEN_EQUALS)
-                {
-                    ++p_token;
+				if (*p_token==ESCRIPTTOKEN_EQUALS)
+				{
+					++p_token;
 					p_token=DoAnyRandomsOrJumps(p_token);
 					
-                    Dbg_MsgAssert(!sIsEndOfLine(p_token),("Syntax error, nothing following '=', File %s, line %d",GetSourceFile(p_token),GetLineNumber(p_token)));
+					Dbg_MsgAssert(!sIsEndOfLine(p_token),("Syntax error, nothing following '=', File %s, line %d",GetSourceFile(p_token),GetLineNumber(p_token)));
 					
 					if (*p_token==ESCRIPTTOKEN_OPENPARENTH)
 					{
@@ -2779,38 +2771,38 @@ uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_a
 					{
 						p_token=sAddComponentFromQB(p_dest,name_checksum,p_token,p_args);					
 					}	
-                }
-                else
+				}
+				else
 				{
-                    p_token=sAddComponentFromQB(p_dest,NO_NAME,p_name_token,p_args);
+					p_token=sAddComponentFromQB(p_dest,NO_NAME,p_name_token,p_args);
 				}	
-                break;
-            }
+				break;
+			}
 			case ESCRIPTTOKEN_KEYWORD_ALLARGS:
-                ++p_token;
+				++p_token;
 				if (p_args)
 				{
 					*p_dest+=*p_args;
 				}	
 				break;
-            case ESCRIPTTOKEN_STARTSTRUCT:
-                p_token=sAddComponentsWithinCurlyBraces(p_dest,p_token,p_args);
-                break;
+			case ESCRIPTTOKEN_STARTSTRUCT:
+				p_token=sAddComponentsWithinCurlyBraces(p_dest,p_token,p_args);
+				break;
 			case ESCRIPTTOKEN_ARG:
 				p_token=sAddComponentFromQB(p_dest,NO_NAME,p_token,p_args);
 				break;
-            case ESCRIPTTOKEN_ENDOFLINE:
-            case ESCRIPTTOKEN_ENDOFLINENUMBER:
-                break;
-            case ESCRIPTTOKEN_ENDOFFILE:
+			case ESCRIPTTOKEN_ENDOFLINE:
+			case ESCRIPTTOKEN_ENDOFLINENUMBER:
+				break;
+			case ESCRIPTTOKEN_ENDOFFILE:
 				Dbg_MsgAssert(0,("End of file reached during AddComponentsUntilEndOfLine ?"));
-                break;
+				break;
 			
 			case ESCRIPTTOKEN_COMMA:
 				++p_token;
 				break;
 				
-            default:
+			default:
 			{
 				if (*p_token==ESCRIPTTOKEN_OPENPARENTH)
 				{
@@ -2844,15 +2836,15 @@ uint8 *AddComponentsUntilEndOfLine(CStruct *p_dest, uint8 *p_token, CStruct *p_a
 				{
 					p_token=sAddComponentFromQB(p_dest,NO_NAME,p_token,p_args);
 				}	
-                break;
+				break;
 			}	
-        }            
-    } 
+		}            
+	} 
 
 	// Note: Does not skip over the end-of-lines. This is so that if any asserts go off during the
 	// C-function or member function call that this structure is going to be used as parameters too,
 	// the assert will print the correct line number, rather than the one following.
-    return p_token;
+	return p_token;
 }
 
 // Deletes any entity pointed to by p_sym, then removes p_sym from the symbol table.
@@ -2888,7 +2880,7 @@ void CleanUpAndRemoveSymbol(CSymbolTableEntry *p_sym)
 			NsARAM::free( p_sym->mScriptOffset );
 #else
 			Dbg_MsgAssert(p_sym->mpScript,("nullptr p_sym->mpScript"));
-			Mem::Free(p_sym->mpScript);
+			delete[] p_sym->mpScript;
 #endif		// __PLAT_NGC__
 			break;
 		case ESYMBOLTYPE_STRUCTURE:
@@ -2966,19 +2958,19 @@ void RemoveChecksumNameLookupHashTable()
 				SChecksum *p_next=p_ch->mpNext;
 				// The dynamically allocated entries must have had their mpName set.
 				Dbg_MsgAssert(p_ch->mpName,("nullptr p_ch->mpName ?"));
-				Mem::Free(p_ch->mpName);
-				Mem::Free(p_ch);
+				delete[] p_ch->mpName;
+				delete p_ch;
 				p_ch=p_next;
 			}
 			// The entries in the contiguous array may not have their mpName set.	
 			if (p_entry->mpName)
 			{
-				Mem::Free(p_entry->mpName);
+				delete[] p_entry->mpName;
 			}	
 			++p_entry;
 		}	
 	
-		Mem::Free(sp_hash_table);
+		delete[] sp_hash_table;
 		sp_hash_table=nullptr;
 	}	
 }
@@ -3039,8 +3031,8 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 	// If __NOPT_ASSERT__ is set the checksum names also get added to a big permanent lookup table so that
 	// the FindChecksumName function can be used at any time in asserts.
 	// 
-    uint8 *p_token=p_qb;
-    bool end_of_file=false;
+	uint8 *p_token=p_qb;
+	bool end_of_file=false;
 
 	// Remove any existing checksum-name-lookup hash table.
 	RemoveChecksumNameLookupHashTable();
@@ -3053,33 +3045,9 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 	// parsing it.
 	if (allocateChecksumNameLookupTable)
 	{
-		// Reallocate it.
-		bool use_debug_heap=false;
-		#ifdef	__NOPT_ASSERT__	
-		if (!assertIfDuplicateSymbols)
-		{
-			// They're doing a qbr ...
-			if (Mem::Manager::sHandle().GetHeap(0x70cb0238/*DebugHeap*/))
-			{
-				// The debug heap exists, so use it.
-				// Need to do this because there is often not enough memory otherwise.
-				use_debug_heap=true;
-			}	
-		}	
-		#endif
-	
-		if (use_debug_heap)
-		{
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-		}	
-		else
-		{
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-		}
 		Dbg_MsgAssert(sp_hash_table==nullptr,("sp_hash_table not nullptr ?"));
-		sp_hash_table=(SChecksum*)Mem::Malloc((1<<HASHBITS)*sizeof(SChecksum));
+		sp_hash_table = new SChecksum[1 << HASHBITS];
 		Dbg_MsgAssert(sp_hash_table,("nullptr sp_hash_table"));
-		Mem::Manager::sHandle().PopContext();
 		
 		// Initialise it.
 		SChecksum *p_entry=sp_hash_table;
@@ -3114,7 +3082,7 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 	#endif
 		
 
-    while (!end_of_file)
+	while (!end_of_file)
 	{
 		switch (*p_token)
 		{
@@ -3132,9 +3100,9 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 				{
 					// The first slot is already occupied, so create a new SChecksum and
 					// link it in between the first and the rest.
-					SChecksum *p_new=(SChecksum*)Mem::Malloc(sizeof(SChecksum));
+					SChecksum *p_new = new SChecksum;
 					p_new->mChecksum=checksum;
-					p_new->mpName=(char*)Mem::Malloc(strlen(p_name)+1);
+					p_new->mpName = new char[strlen(p_name) + 1];
 					strcpy(p_new->mpName,p_name);
 					
 					p_new->mpNext=p_entry->mpNext;
@@ -3144,7 +3112,7 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 				{
 					// First slot is not occupied, so stick it in there.
 					p_entry->mChecksum=checksum;
-					p_entry->mpName=(char*)Mem::Malloc(strlen(p_name)+1);
+					p_entry->mpName = new char[strlen(p_name) + 1];
 					strcpy(p_entry->mpName,p_name);
 					p_entry->mpNext=nullptr;
 				}	
@@ -3167,9 +3135,9 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 			break;
 		}
 			
-        case ESCRIPTTOKEN_ENDOFFILE:
-            end_of_file=true;
-            break;
+		case ESCRIPTTOKEN_ENDOFFILE:
+			end_of_file=true;
+			break;
 
 		case ESCRIPTTOKEN_ENDOFLINENUMBER:
 		{
@@ -3185,13 +3153,13 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 			}	
 			break;
 		}
-            
-        default:
-            p_token=SkipToken(p_token);
-            break;
-        }    
-    }
-    p_token=p_qb;
+			
+		default:
+			p_token=SkipToken(p_token);
+			break;
+		}    
+	}
+	p_token=p_qb;
 	end_of_file=false;
 	// That's all the checksum names added.
 
@@ -3204,14 +3172,12 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 	s_qb_being_parsed=Crc::GenerateCRCFromString(p_fileName);
 
 	// Make sure we're using the script heap, cos we're about to create a bunch of scripty stuff.
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-	
-    while (!end_of_file)
-    {
-        p_token=SkipEndOfLines(p_token);
+	while (!end_of_file)
+	{
+		p_token=SkipEndOfLines(p_token);
 		
-        switch (*p_token)
-        {
+		switch (*p_token)
+		{
 			case ESCRIPTTOKEN_NAME:
 			{
 				p_token=sCreateSymbolOfTheFormNameEqualsValue(p_token,p_fileName,assertIfDuplicateSymbols);
@@ -3310,10 +3276,9 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 			default:
 				Dbg_MsgAssert(0,("\nConfused by line %d of %s.\nExpected either a script definition (Script ... EndScript)\nor a constant definition (Something=...)",GetLineNumber(p_token),p_fileName));
 				break;
-        }    
-    }
+		}    
+	}
 
-	Mem::Manager::sHandle().PopContext();
 	s_qb_being_parsed=0;
 }
 

@@ -1227,7 +1227,7 @@ void sMesh::Initialize( int				num_vertices,
 
 	// Grab top-down heap memory for the mesh workspace buffer
 	// This will need to be as big as the maximum vertex indexed
-	int16 *p_mesh_workspace_array = new (Mem::Manager::sHandle().TopDownHeap()) int16[max_index + 1];
+	int16 *p_mesh_workspace_array = new int16[max_index + 1];
 
 	// Get which vertices are used
 	memset(p_mesh_workspace_array, 1, sizeof(uint16) * (max_index + 1));

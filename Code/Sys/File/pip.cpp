@@ -262,7 +262,7 @@ void LoadPre(const char *p_preFileName)
 		old_pre_buffer_size=(original_file_size+2047)&~2047;
 		old_pre_buffer_size+=name_size;
 
-		p_old_file_data=(char*)Mem::Malloc(old_pre_buffer_size);
+		p_old_file_data = new char[old_pre_buffer_size];
 		Dbg_MsgAssert(p_old_file_data,("Could not allocate memory for file %s",p_full_pre_name));
 
 		// Copy in the pre name at the start of the buffer.
@@ -329,37 +329,18 @@ void LoadPre(const char *p_preFileName)
 	// number of sectors.
 
 	// Reallocate the buffer.
-	char *p_new_file_data = (char*)Mem::ReallocateUp(new_pre_buffer_size, p_old_file_data);
-	p_old_file_data = p_new_file_data;
-	Dbg_MsgAssert(p_new_file_data,("ReallocateUp failed!"));
-
-	// Now need to move the data up so that it can be decompressed into the gap below.
-	uint32 *p_source=(uint32*)(p_old_file_data + old_pre_buffer_size);
-	uint32 *p_dest=(uint32*)(p_new_file_data + new_pre_buffer_size);
-	// Loading backwards cos the destination overlaps the source.
-
-	// Note: Did some timing tests to see if this was was slow, but it's not really.
-	// To load all the pre files in the game, one after the other, takes an average of
-	// 32.406 seconds when the top down heap is used. When using the bottom up, which
-	// necessitates doing this copy, it takes 33.518 seconds.
-	// So per pre file that isn't much. (There's about 60 pre files)
-	Dbg_MsgAssert((old_pre_buffer_size&3)==0,("old_pre_buffer_size not a multiple of 4 ?"));
-	uint32 num_longs=old_pre_buffer_size/4;
-	for (uint32 i=0; i<num_longs; ++i)
-	{
-		--p_source;
-		--p_dest;
-		*p_dest=*p_source;
-	}
+	char *p_new_file_data = new char[new_pre_buffer_size];
+	memcpy(p_new_file_data + new_pre_buffer_size - old_pre_buffer_size, p_old_file_data, old_pre_buffer_size);
 
 	// Now update p_old_file_data to point where it should.
+	delete[] p_old_file_data;
 	p_old_file_data = p_new_file_data + new_pre_buffer_size - old_pre_buffer_size;
 
 	// Copy the pre name down.
-	// for (int i=0; i<name_size; ++i)
-	// {
-	// 	p_new_file_data[i] = p_old_file_data[i];
-	// }
+	for (int i=0; i<name_size; ++i)
+	{
+		p_new_file_data[i] = p_old_file_data[i];
+	}
 
 	// Write in the new pre header
 	SPreHeader *p_source_header=(SPreHeader*)(p_old_file_data+name_size);
@@ -461,10 +442,10 @@ bool UnloadPre(const char *p_preFileName)
 
 				// Before unloading it, make sure none of the files within is still open.
 				#ifdef __NOPT_ASSERT__
-				SPreHeader *p_pre_header=sSkipOverPreName(spp_pre_files[i]);
+				SPreHeader *p_pre_header = sSkipOverPreName(spp_pre_files[i]);
 				int num_files=p_pre_header->mNumFiles;
-				SPreContained *p_contained=(SPreContained*)(p_pre_header+1);
-				for (int f=0; f<num_files; ++f)
+				SPreContained *p_contained = (SPreContained*)(p_pre_header + 1);
+				for (int f = 0; f < num_files; ++f)
 				{
 					Dbg_MsgAssert(!p_contained->mUsage,("Tried to unload %s when the file %s contained within it was still open! (mUsage=%d)",spp_pre_files[i],p_contained->mpName,p_contained->mUsage));
 					p_contained=sSkipToNextPreContained(p_contained);
@@ -472,7 +453,7 @@ bool UnloadPre(const char *p_preFileName)
 				#endif
 
 				// Delete it.
-				Mem::Free(spp_pre_files[i]);
+				delete[] spp_pre_files[i];
 				spp_pre_files[i]=nullptr;
 
 				// we've successfully unloaded a pre
@@ -506,7 +487,7 @@ void UnloadUnusedPres()
 				continue;
 
 			// Delete it.
-			Mem::Free(spp_pre_files[i]);
+			delete[] spp_pre_files[i];
 			spp_pre_files[i] = nullptr;
 		}
 	}
@@ -649,7 +630,7 @@ void Unload(uint32 fileNameCRC)
 				// Free up the memory if nothing is using this file any more.
 				if (sp_unpreed_files[i].mUsage==0)
 				{
-					Mem::Free(sp_unpreed_files[i].mpFileData);
+					delete[] sp_unpreed_files[i].mpFileData;
 					sp_unpreed_files[i].mpFileData=nullptr;
 
 					sp_unpreed_files[i].mFileSize=0;
@@ -815,10 +796,8 @@ bool ScriptLoadPipPre(Script::CStruct *pParams, Script::CScript *pScript)
 			// Use whatever the current heap is.
 			break;
 		case 0x477fc6de: // TopDown
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
 			break;
 		case 0xc80bf12d: // BottomUp
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 			break;
 		default:
 			Dbg_Warning("Heap '%s' not supported by LoadPipPre, using current heap instead.",Script::FindChecksumName(chosen_heap));
@@ -827,11 +806,6 @@ bool ScriptLoadPipPre(Script::CStruct *pParams, Script::CScript *pScript)
 	}
 
 	LoadPre(p_filename);
-
-	if (chosen_heap)
-	{
-		Mem::Manager::sHandle().PopContext();
-	}
 
 	return true;
 }
@@ -941,7 +915,7 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 			// It can be loaded quickly.
 			if (!p_dest)
 			{
-				p_file_data=(uint8*)Mem::Malloc((file_size+2047)&~2047);
+				p_file_data = new uint8[(file_size + 2047) & ~2047];
 			}
 			else
 			{
@@ -953,9 +927,7 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 			{
 				Dbg_MsgAssert( 0,( "File %s failed to load quickly.\n", p_fileName));
 				if (!p_dest)
-				{
-					Mem::Free(p_file_data);
-				}
+					delete[] p_file_data;
 				p_file_data=nullptr;
 			}
 		}
@@ -983,7 +955,7 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 				// next multiple of 2048, cos maybe loading a file off CD will always load
 				// whole numbers of sectors.
 				// Haven't checked that though.
-				p_file_data=(uint8*)Mem::Malloc(file_size);
+				p_file_data = new uint8[file_size];
 				Dbg_MsgAssert(p_file_data,("Could not allocate memory for file %s",p_fileName));
 			}
 			else

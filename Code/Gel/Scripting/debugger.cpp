@@ -165,8 +165,6 @@ CScriptDebugger::~CScriptDebugger()
 void CScriptDebugger::v_start_cb ( void )
 {
 // Stick it all on the network heap, as it's kind of network releated
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	Net::Manager * p_net_man = Net::Manager::Instance();
 	mp_server = p_net_man->CreateNewAppServer( 0, "Script debugger", 4, GameNet::vSCRIPT_DEBUG_PORT, inet_addr( p_net_man->GetLocalIP()), Net::App::mACCEPT_FOREIGN_CONN | Net::App::mDYNAMIC_RESEND );
 	
@@ -273,8 +271,6 @@ void CScriptDebugger::v_start_cb ( void )
 	
 	Net::Manager* net_man = Net::Manager::Instance();
 	net_man->SetBandwidth( 200000 );
-
-	Mem::Manager::sHandle().PopContext();
 	
 }
 

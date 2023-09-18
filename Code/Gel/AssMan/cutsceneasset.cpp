@@ -25,8 +25,6 @@ int CCutsceneAsset::Load( const char* p_file, bool async_load, bool use_pip, voi
 	(void)pExtraData;
 	(void)pStruct;
 
-	Mem::PushMemProfile( (char*)p_file );
-	
 	Obj::CCutsceneData* p_cutsceneData = new Obj::CCutsceneData;
 
 	// get the platform-specific CUT file name
@@ -42,8 +40,6 @@ int CCutsceneAsset::Load( const char* p_file, bool async_load, bool use_pip, voi
 	
 	// add it to the list:
 	SetData( (void*)p_cutsceneData );
-
-	Mem::PopMemProfile(/*(char*)p_file*/);
 
 	return 0;
 }

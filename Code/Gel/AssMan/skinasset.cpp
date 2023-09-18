@@ -25,8 +25,6 @@ int CSkinAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pE
 
 	Dbg_MsgAssert(!async_load, ("Async load not supported on CSkinAsset"));
 
-	Mem::PushMemProfile((char*)p_file);
-
 	SSkinAssetLoadContext theContext;
 	theContext.forceTexDictLookup = false;
 	theContext.doShadowVolume = false;
@@ -78,8 +76,6 @@ int CSkinAsset::Load(const char *p_file, bool async_load, bool use_pip, void* pE
 	// Model node arrays are now loaded via the NodeArrayComponent.
 //	pMesh->LoadModelNodeArray(p_file);
 
-	Mem::PopMemProfile(/*"Skin"*/);
-
 	return 0;
 }
 
@@ -90,8 +86,6 @@ int CSkinAsset::Load(uint32* p_data, int data_size)     // create or load the as
 	char pDebugAssetString[256];
 	sprintf( pDebugAssetString, "skin from data stream" );
 	
-	Mem::PushMemProfile((char*)pDebugAssetString);
-
 	// GJ:  for now, we need to access 3 pointers for the MDL, TEX, and CAS
 	// data...  eventually, i'd like to store each of the 3 files
 	// separately in the asset manager, in which case we wouldn't
@@ -121,8 +115,6 @@ int CSkinAsset::Load(uint32* p_data, int data_size)     // create or load the as
 	// a data stream will not have collision or a node array,
 	// since we're only using this for cutscene assets right 
 	// now...  this can be changed very easily...
-
-	Mem::PopMemProfile(/*"skin from data stream"*/);
 
 	return 0;
 }

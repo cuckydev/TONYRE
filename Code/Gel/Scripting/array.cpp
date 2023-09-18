@@ -112,7 +112,7 @@ void CArray::Clear()
 					// The CArray cannot delete them itself because this would cause cyclic dependencies.
 					for (uint32 i=0; i<m_size; ++i)
 					{
-						Dbg_MsgAssert(mp_array_data[i]==0,("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName((uint8)m_type)));
+						Dbg_MsgAssert(mp_array_data[i] == 0, ("Tried to delete a CArray that still contains non-nullptr data: size=%d type='%s'",m_size,GetTypeName((uint8)m_type)));
 					}
 					break;
 				}	
@@ -123,7 +123,7 @@ void CArray::Clear()
 			}		
 			#endif
 			
-			Mem::Free(mp_array_data);
+			delete[] mp_array_data;
 			mp_array_data=nullptr;
 		}	
 	}
@@ -172,9 +172,7 @@ void CArray::SetSizeAndType(size_t size, ESymbolType type)
 		{
 			Dbg_MsgAssert(mp_array_data==nullptr,("mp_array_data not nullptr ?"));
 			
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-			mp_array_data=(uint32*)Mem::Malloc(m_size*sizeof(uint32));
-			Mem::Manager::sHandle().PopContext();
+			mp_array_data = new uint32[m_size];
 			
 			uint32 *p_long_word=mp_array_data;
 			for (uint32 i=0; i<m_size; ++i)
@@ -206,9 +204,7 @@ void CArray::Resize(size_t newSize)
 	// TODO: Support the above if need be. Need to not allocate a new buffer in that case.
 	
 	// Allocate the new buffer.
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-	uint32 *p_new_buffer=(uint32*)Mem::Malloc(newSize*sizeof(uint32));
-	Mem::Manager::sHandle().PopContext();
+	uint32 *p_new_buffer = new uint32[newSize];
 	
 	// Copy the contents of the old buffer into the new.
 	uint32 *p_source=GetArrayPointer();
@@ -232,7 +228,7 @@ void CArray::Resize(size_t newSize)
 	// mp_array_data is not allocated for sizes of 1 as a memory optimization.
 	if (m_size > 1)
 	{
-		Mem::Free(mp_array_data);
+		delete[] mp_array_data;
 	}	
 	mp_array_data=p_new_buffer;
 	

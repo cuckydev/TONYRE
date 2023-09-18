@@ -62,7 +62,7 @@ void CFaceTexture::LoadFace( const char* pFaceName, bool fullPathIncluded )
 	char* pData = (char*)File::LoadAlloc( extended_filename, &file_size );
 	memcpy( m_rawData, pData, file_size );
 	Dbg_MsgAssert( file_size <= vRAW_TEXTURE_SIZE, ( "File too big (file is %d, buffer is %d)", file_size, vRAW_TEXTURE_SIZE ) );
-	Mem::Free( pData );
+	delete[] pData;
 	
 	m_isValid = true;
 }

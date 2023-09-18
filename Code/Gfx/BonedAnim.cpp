@@ -1054,7 +1054,7 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	}
 	else
 	{
-		mpp_customAnimKeyList = (CCustomAnimKey **)(Mem::Malloc(pThePlatformHeader->numCustomAnimKeys*sizeof(CCustomAnimKey *)));
+		mpp_customAnimKeyList = new CCustomAnimKey*[pThePlatformHeader->numCustomAnimKeys];
 		
 		// read custom keys
 		for ( uint32 i = 0; i < pThePlatformHeader->numCustomAnimKeys; i++ )
@@ -1204,7 +1204,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	}
 	else
 	{
-		mpp_customAnimKeyList = (CCustomAnimKey **)(Mem::Malloc(pThePlatformHeader->numCustomAnimKeys*sizeof(CCustomAnimKey *)));
+		mpp_customAnimKeyList = new CCustomAnimKey*[pThePlatformHeader->numCustomAnimKeys];
 		
 		// read custom keys
 		for ( uint32 i = 0; i < pThePlatformHeader->numCustomAnimKeys; i++ )
@@ -1345,7 +1345,7 @@ CBonedAnimFrameData::~CBonedAnimFrameData()
 
 	if (mpp_customAnimKeyList)
 	{
-		Mem::Free( mpp_customAnimKeyList );
+		delete[] mpp_customAnimKeyList;
 	}
 
 	if (m_pipped)
@@ -1356,7 +1356,7 @@ CBonedAnimFrameData::~CBonedAnimFrameData()
 	{
 		if (mp_fileBuffer)
 		{
-			Mem::Free(mp_fileBuffer);
+			delete[] mp_fileBuffer;
 		}
 	}
 
@@ -1405,7 +1405,7 @@ bool CBonedAnimFrameData::Load(uint32* pData, int file_size, bool assertOnFail)
 #else
 //	Now that we're pipping it, we don't have to force this on the top-down heap
 //	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-	mp_fileBuffer = (void *) Mem::Malloc( file_size );
+	mp_fileBuffer = new char[file_size];
 //	Mem::Manager::sHandle().PopContext();
 	
 	// copy the data into the temporary buffer
@@ -1469,7 +1469,7 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 		Dbg_Assert(!mp_fileBuffer);
 //		Now that we're pipping it, we don't have to force this on the top-down heap
 //		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-		mp_fileBuffer = (void *) Mem::Malloc( file_size );
+		mp_fileBuffer = new char[file_size];
 //		Mem::Manager::sHandle().PopContext();
 
 		// Set the callback
@@ -1489,7 +1489,7 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 	{
 		if ( use_pip )
 		{
-			mp_fileBuffer = Pip::Load( p_fileName );
+			mp_fileBuffer = (char*)Pip::Load( p_fileName );
 			file_size = Pip::GetFileSize( p_fileName );
 			Dbg_MsgAssert(file_size, ("Anim file size is 0"));
 			m_pipped |= 1;
@@ -1508,15 +1508,12 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 			file_size = File::GetFileSize(pStream);
 			Dbg_MsgAssert(file_size, ("Anim file size is 0"));
 			Dbg_Assert(!mp_fileBuffer);
-	//		Now that we're pipping it, we don't have to force this on the top-down heap
-	//		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-			mp_fileBuffer = (void *) Mem::Malloc( file_size );
-	//		Mem::Manager::sHandle().PopContext();
+			mp_fileBuffer = new char[file_size];
 
 			// read the file in
 			if ( !File::Read( mp_fileBuffer, 1, file_size, pStream ) )
 			{
-				Mem::Free(mp_fileBuffer);
+				delete[] mp_fileBuffer;
 				mp_fileBuffer = nullptr;
 				File::Close( pStream );
 

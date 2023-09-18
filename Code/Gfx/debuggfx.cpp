@@ -403,9 +403,7 @@ void AddDebugLine( const Mth::Vector &v0, const Mth::Vector &v1, int rgb0, int r
 		{
 			return;
 		}
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-		DebuggeryLineArray  = (SDebuggeryLine *) Mem::Malloc(DEBUGGERY_LINE_ARRAY_SIZE * sizeof (SDebuggeryLine));
-		Mem::Manager::sHandle().PopContext();
+		DebuggeryLineArray = new SDebuggeryLine[DEBUGGERY_LINE_ARRAY_SIZE];
 		DebuggeryLines_CleanUp( );	  //initialize it
 		
 	}
@@ -459,9 +457,7 @@ void AddDebugArrow( const Mth::Vector &v0, const Mth::Vector &v1, int rgb0, int 
 		{
 			return;
 		}
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-		DebuggeryLineArray  = (SDebuggeryLine *) Mem::Malloc(DEBUGGERY_LINE_ARRAY_SIZE * sizeof (SDebuggeryLine));
-		Mem::Manager::sHandle().PopContext();
+		DebuggeryLineArray = new SDebuggeryLine[DEBUGGERY_LINE_ARRAY_SIZE];
 		DebuggeryLines_CleanUp( );	  //initialize it
 		
 	}

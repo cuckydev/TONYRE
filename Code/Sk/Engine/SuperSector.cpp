@@ -115,11 +115,11 @@ Sector::~Sector( void )
 
 	if( m_SectorList )
 	{   
-		delete [] m_SectorList;
+		delete[] m_SectorList;
 	}
 	if( m_CollSectorList )
 	{   
-		Mem::Free(m_CollSectorList);
+		delete[] m_CollSectorList;
 	}
 }
 
@@ -295,8 +295,6 @@ void	Manager::AddCollisionToSuperSectors( Nx::CCollStatic *coll, int num_coll_se
 		for( int j = 0; j < NUM_PARTITIONS_Z; j++ )
 		{
 			// Allocate temp list on high heap
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-
 			for ( int idx = 0; idx < num_coll_sectors; idx++ )
 			{
 				// Check to see if this collision sector belongs in the SuperSector
@@ -308,11 +306,9 @@ void	Manager::AddCollisionToSuperSectors( Nx::CCollStatic *coll, int num_coll_se
 				}
 			}
 
-			Mem::Manager::sHandle().PopContext();
-
 			if( sector_list.CountItems() > 0 )
 			{
-				m_super_sector_list[i][j].m_CollSectorList = (Nx::CCollStatic **) Mem::Malloc(sizeof(Nx::CCollStatic *) * sector_list.CountItems());
+				m_super_sector_list[i][j].m_CollSectorList = new Nx::CCollStatic*[sector_list.CountItems()];
 				m_super_sector_list[i][j].m_NumCollSectors = sector_list.CountItems();
 				int k = 0;
 				for( sector = sector_list.GetNext(); sector; sector = next )
@@ -355,9 +351,6 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 		{
 			SSec::Sector *p_super_sector = &(m_super_sector_list[i][j]);
 			num_change = 0;
-
-			// Allocate temp list on high heap
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
 
 			// Check removed sectors first
 			sector = remove_list.GetNext();
@@ -424,29 +417,27 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 				sector = sector->GetNext();
 			}
 
-			Mem::Manager::sHandle().PopContext();
-
 			int new_size = p_super_sector->m_NumCollSectors + num_change;
 
-			if (num_change < 0)				// Re-alloc array down
+			if (num_change < 0)
 			{
-				if (!p_super_sector->m_CollSectorList ||
-					!Mem::Manager::sHandle().ReallocateShrink(sizeof(Nx::CCollStatic *) * new_size, p_super_sector->m_CollSectorList))
-				{
-					// If we can't realloc down, then we have to use the old realloc
-					p_super_sector->m_CollSectorList = (Nx::CCollStatic **) Mem::Realloc(p_super_sector->m_CollSectorList,
-																						 sizeof(Nx::CCollStatic *) * new_size);
-				}
+				// Re-alloc array down
+				Nx::CCollStatic **new_sector_list = new Nx::CCollStatic*[new_size];
+				for (int k = 0; k < new_size; k++)
+					new_sector_list[k] = p_super_sector->m_CollSectorList[k];
+
+				delete[] p_super_sector->m_CollSectorList;
+				p_super_sector->m_CollSectorList = new_sector_list;
 			}
-			else if (num_change > 0)		// Re-alloc array up and copy in sector_add_list
+			else if (num_change > 0)
 			{
-				if (!p_super_sector->m_CollSectorList ||
-				    !Mem::Manager::sHandle().ReallocateUp(sizeof(Nx::CCollStatic *) * new_size, p_super_sector->m_CollSectorList))
-				{
-					// If we can't realloc up, then we have to use the old realloc
-					p_super_sector->m_CollSectorList = (Nx::CCollStatic **) Mem::Realloc(p_super_sector->m_CollSectorList,
-																						 sizeof(Nx::CCollStatic *) * new_size);
-				}
+				// Re-alloc array up
+				Nx::CCollStatic **new_sector_list = new Nx::CCollStatic*[new_size];
+				for (int k = 0; k < p_super_sector->m_NumCollSectors; k++)
+					new_sector_list[k] = p_super_sector->m_CollSectorList[k];
+
+				delete[] p_super_sector->m_CollSectorList;
+				p_super_sector->m_CollSectorList = new_sector_list;
 
 				// Copy add list in
 				idx = p_super_sector->m_NumCollSectors;
@@ -480,14 +471,14 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 				uint32 count = p_super_sector->m_NumCollSectors;
 				if (count)
 				{
-					p_super_sector->m_CollSectorList = (Nx::CCollStatic**)Mem::Malloc(4*(count));
-					memcpy(p_super_sector->m_CollSectorList, pp_old, 4*(count));
-					Mem::Free(pp_old);
+					p_super_sector->m_CollSectorList = new Nx::CCollStatic*[count];
+					memcpy(p_super_sector->m_CollSectorList, pp_old, count * sizeof(Nx::CCollStatic*));
+					delete[] pp_old;
 				}
 				else
 				{
 					p_super_sector->m_CollSectorList = nullptr;
-					Mem::Free(pp_old);
+					delete[] pp_old;
 				}
 			}
 		}
@@ -564,7 +555,7 @@ void	Manager::ClearCollisionSuperSectors()
 
 			if( p_super_sector->m_CollSectorList )
 			{   
-				Mem::Free(p_super_sector->m_CollSectorList);
+				delete[] p_super_sector->m_CollSectorList;
 				p_super_sector->m_CollSectorList = nullptr;
 			}
 

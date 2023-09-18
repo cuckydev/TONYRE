@@ -93,8 +93,8 @@ void AllocateChecksumNameLookupTables()
 	// Just allocate the arrays off the heap.
 	
 	// Checksum-name lookup stuff.
-	sp_checksum_name_hash_table=(SChecksumName*)Mem::Malloc((1<<CHECKSUM_LOOKUP_HASH_BITS) * CHECKSUM_ENTRIES_PER_SLOT * sizeof(SChecksumName));
-	sp_checksum_names=(char*)Mem::Malloc(CHECKSUM_NAME_SPACE);
+	sp_checksum_name_hash_table = new SChecksumName[(1 << CHECKSUM_LOOKUP_HASH_BITS) * CHECKSUM_ENTRIES_PER_SLOT];
+	sp_checksum_names = new char[CHECKSUM_NAME_SPACE];
 	sp_end_of_checksum_names=sp_checksum_names;
 	
 	#endif // __PLAT_NGPS__
@@ -122,8 +122,8 @@ void DeallocateChecksumNameLookupTables()
 	#ifdef __PLAT_NGPS__
 	// Nothing to delete on PS2 because the arrays were not dynamically allocated.
 	#else
-	Mem::Free(sp_checksum_name_hash_table);
-	Mem::Free(sp_checksum_names);
+	delete[] sp_checksum_name_hash_table;
+	delete[] sp_checksum_names;
 	#endif
 	
 	sp_checksum_name_hash_table=nullptr;

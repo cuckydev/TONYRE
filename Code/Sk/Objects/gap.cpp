@@ -242,8 +242,6 @@ void	CGapChecklist::AddGapCheck(const char *p_name, int count, int score)
 		pOther = (CGapCheck*)pOther->GetNext();
 	}
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap()); 
-	
 	CGapCheck* pGapCheck = new CGapCheck;		// create new gap		
 	pGapCheck->UnGetGap();						// say not got it yet
 
@@ -260,8 +258,6 @@ void	CGapChecklist::AddGapCheck(const char *p_name, int count, int score)
 		// add to the ehad of the list if it's smaller than everything
 		m_gapcheck_list.AddToHead( pGapCheck );	 
 	}
-	
-	Mem::Manager::sHandle().PopContext();
 }
 
 																					  
@@ -313,8 +309,6 @@ void CGapChecklist::FindGaps()
 {	
 	Dbg_Message("Looking for gaps ...\n");
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap()); 
-	
 	p_current = this;	  			// store curent 'this' pointer for the callback
 	m_valid = true;					// say that we have looked for gaps in this level
 	
@@ -330,7 +324,6 @@ void CGapChecklist::FindGaps()
 	
 	// Maybe - and then re-scan them here, and delete them if not flagged by got_gap
 	
-	Mem::Manager::sHandle().PopContext(); 
 	Dbg_Message("Finished looking for gaps.\n");
 }
 

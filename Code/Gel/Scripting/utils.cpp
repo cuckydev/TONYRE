@@ -718,13 +718,10 @@ uint32 CalculateBufferSize(CStruct *p_structure, uint32 tempBufferSize)
 {
 	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap()); // Use the temporary heap
-	
-	uint8 *p_temp=(uint8*)Mem::Malloc(tempBufferSize);
+	uint8 *p_temp = new uint8[tempBufferSize];
 	Dbg_MsgAssert(p_temp,("Could not allocate temporary buffer"));
 	uint32 space_required=WriteToBuffer(p_structure,p_temp,tempBufferSize);
-	Mem::Free(p_temp);
-	Mem::Manager::sHandle().PopContext();
+	delete[] p_temp;
 
 	return space_required;
 }
@@ -744,9 +741,6 @@ uint8 *ReadFromBuffer(CStruct *p_structure, uint8 *p_buffer)
 	// First clear anything currently in the structure.
 	p_structure->Clear();
 
-	// Make sure we're using the script heap.
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-	
 	// Scan through the buffer adding the components until ESYMBOLTYPE_NONE is reached.
 	while (true)
     {
@@ -871,8 +865,6 @@ uint8 *ReadFromBuffer(CStruct *p_structure, uint8 *p_buffer)
         }
     }
 
-	Mem::Manager::sHandle().PopContext();
-	
 	return p_buffer;
 }
 
@@ -1213,10 +1205,7 @@ uint8 *ReadFromBuffer(CArray *p_array, uint8 *p_buffer)
 	uint32 size=*p_buffer++;
 	size+=*p_buffer++<<8; // 2 byte size.
 
-	// Make sure we're using the script heap.
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 	p_array->SetSizeAndType(size,type);
-	Mem::Manager::sHandle().PopContext();
 	
     switch (type)
     {

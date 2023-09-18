@@ -1745,13 +1745,9 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 	
 	FileSize = File::GetFileSize( pFP );
 
-	// Allocate a buffer to hold the file.
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap());
-
 	// Allocating the size rounded up to a multiple of 2048 in case file reading only reads a whole number of sectors.
-	pIco = (char*)Mem::Malloc(( FileSize + 2047 ) & ~2047 );
+	pIco = new char[(FileSize + 2047) & ~2047];
 	Dbg_MsgAssert( pIco, ( "Could not allocate memory for %s", pSourceIconFile ));
-	Mem::Manager::sHandle().PopContext();
 
 	// Read the file into the buffer and close the file.
 #ifdef __NOPT_ASSERT__
@@ -1794,7 +1790,7 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 		}	
 		delete pFile;
 	}
-	Mem::Free( pIco );
+	delete[] pIco;
 	return SavedOK;	
 }
 
@@ -3275,7 +3271,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	pad_size=fixed_size-required_size;
 	if (pad_size && Config::GetHardware() != Config::HARDWARE_NGC)
 	{
-		p_pad=(uint8*)Mem::Malloc(pad_size);
+		p_pad = new uint8[pad_size];
 		for (uint32 i=0; i<pad_size; ++i)
 		{
 			p_pad[i]=0x69;
@@ -3350,7 +3346,7 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 		goto McError;
 	}
 		
-	pTemp=(uint8*)Mem::Malloc(header_and_structures_size);
+	pTemp = new uint8[header_and_structures_size];
 	
 	p_file_header=(SMcFileHeader*)pTemp;
 	// Zero the whole structure to ensure that the XBox mSignature member is zeroed since
@@ -3559,11 +3555,11 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 McError:	
 	if (p_pad)
 	{
-		Mem::Free(p_pad);
+		delete[] p_pad;
 	}
 	if (pTemp)
 	{
-		Mem::Free(pTemp);
+		delete[] pTemp;
 	}
 	if (pFile)
 	{

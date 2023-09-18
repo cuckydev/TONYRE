@@ -106,7 +106,7 @@ CScriptCacheEntry::~CScriptCacheEntry()
 	
 	if (mpDecompressedScript)
 	{
-		Mem::Free(mpDecompressedScript);
+		delete[] mpDecompressedScript;
 	}	
 }	
 
@@ -129,9 +129,7 @@ CScriptCache::CScriptCache()
 	// get called until the first frame of the game loop, which was causing a problem on XBox
 	// because Nx::CEngine::sStartEngine(); needs to run a script, and that call occurs early in main.cpp
 	// before the main loop.
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 	mp_cache_hash_table = new Lst::HashTable<CScriptCacheEntry>(8);
-	Mem::Manager::sHandle().PopContext();
 	
 	mp_first_zero_usage=nullptr;
 	mp_last_zero_usage=nullptr;
@@ -170,12 +168,10 @@ CScriptCache::~CScriptCache()
 void CScriptCache::v_start_cb ( void )
 {
 	#ifdef __NOPT_ASSERT__
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 	mp_logic_task = new Tsk::Task< CScriptCache > ( CScriptCache::s_logic_code, *this );
 
 	Mlp::Manager * mlp_manager = Mlp::Manager::Instance();
 	mlp_manager->AddLogicTask( *mp_logic_task );
-	Mem::Manager::sHandle().PopContext();
 	#endif
 }
 
@@ -258,10 +254,10 @@ void CScriptCache::remove_some_old_scripts(int space_required, uint32 scriptName
 {
 	while (true)
 	{
-		int largest_malloc_possible=Mem::Manager::sHandle().ScriptHeap()->LargestFreeBlock();
-		largest_malloc_possible-=128; // Actually, 32 seems OK, but have a bigger margin just to be sure.
+		// int largest_malloc_possible=Mem::Manager::sHandle().ScriptHeap()->LargestFreeBlock();
+		// largest_malloc_possible-=128; // Actually, 32 seems OK, but have a bigger margin just to be sure.
 		
-		if (space_required <= largest_malloc_possible)
+		if (1) // space_required <= largest_malloc_possible)
 		{
 			// Hurrah! It's all clear to decompress another script since we know there is enough heap to hold it.
 			
@@ -278,6 +274,7 @@ void CScriptCache::remove_some_old_scripts(int space_required, uint32 scriptName
 			break;
 		}	
 
+		/*
 		// Free up some space by deleting the oldest zero-usage decompressed script.
 		
 		if (!mp_last_zero_usage)
@@ -288,6 +285,7 @@ void CScriptCache::remove_some_old_scripts(int space_required, uint32 scriptName
 		
 		//printf("%d: Deleting %s from cache, new free space = %d\n",space_required,Script::FindChecksumName(mp_last_zero_usage->mScriptNameChecksum),Mem::Manager::sHandle().ScriptHeap()->LargestFreeBlock()-128);
 		delete_entry(mp_last_zero_usage);
+		*/
 	}	
 }
 
@@ -352,9 +350,7 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
 
 		CScriptCacheEntry *p_new_cache_entry = new CScriptCacheEntry;
 		
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-		uint8 *p_new_script=(uint8*)Mem::Malloc(uncompressed_size);
-		Mem::Manager::sHandle().PopContext();
+		uint8 *p_new_script = new uint8[uncompressed_size];
 		
 		if (uncompressed_size > compressed_size)
 		{
@@ -550,7 +546,7 @@ void CScriptCache::GetDebugInfo( Script::CStruct* p_info )
 			p_cache_entry_info->AddChecksum(Crc::ConstCRC("Script"),p_cache_entry->mScriptNameChecksum);
 			p_cache_entry_info->AddInteger(Crc::ConstCRC("Usage"),p_cache_entry->mUsage);
 			
-			int alloc_size=Mem::GetAllocSize(p_cache_entry->mpDecompressedScript);
+			int alloc_size = 0; // Mem::GetAllocSize(p_cache_entry->mpDecompressedScript);
 			p_cache_entry_info->AddInteger(Crc::ConstCRC("ScriptSize"),alloc_size);
 			alloc_total+=alloc_size;
 			

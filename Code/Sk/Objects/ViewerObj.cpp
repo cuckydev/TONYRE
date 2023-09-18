@@ -288,15 +288,6 @@ void CViewerObject::LoadModel( Script::CStruct* pNodeData )
 
 	Nx::CEngine::sFinishRendering();
 
-	if (Config::GotExtraMemory())
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-	}
-	else
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	}
-		
 	Dbg_Assert( pNodeData );
 	
 	// get rid of old model, if
@@ -367,8 +358,6 @@ void CViewerObject::LoadModel( Script::CStruct* pNodeData )
 
 	// loop the idle anim, if it exists
 	CViewerObject::SetAnim( Crc::ConstCRC("idle") );
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/

@@ -978,9 +978,7 @@ void CObject::allocate_tags_if_needed()
 {
 	if (!mp_tags) 
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		mp_tags = new Script::CStruct();
-		Mem::Manager::sHandle().PopContext();
 	}
 }
 
@@ -993,10 +991,8 @@ void CObject::AllocateScriptIfNeeded()
 {
 	if (!mp_script) 
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 		mp_script = new Script::CScript();
 		mp_script->SetScript(Crc::ConstCRC("empty_script"),nullptr,this);
-		Mem::Manager::sHandle().PopContext();
 	}
 }
 

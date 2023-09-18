@@ -327,7 +327,6 @@ int main ( sint argc, char** argv )
 
 	DEBUG_FLASH(0x007F0000);
 	
-	Mem::SetThreadSafe(false);	
 	Config::Init(argc,argv);
 
 #ifdef __PLAT_NGPS__
@@ -336,9 +335,7 @@ int main ( sint argc, char** argv )
 #endif		// __PLAT_NGPS__
 
 	DEBUG_FLASH(0x00007f00);
-					  
-	Mem::Manager::sHandle().InitOtherHeaps();							
-
+	
 	DEBUG_FLASH(0x0000007f);
 
 	#ifdef	__PLAT_NGPS__
@@ -398,10 +395,6 @@ int main ( sint argc, char** argv )
 	// if (Config::GotExtraMemory())
 	// 	Mem::Manager::sSetUpDebugHeap();
 
-	Mem::PushMemProfile("Everything");
-	Mem::PushMemProfile("Initialization");
-
-	
 //	static char	profdata[8192];
 //	snDebugInit();
 //	snProfInit(_4KHZ, profdata, sizeof(profdata));
@@ -494,9 +487,7 @@ int main ( sint argc, char** argv )
 
 	
 	while (  true )
-	{	
-		Mem::Manager::sHandle().BottomUpHeap()->PushContext();
-		Mem::Manager::sHandle().PushMemoryMarker(MAINLOOP_MEMMARKER);
+	{
 		{
 			/*
 				Important Notes:
@@ -523,9 +514,7 @@ int main ( sint argc, char** argv )
 			General startup section
 			************************************************/
 			
-			Mem::PushMemProfile("Hash Item Pool Manager");
 			Mem::PoolManager::SSetupPool(Mem::PoolManager::vHASH_ITEM_POOL, 12500);	// Mick: increased from 5600 to 10000
-			Mem::PopMemProfile(/*"Hash Item Pool Manager"*/);
 
 				
 			// I'd prefer for this stuff to happen after the singleton section,
@@ -545,14 +534,11 @@ int main ( sint argc, char** argv )
 			
 			Tmr::Init();
 			
-			Mem::PushMemProfile("File System");
-			File::InstallFileSystem();               
-			Mem::PopMemProfile(/*"File System"*/);
+			File::InstallFileSystem();
 
 								
 			DEBUG_FLASH(0x007f7f00);		// cyan
-								
-			Mem::PushMemProfile("System Singletons");
+			
 			Spt::SingletonPtr< Obj::CTracker >	obj_tracker( true );
 			Spt::SingletonPtr< Mlp::Manager >	mlp_manager( true );
 			Spt::SingletonPtr< Mdl::Manager >	mdl_manager( true );
@@ -561,7 +547,6 @@ int main ( sint argc, char** argv )
 			Spt::SingletonPtr< Inp::Manager >	inp_manager( true );
 			Spt::SingletonPtr< Gfx::Manager >	gfx_manager( true );
 			Spt::SingletonPtr< File::CAsyncFilePoll>	async_poll( true );
-			Mem::PopMemProfile(/*"System Singletons"*/);
 
 			DEBUG_FLASH(0x00007f7f);		// yellow
 
@@ -578,19 +563,14 @@ int main ( sint argc, char** argv )
 			// we load any other files (so it loads as fast as possible)																  
 			// SO, NO SCRIPT FUNCTIONS MAY BE USED BEFORE THIS POINT
 
-			Mem::PushMemProfile("SkateScript::Init()");
 			SkateScript::Init();	 			
 
-			Mem::PushMemProfile("Game Singletons");
 			#ifdef __NOPT_ASSERT__
 			Spt::SingletonPtr< Dbg::CScriptDebugger> script_debugger(true);
 			#endif
-			Mem::PopMemProfile();
 
 			SkateScript::Preload();
-			Mem::PopMemProfile();
 			
-			Mem::PushMemProfile("Game Singletons");
 			Obj::CPathMan::Instance(); // Force creation of CPathMan singleton
 
 #ifndef NO_SCRIPT_CACHING
@@ -608,12 +588,8 @@ int main ( sint argc, char** argv )
 			Spt::SingletonPtr< Front::CScreenElementManager > 	screen_elem_manager(true);
 #if __USE_REPLAYS__
 			Spt::SingletonPtr< Replay::Manager > 				replay_manager( true );
-#endif			
-			Mem::PopMemProfile(/*"Game Singletons"*/);
-
+#endif
 			DEBUG_FLASH(0x007f7f7f);		// white
-
-			Mem::PushMemProfile("Resgistering and starting modules");
 
 			/***********************************************
 			Setup main loop tasks section
@@ -664,21 +640,16 @@ int main ( sint argc, char** argv )
 			mdl_manager->StartModule ( *grandpas_park_editor );
 			mdl_manager->StartModule ( *async_poll );
 			
-			Mem::PopMemProfile(/*"Resgistering and starting modules"*/);
-		
-						
 			/***********************************************
 			Main loop section
 			************************************************/
 			
 #ifdef		__USE_PROFILER__
 			Sys::Profiler::sSetUp(2);
-#endif			
-			
-			Mem::PushMemProfile("sStartEngine");
-			Nx::CEngine::sStartEngine();
-			Mem::PopMemProfile(/*"sStartEngine"*/);
+#endif
 
+			Nx::CEngine::sStartEngine();
+			
 			Dbg_Message ( "Starting main loop" );
 // Note to the adventurer:
 // Where does control go now? .... you may well ask
@@ -712,12 +683,7 @@ int main ( sint argc, char** argv )
 // and start skating.
 // phew
 
-			Mem::PopMemProfile(/*Initilization*/);
-			
-			
-			Mem::PushMemProfile("MainLoop");
 			mlp_manager->MainLoop();
-			Mem::PopMemProfile(/*"MainLoop"*/);
 			
 // The following code is theoretical, as we actually never shut down the whole game			
 // On the PS2, we use the script command "LoadExecPS2", which calls "ScriptLoadExecPS2" in cfuncs.cpp
@@ -754,8 +720,6 @@ int main ( sint argc, char** argv )
 			Dbg_Message ( "End Application" );
 		}
 		Tmr::DeInit();
-		Mem::Manager::sHandle().PopMemoryMarker(MAINLOOP_MEMMARKER);
-		Mem::Manager::sHandle().BottomUpHeap()->PopContext();
 	}
 
 				 

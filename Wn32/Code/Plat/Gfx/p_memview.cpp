@@ -201,80 +201,21 @@ void MemViewToggle()
 void MemView_Alloc( void *v)
 {
 	(void)v;
-#ifdef	__LINKED_LIST_HEAP__
-
-
-#ifdef	__NOPT_CDROM__OLD
-   return;
-#endif 	
-
-#endif
 }
 
 void MemView_Free( void *v)
 {
 	(void)v;
-#ifdef	__LINKED_LIST_HEAP__
-#endif	
 }
 
 
 Mem::Allocator::BlockHeader *MemView_FindBlock( int addr)
 {
-#ifdef	__LINKED_LIST_HEAP__
-
-	
-	Mem::Allocator::BlockHeader *pSmallestBlock	= nullptr;
-	uint32 smallest_block_size = 100000000;
-	Mem::Manager& mem_man = Mem::Manager::sHandle();
-	for (Mem::Heap* heap = mem_man.FirstHeap(); heap != nullptr; heap = mem_man.NextHeap(heap))
-	{
-		Mem::Allocator::BlockHeader *pBlock = (Mem::Allocator::BlockHeader *) heap->find_block((void*)addr);	
-		if (pBlock)
-		{
-			if (pBlock->mSize < smallest_block_size)
-			{
-				smallest_block_size = pBlock->mSize;
-				pSmallestBlock = pBlock;
-			}
-		}
-	}
-	return pSmallestBlock;
-#else
 	return nullptr;
-#endif
 }
 
 const char * MemView_GetClassName(CCallStack *c)
 {
-#ifdef	__LINKED_LIST_HEAP__
-	int *ra = (int*)(c->addr[4]);
-	int count = STACKDEPTH-4;
-	while (count--)
-	{
-		int instruction = *ra++;
-		if (instruction >> 24 == 0x0c)
-		{
-			int code = (instruction & 0xffffff)<<2;
-			int size;
-			const char *p = MemView_GetFunctionName(code,&size); 
-			// to tell if this is class or not
-			// we see if the text is of the form  
-			//    classname::classname (teminated by a 0)
-			// as that indicates that it is a constructor
-			// dude... this is where we need a regular expression....
-			const char *end = p;
-			while (*end) end++;	   						// scan to end
-			while (end[-1] != ':' && end > p)	end--;	// skip to char after the last :
-			const char *other = strstr(p,end);				// find fist occurance of end of string
-			if (other != end)							// if different, then this is it!!
-			{
-				return MemView_GetFunctionName(code,&size);
-				break;
-			}
-		}
-	}
-#endif
 	return nullptr;
 }
 
@@ -658,57 +599,12 @@ void MemView_DumpRefs(int addr)
 // that have an address above the first free block
 void MemView_DumpFragments(Mem::Heap *pHeap)
 {
-#	ifdef __LINKED_LIST_HEAP__ 
 
-	char os[256];
-
-	if (!pHeap->mFreeBlocks.m_count)
-	{
-		puts( "NO Fragmentation" );
-		return;
-	}
-	
-	if( !pHeap->mp_context->mp_free_list )
-	{
-		sprintf( os, "!!!!!! No free list, but there are %d free blocks???\n",pHeap->mFreeBlocks.m_count);
-		printf( "%s", os);
-		return;
-	}
-
-	Mem::Allocator::BlockHeader *p_free = pHeap->mp_context->mp_free_list;
-	Mem::Allocator::BlockHeader *p_full = pHeap->mp_context->mp_used_list;
-	
-	sprintf( os, "!!!!!! Free list starts at %p\n",p_free );
-	printf( "%s", os);
-
-	// The first p_free will be the start of fragmentations
-	while (p_full)
-	{
-		if (p_full > p_free)
-		{
-			printf( "Framgented Block: " );
-			void * p_start = (void*)((uint)p_full + Mem::Allocator::BlockHeader::sSize);
-			MemView_DumpBlockInfo((int)p_start);
-		}
-		p_full = p_full->mp_next_used;
-	}
-	#endif
 }
 
 void MemView_DumpHeap( Mem::Heap *pHeap )
 {
-	#ifdef	__LINKED_LIST_HEAP__    
-	Mem::Allocator::BlockHeader *p_full = pHeap->mp_context->mp_used_list;
-	
-	// The first p_free will be the start of fragmentations
-	while( p_full )
-	{
-		printf ("\n");
-		void * p_start = (void*)((uint)p_full + Mem::Allocator::BlockHeader::sSize);
-		MemView_DumpBlockInfo((int)p_start);
-		p_full = p_full->mp_next_used;
-	}
-	#endif
+
 }
 
 
@@ -716,13 +612,11 @@ void MemView_DumpHeap( Mem::Heap *pHeap )
 void MemView_DumpBottomFragments()
 {
 
-	MemView_DumpFragments(Mem::Manager::sHandle().BottomUpHeap());
 }
 
 void MemView_DumpTopFragments()
 {
 
-	MemView_DumpFragments(Mem::Manager::sHandle().TopDownHeap());
 }
 
 

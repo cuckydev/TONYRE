@@ -124,8 +124,6 @@ void CGameMode::build_victorycondition_list()
 		return;
 	}
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	// loop through the victory conditions
 	for ( uint32 i = 0; i < pArray->GetSize(); i++ )
 	{
@@ -137,7 +135,6 @@ void CGameMode::build_victorycondition_list()
 		m_VictoryConditionList.AddToTail( new Lst::Node<CVictoryCondition>( pVictoryCondition ) );
 	}
 
-	Mem::Manager::sHandle().PopContext();
 	// TODO: Scan for combinations that don't make sense
 	// (i.e. highest score AND best combo)
 }

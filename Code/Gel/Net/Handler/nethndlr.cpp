@@ -202,8 +202,6 @@ int	handle_ack( MsgHandlerContext *context )
 
 int	App::handle_stream_messages( MsgHandlerContext *context )
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	//Dbg_Printf( "******** Got Stream Message\n" );
 
 	switch( context->m_MsgId )
@@ -227,7 +225,6 @@ int	App::handle_stream_messages( MsgHandlerContext *context )
 				desc = str_link->m_Desc;
 				if( desc->m_StreamId == msg->m_StreamId )
 				{
-					Mem::Manager::sHandle().PopContext();
 					return HANDLER_MSG_DONE;
 				}
 			}
@@ -272,7 +269,6 @@ int	App::handle_stream_messages( MsgHandlerContext *context )
 				}
 
 				delete [] msg_context.m_Msg;
-				Mem::Manager::sHandle().PopContext();
 				return result;
 			}
 			break;
@@ -334,7 +330,6 @@ int	App::handle_stream_messages( MsgHandlerContext *context )
 
 						delete [] msg_context.m_Msg;
 
-						Mem::Manager::sHandle().PopContext();
 						return result;
 					}
 				}
@@ -343,7 +338,6 @@ int	App::handle_stream_messages( MsgHandlerContext *context )
 		}
 	}
 
-	Mem::Manager::sHandle().PopContext();
 	return HANDLER_CONTINUE;
 }
 
@@ -378,8 +372,6 @@ int	App::handle_sequenced_messages( MsgHandlerContext *context )
 		return HANDLER_CONTINUE;
 	}
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	memcpy( &msg_id, data, sizeof( unsigned char ));
 	data += sizeof( unsigned char );
 
@@ -394,8 +386,6 @@ int	App::handle_sequenced_messages( MsgHandlerContext *context )
 	msg_link->m_GroupId = group_id;
 	msg_link->m_SequenceId = seq_id;
     
-	Mem::Manager::sHandle().PopContext();
-
 	// This might be dangerous in some apps, but it makes sense right now.  Don't add
 	// this message to the sequenced queue if we dont have a handler for it.
 	/*if( sh.FirstItem( context->m_App->m_Dispatcher.m_handler_list[msg_id] ) == nullptr )

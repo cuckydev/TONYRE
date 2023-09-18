@@ -116,8 +116,7 @@ DynamicTable<_V>::DynamicTable(int size, int grow_increment)
 {
     m_size = size;
 	m_growIncrement = grow_increment;
-	mpp_table = (_V**) Mem::Malloc(sizeof(_V *) * m_size);
-	//mpp_table = new _V*[m_size];
+	mpp_table = new _V*[m_size];
 	for (int i = 0; i < m_size; i++)
 		mpp_table[i] = nullptr;
 	
@@ -129,8 +128,7 @@ DynamicTable<_V>::DynamicTable(int size, int grow_increment)
 template<class _V> 
 DynamicTable<_V>::~DynamicTable()
 {
-    Mem::Free(mpp_table);
-	//delete [] mpp_table;
+    delete [] mpp_table;
 }
 
 
@@ -146,8 +144,7 @@ void DynamicTable<_V>::Add(_V* pItem)
 	{
 		// create new table
 		int new_size = m_size + m_growIncrement;
-		_V **ppTemp = (_V**) Mem::Malloc(sizeof(_V *) * new_size);
-		//_V **ppTemp = new _V*[new_size];
+		_V **ppTemp = new _V*[new_size];
 
 		// copy contents of old one
 		int i;
@@ -156,8 +153,7 @@ void DynamicTable<_V>::Add(_V* pItem)
 		for (i = m_size; i < new_size; i++)
 			ppTemp[i] = nullptr;
 
-		Mem::Free(mpp_table);
-		//delete [] mpp_table;
+		delete[] mpp_table;
 		mpp_table = ppTemp;
 		m_size = new_size;
 	}

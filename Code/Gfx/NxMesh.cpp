@@ -86,8 +86,6 @@ bool			CMesh::LoadCollision(const char *p_name)
 
 //	Dbg_Message ( "Loading collision %s....", m_coll_filename );
 
-	Mem::PushMemProfile((char*)m_coll_filename);
-
 	uint8 *p_base_addr = (uint8*)Pip::Load(m_coll_filename);
 	size_t p_base_size = Pip::GetFileSize(m_coll_filename);
 	void *p_base_end = p_base_addr + p_base_size;
@@ -169,8 +167,6 @@ bool			CMesh::LoadCollision(const char *p_name)
 		}
 #endif
 	}
-
-	Mem::PopMemProfile(/*(char*)m_coll_filename*/);
 
 	return true;
 }

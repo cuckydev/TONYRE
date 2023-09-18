@@ -164,7 +164,6 @@ appearance_custom_skater_worst_case_net_packet =
 void CPlayerProfileManager::Init()
 {
 	int dummy;
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 
 	// TODO:  this is an optimization to go down from 4-byte
 	// checksums to a 1- or 2-byte index into a checksum table.
@@ -189,8 +188,6 @@ void CPlayerProfileManager::Init()
 		mp_CurrentProfile[i] = new CSkaterProfile;
 		*mp_CurrentProfile[i] = *m_Profiles.GetItemByIndex( i, &dummy );
 	}
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -275,8 +272,6 @@ void CPlayerProfileManager::SyncPlayer2()
 	// this whole process is probably worth looking at next time because
 	// it's kind of kludgy, but it's too risky to fix in any other
 	// way right now...
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	int profile_index = 1;
 
 	// get the currently selected skater for player #1
@@ -284,8 +279,6 @@ void CPlayerProfileManager::SyncPlayer2()
 
 	// sync up the profile from the root profile
 	*mp_CurrentProfile[profile_index] = *m_Profiles.GetItem( checksum );
-	
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -335,7 +328,6 @@ int CPlayerProfileManager::GetCurrentProfileIndex()
 
 void CPlayerProfileManager::ApplyTemplateToCurrentProfile( uint32 checksum )
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 	if ( m_CurrentProfileIndex == 0 )
 	{
 		mp_CurrentProfile[m_CurrentProfileIndex] = GetProfileTemplate( checksum );
@@ -344,7 +336,6 @@ void CPlayerProfileManager::ApplyTemplateToCurrentProfile( uint32 checksum )
 	{
 		*mp_CurrentProfile[m_CurrentProfileIndex] = *GetProfileTemplate( checksum );
 	}
-	Mem::Manager::sHandle().PopContext();	//Mem::Manager::sHandle().SkaterInfoHeap());
 }
 
 /******************************************************************/
@@ -494,8 +485,6 @@ void CPlayerProfileManager::LoadAllProProfileInfo(Script::CStruct *pStuff)
 {
 	Dbg_MsgAssert(pStuff,("nullptr pStuff"));
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-	
 	uint32 tableSize = m_Profiles.getSize( );
 	for ( uint32 i = 0; i < tableSize; i++ )
 	{
@@ -512,7 +501,6 @@ void CPlayerProfileManager::LoadAllProProfileInfo(Script::CStruct *pStuff)
 	uint32 CurrentSkaterNameChecksum=0;
 	pStuff->GetChecksum("CurrentSkater",&CurrentSkaterNameChecksum);
 	ApplyTemplateToCurrentProfile(CurrentSkaterNameChecksum);
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -718,8 +706,6 @@ bool CPlayerProfileManager::AddNewProfile( Script::CStruct* pParams )
 {
 	Dbg_Assert( pParams );
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	// profileChecksum = hawk, thomas, custom, etc.
 	uint32 profileChecksum;
 	pParams->GetChecksum( "name", &profileChecksum, true );
@@ -735,8 +721,6 @@ bool CPlayerProfileManager::AddNewProfile( Script::CStruct* pParams )
 //	Dbg_Assert( size < vMAX_PRACTICAL_APPEARANCE_DATA_SIZE );
 //	Dbg_Message("*********** AddNewProfile %s appearance data size = %d bytes\n", Script::FindChecksumName(profileChecksum), size);
 #endif
-
-	Mem::Manager::sHandle().PopContext();
 	return true;
 }
 

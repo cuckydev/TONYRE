@@ -391,9 +391,6 @@ CParkGenerator::CParkGenerator()
 
 	m_next_id = 32;
 
-	mp_mem_region = nullptr;
-	mp_mem_heap = nullptr;
-
 	m_mem_usage_info.mMainHeapFree = 0;
 	m_mem_usage_info.mMainHeapUsed = 0;
 	m_mem_usage_info.mParkHeapFree = 0;
@@ -508,8 +505,8 @@ int	CParkGenerator::GetResourceSize(const char *name)
 
 Mem::Heap *CParkGenerator::GetParkEditorHeap()
 {
-	Dbg_MsgAssert(mp_mem_heap, ("no park editor heap"));
-	return mp_mem_heap;
+	Dbg_Assert(0); // removed..
+	return nullptr;
 }
 
 
@@ -522,8 +519,6 @@ void CParkGenerator::SetMaxPlayers(int maxPlayers)
 
 CParkGenerator::MemUsageInfo CParkGenerator::GetResourceUsageInfo(bool printInfo)
 {
-	Dbg_Assert(mp_mem_heap);
-	
 	//int base_park_heap = 0;
 	//int max_base_park_heap = 0;
 	
@@ -545,14 +540,6 @@ CParkGenerator::MemUsageInfo CParkGenerator::GetResourceUsageInfo(bool printInfo
 	}
 	*/
 
-	Mem::Heap *p_main_heap = Mem::Manager::sHandle().BottomUpHeap();
-	Mem::Region *p_main_region = p_main_heap->mp_region;
-	Dbg_Assert(p_main_region);
-	if (m_mem_usage_info.mMainHeapUsed != p_main_heap->mUsedMem.m_count)
-	{
-		m_mem_usage_info.mLastMainUsed = m_mem_usage_info.mMainHeapUsed;
-	}
-	
 	// Mick, the replay buffer is allocated in the park editor
 	// but we want to ignore it in our calculations
 	// so we just subtract it from the main_heap_pad																			 
@@ -566,51 +553,18 @@ CParkGenerator::MemUsageInfo CParkGenerator::GetResourceUsageInfo(bool printInfo
 #endif
 #endif
 	
-	main_padding_size+=(m_max_players-1)*(SKATER_HEAP_SIZE+SKATER_GEOM_HEAP_SIZE);
+	main_padding_size += (m_max_players-1) * (SKATER_HEAP_SIZE + SKATER_GEOM_HEAP_SIZE);
 	
-	int total_mem_available=p_main_heap->mFreeMem.m_count + p_main_region->MemAvailable();
-	if (main_padding_size > total_mem_available)
-	{
-		//Dbg_MsgAssert(0,("main_padding_size > total_mem_available !! (%d > %d)",main_padding_size,total_mem_available));
-		#ifdef	__NOPT_ASSERT__
-		//printf("main_padding_size > total_mem_available !! (%d > %d)\n",main_padding_size,total_mem_available);
-		#endif
-		//ParkEd("main_padding_size > total_mem_available !! (%d > %d)\n",main_padding_size,total_mem_available);
-	}
-		
-	m_mem_usage_info.mMainHeapUsed = p_main_heap->mUsedMem.m_count;
-	m_mem_usage_info.mMainHeapFree = p_main_heap->mFreeMem.m_count + p_main_region->MemAvailable() - main_padding_size;
+	m_mem_usage_info.mMainHeapUsed = 0;
+	m_mem_usage_info.mMainHeapFree = 0x7FFFFFFF;
 	
 	
 	//printf("p_main_heap->mFreeMem.m_count=%d\np_main_region->MemAvailable()=%d\nmain_padding_size=%d\n",p_main_heap->mFreeMem.m_count,p_main_region->MemAvailable(),main_padding_size);
 	int park_padding_size = GetResourceSize("park_heap_pad");
-	m_mem_usage_info.mParkHeapUsed = mp_mem_heap->mUsedMem.m_count;
-	m_mem_usage_info.mParkHeapFree = mp_mem_heap->mFreeMem.m_count + mp_mem_region->MemAvailable() - park_padding_size;
+	m_mem_usage_info.mParkHeapUsed = 0;
+	m_mem_usage_info.mParkHeapFree = 0x7FFFFFFF;
 
-	if (p_main_heap->LargestFreeBlock() < m_mem_usage_info.mMainHeapFree && 	// heap definitely fragmented
-		p_main_heap->LargestFreeBlock() < main_padding_size && 					// no block big enough for single piece
-		m_mem_usage_info.mMainHeapFree >= main_padding_size) 					// there is enough memory for single piece
-	{
-		// XXX
-		Ryan("===================== DEFRAG ===========================\n");
-		Ryan("largest: %d, free: %d, padding %d\n", 
-			 p_main_heap->LargestFreeBlock(), m_mem_usage_info.mMainHeapFree, main_padding_size);
-		Ryan("========================================================\n");
-		m_mem_usage_info.mIsFragmented = true;
-		int false_free_amt = m_mem_usage_info.mMainHeapFree - p_main_heap->LargestFreeBlock();
-		m_mem_usage_info.mMainHeapFree -= false_free_amt;
-		m_mem_usage_info.mMainHeapUsed += false_free_amt;
-	}
-	else
-		m_mem_usage_info.mIsFragmented = false;
-		
-		
-	#if 0
-	if ( p_main_heap->mFreeMem.m_count > 200000)
-	{
-		m_mem_usage_info.mIsFragmented = true;	
-	}
-	#endif
+	m_mem_usage_info.mIsFragmented = false;
 
 	m_mem_usage_info.mTotalClonedPieces = m_num_cloned_pieces;
 	m_mem_usage_info.mTotalRailPoints = m_total_rail_points;
@@ -623,11 +577,10 @@ CParkGenerator::MemUsageInfo CParkGenerator::GetResourceUsageInfo(bool printInfo
 		m_mem_usage_info.mMainHeapFree -= GetResourceSize("theme_pad");
 	}
 
-	
 	if (printInfo)
 	{
 		Ryan("=====================================================\nParkGen Usage Stats:\n\n");
-		Ryan("largest free block: %d\n", mp_mem_heap->LargestFreeBlock());
+		// Ryan("largest free block: %d\n", mp_mem_heap->LargestFreeBlock());
 		Ryan("used park heap: %d\n", m_mem_usage_info.mParkHeapUsed);
 		Ryan("free park heap: %d\n", m_mem_usage_info.mParkHeapFree);
 		Ryan("main heap used: %d\n", m_mem_usage_info.mMainHeapUsed);
@@ -733,9 +686,7 @@ CClonedPiece *CParkGenerator::ClonePiece(CPiece *pMasterPiece, CPiece::EFlags fl
 	//Mem::Manager::sHandle().PopContext();
 
 	// Create cloned piece, will soon live in world or as animated piece
-	Mem::Manager::sHandle().PushContext(mp_mem_heap);
 	CClonedPiece *p_cloned_piece = new CClonedPiece();
-	Mem::Manager::sHandle().PopContext();
 	p_cloned_piece->m_sector_checksum = new_sector_checksum;
 	p_cloned_piece->m_id = m_next_id++;
 	p_cloned_piece->mp_source_piece = pSource;
@@ -851,20 +802,6 @@ void CParkGenerator::InitializeMasterPieces(int parkW, int parkH, int parkL, int
 	// so that net games will be syncronized
 	m_next_id = 32;
 
-	// set up park editor heap
-	Dbg_MsgAssert(!mp_mem_region && !mp_mem_heap,(	"park editor heap already exists"));
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-	#ifdef __PLAT_NGC__
-	// Added 200K to the TOP_DOWN_REQUIRED_MARGIN for safety, and cancelled that by removing
-	// 200K from the park editor heap. (Normally 900K)
-	mp_mem_region = new Mem::AllocRegion(700000);	
-	#else
-	mp_mem_region = new Mem::AllocRegion(GetResourceSize("heap"));	
-	#endif
-	Mem::Manager::sHandle().PopContext();
-	Ryan("  allocated park editor region at %p\n", mp_mem_region);
-	mp_mem_heap = Mem::Manager::sHandle().CreateHeap( mp_mem_region, Mem::Allocator::vBOTTOM_UP, "Park Editor" );
-
 	// fetch scene
 	const char *p_scene_name="sk5ed";
 		
@@ -879,9 +816,7 @@ void CParkGenerator::InitializeMasterPieces(int parkW, int parkH, int parkL, int
 	p_sector_list->IterateStart();
 	while ((p_sector = p_sector_list->IterateNext()) != nullptr)
 	{
-		Mem::Manager::sHandle().PushContext(mp_mem_heap);
 		CSourcePiece *p_new_piece = new CSourcePiece();
-		Mem::Manager::sHandle().PopContext();
 		p_new_piece->mp_next_in_list = mp_source_piece_list;
 		mp_source_piece_list = p_new_piece;
 
@@ -1030,11 +965,6 @@ void CParkGenerator::UnloadMasterPieces()
 	//m_num_source_pieces=0;
 	
 	clear_flag(mMASTER_STUFF_LOADED);
-	
-	Mem::Manager::sHandle().RemoveHeap(mp_mem_heap);
-	delete mp_mem_region;
-	mp_mem_heap = nullptr;
-	mp_mem_region = nullptr;
 }
 
 /*
@@ -1153,18 +1083,7 @@ void CParkGenerator::GenerateOutRailSet(CMapListNode * p_concrete_metapiece_list
 	CleanUpOutRailSet();
 	
 	Mdl::Skate * p_skate_mod =  Mdl::Skate::Instance();
-	if (p_skate_mod->m_cur_level == Crc::ConstCRC("load_sk5ed"))
-	{
-		// K: Not using the top down heap whilst in the editor to avoid running out of memory, 
-		// since this causes a 192K spike in memory usage when doing a test play.
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-	}
-	else	
-	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-	}
 	m_out_rail_set.SetupAllocators(GetResourceSize("out_railpoint_pool"), GetResourceSize("out_railstring_pool"), false);
-	Mem::Manager::sHandle().PopContext();
 
 	// Need to iterate over the pieces here, meaning we'd iterate over the meta pieces
 	// and then find the pieces they are composed of.....

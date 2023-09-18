@@ -110,7 +110,7 @@ void CRailManager::Cleanup()
 
 	m_num_nodes = 0;
 	
-	Mem::Free(mp_nodes);
+	delete[] mp_nodes;
 	mp_nodes = nullptr;
 	
 	
@@ -1737,8 +1737,8 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 		return;
 	}
 	
-	mp_nodes = (CRailNode*)Mem::Malloc(m_num_nodes * sizeof(CRailNode));
-	mp_links = (CRailLinks*)Mem::Malloc(m_num_nodes * sizeof(CRailLinks));
+	mp_nodes = new CRailNode[m_num_nodes];
+	mp_links = new CRailLinks[m_num_nodes];
 
 	// iterate over the nodes and add them to the array	
 	m_current_node = 0;	
@@ -1799,7 +1799,7 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 	// we are creating a table of all nodes, and the pointer to the CRailNode
 	// for that node, so we can do a reverse lookup
 	
-	CRailNode **pp_railnodes = (CRailNode **) Mem::Malloc(num_nodes * sizeof(CRailNode*));
+	CRailNode **pp_railnodes = new CRailNode*[num_nodes];
 	for (size_t j = 0; j < num_nodes; j++)
 	{
 		pp_railnodes[j] = nullptr;
@@ -1833,9 +1833,9 @@ void	CRailManager::AddRailsFromNodeArray(Script::CArray * p_nodearray)
 		}
 //		p_node = p_node->m_pNext;
 	}
-	Mem::Free(pp_railnodes);
+	delete[] pp_railnodes;
 	
-	Mem::Free(mp_links);
+	delete[] mp_links;
 	mp_links = nullptr;
 }
 
@@ -2450,9 +2450,6 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 #ifdef	__DEBUG_CODE__
 	printf("-----------------------\n");
 
-	// let's use the Debug heap, since we might need a lot of memory
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-
 	// auto-generator's state
 	SAutoRailGeneratorState arg;
 
@@ -3003,7 +3000,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 		}
 	
 		// and create the array for the rails	
-		CRailNode* p_new_nodes = (CRailNode*)Mem::Malloc(new_num_nodes * sizeof(CRailNode));
+		CRailNode *p_new_nodes = new CRailNode[new_num_nodes];
 	
 		// add the old rails to the new data structure
 		size_t next_node = 0;
@@ -3130,8 +3127,6 @@ ABORT:
 	delete	[] arg.p_railsets;	
 	delete	[] arg.p_edges;
 	delete  [] arg.p_rails;
-	
-	Mem::Manager::sHandle().PopContext();
 	
 	printf("-----------------------\n");
 #endif	

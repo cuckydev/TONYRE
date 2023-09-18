@@ -1276,9 +1276,7 @@ bool CSkeletonData::Load(const char* p_fileName, bool assertOnFail)
 	file_size = File::GetFileSize(pStream);
 	Dbg_MsgAssert( file_size, ("Skeleton file %s size is 0", p_fileName) );
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-	p_fileBuffer = (uint32*)Mem::Malloc( file_size );
-	Mem::Manager::sHandle().PopContext();
+	p_fileBuffer = new uint32[file_size / sizeof(uint32)];
 	
 	if ( !File::Read( p_fileBuffer, file_size, 1, pStream ) )
 	{
@@ -1304,7 +1302,7 @@ bool CSkeletonData::Load(const char* p_fileName, bool assertOnFail)
 ERROR:
 	if ( p_fileBuffer )
 	{
-		Mem::Free( p_fileBuffer );
+		delete[] p_fileBuffer;
 	}
 	File::Close(pStream);    
 

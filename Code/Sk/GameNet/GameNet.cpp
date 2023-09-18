@@ -1056,8 +1056,6 @@ void	Manager::s_modem_state_code( const Tsk::Task< Manager >& task )
 
 void	Manager::s_client_add_new_players_code( const Tsk::Task< Manager >& task )
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-	
 	Manager& man = task.GetData();
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Obj::CSkater* skater;
@@ -1116,7 +1114,6 @@ void	Manager::s_client_add_new_players_code( const Tsk::Task< Manager >& task )
         
 		man.RespondToReadyQuery();
 	}
-	Mem::Manager::sHandle().PopContext();
 	
 }
 
@@ -1127,7 +1124,6 @@ void	Manager::s_client_add_new_players_code( const Tsk::Task< Manager >& task )
 
 void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 	Manager& man = task.GetData();
 	Mdl::Skate * skate_mod = Mdl::Skate::Instance();
 	Lst::Node< NewPlayerInfo > *node, *next;
@@ -1159,9 +1155,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 						( net_man->GetConnectionType() == Net::vCONN_TYPE_MODEM );
 
 		// Mick: moved onto skater info heap, to prevent fragmentation
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 		new_player = man.NewPlayer( nullptr, new_info->Conn, new_info->Flags );
-		Mem::Manager::sHandle().PopContext();
 		
 		strcpy( new_player->m_Name, new_info->Name );
 		new_player->CopyProfile( new_info->mpSkaterProfile );
@@ -1395,7 +1389,6 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 		delete new_info;
 		delete node;
 	}
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -3153,9 +3146,7 @@ int		Manager::GetNumObservers( void )
 PlayerInfo*		Manager::NewPlayer( Obj::CSkater* skater, Net::Conn* conn, int flags )
 {
 	PlayerInfo* new_player;
-		
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
+	
 	new_player = new PlayerInfo( flags );
 
 	new_player->m_Skater = skater;
@@ -3206,8 +3197,6 @@ PlayerInfo*		Manager::NewPlayer( Obj::CSkater* skater, Net::Conn* conn, int flag
 
 	Dbg_Printf( "Player added : %p with conn %p\n", new_player, new_player->m_Conn );
     
-	Mem::Manager::sHandle().PopContext();
-
 	return new_player;
 }
 
@@ -3242,9 +3231,7 @@ bool			Manager::SendFaceDataToServer( void )
 
 			local_player = GetLocalPlayer();
 			
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetMiscHeap());
 			local_player->m_face_data = new uint8[vMAX_FACE_DATA_SIZE + 1];
-			Mem::Manager::sHandle().PopContext();
 
 			local_player->m_face_data[0] = 0;	// player id
 			pFaceTexture->WriteToBuffer( &local_player->m_face_data[1], vMAX_FACE_DATA_SIZE );
@@ -3258,9 +3245,7 @@ bool			Manager::SendFaceDataToServer( void )
 			server_conn = GetClient(0)->FirstConnection( &sh );
 			if( server_conn->GetBandwidthType() == Net::Conn::vBROADBAND )
 			{
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
 				uint8* buffer = new uint8[vMAX_FACE_DATA_SIZE];
-				Mem::Manager::sHandle().PopContext();
 	
 				pFaceTexture->WriteToBuffer( buffer, vMAX_FACE_DATA_SIZE );
 				GetClient(0)->StreamMessageToServer( MSG_ID_FACE_DATA, vMAX_FACE_DATA_SIZE, buffer, "Face Data",
@@ -3475,8 +3460,6 @@ void			Manager::DeferredNewPlayer( NewPlayerInfo* new_player, int num_frames )
 			return;
 		}
 	}
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	np = new NewPlayerInfo;
 
 	strcpy( np->Name, new_player->Name );
@@ -3546,8 +3529,6 @@ void			Manager::DeferredNewPlayer( NewPlayerInfo* new_player, int num_frames )
 	player = new Lst::Node< NewPlayerInfo > ( np );
 
 	m_new_players.AddToTail( player );
-	
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -3930,8 +3911,6 @@ void		Manager::EnterObserverMode( void )
 	local_player->m_Skater = nullptr;
 	//skate_mod->HideSkater( local_player->m_Skater );
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap( 0 ));
-
 	//Gfx::Camera* p_camera = &(viewer_mod->GetCamera( 0 )->camera );
 	/*local_player->m_cam = new Obj::CSkaterCam( 0 );
 	Dbg_Assert( local_player->m_cam );
@@ -3950,8 +3929,6 @@ void		Manager::EnterObserverMode( void )
 
 	Script::RunScript( "ShowAllObjects" );
 	Script::RunScript( "hide_panel_stuff" );
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -5157,9 +5134,7 @@ void	Manager::LoadPendingPlayers( void )
 			new_player.Rating = player->m_Rating;
 			new_player.VehicleControlType = player->m_VehicleControlType;
 			
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 			*new_player.mpSkaterProfile = *player->mp_SkaterProfile;
-			Mem::Manager::sHandle().PopContext();
             
 			DestroyPlayer( player );
 
@@ -5986,8 +5961,6 @@ void	Manager::AddSpawnedTriggerEvent( int node, int obj_id, uint32 script )
 		}
 	}
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	TriggerEvent* event = new TriggerEvent;
 
 	event->m_Node = node;
@@ -5995,8 +5968,6 @@ void	Manager::AddSpawnedTriggerEvent( int node, int obj_id, uint32 script )
 	event->m_Script = script;
 
 	m_trigger_events.AddToTail( event );
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -6133,8 +6104,6 @@ void	Manager::LaunchQueuedScripts( void )
 	Mdl::Skate * mod = Mdl::Skate::Instance();
 	Script::CScript* pScript;
     
-    Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	
 	mod->SetLaunchingQueuedScripts();
 	// Remember the original volume, then turn sound off so scripts don't make noise
 	float orig_volume = pSfxManager->GetMainVolume();
@@ -6175,8 +6144,6 @@ void	Manager::LaunchQueuedScripts( void )
 	// Back to normal volume
 	pSfxManager->SetMainVolume( orig_volume );
 	mod->ClearLaunchingQueuedScripts();
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/
@@ -7847,7 +7814,6 @@ bool Manager::ScriptBanPlayer(Script::CScriptStructure *pParams, Script::CScript
 	Lst::Search< PlayerInfo > sh;
 	int i;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
 	i = 0;
 	for( player = gamenet_man->FirstPlayerInfo( sh, true ); player; player = gamenet_man->NextPlayerInfo( sh, true ))
 	{
@@ -7893,7 +7859,6 @@ bool Manager::ScriptBanPlayer(Script::CScriptStructure *pParams, Script::CScript
 		i++;
 	}
 
-	Mem::Manager::sHandle().PopContext();
 	return true;
 }
 
@@ -8218,8 +8183,7 @@ bool	Manager::ScriptEnterSurveyorMode(Script::CScriptStructure *pParams, Script:
 	}
 
 	Dbg_Printf( "Entering surveyor mode\n" );
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
+	
 	local_player->m_observer_logic_task = 
 					new Tsk::Task< PlayerInfo > ( PlayerInfo::s_observer_logic_code, *local_player );
 	mlp_man->AddLogicTask( *local_player->m_observer_logic_task );
@@ -8228,8 +8192,6 @@ bool	Manager::ScriptEnterSurveyorMode(Script::CScriptStructure *pParams, Script:
 	inp_manager->AddHandler( *gamenet_man->m_observer_input_handler );
 
 	local_player->m_flags.SetMask( PlayerInfo::mSURVEYING );
-
-	Mem::Manager::sHandle().PopContext();
 
 	return true;
 }

@@ -32,8 +32,6 @@ int CAnimAsset::Load(const char* p_file, bool async_load, bool use_pip, void* pE
 
 	int errorCode = -1;
 
-	Mem::PushMemProfile((char*)p_file);
-	
 	Gfx::CBonedAnimFrameData* pSeq = new Gfx::CBonedAnimFrameData;
 
 	char fullName[256];
@@ -59,7 +57,6 @@ int CAnimAsset::Load(const char* p_file, bool async_load, bool use_pip, void* pE
 failure:
 	// Add it to the list:
 	SetData( (void*)pSeq );
-	Mem::PopMemProfile(/*(char*)p_file*/);
 	return errorCode;
 }
 
@@ -69,8 +66,6 @@ int CAnimAsset::Load(uint32* p_data, int data_size)     // create or load the as
 
 	char pDebugAssetString[256];
 	sprintf( pDebugAssetString, "anim from data stream" );
-	
-	Mem::PushMemProfile((char*)pDebugAssetString);
 
 	Gfx::CBonedAnimFrameData* pSeq = new Gfx::CBonedAnimFrameData;
 
@@ -92,7 +87,6 @@ int CAnimAsset::Load(uint32* p_data, int data_size)     // create or load the as
 failure:
 	// Add it to the list:
 	SetData( (void*)pSeq );
-	Mem::PopMemProfile(/*(char*)p_file*/);
 	return errorCode;
 }
 

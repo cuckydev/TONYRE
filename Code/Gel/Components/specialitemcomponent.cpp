@@ -306,10 +306,8 @@ Obj::CCompositeObject* CSpecialItemComponent::CreateSpecialItem( int index, Scri
 	
 	// eventually, we'll want to create a generic composite object
 	// (maybe by running a script)
-	Mem::PushMemProfile("Game Objects");
 	Obj::CCompositeObject* pGameObj = Obj::CreateGameObj( Mdl::Skate::Instance()->GetObjectManager(), pNodeData );
 	Dbg_Assert( pGameObj );
-	Mem::PopMemProfile();
 
 	// GJ:  This is a special-case function that's used for
 	// replays...  I'm not bothering to move it over to the

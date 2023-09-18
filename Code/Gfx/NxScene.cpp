@@ -855,8 +855,6 @@ void			CScene::UpdateSuperSectors(Lst::Head<CSector> *p_additional_remove_list)
 	*/
 
 	// Allocate temp list on high heap
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-
 	mp_sector_table->IterateStart();
 
 	Lst::Node< Nx::CCollStatic > *node;
@@ -968,8 +966,6 @@ void			CScene::UpdateSuperSectors(Lst::Head<CSector> *p_additional_remove_list)
 			}
 		}
 	}
-
-	Mem::Manager::sHandle().PopContext();
 
 	// Do the actual update
 	mp_sector_man->UpdateCollisionSuperSectors(coll_add_list, coll_remove_list, coll_update_list);

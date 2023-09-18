@@ -246,9 +246,7 @@ void CPathMan::DeallocateObjectTrackerMemory()
 
 void CPathMan::AllocateObjectTrackerMemory()
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 	mp_path_object_trackers = new CPathObjectTracker[MAX_PATHS];
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/

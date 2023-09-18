@@ -73,8 +73,6 @@ CTexDict *			CTexDictManager::sCreateTextureDictionary(const char *p_tex_dict_na
 
 CTexDict *			CTexDictManager::sLoadTextureDictionary(uint32 fileNameChecksum, uint32* pData, int dataSize, bool isLevelData, uint32 texDictOffset, bool isSkin, bool forceTexDictLookup )
 {
-	Mem::PushMemProfile((char*)"TEX_data_buffer");
-
 	uint32 checksum = fileNameChecksum + texDictOffset;
 
 	CTexDict *p_dict;
@@ -96,8 +94,6 @@ CTexDict *			CTexDictManager::sLoadTextureDictionary(uint32 fileNameChecksum, ui
 		s_tex_dict_lookup.PutItem(checksum, p_dict);
 	}
 
-	Mem::PopMemProfile(/*(char*)"TEX_data_buffer"*/);
-
 	return p_dict;
 }
 
@@ -112,8 +108,6 @@ CTexDict *			CTexDictManager::sLoadTextureDictionary(const char *p_tex_dict_name
 	char	texture_dict_name[128];
 	sprintf(texture_dict_name,"%s.%s",p_tex_dict_name,CEngine::sGetPlatformExtension());
 
-	Mem::PushMemProfile((char*)p_tex_dict_name);
-	
 	// the texDictOffset prevents clashes when we need multiple
 	// separate versions of the same texture dictionary, such as
 	// for multiplayer create-a-skater parts (note:  peds should not
@@ -139,8 +133,6 @@ CTexDict *			CTexDictManager::sLoadTextureDictionary(const char *p_tex_dict_name
 		p_dict->set_checksum(checksum);			// Since it just uses the base name
 		s_tex_dict_lookup.PutItem(checksum, p_dict);
 	}
-
-	Mem::PopMemProfile(/*(char*)p_tex_dict_name*/);
 
 	return p_dict;
 }

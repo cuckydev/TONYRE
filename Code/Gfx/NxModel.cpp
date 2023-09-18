@@ -549,9 +549,7 @@ bool CModel::AddGeom(const char* pMeshFileName, uint32 geomName, bool useAssetMa
 	}
 	else
 	{
-		Mem::PushMemProfile((char*)pMeshFileName);
 		pMesh = Nx::CEngine::sLoadMesh( pMeshFileName, texDictOffset, forceTexDictLookup, m_doShadowVolume );
-		Mem::PopMemProfile(/*(char*)pMeshFileName*/);
 		Dbg_MsgAssert( m_numMeshes < MAX_MESHES, ( "Too many meshes for this model (max=%d)", MAX_MESHES ) );
 		mp_mesh[m_numMeshes] = pMesh;
 		m_numMeshes++;
@@ -1595,8 +1593,6 @@ bool CModel::ApplyFaceTexture( Gfx::CFaceTexture* pFaceTexture, const char* pSrc
 
 	//-------------------------------------------------------------
 	// step 1:  load up the temporary texture from the appearance's CFaceTexture
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-
 	bool alloc_vram = true;
 	uint32 temp_checksum = Crc::ConstCRC("dummy");
 	Nx::CTexture* p_temp_texture = Nx::CTexDictManager::sp_sprite_tex_dict->LoadTextureFromBuffer(pFaceTexture->GetTextureData(), pFaceTexture->GetTextureSize(), temp_checksum, true, alloc_vram, false);
@@ -1605,7 +1601,6 @@ bool CModel::ApplyFaceTexture( Gfx::CFaceTexture* pFaceTexture, const char* pSrc
 	Nx::CTexture* p_temp_overlay = Nx::CTexDictManager::sp_sprite_tex_dict->LoadTexture(pFaceTexture->GetOverlayTextureName(), alloc_vram);
 	Dbg_Assert( p_temp_overlay );
 	
-	Mem::Manager::sHandle().PopContext();
 	//-------------------------------------------------------------
 
 	//-------------------------------------------------------------

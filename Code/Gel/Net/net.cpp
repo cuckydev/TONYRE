@@ -1143,11 +1143,7 @@ void	Manager::RemoveNetworkTasks( App* app )
 Server*	Manager::CreateNewAppServer( int id, const char* appName, int max_clients, unsigned short port, int address, int flags )
 {
 	Server *new_app;
-		
 	
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
-
 	// If we're using DHCP, we should have gotten our real IP address by now
 	// from the DHCP server. Use that address from now on
 	if( ShouldUseDHCP())
@@ -1194,7 +1190,6 @@ Server*	Manager::CreateNewAppServer( int id, const char* appName, int max_client
 
 	m_num_apps++;
 	
-	Mem::Manager::sHandle().PopContext();
 	return new_app;
 }
 
@@ -1206,10 +1201,6 @@ Server*	Manager::CreateNewAppServer( int id, const char* appName, int max_client
 Client	*Manager::CreateNewAppClient( 	int id, const char* appName, unsigned short port, int address, int flags )
 {
 	Client *new_app;
-
-	
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().NetworkHeap());
 
 	// If we're using DHCP, we should have gotten our real IP address by now
 	// from the DHCP server. Use that address from now on
@@ -1243,7 +1234,6 @@ Client	*Manager::CreateNewAppClient( 	int id, const char* appName, unsigned shor
 	Dbg_Printf( "Created new: %s client %p on port %d\n", appName, new_app, port );
 	m_num_apps++;
 
-	Mem::Manager::sHandle().PopContext();
 	return new_app;
 }
 

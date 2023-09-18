@@ -1048,8 +1048,6 @@ int Manager::s_handle_join_refused( Net::MsgHandlerContext* context )
 			}
 			else
 			{
-				Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-
 				Script::RunScript( "CreateEnterPasswordControl" );
 				/*
 				dlg->GoBack();
@@ -1065,7 +1063,6 @@ int Manager::s_handle_join_refused( Net::MsgHandlerContext* context )
 				// Temporarily disable timeout
 				gamenet_man->m_join_timeout_task->Remove();
 
-				Mem::Manager::sHandle().PopContext();
 				return Net::HANDLER_CONTINUE;
 			}
 			
@@ -2156,8 +2153,6 @@ int	Manager::s_handle_rail_data( Net::MsgHandlerContext* context )
 		}
 	}
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	
 	Obj::GetRailEditor()->SetCompressedRailsBuffer((uint8*) context->m_Msg);
     
     // InitUsingCompressedRailsBuffer will do an initial cleanup of any existing rails, which may result in
@@ -2169,8 +2164,6 @@ int	Manager::s_handle_rail_data( Net::MsgHandlerContext* context )
     Obj::GetRailEditor()->InitUsingCompressedRailsBuffer();
 	Obj::CRailEditorComponent::sUpdateSuperSectorsAfterDeletingRailSectors=true;
 		
-	Mem::Manager::sHandle().PopContext();
-
 	return Net::HANDLER_CONTINUE;
 }
 
@@ -2350,8 +2343,6 @@ int	Manager::s_handle_game_info( Net::MsgHandlerContext* context )
 	Script::CArray* mode_array;
 	int i;
     
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	msg = (MsgGameInfo*) context->m_Msg;
 	gamenet_man = (Manager *) context->m_Data;
 
@@ -2506,9 +2497,6 @@ int	Manager::s_handle_game_info( Net::MsgHandlerContext* context )
 		}
 	}
 
-	Mem::Manager::sHandle().PopContext();
-	
-	
 	return Net::HANDLER_CONTINUE;
 }
 

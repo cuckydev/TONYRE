@@ -110,7 +110,7 @@ protected:
 	size_t m_numBones;
 
 	// file buffer (the only malloc'ed pointer)
-	void *mp_fileBuffer;
+	char *mp_fileBuffer;
 	File::CAsyncFileHandle *mp_fileHandle;
 	size_t m_fileSize;
 

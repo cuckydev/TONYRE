@@ -369,9 +369,7 @@ void			CText::SetString(const char *p_string)
 	#else
 	if (!m_string)
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
 		m_string = new char[vMAX_TEXT_CHARS];
-		Mem::Manager::sHandle().PopContext();
 	}
 	strcpy(m_string, p_string);
 	#endif

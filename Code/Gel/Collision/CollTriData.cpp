@@ -1047,10 +1047,7 @@ void	CCollObjTriData::RotateY(const Mth::Vector & world_origin, Mth::ERot90 rot_
 	if (m_use_fixed_verts)
 	#endif		// __PLAT_NGC__
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
 		p_float_verts = new Mth::Vector[m_num_verts];
-		Mem::Manager::sHandle().PopContext();
-
 		get_float_array_from_data(p_float_verts);
 	}
 
@@ -1121,10 +1118,7 @@ void	CCollObjTriData::Scale(const Mth::Vector & world_origin, const Mth::Vector 
 	if (m_use_fixed_verts)
 	#endif		// __PLAT_NGC__
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
 		p_float_verts = new Mth::Vector[m_num_verts];
-		Mem::Manager::sHandle().PopContext();
-
 		get_float_array_from_data(p_float_verts);
 	}
 

@@ -161,8 +161,6 @@ bool ScriptLoadFont(Script::CScriptStructure *pParams, Script::CScript *pScript)
 		#endif
 	}
 
-	Mem::PushMemProfile((char*)p_name);
-	
 	float char_spacing = 0;
 	pParams->GetFloat("char_spacing", &char_spacing);
 	
@@ -192,8 +190,6 @@ bool ScriptLoadFont(Script::CScriptStructure *pParams, Script::CScript *pScript)
 	}
 	
 	Nx::CFontManager::sLoadFont(p_name, (int) char_spacing, (int) space_spacing, p_rgba_tab, is_buttons_font);
-
-	Mem::PopMemProfile();		
 
 	return true;
 }

@@ -827,9 +827,6 @@ void CTexDict::FlushTextures(bool flush_all)
 
 CTexture *			CTexDict::LoadTexture(const char *p_texture_name, bool sprite, bool alloc_vram, bool perm)
 {
-	Mem::PushMemProfile((char*)p_texture_name);
-	
-	
 	CTexture *p_texture = plat_load_texture(p_texture_name, sprite, alloc_vram);
 
 	if (p_texture)
@@ -841,7 +838,6 @@ CTexture *			CTexDict::LoadTexture(const char *p_texture_name, bool sprite, bool
 		Dbg_Error("Texture %s not found", p_texture_name);
 	}
 
-	Mem::PopMemProfile();
 	return p_texture;
 }
 
@@ -852,7 +848,6 @@ CTexture *			CTexDict::LoadTexture(const char *p_texture_name, bool sprite, bool
 
 CTexture * 			CTexDict::LoadTextureFromBuffer(uint8* p_buffer, int buffer_size, uint32 texture_checksum, bool sprite, bool alloc_vram, bool perm)
 {
-	Mem::PushMemProfile((char*)"texture from buffer");
 	CTexture *p_texture = plat_load_texture_from_buffer(p_buffer, buffer_size, texture_checksum, sprite, alloc_vram);
 
 	if (p_texture)
@@ -864,7 +859,6 @@ CTexture * 			CTexDict::LoadTextureFromBuffer(uint8* p_buffer, int buffer_size, 
 		Dbg_MsgAssert(0,("Couldn't load texture %s from buffer",Script::FindChecksumName(texture_checksum)));
 	}
 
-	Mem::PopMemProfile();
 	return p_texture;
 }
 
@@ -975,8 +969,6 @@ bool CTexDict::ReplaceTexture(const char* p_src_texture_name, const char* p_dst_
 	
 	if ( pTexture )
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-
 #ifdef __NOPT_ASSERT__
 		if ( Script::GetInt( Crc::ConstCRC("cas_artist"), false ) )
 		{
@@ -992,8 +984,6 @@ bool CTexDict::ReplaceTexture(const char* p_src_texture_name, const char* p_dst_
 
 		// We're done with the new texture, get rid of it
 		UnloadTexture(p_new_texture);
-
-		Mem::Manager::sHandle().PopContext();
 
 		return result;
 	}

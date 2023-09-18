@@ -264,15 +264,7 @@ PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
 		char *pName = (char *) pEntry + PRE_NAME_OFFSET;
 		uint8 *pCompressedData = pEntry + PRE_NAME_OFFSET + text_size;
 		
-		_File *pFile;
-		if (m_use_bottom_up_heap)
-		{
-			pFile = new (Mem::Manager::sHandle().BottomUpHeap()) _File;
-		}
-		else
-		{
-			pFile = new (Mem::Manager::sHandle().TopDownHeap()) _File;
-		}	
+		_File *pFile = new _File;
 
 		if (!mp_table->GetItem(pName)) 
 		{
@@ -347,16 +339,7 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 	{
 		if (mp_activeFile->compressedDataSize)
 		{
-			Mem::PushMemProfile((char*)pName);
-			if (m_use_bottom_up_heap)
-			{
-				mp_activeFile->pData = new (Mem::Manager::sHandle().BottomUpHeap()) uint8[mp_activeFile->m_filesize];		
-			}
-			else
-			{
-				mp_activeFile->pData = new (Mem::Manager::sHandle().TopDownHeap()) uint8[mp_activeFile->m_filesize];		
-			}	
-			Mem::PopMemProfile();
+			mp_activeFile->pData = new uint8[mp_activeFile->m_filesize];
 			// need to uncompress data
 			DecodeLZSS(mp_activeFile->pCompressedData, mp_activeFile->pData, mp_activeFile->compressedDataSize);	
 		}
@@ -382,18 +365,14 @@ void *PreFile::LoadContainedFile(const char *pName,int *p_size, void *p_dest)
 //	printf ("LoadContainedFile(%s\n",pName);
 	
 	_File *pFile = mp_table->GetItem(pName, false);
-	if (!pFile) 
-	{
+	if (!pFile)
 		return nullptr;
-	}	
 	
 	*p_size = pFile->m_filesize;
 
 	// If destination was passed as nullptr, then allocate memory	
 	if (!p_dest)
-	{
-		p_dest = Mem::Malloc(pFile->m_filesize);		
-	}
+		p_dest = new char[pFile->m_filesize];
 	
 	// do we need to deompress file data?
 	if (!pFile->pData)
@@ -757,16 +736,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 			file_size = p_fileHandle->GetFileSize();
 			Dbg_MsgAssert(file_size, ("Pre file size is 0"));
 
-			Mem::PushMemProfile((char*)fullname);
-			if (useBottomUpHeap)
-			{
-				pFile = new (Mem::Manager::sHandle().BottomUpHeap()) uint8[file_size];
-			}
-			else
-			{
-				pFile = new (Mem::Manager::sHandle().TopDownHeap()) uint8[file_size];
-			}	
-			Mem::PopMemProfile();
+			pFile = new uint8[file_size];
 
 			// Set the callback
 			p_fileHandle->SetCallback(async_callback, (unsigned int) this, (unsigned int) pFile);
@@ -781,17 +751,8 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 	file_size = CanFileBeLoadedQuickly( fullname );
 	if ( file_size )
 	{
-		Mem::PushMemProfile((char*)fullname);
-		if (useBottomUpHeap)
-		{
-			pFile = new (Mem::Manager::sHandle().BottomUpHeap()) uint8[file_size];
-		}
-		else
-		{
-			pFile = new (Mem::Manager::sHandle().TopDownHeap()) uint8[file_size];
-		}	
-		Mem::PopMemProfile();
-		bool fileLoaded= LoadFileQuicklyPlease( fullname, pFile );
+		pFile = new uint8[file_size];
+		bool fileLoaded = LoadFileQuicklyPlease( fullname, pFile );
 		if ( !fileLoaded )
 		{
 			printf( "pre file %s failed to load quickly.\n", fullname );
@@ -814,18 +775,8 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 
 
 			file_size = File::GetFileSize(fp);
-		// Now allocates the .PRE file from the top of the heap, to avoid fragmentation.
-			Mem::PushMemProfile((char*)fullname);
-			if (useBottomUpHeap)
-			{
-				pFile = new (Mem::Manager::sHandle().BottomUpHeap()) uint8[file_size];
-			}
-			else
-			{
-				pFile = new (Mem::Manager::sHandle().TopDownHeap()) uint8[file_size];
-			}	
-			Mem::PopMemProfile();
-		//uint8 *pFile = new uint8[file_size];
+			
+			pFile = new uint8[file_size];
 			File::Read(pFile, 1, file_size, fp);
 
 			int read_file_size = *((int *) pFile);
@@ -846,12 +797,12 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 	// it will be unloaded at the same time as the big file buffer
 	if (useBottomUpHeap)
 	{
-		if (!mp_table->PutItem(pFilename, new (Mem::Manager::sHandle().BottomUpHeap()) PreFile(pFile,useBottomUpHeap)))
+		if (!mp_table->PutItem(pFilename, new PreFile(pFile,useBottomUpHeap)))
 			Dbg_MsgAssert(0,( "PRE %s loaded twice", pFilename));
 	}
 	else
 	{
-		if (!mp_table->PutItem(pFilename, new (Mem::Manager::sHandle().TopDownHeap()) PreFile(pFile)))
+		if (!mp_table->PutItem(pFilename, new PreFile(pFile)))
 			Dbg_MsgAssert(0,( "PRE %s loaded twice", pFilename));
 	}		
 }
@@ -868,7 +819,7 @@ void   	PreMgr::postLoadPre(CAsyncFileHandle *p_file_handle, uint8 *pData, int s
 		{
 			// the PRE file object winds up at the top of the heap, too. This is fine because
 			// it will be unloaded at the same time as the big file buffer
-			if (!mp_table->PutItem(m_pending_pre_files[i].m_file_name, new (Mem::Manager::sHandle().TopDownHeap()) PreFile(pData)))
+			if (!mp_table->PutItem(m_pending_pre_files[i].m_file_name, new PreFile(pData)))
 			{
 				Dbg_MsgAssert(0,( "PRE %s loaded twice", m_pending_pre_files[i].m_file_name));
 			}
@@ -932,24 +883,7 @@ bool PreMgr::InPre(const char *pFilename)
 
 void PreMgr::LoadPre(const char *pFilename, bool async, bool dont_assert, bool useBottomUpHeap)
 {
-	// GJ:  This function is a wrapper around loadPRE(), to
-	// make sure that all allocations go on the top-down heap
-	
-	// K: Unless they want to use the bottom up heap :)
-	// Needed so that the anims pre can be put on the bottom up, so that the decompressed anims
-	// can be put on the top-down, then the pre removed without leaving a hole.
-	if (useBottomUpHeap)
-	{
-		//printf("Loading %s to bottom up heap\n",pFilename);
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
-	}
-	else
-	{
-		//printf("Loading %s to top down heap\n",pFilename);
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-	}	
 	loadPre(pFilename, async, dont_assert, useBottomUpHeap);
-	Mem::Manager::sHandle().PopContext();	
 }
 
 

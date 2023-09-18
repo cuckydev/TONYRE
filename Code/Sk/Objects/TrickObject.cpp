@@ -386,12 +386,7 @@ bool CTrickCluster::AddTrickObject( uint32 name_checksum )
 CTrickObjectManager::CTrickObjectManager( void ) : m_TrickClusterList(8), m_TrickAliasList(8)
 {
 //	m_TrickAliasCount = 0;
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-
 	mp_ObserverState = new Script::CScriptStructure;
-
-	Mem::Manager::sHandle().PopContext();
 }
 
 /******************************************************************/

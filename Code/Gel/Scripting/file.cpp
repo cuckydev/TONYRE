@@ -64,11 +64,9 @@ void LoadQB(const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplic
 #endif // __PLAT_NGC__
 
 	// Mick - Pip::Load is not going to load it from a Pip::Pre, just a regular pre
-	// so I'm sticking it on the top-down heap to avoid fragmentation							  
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap());
-	uint8 *p_qb=(uint8*)Pip::Load(p_fileName);
-	Mem::Manager::sHandle().PopContext();
-		
+	// so I'm sticking it on the top-down heap to avoid fragmentation
+	uint8 *p_qb = (uint8*)Pip::Load(p_fileName);
+	
 	// Parse the QB, which creates all the symbols defined within it.
 	ParseQB(p_fileName,p_qb,assertIfDuplicateSymbols);
 	

@@ -121,8 +121,6 @@ bool CSkaterProfile::Reset(Script::CStruct* pParams)
 	// and then whenever you want to clear it out to its initial state
 	// (like creating a new pro)
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	// destroy the face texture, if one exists
 	m_Appearance.DestroyFaceTexture();
 	
@@ -144,8 +142,6 @@ bool CSkaterProfile::Reset(Script::CStruct* pParams)
 	pTemp = new Script::CStruct;
 	m_Info.AddComponent( Crc::ConstCRC("specials"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
 
-	Mem::Manager::sHandle().PopContext();
-
 	if ( pParams )
 	{
 		//	Dbg_Message( "Alternate constructor for skater profile called\n");
@@ -160,16 +156,12 @@ bool CSkaterProfile::Reset(Script::CStruct* pParams)
 
 		if ( !IsPro() )
 		{
-			Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 			// create a face texture, only if it's a custom skater
 			m_Appearance.CreateFaceTexture();
 			
 			// for debugging purposes, set up a test face
 			// Gfx::CFaceTexture* pFaceTexture = m_Appearance.GetFaceTexture();
 			// pFaceTexture->LoadFace( "faces\\CS_NSN_head_test_kurt" );
-			
-			Mem::Manager::sHandle().PopContext();
 		}		
 
 		// initialize the trick mappings to the default values, defined in protricks.q
@@ -199,8 +191,6 @@ bool CSkaterProfile::Reset(Script::CStruct* pParams)
 
 bool CSkaterProfile::PartialReset(Script::CStruct* pParams)
 {
-    Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 	// destroy the face texture, if one exists
 	m_Appearance.DestroyFaceTexture();
 	
@@ -215,8 +205,6 @@ bool CSkaterProfile::PartialReset(Script::CStruct* pParams)
 	// as well as a special tricks array
 	pTemp = new Script::CStruct;
 	m_Info.AddComponent( Crc::ConstCRC("specials"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
-
-	Mem::Manager::sHandle().PopContext();
 
 	if ( pParams )
 	{
@@ -309,8 +297,6 @@ bool CSkaterProfile::PartialReset(Script::CStruct* pParams)
 
 uint32 CSkaterProfile::WriteToBuffer(uint8 *pBuffer, uint32 BufferSize, bool ignoreFaceData )
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-
 	uint32 totalSize = 0;
 	uint32 chunkSize = 0;
 
@@ -344,8 +330,6 @@ uint32 CSkaterProfile::WriteToBuffer(uint8 *pBuffer, uint32 BufferSize, bool ign
 	chunkSize = write_extra_info_to_buffer(pBuffer, BufferSize);
 	totalSize += chunkSize;
 	
-	Mem::Manager::sHandle().PopContext();
-
 	return totalSize;
 }
 
@@ -356,8 +340,6 @@ uint32 CSkaterProfile::WriteToBuffer(uint8 *pBuffer, uint32 BufferSize, bool ign
 
 uint8* CSkaterProfile::ReadFromBuffer(uint8 *pBuffer)
 {
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-
 	pBuffer = m_Appearance.ReadFromBuffer(pBuffer);
 
 	GetTrickMapping( Crc::ConstCRC("trick_mapping") )->Clear();
@@ -375,8 +357,6 @@ uint8* CSkaterProfile::ReadFromBuffer(uint8 *pBuffer)
 	// and your default appearance, aren't needed)
 	pBuffer = read_extra_info_from_buffer(pBuffer);
 	
-	Mem::Manager::sHandle().PopContext();
-
 	return pBuffer;
 }
 

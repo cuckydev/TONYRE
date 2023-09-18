@@ -520,8 +520,6 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 	// Load all the files to get them into the asset manager, 
 	// while the PRE file is still in memory
 
-	Mem::PushMemProfile("PreLoadModels");
-  
 	// now loop through the NodeArray, looking for single-skinned models
 	Script::CArray *pNodeArray = Script::GetArray( Crc::ConstCRC("NodeArray") );
 	Dbg_MsgAssert( pNodeArray, ( "No NodeArray found in ParseNodeArray" ) );
@@ -600,8 +598,6 @@ bool ScriptPreloadModels( Script::CStruct *pParams, Script::CScript *pScript )
 		}				
 	}
 
-	Mem::PopMemProfile(/*"PreLoadModels"*/);
-	
 	return true;
 }	
 
@@ -631,8 +627,6 @@ bool ScriptPreloadPedestrians( Script::CStruct *pParams, Script::CScript *pScrip
 		// preload their random peds
 		return false;
 	}
-
-	Mem::PushMemProfile("PreLoadPedestrians");
 
 	if (pParams->ContainsFlag(Crc::ConstCRC("no_random")))
 	{
@@ -726,8 +720,6 @@ bool ScriptPreloadPedestrians( Script::CStruct *pParams, Script::CScript *pScrip
 	}
 
 //	Dbg_Message( "Preloading peds took %d ms", Tmr::ElapsedTime( baseTime ) );
-			
-	Mem::PopMemProfile(/*"PreLoadModels"*/);
 	return true;
 }
 
@@ -3038,11 +3030,7 @@ bool ScriptReloadSkaterCamAnim( Script::CStruct* pParams, Script::CScript* pScri
 	Ass::CAssMan * ass_man = Ass::CAssMan::Instance();
 	
 	// on the debug heap
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-	
 	bool success =  ass_man->ReloadAsset( animName, pFileName, false );
-	
-	Mem::Manager::sHandle().PopContext();
 
 	return success;
 }
@@ -3308,12 +3296,8 @@ bool ScriptReloadMovingObjectAnim( Script::CStruct* pParams, Script::CScript* pS
 	Ass::CAssMan * ass_man = Ass::CAssMan::Instance();
 	
 	// on the debug heap
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().DebugHeap());
-	
 	bool success = ass_man->ReloadAsset( animName, pFileName, false );
 	
-	Mem::Manager::sHandle().PopContext();
-
 	return success;
 }
 
@@ -4460,9 +4444,7 @@ bool ScriptReinsertSkaters(Script::CStruct *pParams, Script::CScript *pScript)
 	for ( uint32 i = 0; i < Mdl::Skate::Instance()->GetNumSkaters(); i++ )
 	{   
 		Obj::CSkater* pSkater = Mdl::Skate::Instance()->GetSkater( i );
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(pSkater->GetHeapIndex()));
 		pSkater->AddToCurrentWorld();
-		Mem::Manager::sHandle().PopContext();
 	}
 
 	return true;
@@ -4635,12 +4617,10 @@ bool ScriptStartCompetition(Script::CStruct *pParams, Script::CScript *pScript)
 	Script::CStruct* pExtraParams = nullptr;
 	pParams->GetStructure( Crc::ConstCRC("extra_params"), &pExtraParams, Script::NO_ASSERT );
 
-	// Need to use SkaterInfoHeap, as new strings can get created, which can fragment memory 									   
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());	
+	// Need to use SkaterInfoHeap, as new strings can get created, which can fragment memory
 	if ( pExtraParams )
 		Mdl::Skate::Instance()->GetCompetition()->EditParams( pExtraParams );
 	Mdl::Skate::Instance()->GetCompetition()->StartCompetition(bronze, silver, gold, bronze_score, silver_score, gold_score, bail);
-	Mem::Manager::sHandle().PopContext();
 	
 	return true;
 }
@@ -4675,11 +4655,8 @@ bool ScriptEndCompetitionRun(Script::CStruct *pParams, Script::CScript *pScript)
 	Mdl::Score *pScore=pSkater->GetScoreObject();
 	int score = pScore->GetTotalScore();
 
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 	Mdl::Skate::Instance()->GetCompetition()->EndRun(score);
 	Mdl::Skate::Instance()->GetCompetition()->SetupJudgeText();
-	Mem::Manager::sHandle().PopContext();
 	
 	return true;
 }
@@ -4753,10 +4730,8 @@ bool ScriptEndCompetition(Script::CStruct *pParams, Script::CScript *pScript)
 	(void)pParams;
 	(void)pScript;
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
 	Mdl::Skate::Instance()->GetCompetition()->EndCompetition();
-	Mem::Manager::sHandle().PopContext();
-
+	
 	return true;
 }
 
@@ -5477,8 +5452,6 @@ bool ScriptInitSkaterModel(Script::CStruct *pParams, Script::CScript *pScript)
 	Obj::CSkater* pSkater = Mdl::Skate::Instance()->GetSkater(player_num);
 	Dbg_Assert( pSkater );
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterGeomHeap(pSkater->GetHeapIndex()));
-   	
 	uint32 appearance_structure_name;
 	pParams->GetChecksum( "default_appearance", &appearance_structure_name, true );
 //	Script::PrintContents( pParams );
@@ -5490,8 +5463,6 @@ bool ScriptInitSkaterModel(Script::CStruct *pParams, Script::CScript *pScript)
 	Obj::CModelComponent* pModelComponent = GetModelComponentFromObject( pSkater );
 	pModelComponent->InitModelFromProfile( &theAppearance, false, pSkater->GetHeapIndex() );
 	
-	Mem::Manager::sHandle().PopContext();
-
 	return true;
 }
 
@@ -5553,8 +5524,6 @@ bool ScriptRefreshSkaterModel(Script::CStruct *pParams, Script::CScript *pScript
 	}*/
 
 	// create the model
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterGeomHeap(pSkater->GetHeapIndex()));
-
 	Nx::CEngine::sFinishRendering();
    
 #ifdef __PLAT_NGC__
@@ -5576,10 +5545,6 @@ bool ScriptRefreshSkaterModel(Script::CStruct *pParams, Script::CScript *pScript
 	}
 #endif
 	
-	Mem::Manager::sHandle().PopContext();
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterHeap(pSkater->GetHeapIndex()));
-	
 	pSkater->UpdateStats( pProfile );
 
 	Obj::CTrickComponent* pTrickComponent = GetTrickComponentFromObject(pSkater);
@@ -5587,8 +5552,6 @@ bool ScriptRefreshSkaterModel(Script::CStruct *pParams, Script::CScript *pScript
 	pTrickComponent->UpdateTrickMappings( pProfile );
 
 	pSkater->UpdateSkaterInfo( pProfile );
-
-	Mem::Manager::sHandle().PopContext();
 
     uint32 board;
     if ( pParams->GetChecksum( Crc::ConstCRC("no_board"), &board ) )

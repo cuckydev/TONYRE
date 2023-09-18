@@ -419,7 +419,7 @@ void CLightManager::sClearCurrentFakeLightsCommand()
 {
 	if (sp_fake_lights_nodes)
 	{
-		Mem::Free(sp_fake_lights_nodes);
+		delete[] sp_fake_lights_nodes;
 		sp_fake_lights_nodes=nullptr;
 	}	
 	s_num_fake_lights_nodes=0;
@@ -449,7 +449,7 @@ void CLightManager::sFakeLights(const uint16 *p_nodes, int numNodes, int period,
 	
 	if (numNodes)
 	{
-		sp_fake_lights_nodes=(uint16*)Mem::Malloc(numNodes*sizeof(uint16));
+		sp_fake_lights_nodes = new uint16[numNodes];
 		for (int i=0; i<numNodes; ++i)
 		{
 			sp_fake_lights_nodes[i]=p_nodes[i];

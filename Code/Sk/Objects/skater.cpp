@@ -1224,8 +1224,6 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 
 	if( m_local_client && should_create_cam )
 	{
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterInfoHeap());
-
 		uint32	name = Crc::ConstCRC("SkaterCam0");
 		if (m_skater_number == 1)
 		{
@@ -1289,8 +1287,6 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 
 		p_skatercam_component->SetSkater( this );
 		*/
-		
-		Mem::Manager::sHandle().PopContext();
 	}
 
 	// Set up the AI script.
@@ -1376,8 +1372,6 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	mp_model_component = GetModelComponent();
 	
 	// create the model
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().SkaterGeomHeap(m_heap_index));
-	
 	Ass::CAssMan * ass_man =  Ass::CAssMan::Instance();
 	bool defaultPermanent = ass_man->GetDefaultPermanent();
 	ass_man->SetDefaultPermanent( false );
@@ -1387,8 +1381,6 @@ void CSkater::Construct ( Obj::CSkaterProfile* pSkaterProfile)
 	
 	ass_man->SetDefaultPermanent( defaultPermanent );
 	
-	Mem::Manager::sHandle().PopContext();
-
 	// Create Model lights
 	// (This has been moved to the CModelComponent)
 //	GetModel()->CreateModelLights();

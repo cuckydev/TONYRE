@@ -116,9 +116,7 @@ bool			CFaceTexMassager::sMassageTexture(CTexture *p_face_texture, const SFacePo
 #endif
 
 	// Convert texture to 32-bit, if not already (speeds conversion)
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().BottomUpHeap());
 	p_face_texture->Generate32BitImage();
-	Mem::Manager::sHandle().PopContext();
 
 	// Adjust the texture based on the model face points
 	sAdjustTextureToModel(p_face_texture, c_texture_points, use_fill_color, fill_color);

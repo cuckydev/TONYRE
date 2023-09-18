@@ -3443,12 +3443,8 @@ bool CCutsceneData::PostLoad( bool assertOnFail )
 
 	Dbg_MsgAssert( mp_fileLibrary, ( "No file library?!?" ) );
 
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().CutsceneBottomUpHeap() );
-
 	load_models();
 	init_objects();
-	
-	Mem::Manager::sHandle().PopContext();
 
 	delete mp_fileLibrary;
 	mp_fileLibrary = nullptr;
@@ -4165,96 +4161,14 @@ bool CCutsceneData::Load( const char* p_fileName, bool assertOnFail, bool async_
 	//-------------------------------------------------------------
 
 	//-------------------------------------------------------------
-	// Create a cutscene heap here...  it will only be used for the 
-	// cutscene, and will prevent fragmentation on the bottom up heap
-	// by things that might get allocated during the cutscene,
-	// such as proxim nodes.
-	Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().TopDownHeap() );
-		
-	// reserve about 100K for any allocations that need to go on the 
-	// bottom up heap (such as proxim nodes).  Also need to reserve
-	// some room on the topdown heap for texture dictionary loading
-	// on the PS2
-	int mem_available = Mem::Manager::sHandle().Available();
-#	if defined( __PLAT_NGC__ )
-#ifdef DVDETH
-	mem_available -= 6 * 1024 * 1024;
-#else
-#ifdef __NOPT_ASSERT__
-	mem_available = 3 * 1024 * 1024;
-#else
-
-# define toupper(c) ( ( (c) >= 'a' ) && ( (c) <= 'z' ) ) ? (c) += ( 'A' - 'a' ) : (c)
-	char name[64];
-	char * ps = (char *)p_fileName;
-	char * pd = name;
-	while ( *ps != '\0' )
-	{
-		*pd = toupper( *ps );
-		ps++;
-		pd++;
-	}
-
-	if ( strstr( name, "FL_03" ) )
-	{
-		mem_available -= 200 * 1024;
-		OSReport( "******* Reducing by 200k\n" );
-	}
-	else
-	{
-		if ( strstr( name, "NY_01V" ) )
-		{
-			mem_available -= 100 * 1024;
-			OSReport( "******* Reducing by 80k\n" );
-		}
-		else
-		{
-			if ( strstr( name, "NY_02" ) )
-			{
-				mem_available -= 80 * 1024;
-				OSReport( "******* Reducing by 80k\n" );
-			}
-			else
-			{
-				mem_available -= 120 * 1024;
-				OSReport( "******* Reducing by 120k\n" );
-			}
-		}
-	}
-#endif		// __NOPT_ASSERT__ 
-#endif		// DVDETH
-#	elif defined( __PLAT_XBOX__ )
-	// Reserve more for Xbox since audio streams will be allocated from bottom up heap.
-	mem_available -= 512 * 1024;
-#	else
-	mem_available -= 200 * 1024;
-#	endif		// __PLAT_NGC__
-
-#ifdef __PLAT_NGC__
-		if ( mem_available < ( 150 * 1024 ) )
-		{
-			// If heap is too small, allocate a 200k heap from the theme region.
-			Mem::Manager::sHandle().PopContext();
-			Mem::Manager::sHandle().PushContext( Mem::Manager::sHandle().ThemeHeap() );
-			mem_available = 150 * 1024;
-		}
-#endif
-
-	Mem::Manager::sHandle().InitCutsceneHeap( mem_available );
-	Mem::Manager::sHandle().PopContext(); 
-	//-------------------------------------------------------------
 #	if defined( __PLAT_NGC__ )
 	g_in_cutscene = true;
 #	endif		// __PLAT_NGC__
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().CutsceneBottomUpHeap());	
 	Dbg_MsgAssert( !mp_fileLibrary, ( "File library already exists" ) );
 	mp_fileLibrary = new File::CFileLibrary;
 	Dbg_MsgAssert( mp_fileLibrary, ( "Couldn't create file library %s", p_fileName ) );
-	Mem::Manager::sHandle().PopContext();
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().CutsceneTopDownHeap());	
-
+	
 	bool success = mp_fileLibrary->Load( p_fileName, assertOnFail, async_load );
 	
 	if ( !success )
@@ -4262,8 +4176,6 @@ bool CCutsceneData::Load( const char* p_fileName, bool assertOnFail, bool async_
 		Dbg_MsgAssert( 0, ( "Couldn't load file library %s", p_fileName ) );
 	}
 	
-	Mem::Manager::sHandle().PopContext();
-
 	if ( !async_load )
 	{
 		PostLoad( assertOnFail );
@@ -4614,12 +4526,6 @@ void CCutsceneData::update_camera( Gfx::Camera* pCamera )
 
 	if ( !m_videoAborted )
 	{
-		// any allocations during the cutscene should go on the
-		// cutscene heap (such as pedestrians).  at the end
-		// of the cutscene, we require that the cutscene heap
-		// is empty before it is deleted...
-		Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().CutsceneBottomUpHeap());	
-
 		// process any new keys since last frame...
 		// do this AFTER the camera is updated for
 		// the frame, because a custom key might
@@ -4630,8 +4536,6 @@ void CCutsceneData::update_camera( Gfx::Camera* pCamera )
 		// next...  what we really want is to 
 		// keep on the end of the previous camera)
 		mp_cameraQuickAnim->ProcessCustomKeys( m_oldTime, m_currentTime, pCamera );
-		
-		Mem::Manager::sHandle().PopContext();
 	}
 
 //	printf( "Done for frame\n" );
@@ -5244,7 +5148,6 @@ void CCutsceneDetails::Cleanup()
 
 	// destroy the cutscene heap (at this point, any allocations made during 
 	// the cutscene should have been freed up)
-	Mem::Manager::sHandle().DeleteCutsceneHeap();
 
 	Script::RunScript( Crc::ConstCRC("PostCutscene"), mp_cutsceneStruct );
 

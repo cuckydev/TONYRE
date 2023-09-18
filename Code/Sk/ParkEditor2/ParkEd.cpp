@@ -315,13 +315,10 @@ void CParkEditor::CreatePlayModeGapManager()
 	Dbg_MsgAssert(mp_play_mode_gap_manager==nullptr,("Expected mp_play_mode_gap_manager to be nullptr"));
 	Ed::CGapManager *p_original_gap_manager = CGapManager::sInstance();
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
 	mp_play_mode_gap_manager=new Ed::CGapManager(nullptr);
 	
 	// Use the overloaded assignement operator to make the copy.
 	*mp_play_mode_gap_manager = *p_original_gap_manager;
-	
-	Mem::Manager::sHandle().PopContext();
 	
 	
 	// The constructor of CGapManager sets the sp_instance pointer, so set it back to the original so that
@@ -802,29 +799,20 @@ void CParkEditor::Update()
 				m_pct_resources_used=1.0f;
 			}	
 
-			Mem::Heap *p_bottom_up_heap = Mem::Manager::sHandle().BottomUpHeap();
-			Mem::Heap *p_top_down_heap = Mem::Manager::sHandle().TopDownHeap();
-			#ifdef	__NOPT_ASSERT__
-			if (Script::GetInteger(Crc::ConstCRC("show_actual_heap_status")))
-			{
-				printf("Bottom up = %d  Top down = %d\n",p_bottom_up_heap->mFreeMem.m_count,p_top_down_heap->mp_region->MemAvailable());
-			}	
-			#endif
-			
 			// top_down_pct is a metric based on the amount of top down heap available. The reason for the 2.0 is to
 			// make the top_down_pct be >= 1.0 if there is less than TOP_DOWN_REQUIRED_MARGIN available, and < 1.0
 			// if there is more than that available.
-			float top_down_pct=2.0f-(((float)p_top_down_heap->mp_region->MemAvailable()) / ((float)TOP_DOWN_REQUIRED_MARGIN));
+			float top_down_pct = 0.0f; // 2.0f-(((float)p_top_down_heap->mp_region->MemAvailable()) / ((float)TOP_DOWN_REQUIRED_MARGIN));
 			if (top_down_pct > m_pct_resources_used)
 			{
 				m_pct_resources_used = top_down_pct;
 			}	
 
 
-			float park_heap_pct=1.0f-((float)usage_info.mParkHeapFree)/((float)p_generator->GetResourceSize("park_heap_base"));
+			float park_heap_pct = 0.0f; //  1.0f - ((float)usage_info.mParkHeapFree) / ((float)p_generator->GetResourceSize("park_heap_base"));
 			if (park_heap_pct > m_pct_resources_used)
 			{
-				m_pct_resources_used=park_heap_pct;
+				m_pct_resources_used = park_heap_pct;
 			}	
 
 			m_last_main_heap_free=usage_info.mMainHeapFree;
@@ -875,11 +863,11 @@ void CParkEditor::Update()
 			// It is required to prevent an infinite loop of defrags which could occur if defrags
 			// were allowed every frame.
 			
-			if (shown_pct_resources_used >= 1.0f && p_top_down_heap->mp_region->MemAvailable() < TOP_DOWN_REQUIRED_MARGIN)
+			if (shown_pct_resources_used >= 1.0f)
 			{
 				// We're in trouble, there may not be enough top down heap for UpdateSuperSectors
 				// to execute. This can happen if trying to raise a large chunk of ground.
-				if (p_bottom_up_heap->mFreeMem.m_count + p_top_down_heap->mp_region->MemAvailable() > (TOP_DOWN_REQUIRED_MARGIN + TOP_DOWN_REQUIRED_MARGIN_LEEWAY))
+				if (0) // p_bottom_up_heap->mFreeMem.m_count + p_top_down_heap->mp_region->MemAvailable() > (TOP_DOWN_REQUIRED_MARGIN + TOP_DOWN_REQUIRED_MARGIN_LEEWAY))
 				{
 					// ... but there would be more than enough if all the fragments could be utilised,
 					// so do a defragment to see if that helps.
@@ -924,8 +912,6 @@ void CParkEditor::Update()
 				#endif
 				return;
 			}
-
-
 
 			// percent_bar_colored_part
 			Front::CScreenElementManager* p_elem_man = Front::CScreenElementManager::Instance();

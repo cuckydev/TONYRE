@@ -1384,8 +1384,6 @@ int Skate::handle_run_script( Net::MsgHandlerContext* context )
     Script::CScriptStructure *pParams;
 	Obj::CMovingObject* obj;
 
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-
 	mod = (Skate *) context->m_Data;
 	msg = (GameNet::MsgRunScript *) context->m_Msg;
 
@@ -1397,8 +1395,6 @@ int Skate::handle_run_script( Net::MsgHandlerContext* context )
 	Script::RunScript( msg->m_ScriptName, pParams, obj );
 
 	delete pParams;
-
-	Mem::Manager::sHandle().PopContext();
 
 	return Net::HANDLER_CONTINUE;
 }
@@ -2411,8 +2407,6 @@ int Skate::handle_obs_init_graffiti_state( Net::MsgHandlerContext* context )
 	Dbg_Assert( pTrickObjectManager );
 
 	// push heap
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().ScriptHeap());
-
 	Script::CScriptStructure* pStructure = new Script::CScriptStructure;
 
 	// modulate the color here
@@ -2449,9 +2443,6 @@ int Skate::handle_obs_init_graffiti_state( Net::MsgHandlerContext* context )
 	// This was never defined, so I commented it out. I just apply it immediately and this
 	// seems to work for now
 	//Script::SpawnScript( "deferred_observer_trick_modulation", pStructure, 0, nullptr );
-
-	// pop heap
-	Mem::Manager::sHandle().PopContext();
 
 	return Net::HANDLER_CONTINUE;
 }

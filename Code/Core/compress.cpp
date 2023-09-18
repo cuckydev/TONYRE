@@ -30,15 +30,11 @@ int *dad;
 void InitTree(void)	 /* initialize trees */
 {
 	int  i;
-
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().TopDownHeap()); 
+ 
 	text_buf = new unsigned char[N + F - 1];
 	lson = new int[N+1];
 	rson = new int[N+257];
 	dad  = new int[N+1];
-	Mem::Manager::sHandle().PopContext(); //Mem::Manager::sHandle().TopDownHeap());	
-
-
 
 	/* For i = 0 to N - 1, rson[i] and lson[i] will be the right and
 	   left children of node i.  These nodes need not be initialized.

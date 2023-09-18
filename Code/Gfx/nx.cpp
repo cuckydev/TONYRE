@@ -248,8 +248,6 @@ CScene	*		CEngine::sLoadScene(const char *p_name, CTexDict *p_tex_dict,
 	sprintf(full_name,"levels\\%s\\%s%s.scn.%s",  p_name,p_name,is_net?"_net":"",sGetPlatformExtension());
 #endif
 
-	Mem::PushMemProfile((char*)full_name);
-
 	CScene *loaded_scene = s_plat_load_scene(full_name, p_tex_dict, add_super_sectors, is_sky, is_dictionary);
 
 	loaded_scene->SetID(Script::GenerateCRC(p_name)); 	// store the checksum of the scene name
@@ -272,8 +270,6 @@ CScene	*		CEngine::sLoadScene(const char *p_name, CTexDict *p_tex_dict,
 
 	Dbg_MsgAssert(i < MAX_LOADED_SCENES, ("Have more than MAX_LOADED SCENES"));
 	
-	Mem::PopMemProfile(/*p_name*/);
-
 	return loaded_scene;
 }
 
@@ -779,9 +775,7 @@ CMesh*			CEngine::sLoadMesh(const char* pFileName, uint32 texDictOffset, bool fo
 	Nx::CTexDict* pTexDict = Nx::CTexDictManager::sLoadTextureDictionary(textureName, false, texDictOffset, foundSkin, forceTexDictLookup);
 	Dbg_MsgAssert(pTexDict,("ERROR loading tex dict for %s\n",textureName));
 
-	Mem::PushMemProfile((char*)meshName);	
 	CMesh* p_mesh = s_plat_load_mesh(meshName, pTexDict, texDictOffset, foundSkin, doShadowVolume);
-	Mem::PopMemProfile(/*(char*)meshname*/);	
 	return p_mesh;	
 }
 
@@ -799,9 +793,7 @@ CMesh*			CEngine::sLoadMesh(uint32 id, uint32* pModelData, int modelDataSize, ui
 	Nx::CTexDict* pTexDict = Nx::CTexDictManager::sLoadTextureDictionary(textureDictChecksum, pTextureData, textureDataSize, false, textureDictOffset, isSkin, forceTexDictLookup);
 	Dbg_MsgAssert(pTexDict,("ERROR loading tex dict from buffer"));
 
-	Mem::PushMemProfile((char*)"model_data_buffer");	
 	CMesh*	p_mesh = s_plat_load_mesh(id, pModelData, modelDataSize, pCASData, pTexDict, textureDictOffset, isSkin, doShadowVolume);
-	Mem::PopMemProfile(/*(char*)meshname*/);	
 	return p_mesh;	
 }
 
