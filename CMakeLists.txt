@@ -766,7 +766,10 @@ add_library(TonyRE.Code STATIC
 
 target_link_libraries(TonyRE.Code PUBLIC TonyRE.Common)
 
-# Compile scripts
+# Build QScript toolchain
+add_subdirectory("QScript" EXCLUDE_FROM_ALL)
+
+# Define scripts
 set(SCRIPTS
 	"aaaaloopchecker"
 	"allanims"
@@ -1002,12 +1005,34 @@ set(SCRIPTS
 	"gamemodes/gamemode"
 )
 
-# Create qdir.txt
+# Compile scripts
 set(QDIR_TXT)
+set(QDIR_DEPS)
 
 foreach (SCRIPT ${SCRIPTS})
+	# Append .qb to qdir.txt
 	string(APPEND QDIR_TXT "scripts/${SCRIPT}.qb\n")
+
+	# Get script directory under Game/Data/scripts and create directory
+	get_filename_component(SCRIPT_DIR "${SCRIPT}" DIRECTORY)
+	file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/Game/Data/scripts/${SCRIPT_DIR}")
+
+	# Create compile script rule
+	add_custom_command(
+		OUTPUT "${CMAKE_SOURCE_DIR}/Game/Data/scripts/${SCRIPT}.qb"
+		COMMAND QScript.QCompile.App -input "${CMAKE_SOURCE_DIR}/Scripts/${SCRIPT}.q" -output "${CMAKE_SOURCE_DIR}/Game/Data/scripts/${SCRIPT}.qb" -target thug1
+		DEPENDS QScript.QCompile.App "${CMAKE_SOURCE_DIR}/Scripts/${SCRIPT}.q"
+		COMMENT "Compiling ${SCRIPT}.q"
+	)
+	list(APPEND QDIR_DEPS "${CMAKE_SOURCE_DIR}/Game/Data/scripts/${SCRIPT}.qb")
 endforeach()
+
+add_custom_target(Tony.QScripts DEPENDS ${QDIR_DEPS})
+add_dependencies(TonyRE.Code Tony.QScripts)
+
+# Write qdir.txt
+file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/Game/Data/scripts")
+file(WRITE "${CMAKE_SOURCE_DIR}/Game/Data/scripts/qdir.txt" "${QDIR_TXT}")
 
 # Include miniaudio
 target_include_directories(TonyRE.Common INTERFACE "External/miniaudio")
@@ -1028,11 +1053,11 @@ if(TRUE) # If WIN32
 	target_link_libraries(TonyRE.Code PUBLIC TonyRE.Wn32)
 
 	if(WIN32)
-	# Compile Win32 executable
-	add_executable(TonyRE WIN32
-		"Code/Sk/Main.cpp"
-		"Resources/Win32/THUG.rc"
-	)
+		# Compile Win32 executable
+		add_executable(TonyRE WIN32
+			"Code/Sk/Main.cpp"
+			"Resources/Win32/THUG.rc"
+		)
 	else()
 		# Compile an executable
 		add_executable(TonyRE
