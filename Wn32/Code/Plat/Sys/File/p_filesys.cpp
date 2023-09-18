@@ -192,7 +192,7 @@ namespace File
 		return 0;
 	}
 
-	bool LoadFileQuicklyPlease( const char* filename, uint8 *addr )
+	bool LoadFileQuicklyPlease( const char* filename, char *addr )
 	{
 		(void)filename;
 		(void)addr;

@@ -238,7 +238,7 @@ void PreFile::s_delete_file(_File *pFile, void *pData)
 
 
 
-PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
+PreFile::PreFile(char *p_file_buffer, bool useBottomUpHeap)
 {
 	m_use_bottom_up_heap=useBottomUpHeap;
 	
@@ -253,7 +253,7 @@ PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
 	#endif
 	m_numEntries = *((int *)(mp_buffer + 8));
 
-	uint8 *pEntry = mp_buffer + 12;
+	char *pEntry = mp_buffer + 12;
 	for (int i = 0; i < m_numEntries; i++)
 	{
 		int data_size 				= *((int *) pEntry);
@@ -261,8 +261,8 @@ PreFile::PreFile(uint8 *p_file_buffer, bool useBottomUpHeap)
 		int text_size	 			= *((short *) (pEntry + 8));
 		int actual_data_size = (compressed_data_size != 0) ? compressed_data_size : data_size;
 		
-		char *pName = (char *) pEntry + PRE_NAME_OFFSET;
-		uint8 *pCompressedData = pEntry + PRE_NAME_OFFSET + text_size;
+		char *pName = pEntry + PRE_NAME_OFFSET;
+		char *pCompressedData = pEntry + PRE_NAME_OFFSET + text_size;
 		
 		_File *pFile = new _File;
 
@@ -339,9 +339,9 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 	{
 		if (mp_activeFile->compressedDataSize)
 		{
-			mp_activeFile->pData = new uint8[mp_activeFile->m_filesize];
+			mp_activeFile->pData = new char[mp_activeFile->m_filesize];
 			// need to uncompress data
-			DecodeLZSS(mp_activeFile->pCompressedData, mp_activeFile->pData, mp_activeFile->compressedDataSize);	
+			DecodeLZSS((unsigned char*)mp_activeFile->pCompressedData, (unsigned char *)mp_activeFile->pData, mp_activeFile->compressedDataSize);
 		}
 	}
 
@@ -359,7 +359,7 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 // returns a pointer to the file in memory
 // or nullptr if the file is not in this pre file.
 // optional parameter p_dest, if set to anything other then nullptr, then load file to this destination
-void *PreFile::LoadContainedFile(const char *pName,int *p_size, void *p_dest)
+char *PreFile::LoadContainedFile(const char *pName,int *p_size, char *p_dest)
 {
 
 //	printf ("LoadContainedFile(%s\n",pName);
@@ -381,7 +381,7 @@ void *PreFile::LoadContainedFile(const char *pName,int *p_size, void *p_dest)
 		{
 			// need to uncompress data
 			//DecodeLZSS(mp_activeFile->pCompressedData, mp_activeFile->pData, mp_activeFile->compressedDataSize);	
-			DecodeLZSS(pFile->pCompressedData, (uint8*)p_dest, pFile->compressedDataSize);	
+			DecodeLZSS((unsigned char*)pFile->pCompressedData, (unsigned char*)p_dest, pFile->compressedDataSize);	
 		}
 		else
 		{
@@ -398,13 +398,13 @@ void *PreFile::LoadContainedFile(const char *pName,int *p_size, void *p_dest)
 	
 
 
-uint8 *PreFile::GetContainedFileByHandle(PreFile::FileHandle *pHandle)
+char *PreFile::GetContainedFileByHandle(PreFile::FileHandle *pHandle)
 {
 	mp_table->IterateStart();
 	_File *pFile = mp_table->IterateNext();
 	while(pFile)
 	{
-		uint8 *pCompressedData = pFile->pCompressedData;
+		char *pCompressedData = pFile->pCompressedData;
 		if (pCompressedData && pFile == pHandle)
 		{
 			mp_activeFile = pFile;
@@ -641,7 +641,7 @@ bool	PreMgr::fileExists(const char *pName)
 
 
 // returns pointer to data
-uint8 *PreMgr::getContainedFileByHandle(PreFile::FileHandle *pHandle)
+char *PreMgr::getContainedFileByHandle(PreFile::FileHandle *pHandle)
 {
 	
 	Dbg_AssertPtr(pHandle);
@@ -655,7 +655,7 @@ uint8 *PreMgr::getContainedFileByHandle(PreFile::FileHandle *pHandle)
 		// mp_activePre will be unchanged
 		return mp_activeData;
 	
-	uint8 *pData = nullptr;
+	char *pData = nullptr;
 	mp_table->IterateStart();
 	PreFile *pPre = mp_table->IterateNext();
 	while(pPre)
@@ -717,7 +717,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 #endif
 
 	int file_size;
-	uint8 *pFile = nullptr;
+	char *pFile = nullptr;
 
 	// Try loading asynchronously
 	if (async)
@@ -736,7 +736,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 			file_size = p_fileHandle->GetFileSize();
 			Dbg_MsgAssert(file_size, ("Pre file size is 0"));
 
-			pFile = new uint8[file_size];
+			pFile = new char[file_size];
 
 			// Set the callback
 			p_fileHandle->SetCallback(async_callback, (unsigned int) this, (unsigned int) pFile);
@@ -751,7 +751,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 	file_size = CanFileBeLoadedQuickly( fullname );
 	if ( file_size )
 	{
-		pFile = new uint8[file_size];
+		pFile = new char[file_size];
 		bool fileLoaded = LoadFileQuicklyPlease( fullname, pFile );
 		if ( !fileLoaded )
 		{
@@ -776,7 +776,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 
 			file_size = File::GetFileSize(fp);
 			
-			pFile = new uint8[file_size];
+			pFile = new char[file_size];
 			File::Read(pFile, 1, file_size, fp);
 
 			int read_file_size = *((int *) pFile);
@@ -808,7 +808,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 }
 
 // Finishes the loading sequence
-void   	PreMgr::postLoadPre(CAsyncFileHandle *p_file_handle, uint8 *pData, int size)
+void   	PreMgr::postLoadPre(CAsyncFileHandle *p_file_handle, char *pData, int size)
 {
 	(void)size;
 
@@ -841,7 +841,7 @@ void	PreMgr::async_callback(CAsyncFileHandle *p_file_handle, EAsyncFunctionType 
 	{
 		PreMgr *p_mgr = (PreMgr *) arg0;
 
-		p_mgr->postLoadPre(p_file_handle, (uint8 *) arg1, result);
+		p_mgr->postLoadPre(p_file_handle, (char*)arg1, result);
 	}
 }
 
@@ -1052,10 +1052,9 @@ PreFile::FileHandle *PreMgr::pre_fopen(const char *name, const char *access, boo
 
 int PreMgr::pre_fclose(PreFile::FileHandle *fptr, bool async)
 {
-		
 	Dbg_MsgAssert(fptr,( "calling fclose with invalid file ptr"));	
 	
-	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
 	{
 #if DEBUG_PRE
@@ -1074,10 +1073,9 @@ int PreMgr::pre_fclose(PreFile::FileHandle *fptr, bool async)
 
 size_t PreMgr::pre_fread(void *addr, size_t size, size_t count, PreFile::FileHandle *fptr)
 {
-		
 	Dbg_MsgAssert(fptr,( "calling fread with invalid file ptr"));		
 
-	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
 	{
 		// read from a simulated file stream in PRE file
@@ -1103,7 +1101,7 @@ size_t  PreMgr::pre_fwrite(const void *addr, size_t size, size_t count, PreFile:
 	(void)size;
 	(void)count;
 
-	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "can't write to a PRE file"));
 	
 //	if ( Pcm::UsingCD( ) )
@@ -1123,7 +1121,7 @@ char *PreMgr::pre_fgets(char *buffer, int maxLen, PreFile::FileHandle *fptr)
 	(void)buffer;
 	(void)maxLen;
 
-	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "can't do string ops on a PRE file"));
 	
 	s_lastExecuteSuccess = false;
@@ -1136,7 +1134,7 @@ int PreMgr::pre_fputs(const char *buffer, PreFile::FileHandle *fptr)
 {
 	(void)buffer;
 
-	uint8 *pData = sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "can't do string ops on a PRE file"));
 	
 	s_lastExecuteSuccess = false;
@@ -1147,10 +1145,9 @@ int PreMgr::pre_fputs(const char *buffer, PreFile::FileHandle *fptr)
 
 int PreMgr::pre_feof(PreFile::FileHandle *fptr)
 {
-		
 	Dbg_MsgAssert(fptr,( "calling feof with invalid file ptr"));		
 
-	uint8 *pData = 	sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
 	{
 		Dbg_AssertPtr(sp_mgr->mp_activePre);
@@ -1166,9 +1163,7 @@ int PreMgr::pre_feof(PreFile::FileHandle *fptr)
 
 int PreMgr::pre_fseek(PreFile::FileHandle *fptr, long offset, int origin)
 {
-		
-
-	uint8 *pData = 	sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
 	{
 		s_lastExecuteSuccess = true;
@@ -1184,12 +1179,7 @@ int PreMgr::pre_fseek(PreFile::FileHandle *fptr, long offset, int origin)
 
 int PreMgr::pre_fflush(PreFile::FileHandle *fptr)
 {
-		
-
-	#ifdef __NOPT_ASSERT__
-	uint8 *pData = 
-	#endif
-	sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "flush not supported for PRE file"));
 	
 	s_lastExecuteSuccess = false;
@@ -1200,12 +1190,7 @@ int PreMgr::pre_fflush(PreFile::FileHandle *fptr)
 
 int PreMgr::pre_ftell(PreFile::FileHandle *fptr)
 {
-		
-
-	#ifdef __NOPT_ASSERT__
-	uint8 *pData = 
-	#endif
-	sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	Dbg_MsgAssert(!pData,( "tell supported for PRE file"));
 	
 	s_lastExecuteSuccess = false;
@@ -1215,7 +1200,7 @@ int PreMgr::pre_ftell(PreFile::FileHandle *fptr)
 
 int	PreMgr::pre_get_file_size(PreFile::FileHandle *fptr)
 {
-	uint8 *pData = 	sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
 	{
 		s_lastExecuteSuccess = true;
@@ -1229,7 +1214,7 @@ int	PreMgr::pre_get_file_size(PreFile::FileHandle *fptr)
 
 int PreMgr::pre_get_file_position(PreFile::FileHandle *fptr)
 {
-	uint8 *pData = 	sp_mgr->getContainedFileByHandle(fptr);
+	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
 	{
 		s_lastExecuteSuccess = true;
@@ -1364,7 +1349,7 @@ bool ScriptWaitAllLoadPre(Script::CStruct *pParams, Script::CScript *pScript)
 // else
 //   decompress
 
-void * PreMgr::LoadFile(const char *pName, int *p_size, void *p_dest)
+char *PreMgr::LoadFile(const char *pName, int *p_size, char *p_dest)
 {
 // NOTE: THIS IS JUST CUT AND PASTE FROM Pre::fileExists
 	Dbg_AssertPtr(pName);
@@ -1386,7 +1371,7 @@ void * PreMgr::LoadFile(const char *pName, int *p_size, void *p_dest)
 	while(pPre)
 	{
 		
-		void *p_data = pPre->LoadContainedFile(cleaned_name,p_size, p_dest);
+		char *p_data = pPre->LoadContainedFile(cleaned_name, p_size, p_dest);
 		if (p_data)
 		{
 			return p_data;

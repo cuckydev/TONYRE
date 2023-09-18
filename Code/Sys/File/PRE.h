@@ -99,25 +99,25 @@ public:
 	// The actual PRE file (it is public so that FileHandle can be made public).
 	struct _File
 	{
-		int				compressedDataSize;
-		uint8 *			pCompressedData;
-		uint8 *			pData;
-		int				m_position;
-		int				m_filesize;
+		int compressedDataSize;
+		char * pCompressedData;
+		char * pData;
+		int m_position;
+		int m_filesize;
 	};
 
 	// Just typedef a file handle type since the file itself contains all the info
 	typedef _File FileHandle;
 
-	PreFile(uint8 *p_file_buffer, bool useBottomUpHeap=false);
+	PreFile(char *p_file_buffer, bool useBottomUpHeap=false);
 	~PreFile();
 	
 	
 	
-	bool 		FileExists(const char *pName);
-	void*		LoadContainedFile(const char *pName,int *p_size, void *p_dest = nullptr);
-	FileHandle*	GetContainedFile(const char *pName);
-	uint8*		GetContainedFileByHandle(FileHandle *pHandle);
+	bool FileExists(const char *pName);
+	char *LoadContainedFile(const char *pName,int *p_size, char *p_dest = nullptr);
+	FileHandle *GetContainedFile(const char *pName);
+	char *GetContainedFileByHandle(FileHandle *pHandle);
 
 	void Reset();
 	uint32 Read(void *addr, uint32 count);
@@ -133,7 +133,7 @@ private:
 
 	static void s_delete_file(_File *pFile, void *pData);
 	
-	uint8 *mp_buffer = nullptr;
+	char *mp_buffer = nullptr;
 	int m_numEntries = 0;
 	
 	// maps filenames to pointers
@@ -159,7 +159,7 @@ public:
 	void LoadPre(const char *pFilename, bool async, bool dont_assert = false, bool useBottomUpHeap=false);
 	void LoadPrePermanently(const char *pFilename, bool async, bool dont_assert = false);
 	void UnloadPre(const char *pFilename, bool dont_assert = false);
-	void * LoadFile(const char *pName, int *p_size, void *p_dest = nullptr);
+	char *LoadFile(const char *pName, int *p_size, char *p_dest = nullptr);
 
 	// Async check functions
 	bool IsLoadPreFinished(const char *pFilename);
@@ -203,10 +203,10 @@ private:
 	~PreMgr();
 
 	void loadPre(const char *pFilename, bool async, bool dont_assert = false, bool useBottomUpHeap=false);
-	void postLoadPre(CAsyncFileHandle *p_file_handle, uint8 *pData, int size);
+	void postLoadPre(CAsyncFileHandle *p_file_handle, char *pData, int size);
 	bool fileExists(const char *pName);
 	PreFile::FileHandle *getContainedFile(const char *pName);
-	uint8 *getContainedFileByHandle(PreFile::FileHandle *pHandle);
+	char *getContainedFileByHandle(PreFile::FileHandle *pHandle);
 
 	static char *getCompactFileName(char *pName); // Returns point in string where it will fit in compact space
 
@@ -214,7 +214,7 @@ private:
 
 	PreFile *mp_activePre = nullptr;
 	PreFile::FileHandle *mp_activeHandle = nullptr;
-	uint8 *mp_activeData = nullptr;
+	char *mp_activeData = nullptr;
 	// handle of current file being accessed from regular file system, for quick check
 	void *mp_activeNonPreHandle = nullptr;
 

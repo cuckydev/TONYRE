@@ -897,7 +897,7 @@ namespace File
 // optionally returns size of file in bytes, in *p_filesize (ignored if p_filesize is nullptr)
 // if file fails to load, *p_filesize will be 0
 // if you pass in p_dest, you must also pass in maxSize, the size of the buffer
-void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxSize)
+char *LoadAlloc(const char *p_fileName, int *p_filesize, char *p_dest, int maxSize)
 {
 
 	// Mick 2/19/2003 - Removed code that stripped project specific headers
@@ -905,7 +905,7 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 	int	file_size = 0;
 
 	// Perhaps the file is in a PRE file,  so try loading it directly, as that will be quickest
-	uint8 *p_file_data = (uint8*)File::PreMgr::Instance()->LoadFile(p_fileName, &file_size, p_dest);
+	char *p_file_data = (char *)File::PreMgr::Instance()->LoadFile(p_fileName, &file_size, p_dest);
 	if (!p_file_data)
 	{
 		// nope, so try loading "Quickly" (basically if we are on a CD)
@@ -914,15 +914,11 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 		{
 			// It can be loaded quickly.
 			if (!p_dest)
-			{
-				p_file_data = new uint8[(file_size + 2047) & ~2047];
-			}
+				p_file_data = new char[(file_size + 2047) & ~2047];
 			else
-			{
-				p_file_data = (uint8*)p_dest;
-			}
+				p_file_data = p_dest;
 
-			bool fileLoaded = File::LoadFileQuicklyPlease( p_fileName, p_file_data );
+			bool fileLoaded = File::LoadFileQuicklyPlease(p_fileName, p_file_data);
 			if ( !fileLoaded )
 			{
 				Dbg_MsgAssert( 0,( "File %s failed to load quickly.\n", p_fileName));
@@ -955,12 +951,12 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 				// next multiple of 2048, cos maybe loading a file off CD will always load
 				// whole numbers of sectors.
 				// Haven't checked that though.
-				p_file_data = new uint8[file_size];
+				p_file_data = new char[file_size];
 				Dbg_MsgAssert(p_file_data,("Could not allocate memory for file %s",p_fileName));
 			}
 			else
 			{
-				p_file_data = (uint8*)p_dest;
+				p_file_data = p_dest;
 			}
 
 			// Load the file into memory then close the file.
@@ -981,9 +977,9 @@ void * LoadAlloc(const char *p_fileName, int *p_filesize, void *p_dest, int maxS
 	// If we specified a destination, then make sure we did not overflow it
 	if (p_dest)
 	{
-		Dbg_MsgAssert(((file_size + 2047)&~2047) < maxSize,("file size (%d) overflows buffer (%d) for %s\n",file_size,maxSize,p_fileName));
+		Dbg_MsgAssert(((file_size + 2047) & ~2047) < maxSize,("file size (%d) overflows buffer (%d) for %s\n",file_size,maxSize,p_fileName));
 	}
-	return (void *)p_file_data;
+	return p_file_data;
 }
 
 
