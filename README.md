@@ -15,6 +15,10 @@ cmake --build build
 
 Make sure you compile in 32-bit mode, as the game will not run in 64-bit mode.
 
+The game scripts will be compiled at build time, and put into Game/Data/scripts.
+
+Scripts will only compile if you have `flex` installed on your system. See [QScript/README.md](https://github.com/cuckydev/QScript/blob/main/README.md).
+
 ## Additional notes
 
 I'm not interested in pulling in any Bink 1.0 decoder as a dependency, so you'll need the music and streams in `.wav` format.
