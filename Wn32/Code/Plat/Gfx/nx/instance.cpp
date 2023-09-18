@@ -119,6 +119,7 @@ void render_instance( CInstance* p_instance, uint32 flags )
 		}
 
 		// Restore world transform to identity.
+		EngineGlobals.model_matrix = glm::mat4(1.0f);
 		set_frustum_bbox_transform( nullptr );
 	}
 }
@@ -230,6 +231,7 @@ void render_instances( uint32 flags )
 	}
 
 	// Restore world transform to identity.
+	EngineGlobals.model_matrix = glm::mat4(1.0f);
 	set_frustum_bbox_transform(nullptr);
 }
 
@@ -695,9 +697,6 @@ void CInstance::Render( uint32 flags )
 
 //		shutdown_weighted_mesh_vertex_shader();
 	}
-
-	// Restore model matrix
-	EngineGlobals.model_matrix = glm::mat4(1.0f);
 }
 
 

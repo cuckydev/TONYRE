@@ -145,21 +145,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 	// This is so that the start of one rail piece can join up with the end of the last by tieing the vertices together.
 	
 	// TODO: These indices will need to be different on Xbox and GameCube
-#	ifdef __PLAT_NGC__
-	int p_end_verts_a[]=
-	{
-		2, 13,				// Top 
-		0, 4, 11, 15,		// Middle 
-		1, 3, 17, 19,       // Bottom 
-	};
-	int p_end_verts_b[]=
-	{
-		7, 12,				// Top     
-		5, 9, 10, 14,       // Middle  
-		6, 8, 16, 18,       // Bottom  
-	};
-#else
-#	ifdef __PLAT_XBOX__
+
 	int p_end_verts_a[]=
 	{
 		1,9,             	// Top
@@ -172,21 +158,6 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		7,8,15,18,			// Middle
 		4,12,5,17,			// Bottom
 	};
-#	else
-	int p_end_verts_a[]=
-	{
-		2,19,             	// Top
-		0,4,11,17,21,		// Middle
-		1,3,13,15,			// Bottom
-	};
-	int p_end_verts_b[]=
-	{
-		7,18,				// Top
-		9,5,10,16,20,		// Middle
-		8,6,12,14,			// Bottom
-	};
-#	endif
-#	endif
 
 	static_assert(sizeof(p_end_verts_a) == sizeof(p_end_verts_b), "End vert array size mismatch!");
 	size_t num_indices = sizeof(p_end_verts_a) / sizeof(int);

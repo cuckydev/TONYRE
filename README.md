@@ -33,5 +33,5 @@ Consider joining our [Discord Server](https://discord.gg/TvyX2jxAX8) to discuss 
 
 - This will only compile in 32-bit mode
 - Backend unfinished
+- Create-A-Park is unfinished
 - Game depends on hack to clear class memory on construction automatically (see Code/Core/Support/Class.cpp)
-- Create-A-Parks are invisible

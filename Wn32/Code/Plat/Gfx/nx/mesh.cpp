@@ -389,40 +389,38 @@ void sMesh::CreateDuplicateVertexBuffers( int n )
 void sMesh::SetPosition( Mth::Vector &pos )
 {
 	(void)pos;
-	/*
+
 	// Create a transform if one doesn't exist yet.
-	if( mp_transform == nullptr )
+	if (mp_transform == nullptr)
 	{
 		mp_transform = new Mth::Matrix();
 		mp_transform->Ident();
 	}
-	
+
 	// Figure what we need to add to each vertex, based on current position.
-	Mth::Vector offset(	pos[X] - mp_transform->GetPos()[X],
-						pos[Y] - mp_transform->GetPos()[Y],
-						pos[Z] - mp_transform->GetPos()[Z] );
-
-	mp_transform->SetPos( pos );
-	
-	for( uint32 vb = 0; vb < m_num_vertex_buffers; ++vb )
-	{
-		BYTE *p_byte;
-		mp_vertex_buffer[vb]->Lock( 0, 0, &p_byte, 0 );
-
-		for( uint32 v = 0; v < m_num_vertices; ++v )
-		{
-			((D3DVECTOR*)p_byte )->x += offset[X];
-			((D3DVECTOR*)p_byte )->y += offset[Y];
-			((D3DVECTOR*)p_byte )->z += offset[Z];
-			p_byte += m_vertex_stride;
-		}
-	}
+	Mth::Vector offset(pos[X] - mp_transform->GetPos()[X], pos[Y] - mp_transform->GetPos()[Y], pos[Z] - mp_transform->GetPos()[Z]);
+	mp_transform->SetPos(pos);
 
 	// We also need to adjust the bounding box and sphere information for this mesh.
 	m_sphere_center.x += offset[X];
 	m_sphere_center.y += offset[Y];
 	m_sphere_center.z += offset[Z];
-	*/
+
+	// Map VBO
+	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
+	char *p_vertices = (char*)glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+
+	// Adjust vertices
+	for (uint32 v = 0; v < m_num_vertices; v++)
+	{
+		((float*)p_vertices)[0] += offset[X];
+		((float*)p_vertices)[1] += offset[Y];
+		((float*)p_vertices)[2] += offset[Z];
+		p_vertices += m_vertex_stride;
+	}
+
+	// Unmap VBO
+	glUnmapBuffer(GL_ARRAY_BUFFER);
 }
 	
 
@@ -433,8 +431,6 @@ void sMesh::SetPosition( Mth::Vector &pos )
 /******************************************************************/
 void sMesh::GetPosition( Mth::Vector *p_pos )
 {
-	(void)p_pos;
-	/*
 	if( mp_transform == nullptr )
 	{
 		p_pos->Set( 0.0f, 0.0f, 0.0f );
@@ -443,7 +439,6 @@ void sMesh::GetPosition( Mth::Vector *p_pos )
 	{
 		*p_pos = mp_transform->GetPos();
 	}
-	*/
 }
 	
 
