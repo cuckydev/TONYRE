@@ -10,3 +10,6 @@
 [submodule "External/miniaudio"]
 	path = External/miniaudio
 	url = https://github.com/mackron/miniaudio
+[submodule "QScript"]
+	path = QScript
+	url = https://github.com/cuckydev/QScript
