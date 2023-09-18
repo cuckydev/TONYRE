@@ -50,16 +50,18 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 	ENDIF 
 	IF NOT GotParam no_buttons 
 		IF GotParam allow_cancel 
-			create_helper_text { helper_text_elements = [ 
-					{ text = "\\bn=Cancel " } 
-					{ text = "\\bm=Accept" } 
+			create_helper_text { helper_text_elements = [ { text = "\\b7/\\b4/\\b6/\\b5=Select" } 
+					{ text = "\\m1=Cancel" } 
+					{ text = "\\m0=Accept" } 
+					{ text = "\\mf/\\mg=Character Set" } 
 				] 
 				helper_pos = <helper_pos> 
 				parent = keyboard_bg_anchor 
 			} 
 		ELSE 
-			create_helper_text { helper_text_elements = [ 
-					{ text = "\\bm=Accept" } 
+			create_helper_text { helper_text_elements = [ { text = "\\b7/\\b4/\\b6/\\b5=Select" } 
+					{ text = "\\m0=Accept" } 
+					{ text = "\\mf/\\mg=Character Set" } 
 				] 
 				helper_pos = <helper_pos> 
 				parent = keyboard_bg_anchor 
@@ -68,12 +70,6 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 	ENDIF 
 	<org_text> = <text> 
 	FormatText TextName = text "%s_" s = <text> 
-	SetScreenElementProps { 
-		id = keyboard_anchor 
-		event_handlers = [ { pad_choose keyboard_done params = <...> } 
-			{ pad_back generic_menu_pad_back params = { callback = <keyboard_cancel_script> <keyboard_cancel_params> } } 
-		] 
-	} 
 	IF GotParam no_buttons 
 		keyboard_anchor : SetTags no_buttons 
 		SetScreenElementProps { 
@@ -164,17 +160,17 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 		IF GotParam text_block 
 			theme_dialog_background { parent = keyboard_anchor 
 				width = 3.50000000000 
-				pos = PAIR(320.00000000000, 163.00000000000) 
-				num_parts = 2 
+				pos = PAIR(320.00000000000, 85.00000000000) 
+				num_parts = 7.50000000000 
 				z_priority = 1 
-				top_height = 1 
+				top_height = 2.54999995232 
 				no_icon = no_icon 
 			} 
 		ELSE 
 			theme_dialog_background { parent = keyboard_anchor 
 				width = 3.50000000000 
-				pos = PAIR(320.00000000000, 163.00000000000) 
-				num_parts = 0 
+				pos = PAIR(320.00000000000, 85.00000000000) 
+				num_parts = 6 
 				z_priority = 1 
 				top_height = 1 
 				no_icon = no_icon 
@@ -260,10 +256,13 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 				type = VMenu 
 				parent = keyboard_anchor 
 				id = keyboard_vmenu 
-				pos = PAIR(320.00000000000, 197.00000000000) 
+				pos = PAIR(320.00000000000, 247.00000000000) 
 				internal_just = [ center top ] 
 				regular_space_amount = 30 
-				event_handlers = [ 
+				event_handlers = [ { pad_L2 keyboard_handle_L2 params = { max_length = <max_length> } } 
+					{ pad_R2 keyboard_handle_R2 params = { max_length = <max_length> } } 
+					{ pad_L1 keyboard_handle_L2 params = { max_length = <max_length> } } 
+					{ pad_R1 keyboard_handle_R2 params = { max_length = <max_length> } } 
 					{ pad_up keyboard_change_key_sound } 
 					{ pad_down keyboard_change_key_sound } 
 				] 
@@ -286,7 +285,10 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 				pos = PAIR(320.00000000000, 197.00000000000) 
 				internal_just = [ center top ] 
 				regular_space_amount = 30 
-				event_handlers = [ 
+				event_handlers = [ { pad_L2 keyboard_handle_L2 params = { max_length = <max_length> } } 
+					{ pad_R2 keyboard_handle_R2 params = { max_length = <max_length> } } 
+					{ pad_L1 keyboard_handle_L2 params = { max_length = <max_length> } } 
+					{ pad_R1 keyboard_handle_R2 params = { max_length = <max_length> } } 
 					{ pad_up keyboard_change_key_sound } 
 					{ pad_down keyboard_change_key_sound } 
 				] 
@@ -302,6 +304,11 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 				kill_start_key_binding 
 			ENDIF 
 		ENDIF 
+		SetScreenElementProps { id = keyboard_vmenu 
+			event_handlers = [ { pad_backspace keyboard_handle_backspace } 
+				{ pad_space keyboard_handle_space params = { max_length = <max_length> } } 
+			] 
+		} 
 		IF NOT GotParam no_back 
 			SetScreenElementProps { 
 				id = keyboard_vmenu 
@@ -330,7 +337,7 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 				internal_just = [ left center ] 
 				text = <text> 
 				not_focusable 
-				pos = PAIR(320.00000000000, 197.00000000000) 
+				pos = PAIR(320.00000000000, 90.00000000000) 
 				dims = ( PAIR(1.00000000000, 0.00000000000) * keyboard_text_block_width + PAIR(20.00000000000, 400.00000000000) ) 
 				allow_expansion 
 				line_spacing = 0.86000001431 
@@ -422,6 +429,9 @@ SCRIPT create_onscreen_keyboard { keyboard_title = "KEYBOARD"
 			just = [ center center ] 
 			pos = PAIR(267.00000000000, 80.00000000000) 
 		} 
+		keyboard_character_set_guide 
+		keyboard_create_key_sprites <...> 
+		keyboard_change_charset charset = alphanumeric_charset_lower max_length = <max_length> 
 		change keyboard_current_charset = alphanumeric_lower 
 		FireEvent type = focus target = keyboard_vmenu 
 		DoScreenElementMorph id = keyboard_anchor pos = PAIR(320.00000000000, 600.00000000000) 
@@ -1165,7 +1175,7 @@ SCRIPT keyboard_done
 	generic_menu_pad_choose_sound 
 	SetButtonEventMappings unblock_menu_input 
 	IF GotParam min_length 
-		GetTextElementLengthTrim id = keyboard_current_string 
+		GetTextElementLength id = keyboard_current_string 
 		IF ( <length> < <min_length> ) 
 			printf "Not enough characters" 
 			RETURN 
