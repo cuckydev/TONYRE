@@ -56,29 +56,29 @@ protected:
 
 public:
 	CFileLibrary();
-	virtual 			~CFileLibrary();
+	virtual ~CFileLibrary();
 
 public:
-	bool 				Load( const char* p_fileName, bool assertOnFail, bool async_load );
-	bool				PostLoad( bool assertOnFail, int file_size );
-	bool				LoadFinished() const;
+	bool Load( const char* p_fileName, bool assertOnFail, bool async_load );
+	bool PostLoad( bool assertOnFail, int file_size );
+	bool LoadFinished() const;
 
 public:
-	int					GetNumFiles() const;
-	uint32*				GetFileData( int index );
-	uint32*				GetFileData( uint32 name, uint32 extension, bool assertOnFail = true );
-	const SFileInfo*	GetFileInfo( int index ) const;
-	const SFileInfo*	GetFileInfo( uint32 name, uint32 extension, bool assertOnFail = true ) const;
-	bool				ClearFile( uint32 name, uint32 extension );
-	bool				FileExists( uint32 name, uint32 extension );
+	int GetNumFiles() const;
+	uint32 *GetFileData( int index );
+	uint32 *GetFileData( uint32 name, uint32 extension, bool assertOnFail = true );
+	const SFileInfo *GetFileInfo( int index ) const;
+	const SFileInfo *GetFileInfo( uint32 name, uint32 extension, bool assertOnFail = true ) const;
+	bool ClearFile( uint32 name, uint32 extension );
+	bool FileExists( uint32 name, uint32 extension );
 
 protected:
 	CAsyncFileHandle*	mp_fileHandle;
 #ifdef __PLAT_NGC__
 	uint32				m_aramOffset;
 #else
-	uint8* 				mp_baseBuffer;
-	uint8* 				mp_fileBuffer;
+	char *mp_baseBuffer;
+	char *mp_fileBuffer;
 #endif		// __PLAT_NGC__
 	int					m_numFiles;
 	int					m_originalNumFiles;
