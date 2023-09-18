@@ -66,9 +66,9 @@ GridDims::GridDims(uint8 x, sint8 y, uint8 z, uint8 w, uint8 h, uint8 l)
 
 
 
-uint8 &GridDims::operator [](sint i)
+uint8 &GridDims::operator[](int i)
 {
-	Dbg_Assert(i < 6);
+	Dbg_Assert(i >= 0 && i < 6);
 	return m_dims[i];
 }
 

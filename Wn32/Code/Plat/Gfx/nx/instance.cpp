@@ -340,24 +340,6 @@ void CInstance::Render( uint32 flags )
 	};
 	*/
 
-	Mth::Matrix *transform = GetTransform();
-	EngineGlobals.model_matrix[0][0] = transform->GetRight().GetX();
-	EngineGlobals.model_matrix[0][1] = transform->GetRight().GetY();
-	EngineGlobals.model_matrix[0][2] = transform->GetRight().GetZ();
-	EngineGlobals.model_matrix[0][3] = 0.0f;
-	EngineGlobals.model_matrix[1][0] = transform->GetUp().GetX();
-	EngineGlobals.model_matrix[1][1] = transform->GetUp().GetY();
-	EngineGlobals.model_matrix[1][2] = transform->GetUp().GetZ();
-	EngineGlobals.model_matrix[1][3] = 0.0f;
-	EngineGlobals.model_matrix[2][0] = transform->GetAt().GetX();
-	EngineGlobals.model_matrix[2][1] = transform->GetAt().GetY();
-	EngineGlobals.model_matrix[2][2] = transform->GetAt().GetZ();
-	EngineGlobals.model_matrix[2][3] = 0.0f;
-	EngineGlobals.model_matrix[3][0] = transform->GetPos().GetX();
-	EngineGlobals.model_matrix[3][1] = transform->GetPos().GetY();
-	EngineGlobals.model_matrix[3][2] = transform->GetPos().GetZ();
-	EngineGlobals.model_matrix[3][3] = 1.0f;
-
 	if ((GetBoneTransforms() == nullptr) || (GetScene()->m_numHierarchyObjects > 0))
 	{
 		// Is a non-skinned object.
@@ -417,23 +399,7 @@ void CInstance::Render( uint32 flags )
 				temp = GetBoneTransforms()[lp] * temp;
 				set_frustum_bbox_transform( &temp );
 
-				EngineGlobals.model_matrix[0][0] = temp.GetRight().GetX();
-				EngineGlobals.model_matrix[0][1] = temp.GetRight().GetY();
-				EngineGlobals.model_matrix[0][2] = temp.GetRight().GetZ();
-				EngineGlobals.model_matrix[0][3] = 0.0f;
-				EngineGlobals.model_matrix[1][0] = temp.GetUp().GetX();
-				EngineGlobals.model_matrix[1][1] = temp.GetUp().GetY();
-				EngineGlobals.model_matrix[1][2] = temp.GetUp().GetZ();
-				EngineGlobals.model_matrix[1][3] = 0.0f;
-				EngineGlobals.model_matrix[2][0] = temp.GetAt().GetX();
-				EngineGlobals.model_matrix[2][1] = temp.GetAt().GetY();
-				EngineGlobals.model_matrix[2][2] = temp.GetAt().GetZ();
-				EngineGlobals.model_matrix[2][3] = 0.0f;
-				EngineGlobals.model_matrix[3][0] = temp.GetPos().GetX();
-				EngineGlobals.model_matrix[3][1] = temp.GetPos().GetY();
-				EngineGlobals.model_matrix[3][2] = temp.GetPos().GetZ();
-				EngineGlobals.model_matrix[3][3] = 1.0f;
-				// D3DDevice_SetTransform( D3DTS_WORLD, (D3DXMATRIX*)&temp );
+				EngineGlobals.model_matrix = *((glm::mat4*)&temp);
 
 				// Scan through the meshes, setting only those with the current bone active.
 				for(int m = 0; m < GetScene()->m_num_mesh_entries; m++)
@@ -451,7 +417,7 @@ void CInstance::Render( uint32 flags )
 		{
 			// Has no skeleton.
 			set_frustum_bbox_transform(GetTransform());
-			// D3DDevice_SetTransform( D3DTS_WORLD, (D3DXMATRIX*)GetTransform());
+			EngineGlobals.model_matrix = *((glm::mat4*)GetTransform());
 
 			render_scene( GetScene(), flags | vRENDER_NO_CULLING );
 		}
@@ -500,7 +466,8 @@ void CInstance::Render( uint32 flags )
 		root_matrix[9]	= GetTransform()->GetUp()[Z];
 		root_matrix[10]	= GetTransform()->GetAt()[Z];
 		root_matrix[11]	= GetTransform()->GetPos()[Z];
-		
+
+		EngineGlobals.model_matrix = *((glm::mat4*)GetTransform());
 		setup_weighted_mesh_vertex_shader( &root_matrix, &GetBoneTransforms()[0][Mth::RIGHT][X], upload_bone_transforms ? GetNumBones() : 0 );
 
 		if( GetScene()->m_flags & SCENE_FLAG_RENDERING_SHADOW )

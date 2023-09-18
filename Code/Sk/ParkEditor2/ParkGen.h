@@ -61,29 +61,28 @@ enum
 */
 class GridDims
 {
-public:
-								GridDims(uint8 x = 0, sint8 y = 0, uint8 z = 0, uint8 w = 0, uint8 h = 0, uint8 l = 0);
+	public:
+		GridDims(uint8 x = 0, sint8 y = 0, uint8 z = 0, uint8 w = 0, uint8 h = 0, uint8 l = 0);
 
-	void						SetXYZ(uint8 x, sint8 y, uint8 z) {m_dims[0] = x; m_dims[1] = (uint8) y; m_dims[2] = z;}
-	void						SetWHL(uint8 w, uint8 h, uint8 l) {m_dims[3] = w; m_dims[4] = h; m_dims[5] = l;}
+		void SetXYZ(uint8 x, sint8 y, uint8 z) {m_dims[0] = x; m_dims[1] = (uint8) y; m_dims[2] = z;}
+		void SetWHL(uint8 w, uint8 h, uint8 l) {m_dims[3] = w; m_dims[4] = h; m_dims[5] = l;}
 
-	uint8 &						operator[](sint i);
+		uint8 &operator[](int i);
 	
-	uint8						GetX() const {return m_dims[0];}
-	sint8						GetY() const {return (sint8) m_dims[1];}
-	uint8						GetZ() const {return m_dims[2];}
-	uint8						GetW() const {return m_dims[3];}
-	uint8						GetH() const {return m_dims[4];}
-	uint8						GetL() const {return m_dims[5];}
+		uint8 GetX() const {return m_dims[0];}
+		sint8 GetY() const {return (sint8) m_dims[1];}
+		uint8 GetZ() const {return m_dims[2];}
+		uint8 GetW() const {return m_dims[3];}
+		uint8 GetH() const {return m_dims[4];}
+		uint8 GetL() const {return m_dims[5];}
 
-	void						MakeInfinitelyHigh();
-	void						MakeInfiniteOnY();
+		void MakeInfinitelyHigh();
+		void MakeInfiniteOnY();
 
-	void						PrintContents() const;
+		void PrintContents() const;
 
-private:
-
-	uint8						m_dims[6];
+	private:
+		uint8 m_dims[6] = {};
 };
 
 
@@ -162,45 +161,42 @@ protected:
 		// 							mp_other_thing // for soft pieces
 	};
 
-	EFlags							m_flags;
+	EFlags							m_flags = EFlags::mNO_FLAGS;
 
-	CPiece *						mp_next_in_list;
+	CPiece *						mp_next_in_list = nullptr;
 	//CPiece *						mp_next_in_metapiece;
 };
 
-
-
-
 class CSourcePiece : public CPiece
 {
-	friend class CParkGenerator;
-	friend class CMetaPiece;
-	friend class CClonedPiece;
+		friend class CParkGenerator;
+		friend class CMetaPiece;
+		friend class CClonedPiece;
 
-public:
-	/*
-		pieces in different domains can coexist at same GRID coordinates
-	*/
-	enum EDomain
-	{
-		mREGULAR				= (1<<0),
-		mOFFSET_RAIL			= (1<<1),
-		mGAP					= (1<<2),
-	};
+	public:
+		/*
+			pieces in different domains can coexist at same GRID coordinates
+		*/
+		enum EDomain
+		{
+			mREGULAR = (1<<0),
+			mOFFSET_RAIL = (1<<1),
+			mGAP = (1<<2),
+		};
 
-	uint32							GetType();
-	Mth::Vector						GetDims() {return m_dims;}
+		uint32 GetType();
+		Mth::Vector GetDims() {return m_dims;}
 
-protected:
-									CSourcePiece();
-									~CSourcePiece();
+	protected:
+		CSourcePiece();
+		~CSourcePiece();
 
-	Mth::Vector						m_dims;
-	EDomain							m_domain;	
-	uint32							m_triggerScriptId;  // Checksum of trigger script associated with this node (for stuff like chainlink fence SFX)
+		Mth::Vector m_dims;
+		EDomain m_domain = EDomain::mREGULAR;
+		uint32 m_triggerScriptId = 0;  // Checksum of trigger script associated with this node (for stuff like chainlink fence SFX)
 
-	int								m_num_rail_points;
-	int								m_num_linked_rail_points;
+		size_t m_num_rail_points = 0;
+		size_t m_num_linked_rail_points = 0;
 };
 
 
@@ -251,18 +247,18 @@ class CParkGenerator
 
 public:
 
-	static const float 			CELL_WIDTH;
-	static const float 			CELL_HEIGHT;
-	static const float 			CELL_LENGTH;
+	static const float CELL_WIDTH;
+	static const float CELL_HEIGHT;
+	static const float CELL_LENGTH;
 
 
-	static const uint32				vFIRST_ID_FOR_OBJECTS;
-	static const uint32				vMAX_ID_FOR_OBJECTS;
-	static const uint32				vFIRST_ID_FOR_RAILS;
-	static const uint32				vMAX_ID_FOR_RAILS;
-	static const uint32				vFIRST_ID_FOR_CREATED_RAILS;
-	static const uint32				vMAX_ID_FOR_CREATED_RAILS;
-	static const uint32				vFIRST_ID_FOR_RESTARTS;
+	static const uint32 vFIRST_ID_FOR_OBJECTS;
+	static const uint32 vMAX_ID_FOR_OBJECTS;
+	static const uint32 vFIRST_ID_FOR_RAILS;
+	static const uint32 vMAX_ID_FOR_RAILS;
+	static const uint32 vFIRST_ID_FOR_CREATED_RAILS;
+	static const uint32 vMAX_ID_FOR_CREATED_RAILS;
+	static const uint32 vFIRST_ID_FOR_RESTARTS;
 
 	
 	enum EDestroyType
@@ -288,112 +284,106 @@ public:
 	};
 
 
-									CParkGenerator();
-									~CParkGenerator();
+	CParkGenerator();
+	~CParkGenerator();
 
-	int								GetResourceSize(const char *name);
+	int GetResourceSize(const char *name);
 	
 	struct MemUsageInfo
 	{
-		int							mParkHeapUsed;
-		int							mParkHeapFree; // after padding is deducted
-		int							mMainHeapUsed;
-		int							mMainHeapFree; // after padding is deducted
+		int mParkHeapUsed;
+		int mParkHeapFree; // after padding is deducted
+		int mMainHeapUsed;
+		int mMainHeapFree; // after padding is deducted
 		
-		int							mLastMainUsed;
-		bool						mIsFragmented;
+		int mLastMainUsed;
+		bool mIsFragmented;
 
-		int							mTotalRailPoints;
-		int							mTotalLinkedRailPoints;
-		int							mTotalClonedPieces;
+		int mTotalRailPoints;
+		int mTotalLinkedRailPoints;
+		int mTotalClonedPieces;
 	};
-	MemUsageInfo					GetResourceUsageInfo(bool printInfo = false);
-	void							SetMaxPlayers(int maxPlayers);
-	int 							GetMaxPlayers() {return m_max_players;}
-	int 							GetMaxPlayersPossible();
+	MemUsageInfo GetResourceUsageInfo(bool printInfo = false);
+	void SetMaxPlayers(int maxPlayers);
+	int GetMaxPlayers() {return m_max_players;}
+	int GetMaxPlayersPossible();
 		
-	CSourcePiece *					GetMasterPiece(uint32 pieceType, bool assert = false);
-	CSourcePiece *					GetNextMasterPiece(CSourcePiece *pLast);
-	CClonedPiece *					ClonePiece(CPiece *pMasterPiece, CPiece::EFlags flags);
-	void							AddClonedPieceToWorld(CClonedPiece *pPiece);
-	void							DestroyClonedPiece(CClonedPiece *pPiece);
+	CSourcePiece *GetMasterPiece(uint32 pieceType, bool assert = false);
+	CSourcePiece *GetNextMasterPiece(CSourcePiece *pLast);
+	CClonedPiece *ClonePiece(CPiece *pMasterPiece, CPiece::EFlags flags);
+	void AddClonedPieceToWorld(CClonedPiece *pPiece);
+	void DestroyClonedPiece(CClonedPiece *pPiece);
 
 
-	void							InitializeMasterPieces(int parkW, int parkH, int parkL, int theme);
+	void InitializeMasterPieces(int parkW, int parkH, int parkL, int theme);
 	
 	// K: Added to allow cleanup of the park editor heap during play
-	//void							DeleteSourceAndClonedPieces();
-	//void							DeleteParkEditorHeap();
+	//void DeleteSourceAndClonedPieces();
+	//void DeleteParkEditorHeap();
 	
-	void							UnloadMasterPieces();
+	void UnloadMasterPieces();
 	
-	void							PostGenerate();
-	void							GenerateCollisionInfo(bool assert = true);
-	void 							RemoveOuterShellPieces(int theme);
-	void							GenerateNodeInfo(CMapListNode * p_concrete_metapiece_list);
-	void 							ReadInRailInfo();
-	void							DestroyRailInfo();
+	void PostGenerate();
+	void GenerateCollisionInfo(bool assert = true);
+	void RemoveOuterShellPieces(int theme);
+	void GenerateNodeInfo(CMapListNode * p_concrete_metapiece_list);
+	void ReadInRailInfo();
+	void DestroyRailInfo();
 
-	void							HighlightAllPieces(bool highlight);
-	void							SetGapPiecesVisible(bool visible);
-	void							SetRestartPiecesVisible(bool visible);
+	void HighlightAllPieces(bool highlight);
+	void SetGapPiecesVisible(bool visible);
+	void SetRestartPiecesVisible(bool visible);
 
-
-	void 							SetLightProps(int num_lights, 
-												  float amb_const_r, float amb_const_g, float amb_const_b, 
-												  float falloff_const_r, float falloff_const_g, float falloff_const_b,
-												  float cursor_ambience);
-	void 							SetLight(Mth::Vector &light_pos, int light_num);
-	void 							CalculateLighting(CClonedPiece *p_piece);
-	void 							CalculateVertexLighting(const Mth::Vector & vert, Image::RGBA & color);
+	void SetLightProps(int num_lights, float amb_const_r, float amb_const_g, float amb_const_b, float falloff_const_r, float falloff_const_g, float falloff_const_b, float cursor_ambience);
+	void SetLight(Mth::Vector &light_pos, int light_num);
+	void CalculateLighting(CClonedPiece *p_piece);
+	void CalculateVertexLighting(const Mth::Vector & vert, Image::RGBA & color);
 	
-	
-	void							DestroyAllClonedPieces(EDestroyType type);
+	void DestroyAllClonedPieces(EDestroyType type);
 
-
-	int								NumRestartsOfType(RestartType type);
-	bool							NotEnoughRestartsOfType(RestartType type, int need);
-	Mth::Vector	 					GetRestartPos(RestartType type, int index);
-	GridDims	 					GetRestartDims(RestartType type, int index);
-	bool							AddRestart(Mth::Vector &pos, int dir, GridDims &dims, RestartType type, bool automatic, bool auto_copy=false);
-	void							RemoveRestart(const GridDims &dims, RestartType type);
-	bool 							FreeRestartExists(RestartType type);
-	void							KillRestarts();	
-	void							ClearAutomaticRestarts();
+	int NumRestartsOfType(RestartType type);
+	bool NotEnoughRestartsOfType(RestartType type, int need);
+	Mth::Vector GetRestartPos(RestartType type, int index);
+	GridDims GetRestartDims(RestartType type, int index);
+	bool AddRestart(Mth::Vector &pos, int dir, GridDims &dims, RestartType type, bool automatic, bool auto_copy=false);
+	void RemoveRestart(const GridDims &dims, RestartType type);
+	bool FreeRestartExists(RestartType type);
+	void KillRestarts();	
+	void ClearAutomaticRestarts();
 
 	
-	CClonedPiece *					CreateGapPiece(Mth::Vector &pos, float length, int rot);
+	CClonedPiece *CreateGapPiece(Mth::Vector &pos, float length, int rot);
 
-	Nx::CScene *					GetClonedScene() {return mp_cloned_scene;}
+	Nx::CScene *GetClonedScene() {return mp_cloned_scene;}
 
-	void							CleanUpOutRailSet();
-	void							GenerateOutRailSet(CMapListNode * p_concrete_metapiece_list);
-	bool							FindNearestRailPoint(Mth::Vector &pos, Mth::Vector *p_nearest_pos, float *p_dist_squared);
+	void CleanUpOutRailSet();
+	void GenerateOutRailSet(CMapListNode * p_concrete_metapiece_list);
+	bool FindNearestRailPoint(Mth::Vector &pos, Mth::Vector *p_nearest_pos, float *p_dist_squared);
 	
 private:
 
 	enum EFlags
 	{
-		mMASTER_STUFF_LOADED		= (1<<1),
-		mSECTORS_GENERATED			= (1<<2),
-		mPIECES_IN_WORLD			= (1<<3),
-		mCOLLISION_INFO_GENERATED	= (1<<4),
-		mNODE_INFO_GENERATED		= (1<<5),
+		mMASTER_STUFF_LOADED = (1<<1),
+		mSECTORS_GENERATED = (1<<2),
+		mPIECES_IN_WORLD = (1<<3),
+		mCOLLISION_INFO_GENERATED = (1<<4),
+		mNODE_INFO_GENERATED = (1<<5),
 		// set when we destroy a piece
-		mSECTOR_MEMORY_NEEDS_FREE	= (1<<6),
+		mSECTOR_MEMORY_NEEDS_FREE = (1<<6),
 	};
 
-	void 							destroy_piece_impl(CClonedPiece *pPiece, EDestroyType destroyType);
-	bool							flag_on(EFlags flag) {return ((m_flags & flag) != 0);}
-	void							set_flag(EFlags flag) {m_flags = EFlags(m_flags | flag);}
-	void							clear_flag(EFlags flag) {m_flags = EFlags(m_flags & ~flag);}
+	void destroy_piece_impl(CClonedPiece *pPiece, EDestroyType destroyType);
+	bool flag_on(EFlags flag) {return ((m_flags & flag) != 0);}
+	void set_flag(EFlags flag) {m_flags = EFlags(m_flags | flag);}
+	void clear_flag(EFlags flag) {m_flags = EFlags(m_flags & ~flag);}
 	
-	uint32 							scan_for_cluster(Script::CArray *pNodeArray, size_t &index);
-	int 							scan_for_rail_node(Script::CArray *pNodeArray, uint32 cluster, int link, Mth::Vector *pVector, bool *pHasLinks, RailPoint::RailType *pType);
-	void							scan_in_trigger_info(Script::CArray *pNodeArray);
-	void 							set_up_object_nodes(Script::CArray *pNodeArray, int *pNodeNum);
-	void							set_up_rail_nodes(Script::CArray *pNodeArray, int *pNodeNum);
-	void							set_up_restart_nodes(Script::CArray *pNodeArray, int *pNodeNum);
+	uint32 scan_for_cluster(Script::CArray *pNodeArray, size_t &index);
+	int scan_for_rail_node(Script::CArray *pNodeArray, uint32 cluster, int link, Mth::Vector *pVector, bool *pHasLinks, RailPoint::RailType *pType);
+	void scan_in_trigger_info(Script::CArray *pNodeArray);
+	void set_up_object_nodes(Script::CArray *pNodeArray, int *pNodeNum);
+	void set_up_rail_nodes(Script::CArray *pNodeArray, int *pNodeNum);
+	void set_up_restart_nodes(Script::CArray *pNodeArray, int *pNodeNum);
 
 	
 	/*
@@ -406,60 +396,58 @@ private:
 		-cleanup world (maybe just destroys pieces)
 	*/
 	
-	EFlags							m_flags;
+	EFlags m_flags = EFlags(0);
 
-	CPiece *						mp_cloned_piece_list;
-	CPiece *						mp_source_piece_list;
-	int								m_num_cloned_pieces;
-	int								m_num_source_pieces;
+	CPiece *mp_cloned_piece_list = nullptr;
+	CPiece *mp_source_piece_list = nullptr;
+	int m_num_cloned_pieces = 0;
+	int m_num_source_pieces = 0;
 
-	Nx::CScene *					mp_source_scene;				// Scene used as a manager of pieces
-	Nx::CScene *					mp_cloned_scene;
+	Nx::CScene *mp_source_scene = nullptr; // Scene used as a manager of pieces
+	Nx::CScene *mp_cloned_scene = nullptr;
 
-	uint32							m_next_id;
+	uint32 m_next_id = 0;
 
-	int								m_max_players;
+	int m_max_players = 0;
 		
 //////////////////////////////////////////////////////////////////////////
 // rail and node stuff patched in by Mick
 
-	RailSet							m_in_rail_set;
-	RailSet							m_out_rail_set;
+	RailSet m_in_rail_set;
+	RailSet m_out_rail_set;
 	// in world, at editing time
-	int								m_total_rail_points;
-	int								m_total_rail_linked_points;
+	int m_total_rail_points = 0;
+	int m_total_rail_linked_points = 0;
 
 	struct TempNodeInfo
 	{
-		uint32						classCrc;
-		uint32						cluster;
-		Script::CArray *			pLinkArray;
+		uint32 classCrc;
+		uint32 cluster;
+		Script::CArray *pLinkArray;
 	};
 
-	TempNodeInfo *					m_temp_node_tab;
-	int	*							m_processed_node_tab;
-	int								m_processed_node_tab_entries;
+	TempNodeInfo *m_temp_node_tab = nullptr;
+	int *m_processed_node_tab = nullptr;
+	int m_processed_node_tab_entries = 0;
 
 	/*
 		Restart stuff
 	*/
-
-
 
 	void 				get_restart_slots(RestartType type, int *pFirstSlot, int *pLastSlot);
 
 
 	struct RestartInfo
 	{
-		Mth::Vector					pos;
-		int							dir;
-		GridDims					dims;
-		RestartType					type;
-		bool						automatic;
+		Mth::Vector pos;
+		int dir = 0;
+		GridDims dims;
+		RestartType type = RestartType::vEMPTY;
+		bool automatic = false;
 	};
-	static const int				vNUM_RESTARTS = 18;
+	static const int vNUM_RESTARTS = 18;
 	
-	RestartInfo						m_restart_tab[vNUM_RESTARTS];
+	RestartInfo m_restart_tab[vNUM_RESTARTS];
 
 	/*
 		Light info
@@ -467,21 +455,20 @@ private:
 	
 	struct LightIntensity
 	{
-		float r;
-		float g;
-		float b;
+		float r = 0.0f;
+		float g = 0.0f;
+		float b = 0.0f;
 	};
 	
-	static const int				vMAX_LIGHTS = 16;
+	static const int vMAX_LIGHTS = 16;
 	
-	int								m_numLights;
-	LightIntensity					m_ambientLightIntensity;
-	LightIntensity					m_falloffLightIntensity;
-	Mth::Vector						m_lightTab[vMAX_LIGHTS];
-	float							m_cursorAmbience;
+	int m_numLights = 0;
+	LightIntensity m_ambientLightIntensity;
+	LightIntensity m_falloffLightIntensity;
+	Mth::Vector m_lightTab[vMAX_LIGHTS] = {};
+	float m_cursorAmbience = 0.0f;
 
-	
-	MemUsageInfo					m_mem_usage_info;
+	MemUsageInfo m_mem_usage_info;
 };
 
 

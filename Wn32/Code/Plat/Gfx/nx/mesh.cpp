@@ -829,15 +829,16 @@ sMesh *sMesh::Clone( bool instance )
 	}
 	else
 	{
-		// Create new VAO and VBOs
-		glGenVertexArrays(1, &p_clone->mp_vao);
+		// Clone vertex buffer
 		glGenBuffers(1, &p_clone->mp_vbo);
 
-		// Clone vertex buffer
 		glBindBuffer(GL_COPY_READ_BUFFER, mp_vbo);
 		glBindBuffer(GL_COPY_WRITE_BUFFER, p_clone->mp_vbo);
 		glBufferData(GL_COPY_WRITE_BUFFER, m_num_vertices * m_vertex_stride, nullptr, GL_STATIC_DRAW);
 		glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, m_vertex_stride * m_num_vertices);
+
+		glBindBuffer(GL_COPY_READ_BUFFER, 0);
+		glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
 
 		// Create index buffers and copy over index information.
 		for (uint32 ib = 0; ib < MAX_INDEX_BUFFERS; ++ib)
@@ -848,6 +849,12 @@ sMesh *sMesh::Clone( bool instance )
 				memcpy(p_clone->mp_index_buffer[ib], mp_index_buffer[ib], sizeof(uint16) * p_clone->m_num_indices[ib]);
 			}
 		}
+
+		// Setup VAO
+		glGenVertexArrays(1, &p_clone->mp_vao);
+		glBindBuffer(GL_ARRAY_BUFFER, p_clone->mp_vbo);
+		glBindVertexArray(p_clone->mp_vao);
+		p_clone->SetupVAO();
 	}
 
 	return p_clone;

@@ -1949,26 +1949,7 @@ void set_frustum_bbox_transform( Mth::Matrix *p_transform )
 	else
 	{
 		p_bbox_transform = &bbox_transform;
-
-		bbox_transform[0][0] = (*p_transform).GetRight().GetX();
-		bbox_transform[0][1] = (*p_transform).GetRight().GetY();
-		bbox_transform[0][2] = (*p_transform).GetRight().GetZ();
-		bbox_transform[0][3] = 0.0f;
-
-		bbox_transform[1][0] = (*p_transform).GetUp().GetX();
-		bbox_transform[1][1] = (*p_transform).GetUp().GetY();
-		bbox_transform[1][2] = (*p_transform).GetUp().GetZ();
-		bbox_transform[1][3] = 0.0f;
-
-		bbox_transform[2][0] = (*p_transform).GetAt().GetX();
-		bbox_transform[2][1] = (*p_transform).GetAt().GetY();
-		bbox_transform[2][2] = (*p_transform).GetAt().GetZ();
-		bbox_transform[2][3] = 0.0f;
-
-		bbox_transform[3][0] = p_transform->GetPos().GetX();
-		bbox_transform[3][1] = p_transform->GetPos().GetY();
-		bbox_transform[3][2] = p_transform->GetPos().GetZ();
-		bbox_transform[3][3] = 1.0f;
+		bbox_transform = *((glm::mat4*)p_transform);
 	}
 }
 

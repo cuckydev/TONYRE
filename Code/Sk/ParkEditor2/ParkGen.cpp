@@ -29,29 +29,6 @@
 
 //#define	DEBUG_RESTARTS
 
-#ifdef __PLAT_NGC__
-#include <Gfx/ngc/p_nxscene.h>
-#endif		// __PLAT_NGC__
-
-#ifdef __PLAT_NGPS__
-#define PRINT_RAW_RESULTS 0
-
-#if PRINT_RAW_RESULTS
-#include <Core/crc.h>
-#include <Gfx/ngps/p_nxgeom.h>
-#include <Gfx/ngps/nx/geomnode.h>
-#include <Gfx/ngps/nx/dma.h>
-
-
-namespace Nx
-{
-	extern void find_geom_leaves( NxPs2::CGeomNode *p_node, NxPs2::CGeomNode **leaf_array, int & num_nodes);
-}
-#endif // PRINT_RAW_RESULTS
-
-#endif
-
-
 namespace Ed
 {
 
