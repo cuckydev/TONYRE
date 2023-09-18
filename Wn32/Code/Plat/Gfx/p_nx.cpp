@@ -9,7 +9,7 @@
 #include <Gfx/nxparticlemgr.h>
 #include <Gfx/NxMiscFX.h>
 #include <Gfx/debuggfx.h>
-#include <Core\math.h>
+#include <Core/math.h>
 #include <Sk/Engine/SuperSector.h>
 #include <Gel/Scripting/script.h>
 #include <Gel/mainloop.h>

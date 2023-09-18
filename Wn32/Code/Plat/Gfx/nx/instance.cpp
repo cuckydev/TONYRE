@@ -1,6 +1,6 @@
-#include <Gfx\NxLight.h>
-#include <Gfx\debuggfx.h>
-#include <Gfx\debuggfx.h>
+#include <Gfx/NxLight.h>
+#include <Gfx/debuggfx.h>
+#include <Gfx/debuggfx.h>
 #include <Gel/Scripting/symboltable.h>
 #include "nx_init.h"
 #include "instance.h"
