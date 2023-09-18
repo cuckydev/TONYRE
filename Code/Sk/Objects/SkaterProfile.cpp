@@ -136,11 +136,11 @@ bool CSkaterProfile::Reset(Script::CStruct* pParams)
 
 	// at a minimum, the info structure must contain the trick_mapping structure
 	pTemp = new Script::CStruct;
-	m_Info.AddComponent( Crc::ConstCRC("trick_mapping"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
+	m_Info.AddComponent( Crc::ConstCRC("trick_mapping"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp );
 
 	// as well as a special tricks array
 	pTemp = new Script::CStruct;
-	m_Info.AddComponent( Crc::ConstCRC("specials"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
+	m_Info.AddComponent( Crc::ConstCRC("specials"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp );
 
 	if ( pParams )
 	{

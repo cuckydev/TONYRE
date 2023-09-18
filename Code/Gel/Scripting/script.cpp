@@ -327,6 +327,13 @@ uint32 *CScript::write_callstack_entry( uint32 *p_buf, int bufferSize,
 										CStruct *p_params,
 										Obj::CObject *p_ob)
 {
+	(void)p_buf;
+	(void)bufferSize;
+	(void)scriptNameChecksum;
+	(void)p_PC;
+	(void)p_params;
+	(void)p_ob;
+	#if 0
 	Dbg_MsgAssert(bufferSize >= 8,("write_callstack_entry buffer overflow"));
 	*p_buf++=scriptNameChecksum;
 	*p_buf++=Script::GetLineNumber(p_PC);
@@ -372,22 +379,21 @@ uint32 *CScript::write_callstack_entry( uint32 *p_buf, int bufferSize,
 	p_buf+=bytes_written/4;
 	
 	return p_buf;
+	#endif
+	return p_buf;
 }
 
 // Sets the comment string, which the script debugger displays.
 // This is so that the c-code can describe where the script was created from.
 void CScript::SetCommentString(const char *p_comment)
 {
-	int len=strlen(p_comment);
-	if (len>MAX_COMMENT_STRING_CHARS)
-	{
+	size_t len = strlen(p_comment);
+	if (len > MAX_COMMENT_STRING_CHARS)
 		len=MAX_COMMENT_STRING_CHARS;
-	}
-	for (int i=0; i<len; ++i)
-	{
-		mp_comment_string[i]=p_comment[i];
-	}
-	mp_comment_string[len]=0;
+
+	for (size_t i = 0; i < len; ++i)
+		mp_comment_string[i] = p_comment[i];
+	mp_comment_string[len] = 0;
 }
 
 void CScript::SetOriginatingScriptInfo(int lineNumber, uint32 scriptName)
@@ -399,14 +405,16 @@ void CScript::SetOriginatingScriptInfo(int lineNumber, uint32 scriptName)
 // This transmits lots of info about the script to the script debugger running on the PC
 void CScript::TransmitInfoToDebugger(bool definitely_transmit)
 {
+	(void)definitely_transmit;
+	#if 0
 	uint32 *p_buf=Dbg::gpDebugInfoBuffer;
 	
 	int space_left=Dbg::SCRIPT_DEBUGGER_BUFFER_SIZE;
 	
 	Dbg_MsgAssert(space_left >= 16,("Dbg::gpDebugInfoBuffer overflow"));
 	// Stuff that identifies the CScript
-	*p_buf++=(uint32)this;
-	*p_buf++=m_unique_id;
+	*p_buf++ = (uintptr_t)this;
+	*p_buf++ = m_unique_id;
 	*(float*)p_buf=m_last_instruction_time_taken;
 	++p_buf;
 	*(float*)p_buf=m_total_instruction_time_taken;
@@ -505,10 +513,12 @@ void CScript::TransmitInfoToDebugger(bool definitely_transmit)
 		
 		m_last_transmitted_info_checksum=checksum;
 	}	
+	#endif
 }
 
 void CScript::TransmitBasicInfoToDebugger()
 {
+	#if 0
 	uint32 *p_buf=Dbg::gpDebugInfoBuffer;
 	
 	*p_buf++=m_unique_id;
@@ -536,6 +546,7 @@ void CScript::TransmitBasicInfoToDebugger()
 	msg.m_Length = (unsigned short)message_size;
 	msg.m_Id = GameNet::vMSG_ID_DBG_BASIC_CSCRIPT_INFO;
 	Dbg::CScriptDebugger::Instance()->StreamMessage(&msg);
+	#endif
 }
 
 void CScript::WatchInDebugger(bool stopScriptImmediately)
@@ -1594,11 +1605,11 @@ bool CScript::execute_command()
 	if (token==ESCRIPTTOKEN_RUNTIME_CFUNCTION)
 	{
 		++mp_pc;
-        bool (*p_cfunc)(CStruct *pParams, CScript *pCScript)=Read4Bytes(mp_pc).mpCFunction;
+		CScriptFunc p_cfunc = GetRegisteredFunction(Read4Bytes(mp_pc).mChecksum);
 		mp_pc+=4;
 		
 		load_function_params();
-		return run_cfunction(p_cfunc);		
+		return run_cfunction(p_cfunc);
 	}
 
 	// Check for an expression enclosed in parentheses

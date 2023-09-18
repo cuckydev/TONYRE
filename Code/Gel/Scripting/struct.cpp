@@ -1265,7 +1265,7 @@ void CStruct::AddComponent(uint32 nameChecksum, ESymbolType type, const char *p_
 	}
 }
 
-// Integer or any other 4 byte value.
+// Integer
 void CStruct::AddComponent(uint32 nameChecksum, ESymbolType type, int integer)
 {
 	switch (type)
@@ -1274,21 +1274,40 @@ void CStruct::AddComponent(uint32 nameChecksum, ESymbolType type, int integer)
 			AddInteger(nameChecksum,integer);
 			break;
 		case ESYMBOLTYPE_FLOAT:
-			AddFloat(nameChecksum,*(float*)&integer);
+			AddFloat(nameChecksum, *(float*)&integer);
 			break;
 		case ESYMBOLTYPE_STRUCTUREPOINTER:
-			AddStructurePointer(nameChecksum,(CStruct*)integer);
+			Dbg_Assert(0);
+			// AddStructurePointer(nameChecksum, (CStruct*)integer);
 			break;
 		case ESYMBOLTYPE_ARRAY:
-			AddArrayPointer(nameChecksum,(CArray*)integer);
+			Dbg_Assert(0);
+			// AddArrayPointer(nameChecksum, (CArray*)integer);
 			break;
 		case ESYMBOLTYPE_NAME:
-			AddChecksum(nameChecksum,(uint32)integer);
+			AddChecksum(nameChecksum, (uint32)integer);
 			break;
 		default:	
 			Dbg_MsgAssert(0,("Bad type of '%s' sent to AddComponent",GetTypeName(type)));
 			break;
 	}		
+}
+
+// Pointer
+void CStruct::AddComponent(uint32 nameChecksum, ESymbolType type, void *ptr)
+{
+	switch (type)
+	{
+		case ESYMBOLTYPE_STRUCTUREPOINTER:
+			AddStructurePointer(nameChecksum, (CStruct*)ptr);
+			break;
+		case ESYMBOLTYPE_ARRAY:
+			AddArrayPointer(nameChecksum, (CArray*)ptr);
+			break;
+		default:
+			Dbg_MsgAssert(0, ("Bad type of '%s' sent to AddComponent", GetTypeName(type)));
+			break;
+	}
 }
 
 // Vector

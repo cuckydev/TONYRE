@@ -683,7 +683,7 @@ namespace Pcm
 	/*                                                                */
 	/*                                                                */
 	/******************************************************************/
-	bool PCMAudio_PlaySoundtrackMusicTrack( int soundtrack, int track )
+	bool PCMAudio_PlaySoundtrackMusicTrack(size_t soundtrack, size_t track )
 	{
 		// Play song
 		Audio::Lock();

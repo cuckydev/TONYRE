@@ -31,7 +31,7 @@ namespace Pcm
 	// You wanna loop a track?  Wait until this track is done, and PLAY IT AGAIN SAM!
 	bool PCMAudio_PlayMusicTrack(const char *filename);
 	bool PCMAudio_PlayMusicTrack(uint32 checksum);
-	bool PCMAudio_PlaySoundtrackMusicTrack(int soundtrack, int track);
+	bool PCMAudio_PlaySoundtrackMusicTrack(size_t soundtrack, size_t track);
 	//bool PCMAudio_PlayStream( uint32 checksum, int whichStream, float volumeL, float volumeR, float pitch, bool preload = false );
 	bool PCMAudio_PlayStream(uint32 checksum, int whichStream, Sfx::sVolume *p_volume, float pitch, bool preload = false);
 	bool PCMAudio_StartStream(int whichStream);

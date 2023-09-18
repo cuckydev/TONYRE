@@ -153,6 +153,8 @@ public:
 	void AddComponent(uint32 nameChecksum, ESymbolType type, const char *p_string); // This will copy the actual string data
     // Integer or any other 4 byte value.
 	void AddComponent(uint32 nameChecksum, ESymbolType type, int integer);
+	// Pointer
+	void AddComponent(uint32 nameChecksum, ESymbolType type, void *ptr);
     // Vector
 	void AddComponent(uint32 nameChecksum, float x, float y, float z);
     // Pair

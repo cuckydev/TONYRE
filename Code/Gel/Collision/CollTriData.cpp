@@ -129,30 +129,30 @@ bool CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_add
 #ifdef __PLAT_NGC__
 	NxNgc::sScene *p_engine_scene = ( static_cast<CNgcScene*>( p_scene ))->GetEngineScene();
 	mp_raw_vert_pos = (NsVector*)p_engine_scene->mp_pos_pool;
-	mp_intensity = (unsigned char *) ((int) p_base_vert_addr + (int)mp_intensity); 
+	mp_intensity = (unsigned char *) ((uintptr_t) p_base_vert_addr + (uintptr_t)mp_intensity);
 	mp_cloned_vert_pos = nullptr;
 #else
 #ifdef FIXED_POINT_VERTICES
 	// Get indexes
-	int start_vert_pos_offset = (int) mp_float_vert;
-	int start_intensity_index = (int) mp_intensity;
+	uintptr_t start_vert_pos_offset = (uintptr_t) mp_float_vert;
+	uintptr_t start_intensity_index = (uintptr_t) mp_intensity;
 
 	// Find first element
-	mp_float_vert = (SFloatVert *) ((int) p_base_vert_addr + start_vert_pos_offset);
+	mp_float_vert = (SFloatVert *) ((uintptr_t) p_base_vert_addr + start_vert_pos_offset);
 	mp_intensity = (uint8 *) p_base_intensity_addr;
 	mp_intensity += start_intensity_index;
 #else
 	// Get indexes
-	int start_vert_pos_offset = (int) mp_vert_pos;
+	uintptr_t start_vert_pos_offset = (uintptr_t) mp_vert_pos;
 
 	// Find first element
-	mp_vert_pos = (Mth::Vector *) ((int) p_base_vert_addr + start_vert_pos_offset);
+	mp_vert_pos = (Mth::Vector *) ((uintptr_t) p_base_vert_addr + start_vert_pos_offset);
 
 	mp_intensity = nullptr;
 #endif // FIXED_POINT_VERTICES
 #endif		// __PLAT_NGC__
 
-	mp_faces = (SFace *)((int)mp_faces + (int) p_base_face_addr);
+	mp_faces = (SFace *)((uintptr_t)mp_faces + (uintptr_t) p_base_face_addr);
 
 	//Dbg_Message ( "Object has %d verts sizeof %d", m_num_verts, sizeof(SReadVertex));
 	//Dbg_Message ( "Object has %d faces sizeof %d", m_num_faces, sizeof(SReadFace) );
@@ -161,7 +161,7 @@ bool CCollObjTriData::InitCollObjTriData(CScene * p_scene, void *p_base_vert_add
 #endif
 
 	// Init BSP tree
-	mp_bsp_tree = (CCollBSPNode *)((int)mp_bsp_tree + (int)p_base_node_addr);
+	mp_bsp_tree = (CCollBSPNode *)((uintptr_t)mp_bsp_tree + (uintptr_t)p_base_node_addr);
 	s_init_tree(mp_bsp_tree, p_base_node_addr, p_base_face_idx_addr);
 
 	return true;
@@ -264,19 +264,19 @@ CCollBSPNode * CCollBSPNode::clone(bool instance)
 #endif //	__NOPT_ASSERT__
 
 		// Now adjust the pointers by finding the differences
-		int node_address_diff = (int) p_new_bsp_array - (int) this;
-		int face_address_diff = (int) p_new_face_index_array - (int) p_orig_face_index_array;
+		uintptr_t node_address_diff = (uintptr_t)p_new_bsp_array - (uintptr_t)this;
+		uintptr_t face_address_diff = (uintptr_t)p_new_face_index_array - (uintptr_t)p_orig_face_index_array;
 		for (int i = 0; i < num_nodes; i++)
 		{
 			if (p_new_bsp_array[i].IsNode())
 			{
 				// Adjust branch pointers
-				p_new_bsp_array[i].m_node.m_children.SetBasePointer((CCollBSPNode *)((int) p_new_bsp_array[i].m_node.m_children.GetBasePointer() + node_address_diff));
+				p_new_bsp_array[i].m_node.m_children.SetBasePointer((CCollBSPNode *)((uintptr_t) p_new_bsp_array[i].m_node.m_children.GetBasePointer() + node_address_diff));
 			}
 			else
 			{
 				// Adjust face index pointer
-				p_new_bsp_array[i].m_leaf.mp_face_idx_array = (FaceIndex *) ((int) p_new_bsp_array[i].m_leaf.mp_face_idx_array + face_address_diff);
+				p_new_bsp_array[i].m_leaf.mp_face_idx_array = (FaceIndex *) ((uintptr_t) p_new_bsp_array[i].m_leaf.mp_face_idx_array + face_address_diff);
 			}
 		}
 
@@ -496,12 +496,12 @@ bool	CCollObjTriData::s_init_tree(CCollBSPNode *p_tree, void *p_base_node_addr, 
 	if (p_tree->IsLeaf())
 	{
 		// Set face index array pointer
-		int face_idx = (int) p_tree->m_leaf.mp_face_idx_array;
-		p_tree->m_leaf.mp_face_idx_array = (FaceIndex *) p_base_face_idx_addr;
+		uintptr_t face_idx = (uintptr_t)p_tree->m_leaf.mp_face_idx_array;
+		p_tree->m_leaf.mp_face_idx_array = (FaceIndex*)p_base_face_idx_addr;
 		p_tree->m_leaf.mp_face_idx_array += face_idx;
 	} else {
 		// Set branch pointers
-		p_tree->m_node.m_children.SetBasePointer((CCollBSPNode*)((int)p_tree->m_node.m_children.GetBasePointer() + (int)p_base_node_addr));
+		p_tree->m_node.m_children.SetBasePointer((CCollBSPNode*)((uintptr_t)p_tree->m_node.m_children.GetBasePointer() + (uintptr_t)p_base_node_addr));
 
 		// And init branches
 		s_init_tree(p_tree->GetLessBranch(), p_base_node_addr, p_base_face_idx_addr);

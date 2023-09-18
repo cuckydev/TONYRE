@@ -591,8 +591,8 @@ static uint32 sArrayWriteToBuffer(uint32 name, CArray *p_array, uint8 *p_buffer,
 	}
 
 	// Write out the type and name
-	p_buffer=sWriteCompressedName(p_buffer,ESYMBOLTYPE_ARRAY,name);
-	int name_bytes_written=p_buffer-p_buffer_before;
+	p_buffer = sWriteCompressedName(p_buffer, ESYMBOLTYPE_ARRAY, name);
+	size_t name_bytes_written = p_buffer - p_buffer_before;
 	
 	// That's name_bytes_written bytes written out successfully, but maybe the writing out of the array will fail ...
 	

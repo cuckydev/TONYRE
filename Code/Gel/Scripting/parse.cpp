@@ -25,6 +25,8 @@
 
 #include <cstring>
 
+#include <unordered_map>
+
 DefinePoolableClass(Script::CStoredRandom);
 
 namespace Script
@@ -51,6 +53,29 @@ static CStoredRandom *sp_last_stored_random=nullptr;
 static int s_num_stored_randoms=0;
 
 static uint32 s_qb_being_parsed=0;
+
+// Register a function referred to by checksum
+static std::unordered_map<uint32, CScriptFunc> s_function_map;
+
+static void RegisterFunction(uint32 checksum, CScriptFunc function)
+{
+	auto it = s_function_map.find(checksum);
+	if (it == s_function_map.end())
+		s_function_map[checksum] = function;
+	else
+	{
+		Dbg_Assert(it->second == function);
+	}
+}
+
+CScriptFunc GetRegisteredFunction(uint32 checksum)
+{
+	auto it = s_function_map.find(checksum);
+	if (it == s_function_map.end())
+		return nullptr;
+	else
+		return it->second;
+}
 
 // The SkipToken function is in skiptoken.cpp, so that it can also be included in PC code,
 // such as qcomp.
@@ -139,9 +164,9 @@ void CheckForPossibleInfiniteLoops(uint32 scriptName, uint8 *p_token, const char
 				if (p_blocking_functions != nullptr)
 				{
 					uint32 *p_function_names = p_blocking_functions->GetArrayPointer();
-					uint32 size = p_blocking_functions->GetSize();
+					size_t size = p_blocking_functions->GetSize();
 					
-					for (uint32 i = 0; i < size; ++i)
+					for (size_t i = 0; i < size; ++i)
 					{
 						if (name == *p_function_names++)
 						{
@@ -1418,7 +1443,7 @@ static uint8 *sCreateSymbolOfTheFormNameEqualsValue(uint8 *p_token, const char *
 			
 			p_new->mpArray=new CArray;
 			p_token=sInitArrayFromQB(p_new->mpArray,p_token);
-			break;                
+			break;
 		}	
 			
 		default:
@@ -1451,7 +1476,7 @@ void PreProcessScript(uint8 *p_token)
 				p_token+=4;
 	
 				// Look up the name to see if it is a cfunction or member function.
-				CSymbolTableEntry *p_entry=Resolve(name_checksum);
+				CSymbolTableEntry *p_entry = Resolve(name_checksum);
 				// Must not assert if p_entry is nullptr, cos they might just be loading in
 				// a qb file that refers to a script that has not been written yet.
 				if (p_entry)
@@ -1460,15 +1485,16 @@ void PreProcessScript(uint8 *p_token)
 					{
 						// Change the token type and replace the checksum with the
 						// function pointer to save having to resolve it later.
-						*(p_token-5)=ESCRIPTTOKEN_RUNTIME_CFUNCTION;
+						*(p_token - 5) = ESCRIPTTOKEN_RUNTIME_CFUNCTION;
 						Dbg_MsgAssert(p_entry->mpCFunction,("nullptr p_entry->mpCFunction"));
-						Write4Bytes(p_token-4, (uint32)p_entry->mpCFunction);
+						RegisterFunction(name_checksum, p_entry->mpCFunction);
+						// Write4Bytes(p_token - 4, (uint32)p_entry->mpCFunction);
 					}
 					else if (p_entry->mType==ESYMBOLTYPE_MEMBERFUNCTION)
 					{
 						// Saves having to look up the checksum later to find out that it is
 						// a member function.
-						*(p_token-5)=ESCRIPTTOKEN_RUNTIME_MEMBERFUNCTION;
+						*(p_token - 5)=ESCRIPTTOKEN_RUNTIME_MEMBERFUNCTION;
 					}	
 				}		
 				p_token=SkipToStartOfNextLine(p_token);

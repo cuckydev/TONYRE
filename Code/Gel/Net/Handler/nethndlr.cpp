@@ -244,13 +244,13 @@ int	App::handle_stream_messages( MsgHandlerContext *context )
 			str_link = new StreamLink( new_stream );
 			context->m_Conn->m_StreamInList.AddToTail( str_link );
 
-			if(((unsigned int) new_stream->m_DataPtr - (unsigned int) new_stream->m_Data ) >= (unsigned int) new_stream->m_Size )
+			if((new_stream->m_DataPtr - new_stream->m_Data) >= new_stream->m_Size )
 			{
 				MsgHandlerContext msg_context;
 				int result;
 
 				// Shouldn't go over
-				Dbg_Assert( ((unsigned int) new_stream->m_DataPtr - (unsigned int) new_stream->m_Data ) == (unsigned int) new_stream->m_Size );
+				Dbg_Assert( (new_stream->m_DataPtr - new_stream->m_Data) == new_stream->m_Size );
 
 				msg_context.m_Conn = context->m_Conn;
 				msg_context.m_App = context->m_App;
@@ -296,14 +296,14 @@ int	App::handle_stream_messages( MsgHandlerContext *context )
 					memcpy( desc->m_DataPtr, msg->m_Data, packet_len );
 					desc->m_DataPtr += packet_len;
 
-					if(((unsigned int) desc->m_DataPtr - (unsigned int) desc->m_Data ) >= (unsigned int) desc->m_Size )
+					if((desc->m_DataPtr - desc->m_Data) >= desc->m_Size )
 					{
 						MsgHandlerContext msg_context;
 						int result;
 						uint32 actual_crc;
 
 						// Shouldn't go over
-						Dbg_Assert( ((unsigned int) desc->m_DataPtr - (unsigned int) desc->m_Data ) == (unsigned int) desc->m_Size );
+						Dbg_Assert( (desc->m_DataPtr - desc->m_Data) == desc->m_Size );
 
 						msg_context.m_Conn = context->m_Conn;
 						msg_context.m_App = context->m_App;

@@ -494,7 +494,7 @@ void	App::terminate_invalid_connections( void )
 
 void    App::process_stream_messages( void )
 {
-	int size, packet_len, msg_len;
+	size_t size, packet_len, msg_len;
 	MsgStreamData data_msg;
 	MsgDesc msg_desc;
 	StreamDesc* stream_desc;
@@ -534,7 +534,7 @@ void    App::process_stream_messages( void )
 					next_link = stream_sh.NextItem();
 
 					stream_desc = stream_link->m_Desc;
-					size = (unsigned int) stream_desc->m_DataPtr - (unsigned int) stream_desc->m_Data;
+					size = stream_desc->m_DataPtr - stream_desc->m_Data;
 					msg_len = stream_desc->m_Size;
 					while(( size < msg_len ) && ( num_to_send > 0 ))
 					{
@@ -953,11 +953,8 @@ void	App::ProcessData( void )
 
 		if( conn->IsLocal() &&
 			conn->m_alias_connection )
-		{   
-			int num_bytes;
-			
-			num_bytes = (int) conn->m_alias_connection->m_write_ptr - 
-							(int) conn->m_alias_connection->m_write_buffer;
+		{
+			size_t num_bytes = conn->m_alias_connection->m_write_ptr - conn->m_alias_connection->m_write_buffer;
 			memcpy( conn->m_read_ptr, conn->m_alias_connection->m_write_buffer, num_bytes );
 			conn->m_alias_connection->m_write_ptr = conn->m_alias_connection->m_write_buffer;
 			conn->m_read_ptr += num_bytes;

@@ -213,10 +213,10 @@ public:
 	void						Init();
 	uint32						GetStreamNameCRC() const;
 
-	uint8						GetSample(int frame) const;
+	uint8						GetSample(size_t frame) const;
 	const uint8 *  				GetSamples() const;
-	const uint8 *  				GetSamples(int frame) const;
-	int							GetNumSamples() const;
+	const uint8 *  				GetSamples(size_t frame) const;
+	size_t						GetNumSamples() const;
 
 protected:
 
@@ -225,7 +225,7 @@ protected:
 	bool						is_allocated() const;
 
 	uint32						m_checksum;
-	int							m_num_samples;
+	size_t						m_num_samples;
 	uint8						m_frame_amp_samples[vMAX_SAMPLES];	// Aligned data for the loading code
 
 	// Friends

@@ -114,11 +114,11 @@ static bool 			gMusicStreamWaitingToStart;	// true if we are still waiting for t
 #ifdef USER_SOUNDTRACKS
 static bool		s_xbox_play_user_soundtracks	= false;
 static size_t	s_xbox_user_soundtrack			= 0;
-static uint32	s_xbox_user_soundtrack_song		= 0;
+static size_t	s_xbox_user_soundtrack_song		= 0;
 static bool		s_xbox_user_soundtrack_random	= false;
 static uint32	s_xbox_random_index				= 0;
 
-static int		sp_xbox_randomized_songs[MAX_USER_SONGS];
+static size_t	sp_xbox_randomized_songs[MAX_USER_SONGS];
 #endif
 
 static bool     shuffle_random_songs=true;
@@ -285,8 +285,7 @@ bool SetStreamPitchFromID( uint32 streamID, float pitch )
 #ifdef USER_SOUNDTRACKS
 static void sGenerateRandomSongOrder( void )
 {
-	int num_songs = Pcm::GetSoundtrackNumSongs( s_xbox_user_soundtrack );
-
+	size_t num_songs = Pcm::GetSoundtrackNumSongs( s_xbox_user_soundtrack );
 	if( num_songs == 0 )
 	{
 		// Nothing to do.
@@ -294,55 +293,55 @@ static void sGenerateRandomSongOrder( void )
 	}
 		
 	// Limit to MAX_USER_SONGS to prevent any buffer overwriting.
-	if (num_songs>MAX_USER_SONGS)
+	if (num_songs > MAX_USER_SONGS)
 	{
-		num_songs=MAX_USER_SONGS;
+		num_songs = MAX_USER_SONGS;
 	}	
 
 	// Remember the last song in the previous order, so we can make sure that
 	// the first song in the new order is different from it.
 	// Note: OK if the last song was just an uninitialised random value, won't cause any problems.
-	int last_song=sp_xbox_randomized_songs[num_songs-1];
+	size_t last_song = sp_xbox_randomized_songs[num_songs - 1];
 	
 	// Initialise the order to be 0,1,2,3 ... etc
-	for (int i=0; i<num_songs; ++i)
+	for (size_t i=0; i<num_songs; ++i)
 	{
 		sp_xbox_randomized_songs[i]=i;
 	}
 
 	// Jumble it up.		
-	for (int n=0; n<2000; ++n)
+	for (int n = 0; n < 2000; ++n)
 	{
-		int a=Mth::Rnd(num_songs);
-		int b=Mth::Rnd(num_songs);
+		size_t a=Mth::Rnd(num_songs);
+		size_t b=Mth::Rnd(num_songs);
 		
-		int temp=sp_xbox_randomized_songs[a];
-		sp_xbox_randomized_songs[a]=sp_xbox_randomized_songs[b];
-		sp_xbox_randomized_songs[b]=temp;
+		size_t temp=sp_xbox_randomized_songs[a];
+		sp_xbox_randomized_songs[a] = sp_xbox_randomized_songs[b];
+		sp_xbox_randomized_songs[b] = temp;
 	}
 	
 	// If the first song in the new order equals the last song of the last order,
 	// do one further swap to make sure it is different.
-	if (sp_xbox_randomized_songs[0]==last_song)
+	if (sp_xbox_randomized_songs[0] == last_song)
 	{
 		// a is the first song.
-		int a=0;
+		size_t a=0;
 		
 		// Choose b to be a random one of the other songs.
-		int b;
+		size_t b;
 		if (num_songs>1)
 		{
 			// Make b not able to equal 0, so that we don't swap the first with itself.
-			b=1+Mth::Rnd(num_songs-1);
+			b = 1 + Mth::Rnd(num_songs-1);
 		}
 		else
 		{
 			// Unless there is only one song, in which case just swap it with itself. No point but what the heck.
-			b=0;
+			b = 0;
 		}
 		
 		// Do the swap.
-		int temp=sp_xbox_randomized_songs[a];
+		size_t temp=sp_xbox_randomized_songs[a];
 		sp_xbox_randomized_songs[a]=sp_xbox_randomized_songs[b];
 		sp_xbox_randomized_songs[b]=temp;
 	}
@@ -421,10 +420,11 @@ void SaveSoundtrackToStructure( Script::CStruct *pStuff)
 		
 	if (s_xbox_play_user_soundtracks)
 	{
-		pStuff->AddComponent(Script::GenerateCRC("UserSoundtrackIndex"),ESYMBOLTYPE_INTEGER,s_xbox_user_soundtrack);
+		Dbg_Assert(s_xbox_user_soundtrack <= 0x7FFFFFFF);
+		pStuff->AddComponent(Script::GenerateCRC("UserSoundtrackIndex"), ESYMBOLTYPE_INTEGER, (int)s_xbox_user_soundtrack);
 
 		const char *p_buf = Pcm::GetSoundtrackName(s_xbox_user_soundtrack);
-		pStuff->AddComponent(Script::GenerateCRC("UserSoundtrackName"),ESYMBOLTYPE_STRING,p_buf);
+		pStuff->AddComponent(Script::GenerateCRC("UserSoundtrackName"), ESYMBOLTYPE_STRING, p_buf);
 	}	
 #	endif // USER_SOUNDTRACKS
 }
@@ -2085,10 +2085,10 @@ const char *GetTrackName( int trackNum, int whichList )
 	Dbg_MsgAssert( whichList < NUM_TRACKLISTS,( "Dumbass." ));
 	TrackList *pTrackList = &gTrackLists[ whichList ];
 	Dbg_MsgAssert( trackNum < pTrackList->numTracks,( "Requesting invalid track name." ));
-	int i;
+	size_t i;
 	char *pText = pTrackList->trackInfo[ trackNum ].trackName;
 	char *pRet = pText;
-	int len = strlen( pText );
+	size_t len = strlen( pText );
 	for ( i = 0; i < len; i++ )
 	if ( ( pText[ i ] == '\\' ) || ( pText[ i ] == '/' ) )
 		pRet = &pText[ i + 1 ];
@@ -2278,7 +2278,7 @@ void				CStreamFrameAmp::Init()
 /*                                                                */
 /******************************************************************/
 
-uint8				CStreamFrameAmp::GetSample(int frame) const
+uint8				CStreamFrameAmp::GetSample(size_t frame) const
 {
 	Dbg_Assert(is_allocated());
 	Dbg_Assert(frame < m_num_samples);
@@ -2303,7 +2303,7 @@ const uint8 *		CStreamFrameAmp::GetSamples() const
 /*                                                                */
 /******************************************************************/
 
-const uint8 *		CStreamFrameAmp::GetSamples(int frame) const
+const uint8 *		CStreamFrameAmp::GetSamples(size_t frame) const
 {
 	Dbg_Assert(is_allocated());
 	Dbg_Assert(frame < m_num_samples);
@@ -2316,7 +2316,7 @@ const uint8 *		CStreamFrameAmp::GetSamples(int frame) const
 /*                                                                */
 /******************************************************************/
 
-int					CStreamFrameAmp::GetNumSamples() const
+size_t				CStreamFrameAmp::GetNumSamples() const
 {
 	return m_num_samples;
 }

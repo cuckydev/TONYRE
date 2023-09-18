@@ -203,7 +203,7 @@ void CModelAppearance::set_part(uint32 partChecksum, uint32 descID, Script::CStr
 	if ( !m_appearance.GetStructure(partChecksum, &pStruct) )
 	{
 		pStruct = new Script::CStruct;
-		m_appearance.AddComponent(partChecksum, ESYMBOLTYPE_STRUCTUREPOINTER, (int)pStruct);
+		m_appearance.AddComponent(partChecksum, ESYMBOLTYPE_STRUCTUREPOINTER, pStruct);
 	}
 
 	pStruct->Clear();

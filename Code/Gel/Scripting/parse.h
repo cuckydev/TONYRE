@@ -31,6 +31,10 @@ class CComponent;
 class CSymbolTableEntry;
 class CScript;
 
+// Register a function referred to by checksum
+typedef bool (*CScriptFunc)(CStruct *pParams, CScript *pCScript);
+CScriptFunc GetRegisteredFunction(uint32 checksum);
+
 // Used when extracting 4 bytes from a .qb, where the 4 bytes could represent
 // different types of thing. (Saves messy casting)
 struct S4Bytes
@@ -41,7 +45,6 @@ struct S4Bytes
 		uint32 mUInt;
         int mInt;
         float mFloat;
-        bool (*mpCFunction)(CStruct *pParams, CScript *pCScript);
     };
 };
 

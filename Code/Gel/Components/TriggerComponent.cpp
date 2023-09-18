@@ -244,7 +244,7 @@ void CTriggerComponent::TripTrigger ( TriggerEventType type, uint32 node_checksu
 		Dbg_Assert(p_node_array->GetSize() <= 0x7FFF);
 		for (size_t i = p_node_array->GetSize(); i--; )
 		{
-			p_node = p_node_array->GetStructure(node);
+			p_node = p_node_array->GetStructure(i);
 			
 			uint32 checksum;
 			p_node->GetChecksum(Crc::ConstCRC("name"), &checksum);
