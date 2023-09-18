@@ -250,7 +250,8 @@ bool	App::init( void )
 bool App::bind_app_socket( int address, unsigned short port )
 {
 	struct sockaddr_in host_address;
-	int address_len, result;
+	socklen_t address_len;
+	int result;
 
 	// bind the socket to an address.
 
