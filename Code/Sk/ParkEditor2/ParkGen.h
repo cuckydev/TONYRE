@@ -388,7 +388,7 @@ private:
 	void							set_flag(EFlags flag) {m_flags = EFlags(m_flags | flag);}
 	void							clear_flag(EFlags flag) {m_flags = EFlags(m_flags & ~flag);}
 	
-	uint32 							scan_for_cluster(Script::CArray *pNodeArray, int &index);
+	uint32 							scan_for_cluster(Script::CArray *pNodeArray, size_t &index);
 	int 							scan_for_rail_node(Script::CArray *pNodeArray, uint32 cluster, int link, Mth::Vector *pVector, bool *pHasLinks, RailPoint::RailType *pType);
 	void							scan_in_trigger_info(Script::CArray *pNodeArray);
 	void 							set_up_object_nodes(Script::CArray *pNodeArray, int *pNodeNum);
