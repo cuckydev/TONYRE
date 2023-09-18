@@ -1898,7 +1898,7 @@ size_t CRailEditorComponent::CountPointsInArea(float x0, float z0, float x1, flo
 		z1=t;
 	}
 		
-	int num_points=0;
+	size_t num_points=0;
 		
 	CEditedRail *p_rail=mp_edited_rails;
 	while (p_rail)
@@ -2811,8 +2811,8 @@ void CRailEditorComponent::GetDebugInfo(Script::CStruct *p_info)
 {
 	Dbg_MsgAssert(p_info,("nullptr p_info sent to CRailEditorComponent::GetDebugInfo"));
 
-	p_info->AddInteger(Crc::ConstCRC("NumFreeRailPoints"),GetNumFreePoints());
-	p_info->AddInteger(Crc::ConstCRC("NumFreeRails"),GetNumFreeRails());
+	p_info->AddInteger(Crc::ConstCRC("NumFreeRailPoints"), (int)GetNumFreePoints());
+	p_info->AddInteger(Crc::ConstCRC("NumFreeRails"), (int)GetNumFreeRails());
 	
 	if (mp_current_rail)
 	{

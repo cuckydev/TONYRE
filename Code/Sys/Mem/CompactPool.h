@@ -71,7 +71,7 @@ private:
 
 	int					m_currentUsedItems;
 
-	uint32 *			mp_freeList;
+	uintptr_t *			mp_freeList;
 
 	char				m_name[64];
 	int					m_maxUsedItems;

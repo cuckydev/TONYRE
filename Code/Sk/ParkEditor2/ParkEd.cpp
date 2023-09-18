@@ -3031,7 +3031,7 @@ void CUpperMenuManager::SetPieceSet(CParkManager::CPieceSet *pSet, size_t set_nu
 				params.AddChecksum("metapiece_id", name_checksum);
 				if (i < num_clipboards)
 				{
-					params.AddInteger("ClipBoardIndex",i+1);
+					params.AddInteger("ClipBoardIndex", (int)(i + 1));
 				}
 				else
 				{

@@ -1301,7 +1301,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	uint8 *p_compress_buffer = new uint8[COMPRESS_BUFFER_SIZE];
 	
 	// Compress the script data.
-	int compressed_size=Encode((char*)p_data,(char*)p_compress_buffer,size,false);
+	int compressed_size = Encode((char*)p_data,(char*)p_compress_buffer,(int)size,false);
 	Dbg_MsgAssert(compressed_size <= COMPRESS_BUFFER_SIZE,("Compress buffer overflow! Compressed size of script %s is %d",Script::FindChecksumName(nameChecksum),compressed_size));
 	
 	// If it compressed to a bigger size, replace the compressed 
@@ -1314,7 +1314,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 		{
 			*p_dest++=*p_source++;
 		}	
-		compressed_size=size;
+		compressed_size = (int)size;
 	}
 	
 	// Allocate space for the content checksum, decompressed size, compressed size, and the compressed data.
@@ -1322,7 +1322,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 
 	// p_new_script will be long-word aligned so OK to cast to a uint32*
 	*(uint32*)(p_new_script+0)=contentsChecksum;
-	*(uint32*)(p_new_script+4)=size;
+	*(uint32*)(p_new_script+4)=(int)size;
 	*(uint32*)(p_new_script+8)=compressed_size;
 	
 	uint8 *p_dest=p_new_script+SCRIPT_HEADER_SIZE;

@@ -3159,9 +3159,9 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 
 	
 	#ifdef	__NOPT_ASSERT__
-	int initial_ccomponent_num_used_items=CComponent::SGetNumUsedItems();
-	int initial_cstruct_num_used_items=CStruct::SGetNumUsedItems();
-	int initial_cvector_num_used_items=CVector::SGetNumUsedItems();
+	size_t initial_ccomponent_num_used_items=CComponent::SGetNumUsedItems();
+	size_t initial_cstruct_num_used_items=CStruct::SGetNumUsedItems();
+	size_t initial_cvector_num_used_items=CVector::SGetNumUsedItems();
 	#endif
 
 	// WARNING !		WARNING !		WARNING !		WARNING !		WARNING !
@@ -3193,9 +3193,9 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 
 	#ifdef	__NOPT_ASSERT__
 	printf("Save type = '%s'\n",Script::FindChecksumName(file_type));
-	printf("Num CComponents used by save = %d\n",CComponent::SGetNumUsedItems()-initial_ccomponent_num_used_items);
-	printf("Num CStructs used by game save = %d\n",CStruct::SGetNumUsedItems()-initial_cstruct_num_used_items);
-	printf("Num CVectors used by game save = %d\n",CVector::SGetNumUsedItems()-initial_cvector_num_used_items);
+	printf("Num CComponents used by save = %zu\n",CComponent::SGetNumUsedItems()-initial_ccomponent_num_used_items);
+	printf("Num CStructs used by game save = %zu\n",CStruct::SGetNumUsedItems()-initial_cstruct_num_used_items);
+	printf("Num CVectors used by game save = %zu\n",CVector::SGetNumUsedItems()-initial_cvector_num_used_items);
 	#endif
 
 

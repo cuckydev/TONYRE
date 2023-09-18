@@ -4067,7 +4067,7 @@ bool CCutsceneData::create_objects( uint32* pData )
 			uint32 obaObjectName = mp_objectQuickAnim->GetBoneName(j);
 			if ( pObjectInfo->m_objectName == obaObjectName )
 			{
-				pObjectInfo->m_obaIndex	= j;
+				pObjectInfo->m_obaIndex	= (int)j;
 				break;
 			}
 		}

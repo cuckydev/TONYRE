@@ -47,14 +47,14 @@ CCompactPool::CCompactPool(int item_size, int desired_num_items, const char *nam
 	m_maxUsedItems = 0;
 
 	// set up free list
-	mp_freeList = (uint32 *) mp_buffer;
+	mp_freeList = (uintptr_t *) mp_buffer;
 	uint8 *pItem = mp_buffer;
 	for (int i = 0; i < m_totalItems; i++)
 	{
 		if (i < m_totalItems - 1)
-			*((uint32 **) pItem) = (uint32 *) (pItem + m_itemSize);
+			*((uintptr_t **) pItem) = (uintptr_t *) (pItem + m_itemSize);
 		else
-			*((uint32 **) pItem) = nullptr;
+			*((uintptr_t **) pItem) = nullptr;
 		pItem += m_itemSize;
 	}
 
@@ -131,13 +131,7 @@ void * CCompactPool::Allocate()
 		//printf("CCompactPool::Allocate(), now %d used items out of %d\n", m_currentUsedItems, m_totalItems);
 		
 		void *pItem = mp_freeList;
-		mp_freeList = (uint32 *) *mp_freeList;
-		#ifdef	__NOPT_ASSERT__
-		if ((int)pItem == REPORT_ON)
-		{
-			printf ("++++ CCompactPool::Allocate %p\n",pItem);
-		}
-		#endif
+		mp_freeList = (uintptr_t *) *mp_freeList;
 		return pItem;
 	}
 
@@ -150,12 +144,6 @@ void * CCompactPool::Allocate()
 
 void CCompactPool::Free(void *pFreeItem)
 {
-	#ifdef	__NOPT_ASSERT__
-	if ((int)pFreeItem == REPORT_ON)
-	{
-		printf ("--- CCompactPool::Free %p\n",pFreeItem);
-	}
-	#endif
 #ifdef __REALLY_DEBUG_COMPACTPOOL__
 	// make sure block is within range
 	int pool_item = ((int) ((uint8 *) pFreeItem - mp_buffer)) / m_itemSize;
@@ -174,8 +162,8 @@ void CCompactPool::Free(void *pFreeItem)
 	
 	//printf("CCompactPool::Free(), now %d used items out of %d\n", m_currentUsedItems, m_totalItems);
 	
-	*((uint32 **) pFreeItem) = mp_freeList;
-	mp_freeList = (uint32 *) pFreeItem;
+	*((uintptr_t **) pFreeItem) = mp_freeList;
+	mp_freeList = (uintptr_t *) pFreeItem;
 	
 /*
 #ifdef __REALLY_DEBUG_COMPACTPOOL__

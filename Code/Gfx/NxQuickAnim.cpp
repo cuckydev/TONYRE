@@ -435,7 +435,7 @@ float CQuickAnim::GetDuration()
 /*                                                                */
 /******************************************************************/
 	
-uint32 CQuickAnim::GetBoneName( int i )
+uint32 CQuickAnim::GetBoneName( size_t i )
 {
 	Dbg_MsgAssert( mp_frameData, ( "No pointer to frame data" ) );
 

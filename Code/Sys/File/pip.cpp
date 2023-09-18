@@ -91,47 +91,18 @@ static const char 	 *sGetPreName(SPreContained *p_contained_file);
 
 #define MAX_PRE_FILES 100
 // char* because each pre is prefixed with the name of the pre.
-static char *spp_pre_files[MAX_PRE_FILES];
+static char *spp_pre_files[MAX_PRE_FILES] = {};
 
 struct SUnPreedFile
 {
-	uint8 *mpFileData;
-	uint32 mFileNameChecksum;
-	size_t mFileSize;
-	uint32 mUsage;
+	char *mpFileData = nullptr;
+	uint32 mFileNameChecksum = 0;
+	size_t mFileSize = 0;
+	uint32 mUsage = 0;
 };
 
 #define MAX_UNPREED_FILES 200
-static SUnPreedFile sp_unpreed_files[MAX_UNPREED_FILES];
-
-// This class only exists so that I can declare an instance of it and hence
-// use its constructor to initialise the above arrays.
-// Saves me having to call an init function from somewhere early on in the code,
-// which might get moved around later and cause problems.
-// This way, the arrays are guaranteed to have got initialised even before main() is
-// called. I think ...
-class CInit
-{
-public:
-	CInit()
-	{
-		int i;
-
-		for (i=0; i<MAX_PRE_FILES; ++i)
-		{
-			spp_pre_files[i]=nullptr;
-		}
-
-		for (i=0; i<MAX_UNPREED_FILES; ++i)
-		{
-			sp_unpreed_files[i].mpFileData=nullptr;
-			sp_unpreed_files[i].mFileNameChecksum=0;
-			sp_unpreed_files[i].mFileSize=0;
-			sp_unpreed_files[i].mUsage=0;
-		}
-	}
-};
-static CInit s_initter;
+static SUnPreedFile sp_unpreed_files[MAX_UNPREED_FILES] = {};
 
 // Given a pointer to a SPreContained, this will calculate a pointer to the next.
 // When used on a source pre quadWordAlignedData should be set to NOT_QUAD_WORD_ALIGNED, since the
@@ -593,7 +564,7 @@ void* Load(const char* p_fileName)
 
 	// allocate memory, and load the file
 	size_t	file_size;
-	uint8 * p_file_data = (uint8*) File::LoadAlloc(p_fileName,&file_size);
+	char *p_file_data = File::LoadAlloc(p_fileName,&file_size);
 	Dbg_MsgAssert(p_file_data,("Failsed to load %s\n",p_fileName));
 
 	// Fill in the slot.

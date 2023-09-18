@@ -71,7 +71,7 @@ public:
 	size_t						GetNumBones();
 	void						ResetCustomKeys();
 	float						GetDuration();
-	uint32						GetBoneName( int i );
+	uint32						GetBoneName( size_t i );
 	bool						ProcessCustomKeys( float startTimeInclusive, float endTimeExclusive, Obj::CObject* pObject );
 
 private:
