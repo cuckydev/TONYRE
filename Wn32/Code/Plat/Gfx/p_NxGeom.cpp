@@ -803,28 +803,28 @@ void CXboxGeom::plat_get_render_verts( Mth::Vector *p_verts )
 
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
-	/*
 	if( m_mesh_array )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
 			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 
-			// Obtain a read-only lock on the mesh data.
-			D3DVECTOR *p_pos;
-			p_mesh->mp_vertex_buffer[0]->Lock( 0, 0, (BYTE**)&p_pos, D3DLOCK_READONLY | D3DLOCK_NOFLUSH );
+			// Map the VBO
+			glBindBuffer(GL_ARRAY_BUFFER, p_mesh->mp_vbo);
+			char *p_vbo = (char*)glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY);
 
 			// Copy over every vertex position in this mesh.
-			for( uint32 v = 0; v < p_mesh->m_num_vertices; ++v )
+			for (uint32 v = 0; v < p_mesh->m_num_vertices; ++v)
 			{
-				p_verts->Set( p_pos->x, p_pos->y, p_pos->z );
+				(p_verts++)->Set(((float*)p_vbo)[0], ((float*)p_vbo)[1], ((float*)p_vbo)[2]);
 
-				++p_verts;
-				p_pos = (D3DVECTOR*)((BYTE*)p_pos + p_mesh->m_vertex_stride );
+				p_vbo += p_mesh->m_vertex_stride;
 			}
+
+			// Unmap the VBO
+			glUnmapBuffer(GL_ARRAY_BUFFER);
 		}
 	}
-	*/
 }
 
 
@@ -839,32 +839,28 @@ void CXboxGeom::plat_get_render_colors( Image::RGBA *p_colors )
 
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
-	/*
 	if( m_mesh_array )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
 			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 
-			// Obtain a read-only lock on the mesh data.
-			Image::RGBA *p_col;
-			p_mesh->mp_vertex_buffer[0]->Lock( 0, 0, (BYTE**)&p_col, D3DLOCK_READONLY | D3DLOCK_NOFLUSH );
-			p_col = (Image::RGBA*)((BYTE*)p_col + p_mesh->m_diffuse_offset );
+			// Map the VBO
+			glBindBuffer(GL_ARRAY_BUFFER, p_mesh->mp_vbo);
+			char *p_vbo = (char *)glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY) + (uintptr_t)p_mesh->m_diffuse_offset;
 
-			// Copy over every vertex color in this mesh, swapping red and blue.
-			for( uint32 v = 0; v < p_mesh->m_num_vertices; ++v )
+			// Copy over every vertex position in this mesh.
+			for (uint32 v = 0; v < p_mesh->m_num_vertices; ++v)
 			{
-				p_colors->r = p_col->b;
-				p_colors->g = p_col->g;
-				p_colors->b = p_col->r;
-				p_colors->a = p_col->a;
+				*p_colors++ = *((Image::RGBA*)p_vbo);
 
-				++p_colors;
-				p_col = (Image::RGBA*)((BYTE*)p_col + p_mesh->m_vertex_stride );
+				p_vbo += p_mesh->m_vertex_stride;
 			}
+
+			// Unmap the VBO
+			glUnmapBuffer(GL_ARRAY_BUFFER);
 		}
 	}
-	*/
 }
 
 
@@ -879,43 +875,44 @@ void CXboxGeom::plat_set_render_verts( Mth::Vector *p_verts )
 
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
-	/*
 	if( m_mesh_array )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
 			NxWn32::sMesh *p_mesh = m_mesh_array[m];
 
-			// Obtain a writeable lock on the mesh data.
-			D3DVECTOR *p_pos;
-			p_mesh->mp_vertex_buffer[0]->Lock( 0, 0, (BYTE**)&p_pos, D3DLOCK_NOFLUSH );
+			// Map the VBO
+			glBindBuffer(GL_ARRAY_BUFFER, p_mesh->mp_vbo);
+			char *p_vbo = (char *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 
 			// Will need to store the min and max points in order to calculate the new bounding sphere for the mesh.
 			Mth::CBBox bbox;
 
 			// Copy over every vertex position in this mesh.
-			for( uint32 v = 0; v < p_mesh->m_num_vertices; ++v )
+			for (uint32 v = 0; v < p_mesh->m_num_vertices; ++v)
 			{
-				p_pos->x = p_verts->GetX();
-				p_pos->y = p_verts->GetY();
-				p_pos->z = p_verts->GetZ();
+				((float*)p_vbo)[0] = p_verts->GetX();
+				((float*)p_vbo)[1] = p_verts->GetY();
+				((float*)p_vbo)[2] = p_verts->GetZ();
 
 				// Add this point to the bounding box.
-				bbox.AddPoint( *p_verts );
+				bbox.AddPoint(*p_verts);
 
 				++p_verts;
-				p_pos = (D3DVECTOR*)((BYTE*)p_pos + p_mesh->m_vertex_stride );
+				p_vbo += p_mesh->m_vertex_stride;
 			}
 
+			// Unmap the VBO
+			glUnmapBuffer(GL_ARRAY_BUFFER);
+
 			// Now refigure the bounding sphere.
-			Mth::Vector sphere_center	= bbox.GetMin() + ( 0.5f * ( bbox.GetMax() - bbox.GetMin()));
-			p_mesh->m_sphere_center.x	= sphere_center[X];
-			p_mesh->m_sphere_center.y	= sphere_center[Y];
-			p_mesh->m_sphere_center.z	= sphere_center[Z];
-			p_mesh->m_sphere_radius		= ( bbox.GetMax() - sphere_center ).Length();
+			Mth::Vector sphere_center = bbox.GetMin() + (0.5f * (bbox.GetMax() - bbox.GetMin()));
+			p_mesh->m_sphere_center.x = sphere_center[X];
+			p_mesh->m_sphere_center.y = sphere_center[Y];
+			p_mesh->m_sphere_center.z = sphere_center[Z];
+			p_mesh->m_sphere_radius = (bbox.GetMax() - sphere_center).Length();
 		}
 	}
-	*/
 }
 
 
@@ -930,39 +927,28 @@ void CXboxGeom::plat_set_render_colors( Image::RGBA *p_colors )
 
 	Dbg_MsgAssert( m_mesh_array, ( "Invalid for instanced sectors" ));
 
-	/*
 	if( m_mesh_array )
 	{
 		for( uint32 m = 0; m < m_num_mesh; ++m )
 		{
 			NxWn32::sMesh*	p_mesh			= m_mesh_array[m];
-			Image::RGBA*	p_colors_save	= p_colors;
 
-			// The mesh may contain more than one vertex set, usually in the case of vertex wibbling.
-			for( uint32 v = 0; v < p_mesh->m_num_vertex_buffers; ++v )
+			// Map the VBO
+			glBindBuffer(GL_ARRAY_BUFFER, p_mesh->mp_vbo);
+			char *p_vbo = (char*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY) + (uintptr_t)p_mesh->m_diffuse_offset;
+
+			// Copy over every vertex position in this mesh.
+			for (uint32 v = 0; v < p_mesh->m_num_vertices; ++v)
 			{
-				p_colors = p_colors_save;
+				*((Image::RGBA*)p_vbo) = *p_colors++;
 
-				// Obtain a writeable lock on the mesh data.
-				Image::RGBA *p_col;
-				p_mesh->mp_vertex_buffer[v]->Lock( 0, 0, (BYTE**)&p_col, D3DLOCK_NOFLUSH );
-				p_col = (Image::RGBA*)((BYTE*)p_col + p_mesh->m_diffuse_offset );
-
-				// Copy over every vertex color in this mesh, swapping red and blue.
-				for( uint32 v = 0; v < p_mesh->m_num_vertices; ++v )
-				{
-					p_col->b = p_colors->r;
-					p_col->g = p_colors->g;
-					p_col->r = p_colors->b;
-					p_col->a = p_colors->a;
-
-					++p_colors;
-					p_col = (Image::RGBA*)((BYTE*)p_col + p_mesh->m_vertex_stride );
-				}
+				p_vbo += p_mesh->m_vertex_stride;
 			}
+
+			// Unmap the VBO
+			glUnmapBuffer(GL_ARRAY_BUFFER);
 		}
 	}
-	*/
 }
 
 
