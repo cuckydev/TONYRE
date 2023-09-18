@@ -1629,14 +1629,15 @@ void CParkGenerator::ReadInRailInfo()
 	
 	Ryan("\n*** Reading in rail info ***\n");
 	m_in_rail_set.Destroy();
+
 	// BAD MEM
 	m_processed_node_tab = new int[256];
 	m_processed_node_tab_entries = 0;
-	m_temp_node_tab = new TempNodeInfo[2048];
+	m_temp_node_tab = new TempNodeInfo[pNodeArray->GetSize()]; // BUG: I increased this, 2048 in original source. pNodeArray can be bigger than 2048, so this is a problem.
 
 	
-	int index = 0;
-	for ( ; index < (int)pNodeArray->GetSize(); index++)
+	size_t index = 0;
+	for ( ; index < pNodeArray->GetSize(); index++)
 	{
 		Script::CScriptStructure *pStruct = pNodeArray->GetStructure(index);
 	
@@ -1786,13 +1787,13 @@ void CParkGenerator::DestroyRailInfo()
 
 // returns checksum of first found cluster, increases index appropriately
 // called from ReadInRailInfo()
-uint32 CParkGenerator::scan_for_cluster(Script::CArray *pNodeArray, int &index)
+uint32 CParkGenerator::scan_for_cluster(Script::CArray *pNodeArray, size_t &index)
 {
     const uint32 crc_class 			= 0x12b4e660;
     const uint32 crc_levelgeometry = 0xbf4d3536;		//0xdabd3086;
 	const uint32 crc_name 			= 0xa1dc81f9;
 
-	int total_entries = pNodeArray->GetSize();
+	size_t total_entries = pNodeArray->GetSize();
 
 	/*
 		Given a node like...
