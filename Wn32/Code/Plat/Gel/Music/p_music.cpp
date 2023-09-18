@@ -758,10 +758,8 @@ namespace Pcm
 	size_t GetSoundtrackNumSongs(size_t i)
 	{
 		const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
-
-		if(soundtracks.empty()) {
+		if(soundtracks.empty())
 			return 0;
-		}
 
 		return soundtracks.at(i).tracks.size();
 	}
@@ -769,6 +767,9 @@ namespace Pcm
 	const char *GetSoundtrackName(size_t i)
 	{
 		const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
+		if (soundtracks.empty())
+			return "";
+
 		return soundtracks.at(i).name.c_str();
 	}
 
