@@ -687,7 +687,7 @@ void CSkaterNonLocalNetLogicComponent::extrapolate_rail_position( void )
 	// int most_recent_index = ( mp_state_history_component->GetNumPosUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
 	// int prev_index = ( m_last_pos_index + ( CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS - 1 )) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
 	
-	delta_t = (int) ( m_frame_length * Tmr::vRESOLUTION );
+	delta_t = (int) ( m_frame_length * (float)Tmr::vRESOLUTION );
 	if( gamenet_man->OnServer())
 	{
 		GameNet::PlayerInfo* player;
@@ -940,7 +940,7 @@ void CSkaterNonLocalNetLogicComponent::extrapolate_position( void )
 	// int most_recent_index = ( mp_state_history_component->GetNumPosUpdates() - 1 ) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
 	// int prev_index = ( m_last_pos_index + ( CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS - 1 )) % CSkaterStateHistoryComponent::vNUM_POS_HISTORY_ELEMENTS;
 	
-	delta_t = (int) ( m_frame_length * Tmr::vRESOLUTION );
+	delta_t = (int) ( m_frame_length * (float)Tmr::vRESOLUTION );
 	if( gamenet_man->OnServer())
 	{
 		GameNet::PlayerInfo* player;

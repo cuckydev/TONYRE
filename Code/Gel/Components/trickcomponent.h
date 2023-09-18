@@ -52,7 +52,7 @@ class CSkaterRunTimerComponent;
 struct STrick
 {
 	uint32 ArrayChecksum;	// Checksum of the script array, eg AirTricks
-	uint Index;				// Index within the array of the trick.
+	size_t Index;				// Index within the array of the trick.
 	
 	// These next two are only used by manual tricks and special grind tricks.
 	// These have a finite duration. For example, if a manual is queued up early on
@@ -184,7 +184,7 @@ public:
 	// Called by the ClearTrickQueue script command.
 	void ClearTrickQueue();
 	
-	void AddTrick(uint32 ArrayChecksum, uint Index, bool UseSpecialTrickText=false);
+	void AddTrick(uint32 ArrayChecksum, size_t Index, bool UseSpecialTrickText=false);
 	void RemoveFrontTrick();
 	void ClearTricksFrom(uint32 ArrayChecksum);
 

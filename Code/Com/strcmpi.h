@@ -15,8 +15,8 @@ namespace Com
 
 		do
 		{
-			c1 = tolower(*p1++);
-			c2 = tolower(*p2++);
+			c1 = (char)tolower(*p1++);
+			c2 = (char)tolower(*p2++);
 
 			if (c1 == '\0')
 				break;

@@ -126,9 +126,10 @@ CBaseComponent::EMemberFunctionResult CTriggerComponent::CallMemberFunction( uin
 			pParams->GetArray(NO_NAME, &pArray);
 			if (pArray)
 			{
-				for (int n = pArray->GetSize(); n--; )
+				for (size_t n = pArray->GetSize(); n--; )
 				{
-					if (m_latest_trigger_event_type == Script::GetInteger(pArray->GetChecksum(n))) return CBaseComponent::MF_TRUE;
+					if (m_latest_trigger_event_type == Script::GetInteger(pArray->GetChecksum(n)))
+						return CBaseComponent::MF_TRUE;
 				}
 				return CBaseComponent::MF_FALSE;
 			}
@@ -225,7 +226,7 @@ void CTriggerComponent::CheckFeelerForTrigger ( TriggerEventType type, CRectFeel
 
 void CTriggerComponent::TripTrigger ( TriggerEventType type, uint32 node_checksum, Script::CArray* p_node_array, CCompositeObject* p_object)
 {
-	int node;
+	short node;
 	Script::CStruct* p_node = nullptr;
 	
 	// find the triggered node
@@ -238,13 +239,20 @@ void CTriggerComponent::TripTrigger ( TriggerEventType type, uint32 node_checksu
 	}
 	else
 	{
-		for (node = p_node_array->GetSize(); node--; )
+		node = -1;
+
+		Dbg_Assert(p_node_array->GetSize() <= 0x7FFF);
+		for (size_t i = p_node_array->GetSize(); i--; )
 		{
 			p_node = p_node_array->GetStructure(node);
 			
 			uint32 checksum;
 			p_node->GetChecksum(Crc::ConstCRC("name"), &checksum);
-			if (checksum == node_checksum) break;
+			if (checksum == node_checksum)
+			{
+				node = (short)i;
+				break;
+			}
 		}
 	}
 	

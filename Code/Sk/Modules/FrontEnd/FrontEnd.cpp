@@ -767,7 +767,7 @@ uint32 FrontEnd::grab_timed_event_type(uint mask, int index)
 		// The directional pad was held down last frame	(and this one)
 		
 		// update countdown	time
-		Tmr::Time frame_time = (Tmr::Time) (Tmr::FrameLength() * Tmr::vRESOLUTION);
+		Tmr::Time frame_time = (Tmr::Time) (Tmr::FrameLength() * (float)Tmr::vRESOLUTION);
 		if (frame_time < m_pad_info[index].mAutorepeatCountdown)
 			m_pad_info[index].mAutorepeatCountdown -= frame_time;
 		else

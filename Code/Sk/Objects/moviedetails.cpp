@@ -425,7 +425,7 @@ void CObjectAnimDetails::update_moving_objects()
 	mp_frameData->GetInterpolatedCameraFrames( pQuat, pVector, m_animController.GetCurrentAnimTime() );
 
 	// get the position of each bone
-	for ( int i = 0; i < mp_frameData->GetNumBones(); i++ )
+	for ( size_t i = 0; i < mp_frameData->GetNumBones(); i++ )
 	{
 		// grab the frame from the animation controller
 		Dbg_Assert( mp_frameData );

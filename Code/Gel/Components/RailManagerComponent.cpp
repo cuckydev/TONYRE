@@ -169,7 +169,7 @@ void CRailManagerComponent::GetDebugInfo( Script::CStruct *p_info )
 	// Add the number of Rail Manager nodes.
 	if( mp_rail_manager )
 	{
-		p_info->AddInteger("RailManager.m_num_nodes", mp_rail_manager->GetNumNodes());
+		p_info->AddInteger("RailManager.m_num_nodes", (int)mp_rail_manager->GetNumNodes());
 		p_info->AddString("RailManager.m_is_transformed", mp_rail_manager->IsMoving() ? "yes" : "no" );
 	}
 

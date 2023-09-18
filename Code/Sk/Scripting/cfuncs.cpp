@@ -1361,6 +1361,7 @@ bool ScriptRemoveComponent(Script::CStruct *pParams, Script::CScript *pScript)
 
 static uint32 s_get_bottom_up_free(bool includeFrag)
 {
+	(void)includeFrag;
 	/*
 	Mem::Manager& mem_man = Mem::Manager::sHandle();
 	Mem::Heap* p_heap = mem_man.GetHeap( Crc::ConstCRC("BottomUpHeap") );

@@ -491,17 +491,17 @@ void CTracker::ValidateReceivers()
 				Lst::Node< Script::CScript >*p_node = p_entry->FirstItem();
 				while (p_node)
 				{
-					Script::CScript * p_script =  p_node->GetData();
+					// Script::CScript *p_script =  p_node->GetData();
 					// Got a pointer to a node, so first validate that
 					// then validate the event handler table
 					
-					Obj::CEventHandlerTable * p_event_handler_table = p_script->GetEventHandlerTable();
+					// Obj::CEventHandlerTable * p_event_handler_table = p_script->GetEventHandlerTable();
 					// Validate the table object
 					// Dbg_MsgAssert(Mem::Valid(p_event_handler_table),("Corrupt Event handler table object for event %s\n",Script::FindChecksumName(entry_key)));
 					// and the table it contains
 					// Dbg_MsgAssert(!p_event_handler_table->m_num_entries || Mem::Valid(p_event_handler_table->mp_tab),("Corrupt Event handler table actual table for event %s\n",Script::FindChecksumName(entry_key)));
 
-					p_node = p_node->GetNext();					
+					p_node = p_node->GetNext();
 				}
 
 			

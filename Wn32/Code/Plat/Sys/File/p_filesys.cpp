@@ -31,7 +31,7 @@ namespace File
 		sFileHandle(const std::filesystem::path &path) : file(path, std::ios::binary)
 		{
 			if (file.is_open())
-				filesize = std::filesystem::file_size(path);
+				filesize = (size_t)std::filesystem::file_size(path);
 		}
 	};
 
@@ -104,8 +104,10 @@ namespace File
 		return data_path;
 	}
 
-	static void* prefopen( const char *filename, const char *mode )
+	static void *prefopen(const char *filename, const char *mode)
 	{
+		(void)mode;
+
 		// Process file name
 		std::filesystem::path file_path(filename);
 
@@ -181,7 +183,7 @@ namespace File
 		File::CAsyncFileLoader::sInit();
 	}
 
-	long GetFileSize( void* pFP )
+	size_t GetFileSize( void* pFP )
 	{
 		Dbg_MsgAssert( pFP, ( "nullptr pFP sent to GetFileSize" ));
 
@@ -196,7 +198,7 @@ namespace File
 		return h_file->filesize;
 	}
 
-	long GetFilePosition( void *pFP )
+	size_t GetFilePosition( void *pFP )
 	{
 		Dbg_MsgAssert( pFP, ( "nullptr pFP sent to GetFilePosition" ));
 
@@ -208,7 +210,7 @@ namespace File
 		}
 
 		sFileHandle *h_file = (sFileHandle *)pFP;
-		return h_file->file.tellg();
+		return (size_t)h_file->file.tellg();
 	}
 
 	void InitQuickFileSystem( void )
@@ -291,7 +293,7 @@ namespace File
 
 		sFileHandle *h_file = (sFileHandle*)pFP;
 		h_file->file.read((char*)addr, size * count);
-		return h_file->file.gcount();
+		return (size_t)h_file->file.gcount();
 	}
 	
 	size_t ReadInt( void *addr, void *pFP )
@@ -343,7 +345,7 @@ namespace File
 		return 0;
 	}
 
-	int Seek( void *pFP, long offset, int origin )
+	int Seek( void *pFP, ptrdiff_t offset, int origin )
 	{
 		if( PreMgr::sPreEnabled())
 		{
@@ -354,7 +356,7 @@ namespace File
 
 		sFileHandle *h_file = (sFileHandle*)pFP;
 		h_file->file.seekg(offset, (origin == SEEK_CUR) ? std::ios::cur : ((origin == SEEK_SET) ? std::ios::beg : std::ios::end));
-		return h_file->file.tellg();
+		return (size_t)h_file->file.tellg();
 	}
 
 	int Flush( void *pFP )

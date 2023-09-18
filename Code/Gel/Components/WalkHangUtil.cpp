@@ -1294,7 +1294,7 @@ bool CWalkComponent::maybe_pull_up_from_hang ( Mth::Vector& proposed_stand_pos )
 	float feeler_height = s_get_param(Crc::ConstCRC("feeler_height"));
 	for (int n = 0; n < vNUM_FEELERS; n++)
 	{
-		float angle = n * (2.0f * Mth::PI / vNUM_FEELERS);
+		float angle = n * (2.0f * Mth::PI / (float)vNUM_FEELERS);
 		
 		float cos_angle = cosf(angle);
 		float sin_angle = sinf(angle);

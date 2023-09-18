@@ -41,10 +41,10 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	target_compile_options(TonyRE.Common INTERFACE -Wno-everything -Wnonportable-include-path) # -Werror)
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 	target_compile_definitions(TonyRE.Common INTERFACE _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS)
-	target_compile_options(TonyRE.Common INTERFACE /W4) # /WX)
-	# target_link_options(TonyRE.Common INTERFACE /WX)
+	target_compile_options(TonyRE.Common INTERFACE /W4 /WX)
+	target_link_options(TonyRE.Common INTERFACE /WX)
 else()
-	target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra -fpermissive) # -Werror)
+	target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra) # -Werror)
 endif()
 
 # Statically link dependencies

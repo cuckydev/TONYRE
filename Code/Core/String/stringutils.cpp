@@ -140,7 +140,7 @@ char *PrintThousands(int n, char c)
 		n = -n;
 	}
 	sprintf (normal, "%d", n);
-	int digits = strlen(normal);
+	size_t digits = strlen(normal);
 	char *p_digit = normal;
 	
 	// Since other countries deliminate their successive kilos differently

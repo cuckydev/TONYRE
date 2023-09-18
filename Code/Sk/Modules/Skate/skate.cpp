@@ -214,7 +214,7 @@ void		Skate::s_logic_code ( const Tsk::Task< Skate >& task )
 				score = king->m_Skater->GetScoreObject();
 				current_score = score->GetTotalScore();
 				total_score = current_score + (int) (	( Tmr::FrameLength() * 60.0f ) * 
-														( Tmr::vRESOLUTION / 60.0f ));
+														((float)Tmr::vRESOLUTION / 60.0f ));
 				score->SetTotalScore( total_score );
 
 				goal_score = mdl.GetGameMode()->GetTargetScore();

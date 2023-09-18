@@ -308,7 +308,7 @@ void CClipboardEntry::ShowMeta(uint8 centre_x, int raiseAmount, uint8 centre_z, 
 	}	
 	
 	// Position the piece, adding in the pieces local rotation value.
-	mpConcreteMeta->SetSoftRot(world_pos,rot+90.0f*m_rot);
+	mpConcreteMeta->SetSoftRot(world_pos, rot + 90.0f * (float)m_rot);
 }
 
 bool CClipboardEntry::CreateGapFillerPieces()
@@ -792,7 +792,7 @@ bool CClipboard::Paste(CCursor *p_cursor)
 	{
 		Obj::CEditedRail *p_new_rail=Obj::GetRailEditor()->NewRail();
 		p_new_rail->CopyRail(p_rail);
-		p_new_rail->RotateAndTranslate(clipboard_pos, cursor_pos, p_cursor->GetRotation()*90.0f);
+		p_new_rail->RotateAndTranslate(clipboard_pos, cursor_pos, (float)p_cursor->GetRotation() * 90.0f);
 		
 		p_new_rail->UpdateRailGeometry();
 		p_new_rail->UpdatePostGeometry();

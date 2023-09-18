@@ -1728,7 +1728,7 @@ void CTrickComponent::ClearTrickQueue()
 	mFrontTrick=mBackTrick=-1;
 }
 
-void CTrickComponent::AddTrick(uint32 ArrayChecksum, uint Index, bool UseSpecialTrickText)
+void CTrickComponent::AddTrick(uint32 ArrayChecksum, size_t Index, bool UseSpecialTrickText)
 {
 	int i=0;
 	if (mFrontTrick==-1 && mBackTrick==-1)
@@ -2004,7 +2004,7 @@ void CTrickComponent::TriggerNextQueuedTrick(uint32 scriptToRunFirst, Script::CS
 		// a DoNextTrick, which would cause infinite recursion if this trick
 		// was still in the queue.
 		uint32 ArrayChecksum=mpTricks[mFrontTrick].ArrayChecksum;
-		uint Index=mpTricks[mFrontTrick].Index;
+		size_t Index=mpTricks[mFrontTrick].Index;
 		// Set this flag so that any special trick scripts that do get executed during the RunTrick
 		// will use the yellow text if they execute a Display command. 
 		mUseSpecialTrickText=mpTricks[mFrontTrick].UseSpecialTrickText;
@@ -2119,8 +2119,8 @@ void CTrickComponent::MaybeAddTrick(uint32 ArrayChecksum, bool UseSpecialTrickTe
 	if (pArray)
 	{
 		// Scan through the array checking each trick's trigger condition.
-		int Size=pArray->GetSize();
-		for (int i=0; i<Size; ++i)
+		size_t Size = pArray->GetSize();
+		for (size_t i=0; i<Size; ++i)
 		{
 			Script::CStruct *pStruct=pArray->GetStructure(i);
 			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
@@ -2290,8 +2290,8 @@ void CTrickComponent::CheckManualTrickArray(uint32 ArrayChecksum, uint32 IgnoreM
 	if (pArray)
 	{
 		// Scan through the array checking each trick.
-		int Size=pArray->GetSize();
-		for (int t=0; t<Size; ++t)
+		size_t Size = pArray->GetSize();
+		for (size_t t=0; t<Size; ++t)
 		{
 			Script::CStruct *pStruct=pArray->GetStructure(t);
 			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
@@ -2386,11 +2386,11 @@ bool CTrickComponent::TriggerAnyExtraTrick(uint32 ArrayChecksum, uint32 Excluded
 	if (pArray)
 	{
 		// Scan through the array checking each trick.
-		int Size=pArray->GetSize();
+		size_t Size = pArray->GetSize();
 		// Only 32 bits available in the mpExcludedExtraTricks entries.
 		Dbg_MsgAssert(Size<=32,("Extra trick array '%s' has more than 32 entries",Script::FindChecksumName(ArrayChecksum)));
 		
-		for (int i=0; i<Size; ++i)
+		for (size_t i=0; i<Size; ++i)
 		{
 			if (!(ExcludedTricks & (1<<i)))
 			{
@@ -2603,8 +2603,8 @@ void CTrickComponent::SetExtraTricks(Script::CStruct *pParams, Script::CScript *
 	else if (pParams->GetArray(Crc::ConstCRC("Ignore"),&pArrayOfTricksToIgnore))
 	{
 		Dbg_MsgAssert(pArrayOfTricksToIgnore,("Eh ? nullptr pArrayOfTricksToIgnore ??"));
-		int Size=pArrayOfTricksToIgnore->GetSize();
-		for (int i=0; i<Size; ++i)
+		size_t Size = pArrayOfTricksToIgnore->GetSize();
+		for (size_t i=0; i<Size; ++i)
 		{
 			ExcludeExtraTricks(pArrayOfTricksToIgnore->GetLocalString(i));
 		}
@@ -2774,8 +2774,8 @@ void CTrickComponent::MaybeQueueExtraGrindTrick(uint32 ArrayChecksum, bool UseSp
 	if (pArray)
 	{
 		// Scan through the array checking each trick.
-		int Size=pArray->GetSize();
-		for (int t=0; t<Size; ++t)
+		size_t Size = pArray->GetSize();
+		for (size_t t = 0; t < Size; ++t)
 		{
 			Script::CStruct *pStruct=pArray->GetStructure(t);
 			Dbg_MsgAssert(pStruct,("nullptr pStruct ???"));
@@ -2904,12 +2904,12 @@ uint32 CTrickComponent::CalculateIgnoreMask(uint32 ArrayChecksum, const char *pI
 	Dbg_MsgAssert(ArrayChecksum,("Zero ArrayChecksum sent to CalculateIgnoreMask"));
 	Script::CArray *pArray=Script::GetArray(ArrayChecksum);
 	
-	int Size=pArray->GetSize();
+	size_t Size=pArray->GetSize();
 	// Only 32 bits available ...
 	Dbg_MsgAssert(Size<=32,("Extra-trick array '%s' has more than 32 entries",Script::FindChecksumName(ArrayChecksum)));
 			
 	uint32 Mask=0;	
-	for (int i=0; i<Size; ++i)
+	for (size_t i=0; i<Size; ++i)
 	{
 		Script::CStruct *pTrick=pArray->GetStructure(i);
 		if (IsExcluded(pTrick,pIgnoreName))
@@ -3149,8 +3149,8 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 			if (pParams->GetArray(Crc::ConstCRC("Buttons"),&p_array))
 			{
 				// If an array of buttons is specified, check each of them.
-				int n=p_array->GetSize();
-				for (int i=0; i<n; ++i)
+				size_t n=p_array->GetSize();
+				for (size_t i=0; i<n; ++i)
 				{
 					if (GetButtonState(p_array->GetChecksum(i)))
 					{
@@ -3378,8 +3378,8 @@ CBaseComponent::EMemberFunctionResult CTrickComponent::CallMemberFunction( uint3
 			{
 				int OlderThan=0;
 				pParams->GetInteger(Crc::ConstCRC("OlderThan"),&OlderThan);
-				int Size=pButtonArray->GetSize();
-				for (int i=0; i<Size; ++i)
+				size_t Size=pButtonArray->GetSize();
+				for (size_t i=0; i<Size; ++i)
 				{
 					RemoveOldButtonEvents(pButtonArray->GetNameChecksum(i),OlderThan);
 				}

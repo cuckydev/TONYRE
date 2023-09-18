@@ -115,7 +115,7 @@ namespace Pcm
 						MusicDecoder *self = (MusicDecoder*)pDecoder->pUserData;
 						self->file.read((char *)pBufferOut, bytesToRead);
 						if (pBytesRead != nullptr)
-							*pBytesRead = self->file.gcount();
+							*pBytesRead = (size_t)self->file.gcount();
 						return MA_SUCCESS;
 					},
 					[](ma_decoder *pDecoder, ma_int64 byteOffset, ma_seek_origin origin) -> ma_result

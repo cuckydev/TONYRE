@@ -113,7 +113,7 @@ static bool 			gMusicStreamWaitingToStart;	// true if we are still waiting for t
 
 #ifdef USER_SOUNDTRACKS
 static bool		s_xbox_play_user_soundtracks	= false;
-static int		s_xbox_user_soundtrack			= 0;
+static size_t	s_xbox_user_soundtrack			= 0;
 static uint32	s_xbox_user_soundtrack_song		= 0;
 static bool		s_xbox_user_soundtrack_random	= false;
 static uint32	s_xbox_random_index				= 0;
@@ -355,7 +355,7 @@ static void sGenerateRandomSongOrder( void )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-void UseUserSoundtrack( int soundtrack )
+void UseUserSoundtrack( size_t soundtrack )
 {
 	(void)soundtrack;
 

@@ -233,8 +233,8 @@ void	Manager::GenerateSuperSectors(const Mth::CBBox& world_bbox )
 	world_width = world_bbox.GetMax()[X] - world_bbox.GetMin()[X];
 	world_depth = world_bbox.GetMax()[Z] - world_bbox.GetMin()[Z];
 
-	m_sector_width = world_width / NUM_PARTITIONS_X;
-	m_sector_depth = world_depth / NUM_PARTITIONS_Z;
+	m_sector_width = world_width / (float)NUM_PARTITIONS_X;
+	m_sector_depth = world_depth / (float)NUM_PARTITIONS_Z;
 
 	// For each super sector, find any world sectors which intersect the ss bounding box
 	// and add that ws to ss's list of ws's
@@ -417,13 +417,13 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 				sector = sector->GetNext();
 			}
 
-			int new_size = p_super_sector->m_NumCollSectors + num_change;
+			size_t new_size = p_super_sector->m_NumCollSectors + num_change;
 
 			if (num_change < 0)
 			{
 				// Re-alloc array down
 				Nx::CCollStatic **new_sector_list = new Nx::CCollStatic*[new_size];
-				for (int k = 0; k < new_size; k++)
+				for (size_t k = 0; k < new_size; k++)
 					new_sector_list[k] = p_super_sector->m_CollSectorList[k];
 
 				delete[] p_super_sector->m_CollSectorList;
@@ -433,7 +433,7 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 			{
 				// Re-alloc array up
 				Nx::CCollStatic **new_sector_list = new Nx::CCollStatic*[new_size];
-				for (int k = 0; k < p_super_sector->m_NumCollSectors; k++)
+				for (size_t k = 0; k < p_super_sector->m_NumCollSectors; k++)
 					new_sector_list[k] = p_super_sector->m_CollSectorList[k];
 
 				delete[] p_super_sector->m_CollSectorList;

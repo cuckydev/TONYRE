@@ -252,6 +252,9 @@ void CScriptCache::delete_entry(CScriptCacheEntry *p_entry)
 // if no space could be freed up for it.
 void CScriptCache::remove_some_old_scripts(int space_required, uint32 scriptName)
 {
+	(void)space_required;
+	(void)scriptName;
+
 	while (true)
 	{
 		// int largest_malloc_possible=Mem::Manager::sHandle().ScriptHeap()->LargestFreeBlock();

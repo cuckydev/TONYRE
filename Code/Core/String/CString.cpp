@@ -173,16 +173,12 @@ String & String::operator= (const char * string)
 //    
     
     
-    int last_char = 0;
+    size_t last_char = 0;
 	if ( string )
 	{
-		last_char = strlen(string) - 1;
-
-		// Fix the case where "string" is the empty string
-		if( last_char < 0 )
-		{
-			last_char = 0;
-		}
+		last_char = strlen(string);
+		if (last_char > 0)
+			last_char--;
 	}
 	copy(string, 0, last_char);
 
@@ -270,10 +266,8 @@ const char * String::getString() const
 /*                                                                */
 /******************************************************************/
 
-void String::copy(const char *pChar, int first_char, int last_char)
+void String::copy(const char *pChar, size_t first_char, size_t last_char)
 {
-    
-	
 	if ( pChar && last_char >= first_char)
 	{
 // GJ: The following handles 1-byte long strings incorrectly:
@@ -291,7 +285,7 @@ void String::copy(const char *pChar, int first_char, int last_char)
 		}
 		else
 		{
-			int length = last_char - first_char + 2;
+			size_t length = last_char - first_char + 2;
 			if (length < 4) length = 4;
 			Dbg_MsgAssert (length <= s_max_size,( "string too long for String object"));
 
@@ -310,13 +304,9 @@ void String::copy(const char *pChar, int first_char, int last_char)
 			}
 
 			// perform string copy
-			int i = 0;
-			int j;
-			for (j = first_char; j <= last_char; j++)
-			{
-				mp_string[i] = pChar[j];
-				i++;
-			}
+			size_t i = 0;
+			for (size_t j = first_char; j <= last_char; j++)
+				mp_string[i++] = pChar[j];
 			mp_string[i] = '\0';
 		}
 	}

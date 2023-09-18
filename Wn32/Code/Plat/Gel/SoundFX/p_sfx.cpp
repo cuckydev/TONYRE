@@ -159,6 +159,8 @@ namespace Sfx
 	// Sound API
 	void InitSoundFX(CSfxManager *p_sfx_manager)
 	{
+		(void)p_sfx_manager;
+
 		// Initialize mixer
 		Audio::Init();
 	}
@@ -196,6 +198,8 @@ namespace Sfx
 
 	bool LoadSoundPlease(const char *sfxName, uint32 checksum, PlatformWaveInfo *pInfo, bool loadPerm)
 	{
+		(void)checksum;
+
 		Dbg_Assert(pInfo);
 
 		// Open sound file
@@ -269,6 +273,10 @@ namespace Sfx
 
 	void SetReverbPlease(float reverbLevel, int reverbMode, bool instant)
 	{
+		(void)reverbLevel;
+		(void)reverbMode;
+		(void)instant;
+
 		if (reverbMode == 0)
 		{
 			// Default to plain.

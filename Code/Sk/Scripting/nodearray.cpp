@@ -86,7 +86,7 @@ void CreateNodeNameHashTable()
 }
 	
 // Searches the node array for a node whose Name is the passed checksum.
-int FindNamedNode(uint32 checksum, bool assert)
+short FindNamedNode(uint32 checksum, bool assert)
 {
 	// Get the NodeArray
 	CArray *p_node_array=GetArray(Crc::ConstCRC("NodeArray"));
@@ -99,7 +99,7 @@ int FindNamedNode(uint32 checksum, bool assert)
 		return -1;
 	}
 
-	uint16 hash = (uint16)(checksum & HASH_MASK );
+	uint16 hash = (uint16)(checksum & HASH_MASK);
 
 	while ( node_hash[hash] != -1 )
 	{
@@ -109,7 +109,7 @@ int FindNamedNode(uint32 checksum, bool assert)
 		uint32 name_checksum=0;
 		if (p_node->GetChecksum(Crc::ConstCRC("Name"),&name_checksum))
 		{
-			if ( name_checksum == checksum )
+			if (name_checksum == checksum)
 			{
 				return node_hash[hash];
 			}
@@ -137,7 +137,7 @@ int FindNamedNode(uint32 checksum, bool assert)
 	return -1;
 }
 
-int FindNamedNode(const char *p_name)
+short FindNamedNode(const char *p_name)
 {
 	return FindNamedNode(Crc::GenerateCRCFromString(p_name));
 }
@@ -979,6 +979,8 @@ CArray *GetIgnoredLightArray(int nodeIndex)
 // This creates an array (called NodeArray) of Size structures, with all the entries initialised to empty structures.
 void CreateNodeArray(int size, bool hackUseFrontEndHeap)
 {
+	(void)hackUseFrontEndHeap;
+
 	// copied from Script::Cleanup()
 	//KillStoppedScripts();
 	//RemoveOldTriggerScripts();

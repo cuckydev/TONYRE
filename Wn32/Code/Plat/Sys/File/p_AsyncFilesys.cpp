@@ -51,6 +51,7 @@ bool CAsyncFileLoader::s_plat_async_supported( void )
 /******************************************************************/
 bool CAsyncFileLoader::s_plat_exist( const char *filename )
 {
+	(void)filename;
 	return false;
 }
 

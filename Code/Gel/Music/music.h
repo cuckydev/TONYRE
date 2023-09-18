@@ -108,7 +108,7 @@ void	PlayTrack( const char *filename, bool loop = false );
 void	PlayMusicStream( uint32 checksum, float volume = -1 );		// Plays a stereo stream through the music channels
 
 // These five only for XBox.
-void UseUserSoundtrack( int soundtrack );
+void UseUserSoundtrack( size_t soundtrack );
 void UseStandardSoundtrack();
 bool UsingUserSoundtrack();
 void SaveSoundtrackToStructure( Script::CStruct *pStuff );

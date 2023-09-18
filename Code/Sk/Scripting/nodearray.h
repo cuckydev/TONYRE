@@ -24,8 +24,8 @@ using namespace Script;
 void InitNodeNameHashTable();
 void ClearNodeNameHashTable();
 void CreateNodeNameHashTable();
-int FindNamedNode(uint32 checksum, bool assert=true);
-int FindNamedNode(const char *p_name);
+short FindNamedNode(uint32 checksum, bool assert=true);
+short FindNamedNode(const char *p_name);
 bool NodeExists(uint32 checksum);
 
 void DeletePrefixInfo();

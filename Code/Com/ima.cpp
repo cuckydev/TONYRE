@@ -72,6 +72,6 @@ namespace IMA
 		else if (ima_step > 0x7FFF)
 			ima_step = 0x7FFF;
 
-		return ima_step;
+		return (signed short)ima_step;
 	}
 }

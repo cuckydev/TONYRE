@@ -3187,8 +3187,8 @@ bool CParkManager::AddGap(CGapManager::GapDescriptor &descriptor)
 		}
 		#endif
 		
-		gap_pos[X] -= MAX_WIDTH * CParkGenerator::CELL_WIDTH / 2.0f;
-		gap_pos[Z] -= MAX_LENGTH * CParkGenerator::CELL_LENGTH / 2.0f;
+		gap_pos[X] -= (float)MAX_WIDTH * CParkGenerator::CELL_WIDTH / 2.0f;
+		gap_pos[Z] -= (float)MAX_LENGTH * CParkGenerator::CELL_LENGTH / 2.0f;
 
 		CClonedPiece *p_gap_piece = mp_generator->CreateGapPiece(gap_pos, gap_length, gap_rot);
 		p_gap_piece->SetScaleX(gap_length / CParkGenerator::CELL_WIDTH);

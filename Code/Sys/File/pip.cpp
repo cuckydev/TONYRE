@@ -332,17 +332,12 @@ void LoadPre(const char *p_preFileName)
 
 	// Reallocate the buffer.
 	char *p_new_file_data = new char[new_pre_buffer_size];
-	memcpy(p_new_file_data + new_pre_buffer_size - old_pre_buffer_size, p_old_file_data, old_pre_buffer_size);
+	memcpy(p_new_file_data + new_pre_buffer_size - old_pre_buffer_size + name_size, p_old_file_data + name_size, old_pre_buffer_size - name_size);
+	memcpy(p_new_file_data, p_old_file_data, name_size);
 
 	// Now update p_old_file_data to point where it should.
 	delete[] p_old_file_data;
 	p_old_file_data = p_new_file_data + new_pre_buffer_size - old_pre_buffer_size;
-
-	// Copy the pre name down.
-	for (int i=0; i<name_size; ++i)
-	{
-		p_new_file_data[i] = p_old_file_data[i];
-	}
 
 	// Write in the new pre header
 	SPreHeader *p_source_header=(SPreHeader*)(p_old_file_data+name_size);

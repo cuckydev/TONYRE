@@ -526,7 +526,7 @@ CParkGenerator::MemUsageInfo CParkGenerator::GetResourceUsageInfo(bool printInfo
 	
 	
 	//printf("p_main_heap->mFreeMem.m_count=%d\np_main_region->MemAvailable()=%d\nmain_padding_size=%d\n",p_main_heap->mFreeMem.m_count,p_main_region->MemAvailable(),main_padding_size);
-	int park_padding_size = GetResourceSize("park_heap_pad");
+	// int park_padding_size = GetResourceSize("park_heap_pad");
 	m_mem_usage_info.mParkHeapUsed = 0;
 	m_mem_usage_info.mParkHeapFree = 0x7FFFFFFF;
 
@@ -1048,7 +1048,7 @@ void CParkGenerator::GenerateOutRailSet(CMapListNode * p_concrete_metapiece_list
 {
 	CleanUpOutRailSet();
 	
-	Mdl::Skate * p_skate_mod =  Mdl::Skate::Instance();
+	// Mdl::Skate * p_skate_mod =  Mdl::Skate::Instance();
 	m_out_rail_set.SetupAllocators(GetResourceSize("out_railpoint_pool"), GetResourceSize("out_railstring_pool"), false);
 
 	// Need to iterate over the pieces here, meaning we'd iterate over the meta pieces

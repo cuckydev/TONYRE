@@ -507,7 +507,7 @@ void PreFile::Close(bool async)
 
 
 
-int PreFile::Seek(long offset, int origin)
+int PreFile::Seek(ptrdiff_t offset, int origin)
 {
 	int32 old_pos = mp_activeFile->m_position;
 
@@ -1161,7 +1161,7 @@ int PreMgr::pre_feof(PreFile::FileHandle *fptr)
 
 
 
-int PreMgr::pre_fseek(PreFile::FileHandle *fptr, long offset, int origin)
+int PreMgr::pre_fseek(PreFile::FileHandle *fptr, ptrdiff_t offset, int origin)
 {
 	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
@@ -1198,7 +1198,7 @@ int PreMgr::pre_ftell(PreFile::FileHandle *fptr)
 }
 
 
-int	PreMgr::pre_get_file_size(PreFile::FileHandle *fptr)
+size_t	PreMgr::pre_get_file_size(PreFile::FileHandle *fptr)
 {
 	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)
@@ -1212,7 +1212,7 @@ int	PreMgr::pre_get_file_size(PreFile::FileHandle *fptr)
 	return 0;
 }
 
-int PreMgr::pre_get_file_position(PreFile::FileHandle *fptr)
+size_t PreMgr::pre_get_file_position(PreFile::FileHandle *fptr)
 {
 	char *pData = sp_mgr->getContainedFileByHandle(fptr);
 	if (pData)

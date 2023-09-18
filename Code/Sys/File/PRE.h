@@ -124,10 +124,10 @@ public:
 	int Eof();
 	void Open(bool async);
 	void Close(bool async);
-	int Seek(long offset, int origin);
+	int Seek(ptrdiff_t offset, int origin);
 	int TellActive( void )				{ if( mp_activeFile ){ return mp_activeFile->m_position; }else{ return 0; }}
-	int GetFileSize( void )				{ if( mp_activeFile ){ return mp_activeFile->m_filesize; }else{ return 0; }}
-	int GetFilePosition( void )			{ if( mp_activeFile ){ return mp_activeFile->m_position; }else{ return 0; }}
+	size_t GetFileSize( void )			{ if( mp_activeFile ){ return mp_activeFile->m_filesize; }else{ return 0; }}
+	size_t GetFilePosition( void )		{ if( mp_activeFile ){ return mp_activeFile->m_position; }else{ return 0; }}
 
 private:
 
@@ -178,11 +178,11 @@ public:
 	static char *				pre_fgets(char *buffer, int maxLen, PreFile::FileHandle *fptr);
 	static int					pre_fputs(const char *buffer, PreFile::FileHandle *fptr);
 	static int					pre_feof(PreFile::FileHandle *fptr);
-	static int					pre_fseek(PreFile::FileHandle *fptr, long offset, int origin);
+	static int					pre_fseek(PreFile::FileHandle *fptr, ptrdiff_t offset, int origin);
 	static int					pre_fflush(PreFile::FileHandle *fptr);
 	static int					pre_ftell(PreFile::FileHandle *fptr);
-	static int					pre_get_file_size(PreFile::FileHandle *fptr);
-	static int					pre_get_file_position(PreFile::FileHandle *fptr);
+	static size_t				pre_get_file_size(PreFile::FileHandle *fptr);
+	static size_t				pre_get_file_position(PreFile::FileHandle *fptr);
 
 private:
 	// Constants

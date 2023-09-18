@@ -342,7 +342,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 		
 		Dbg_MsgAssert(p_array->GetSize() == m_num_contacts, ("Array of directed friction specifications must equal the number of contacts"));
 		
-		for (int n = p_array->GetSize(); n--; )
+		for (size_t n = p_array->GetSize(); n--; )
 		{
 			Script::CStruct* m_struct = p_array->GetStructure(n);
 			if (m_struct->ContainsComponentNamed(Crc::ConstCRC("none")))
@@ -365,7 +365,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 		Mth::Matrix matrix;
 		matrix.SetFromAngles(angles);
 		
-		for (int n = m_num_contacts; n--; )
+		for (size_t n = m_num_contacts; n--; )
 		{
 			mp_contacts[n].p = matrix.Rotate(mp_contacts[n].p);
 		}
@@ -379,7 +379,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 		Mth::Matrix matrix;
 		matrix.SetFromAngles(angles);
 		
-		for (int n = m_num_contacts; n--; )
+		for (size_t n = m_num_contacts; n--; )
 		{
 			mp_contacts[n].p = matrix.Rotate(mp_contacts[n].p);
 		}
@@ -398,7 +398,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 	// if not set (or set to default), calculate the center of mass
 	if (center_of_mass[X] == 0.0f && center_of_mass[Y] == 0.0f && center_of_mass[Z] == 0.0f)
 	{
-		for (int n = m_num_contacts; n--; )
+		for (size_t n = m_num_contacts; n--; )
 		{
 			center_of_mass += mp_contacts[n].p;
 		}
@@ -406,7 +406,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 	}
 	
 	m_model_offset = -center_of_mass;
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		mp_contacts[n].p -= center_of_mass;
 	}
@@ -416,7 +416,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 	{
 		// calculate an appropriate mass over moment adjustment; otherwise, you can get some really weird behavior
 		float max_dist = 0.0f;
-		for (int n = m_num_contacts; n--; )
+		for (size_t n = m_num_contacts; n--; )
 		{
 			max_dist = Mth::Max(max_dist, mp_contacts[n].p.Length());
 		}
@@ -431,7 +431,7 @@ void CRigidBodyComponent::InitFromStructure( Script::CStruct* pParams )
 
 	// determine the largest feeler extent; used with the collision cache system
 	m_largest_contact_extent = 0.0f;
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		SContact& contact = mp_contacts[n];
 
@@ -754,7 +754,7 @@ void CRigidBodyComponent::GetDebugInfo(Script::CStruct *p_info)
 	
 	Script::CArray* p_array = new Script::CArray;
 	p_array->SetSizeAndType(m_num_contacts, ESYMBOLTYPE_VECTOR);
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		Script::CVector* p_vector = new Script::CVector;
 		p_vector->mX = mp_contacts[n].p[X];
@@ -829,7 +829,7 @@ void CRigidBodyComponent::sToggleDrawRigidBodyDebugLines (   )
 
 void CRigidBodyComponent::setup_contact_states (   )
 {
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		sp_contact_states[n].p_world = m_matrix.Rotate(mp_contacts[n].p);
 	}
@@ -1035,7 +1035,7 @@ void CRigidBodyComponent::update_dynamic_state ( float time_step )
 
 	m_orientation.GetMatrix(m_matrix);
 
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		sp_contact_states[n].p_world = m_matrix.Rotate(mp_contacts[n].p);
 	}
@@ -1118,7 +1118,7 @@ bool CRigidBodyComponent::detect_collisions (   )
 
 	// loop over the contact points
 	m_num_collisions = 0;
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		SContactState& contact_state = sp_contact_states[n];
 
@@ -1190,7 +1190,7 @@ void CRigidBodyComponent::resolve_collisions (   )
 		clean_pass = true;
 
 		// loop over the collision points
-		for (int n = m_num_contacts; n--; )
+		for (size_t n = m_num_contacts; n--; )
 		{
 			SContactState& contact_state = sp_contact_states[n];
 			if (!contact_state.collision) continue;
@@ -1258,7 +1258,7 @@ void CRigidBodyComponent::resolve_collisions (   )
 	// we've resolved the collision; now calculate and apply the friction using the cached velocities
 
 	// loop over the collision points
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		SContact& contact = mp_contacts[n];
 		SContactState& contact_state = sp_contact_states[n];
@@ -1334,7 +1334,7 @@ void CRigidBodyComponent::resolve_collisions (   )
 	
 	float time_step = Tmr::FrameLength();
 	
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
 		SContactState& contact_state = sp_contact_states[n];
 		if (!contact_state.collision) continue;
@@ -1657,9 +1657,9 @@ void CRigidBodyComponent::draw_debug_lines (   ) const
 	}
 	
 	// draw debug lines in less pretty yet general manner
-	for (int n = m_num_contacts; n--; )
+	for (size_t n = m_num_contacts; n--; )
 	{
-		for (int m = 0; m < n; m++)
+		for (size_t m = 0; m < n; m++)
 		{
 			Gfx::AddDebugLine(sp_contact_states[n].p_world + m_pos, sp_contact_states[m].p_world + m_pos, color, color, 1);
 		}

@@ -261,10 +261,10 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 		
 		float average_distance = 0.0f;
 		
-		int num_colliders = p_colliders_array->GetSize();
+		size_t num_colliders = p_colliders_array->GetSize();
 		// Dbg_MsgAssert(num_colliders == vVP_NUM_COLLIDERS, ("Number of colliders for CVehicleComponent is incorrect"));
 		
-		for (int collider_idx = num_colliders; collider_idx--; )
+		for (size_t collider_idx = num_colliders; collider_idx--; )
 		{
             SCollider& collider = mp_colliders[collider_idx];
 			
@@ -345,7 +345,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 			m_engine.num_gears = p_engine_gear_ratios_array->GetSize();
 			Dbg_MsgAssert(m_engine.num_gears <= vVP_MAX_NUM_GEARS, ("Number of gears exceeds the maximum allowed number"));
 			
-			for (int n = 0; n < m_engine.num_gears; n++)
+			for (size_t n = 0; n < m_engine.num_gears; n++)
 			{
 				m_engine.p_gear_ratios[n] = p_engine_gear_ratios_array->GetFloat(n);
 				
@@ -374,7 +374,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 			mp_wheels = new SWheel[m_num_wheels];
 		}
 			
-		for (int n = m_num_wheels; n--; )
+		for (size_t n = m_num_wheels; n--; )
 		{
 			Script::CStruct* p_wheel_struct = nullptr;
 			p_wheel_struct = p_wheels_array->GetStructure(n);
@@ -392,7 +392,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 		Script::CStruct* p_wheel_struct;
 		pParams->GetStructure(Crc::ConstCRC("all_wheels"), &p_wheel_struct, Script::ASSERT);
 		
-		for (int n = m_num_wheels; n--; )
+		for (size_t n = m_num_wheels; n--; )
 		{
 			// see update_wheel_from_structure() for documentation on wheel parameters
 			update_wheel_from_structure(mp_wheels[n], p_wheel_struct);
@@ -403,7 +403,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 	
 	// count the number of drive wheels
 	m_num_drive_wheels = 0;
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		if (mp_wheels[n].drive)
 		{
@@ -451,7 +451,7 @@ void CVehicleComponent::InitFromStructure( Script::CStruct* pParams )
 	m_force.Set(0.0f, 0.0f, 0.0f);
 	m_torque.Set(0.0f, 0.0f, 0.0f);
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -567,7 +567,7 @@ void CVehicleComponent::Finalize (   )
 	);
 	
 	// calculate the true wheel positions based on the desired wheel positions with vehicle weight applied
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 	
@@ -606,7 +606,7 @@ void CVehicleComponent::Finalize (   )
 	
 	// calculate the center of mass we will use based on the wheel locations
 	Mth::Vector center_of_mass(0.0f, 0.0f, 0.0f, 0.0f);
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		center_of_mass += mp_wheels[n].pos;
 	}
@@ -615,7 +615,7 @@ void CVehicleComponent::Finalize (   )
 	center_of_mass[W] = 0.0f;
 	
 	// move wheels and colliders so that they are relative to the correct center of mass
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		mp_wheels[n].pos -= center_of_mass;
 	}
@@ -661,7 +661,7 @@ void CVehicleComponent::Update()
 		update_steering_angles();
 		if (m_controls.brake)
 		{
-			for (int n = m_num_wheels; n--; )
+			for (size_t n = m_num_wheels; n--; )
 			{
 				mp_wheels[n].rotvel = 0.0f;
 			}
@@ -717,7 +717,7 @@ void CVehicleComponent::Update()
 		
 		m_force.Set(0.0f, 0.0f, 0.0f);
 		m_torque.Set(0.0f, 0.0f, 0.0f);
-		for (int n = m_num_wheels; n--; )
+		for (size_t n = m_num_wheels; n--; )
 		{
 			mp_wheels[n].rotacc = 0.0f;
 		}
@@ -994,7 +994,7 @@ void CVehicleComponent::GetDebugInfo ( Script::CStruct *p_info )
 	p_engine_info->AddFloat("reverse_torque_ratio", m_engine.reverse_torque_ratio);
 	Script::CArray* p_engine_gear_ratio_info = new Script::CArray;
 	p_engine_gear_ratio_info->SetSizeAndType(m_engine.num_gears, ESYMBOLTYPE_FLOAT);
-	for (int n = m_engine.num_gears; n--; )
+	for (size_t n = m_engine.num_gears; n--; )
 	{
 		p_engine_gear_ratio_info->SetFloat(n, m_engine.p_gear_ratios[n]);
 	}
@@ -1003,7 +1003,7 @@ void CVehicleComponent::GetDebugInfo ( Script::CStruct *p_info )
 	
 	Script::CArray* p_wheels_info = new Script::CArray;
 	p_wheels_info->SetSizeAndType(m_num_wheels, ESYMBOLTYPE_STRUCTURE);
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		Script::CStruct* p_local_info = new Script::CStruct;
@@ -1098,7 +1098,7 @@ void CVehicleComponent::MoveToNode ( Script::CStruct* p_node )
 		avg_ground_offset += mp_wheels[n].y_offset_hang + mp_wheels[n].pos[Y] + vVP_GRAVITATIONAL_ACCELERATION / (m_inv_mass * m_num_wheels * mp_wheels[n].spring);
 		avg_ground_offset -= mp_wheels[n].radius;
 	}
-	avg_ground_offset /= vVP_NUM_WHEELS;
+	avg_ground_offset /= (float)vVP_NUM_WHEELS;
 	
 	// find ground height
 	CFeeler feeler(restart_pos + Mth::Vector(0.0f, 24.0f, 0.0f), restart_pos + Mth::Vector(0.0f, -240.0f, 0.0f));
@@ -1134,7 +1134,7 @@ void CVehicleComponent::MoveToNode ( Script::CStruct* p_node )
 	for (int n = 60; n--; )
 	{
 		// lock wheels each frame
-		for (int w = m_num_wheels; w--; )
+		for (size_t w = m_num_wheels; w--; )
 		{
 			mp_wheels[w].rotvel = 0.0f;
 		}
@@ -1459,7 +1459,7 @@ void CVehicleComponent::update_dynamic_state (   )
 
 void CVehicleComponent::update_wheel_dynamic_state (   )
 {
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -1494,7 +1494,7 @@ void CVehicleComponent::update_dependent_variables (   )
 	update_velocities();
 	
 	// update wheel feeler endpoint positions
-	for	(int n = m_num_wheels; n--; )
+	for	(size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -1597,7 +1597,7 @@ float CVehicleComponent::calculate_friction_coefficient ( SWheel& wheel, float v
 void CVehicleComponent::calculate_friction_coefficients (   )
 {
 	// calculate the wheels' friction coefficients this frame
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -1661,7 +1661,7 @@ void CVehicleComponent::calculate_inverse_moment (   )
 
 int CVehicleComponent::determine_effective_gear ( float wheel_rotvel )
 {
-	int gear = 0;
+	size_t gear = 0;
 	
 	do
 	{
@@ -1669,7 +1669,7 @@ int CVehicleComponent::determine_effective_gear ( float wheel_rotvel )
 		
 		if (engine_rotvel > m_engine.upshift_rotvel)
 		{
-			if (gear < m_engine.num_gears - 1)
+			if (gear + 1 < m_engine.num_gears)
 			{
 				gear++;
 				continue;
@@ -1690,7 +1690,7 @@ void CVehicleComponent::update_collision_cache (   )
 	Mth::CBBox collision_bbox;
 	
 	// add wheel location feelers
-	for	(int n = m_num_wheels; n--; )
+	for	(size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -1727,7 +1727,7 @@ void CVehicleComponent::update_wheel_heights (   )
 	feeler.SetCache(&m_collision_cache);
 	
 	m_num_wheels_in_contact = 0;
-	for	(int n = m_num_wheels; n--; )
+	for	(size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -1793,7 +1793,7 @@ void CVehicleComponent::update_wheel_heights (   )
 	} // END loop over wheels
 	
 	// update the wheels' dependent variables which depend of the wheel heights
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -1861,7 +1861,7 @@ void CVehicleComponent::update_steering_angles (   )
 		left_steering_angle_display = right_steering_angle_display = 0.0f;
 	}
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -1973,7 +1973,7 @@ void CVehicleComponent::accumulate_forces (   )
 			apply_friction_forces();
 			
 			// lock wheels
-			for (int n = m_num_wheels; n--; )
+			for (size_t n = m_num_wheels; n--; )
 			{
 				mp_wheels[n].rotvel = 0.0f;
 				mp_wheels[n].rotacc = 0.0f;
@@ -2018,7 +2018,7 @@ void CVehicleComponent::apply_gravitational_forces (   )
 
 void CVehicleComponent::apply_suspension_forces (   )
 {
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -2057,7 +2057,7 @@ void CVehicleComponent::apply_suspension_forces (   )
 		{
 			wheel.normal_force += wheel.normal_force_history[i];
 		}
-		wheel.normal_force /= vVP_NORMAL_FORCE_HISTORY_LENGTH;
+		wheel.normal_force /= (float)vVP_NORMAL_FORCE_HISTORY_LENGTH;
 	}
 	
 	m_next_normal_force_history_idx = (m_next_normal_force_history_idx + 1) % vVP_NORMAL_FORCE_HISTORY_LENGTH;
@@ -2082,7 +2082,7 @@ void CVehicleComponent::apply_friction_forces (   )
 	
 	// NOTE: because friction is zero at zero slip velocity, hill slippage is an issue
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -2153,7 +2153,7 @@ void CVehicleComponent::apply_drag_forces (   )
 {
 	if (m_controls.throttle || m_controls.reverse || m_controls.brake) return;
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -2188,7 +2188,7 @@ void CVehicleComponent::apply_engine_forces (   )
 	
 	if ((!m_controls.throttle && !m_controls.reverse) || m_controls.brake) return;
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -2233,7 +2233,7 @@ void CVehicleComponent::apply_brake_forces (   )
 {
 	if (!m_controls.brake) return;
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -2264,7 +2264,7 @@ void CVehicleComponent::apply_handbrake_forces ( float application_factor )
 {
 	Dbg_Assert(m_controls.handbrake);
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -2295,7 +2295,7 @@ void CVehicleComponent::apply_spare_brake_forces (   )
 {
 	if (!m_controls.brake) return;
 	
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		SWheel& wheel = mp_wheels[n];
 		
@@ -2998,7 +2998,7 @@ void CVehicleComponent::consider_sleeping (   )
 	m_rotmom.Set();
 	m_force.Set(0.0f, 0.0f, 0.0f);
 	m_torque.Set(0.0f, 0.0f, 0.0f);
-	for (int n = m_num_wheels; n--; )
+	for (size_t n = m_num_wheels; n--; )
 	{
 		mp_wheels[n].rotacc = 0.0f;
 	}
@@ -3267,7 +3267,7 @@ void CVehicleComponent::draw_debug_rendering (   ) const
 {
 	if (m_draw_debug_lines)
 	{
-		for (int n = m_num_wheels; n--; )
+		for (size_t n = m_num_wheels; n--; )
 		{
 			SWheel& wheel = mp_wheels[n];
 			

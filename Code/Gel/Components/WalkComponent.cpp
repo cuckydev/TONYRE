@@ -2309,7 +2309,7 @@ bool CWalkComponent::maybe_jump_low_barrier (   )
 	// we use the lowest hang height as the maximum autojump barrier height
 	float top_feeler_height = s_get_param(Crc::ConstCRC("barrier_jump_highest_barrier"));
 	float feeler_length = 3.0f * s_get_param(Crc::ConstCRC("feeler_length"));
-	float height_increment = (top_feeler_height - s_get_param(Crc::ConstCRC("feeler_height"))) / vNUM_BARRIER_HEIGHT_FEELERS;
+	float height_increment = (top_feeler_height - s_get_param(Crc::ConstCRC("feeler_height"))) / (float)vNUM_BARRIER_HEIGHT_FEELERS;
 	
 	CFeeler feeler;
 	
@@ -3062,7 +3062,7 @@ float CWalkComponent::calculate_desired_speed (   )
 
 Mth::Vector CWalkComponent::calculate_feeler_offset_direction ( int contact )
 {
-	float angle = contact * (2.0f * Mth::PI / vNUM_FEELERS);
+	float angle = contact * (2.0f * Mth::PI / (float)vNUM_FEELERS);
 	float cos_angle = cosf(angle);
 	float sin_angle = sinf(angle);
 

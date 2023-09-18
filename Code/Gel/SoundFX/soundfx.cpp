@@ -1668,8 +1668,7 @@ void CSfxManager::AdjustPitchForDoppler( float *pitch, const Mth::Vector &curren
 		// TT2794: Large movements in the camera are causing pitch glitches, so
 		// it would be better to not change the pitch at all than to try to find
 		// a "good" change.  Garrett
-		return;
-
+		#if 0
 		// Clip so there aren't high pitched schreeches when camera is moved in net games and such:
 		if ( deltaDist < 0.0f )
 		{
@@ -1679,6 +1678,7 @@ void CSfxManager::AdjustPitchForDoppler( float *pitch, const Mth::Vector &curren
 		{
 			deltaDist = Tmr::FrameRatio( ) * cutoff_dist;
 		}
+		#endif
 	}
 	float deltaPitch = SPEED_OF_OUR_SOUND * elapsedTime;
 	Dbg_MsgAssert( deltaPitch,( "Divide by zero." ));

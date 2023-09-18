@@ -2345,10 +2345,10 @@ void CPedLogicComponent::StopSkateActions()
 {
 	// BB - I moved this from script because it was too damn slow!
 	Script::CArray* p_scripts_to_stop = Script::GetArray( Crc::ConstCRC( "ped_skater_action_scripts" ), Script::ASSERT );
-	int array_size = p_scripts_to_stop->GetSize();
+	size_t array_size = p_scripts_to_stop->GetSize();
 	Obj::CObject* p_object = (Obj::CObject*)GetObj();
 	
-	for ( int i = 0; i < array_size; i++ )
+	for (size_t i = 0; i < array_size; i++)
 	{
 		uint32 script_to_stop = p_scripts_to_stop->GetChecksum( i );
 		Script::StopScriptsUsingThisObject_Proper( p_object, script_to_stop );

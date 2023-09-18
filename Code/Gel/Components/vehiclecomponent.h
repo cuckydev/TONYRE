@@ -83,7 +83,7 @@ class CVehicleComponent : public CBaseComponent
 		float drive_torque;
 		float drag_torque;
 		
-		int num_gears;
+		size_t num_gears;
 		
 		float p_gear_ratios[vVP_MAX_NUM_GEARS];
 		
@@ -479,10 +479,10 @@ private:
 	bool m_vert_correction;
 
 	// number of wheels
-	unsigned int m_num_wheels;
+	size_t m_num_wheels;
 	
 	// number of drive wheels; engine torque is divided between this number of wheels
-	unsigned int m_num_drive_wheels;
+	size_t m_num_drive_wheels;
 	
 	// maximum steering angle
 	float m_max_steering_angle;

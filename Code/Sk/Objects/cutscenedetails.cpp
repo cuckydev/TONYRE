@@ -4295,7 +4295,7 @@ void CCutsceneData::update_video_playback( Gfx::Camera* pCamera, Script::CStruct
 
 	m_currentTime = Script::GetFloat( "cutscene_test_time" ) + cutscene_test_time_offset;//(float)( Tmr::GetVblanks() - m_initialVBlanks ) / Config::FPS();
 #else
-	m_currentTime = (float)( Tmr::GetTime() - m_startTime) / Tmr::vRESOLUTION;
+	m_currentTime = (float)( Tmr::GetTime() - m_startTime) / (float)Tmr::vRESOLUTION;
 #endif
 
 	// if the CUT file is really small, then chances are

@@ -141,7 +141,7 @@ namespace Lst
 		//Ryan("Creating HashTable");
 
 		m_numBits = numBits;
-		mp_hash_table = new HashItem<_V>[1 << m_numBits];
+		mp_hash_table = new HashItem<_V>[1ULL << m_numBits];
 		m_size = 0;
 		m_allowDuplicateKeys = false;
 	}

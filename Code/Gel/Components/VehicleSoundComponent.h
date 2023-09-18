@@ -71,7 +71,7 @@ private:
 	uint32							m_engine_sound_checksum;
 	uint32							m_tire_sound_checksum;
 	
-	int								m_num_gears;
+	size_t							m_num_gears;
 	struct SGear
 	{
 		float						upshift_point;
@@ -81,7 +81,7 @@ private:
 	}								m_gears[vVS_MAX_NUM_GEARS];
 	
 	float							m_effective_speed;
-	int								m_effective_gear;
+	size_t							m_effective_gear;
 	float							m_effective_engine_rpm;
 	Tmr::Time						m_gear_shift_time_stamp;
 	Tmr::Time						m_airborne_time_stamp;

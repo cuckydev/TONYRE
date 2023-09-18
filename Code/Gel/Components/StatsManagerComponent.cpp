@@ -168,11 +168,11 @@ void CStatsManagerComponent::InitFromStructure( Script::CStruct* pParams )
     Script::CArray* p_array = Script::GetArray( "stats_goals", Script::ASSERT );
     Dbg_MsgAssert( p_array->GetType() == ESYMBOLTYPE_STRUCTURE, ( "This function only works on arrays of structures." ) );
 
-    int array_size = p_array->GetSize();
+    size_t array_size = p_array->GetSize();
     Script::CStruct* p_struct = nullptr;
     
     //for( int index = 0; index < NUM_STATS_GOALS; index++)
-    for ( int index = 0; index < array_size; index++ )
+    for (size_t index = 0; index < array_size; index++ )
     {
         p_struct = p_array->GetStructure( index );
         if ( p_struct->ContainsComponentNamed( "goaltype" ) )

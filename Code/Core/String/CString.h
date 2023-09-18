@@ -66,14 +66,14 @@ public:
 	bool		operator!();
 
     const char*	getString() const;
-	void		copy(const char *pChar, int first_char, int last_char);
+	void		copy(const char *pChar, size_t first_char, size_t last_char);
     
 	int			m_dumbNum;
 	static int 	sDumbCount;
 
 private:
     char*		mp_string;
-    int			m_length;
+    size_t		m_length;
 
 
     static const int s_max_size;

@@ -277,13 +277,13 @@ void CVehicleSoundComponent::update_engine_sounds (   )
 		{
 			m_effective_gear++;
 			m_gear_shift_time_stamp = Tmr::GetTime();
-			DEBUG_ENGINE(("upshift to gear: %i", m_effective_gear));
+			DEBUG_ENGINE(("upshift to gear: %zd", m_effective_gear));
 		}
 		else if (m_effective_gear > 0 && m_effective_speed < m_gears[m_effective_gear].downshift_point)
 		{
 			m_effective_gear--;
 			m_gear_shift_time_stamp = Tmr::GetTime();
-			DEBUG_ENGINE(("downshift to gear: %i", m_effective_gear));
+			DEBUG_ENGINE(("downshift to gear: %zd", m_effective_gear));
 		}
 	}
 	else if (mp_vehicle_component->m_air_time > get_global_param(Crc::ConstCRC("engine_airborne_delay")))
@@ -291,7 +291,7 @@ void CVehicleSoundComponent::update_engine_sounds (   )
 		// when airborne, drop to lowest gear and use no gear shift velocity damping
 		m_effective_gear = 0;
 	}
-	DEBUG_ENGINE(("gear: %i", m_effective_gear + 1));
+	DEBUG_ENGINE(("gear: %zd", m_effective_gear + 1));
 	
 	// calculate a volume adjustment based on the time since the last gear shift
 	float gear_shift_vol_factor = Mth::ClampMax(
@@ -493,7 +493,7 @@ void CVehicleSoundComponent::fetch_script_parameters (   )
 	
 	m_num_gears = gear_array->GetSize();
 	Dbg_MsgAssert(m_num_gears <= vVS_MAX_NUM_GEARS, ("PlayerVehicleSound '%s' exceeds the maximum number of %i allowed gears", Script::FindChecksumName(mp_vehicle_component->GetSoundSetupChecksum()), vVS_MAX_NUM_GEARS));
-	for (int n = 0; n < m_num_gears; n++)
+	for (size_t n = 0; n < m_num_gears; n++)
 	{
 		Script::CStruct* gear_struct = gear_array->GetStructure(n);
 		

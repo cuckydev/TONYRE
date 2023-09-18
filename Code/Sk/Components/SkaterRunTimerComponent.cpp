@@ -207,7 +207,7 @@ void CSkaterRunTimerComponent::unpause (   )
 	
 	if (m_unpause_count < vRT_NUM_TIME_CHUNKS)
 	{
-		float max_timer = (vRT_NUM_TIME_CHUNKS - m_unpause_count) * GetSkater()->GetScriptedStat(Crc::ConstCRC( "Physics_RunTimer_Duration")) / vRT_NUM_TIME_CHUNKS;
+		float max_timer = (vRT_NUM_TIME_CHUNKS - m_unpause_count) * GetSkater()->GetScriptedStat(Crc::ConstCRC( "Physics_RunTimer_Duration")) / (float)vRT_NUM_TIME_CHUNKS;
 		m_timer = Mth::Min(m_timer, max_timer);
 	}
 	

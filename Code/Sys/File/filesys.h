@@ -58,8 +58,8 @@ namespace File
 
 void InstallFileSystem( void );
 void UninstallFileSystem( void );
-long GetFileSize(void *pFP);
-long GetFilePosition(void *pFP);
+size_t GetFileSize(void *pFP);
+size_t GetFilePosition(void *pFP);
 float GetPercentageRead(void *pFP);
 void InitQuickFileSystem( void );
 void ResetQuickFileSystem( void );
@@ -84,8 +84,8 @@ size_t Write( const void *addr, size_t size, size_t count, void *pFP );
 char * GetS( char *buffer, int maxlen, void *pFP );
 int    PutS( const char *buffer, void *pFP );
 int    Eof( void *pFP );
-int    Seek( void *pFP, long offset, int origin );
-int	   Tell( void* pFP );
+int    Seek( void *pFP, ptrdiff_t offset, int origin );
+size_t Tell( void* pFP );
 int    Flush( void *pFP );
 
 

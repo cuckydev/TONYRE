@@ -1614,7 +1614,7 @@ ServerInfo::~ServerInfo( void )
 
 void	ServerInfo::AddPlayer( char* name, int rating )
 {   
-	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
+	// GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	PlayerInfo* player;
 
 	player = new PlayerInfo( 0 );

@@ -1098,7 +1098,7 @@ void CAnimationComponent::PlayPrimarySequence( uint32 animName, bool propagate, 
 			Net::MsgDesc msg_desc;
 			char msg[ Net::Manager::vMAX_PACKET_SIZE ];
 			char* stream;
-			int size;
+			size_t size;
 			Net::Client* client;
                     
 			client = gamenet_man->GetClient( player->GetSkaterNumber());
@@ -1129,7 +1129,7 @@ void CAnimationComponent::PlayPrimarySequence( uint32 animName, bool propagate, 
 			memcpy( stream, &anim_msg.m_Speed, sizeof( unsigned short ));
 			stream += sizeof( unsigned short );
 
-			size = (unsigned int) stream - (unsigned int) msg;
+			size = (uintptr_t)stream - (uintptr_t)msg;
             
 			msg_desc.m_Data = msg;
 			msg_desc.m_Length = (unsigned short)size;
