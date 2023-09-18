@@ -59,7 +59,7 @@ namespace Nx
 				case SDL_QUIT:
 					// Mlp::Manager *mlp_manager = Mlp::Manager::Instance();
 					// mlp_manager->QuitLoop();
-					_exit(0);
+					exit(0);
 					break;
 				case SDL_WINDOWEVENT:
 					switch (event.window.event)

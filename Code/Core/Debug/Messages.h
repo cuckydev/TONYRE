@@ -84,10 +84,10 @@ extern	OutputCode			default_print;
 
 void	set_output( OutputCode* handler = default_print );
 void	level_mask( Flags< Mask > mask );
-void	message( char* text, ...);
-void	notify ( char* text, ...);
-void	warning( char* text, ...);
-void	error  ( char* text, ...);
+void	message( const char* text, ...);
+void	notify ( const char* text, ...);
+void	warning( const char* text, ...);
+void	error  ( const char* text, ...);
 
 /*****************************************************************************
 **							  Public Declarations							**
@@ -142,7 +142,6 @@ inline void Dbg_Error( const char* A ... )		{ (void)A; };
 
 #else
 
-#if ( defined ( __PLAT_XBOX__ ) || defined ( __PLAT_WN32__ ))
 inline void Dbg_SetOutput( const char* A ... )	{};
 #define	Dbg_LevelMask(A)
 inline void Dbg_Printf( const char* A ... )		{};
@@ -150,15 +149,6 @@ inline void Dbg_Message( const char* A ... )	{};
 inline void Dbg_Notify( const char* A ... )		{};
 inline void Dbg_Warning( const char* A ... )	{};
 inline void Dbg_Error( const char* A ... )		{};
-#else
-#define	Dbg_SetOutput(A...)
-#define	Dbg_LevelMask(A)
-#define Dbg_Printf(A...)
-#define Dbg_Message(A...)
-#define Dbg_Notify(A...)
-#define Dbg_Warning(A...)
-#define Dbg_Error(A...)
-#endif
 
 #endif	// __NOPT_MESSAGES__
 

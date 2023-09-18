@@ -29,6 +29,8 @@
 #include <Sk/Engine/feeler.h>
 #include <Gel/objtrack.h>
 
+#include <Com/strcmpi.h>
+
 //#define SIZE_TEST
 
 namespace Obj
@@ -2043,7 +2045,7 @@ CEditGoal *CGoalEditorComponent::find_goal(const char *p_name)
 	{
 		if (mp_goals[i].Used() && 
 			mp_goals[i].GetLevel()==current_level && 
-			_stricmp(mp_goals[i].GetGoalName(),p_name)==0)
+			Com::strcmpi(mp_goals[i].GetGoalName(),p_name)==0)
 		{
 			return &mp_goals[i];
 		}

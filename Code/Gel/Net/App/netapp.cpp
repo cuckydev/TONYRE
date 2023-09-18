@@ -281,20 +281,13 @@ bool App::bind_app_socket( int address, unsigned short port )
 	result = bind( m_socket, (struct sockaddr *)&host_address, sizeof(host_address));
 	if( result < 0 )// == SOCKET_ERROR )
 	{
-#ifdef WIN32
+#ifdef __PLAT_WN32__
 		int err = WSAGetLastError();
-		if( err == WSAEADDRINUSE )  
-#else
-#ifdef __PLAT_NGPS__
-		int err = sn_errno( m_socket );
-		if( err == EADDRINUSE )
-#else
-#ifdef __PLAT_NGC__
-		if( result == SO_EADDRINUSE )
+		if( err == WSAEADDRINUSE ) 
 #endif
+#ifdef __PLAT_LINUX__
+		if (errno == EADDRINUSE)
 #endif
-#endif
-
 		{
 			ReportError();
 			host_address.sin_port = htons( 0 );

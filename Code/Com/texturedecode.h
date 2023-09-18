@@ -2,6 +2,8 @@
 
 #include <Core/Defines.h>
 
+#include <cstddef>
+
 namespace TextureDecode
 {
 	// Texture decoding

@@ -122,7 +122,7 @@ add_library(TonyRE.Wn32 STATIC
 
 	"Code/Plat/Sys/p_timer.cpp"
 )
-target_link_libraries(TonyRE.Wn32 PUBLIC TonyRE.Common)
+target_link_libraries(TonyRE.Wn32 PUBLIC TonyRE.Code TonyRE.Common)
 target_include_directories(TonyRE.Wn32 PUBLIC "Code")
 
 if(WIN32)
@@ -132,7 +132,6 @@ if(WIN32)
 	# Link libraries
 	target_link_libraries(TonyRE.Wn32 PUBLIC Ws2_32 SDL2-static glad glm)
 endif()
-
 
 if (UNIX)
 	# Set platform defines

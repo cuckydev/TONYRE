@@ -149,6 +149,8 @@
 
 #include <Sk/language.h>
 
+#include <Com/strcmpi.h>
+
 bool DumpFunctionTimesTrigger=false;
 
 namespace Script
@@ -863,7 +865,7 @@ bool ScriptArrayContains(Script::CStruct *pParams, Script::CScript *pScript)
 				pParams->GetText( "contains", &pDesiredString, true );
 				// Changed to use stricmp instead of GenerateCRC because GenerateCRC sees \ and / as
 				// being the same character.
-				if (_stricmp(pDesiredString, pArray->GetString( i )) == 0)
+				if (Com::strcmpi(pDesiredString, pArray->GetString( i )) == 0)
 					return true;
 				break;
 			}
@@ -5509,7 +5511,7 @@ bool ScriptLoadScene(Script::CStruct *pParams, Script::CScript *pScript)
 	#ifdef	__NOPT_ASSERT__
 	const char *p_fallback = "nj_sky";
 	// Some debug code to load the NJ sky if default_sky does not exists
-	if (_stricmp(texture_dict_name,"levels\\default_sky\\default_sky.tex")==0)
+	if (Com::strcmpi(texture_dict_name,"levels\\default_sky\\default_sky.tex")==0)
 	{
 		printf ("TRYING TO LAOD DEFUALT SKY\n");
 		printf ("TRYING TO LAOD DEFUALT SKY\n");
@@ -11548,7 +11550,7 @@ bool ScriptSendChatMessage(Script::CStruct *pParams, Script::CScript *pScript)
 #if ( ENGLISH == 0 )
 	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( stricmp( p_string, Script::GetLocalString( "kc_str_empty" ) ) ) )
 #else
-	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( _stricmp( p_string, "--EMPTY--" ) ) )
+	if ( ( p_string != nullptr ) && ( strlen( p_string ) > 0 ) && ( Com::strcmpi( p_string, "--EMPTY--" ) ) )
 #endif
 	{
 		 GameNet::Manager * gamenet_man =  GameNet::Manager::Instance();
@@ -11847,19 +11849,7 @@ bool	ScriptTryCheatString(  Script::CStruct *pParams, Script::CScript *pScript )
 	printf ("\n{c1=%d c2=%d CheatScript=cheat_xxx },  ; %s\n\n",check2, check3,p); 
 	// then search through the cheat array to see if we have a match
 
-
-	#ifdef	__PLAT_XBOX__				 	
-	Script::CArray *pCheatArray = Script::GetArray( "Cheat_Array_Xbox" );
-	#endif
-	#ifdef	__PLAT_NGC__				 	
-	Script::CArray *pCheatArray = Script::GetArray( "Cheat_Array_Gamecube" );
-	#endif
-	#ifdef	__PLAT_NGPS__				 	
-	Script::CArray *pCheatArray = Script::GetArray( "Cheat_Array_PS2" );
-	#endif
-	#ifdef	__PLAT_WN32__
 	Script::CArray *pCheatArray = Script::GetArray("Cheat_Array_Xbox");
-	#endif
 	
 	Dbg_MsgAssert( pCheatArray,( "No Cheat_Array found" ));
 	int cheats = pCheatArray->GetSize();

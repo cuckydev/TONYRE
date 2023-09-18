@@ -23,14 +23,14 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <windows.h>
-#include <mmsystem.h>
 #include <time.h>
 #include <Sys/timer.h>
 #include <Sys/Profiler.h>
 #include <Sys/Config/config.h>
 
 #include <Plat/Gfx/nx/nx_init.h>
+
+#include <chrono>
 
 /*****************************************************************************
 **							  DBG Information								**
@@ -105,6 +105,10 @@ Manager::~Manager ( void )
 
 static double GetDoubleTime(void)
 {
+	const auto current = std::chrono::steady_clock::now().time_since_epoch();
+	double seconds = std::chrono::duration<double>(current).count();
+	return seconds;
+	/*
 	static LARGE_INTEGER freq;
 	static bool first = true;
 	if (first)
@@ -115,6 +119,7 @@ static double GetDoubleTime(void)
 	LARGE_INTEGER now;
 	QueryPerformanceCounter(&now);
 	return (double)now.QuadPart / (double)freq.QuadPart;
+	*/
 }
  
 void Init(void)

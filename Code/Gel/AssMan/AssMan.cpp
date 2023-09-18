@@ -49,6 +49,8 @@
 #include <Gel/Scripting/struct.h>
 #include <Gel/Scripting/symboltable.h>
 
+#include <Com/strcmpi.h>
+
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/
@@ -144,7 +146,7 @@ EAssetType CAssMan::FindAssetType( const char *p_assetName )
 	while ( p_lookup->p_extension != nullptr )
 	{
 		// note, ignoring case
-		if ( _strcmpi( p_lookup->p_extension, p_ext ) == 0 )	
+		if (Com::strcmpi(p_lookup->p_extension, p_ext) == 0)	
 		{
 			return p_lookup->type;
 		}

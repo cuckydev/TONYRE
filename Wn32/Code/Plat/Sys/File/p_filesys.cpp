@@ -11,7 +11,12 @@
 
 // #include <Gfx/xbox/nx/nx_init.h>
 
+#ifdef __PLAT_WN32__
 #include <Windows.h>
+#endif
+#ifdef __PLAT_LINUX__
+#include <unistd.h>
+#endif
 
 #include <fstream>
 
@@ -33,7 +38,8 @@ namespace File
 	// Return module path
 	static std::filesystem::path GetModulePath()
 	{
-		// Get module namethe
+#if defined(__PLAT_WN32__)
+		// Get module name
 		std::basic_string<WCHAR> module_name(MAX_PATH, '\0');
 
 		while (1)
@@ -54,6 +60,29 @@ namespace File
 		std::filesystem::path module_path(module_name);
 		module_path.remove_filename();
 		return module_path;
+#elif defined(__PLAT_LINUX__)
+		// Get proc/self/exe name
+		std::basic_string<char> module_name(0x100, '\0');
+
+		while (1)
+		{
+			ssize_t decceded = readlink("proc/self/exe", module_name.data(), module_name.size());
+			if (decceded < module_name.size())
+			{
+				module_name.resize(decceded);
+				break;
+			}
+			else
+			{
+				module_name.resize(module_name.size() * 2);
+			}
+		}
+
+		// Remove filename
+		std::filesystem::path module_path(module_name);
+		module_path.remove_filename();
+		return module_path;
+#endif
 	}
 
 	std::filesystem::path ModulePath()

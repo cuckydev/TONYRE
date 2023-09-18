@@ -43,7 +43,19 @@
 
 #ifdef __PLAT_WN32__
 #include <winsock2.h>
-#endif // __PLAT_WN32__
+#else
+#include <unistd.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
+typedef int SOCKET;
+
+#define closesocket close
+#define ioctlsocket ioctl
+#endif
 
 #ifdef __PLAT_XBOX__
 #include <xtl.h>

@@ -50,6 +50,8 @@
 #include <Sk/GameNet/ngps/p_buddy.h>
 #endif
 
+#include <Com/strcmpi.h>
+
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/
@@ -1459,7 +1461,7 @@ bool		Manager::ServerAlreadyInList( char* name, int ip )
 	for( server = sh.FirstItem( m_servers ); server; server = sh.NextItem())
 	{
 		if(	( server->m_Ip == ip ) &&
-			( _stricmp( server->m_Name, name ) == 0 ))
+			( Com::strcmpi( server->m_Name, name ) == 0 ))
 		{
 			return true;
 		}
@@ -1468,7 +1470,7 @@ bool		Manager::ServerAlreadyInList( char* name, int ip )
 	for( server = sh.FirstItem( m_temp_servers ); server; server = sh.NextItem())
 	{
 		if(	( server->m_Ip == ip ) &&
-			( _stricmp( server->m_Name, name ) == 0 ))
+			( Com::strcmpi( server->m_Name, name ) == 0 ))
 		{
 			return true;
 		}

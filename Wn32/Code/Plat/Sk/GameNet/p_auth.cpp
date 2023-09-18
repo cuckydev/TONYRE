@@ -129,10 +129,10 @@ static DWORD	s_get_mem_unit_mask( DWORD i )
 
 int		AuthMan::gather_user_list( void )
 {
+#	if 0
     // Get accounts stored on the hard disk
     DWORD num_users = 0;
 
-#	if 0
 	// On input, the list must have room for XONLINE_MAX_STORED_ONLINE_USERS
     // accounts
     XONLINE_USER user_list[ XONLINE_MAX_STORED_ONLINE_USERS ];
@@ -149,9 +149,10 @@ int		AuthMan::gather_user_list( void )
             m_user_list.Add( new_user );
 		}
     }
-#	endif
 
 	return num_users;
+#	endif
+	return 0;
 }
 
 /******************************************************************/
@@ -442,7 +443,7 @@ void	AuthMan::SelectAccount( int index )
 /*                                                                */
 /******************************************************************/
 
-void	AuthMan::PinAttempt( BYTE* pin )
+void	AuthMan::PinAttempt( unsigned char* pin )
 {	
 	(void)pin;
 #	if 0
@@ -703,7 +704,7 @@ void	PinEntry::EndInput( void )
 /*                                                                */
 /******************************************************************/
 
-BYTE*	PinEntry::GetPin( void )
+unsigned char*	PinEntry::GetPin( void )
 {
 //	return m_pin;
 	return nullptr;

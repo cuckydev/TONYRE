@@ -39,6 +39,7 @@
 #include <Sk/Scripting/cfuncs.h>
 #include <Sk/Scripting/skfuncs.h>
 
+#include <Com/strcmpi.h>
 
 namespace Front
 {
@@ -1992,7 +1993,7 @@ bool CGoal::HasProset( const char* proset_prefix )
     const char* p_local_proset;
     if ( mp_params->GetString( Crc::ConstCRC("proset_prefix"), &p_local_proset, Script::NO_ASSERT ) )
     {
-        if ( _stricmp( p_local_proset, proset_prefix ) == 0 )
+        if ( Com::strcmpi( p_local_proset, proset_prefix ) == 0 )
             return true;
     }
     return false;

@@ -3659,7 +3659,7 @@ bool ScriptLoadFromMemoryCard(Script::CStruct *pParams, Script::CScript *pScript
 	(void)pParams;
 	(void)pScript;
 
-	#ifndef __PLAT_WN32__
+	#if 0
 	Dbg_MsgAssert(!Config::Bootstrap(),("Can't use memory card from bootstrap demo"));
 
 	if ( Config::GetHardware() != Config::HARDWARE_XBOX)
@@ -4190,7 +4190,7 @@ bool ScriptGetMemCardDirectoryListing(Script::CStruct *pParams, Script::CScript 
 	(void)pParams;
 	(void)pScript;
 
-	#ifndef __PLAT_WN32__
+	#if 0
 	pScript->GetParams()->RemoveComponent("DirectoryListing");
 	pScript->GetParams()->RemoveComponent("FilesLimitReached");
 	pScript->GetParams()->RemoveComponent("TotalTHPS4FilesOnCard");
@@ -4659,7 +4659,7 @@ bool ScriptCreateTemporaryMemCardPools(Script::CStruct *pParams, Script::CScript
 	(void)pParams;
 	(void)pScript;
 
-	#ifndef __PLAT_WN32__
+	#if 0
 	// If the pools exist already, do nothing.
 	CComponent::SSwitchToNextPool();
 	if (CComponent::SPoolExists())
@@ -4740,7 +4740,7 @@ bool ScriptRemoveTemporaryMemCardPools(Script::CStruct *pParams, Script::CScript
 	(void)pParams;
 	(void)pScript;
 
-	#ifndef __PLAT_WN32__
+	#if 0
 	Dbg_MsgAssert(CComponent::SGetCurrentPoolIndex()==0,("Bad current CComponent pool"));
 	CComponent::SSwitchToNextPool();
 	CComponent::SRemovePool(); // Does nothing if the pool does not exist.

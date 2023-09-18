@@ -99,6 +99,7 @@
 
 #include <Sk/Objects/skater.h>		   // we do various things with the skater, network play related
 
+#include <Com/strcmpi.h>
 
 /*****************************************************************************
 **								DBG Information								**
@@ -4759,18 +4760,7 @@ void	Manager::UsePreferences( void )
 	}
 
 	// Override IP settings with the viewer_ip script variable, used to launch a server for real-time communication
-#ifdef __PLAT_XBOX__
-	const char* viewer_ip = Script::GetString( "xbox_viewer_ip" );
-#endif
-#ifdef __PLAT_NGPS__
-	const char* viewer_ip = Script::GetString( "viewer_ip" );
-#endif
-#ifdef __PLAT_NGC__
-	const char* viewer_ip = Script::GetString( "ngc_viewer_ip" );
-#endif
-#ifdef __PLAT_WN32__
 	const char *viewer_ip = Script::GetString("viewer_ip");
-#endif
 	const char* viewer_gateway = Script::GetString( "viewer_gateway" );
 	if( viewer_ip && !*viewer_ip )
 	{
@@ -7543,7 +7533,7 @@ bool Manager::ScriptCreatePlayerOptions(Script::CScriptStructure *pParams, Scrip
 	{
 		if( index == 0 )
 		{
-			if( _stricmp( player->m_Name, name ) == 0 )
+			if( Com::strcmpi( player->m_Name, name ) == 0 )
 			{
 				player->m_flags.SetMask( PlayerInfo::mMARKED_PLAYER );
 
@@ -7694,7 +7684,7 @@ bool Manager::ScriptRemovePlayer(Script::CScriptStructure *pParams, Script::CScr
 	{
 		if( index == 0 )
 		{
-			if( _stricmp( player->m_Name, name ) == 0 )
+			if( Com::strcmpi( player->m_Name, name ) == 0 )
 			{
 				player->m_flags.SetMask( PlayerInfo::mMARKED_PLAYER );
 

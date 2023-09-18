@@ -38,7 +38,7 @@ namespace GameNet
 {
 
 // Number of services to authenticate
-const DWORD vNUM_SERVICES = 2;						
+const int vNUM_SERVICES = 2;						
 //typedef std::vector< XONLINE_USER > XBUserList;
 //typedef std::vector< XONLINE_SERVICE_INFO > ServiceInfoList;
 

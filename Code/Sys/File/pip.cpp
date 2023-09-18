@@ -32,6 +32,8 @@
 
 #include <cstring>
 
+#include <Com/strcmpi.h>
+
 namespace Pip
 {
 
@@ -182,7 +184,7 @@ void LoadPre(const char *p_preFileName)
 		if (spp_pre_files[i])
 		{
 			// Do a case-insensitive comparison.
-			if (_stricmp(spp_pre_files[i], p_preFileName)==0)
+			if (Com::strcmpi(spp_pre_files[i], p_preFileName)==0)
 			{
 				// Found it! Nothing to do.
 				return;
@@ -436,7 +438,7 @@ bool UnloadPre(const char *p_preFileName)
 		if (spp_pre_files[i])
 		{
 			// Do a case-insensitive comparison.
-			if (_stricmp(spp_pre_files[i],p_preFileName)==0)
+			if (Com::strcmpi(spp_pre_files[i],p_preFileName)==0)
 			{
 				// Found it!
 
@@ -734,7 +736,7 @@ const char *GetNextLoadedPre(const char *p_pre_name)
 				return spp_pre_files[i];
 			}
 			// Do a case-insensitive comparison.
-			if (_stricmp(spp_pre_files[i],p_pre_name)==0)
+			if (Com::strcmpi(spp_pre_files[i],p_pre_name)==0)
 			{
 				found=true;
 			}
@@ -753,7 +755,7 @@ bool PreFileIsInUse(const char *p_pre_name)
 		if (spp_pre_files[i])
 		{
 			// Do a case-insensitive comparison.
-			if (_stricmp(spp_pre_files[i],p_pre_name)==0)
+			if (Com::strcmpi(spp_pre_files[i],p_pre_name)==0)
 			{
 				// Found it!
 

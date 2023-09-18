@@ -35,6 +35,8 @@
 #include <Sk/Components/SkaterStateComponent.h>
 #include <Sk/Components/SkaterRunTimerComponent.h>
 
+#include <Com/strcmpi.h>
+
 namespace Obj
 {
 
@@ -2885,7 +2887,7 @@ bool CTrickComponent::IsExcluded(Script::CStruct *pTrick, const char *pIgnoreNam
 			Dbg_MsgAssert(pIgnoreName,("nullptr pIgnoreName"));
 			// Compare pName and pIgnoreName.
 			// If they match, return true so that the trick gets excluded.
-			if (_stricmp(pName,pIgnoreName)==0)
+			if (Com::strcmpi(pName,pIgnoreName)==0)
 			{
 				return true;
 			}	

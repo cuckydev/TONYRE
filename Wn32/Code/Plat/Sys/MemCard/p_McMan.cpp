@@ -22,7 +22,6 @@
 **							  	  Includes									**
 *****************************************************************************/
 
-#include <Windows.h>
 #include <Core/Defines.h>
 #include <Core/singleton.h>
 
@@ -667,6 +666,7 @@ bool Card::MountFailedDueToCardUnformatted()
 /******************************************************************/
 int	Card::GetNumFreeClusters( void )
 {
+	/*
 	if( m_mounted_drive_letter )
 	{
 		char p_drive[20];
@@ -687,6 +687,7 @@ int	Card::GetNumFreeClusters( void )
 			return 0;
 		}
 	}
+	*/
 	return 0;
 }
 
@@ -735,6 +736,7 @@ bool Card::Rename( const char* old_name, const char* new_name )
 /******************************************************************/
 File* Card::Open( const char* filename, int mode, int size )
 {
+	/*
 	(void)filename;
 	(void)mode;
 	(void)size;
@@ -839,7 +841,7 @@ File* Card::Open( const char* filename, int mode, int size )
 			m_last_error=vINSUFFICIENT_SPACE;
 		}
 	}	
-
+	*/
 	return nullptr;
 }
 
@@ -915,6 +917,7 @@ File::~File()
 
 int File::Seek( int offset, FilePointerBase base )
 {
+	/*
 	Dbg_Assert( m_fd != 0 );
 
 	DWORD dwMoveMethod;
@@ -941,8 +944,9 @@ int File::Seek( int offset, FilePointerBase base )
 									offset,				// bytes to move pointer
 									nullptr,				// high-order bytes to move pointer
 									dwMoveMethod );		// starting point
-
 	return result;
+	*/
+	return 0;
 }
 
 /******************************************************************/
@@ -954,7 +958,7 @@ bool File::Flush( void )
 {
 	Dbg_Assert( m_fd != 0 );
 
-	FlushFileBuffers((HANDLE)m_fd );
+	// FlushFileBuffers((HANDLE)m_fd );
 
 	// The FlushFileBuffers() is pretty strict about what types of files wmay be flushed,
 	// whereas the PS2 equivalent doesn't really care. Just return a positive response always,
@@ -971,6 +975,7 @@ int	File::Write( void* buffer, int len )
 {
 	Dbg_Assert( m_fd != 0 );
 
+	/*
 //	Skate3 code, disabled for now.
 #	if 0
 	m_not_enough_space_to_write_file=false;
@@ -999,7 +1004,7 @@ int	File::Write( void* buffer, int len )
 	{
 		return (int)bytes_written;
 	}
-
+	*/
 	return 0;
 }
 
@@ -1014,6 +1019,7 @@ int	File::Read( void* buff, int len )
 {
 	Dbg_Assert( m_fd != 0 );
 
+	/*
 	DWORD bytes_read;
 	BOOL rv = ReadFile(	(HANDLE)m_fd,			// handle to file
 						buff,					// data buffer
@@ -1024,7 +1030,7 @@ int	File::Read( void* buff, int len )
 	{
 		return (int)bytes_read;
 	}
-
+	*/
 	return 0;
 }
 
@@ -1039,7 +1045,7 @@ bool File::Close( void )
 {
 	Dbg_Assert( m_fd != 0 );
 
-	return CloseHandle((HANDLE)m_fd );
+	return false; // return CloseHandle((HANDLE)m_fd );
 }
 
 /******************************************************************/

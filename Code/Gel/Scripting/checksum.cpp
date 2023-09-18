@@ -14,10 +14,12 @@
 #endif
 
 #include <Gel/Scripting/checksum.h>
-#include <string.h>	// For stricmp
+#include <string.h>
 #include <Core/crc.h>
 #include <Sys/Config/config.h>
 #include <Gel/Scripting/debugger.h>
+
+#include <Com/strcmpi.h>
 
 // These are only referenced in the Playstation version.
 // They are set in NGPS.lk
@@ -169,7 +171,7 @@ void AddChecksumName(uint32 checksum, const char *p_name)
 		if (p_first->mChecksum==checksum)
 		{
 			// It does! Check whether it is the same name.
-			if (_stricmp(p_first->mpName,p_name)==0)
+			if (Com::strcmpi(p_first->mpName,p_name)==0)
 			{
 				// Phew, the name matches. No need to do anything.
 				return;

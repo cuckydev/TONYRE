@@ -44,7 +44,7 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 	target_compile_options(TonyRE.Common INTERFACE /W4) # /WX)
 	# target_link_options(TonyRE.Common INTERFACE /WX)
 else()
-	target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra) # -Werror)
+	target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra -fpermissive) # -Werror)
 endif()
 
 # Statically link dependencies

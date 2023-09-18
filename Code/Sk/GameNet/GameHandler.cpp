@@ -63,6 +63,8 @@
 #include <Sk/GameNet/ngps/p_stats.h>
 #endif
 
+#include <Com/strcmpi.h>
+
 /*****************************************************************************
 **								DBG Information								**
 *****************************************************************************/
@@ -1700,7 +1702,7 @@ int	Manager::s_handle_fcfs_request( Net::MsgHandlerContext* context )
 			{
 				if( msg->m_Index == i )
 				{
-					if( _stricmp( msg->m_Name, player_i->m_Name ) == 0 )
+					if( Com::strcmpi( msg->m_Name, player_i->m_Name ) == 0 )
 					{
 						target_player = player_i;
 					}
