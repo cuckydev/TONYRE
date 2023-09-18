@@ -151,8 +151,6 @@
 
 bool DumpFunctionTimesTrigger=false;
 
-void MemViewToggle();
-
 namespace Script
 {
 	extern void DumpLastStructs();
@@ -10234,8 +10232,6 @@ bool ScriptMemViewToggle( Script::CStruct *pParams, Script::CScript *pScript )
 {
 	(void)pParams;
 	(void)pScript;
-
-	MemViewToggle();
 	return true;
 }
 

@@ -136,7 +136,6 @@ void * CCompactPool::Allocate()
 		if ((int)pItem == REPORT_ON)
 		{
 			printf ("++++ CCompactPool::Allocate %p\n",pItem);
-			DumpUnwindStack(20,0);
 		}
 		#endif
 		return pItem;
@@ -155,7 +154,6 @@ void CCompactPool::Free(void *pFreeItem)
 	if ((int)pFreeItem == REPORT_ON)
 	{
 		printf ("--- CCompactPool::Free %p\n",pFreeItem);
-		DumpUnwindStack(20,0);
 	}
 	#endif
 #ifdef __REALLY_DEBUG_COMPACTPOOL__

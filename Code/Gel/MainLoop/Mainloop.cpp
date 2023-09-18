@@ -336,8 +336,6 @@ void		Manager::MainLoop( void )
 		}
 #endif
 
-		// Display the memory contents, (if memview is active)
-		MemView_Display();
 #	ifdef __USE_PROFILER__
 		Sys::CPUProfiler->PushContext( 255, 255, 0 );  // yellow = render world
 #	endif		

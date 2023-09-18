@@ -292,7 +292,6 @@ public:
 									~CParkGenerator();
 
 	int								GetResourceSize(const char *name);
-	Mem::Heap *						GetParkEditorHeap();
 	
 	struct MemUsageInfo
 	{

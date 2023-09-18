@@ -500,17 +500,6 @@ int	CParkGenerator::GetResourceSize(const char *name)
 	return size;
 }
 
-
-
-
-Mem::Heap *CParkGenerator::GetParkEditorHeap()
-{
-	Dbg_Assert(0); // removed..
-	return nullptr;
-}
-
-
-
 void CParkGenerator::SetMaxPlayers(int maxPlayers)
 {
 	Dbg_MsgAssert(maxPlayers>1 && maxPlayers<=GameNet::vMAX_PLAYERS,("Bad maxPlayers of %d",maxPlayers));
