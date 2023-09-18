@@ -26,6 +26,8 @@
 #include "nx/render.h"
 #include "nx/occlude.h"
 
+#include <stdlib.h>
+
 namespace Nx
 {
 
@@ -59,7 +61,7 @@ namespace Nx
 				case SDL_QUIT:
 					// Mlp::Manager *mlp_manager = Mlp::Manager::Instance();
 					// mlp_manager->QuitLoop();
-					exit(0);
+					_Exit(0);
 					break;
 				case SDL_WINDOWEVENT:
 					switch (event.window.event)
