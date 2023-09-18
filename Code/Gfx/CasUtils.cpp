@@ -147,8 +147,8 @@ void BuildRandomSetList( uint32 partChecksum, uint32 random_set, Script::CStruct
 	// reset the return value
 	*pReturnNumStructs = 0;
 
-	int part_array_size = pArray->GetSize();
-	for ( int i = 0; i < part_array_size; i++ )
+	size_t part_array_size = pArray->GetSize();
+	for (size_t i = 0; i < part_array_size; i++)
 	{
 		Script::CStruct* pStruct = pArray->GetStructure( i );
 		int allowed_to_pick = 0;
@@ -188,8 +188,8 @@ Script::CStruct* GetRandomOptionStructure( uint32 partChecksum, uint32 random_se
 	bool alreadySelected[vMAX_CAS_ITEMS];
 	int allowRandomCount = 0;
 	
-	int part_array_size = pArray->GetSize();
-	for ( int i = 0; i < part_array_size; i++ )
+	size_t part_array_size = pArray->GetSize();
+	for (size_t i = 0; i < part_array_size; i++)
 	{
 		Script::CStruct* pStruct = pArray->GetStructure( i );
 		int allow_random = !pStruct->ContainsFlag( Crc::ConstCRC("no_random") );
@@ -285,11 +285,11 @@ Script::CStruct* GetRandomOptionStructureByIndex( uint32 partChecksum, int desir
 	Script::CArray* pArray;
 	pArray = Script::GetArray( partChecksum, Script::ASSERT );
 
-	int part_array_size = pArray->GetSize();
+	size_t part_array_size = pArray->GetSize();
 
 	if ( !random_set )
 	{
-		for ( int i = 0; i < part_array_size; i++ )
+		for (size_t i = 0; i < part_array_size; i++)
 		{
 			Script::CStruct* pStruct = pArray->GetStructure( i );
 
@@ -314,7 +314,7 @@ Script::CStruct* GetRandomOptionStructureByIndex( uint32 partChecksum, int desir
 			int current_random_index = desired_index;
 			#endif
 
-			for ( int i = 0; i < part_array_size; i++ )
+			for (size_t i = 0; i < part_array_size; i++ )
 			{
 				Script::CStruct* pStruct = pArray->GetStructure( i );
 

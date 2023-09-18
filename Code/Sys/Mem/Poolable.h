@@ -22,9 +22,9 @@ namespace Mem
 			static void							SCreatePool(int num_items, const char *name) { (void)num_items; (void)name; }
 			static void							SAttachPool(CCompactPool *pPool) { (void)pPool; }
 			static void							SRemovePool() {}
-			static int							SGetMaxUsedItems() { return 0; }
-			static int							SGetNumUsedItems() { return 0; }
-			static int							SGetTotalItems() { return 0; }
+			static size_t						SGetMaxUsedItems() { return 0; }
+			static size_t						SGetNumUsedItems() { return 0; }
+			static size_t						SGetTotalItems() { return 0; }
 
 			static void							SPrintInfo() {}
 

@@ -60,7 +60,7 @@ public:
 	virtual						~Preferences();
 
 public:
-	uint32						WriteToBuffer(uint8 *pBuffer, uint32 BufferSize);
+	size_t						WriteToBuffer(uint8 *pBuffer, size_t BufferSize);
 	void						ReadFromBuffer(uint8 *pBuffer);
 
 public:

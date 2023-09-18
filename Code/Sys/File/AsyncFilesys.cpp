@@ -36,25 +36,7 @@ CAsyncFileHandle::CAsyncFileHandle()
 
 void				CAsyncFileHandle::init()
 {
-	// Init vars
-	mp_callback = nullptr;
-	m_callback_arg0 = 0;
-	m_callback_arg1 = 0;
-	m_current_function = FUNC_IDLE;
-	m_mem_destination = (EAsyncMemoryType) DEFAULT_MEMORY_TYPE;
-	m_stream = false;
-	m_blocking = true;			// Makes it async
-	m_buffer_size = DEFAULT_BUFFER_SIZE;
-	m_priority = DEFAULT_ASYNC_PRIORITY;
-
-	m_file_size = -1;
-	m_position = -1;
-	m_busy_count = 0;
-	m_last_result = 0;
-
-	mp_pre_file = nullptr;
-
-	plat_init();
+	
 }
 
 /******************************************************************/
@@ -73,8 +55,7 @@ CAsyncFileHandle::~CAsyncFileHandle()
 
 bool		CAsyncFileHandle::IsBusy( void )
 {
-	// Don't think we need the plat_is_busy()
-	return get_busy_count() > 0;
+	return false;
 }
 
 /******************************************************************/
@@ -84,13 +65,7 @@ bool		CAsyncFileHandle::IsBusy( void )
 
 int					CAsyncFileHandle::WaitForIO( void )
 {
-	do
-	{
-		// Process any pending callbacks
-		CAsyncFileLoader::s_execute_callback_list();
-	} while (IsBusy());
-
-	return m_last_result;
+	return 0;
 }
 
 /******************************************************************/
@@ -100,12 +75,7 @@ int					CAsyncFileHandle::WaitForIO( void )
 
 void				CAsyncFileHandle::SetPriority( int priority )
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't set file parameters: asynchronous file handle already busy."));
-	m_current_function = FUNC_IDLE;
-
-	m_priority = priority;
-
-	plat_set_priority(priority);
+	(void)priority;
 }
 
 /******************************************************************/
@@ -115,12 +85,7 @@ void				CAsyncFileHandle::SetPriority( int priority )
 
 void				CAsyncFileHandle::SetStream( bool stream )
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't set file parameters: asynchronous file handle already busy."));
-	m_current_function = FUNC_IDLE;
-
-	m_stream = stream;
-
-	plat_set_stream(stream);
+	(void)stream;
 }
 
 /******************************************************************/
@@ -130,12 +95,7 @@ void				CAsyncFileHandle::SetStream( bool stream )
 
 void				CAsyncFileHandle::SetDestination( EAsyncMemoryType destination )
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't set file parameters: asynchronous file handle already busy."));
-	m_current_function = FUNC_IDLE;
-
-	m_mem_destination = destination;
-
-	plat_set_destination(destination);
+	(void)destination;
 }
 
 /******************************************************************/
@@ -145,12 +105,7 @@ void				CAsyncFileHandle::SetDestination( EAsyncMemoryType destination )
 
 void				CAsyncFileHandle::SetBufferSize( size_t buffer_size )
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't set file parameters: asynchronous file handle already busy."));
-	m_current_function = FUNC_IDLE;
-
-	m_buffer_size = buffer_size;
-
-	plat_set_buffer_size(buffer_size);
+	(void)buffer_size;
 }
 
 /******************************************************************/
@@ -160,12 +115,7 @@ void				CAsyncFileHandle::SetBufferSize( size_t buffer_size )
 
 void				CAsyncFileHandle::SetBlocking( bool block )
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't set file parameters: asynchronous file handle already busy."));
-	m_current_function = FUNC_IDLE;
-
-	m_blocking = block;
-
-	plat_set_blocking(block);
+	(void)block;
 }
 
 /******************************************************************/
@@ -175,9 +125,9 @@ void				CAsyncFileHandle::SetBlocking( bool block )
 
 void				CAsyncFileHandle::SetCallback( AsyncCallback p_callback, unsigned int arg0, unsigned int arg1)
 {
-	mp_callback = p_callback;
-	m_callback_arg0 = arg0;
-	m_callback_arg1 = arg1;
+	(void)p_callback;
+	(void)arg0;
+	(void)arg1;
 }
 
 /******************************************************************/
@@ -186,23 +136,7 @@ void				CAsyncFileHandle::SetCallback( AsyncCallback p_callback, unsigned int ar
 /******************************************************************/
 size_t				CAsyncFileHandle::GetFileSize( void )
 {
-	if (mp_pre_file)
-	{
-		Dbg_Assert(PreMgr::sPreEnabled());
-
-        m_last_result = PreMgr::pre_get_file_size(mp_pre_file);
-
-		Dbg_Assert(PreMgr::sPreExecuteSuccess());
-		Dbg_MsgAssert(m_last_result, ("PRE file size is 0"));
-
-		return m_last_result;
-	}
-
-	// Make sure we have a valid file size first
-	while (m_file_size < 0)
-		;
-
-	return m_file_size;
+	return 0;
 }
 
 /******************************************************************/
@@ -212,26 +146,8 @@ size_t				CAsyncFileHandle::GetFileSize( void )
 
 size_t				CAsyncFileHandle::Load(void *p_buffer)
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't start new load: asynchronous file handle already busy."));
-
-	m_current_function = FUNC_LOAD;
-
-	if (mp_pre_file)
-	{
-		Dbg_Assert(PreMgr::sPreEnabled());
-
-		int size = PreMgr::pre_get_file_size(mp_pre_file);
-		PreMgr::pre_fseek(mp_pre_file, SEEK_SET, 0);
-        m_last_result = PreMgr::pre_fread(p_buffer, 1, size, mp_pre_file);
-
-		Dbg_Assert(PreMgr::sPreExecuteSuccess());
-
-		inc_busy_count();
-		io_callback(m_current_function, m_last_result, 0);			// Must call this when we are done
-		return m_last_result;
-	}
-
-	return plat_load(p_buffer);
+	(void)p_buffer;
+	return 0;
 }
 
 /******************************************************************/
@@ -241,24 +157,10 @@ size_t				CAsyncFileHandle::Load(void *p_buffer)
 
 size_t				CAsyncFileHandle::Read(void *p_buffer, size_t size, size_t count)
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't start new read: asynchronous file handle already busy."));
-
-	m_current_function = FUNC_READ;
-
-	if (mp_pre_file)
-	{
-		Dbg_Assert(PreMgr::sPreEnabled());
-
-		m_last_result = PreMgr::pre_fread(p_buffer, size, count, mp_pre_file);
-
-		Dbg_Assert(PreMgr::sPreExecuteSuccess());
-
-		inc_busy_count();
-		io_callback(m_current_function, m_last_result, 0);			// Must call this when we are done
-		return m_last_result;
-	}
-
-	return plat_read(p_buffer, size, count);
+	(void)p_buffer;
+	(void)size;
+	(void)count;
+	return 0;
 }
 
 /******************************************************************/
@@ -268,24 +170,10 @@ size_t				CAsyncFileHandle::Read(void *p_buffer, size_t size, size_t count)
 
 size_t				CAsyncFileHandle::Write(void *p_buffer, size_t size, size_t count)
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't start new write: asynchronous file handle already busy."));
-
-	m_current_function = FUNC_WRITE;
-
-	if (mp_pre_file)
-	{
-		Dbg_Assert(PreMgr::sPreEnabled());
-
-		m_last_result = PreMgr::pre_fwrite(p_buffer, size, count, mp_pre_file);
-
-		Dbg_Assert(PreMgr::sPreExecuteSuccess());
-
-		inc_busy_count();
-		io_callback(m_current_function, m_last_result, 0);			// Must call this when we are done
-		return m_last_result;
-	}
-
-	return plat_write(p_buffer, size, count);
+	(void)p_buffer;
+	(void)size;
+	(void)count;
+	return 0;
 }
 
 /******************************************************************/
@@ -295,24 +183,9 @@ size_t				CAsyncFileHandle::Write(void *p_buffer, size_t size, size_t count)
 
 int					CAsyncFileHandle::Seek(long offset, int origin)
 {
-	//Dbg_MsgAssert(!IsBusy(), ("Can't seek: asynchronous file handle already busy."));
-
-	m_current_function = FUNC_SEEK;
-
-	if (mp_pre_file)
-	{
-		Dbg_Assert(PreMgr::sPreEnabled());
-
-		m_last_result = PreMgr::pre_fseek(mp_pre_file, offset, origin);
-
-		Dbg_Assert(PreMgr::sPreExecuteSuccess());
-
-		inc_busy_count();
-		io_callback(m_current_function, m_last_result, 0);			// Must call this when we are done
-		return m_last_result;
-	}
-
-	return plat_seek(offset, origin);
+	(void)offset;
+	(void)origin;
+	return 0;
 }
 
 /******************************************************************/
@@ -322,18 +195,9 @@ int					CAsyncFileHandle::Seek(long offset, int origin)
 
 void				CAsyncFileHandle::io_callback(EAsyncFunctionType function, int result, uint32 data)
 {
+	(void)function;
+	(void)result;
 	(void)data;
-
-	m_last_result = result;
-	CAsyncFileLoader::s_new_io_completion = true;
-
-	// Call user function, if any
-	if (mp_callback)
-	{
-		CAsyncFileLoader::s_add_callback(this, function, result);
-	} else {
-		post_io_callback();
-	}
 }
 
 /******************************************************************/
@@ -343,12 +207,7 @@ void				CAsyncFileHandle::io_callback(EAsyncFunctionType function, int result, u
 
 void				CAsyncFileHandle::post_io_callback()
 {
-	// Clean up
-	Dbg_MsgAssert(get_busy_count() > 0, ("We will go into a neagtive busy with completion of function %d", m_current_function));
-	if (dec_busy_count() == 0)
-	{
-		m_current_function = FUNC_IDLE;
-	}
+	
 }
 
 /******************************************************************/
@@ -358,31 +217,10 @@ void				CAsyncFileHandle::post_io_callback()
 
 bool				CAsyncFileHandle::open(const char *filename, bool blocking, int priority)
 {
-	Dbg_MsgAssert(!IsBusy(), ("Can't open file %s: asynchronous file handle already busy.", filename));
-	Dbg_MsgAssert(!mp_pre_file, ("Can't open file %s: already open as a PRE file.", filename));
-
-	m_priority = priority;
-	m_blocking = blocking;
-
-	m_current_function = FUNC_OPEN;
-
-    if (PreMgr::sPreEnabled())
-    {
-        mp_pre_file = PreMgr::pre_fopen(filename, "rb", true);
-        if (mp_pre_file)
-		{
-			Dbg_Assert(PreMgr::sPreExecuteSuccess());
-
-			m_blocking = true;		// Since PRE files are in memory, they will finish "instantly"
-			m_last_result = true;
-
-			inc_busy_count();
-			io_callback(m_current_function, m_last_result, 0);			// Must call this when we are done
-			return m_last_result;
-		}
-    }
-
-	return plat_open(filename);
+	(void)filename;
+	(void)blocking;
+	(void)priority;
+	return false;
 }
 
 /******************************************************************/
@@ -392,22 +230,7 @@ bool				CAsyncFileHandle::open(const char *filename, bool blocking, int priority
 
 bool				CAsyncFileHandle::close()
 {
-	m_current_function = FUNC_CLOSE;
-
-	if (mp_pre_file)
-	{
-		Dbg_Assert(PreMgr::sPreEnabled());
-
-        m_last_result = PreMgr::pre_fclose(mp_pre_file, true);
-
-		Dbg_Assert(PreMgr::sPreExecuteSuccess());
-
-		inc_busy_count();
-		io_callback(m_current_function, m_last_result, 0);			// Must call this when we are done
-		return m_last_result;
-	}
-
-	return plat_close();
+	return false;
 }
 
 /******************************************************************/
@@ -805,26 +628,6 @@ void				CAsyncFileLoader::s_update()
 void				CAsyncFileLoader::s_execute_callback_list()
 {
 	s_plat_swap_callback_list();
-
-	int list_index = s_cur_callback_list_index ^ 1;	// Look at old list
-	int num_callbacks = s_num_callbacks[list_index];
-
-	for (int i = 0; i < num_callbacks; i++)
-	{
-		SCallback * p_callback_entry =  &s_callback_list[list_index][i];
-
-		CAsyncFileHandle *p_file = p_callback_entry->mp_file_handle;
-		Dbg_Assert(p_file->mp_callback);
-
-		//Dbg_Message("Executing callback for handle %x", p_file);
-
-		// Call the callback and the post callback
-		(*p_file->mp_callback)(p_file, p_callback_entry->m_function, p_callback_entry->m_result,
-							   p_file->m_callback_arg0, p_file->m_callback_arg1);
-		p_file->post_io_callback();
-	}
-
-	s_num_callbacks[list_index] = 0;
 }
 
 /******************************************************************/

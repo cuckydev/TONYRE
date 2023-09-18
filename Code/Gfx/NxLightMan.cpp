@@ -932,7 +932,7 @@ void SVCLight::ResetSectorList( void )
 /******************************************************************/
 bool SVCLight::AffectsSector( Nx::CSector *p_sector )
 {
-	Nx::CSector *p_match = mp_sector_list->GetItem((uint32)p_sector );
+	Nx::CSector *p_match = mp_sector_list->GetItem((uintptr_t)p_sector );
     return ( p_match != nullptr );	
 }
 
@@ -971,9 +971,7 @@ void SVCLight::CalculateSectorList( void )
 						float		r		= ( bbox.GetMax() - mid ).Length();
 						float		dist	= ( mid - m_pos ).Length();
 						if( dist < ( r + m_radius ))
-						{
-							mp_sector_list->PutItem((uint32)p_sector, p_sector );
-						}
+							mp_sector_list->PutItem((uintptr_t)p_sector, p_sector );
 					}
 				}
 				p_sector = p_sector_list->IterateNext();
@@ -1019,7 +1017,7 @@ void CLightManager::s_recalculate_sector_lighting( Nx::CSector *p_sector )
 		// No lights are affecting this sector, which can happen in the situation where the last remaining
 		// light affecting a sector is turned off. In this case we just want to restore the original
 		// vertex colors.
-		int verts = p_geom->GetNumRenderVerts();
+		size_t verts = p_geom->GetNumRenderVerts();
 		if( verts > 0 )
 		{
 			Image::RGBA	*p_colors	= new Image::RGBA[verts];
@@ -1030,7 +1028,7 @@ void CLightManager::s_recalculate_sector_lighting( Nx::CSector *p_sector )
 	}
 	else if( current_lights_affecting_sector > 0 )
 	{
-		int verts = p_geom->GetNumRenderVerts();
+		size_t verts = p_geom->GetNumRenderVerts();
 		if( verts > 0 )
 		{
 			Mth::Vector	*p_verts	= new Mth::Vector[verts];
@@ -1041,7 +1039,7 @@ void CLightManager::s_recalculate_sector_lighting( Nx::CSector *p_sector )
 					
 			Image::RGBA *p_color = p_colors;
 			Mth::Vector *p_vert = p_verts;
-			for( int i = 0; i < verts; ++i )
+			for(size_t i = 0; i < verts; ++i )
 			{
 				float ir = 0.0f;
 				float ig = 0.0f;

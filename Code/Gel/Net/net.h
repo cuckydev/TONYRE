@@ -599,7 +599,7 @@ public:
 	int			GetNumBytes( void );
 	int			GetTime( void );
 
-	void		SetNumBytes( int size );
+	void		SetNumBytes(size_t size );
 	void		SetTime( int time );
 
 private:
@@ -623,25 +623,25 @@ public:
 				Metrics( void );
 
 	void		CalculateBytesPerSec( int cur_time );
-	int			GetBytesPerSec( void );
+	size_t		GetBytesPerSec( void );
 	
-	int			GetTotalBytes( void );
-	int			GetTotalMessageData( int msg_id );
-	int			GetTotalNumMessagesOfId( int msg_id );
+	size_t		GetTotalBytes( void );
+	size_t		GetTotalMessageData(size_t msg_id );
+	size_t		GetTotalNumMessagesOfId(size_t msg_id );
 		
-	void		AddPacket( int size, int time );
-	void		AddMessage( int msg_id, int size );
+	void		AddPacket(size_t size, int time );
+	void		AddMessage(size_t msg_id, size_t size );
     
 private:
 
 	PacketInfo	m_packets[ vNUM_BUFFERED_PACKETS ];
 	int			m_num_packets;
 		
-	int			m_num_messages[ MAX_MSG_IDS ];		// total # messages per msg id
-	int			m_size_messages[ MAX_MSG_IDS ];		// total # bytes per msg id
+	size_t m_num_messages[ MAX_MSG_IDS ];		// total # messages per msg id
+	size_t m_size_messages[ MAX_MSG_IDS ];		// total # bytes per msg id
 
-	int			m_total_bytes;
-	int			m_bytes_per_sec;
+	size_t m_total_bytes;
+	size_t m_bytes_per_sec;
 };
 
 /******************************************************************/
@@ -770,8 +770,8 @@ public:
 	Metrics*		GetOutboundMetrics( void );
 	Metrics*		GetInboundMetrics( void );
 
-	void			SetBandwidth( int in_bytes_per_sec );
-	int				GetBandwidth( void );
+	void			SetBandwidth(size_t in_bytes_per_sec );
+	size_t			GetBandwidth( void );
 
 	void			ClearNumResends( void );
 	int				GetNumResends( void );
@@ -798,7 +798,7 @@ private:
 	int				m_bandwidth_type;
 	unsigned int 	m_latest_packet_stamp;
 	unsigned int 	m_latest_sent_packet_stamp;
-	int				m_bandwidth;
+	size_t			m_bandwidth;
 };
 
 /******************************************************************/
@@ -912,8 +912,8 @@ public:
 	int			GetModemError( void );
 	int			GetModemBaudRate( void );
 
-	void		SetBandwidth( int bytes_per_sec );
-	int			GetBandwidth( void );
+	void		SetBandwidth( size_t bytes_per_sec );
+	size_t		GetBandwidth( void );
 
 	bool		CanChangeDevices( void );
 	
@@ -950,7 +950,7 @@ private:
 	int			m_modem_state;
 	int			m_modem_err;	
 	int			m_modem_baud_rate;
-	int			m_bandwidth;
+	size_t		m_bandwidth;
 #ifdef __PLAT_NGC__
 	bool		initialize_ngc( void );
 #endif
@@ -1085,8 +1085,8 @@ public:
 	QueuedMsgSeq*	AllocateNewSeqMessage( unsigned char msg_id, unsigned short msg_len, char* data, unsigned char group_id );
 	bool	SendMessageTo( unsigned char msg_id, unsigned short msg_len, void* data,
 							int ip, unsigned short port, int flags );
-	bool	SendTo( int ip, unsigned short port, char *data, int len, int flags );
-	bool	Send( char *data, int len, int flags );
+	bool	SendTo( int ip, unsigned short port, char *data, size_t len, int flags );
+	bool	Send( char *data, size_t len, int flags );
 	
 	Conn	*FirstConnection( Lst::Search< Conn > *sh );
 	Conn	*NextConnection( Lst::Search< Conn > *sh );	
@@ -1107,7 +1107,7 @@ public:
 	bool	MessagesToSend( Conn *conn );
 	bool	ImportantMessagesToSend( Conn* conn );
 
-	int		BandwidthUsed( void );
+	size_t	BandwidthUsed( void );
 	bool	BandwidthExceeded( Conn* conn );
 
 	void	ReportError( void );
@@ -1135,11 +1135,11 @@ public:
 	unsigned int	m_Timestamp;
 	Dispatcher		m_Dispatcher;
 
-	unsigned int m_TotalBytesOut;
-	unsigned int m_TotalBytesIn;
-	unsigned int m_LostPackets;
-	unsigned int m_LatePackets;
-	unsigned int m_DupePackets;
+	size_t m_TotalBytesOut;
+	size_t m_TotalBytesIn;
+	size_t m_LostPackets;
+	size_t m_LatePackets;
+	size_t m_DupePackets;
 	unsigned int m_FrameCounter;
 
 #ifdef __PLAT_XBOX__
@@ -1170,8 +1170,8 @@ protected:
 
     void    process_stream_messages( void );
 	void	terminate_invalid_connections( void );
-	void	crc_and_copy_stream( char* in_stream, char* out_stream, int in_len, int* out_len );
-	bool	validate_and_copy_stream( char* in_stream, char* out_stream, int in_len );
+	void	crc_and_copy_stream( char* in_stream, char* out_stream, size_t in_len, size_t *out_len );
+	bool	validate_and_copy_stream( char* in_stream, char* out_stream, size_t in_len );
 
     int 	m_num_connections;
 	int 	m_max_connections;

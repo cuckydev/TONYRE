@@ -226,24 +226,24 @@ public:
 
 	// Vertex functions
 #ifdef __PLAT_NGC__
-	unsigned char		GetVertexIntensity(int face_idx, int vert_idx) const;
-	void				SetVertexIntensity(int face_idx, int vert_idx, unsigned char intensity);
+	unsigned char		GetVertexIntensity(size_t face_idx, size_t vert_idx) const;
+	void				SetVertexIntensity(size_t face_idx, size_t vert_idx, unsigned char intensity);
 
 	void				SetVertexPointer( NsVector * p_vertex ) { mp_raw_vert_pos = p_vertex; }
 	NsVector *			GetVertexPointer() { return mp_raw_vert_pos; }
 #else
-	unsigned char		GetVertexIntensity(int vert_idx) const;
-	void				SetVertexIntensity(int vert_idx, unsigned char intensity);
+	unsigned char		GetVertexIntensity(size_t vert_idx) const;
+	void				SetVertexIntensity(size_t vert_idx, unsigned char intensity);
 #endif		//__PLAT_NGC__ 
 
 	// Face functions
-	uint16				GetFaceTerrainType(int face_idx) const;
-	uint32				GetFaceFlags(int face_idx) const;
-	uint16				GetFaceVertIndex(int face_idx, int vert_num) const;
-	const Mth::Vector 	GetFaceNormal(int face_idx) const;
-	Mth::Vector			GetRawVertexPos(int vert_idx) const;		// Must copy data for fixed point
-	void				GetRawVertexPos(int vert_idx, Mth::Vector & pos) const;
-	void				SetRawVertexPos(int vert_idx, const Mth::Vector & pos);
+	uint16				GetFaceTerrainType(size_t face_idx) const;
+	uint32				GetFaceFlags(size_t face_idx) const;
+	uint16				GetFaceVertIndex(size_t face_idx, size_t vert_num) const;
+	const Mth::Vector 	GetFaceNormal(size_t face_idx) const;
+	Mth::Vector			GetRawVertexPos(size_t vert_idx) const;		// Must copy data for fixed point
+	void				GetRawVertexPos(size_t vert_idx, Mth::Vector & pos) const;
+	void				SetRawVertexPos(size_t vert_idx, const Mth::Vector & pos);
 	void				GetRawVertices(Mth::Vector *p_vert_array) const;
 	void				SetRawVertices(const Mth::Vector *p_vert_array);
 
@@ -367,7 +367,7 @@ protected:
 	uint32				m_pad1 = 0;				// padding
 #endif		// __PLAT_NGC__
 
-	SFaceInfo *			get_face_info(int face_idx) const;
+	SFaceInfo *			get_face_info(size_t face_idx) const;
 
 private:
 	// Constants
@@ -380,7 +380,7 @@ private:
 	void				get_float_array_from_data(Mth::Vector *p_float_array) const;
 	void				put_float_array_into_data(const Mth::Vector *p_float_array);
 
-	void				set_vertex_pos(int vert_idx, const Mth::Vector & pos);
+	void				set_vertex_pos(size_t vert_idx, const Mth::Vector & pos);
 
 	CCollBSPNode *		create_bsp_tree(const Mth::CBBox & bbox, FaceIndex *p_face_indexes, uint num_faces, uint level = 1);
 	CCollBSPNode *		create_bsp_leaf(FaceIndex *p_face_indexes, uint num_faces);
@@ -510,7 +510,7 @@ inline uint					CCollObjTriData::GetFaceSmallElemSize()
 /*                                                                */
 /******************************************************************/
 
-inline uint16				CCollObjTriData::GetFaceTerrainType(int face_idx) const
+inline uint16				CCollObjTriData::GetFaceTerrainType(size_t face_idx) const
 {
 	return (m_use_face_small) ? mp_face_small[face_idx].m_info.m_terrain_type : mp_faces[face_idx].m_info.m_terrain_type;
 }
@@ -520,7 +520,7 @@ inline uint16				CCollObjTriData::GetFaceTerrainType(int face_idx) const
 /*                                                                */
 /******************************************************************/
 
-inline uint32				CCollObjTriData::GetFaceFlags(int face_idx) const
+inline uint32				CCollObjTriData::GetFaceFlags(size_t face_idx) const
 {
 	return (m_use_face_small) ? mp_face_small[face_idx].m_info.m_flags : mp_faces[face_idx].m_info.m_flags;
 }
@@ -530,7 +530,7 @@ inline uint32				CCollObjTriData::GetFaceFlags(int face_idx) const
 /*                                                                */
 /******************************************************************/
 
-inline uint16				CCollObjTriData::GetFaceVertIndex(int face_idx, int vert_num) const
+inline uint16				CCollObjTriData::GetFaceVertIndex(size_t face_idx, size_t vert_num) const
 {
 	return (m_use_face_small) ? mp_face_small[face_idx].m_vertex_index[vert_num] : mp_faces[face_idx].m_vertex_index[vert_num];
 }
@@ -540,7 +540,7 @@ inline uint16				CCollObjTriData::GetFaceVertIndex(int face_idx, int vert_num) c
 /*                                                                */
 /******************************************************************/
 
-inline Mth::Vector		 	CCollObjTriData::GetRawVertexPos(int vert_idx) const
+inline Mth::Vector		 	CCollObjTriData::GetRawVertexPos(size_t vert_idx) const
 {
 #if !defined(FIXED_POINT_VERTICES)
 
@@ -597,7 +597,7 @@ inline Mth::Vector		 	CCollObjTriData::GetRawVertexPos(int vert_idx) const
 /*                                                                */
 /******************************************************************/
 
-inline void					CCollObjTriData::GetRawVertexPos(int vert_idx, Mth::Vector & pos) const
+inline void					CCollObjTriData::GetRawVertexPos(size_t vert_idx, Mth::Vector & pos) const
 {
 #ifdef __PLAT_NGC__
 
@@ -645,12 +645,12 @@ inline void					CCollObjTriData::GetRawVertexPos(int vert_idx, Mth::Vector & pos
 /******************************************************************/
 
 #ifdef __PLAT_NGC__
-inline unsigned char CCollObjTriData::GetVertexIntensity(int face_idx, int vert_idx) const
+inline unsigned char CCollObjTriData::GetVertexIntensity(size_t face_idx, int vert_idx) const
 {
 	return mp_intensity[(face_idx * 3) + vert_idx];
 }
 #else
-inline unsigned char CCollObjTriData::GetVertexIntensity(int vert_idx) const
+inline unsigned char CCollObjTriData::GetVertexIntensity(size_t vert_idx) const
 {
 #ifdef FIXED_POINT_VERTICES
 	return mp_intensity[vert_idx];
@@ -676,12 +676,12 @@ inline unsigned char CCollObjTriData::GetVertexIntensity(int vert_idx) const
 /******************************************************************/
 
 #ifdef __PLAT_NGC__
-inline void					CCollObjTriData::SetVertexIntensity(int face_idx, int vert_idx, unsigned char intensity)
+inline void					CCollObjTriData::SetVertexIntensity(size_t face_idx, size_t vert_idx, unsigned char intensity)
 {
 	mp_intensity[(face_idx * 3) + vert_idx] = intensity; 
 }
 #else
-inline void					CCollObjTriData::SetVertexIntensity(int vert_idx, unsigned char intensity)
+inline void					CCollObjTriData::SetVertexIntensity(size_t vert_idx, unsigned char intensity)
 {
 #ifdef FIXED_POINT_VERTICES
 	mp_intensity[vert_idx] = intensity;
@@ -706,7 +706,7 @@ inline void					CCollObjTriData::SetVertexIntensity(int vert_idx, unsigned char 
 /*                                                                */
 /******************************************************************/
 
-inline CCollObjTriData::SFaceInfo *	CCollObjTriData::get_face_info(int face_idx) const
+inline CCollObjTriData::SFaceInfo *	CCollObjTriData::get_face_info(size_t face_idx) const
 {
 	return (m_use_face_small) ? &(mp_face_small[face_idx].m_info) : &(mp_faces[face_idx].m_info);
 }

@@ -111,7 +111,7 @@ private:
 		MAX_PAD_EVENT_TYPES		= 48,
 	};
 	uint32						m_pad_event_type_tab[MAX_PAD_EVENT_TYPES];
-	int							m_num_pad_event_types;
+	size_t						m_num_pad_event_types;
 };
 
 

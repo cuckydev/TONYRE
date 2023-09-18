@@ -740,9 +740,9 @@ bool ScriptStringToInteger(Script::CStruct *pParams, Script::CScript *pScript)
 	pScript->GetParams()->RemoveComponent(param_name);
 	
 	int v=0;
-	int len=strlen(p_string);
+	size_t len=strlen(p_string);
 	const char *p_ch=p_string;
-	for (int i=0; i<len; ++i)
+	for (size_t i=0; i<len; ++i)
 	{
 		Dbg_MsgAssert(*p_ch>='0' && *p_ch<='9',("\n%s\nNon-numeric char in '%s'",pScript->GetScriptInfo(),p_string));
 		v=v*10+*p_ch++-'0';
@@ -911,7 +911,7 @@ bool ScriptGetArraySize(Script::CStruct *pParams, Script::CScript *pScript)
 		}
 	}
 
-	pScript->GetParams()->AddInteger( "array_size", pArray->GetSize() );
+	pScript->GetParams()->AddInteger( "array_size", (int)pArray->GetSize() );
 
 	return true;
 }
@@ -1450,7 +1450,7 @@ bool ScriptAppendSuffix(Script::CStruct *pParams, Script::CScript *pScript)
 	
 	const char *p_text="";
 	pParams->GetString(Crc::ConstCRC("Text"), &p_text);
-	int original_text_length=strlen(p_text);
+	size_t original_text_length=strlen(p_text);
 	Dbg_MsgAssert(original_text_length<BUFFER_SIZE,("Text '%s' too long",p_text));
 	strcpy(p_new_text,p_text);
 	
@@ -1458,18 +1458,17 @@ bool ScriptAppendSuffix(Script::CStruct *pParams, Script::CScript *pScript)
 	pParams->GetInteger(Crc::ConstCRC("MaxChars"), &max_chars);
 	Dbg_MsgAssert(max_chars<BUFFER_SIZE,("max_chars too big"));
 	
-	
 	int suffix=1;
 	pParams->GetInteger(Crc::ConstCRC("suffix"),&suffix);
 	
 	char p_suffix[20];
 	sprintf(p_suffix, " %d",suffix);
-	int suffix_length=strlen(p_suffix);
-	Dbg_MsgAssert(suffix_length<max_chars,("max_chars of %d too small for suffix '%s'",suffix_length,p_suffix));
+	size_t suffix_length=strlen(p_suffix);
+	Dbg_MsgAssert(suffix_length < (size_t)max_chars,("max_chars of %d too small for suffix '%s'",suffix_length,p_suffix));
 	
-	if (original_text_length + suffix_length > max_chars)
+	if (original_text_length + suffix_length > (size_t)max_chars)
 	{
-		p_new_text[max_chars-suffix_length]=0;
+		p_new_text[max_chars - suffix_length] = 0;
 	}
 	strcat(p_new_text, p_suffix);
 	
@@ -2246,12 +2245,12 @@ bool ScriptSizeOf(Script::CStruct *pParams, Script::CScript *pScript)
 	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 	
-	int size=0;
+	size_t size=0;
 	if (p_array)
 	{
 		size=p_array->GetSize();
 	}	
-	pScript->GetParams()->AddComponent(Script::GenerateCRC("ArraySize"),ESYMBOLTYPE_INTEGER,size);
+	pScript->GetParams()->AddComponent(Script::GenerateCRC("ArraySize"),ESYMBOLTYPE_INTEGER,(int)size);
 	return true;
 }
 
@@ -2278,10 +2277,10 @@ bool ScriptGetElement(Script::CStruct *pParams, Script::CScript *pScript)
 	
 	if (p_array)
 	{
-		if (index<0 || index>=(int)p_array->GetSize())
+		if (index < 0 || index >= (int)p_array->GetSize())
 		{
 		   #ifdef __NOPT_ASSERT__
-		   printf("\n%s\nWarning ! Index %d out of range. Array has %d elements\n",pScript->GetScriptInfo(),index,p_array->GetSize());
+		   printf("\n%s\nWarning ! Index %d out of range. Array has %zu elements\n", pScript->GetScriptInfo(), index, p_array->GetSize());
 		   #endif
 		   return false;
 		}
@@ -2292,14 +2291,14 @@ bool ScriptGetElement(Script::CStruct *pParams, Script::CScript *pScript)
 		{
 			Script::CStruct *p_new=new Script::CStruct;
 			p_new->AppendStructure(p_array->GetStructure(index));
-			pScript->GetParams()->AddComponent(0xbebfa1c6/*Element*/,ESYMBOLTYPE_STRUCTUREPOINTER,(int)p_new);
+			pScript->GetParams()->AddComponent(0xbebfa1c6/*Element*/,ESYMBOLTYPE_STRUCTUREPOINTER, p_new);
 			break;
 		}	
 		case ESYMBOLTYPE_ARRAY:
-			pScript->GetParams()->AddComponent(0xbebfa1c6/*Element*/,p_array->GetArray(index));
+			pScript->GetParams()->AddComponent(0xbebfa1c6/*Element*/, p_array->GetArray(index));
 			break;
 		case ESYMBOLTYPE_INTEGER:
-			pScript->GetParams()->AddComponent(0xbebfa1c6/*Element*/,ESYMBOLTYPE_INTEGER,p_array->GetInt(index));
+			pScript->GetParams()->AddComponent(0xbebfa1c6/*Element*/,ESYMBOLTYPE_INTEGER, p_array->GetInt(index));
 			break;
 			
 		default:
@@ -2330,8 +2329,8 @@ bool ScriptGetNextArrayElement(Script::CStruct *pParams, Script::CScript *pScrip
 	Script::CArray *p_array=nullptr;
 	pParams->GetArray(NONAME,&p_array);
 
-	int index=-1;
-	pScript->GetParams()->GetInteger(Crc::ConstCRC("Index"),&index);
+	int index = -1;
+	pScript->GetParams()->GetInteger(Crc::ConstCRC("Index"), &index);
 
 	pScript->GetParams()->RemoveComponent(0x7f8c98fe/*Index*/);
 	pScript->GetParams()->RemoveComponent(0xbebfa1c6/*Element*/);
@@ -2341,7 +2340,7 @@ bool ScriptGetNextArrayElement(Script::CStruct *pParams, Script::CScript *pScrip
 		return false;
 	}
 	
-	int size=p_array->GetSize();
+	size_t size=p_array->GetSize();
 	
 	if (index<0)
 	{
@@ -2358,7 +2357,7 @@ bool ScriptGetNextArrayElement(Script::CStruct *pParams, Script::CScript *pScrip
 	{
 		// An index existed already, so increment it.
 		++index;
-		if (index>=size)
+		if (index >= (int)size)
 		{
 			// Run out of array elements!
 			return false;
@@ -2422,15 +2421,15 @@ bool ScriptGetRandomArrayElement(Script::CStruct *pParams, Script::CScript *pScr
 		return false;
 	}
 	
-	int size=p_array->GetSize();
+	size_t size=p_array->GetSize();
 	if (size==0)
 	{
 		return false;
 	}	
 
-	int index=Mth::Rnd(size);
+	size_t index = Mth::Rnd(size);
 	// Wack in the index too cos it is handy to know.
-	pScript->GetParams()->AddInteger(Crc::ConstCRC("index"),index);	
+	pScript->GetParams()->AddInteger(Crc::ConstCRC("index"), (int)index);
 		
 	switch (p_array->GetType())
 	{
@@ -2510,22 +2509,20 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 		p_array_to_be_permuted=p_new_array;
 	}	
 	
-	
-	
-	int size=p_array_to_be_permuted->GetSize();
+	size_t size = p_array_to_be_permuted->GetSize();
 	if (size)
 	{
 		uint32 *p_array_data=p_array_to_be_permuted->GetArrayPointer();
 		Dbg_MsgAssert(p_array_data,("nullptr p_array_data ?"));
 		
-		int num_swaps=size*10;
+		size_t num_swaps = size*10;
 		
 		uint32 old_last=p_array_data[size-1];
 		
-		for (int i=0; i<num_swaps; ++i)
+		for (size_t i = 0; i < num_swaps; ++i)
 		{
-			int a=Mth::Rnd(size);
-			int b=Mth::Rnd(size);
+			size_t a = Mth::Rnd(size);
+			size_t b = Mth::Rnd(size);
 			
 			uint32 temp=p_array_data[a];
 			p_array_data[a]=p_array_data[b];
@@ -2535,10 +2532,10 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 		// Ensure that the new first element is not the same as the old last one,
 		// so that when using the function to jumble up a list of soundtracks say,
 		// there will never be two consecutive ones the same.
-		if (pParams->ContainsFlag("MakeNewFirstDifferFromOldLast") && size>1 && p_array_data[0]==old_last)
+		if (pParams->ContainsFlag("MakeNewFirstDifferFromOldLast") && size>1 && p_array_data[0] == old_last)
 		{
-			int a=0;
-			int b=1+Mth::Rnd(size-1);
+			size_t a = 0;
+			size_t b = 1 + Mth::Rnd(size-1);
 			
 			uint32 temp=p_array_data[a];
 			p_array_data[a]=p_array_data[b];
@@ -4338,7 +4335,7 @@ void	compress_all_vertex_colors(Nx::CScene * p_scene, float target, float amount
 			{
 				//
 				// Do renderable geometry
-				int verts = p_geom->GetNumRenderVerts();
+				size_t verts = p_geom->GetNumRenderVerts();
 			
 				if (verts)
 				{
@@ -4354,7 +4351,7 @@ void	compress_all_vertex_colors(Nx::CScene * p_scene, float target, float amount
 					Image::RGBA *p_color = p_colors;
 					if (target != 0.0 || amount != 0.0)
 					{
-						for (int i = 0; i < verts; i++)
+						for (size_t i = 0; i < verts; i++)
 						{
 							rgb.a = p_color->a; 
 							rgb.r =  (uint8) compress_value((float) p_color->r,target,amount);						
@@ -4404,7 +4401,7 @@ void	nudge_vertex_colors(Nx::CScene * p_scene, float amount)
 			{
 				//
 				// Do renderable geometry
-				int verts = p_geom->GetNumRenderVerts();
+				size_t verts = p_geom->GetNumRenderVerts();
 			
 				if (verts)
 				{
@@ -4419,7 +4416,7 @@ void	nudge_vertex_colors(Nx::CScene * p_scene, float amount)
 				
 					Image::RGBA *p_color = p_colors;
 					Mth::Vector *p_vert = p_verts;
-					for (int i = 0; i < verts; i++)
+					for (size_t i = 0; i < verts; i++)
 					{
 			//			CalculateVertexLighting(*p_vert, *p_color);
 						
@@ -4703,13 +4700,13 @@ void	center_camera_on_scene(Nx::CScene * p_scene, float scale, float x_rot, floa
 				{
 					//
 					// Do renderable geometry
-					int verts = p_geom->GetNumRenderVerts();
+					size_t verts = p_geom->GetNumRenderVerts();
 					if (verts)
 					{
 						Mth::Vector	*p_verts = new Mth::Vector[verts];
 						p_geom->GetRenderVerts(p_verts);
 						Mth::Vector *p_vert = p_verts;
-						for (int i = 0; i < verts; i++)
+						for (size_t i = 0; i < verts; i++)
 						{
 							bbox.AddPoint(*p_vert);
 							//printf ("%f,%f,%f,%f\n",p_vert[0][X],p_vert[0][Y],p_vert[0][Z],p_vert[0][W]);
@@ -4999,7 +4996,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 	
 	char *p_dest=s_printf_buffer;
 	const char *p_scan=p_format_text;
-	int space_left=FORMATTED_TEXT_MAX_LEN;
+	size_t space_left=FORMATTED_TEXT_MAX_LEN;
 	while (*p_scan)
 	{
 		Dbg_MsgAssert(space_left,("Overflowed formatted text buffer"));
@@ -5079,7 +5076,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 					{
 						sprintf(p_temp,"%d",sTempComponent.mIntegerValue);
 					}	
-					int len=strlen(p_temp);
+					size_t len=strlen(p_temp);
 					Dbg_MsgAssert(len<=space_left,("Overflowed formatted text buffer"));
 					strcpy(p_dest,p_temp);
 					p_dest+=len;
@@ -5094,7 +5091,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 					Dbg_MsgAssert(decimal_places>=0 && decimal_places<10,("decimal_places must be less than 10"));
 					sprintf( format_string, "%%.%df", decimal_places );
 					sprintf(p_temp,format_string,sTempComponent.mFloatValue);
-					int len=strlen(p_temp);
+					size_t len=strlen(p_temp);
 					Dbg_MsgAssert(len<=space_left,("Overflowed formatted text buffer"));
 					strcpy(p_dest,p_temp);
 					p_dest+=len;
@@ -5107,7 +5104,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 					Dbg_MsgAssert(p_pair,("nullptr p_pair"));
 					
 					sprintf(p_temp,"(%.3f,%.3f)",p_pair->mX,p_pair->mY);
-					int len=strlen(p_temp);
+					size_t len=strlen(p_temp);
 					Dbg_MsgAssert(len<=space_left,("Overflowed formatted text buffer"));
 					strcpy(p_dest,p_temp);
 					p_dest+=len;
@@ -5120,7 +5117,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 					Dbg_MsgAssert(p_vector,("nullptr p_vector"));
 					
 					sprintf(p_temp,"(%.3f,%.3f,%.3f)",p_vector->mX,p_vector->mY,p_vector->mZ);
-					int len=strlen(p_temp);
+					size_t len=strlen(p_temp);
 					Dbg_MsgAssert(len<=space_left,("Overflowed formatted text buffer"));
 					strcpy(p_dest,p_temp);
 					p_dest+=len;
@@ -5133,7 +5130,7 @@ static int sFormatText(CStruct *p_dest_struct, CStruct *p_format)
 					// so we can see where in the script we are
 					result = 2;
 					sprintf(p_temp,"%s",FindChecksumName(sTempComponent.mChecksum));
-					int len=strlen(p_temp);
+					size_t len=strlen(p_temp);
 					Dbg_MsgAssert(len<=space_left,("Overflowed formatted text buffer"));
 					strcpy(p_dest,p_temp);
 					p_dest+=len;
@@ -10756,7 +10753,7 @@ bool ScriptDumpNetMessageStats( Script::CStruct *pParams, Script::CScript *pScri
 #ifdef __NOPT_ASSERT__
 	 Net::Manager * net_man =  Net::Manager::Instance();
 #endif		// __NOPT_ASSERT__
-	int i, j, total_size, total_num, size, num;
+	size_t i, j, total_size, total_num, size, num;
 	Net::Metrics* metrics;
 
 	app = gamenet_man->GetServer();
@@ -10774,7 +10771,7 @@ bool ScriptDumpNetMessageStats( Script::CStruct *pParams, Script::CScript *pScri
     for( conn = app->FirstConnection( &sh ); conn; conn = app->NextConnection( &sh ))
 	{
 		metrics = conn->GetInboundMetrics();
-		Dbg_Printf( "Conn %d inbound stats:\n", i );
+		Dbg_Printf( "Conn %zu inbound stats:\n", i );
 		total_size = 0;
 		total_num = 0;
 		for( j = 0; j < 256; j++ )
@@ -11853,9 +11850,9 @@ bool	ScriptTryCheatString(  Script::CStruct *pParams, Script::CScript *pScript )
 	Script::CArray *pCheatArray = Script::GetArray("Cheat_Array_Xbox");
 	
 	Dbg_MsgAssert( pCheatArray,( "No Cheat_Array found" ));
-	int cheats = pCheatArray->GetSize();
+	size_t cheats = pCheatArray->GetSize();
 	bool cheated = false;
-	for (int cheat = 0;cheat<cheats;cheat++)
+	for (size_t cheat = 0;cheat<cheats;cheat++)
 	{
 		Script::CStruct *pStruct = pCheatArray->GetStructure(cheat);
 		Dbg_MsgAssert( pStruct,( "Cheat Array messed up" ));
@@ -14984,13 +14981,13 @@ bool ScriptShowTracking(Script::CStruct* pParams, Script::CScript* pScript)
 		printf ("WARNING: stripped drive name off file\n");
 		p_name+=2;
 	}
-	int size=0;
+	size_t size=0;
 	char *p_file;
 	if (File::Exist(p_name))
 	{
 		p_file = (char*)File::LoadAlloc(p_name,&size);
 	
-		printf ("Loaded %s, size = %d, at %p\n",p_name,size,p_file);
+		printf ("Loaded %s, size = %zu, at %p\n",p_name,size,p_file);
 	}
 	else
 	{

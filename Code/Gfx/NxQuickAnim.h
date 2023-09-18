@@ -68,7 +68,7 @@ public:
 	void						GetInterpolatedFrames( Mth::Quat* pRotations, Mth::Vector* pTranslations, uint32* pSkipList, uint32 skipIndex, float time );
 	void						GetInterpolatedHiResFrames( Mth::Quat* pRotations, Mth::Vector* pTranslations, float time );
 	void						Enable(bool enabled);
-	int							GetNumBones();
+	size_t						GetNumBones();
 	void						ResetCustomKeys();
 	float						GetDuration();
 	uint32						GetBoneName( int i );

@@ -152,14 +152,14 @@ struct SMcFileHeader
 	// This is so that the files menu can see if a file might be bad 
 	// given only the summary info.
 	uint32 mSummaryInfoChecksum;
-	int mSummaryInfoSize;
+	size_t mSummaryInfoSize;
 
 	// This is the size of this header, the summary info structure, and
 	// the main structure, rounded up to the platforms block size.
 	// So for all file types except replays, this should match the total file size.
 	// In the case of replays, the replay data comes after that lot.
 	// mDataSize is needed to indicate the start of the replay data.
-	int mDataSize;
+	size_t mDataSize;
 	
 	int mVersion;
 };
@@ -247,9 +247,9 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 // static void s_read_game_save_info(uint32 fileType, CStruct *p_struct, CScript *p_script);
 
 static int s_get_icon_k_required(uint32 fileType);
-static int s_calculate_total_space_used_on_card(uint32 fileType, int fileSize);
-static int s_get_platforms_block_size();
-static int s_round_up_to_platforms_block_size(int fileSize);
+static size_t s_calculate_total_space_used_on_card(uint32 fileType, size_t fileSize);
+static size_t s_get_platforms_block_size();
+static size_t s_round_up_to_platforms_block_size(size_t fileSize);
 static int s_get_version_number(uint32 fileType);
 static const char *s_generate_xbox_directory_name(uint32 fileType, const char *p_name);
 static void s_generate_card_directory_name(uint32 fileType, const char *p_name, char *p_card_directory_name);
@@ -266,7 +266,7 @@ static bool s_insert_ngc_icon(	SMcFileHeader *p_fileHeader,
 								Mc::File *p_file,
 								uint32 fileType,
 								const char *p_name);
-static uint32 sGetFixedFileSize(uint32 fileType);
+static size_t sGetFixedFileSize(uint32 fileType);
 
 
 
@@ -827,7 +827,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 	
 			case 0x3bf882cc: // Park
 			{
-				int num_edited_goals=0;
+				size_t num_edited_goals=0;
 				
 				Script::CArray *p_goals=nullptr;
 				Script::CStruct *p_goals_struct=nullptr;
@@ -840,7 +840,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 						num_edited_goals=p_goals->GetSize();
 					}
 				}		
-				p_summaryInfo->AddInteger(Crc::ConstCRC("num_edited_goals"),num_edited_goals);
+				p_summaryInfo->AddInteger(Crc::ConstCRC("num_edited_goals"),(int)num_edited_goals);
 				
 				int max_players=1;
 				p_mainData->GetInteger(Crc::ConstCRC("MaxPlayers"),&max_players);
@@ -868,7 +868,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 				
 			case 0x62896edf: // CreatedGoals
 			{
-				int num_edited_goals=0;
+				size_t num_edited_goals=0;
 				
 				Script::CArray *p_goals=nullptr;
 				p_mainData->GetArray(Crc::ConstCRC("Goals"),&p_goals);
@@ -876,7 +876,7 @@ static void s_generate_summary_info(CStruct *p_summaryInfo, uint32 fileType, CSt
 				{
 					num_edited_goals=p_goals->GetSize();
 				}	
-				p_summaryInfo->AddInteger(Crc::ConstCRC("num_edited_goals"),num_edited_goals);
+				p_summaryInfo->AddInteger(Crc::ConstCRC("num_edited_goals"), (int)num_edited_goals);
 				break;
 			}
 				
@@ -1432,9 +1432,9 @@ static int s_get_icon_k_required(uint32 fileType)
 /*                                                                */
 /******************************************************************/
 
-static int s_calculate_total_space_used_on_card(uint32 fileType, int fileSize)
+static size_t s_calculate_total_space_used_on_card(uint32 fileType, size_t fileSize)
 {
-	int blocks=s_round_up_to_platforms_block_size(fileSize)/s_get_platforms_block_size();
+	size_t blocks=s_round_up_to_platforms_block_size(fileSize)/s_get_platforms_block_size();
 
 	switch (Config::GetHardware())
 	{
@@ -1479,7 +1479,7 @@ static int s_calculate_total_space_used_on_card(uint32 fileType, int fileSize)
 // multiple of the block size.
 // In order that the calculated checksum be the same on loading, the files are always
 // padded with zeros to be a multiple of the block size before the checksum is calculated.
-static int s_get_platforms_block_size()
+static size_t s_get_platforms_block_size()
 {
 	switch (Config::GetHardware())
 	{
@@ -1508,9 +1508,9 @@ static int s_get_platforms_block_size()
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-static int s_round_up_to_platforms_block_size(int fileSize)
+static size_t s_round_up_to_platforms_block_size(size_t fileSize)
 {
-	int block_size=s_get_platforms_block_size();
+	size_t block_size=s_get_platforms_block_size();
 	if (fileSize%block_size)
 	{
 		return (1+fileSize/block_size)*block_size;
@@ -1734,7 +1734,7 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 	}
 
 	// Now load the .ico file into memory
-	uint32	FileSize	= 0;
+	size_t	FileSize	= 0;
 	char*	pIco		= nullptr;
 
 	File::StopStreaming();
@@ -1750,11 +1750,8 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 	Dbg_MsgAssert( pIco, ( "Could not allocate memory for %s", pSourceIconFile ));
 
 	// Read the file into the buffer and close the file.
-#ifdef __NOPT_ASSERT__
-	long BytesRead=
-#endif	
-	File::Read( pIco, 1, FileSize, pFP );
-	Dbg_MsgAssert( (uint32)BytesRead <= FileSize, ( "Bad rwfread when loading %s", pSourceIconFile ));
+	size_t BytesRead = File::Read( pIco, 1, FileSize, pFP );
+	Dbg_MsgAssert( BytesRead <= FileSize, ( "Bad rwfread when loading %s", pSourceIconFile ));
 	File::Close( pFP );
 
 	bool SavedOK = false;
@@ -1770,7 +1767,7 @@ static bool s_make_xbox_dir_and_icons(	Mc::Card *p_card,
 	
 	if( pFile )
 	{   
-		uint32 CardBytesWritten = pFile->Write( pIco, FileSize );
+		size_t CardBytesWritten = pFile->Write( pIco, FileSize );
 		if (p_card->GetLastError()==Mc::Card::vINSUFFICIENT_SPACE)
 		{
 			*p_insufficientSpace=true;
@@ -2568,9 +2565,9 @@ bool ScriptGetMemCardSpaceRequired(Script::CStruct *pParams, Script::CScript *pS
 	pParams->GetChecksum(NONAME,&file_type);
 	
 	// s_calculate_total_space_used_on_card adds in the space used by the icons.
-	int space_required=s_calculate_total_space_used_on_card(file_type,sGetFixedFileSize(file_type));
+	size_t space_required=s_calculate_total_space_used_on_card(file_type,sGetFixedFileSize(file_type));
 
-	pScript->GetParams()->AddInteger("SpaceRequired",space_required);
+	pScript->GetParams()->AddInteger("SpaceRequired", (int)space_required);
 	return true;
 }
 	
@@ -2646,9 +2643,10 @@ bool ScriptMemCardFileExists(Script::CStruct *pParams, Script::CScript *pScript)
 	Mc::File* pFile = p_card->Open( p_card_file_name, Mc::File::mMODE_READ );
 	if (pFile)
 	{
-		int file_size=pFile->Seek(0,Mc::File::BASE_END);
-		int total_size_on_card=s_calculate_total_space_used_on_card(file_type,file_size);
-		pScript->GetParams()->AddInteger("total_file_size",total_size_on_card);
+		pFile->Seek(0,Mc::File::BASE_END);
+		size_t file_size = pFile->Tell();
+		size_t total_size_on_card=s_calculate_total_space_used_on_card(file_type, file_size);
+		pScript->GetParams()->AddInteger("total_file_size", (int)total_size_on_card);
 	
 		pFile->Flush();
 		pFile->Close();
@@ -2779,7 +2777,7 @@ bool ScriptDeleteMemCardFile(Script::CStruct *pParams, Script::CScript *pScript)
 				p_full_file_name=p_temp;
 			}
 										   
-			int len=strlen(p_full_file_name);
+			size_t len=strlen(p_full_file_name);
 			uint32 this_file_type=s_determine_file_type(p_full_file_name[len-1]);
 		
 			// Generate the directory name.
@@ -3044,9 +3042,9 @@ static int sGetReplayDataSize(int num_dummies)
 }			
 #endif
 
-static uint32 sGetFixedFileSize(uint32 fileType)
+static size_t sGetFixedFileSize(uint32 fileType)
 {
-	uint32 fixed_size=0;
+	size_t fixed_size=0;
 	
 	switch (fileType)
 	{
@@ -3204,13 +3202,13 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	Mc::File* pFile=nullptr;
 	uint8 *pTemp=nullptr;
 	uint8 *p_pad=nullptr;
-	uint32 pad_size=0;
+	size_t pad_size=0;
 	bool SavedOK=false;
 
-	uint32 CardBytesWritten=0;
+	size_t CardBytesWritten=0;
 	uint8 *p_dest=nullptr;
 	SMcFileHeader *p_file_header=nullptr;
-	uint32 BytesWritten=0;
+	size_t BytesWritten=0;
 	
 	Mc::Manager * mc_man=nullptr;
 	Mc::Card* p_card=nullptr;
@@ -3219,18 +3217,18 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	// the platform's block size. A file of exactly this size will be opened for writing.
 	// The code will assert if the required space is greater than this.
 	// The file sizes are required to be fixed as a TRC thing for GameCube.
-	uint32 fixed_size=sGetFixedFileSize(file_type);
+	size_t fixed_size=sGetFixedFileSize(file_type);
 	
 	// header_and_structures_size is the exact space used by the header, summary info, and 
 	// game save info structures. It is not rounded up to the platform's block size.
 	// For all save types except replays, this comprises all the info in the file.
 	// Replay's have the replay data tagged on the end of the file instead, because there
 	// is not enough memory to keep it in the structures.
-	uint32 header_and_structures_size=0;
+	size_t header_and_structures_size=0;
 
 	
 	// This is the size of the replay data, if any. Not rounded up to the platform's block size.
-	uint32 replay_data_size=0;
+	size_t replay_data_size=0;
 
 #if __USE_REPLAYS__
 	// The big replay data has to be tagged on the end rather than being put inside pMemCardStuff
@@ -3252,16 +3250,16 @@ bool ScriptSaveToMemoryCard(Script::CStruct *pParams, Script::CScript *pScript)
 	// Calculating this before opening the file so that if CalculateBufferSize fails,
 	// the file won't be left with zero size, erasing the previous save game.
 	// Passing fixed_size as the size of the temp buffer used when calculating the actual size needed.
-	uint32 structure_size=CalculateBufferSize(pMemCardStuff, fixed_size);
-	uint32 summary_info_size=CalculateBufferSize(pSummaryInfo,MAX_SUMMARY_INFO_SIZE);
+	size_t structure_size=CalculateBufferSize(pMemCardStuff, fixed_size);
+	size_t summary_info_size=CalculateBufferSize(pSummaryInfo,MAX_SUMMARY_INFO_SIZE);
 	Dbg_MsgAssert(summary_info_size<=MAX_SUMMARY_INFO_SIZE,("summary_info_size too big !!"));
 	header_and_structures_size=sizeof(SMcFileHeader)+summary_info_size+structure_size;
 
-	uint32 required_size=header_and_structures_size+replay_data_size;
+	size_t required_size=header_and_structures_size+replay_data_size;
 	
 	#ifdef __NOPT_ASSERT__
 	Dbg_MsgAssert(required_size <= fixed_size,("Need to update fixed file size for type '%s'\nMin required size = %d",Script::FindChecksumName(file_type),required_size));
-	printf("required_size=%d, fixed_size=%d, %d percent\n",required_size,fixed_size,(100*required_size)/fixed_size);
+	printf("required_size=%zu, fixed_size=%zu, %zu percent\n",required_size,fixed_size,(100*required_size)/fixed_size);
 	if (required_size > fixed_size)
 	{
 		goto McError;
@@ -4634,18 +4632,18 @@ bool ScriptGetSaveInfo(Script::CStruct *pParams, Script::CScript *pScript)
 
 	Script::CStruct *p_main_structure=new Script::CStruct;
 	s_insert_game_save_info(file_type, p_main_structure);
-	uint32 structure_size=CalculateBufferSize(p_main_structure);
+	size_t structure_size=CalculateBufferSize(p_main_structure);
 	
 	Script::CStruct *p_summary_info=new Script::CStruct;
 	s_generate_summary_info(p_summary_info, file_type, p_main_structure);
-	uint32 summary_info_size=CalculateBufferSize(p_summary_info);
+	size_t summary_info_size=CalculateBufferSize(p_summary_info);
 
 	
-	pScript->GetParams()->AddInteger(Crc::ConstCRC("MainStructureSize"),structure_size);
-	pScript->GetParams()->AddInteger(Crc::ConstCRC("SummaryInfoSize"),summary_info_size);
+	pScript->GetParams()->AddInteger(Crc::ConstCRC("MainStructureSize"),(int)structure_size);
+	pScript->GetParams()->AddInteger(Crc::ConstCRC("SummaryInfoSize"),(int)summary_info_size);
 	pScript->GetParams()->AddInteger(Crc::ConstCRC("MaxSummaryInfoSize"),MAX_SUMMARY_INFO_SIZE);
-	pScript->GetParams()->AddInteger(Crc::ConstCRC("TotalSize"),sizeof(SMcFileHeader)+summary_info_size+structure_size);
-	pScript->GetParams()->AddInteger(Crc::ConstCRC("MaxTotalSize"),sGetFixedFileSize(file_type));
+	pScript->GetParams()->AddInteger(Crc::ConstCRC("TotalSize"),(int)(sizeof(SMcFileHeader)+summary_info_size+structure_size));
+	pScript->GetParams()->AddInteger(Crc::ConstCRC("MaxTotalSize"),(int)sGetFixedFileSize(file_type));
 	
 	pScript->GetParams()->AddStructurePointer(Crc::ConstCRC("SummaryInfo"),p_summary_info);
 	pScript->GetParams()->AddStructurePointer(Crc::ConstCRC("MainStructure"),p_main_structure);

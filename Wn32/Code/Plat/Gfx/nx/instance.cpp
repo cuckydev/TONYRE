@@ -72,7 +72,7 @@ static int sort_by_bone_transform( const void *p1, const void *p2 )
 		return ( num_st1 > num_st2 ) ? 1 : -1;
 	}
 
-	return((uint32)p_mat1 > (uint32)p_mat2 ) ? 1 : -1;
+	return ((ptrdiff_t)p_mat1 > (ptrdiff_t)p_mat2 ) ? 1 : -1;
 }
 
 

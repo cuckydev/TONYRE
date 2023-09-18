@@ -55,7 +55,7 @@ public:
 					CSkeletonData();
 	virtual			~CSkeletonData();
 	bool			Load( const char* p_fileName, bool assertOnFail );
-	bool			Load( uint32* p_data, int data_size, bool assertOnFail );
+	bool			Load( uint32* p_data, size_t data_size, bool assertOnFail );
 	void			InitialiseBoneSkipList( const char* p_fileName );
 //	void			SetAnimScriptName( uint32 animScriptName );
 

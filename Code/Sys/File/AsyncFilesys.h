@@ -128,27 +128,6 @@ protected:
 	virtual void		io_callback(EAsyncFunctionType function, int result, uint32 data);
 	void				post_io_callback();
 
-	// These could be changed by an interrupt, so they are volatile
-	int		m_last_result;
-
-	// Callback
-	AsyncCallback		mp_callback;
-	unsigned int		m_callback_arg0;
-	unsigned int		m_callback_arg1;
-	EAsyncFunctionType	m_current_function;		// So callback knows what was completed
-
-	EAsyncMemoryType	m_mem_destination;
-	bool				m_stream;
-	bool				m_blocking;
-	uint32				m_buffer_size;
-	int					m_priority;
-
-	int		m_file_size;
-	int		m_position;
-
-	// PRE file
-	PreFile::FileHandle *mp_pre_file;
-
 	// constants
 	static const uint32	MAX_FILE_SIZE;
 
@@ -175,7 +154,6 @@ protected:
 	virtual int			plat_seek( long offset, int origin );
 
 private:
-	int		m_busy_count;		// Number of items we are waiting to finish asynchronously
 
 	// Friends
 	friend CAsyncFileLoader;
@@ -304,19 +282,17 @@ inline void				CAsyncFileLoader::s_dec_manager_busy_count()
 
 inline int		CAsyncFileHandle::inc_busy_count()
 {
-	CAsyncFileLoader::s_inc_manager_busy_count();			// Also increment manager
-	return ++m_busy_count;
+	return 0;
 }
 
 inline int		CAsyncFileHandle::dec_busy_count()
 {
-	CAsyncFileLoader::s_dec_manager_busy_count();			// Also decrement manager
-	return --m_busy_count;
+	return 0;
 }
 
 inline int		CAsyncFileHandle::get_busy_count()
 {
-	return m_busy_count;
+	return 0;
 }
 
 } // namespace File

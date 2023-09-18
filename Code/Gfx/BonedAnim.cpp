@@ -983,9 +983,9 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	pData += ( m_numBones * sizeof(uint16) );
 
 	// long-align
-	if ( (uint32)pData & 0x3 )
+	if ( (uintptr_t)pData & 0x3 )
 	{
-		pData += ( 4 - ((uint32)pData & 0x3) );
+		pData += ( 4 - ((uintptr_t)pData & 0x3) );
 	}
 	
 	// first read in object anim bone names, if any
@@ -1001,7 +1001,7 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	
 	if ( m_flags & nxBONEDANIMFLAGS_PARTIALANIM )
 	{
-		Dbg_Assert(!((uint32)pData & 0x3));
+		Dbg_Assert(!((uintptr_t)pData & 0x3));
 		
 		mp_partialAnimData = (uint32*)pData;
 		
@@ -1014,9 +1014,9 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	}
 
 	// long-align
-	if ( (uint32)pData & 0x3 )
+	if ( (uintptr_t)pData & 0x3 )
 	{
-		pData += ( 4 - ((uint32)pData & 0x3) );
+		pData += ( 4 - ((uintptr_t)pData & 0x3) );
 	}
 		
 	if ( is_hires() )
@@ -1042,9 +1042,9 @@ bool CBonedAnimFrameData::plat_read_compressed_stream(uint8* pData, bool delete_
 	// GJ:  be able to PIP the custom keys in as well
 
 	// long-align
-	if ( (uint32)pData & 0x3 )
+	if ( (uintptr_t)pData & 0x3 )
 	{
-		pData += ( 4 - ((uint32)pData & 0x3) );
+		pData += ( 4 - ((uintptr_t)pData & 0x3) );
 	}
    
 	// create an array of pointers to the custom keys
@@ -1094,7 +1094,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 
 	SPlatformFileHeader* pThePlatformHeader = (SPlatformFileHeader*)pData;
 	pData += sizeof(SPlatformFileHeader);
-	Dbg_Assert(!((uint) pData & 0x3));
+	Dbg_Assert(!((uintptr_t) pData & 0x3));
 
 	m_numBones = pThePlatformHeader->numBones;
 	m_num_qFrames = (short)pThePlatformHeader->numQKeys;
@@ -1107,7 +1107,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	// first read in object anim bone names, if any
 	if ( m_flags & nxBONEDANIMFLAGS_OBJECTANIMDATA )
 	{
-		Dbg_Assert(!((uint) pData & 0x3));
+		Dbg_Assert(!((uintptr_t) pData & 0x3));
 		mp_boneNames = (uint32*)pData;
 		pData += ( m_numBones * sizeof(uint32) );
 	}
@@ -1118,7 +1118,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 
 	if ( m_flags & nxBONEDANIMFLAGS_PARTIALANIM )
 	{
-		Dbg_Assert(!((uint32)pData & 0x3));
+		Dbg_Assert(!((uintptr_t)pData & 0x3));
 		
 		mp_partialAnimData = (uint32*)pData;
 		
@@ -1143,9 +1143,9 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	}
 
 	// long-align
-	if ( (uint32)pData & 0x3 )
+	if ( (uintptr_t)pData & 0x3 )
 	{
-		pData += ( 4 - ((uint32)pData & 0x3) );
+		pData += ( 4 - ((uintptr_t)pData & 0x3) );
 	}
    
 	// count to make sure the number of keys per bone didn't overflow
@@ -1163,21 +1163,21 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 
 	if ( is_hires() )
 	{
-		Dbg_Assert(!((uint) pData & 0x3));
+		Dbg_Assert(!((uintptr_t) pData & 0x3));
 		mp_qFrames = (char*)pData;
 		pData += ( m_num_qFrames * sizeof(CHiResAnimQKey) );
 		
-		Dbg_Assert(!((uint) pData & 0x3));
+		Dbg_Assert(!((uintptr_t) pData & 0x3));
 		mp_tFrames = (char*)pData;
 		pData += ( m_num_tFrames * sizeof(CHiResAnimTKey) );
 	}
 	else
 	{
-		Dbg_Assert(!((uint) pData & 0x3));
+		Dbg_Assert(!((uintptr_t) pData & 0x3));
 		mp_qFrames = (char*)pData;
 		pData += ( m_num_qFrames * sizeof(CStandardAnimQKey) );
 		
-		Dbg_Assert(!((uint) pData & 0x3));
+		Dbg_Assert(!((uintptr_t) pData & 0x3));
 		mp_tFrames = (char*)pData;
 		pData += ( m_num_tFrames * sizeof(CStandardAnimTKey) );
 	}
@@ -1192,9 +1192,9 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 	// GJ:  be able to PIP the custom keys in as well
 
 	// long-align
-	if ( (uint32)pData & 0x3 )
+	if ( (uintptr_t)pData & 0x3 )
 	{
-		pData += ( 4 - ((uint32)pData & 0x3) );
+		pData += ( 4 - ((uintptr_t)pData & 0x3) );
 	}
    
 	// create an array of pointers to the custom keys
@@ -1435,7 +1435,7 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 	Str::LowerCase( test );
 	m_fileNameCRC = Crc::GenerateCRCFromString( test );
 
-	int file_size = 0;
+	size_t file_size = 0;
 
 	char filename[256];
 	strcpy( filename, p_fileName );
@@ -1448,6 +1448,9 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 
 	if ( async )
 	{
+		Dbg_Assert(0);
+		return false;
+		#if 0
 		Dbg_MsgAssert( !use_pip, ( "Pip-files do not work with async-loaded anims" ) );
 
 		// Pre-load
@@ -1484,6 +1487,7 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 
 		// Should be the callback
 		return true; //PostLoad(assertOnFail, file_size);
+		#endif
 	}
 	else
 	{
@@ -1536,6 +1540,12 @@ bool CBonedAnimFrameData::Load(const char* p_fileName, bool assertOnFail, bool a
 void CBonedAnimFrameData::async_callback(File::CAsyncFileHandle *, File::EAsyncFunctionType function,
 										 int result, unsigned int arg0, unsigned int arg1)
 {
+	(void)function;
+	(void)result;
+	(void)arg0;
+	(void)arg1;
+
+	#if 0
 	//Dbg_Message("Got callback from %x", arg0);
 	if (function == File::FUNC_READ)
 	{
@@ -1544,6 +1554,7 @@ void CBonedAnimFrameData::async_callback(File::CAsyncFileHandle *, File::EAsyncF
 
 		p_data->PostLoad(assert, result);
 	}
+	#endif
 }
 
 /******************************************************************/
@@ -1551,7 +1562,7 @@ void CBonedAnimFrameData::async_callback(File::CAsyncFileHandle *, File::EAsyncF
 /*                                                                */
 /******************************************************************/
 
-bool CBonedAnimFrameData::PostLoad(bool assertOnFail, int file_size, bool delete_buffer)
+bool CBonedAnimFrameData::PostLoad(bool assertOnFail, size_t file_size, bool delete_buffer)
 {
 	(void)assertOnFail;
 	(void)file_size;
@@ -1756,10 +1767,10 @@ bool CBonedAnimFrameData::GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth
 	void * p_bone_frames = mp_perBoneFrames;
 #endif		// __aram__
 
-	for ( uint32 i = 0; i < m_numBones; i++ )
+	for (size_t i = 0; i < m_numBones; i++)
 	{
-		int numQKeys = get_num_qkeys( p_bone_frames, i );
-		int numTKeys = get_num_tkeys( p_bone_frames, i );
+		size_t numQKeys = get_num_qkeys( p_bone_frames, i );
+		size_t numTKeys = get_num_tkeys( p_bone_frames, i );
 
 #ifdef __ARAM__
 		int q_off = 0;
@@ -1787,7 +1798,7 @@ bool CBonedAnimFrameData::GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth
 		}
 #endif		// __ARAM__
 
-		for ( int j = 0; j < numQKeys; j++ )
+		for (size_t j = 0; j < numQKeys; j++)
 		{
 			if ( j == (numQKeys-1) )
 			{
@@ -1839,7 +1850,7 @@ bool CBonedAnimFrameData::GetInterpolatedCameraFrames(Mth::Quat* pRotations, Mth
 		}
 #endif		// __ARAM__
 
-		for ( int j = 0; j < numTKeys; j++ )
+		for (size_t j = 0; j < numTKeys; j++)
 		{
 			if ( j == (numTKeys-1) )
 			{
@@ -2394,8 +2405,8 @@ bool CBonedAnimFrameData::GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vect
 
 	for ( uint32 i = 0; i < m_numBones; i++ )
 	{
-		int numQKeys = get_num_qkeys( p_bone_frames, i );
-		int numTKeys = get_num_tkeys( p_bone_frames, i );
+		size_t numQKeys = get_num_qkeys( p_bone_frames, i );
+		size_t numTKeys = get_num_tkeys( p_bone_frames, i );
 
 #ifdef __ARAM__
 		int q_off = 0;
@@ -2423,7 +2434,7 @@ bool CBonedAnimFrameData::GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vect
 		}
 #endif		// __ARAM__
 
-		for ( int j = 0; j < numQKeys; j++ )
+		for (size_t j = 0; j < numQKeys; j++)
 		{
 			if ( j == (numQKeys-1) )
 			{
@@ -2475,7 +2486,7 @@ bool CBonedAnimFrameData::GetInterpolatedFrames(Mth::Quat* pRotations, Mth::Vect
 		}
 #endif		// __ARAM__
 
-		for ( int j = 0; j < numTKeys; j++ )
+		for (size_t j = 0; j < numTKeys; j++)
 		{
 			if ( j == (numTKeys-1) )
 			{
@@ -2593,8 +2604,8 @@ bool CBonedAnimFrameData::ResetCustomKeys()
 	// eventually, we might need to move this
 	// into CReferencedFrameData...
 
-	int customKeyCount = get_num_customkeys();
-	for ( int i = 0; i < customKeyCount; i++ )
+	size_t customKeyCount = get_num_customkeys();
+	for (size_t i = 0; i < customKeyCount; i++)
 	{					 
 		CCustomAnimKey* pKey = get_custom_key(i);
 		pKey->SetActive( true );
@@ -2618,8 +2629,8 @@ bool CBonedAnimFrameData::ProcessCustomKeys( float startTime, float endTime, Obj
 	startTime *= 60.0f;
 	endTime *= 60.0f;
 
-	int customKeyCount = get_num_customkeys();
-	for ( int i = 0; i < customKeyCount; i++ )
+	size_t customKeyCount = get_num_customkeys();
+	for (size_t i = 0; i < customKeyCount; i++)
 	{
 		CCustomAnimKey* pKey = get_custom_key(i);
 		if ( pKey->WithinRange( startTime, endTime, inclusive ) )

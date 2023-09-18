@@ -790,7 +790,7 @@ void				CCollObjTriData::find_faces(CCollBSPNode *p_bsp_node, const Mth::CBBox &
 // Calculate the normal of a face
 // this is rather expensive if doing a lot of processing, so don't call
 // this function more than you need to.
-const Mth::Vector CCollObjTriData::GetFaceNormal(int face_idx) const
+const Mth::Vector CCollObjTriData::GetFaceNormal(size_t face_idx) const
 {
 		Mth::Vector v0 = GetRawVertexPos(GetFaceVertIndex(face_idx,0));
 		Mth::Vector v1 = GetRawVertexPos(GetFaceVertIndex(face_idx,1));
@@ -1176,7 +1176,7 @@ void	CCollObjTriData::Scale(const Mth::Vector & world_origin, const Mth::Vector 
 /*                                                                */
 /******************************************************************/
 
-void	CCollObjTriData::SetRawVertexPos(int vert_idx, const Mth::Vector & pos)
+void	CCollObjTriData::SetRawVertexPos(size_t vert_idx, const Mth::Vector & pos)
 {
 	Dbg_MsgAssert(mp_bsp_tree == nullptr, ("Cannot change a vertex within a BSP Tree"));
 
@@ -1188,7 +1188,7 @@ void	CCollObjTriData::SetRawVertexPos(int vert_idx, const Mth::Vector & pos)
 /*                                                                */
 /******************************************************************/
 
-void	CCollObjTriData::set_vertex_pos(int vert_idx, const Mth::Vector & pos)
+void	CCollObjTriData::set_vertex_pos(size_t vert_idx, const Mth::Vector & pos)
 {
 #ifndef __PLAT_NGC__	// Since they are shared with the render data
 	if (m_use_fixed_verts)

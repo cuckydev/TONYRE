@@ -22,12 +22,12 @@ void CTextured3dPoly::sRenderAll()
 
 CTextured3dPoly::CTextured3dPoly()
 {
-	s_poly_table.PutItem((uint32)this,this);
+	s_poly_table.PutItem((uintptr_t)this, this);
 }
 
 CTextured3dPoly::~CTextured3dPoly()
 {
-	s_poly_table.FlushItem((uint32)this);
+	s_poly_table.FlushItem((uintptr_t)this);
 }
 
 void CTextured3dPoly::SetTexture(uint32 texture_checksum)

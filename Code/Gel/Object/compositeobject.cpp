@@ -436,8 +436,8 @@ void CCompositeObject::CreateComponentFromStructure(Script::CStruct *p_struct, S
 													  
 void CCompositeObject::CreateComponentsFromArray(Script::CArray *p_array, Script::CStruct* p_params)
 {
-	int num_components = p_array->GetSize();
-	for (int i=0;i<num_components;i++)
+	size_t num_components = p_array->GetSize();
+	for (size_t i=0;i<num_components;i++)
 	{
 		Script::CStruct* p_struct = p_array->GetStructure(i);
         CreateComponentFromStructure(p_struct, p_params);

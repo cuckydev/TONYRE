@@ -820,7 +820,7 @@ void CParkEditor::Update()
 			//printf("2: m_pct_resources_used = %f\n",m_pct_resources_used);
 			
 			//float rail_point_pct = (float) usage_info.mTotalRailPoints / (float) (p_generator->GetResourceSize("out_railpoint_pool") - 25);
-			int component_use_est = usage_info.mTotalClonedPieces * 7 + usage_info.mTotalRailPoints * 9 + usage_info.mTotalLinkedRailPoints;
+			size_t component_use_est = usage_info.mTotalClonedPieces * 7 + usage_info.mTotalRailPoints * 9 + usage_info.mTotalLinkedRailPoints;
 			int base_component_use = p_generator->GetResourceSize("component_use_base");
 			float component_pct = (float) (component_use_est - base_component_use) / (float) (p_generator->GetResourceSize("max_components") - base_component_use);
 			if (m_pct_resources_used < component_pct)
@@ -828,7 +828,7 @@ void CParkEditor::Update()
 			//printf("component_use_est=%d\n",component_use_est);
 			//ParkEd("3: m_pct_resources_used=%f",m_pct_resources_used);
 			
-			int vector_use_est = usage_info.mTotalClonedPieces * 2 + usage_info.mTotalRailPoints * 2;
+			size_t vector_use_est = usage_info.mTotalClonedPieces * 2 + usage_info.mTotalRailPoints * 2;
 			int base_vector_use = p_generator->GetResourceSize("vector_use_base");
 			float vector_pct = (float) (vector_use_est - base_vector_use) / (float) (p_generator->GetResourceSize("max_vectors") - base_vector_use);
 			if (m_pct_resources_used < vector_pct)
@@ -944,7 +944,7 @@ void CParkEditor::Update()
 	
 				Front::CTextElement *p_other_elem = (Front::CTextElement *) p_elem_man->GetElement(Crc::ConstCRC("parked_mem_stats_other"), Front::CScreenElementManager::ASSERT).Convert();
 				char other_text[128];
-				sprintf(other_text, "components free:\\c2 %d %d", 
+				sprintf(other_text, "components free:\\c2 %zu %zu", 
 						p_generator->GetResourceSize("max_components") - component_use_est - base_component_use,
 						p_generator->GetResourceSize("max_vectors") - vector_use_est - base_vector_use);
 				p_other_elem->SetText(other_text);
@@ -1058,8 +1058,8 @@ void CParkEditor::SetPaused(bool paused)
 
 void CParkEditor::turn_on_or_update_piece_menu()
 {
-	int menu_set_number;
-	int set_num = mp_cursor->GetSelectedSet(&menu_set_number);
+	size_t menu_set_number;
+	size_t set_num = mp_cursor->GetSelectedSet(&menu_set_number);
 	// XXX
 	Ryan("piece set number is %d\n", set_num);
 	Dbg_Assert(mp_menu_manager);
@@ -2223,8 +2223,7 @@ bool CCursor::CopySelectionToClipboard()
 	Mth::Vector corner_pos;
 	Mth::Vector area_dims;
 	corner_pos=Ed::CParkManager::Instance()->GridCoordinatesToWorld(area,&area_dims);
-	int num_rail_points_needed=Obj::GetRailEditor()->CountPointsInArea(corner_pos[X], corner_pos[Z], 
-																	   corner_pos[X]+area_dims[X], corner_pos[Z]+area_dims[Z]);
+	size_t num_rail_points_needed=Obj::GetRailEditor()->CountPointsInArea(corner_pos[X], corner_pos[Z], corner_pos[X]+area_dims[X], corner_pos[Z]+area_dims[Z]);
 	if (num_rail_points_needed > Obj::GetRailEditor()->GetNumFreePoints())
 	{
 		return false;
@@ -2285,7 +2284,7 @@ bool CCursor::CopySelectionToClipboard()
 	return true;
 }	
 
-int CCursor::GetNumClipboards()
+size_t CCursor::GetNumClipboards()
 {
 	int n=0;
 	CClipboard *p_clipboard=mp_clipboards;
@@ -2305,11 +2304,11 @@ void CCursor::PasteCurrentClipboard()
 	}
 }
 
-CClipboard *CCursor::get_clipboard(int index)
+CClipboard *CCursor::get_clipboard(size_t index)
 {
 	CClipboard *p_clipboard=mp_clipboards;
 	
-	for (int i=0; i<index; ++i)
+	for (size_t i=0; i<index; ++i)
 	{
 		if (p_clipboard)
 		{
@@ -2324,7 +2323,7 @@ CClipboard *CCursor::get_clipboard(int index)
 	return p_clipboard;
 }
 
-void CCursor::set_current_clipboard(int index)
+void CCursor::set_current_clipboard(size_t index)
 {
 	DestroyAnyClipboardCursors();		
 	mp_current_clipboard=get_clipboard(index);
@@ -2341,7 +2340,7 @@ void CCursor::set_current_clipboard(int index)
 	*/
 }
 
-void CCursor::remove_clipboard(int index)
+void CCursor::remove_clipboard(size_t index)
 {
 	CClipboard *p_remove=get_clipboard(index);
 	if (!p_remove)
@@ -2468,12 +2467,21 @@ void CCursor::SetVisibility(bool visible)
 void CCursor::ChangePieceInSet(int dir)
 {
 	CParkManager::CPieceSet &piece_set = m_manager->GetPieceSet(m_selected_set, &m_menu_set_number);
-	int selected_entry = piece_set.mSelectedEntry;
-	selected_entry += dir;
-	if (selected_entry < 0)
-		selected_entry = piece_set.mTotalEntries - 1;
-	else if (selected_entry >= piece_set.mTotalEntries)
-		selected_entry = 0;
+	size_t selected_entry = piece_set.mSelectedEntry;
+	if (dir < 0)
+	{
+		if (selected_entry == 0)
+			selected_entry = piece_set.mTotalEntries - 1;
+		else
+			selected_entry--;
+	}
+	else if (dir > 0)
+	{
+		if (selected_entry == piece_set.mTotalEntries - 1)
+			selected_entry = 0;
+		else
+			selected_entry++;
+	}
 	piece_set.mSelectedEntry = selected_entry;
 
 	if (piece_set.mIsClipboardSet)
@@ -2488,7 +2496,7 @@ void CCursor::ChangePieceInSet(int dir)
 
 void CCursor::ChangeSet(int dir)
 {
-	for (int count = m_manager->GetTotalNumPieceSets(); count > 0; count--)
+	for (size_t count = m_manager->GetTotalNumPieceSets(); count > 0; count--)
 	{
 		m_selected_set += dir;
 		if (m_selected_set < 0)
@@ -2521,10 +2529,10 @@ void CCursor::SwitchMenuPieceToMostRecentClipboard()
 		return;
 	}
 		
-	int num_sets=m_manager->GetTotalNumPieceSets();
+	size_t num_sets=m_manager->GetTotalNumPieceSets();
 	CParkManager::CPieceSet *p_piece_set=nullptr;
 	
-	for (int i=0; i<num_sets; ++i)
+	for (size_t i=0; i<num_sets; ++i)
 	{
 		CParkManager::CPieceSet &piece_set = m_manager->GetPieceSet(i, &m_menu_set_number);
 		if (piece_set.mIsClipboardSet)
@@ -2981,18 +2989,18 @@ void CUpperMenuManager::SetSourceMeta(uint32 nameChecksum)
 
 
 
-void CUpperMenuManager::SetPieceSet(CParkManager::CPieceSet *pSet, int set_number, int menuSetNumber)
+void CUpperMenuManager::SetPieceSet(CParkManager::CPieceSet *pSet, size_t set_number, size_t menuSetNumber)
 {
 	ParkEd("CUpperMenuManager::SetPieceSet(pSet = %p, set_number = %d)", pSet, set_number);
 	
 	Dbg_Assert(pSet);
 	
 	bool is_clipboard_set=false;
-	int num_clipboards=0;
+	size_t num_clipboards=0;
 	if (pSet->mIsClipboardSet)
 	{
 		is_clipboard_set=true;
-		num_clipboards=CCursor::sInstance()->GetNumClipboards();
+		num_clipboards = CCursor::sInstance()->GetNumClipboards();
 		CCursor::sInstance()->ClearAreaSelection();
 	}
 
@@ -3013,7 +3021,7 @@ void CUpperMenuManager::SetPieceSet(CParkManager::CPieceSet *pSet, int set_numbe
 		//printf("Script::RunScript(\"parked_make_piece_menu\");");
 		Script::RunScript("parked_make_piece_menu");
 		
-		for (int i = 0; i < pSet->mTotalEntries; i++)
+		for (size_t i = 0; i < pSet->mTotalEntries; i++)
 		{
 			uint32 name_checksum = pSet->mEntryTab[i].mNameCrc;
 			
@@ -3021,7 +3029,7 @@ void CUpperMenuManager::SetPieceSet(CParkManager::CPieceSet *pSet, int set_numbe
 			{
 				Script::CStruct params;
 				params.AddChecksum("metapiece_id", name_checksum);
-				if (i<num_clipboards)
+				if (i < num_clipboards)
 				{
 					params.AddInteger("ClipBoardIndex",i+1);
 				}
@@ -3057,8 +3065,8 @@ void CUpperMenuManager::SetPieceSet(CParkManager::CPieceSet *pSet, int set_numbe
 		Script::RunScript("parked_make_set_menu");
 		
 		Script::CStruct params;
-		params.AddInteger("set_number", menuSetNumber);
-		params.AddInteger("last_set_number", m_current_set_index);
+		params.AddInteger("set_number", (int)menuSetNumber);
+		params.AddInteger("last_set_number", (int)m_current_set_index);
 		Script::RunScript("parked_lock_piece_and_set_menus", &params);
 		
 		mp_current_set = pSet;
@@ -3076,22 +3084,22 @@ void CUpperMenuManager::SetPieceSet(CParkManager::CPieceSet *pSet, int set_numbe
 
 	/* Make the slider reflect the selection window */
 	
-	int first_in_window = m_current_entry_in_set - 3;
-	int last_in_window = m_current_entry_in_set + 3;
+	int first_in_window = (int)m_current_entry_in_set - 3;
+	int last_in_window = (int)m_current_entry_in_set + 3;
 	if (pSet->mTotalEntries <= 7)
 	{
 		first_in_window = 0;
-		last_in_window = pSet->mTotalEntries - 1;
+		last_in_window = (int)pSet->mTotalEntries - 1;
 	}
 	else if (first_in_window < 0)
 	{
 		last_in_window += -first_in_window;
 		first_in_window = 0;
 	}
-	else if (last_in_window >= pSet->mTotalEntries)
+	else if (last_in_window >= (int)pSet->mTotalEntries)
 	{
-		first_in_window += pSet->mTotalEntries - last_in_window - 1;
-		last_in_window = pSet->mTotalEntries - 1;
+		first_in_window += (int)pSet->mTotalEntries - last_in_window - 1;
+		last_in_window = (int)pSet->mTotalEntries - 1;
 	}
 	
 	Front::CScreenElementManager* p_element_manager = Front::CScreenElementManager::Instance();
@@ -3121,7 +3129,7 @@ void CUpperMenuManager::Enable()
 	Script::RunScript("parked_make_piece_menu");			
 	Script::RunScript("parked_make_set_menu");			
 	
-	for (int i = 0; i < m_manager->GetTotalNumPieceSets(); i++)
+	for (size_t i = 0; i < m_manager->GetTotalNumPieceSets(); i++)
 	{
 		CParkManager::CPieceSet &set = m_manager->GetPieceSet(i);
 		if (set.mVisible)

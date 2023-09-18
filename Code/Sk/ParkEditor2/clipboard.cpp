@@ -762,7 +762,7 @@ bool CClipboard::Paste(CCursor *p_cursor)
 	}	
 
 	// Bail out if there are not enough free rail points to create the edited rails
-	int num_rail_points_to_paste=0;
+	size_t num_rail_points_to_paste=0;
 	Obj::CEditedRail *p_rail=mp_rails;
 	while (p_rail)
 	{

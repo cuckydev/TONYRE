@@ -734,7 +734,7 @@ bool Card::Rename( const char* old_name, const char* new_name )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-File* Card::Open( const char* filename, int mode, int size )
+File* Card::Open( const char* filename, int mode, size_t size )
 {
 	(void)filename;
 	(void)mode;
@@ -919,10 +919,12 @@ File::~File()
 /*                                                                */
 /******************************************************************/
 
-int File::Seek( int offset, FilePointerBase base )
+int File::Seek( ptrdiff_t offset, FilePointerBase base )
 {
 	(void)offset;
 	(void)base;
+
+	Dbg_Assert(0);
 
 	/*
 	Dbg_Assert( m_fd != 0 );
@@ -956,6 +958,11 @@ int File::Seek( int offset, FilePointerBase base )
 	return 0;
 }
 
+size_t File::Tell()
+{
+	return 0;
+}
+
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -978,7 +985,7 @@ bool File::Flush( void )
 /*                                                                */
 /******************************************************************/
 
-int	File::Write( void* buffer, int len )
+size_t	File::Write( void* buffer, size_t len )
 {
 	(void)buffer;
 	(void)len;
@@ -1025,7 +1032,7 @@ int	File::Write( void* buffer, int len )
 /*                                                                */
 /******************************************************************/
 
-int	File::Read( void* buff, int len )
+size_t	File::Read( void* buff, size_t len )
 {
 	(void)buff;
 	(void)len;

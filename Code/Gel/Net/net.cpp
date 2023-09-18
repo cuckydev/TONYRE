@@ -1296,7 +1296,7 @@ void	Metrics::CalculateBytesPerSec( int cur_time )
 /*                                                                */
 /******************************************************************/
 
-int		Metrics::GetBytesPerSec( void )
+size_t Metrics::GetBytesPerSec( void )
 {
 	return m_bytes_per_sec;
 }
@@ -1306,7 +1306,7 @@ int		Metrics::GetBytesPerSec( void )
 /*                                                                */
 /******************************************************************/
 
-int		Metrics::GetTotalBytes( void )
+size_t Metrics::GetTotalBytes( void )
 {
 	return m_total_bytes;
 }
@@ -1316,7 +1316,7 @@ int		Metrics::GetTotalBytes( void )
 /*                                                                */
 /******************************************************************/
 
-int		Metrics::GetTotalMessageData( int msg_id )
+size_t Metrics::GetTotalMessageData( size_t msg_id )
 {
 	return m_size_messages[ msg_id ];
 }
@@ -1326,7 +1326,7 @@ int		Metrics::GetTotalMessageData( int msg_id )
 /*                                                                */
 /******************************************************************/
 
-int		Metrics::GetTotalNumMessagesOfId( int msg_id )
+size_t Metrics::GetTotalNumMessagesOfId(size_t msg_id )
 {
 	return m_num_messages[ msg_id ];
 }
@@ -1336,7 +1336,7 @@ int		Metrics::GetTotalNumMessagesOfId( int msg_id )
 /*                                                                */
 /******************************************************************/
 
-void	Metrics::AddPacket( int size, int time )
+void	Metrics::AddPacket( size_t size, int time )
 {
 	int index;
 
@@ -1353,7 +1353,7 @@ void	Metrics::AddPacket( int size, int time )
 /*                                                                */
 /******************************************************************/
 
-void	Metrics::AddMessage( int msg_id, int size )
+void	Metrics::AddMessage(size_t msg_id, size_t size )
 {
 	m_num_messages[ msg_id ]++;
 	m_size_messages[ msg_id ] += size;
@@ -1384,9 +1384,9 @@ int		PacketInfo::GetTime( void )
 /*                                                                */
 /******************************************************************/
 
-void	PacketInfo::SetNumBytes( int size )
+void	PacketInfo::SetNumBytes(size_t size )
 {
-	m_num_bytes = size;
+	m_num_bytes = (int)size; // TODO: fix
 }
 
 /******************************************************************/
@@ -2206,7 +2206,7 @@ int		Manager::GetModemBaudRate( void )
 /*                                                                */
 /******************************************************************/
 
-void	Manager::SetBandwidth( int bytes_per_sec )
+void	Manager::SetBandwidth(size_t bytes_per_sec )
 {
 	m_bandwidth = bytes_per_sec;
 }
@@ -2216,7 +2216,7 @@ void	Manager::SetBandwidth( int bytes_per_sec )
 /*                                                                */
 /******************************************************************/
 
-int		Manager::GetBandwidth( void )
+size_t		Manager::GetBandwidth( void )
 {
 	return m_bandwidth;
 }

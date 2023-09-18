@@ -440,7 +440,7 @@ void compress_model_appearance( Script::CStruct* pStruct )
 /*                                                                */
 /******************************************************************/
 
-uint32 CModelAppearance::WriteToBuffer(uint8 *pBuffer, uint32 BufferSize, bool ignoreFaceData )
+size_t CModelAppearance::WriteToBuffer(uint8 *pBuffer, size_t BufferSize, bool ignoreFaceData )
 {
 	// for network message building
 	// (note that the face texture is not included in this buffer
@@ -448,7 +448,7 @@ uint32 CModelAppearance::WriteToBuffer(uint8 *pBuffer, uint32 BufferSize, bool i
 	// be sent in a separate net packet)
 	Script::CStruct* pTempStructure = new Script::CStruct;
 	pTempStructure->AppendStructure( &m_appearance );
-	uint32 size = Script::WriteToBuffer(pTempStructure, pBuffer, BufferSize);
+	size_t size = Script::WriteToBuffer(pTempStructure, pBuffer, BufferSize);
 
 #ifndef __PLAT_NGC__
 	// GJ:  Need to compress the model appearances for Xbox and PS2

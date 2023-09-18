@@ -343,7 +343,7 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 
 	//Dbg_Message("In UpdateCollisionSuperSectors with add size %d, remove size %d", num_add_items, num_remove_items);
 
-	uint idx;
+	size_t idx;
 	int num_change;
 	for( int i = 0; i < NUM_PARTITIONS_X; i++ )
 	{
@@ -468,7 +468,7 @@ void	Manager::UpdateCollisionSuperSectors(Lst::Head<Nx::CCollStatic> &add_list,
 			Nx::CCollStatic** pp_old = p_super_sector->m_CollSectorList;
 			if (pp_old)
 			{
-				uint32 count = p_super_sector->m_NumCollSectors;
+				size_t count = p_super_sector->m_NumCollSectors;
 				if (count)
 				{
 					p_super_sector->m_CollSectorList = new Nx::CCollStatic*[count];
@@ -495,7 +495,7 @@ int		Manager::add_to_super_sector(Nx::CCollStatic *p_coll, SSec::Sector *p_super
 	if (num_changes < 0)
 	{
 		// Just append to end of existing array
-		int avail_idx = p_super_sector->m_NumCollSectors + num_changes;
+		size_t avail_idx = p_super_sector->m_NumCollSectors + num_changes;
 		p_super_sector->m_CollSectorList[avail_idx] = p_coll;
 	} else {
 		// Append to add list
@@ -666,7 +666,7 @@ Nx::CCollStatic** Manager::GetIntersectingCollSectors( Mth::Line &line )
 	float x_offset, z_offset;
 	size_t start_x_box, start_z_box;
 	size_t end_x_box, end_z_box;
-	int temp;
+	size_t temp;
 		
 	qual_sector_idx = 0;
 

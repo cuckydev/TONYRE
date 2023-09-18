@@ -276,7 +276,7 @@ private:
 	bool 							m_debug;
 
 	// Balance meter stuff -- here for now
-	int								m_numArrowPositions;
+	size_t							m_numArrowPositions;
 	Script::CPair 					m_arrowPosTab[20];
 	float							m_arrowInterval;
 	Script::CPair					m_arrowPos;

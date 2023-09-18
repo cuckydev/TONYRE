@@ -758,16 +758,16 @@ void CScript::SetScript(const SStructScript *p_structScript, CStruct *p_params, 
 	Dbg_MsgAssert(p_structScript->mpScriptTokens,("nullptr p_structScript->mpScriptTokens"));
 	
 	// Calculate the size of the script
-	uint32 size=SkipOverScript(p_structScript->mpScriptTokens)-p_structScript->mpScriptTokens;
+	size_t size = SkipOverScript(p_structScript->mpScriptTokens) - p_structScript->mpScriptTokens;
 	
 	// Allocate a buffer and make a copy of the script (since the source may get deleted)
 	uint8 *p_new_script = new uint8[size];
 	
 	uint8 *p_source=p_structScript->mpScriptTokens;
 	uint8 *p_dest=p_new_script;
-	for (uint32 i=0; i<size; ++i)
+	for (size_t i = 0; i < size; ++i)
 	{
-		*p_dest++=*p_source++;
+		*p_dest++ = *p_source++;
 	}	
 	
 	// Call set_script, which will set up mp_pc etc.
@@ -2936,7 +2936,7 @@ void SendScript( uint32 scriptChecksum, CStruct *p_params, Obj::CObject *p_objec
 	GameNet::Manager * gamenet_man = GameNet::Manager::Instance();
 	Net::Client* client;
 	GameNet::MsgRunScript msg;
-	int size, msg_size;
+	size_t size, msg_size;
 
 	if( gamenet_man->InNetGame())
 	{

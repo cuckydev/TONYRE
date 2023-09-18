@@ -64,10 +64,12 @@ uint8 *CScriptCache::GetScript(uint32 scriptName)
 
 void CScriptCache::DecrementScriptUsage(uint32 scriptName)
 {
+	(void)scriptName;
 }
 
 void CScriptCache::RefreshAfterReload(uint32 scriptName)
 {
+	(void)scriptName;
 }
 
 void CScriptCache::DeleteZeroUsageStraightAway()

@@ -485,7 +485,7 @@ void		Skate::s_object_update( Obj::CObject* object, void* data )
 	if( update_flags & GameNet::mUPDATE_FIELD_RAIL_NODE )
 	{
 		player->m_LastSentProps.m_LastRailNodeUpdate[id] = latest_state->RailNode;
-		update_info->m_BitStream.WriteValue( latest_state->RailNode, sizeof( sint16 ) * 8 );
+		update_info->m_BitStream.WriteValue((int)latest_state->RailNode, (int)(sizeof( sint16 ) * 8) );
 	}
 	
 }

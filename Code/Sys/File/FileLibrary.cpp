@@ -71,14 +71,10 @@ struct SLibHeader
 
 void filesync_async_callback(File::CAsyncFileHandle*, File::EAsyncFunctionType function, int result, unsigned int arg0, unsigned int arg1)
 {
-	// Dbg_Message("Got callback from %x", arg0);
-	if (function == File::FUNC_READ)
-	{
-		CFileLibrary* p_data = (CFileLibrary*)arg0;
-		bool assertOnFail = (bool)arg1;
-
-		p_data->PostLoad( assertOnFail, result );
-	}
+	(void)function;
+	(void)result;
+	(void)arg0;
+	(void)arg1;
 }
 
 /*****************************************************************************
@@ -139,7 +135,7 @@ bool CFileLibrary::LoadFinished() const
 /*                                                                */
 /******************************************************************/
 
-bool CFileLibrary::PostLoad( bool assertOnFail, int file_size )
+bool CFileLibrary::PostLoad( bool assertOnFail, size_t file_size )
 {
 	(void)assertOnFail;
 
@@ -255,7 +251,7 @@ load_fail:
 bool CFileLibrary::Load( const char* p_fileName, bool assertOnFail, bool async_load )
 {
 	Dbg_MsgAssert( !async_load, ( "Cutscenes aren't supposed to be async loaded anymore" ) );
-	int file_size;
+	size_t file_size;
 	
 	mp_baseBuffer = LoadAlloc( p_fileName, &file_size );
 	mp_fileBuffer = mp_baseBuffer;

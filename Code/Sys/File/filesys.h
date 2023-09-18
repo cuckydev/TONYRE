@@ -64,10 +64,10 @@ float GetPercentageRead(void *pFP);
 void InitQuickFileSystem( void );
 void ResetQuickFileSystem( void );
 
-uint32	CanFileBeLoadedQuickly( const char *filename );
+size_t	CanFileBeLoadedQuickly( const char *filename );
 bool LoadFileQuicklyPlease( const char *filename, char *addr );
 
-char *LoadAlloc(const char *p_fileName, int *p_filesize=nullptr, char *p_dest = nullptr, int maxSize=0);
+char *LoadAlloc(const char *p_fileName, size_t *p_filesize=nullptr, char *p_dest = nullptr, size_t maxSize=0);
 
 
 void StopStreaming( void );

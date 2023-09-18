@@ -449,7 +449,7 @@ Script::CStruct *		CTerrainManager::s_choose_sound_action(Script::CStruct *p_sou
 	p_sound_action_struct->GetArray(Crc::ConstCRC("soundAction"), &p_random_indexed_sound_array, Script::ASSERT);
 	
 	int total_chance = 0;
-	for (int sound_idx = p_random_indexed_sound_array->GetSize(); sound_idx--; )
+	for (size_t sound_idx = p_random_indexed_sound_array->GetSize(); sound_idx--; )
 	{
 		p_sound = p_random_indexed_sound_array->GetStructure(sound_idx);
 		
@@ -461,7 +461,7 @@ Script::CStruct *		CTerrainManager::s_choose_sound_action(Script::CStruct *p_sou
 	
 	int choice = Mth::Rnd(total_chance);
 	
-	for (int sound_idx = p_random_indexed_sound_array->GetSize(); sound_idx--; )
+	for (size_t sound_idx = p_random_indexed_sound_array->GetSize(); sound_idx--; )
 	{
 		p_sound = p_random_indexed_sound_array->GetStructure(sound_idx);
 		
@@ -558,8 +558,8 @@ bool					CTerrainManager::s_get_sound_info(Script::CStruct *p_sound, STerrainSou
 
 	// Calculate checksum
 	const char	*pNameMinusPath	= p_info->mp_soundName;
-	int			stringLength	= strlen( p_info->mp_soundName );
-	for( int i = 0; i < stringLength; i++ )
+	size_t		stringLength	= strlen( p_info->mp_soundName );
+	for(size_t i = 0; i < stringLength; i++)
 	{
 		if(( p_info->mp_soundName[i] == '\\' ) || ( p_info->mp_soundName[i] == '/' ))
 			pNameMinusPath = &p_info->mp_soundName[i + 1];

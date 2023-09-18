@@ -200,11 +200,11 @@ bool CSkaterProfile::PartialReset(Script::CStruct* pParams)
 	
     // at a minimum, the info structure must contain the trick_mapping structure
 	pTemp = new Script::CStruct;
-	m_Info.AddComponent( Crc::ConstCRC("trick_mapping"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
+	m_Info.AddComponent( Crc::ConstCRC("trick_mapping"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp );
 
 	// as well as a special tricks array
 	pTemp = new Script::CStruct;
-	m_Info.AddComponent( Crc::ConstCRC("specials"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
+	m_Info.AddComponent( Crc::ConstCRC("specials"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp );
 
 	if ( pParams )
 	{
@@ -295,10 +295,10 @@ bool CSkaterProfile::PartialReset(Script::CStruct* pParams)
 /*                                                                */
 /******************************************************************/
 
-uint32 CSkaterProfile::WriteToBuffer(uint8 *pBuffer, uint32 BufferSize, bool ignoreFaceData )
+size_t CSkaterProfile::WriteToBuffer(uint8 *pBuffer, size_t BufferSize, bool ignoreFaceData )
 {
-	uint32 totalSize = 0;
-	uint32 chunkSize = 0;
+	size_t totalSize = 0;
+	size_t chunkSize = 0;
 
 	chunkSize = m_Appearance.WriteToBuffer(pBuffer, BufferSize, ignoreFaceData);
 	totalSize += chunkSize;
@@ -365,7 +365,7 @@ uint8* CSkaterProfile::ReadFromBuffer(uint8 *pBuffer)
 /*                                                                */
 /******************************************************************/
 
-uint32 CSkaterProfile::write_extra_info_to_buffer(uint8 *pBuffer, uint32 BufferSize)
+size_t CSkaterProfile::write_extra_info_to_buffer(uint8 *pBuffer, size_t BufferSize)
 {	
 	Script::CStruct* pTempStructure = new Script::CStruct;
 
@@ -416,7 +416,7 @@ uint32 CSkaterProfile::write_extra_info_to_buffer(uint8 *pBuffer, uint32 BufferS
 		pComp = pNextComp;
 	}
 
-	uint32 totalSize = Script::WriteToBuffer(pTempStructure, pBuffer, BufferSize);
+	size_t totalSize = Script::WriteToBuffer(pTempStructure, pBuffer, BufferSize);
 	
 	delete pTempStructure;
 	
@@ -559,7 +559,7 @@ void CSkaterProfile::WriteIntoStructure( Script::CStruct* pStuff )
 	{
 		pTemp=new Script::CStruct;
 		pTemp->AppendStructure( m_Appearance.GetStructure() );
-		pSkaterInfo->AddComponent( Crc::ConstCRC("Appearance"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
+		pSkaterInfo->AddComponent( Crc::ConstCRC("Appearance"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp );
 	}
 		
 	Gfx::CFaceTexture* pFaceTexture = m_Appearance.GetFaceTexture();
@@ -567,18 +567,18 @@ void CSkaterProfile::WriteIntoStructure( Script::CStruct* pStuff )
 	{
 		pTemp=new Script::CStruct;
 		pFaceTexture->WriteIntoStructure( pTemp );
-		pSkaterInfo->AddComponent( Crc::ConstCRC("FaceTexture"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
+		pSkaterInfo->AddComponent( Crc::ConstCRC("FaceTexture"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp );
 	}
 
 	pTemp=new Script::CStruct;
 	pTemp->AppendStructure(&m_Info);
-	pSkaterInfo->AddComponent( Crc::ConstCRC("Info"), ESYMBOLTYPE_STRUCTUREPOINTER, (int)pTemp );
+	pSkaterInfo->AddComponent( Crc::ConstCRC("Info"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp );
 
 	uint32 Name=GetSkaterNameChecksum();
 	//pSkaterInfo->AddComponent(Crc::ConstCRC("DeckFlags"),ESYMBOLTYPE_INTEGER,(int)Front::GetDeckFlags(Name));
 	pSkaterInfo->AddComponent( Crc::ConstCRC("DeckFlags"), ESYMBOLTYPE_INTEGER, 0 );
 	
-	pStuff->AddComponent(Name,ESYMBOLTYPE_STRUCTUREPOINTER,(int)pSkaterInfo);
+	pStuff->AddComponent(Name, ESYMBOLTYPE_STRUCTUREPOINTER, pSkaterInfo);
 }
 
 /******************************************************************/

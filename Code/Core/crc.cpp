@@ -78,7 +78,7 @@ namespace Crc
 //		 returns uint32 = checksum of the data
 //       if nullptr pointer passed in, or zero size is given, then will return 0
 //
-uint32 GenerateCRCCaseSensitive( const char *stream, int size )
+uint32 GenerateCRCCaseSensitive( const char *stream, size_t size )
 {
     
     
@@ -93,7 +93,7 @@ uint32 GenerateCRCCaseSensitive( const char *stream, int size )
 	// The calculation of the probability of this happening is left as
 	// an exercise for the reader.
 	uint32 rc = 0xffffffff;
-    for (int i=0; i<size; i++)
+    for (size_t i=0; i<size; i++)
     {
         rc = CRCTable[(rc^stream[i]) & 0xff] ^ ((rc>>8) & 0x00ffffff);
     }
@@ -107,11 +107,11 @@ uint32 GenerateCRCCaseSensitive( const char *stream, int size )
 /******************************************************************/
 // For use when calculating a total checksum of a bunch of chunks of data.
 // Currently used when saving out the replay buffer to mem card.
-uint32 UpdateCRC( const char *p_stream, int size, uint32 rc )
+uint32 UpdateCRC( const char *p_stream, size_t size, uint32 rc )
 {
 	Dbg_MsgAssert(p_stream,("nullptr p_stream"));	
     
-    for (int i=0; i<size; i++)
+    for (size_t i=0; i<size; i++)
     {
         rc = CRCTable[(rc^p_stream[i]) & 0xff] ^ ((rc>>8) & 0x00ffffff);
     }
@@ -125,7 +125,7 @@ uint32 UpdateCRC( const char *p_stream, int size, uint32 rc )
 /******************************************************************/
 
 // Generates a checksum from a name, case insensitive.
-uint32 GenerateCRC( const char *stream, int size )
+uint32 GenerateCRC( const char *stream, size_t size )
 {
     
     
@@ -140,7 +140,7 @@ uint32 GenerateCRC( const char *stream, int size )
 	// The calculation of the probability of this happening is left as
 	// an exercise for the reader.
 	uint32 rc = 0xffffffff;
-    for (int i=0; i<size; i++)
+    for (size_t i=0; i<size; i++)
     {
         char ch=stream[i];
         // Convert to lower case.

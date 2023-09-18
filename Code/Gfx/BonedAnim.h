@@ -66,7 +66,7 @@ public:
 public:
     bool    			   	Load(uint32* pData, int file_size, bool assertOnFail);
     bool    			   	Load(const char* p_fileName, bool assertOnFail, bool async, bool use_pip = false);
-    bool    			   	PostLoad(bool assertOnFail, int file_size, bool delete_buffer = true);
+    bool    			   	PostLoad(bool assertOnFail, size_t file_size, bool delete_buffer = true);
 	bool					LoadFinished();
 	bool					IsValidTime(float time);
 	float					GetDuration();

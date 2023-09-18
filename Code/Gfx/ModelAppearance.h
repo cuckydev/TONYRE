@@ -63,7 +63,7 @@ public:
 	// (note that the face texture is not included in this buffer
 	// because the buffer is too small...  face textures need to
 	// be sent through a separate pathway)
-	uint32				WriteToBuffer(uint8* pBuffer, uint32 bufferSize, bool ignoreFaceData = false);
+	size_t				WriteToBuffer(uint8* pBuffer, size_t bufferSize, bool ignoreFaceData = false);
 	uint8*				ReadFromBuffer(uint8* pBuffer);
 
 public:

@@ -259,7 +259,7 @@ void MiscFXCleanup( void )
 		sScreenFlashDetails *p_delete	= p_details;
 		p_details						= p_screen_flash_details_table->IterateNext();
 
-		p_screen_flash_details_table->FlushItem((uint32)p_delete );
+		p_screen_flash_details_table->FlushItem((uintptr_t)p_delete );
 		delete p_delete;
 	}
 	
@@ -287,7 +287,7 @@ void KillAllTextureSplats( void )
 		sSplatTrailInstanceDetails *p_delete	= p_trail_details;
 		p_trail_details							= p_splat_trail_details_table->IterateNext();
 
-		p_splat_trail_details_table->FlushItem((uint32)p_delete );
+		p_splat_trail_details_table->FlushItem((uintptr_t)p_delete );
 		delete p_delete;
 	}
 	
@@ -328,7 +328,7 @@ void AddScreenFlash( int viewport, Image::RGBA from, Image::RGBA to, float durat
 	p_flash->mp_texture	= p_texture;
 	p_flash->m_viewport	= viewport;
 
-	p_screen_flash_details_table->PutItem((uint32)p_flash, p_flash );
+	p_screen_flash_details_table->PutItem((uintptr_t)p_flash, p_flash );
 
 }
 
@@ -373,7 +373,7 @@ void ScreenFlashUpdate( void )
 
 			if( p_delete )
 			{
-				p_screen_flash_details_table->FlushItem((uint32)p_delete );
+				p_screen_flash_details_table->FlushItem((uintptr_t)p_delete );
 				delete p_delete;
 			}
 		}
@@ -498,7 +498,7 @@ bool TextureSplat( Mth::Vector& splat_start, Mth::Vector& splat_end, float size,
 
 			if( p_delete )
 			{
-				p_splat_trail_details_table->FlushItem((uint32)p_delete );
+				p_splat_trail_details_table->FlushItem((uintptr_t)p_delete );
 				delete p_delete;
 			}
 		}
@@ -510,7 +510,7 @@ bool TextureSplat( Mth::Vector& splat_start, Mth::Vector& splat_end, float size,
 			p_trail_details->m_trail_id				= trail;
 			p_trail_details->m_last_pos				= splat_start;
 			p_trail_details->m_last_pos_added_time	= time;
-			p_splat_trail_details_table->PutItem((uint32)p_trail_details, p_trail_details );
+			p_splat_trail_details_table->PutItem((uintptr_t)p_trail_details, p_trail_details );
 			return true;
 		}
 	}
@@ -685,7 +685,7 @@ void ShatterUpdate( void )
 
 			if( p_delete )
 			{
-				p_shatter_details_table->FlushItem((uint32)p_delete );
+				p_shatter_details_table->FlushItem((uintptr_t)p_delete );
 				delete p_delete;
 			}
 		}

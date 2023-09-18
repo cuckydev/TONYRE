@@ -1659,7 +1659,7 @@ void CVehicleComponent::calculate_inverse_moment (   )
 /*                                                                */
 /******************************************************************/
 
-int CVehicleComponent::determine_effective_gear ( float wheel_rotvel )
+size_t CVehicleComponent::determine_effective_gear ( float wheel_rotvel )
 {
 	size_t gear = 0;
 	
@@ -2160,7 +2160,7 @@ void CVehicleComponent::apply_drag_forces (   )
 		if (!wheel.drive || wheel.state == SWheel::OUT_OF_CONTACT) continue;
 		
 		// determine the effective engine gear
-		int effective_gear = determine_effective_gear(Mth::Abs(wheel.rotvel));
+		size_t effective_gear = determine_effective_gear(Mth::Abs(wheel.rotvel));
 		
 		// drag torque scales like the square of the gear ratio
 		float torque = m_engine.drag_torque * m_engine.p_gear_ratios[effective_gear] * m_engine.p_gear_ratios[effective_gear] / m_num_drive_wheels;
@@ -2198,7 +2198,7 @@ void CVehicleComponent::apply_engine_forces (   )
 		if (m_controls.handbrake && wheel.steering != SWheel::FIXED) continue;
 		
 		// determine effective engine gear
-		int effective_gear;
+		size_t effective_gear;
 		if (!m_controls.reverse)
 		{
 			effective_gear = determine_effective_gear(wheel.rotvel > 0.0f ? wheel.rotvel : 0.0f);

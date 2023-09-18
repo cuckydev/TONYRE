@@ -39,7 +39,7 @@ public:
 	void 					SetFont(uint32 font_checksum);
 	void					SetText(const char *pText);
 	char*					GetText() { return mp_text; }
-	int						GetLength();
+	size_t					GetLength();
 
     bool					Concatenate( const char *pText );
 	bool					Backspace();
@@ -100,11 +100,11 @@ public:
 	void					SetMorph(Script::CStruct *pProps);
 	
 	void 					SetFont(uint32 font_checksum);
-	void					SetText(const char **ppTextLines, int numLines);
+	void					SetText(const char **ppTextLines, size_t numLines);
 	void					SetText(const char *pTextLine);
 
-	bool					GetText( char* p_text, int size );
-	int						GetLength();
+	bool					GetText( char* p_text, size_t size );
+	size_t					GetLength();
 	bool					Backspace();
 	bool					Concatenate( const char* pText, bool enforce_max_width = false, bool last_line = false );
 
@@ -134,7 +134,7 @@ protected:
 	// Line of text "outputted" so far. With a lot of text lines, only most recent ones are used.
 	int						m_virtual_out_line = 0;
 	int 					m_out_line = 0;	// line of mpp_parsed_lines currently being written to
-	int 					m_out_char = 0; // on m_out_line
+	size_t 					m_out_char = 0; // on m_out_line
 	float 					m_current_line_width = 0.0f;
 
 	int						m_num_visible_lines = 0;

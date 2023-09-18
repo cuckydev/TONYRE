@@ -299,7 +299,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 	Dbg_Assert(pArray);
 
 	
-	int new_entries = pArray->GetSize();
+	size_t new_entries = pArray->GetSize();
 	if (replace && !new_entries)
 	{
 		// if no new entries, and we are "replacing", then delete any existing table
@@ -431,7 +431,7 @@ void CEventHandlerTable::add_from_script(Script::CArray *pArray, bool replace)
 	int	new_entry_index = 0;
 
 	// transfer the new entries from script array into new table
-	for (int i = 0; i < new_entries; i++)
+	for (size_t i = 0; i < new_entries; i++)
 	{
 		// get the type, script pair, and any params and flags
 		Script::CStruct *pEventStruct = pArray->GetStructure(i);

@@ -739,6 +739,8 @@ void Manager::AddServerToMenu( ServerInfo* server, int index )
 
 	Script::CStruct* p_item_params;
 	uint32 server_id;
+
+	Dbg_Assert(0); // This code is unsalvageable
 		
 	// If this is our first listed server, destroy the "no servers found" message
 	if( NumServersListed() == 0 )
@@ -761,7 +763,7 @@ void Manager::AddServerToMenu( ServerInfo* server, int index )
 	else
 #endif
 	{
-		server_id = (uint32) server;
+		server_id = (uint32)(uintptr_t)server;
 	}
 	
 	p_item_params->AddChecksum( "id", server_id );
@@ -1522,10 +1524,12 @@ void		Manager::SortServerList( void )
 /*                                                                */
 /******************************************************************/
 
-ServerInfo*	Manager::GetServerInfo( uint32 id )
+ServerInfo*	Manager::GetServerInfo( size_t id )
 {
 	Lst::Search< ServerInfo > sh;
 	ServerInfo* server;
+
+	Dbg_Assert(0); // This code is unsalvageable
 
 	for( server = sh.FirstItem( m_servers ); server; server = sh.NextItem())
 	{
@@ -1540,10 +1544,10 @@ ServerInfo*	Manager::GetServerInfo( uint32 id )
 		else
 #endif
 		{
-			if( id == (uint32) server )
-		{
-			return server;
-		}
+			if( id == (uintptr_t)server )
+			{
+				return server;
+			}
 		}
 	}
 	

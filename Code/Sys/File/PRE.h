@@ -99,11 +99,11 @@ public:
 	// The actual PRE file (it is public so that FileHandle can be made public).
 	struct _File
 	{
-		int compressedDataSize;
+		size_t compressedDataSize;
 		char * pCompressedData;
 		char * pData;
-		int m_position;
-		int m_filesize;
+		size_t m_position;
+		size_t m_filesize;
 	};
 
 	// Just typedef a file handle type since the file itself contains all the info
@@ -115,17 +115,17 @@ public:
 	
 	
 	bool FileExists(const char *pName);
-	char *LoadContainedFile(const char *pName,int *p_size, char *p_dest = nullptr);
+	char *LoadContainedFile(const char *pName, size_t *p_size, char *p_dest = nullptr);
 	FileHandle *GetContainedFile(const char *pName);
 	char *GetContainedFileByHandle(FileHandle *pHandle);
 
 	void Reset();
-	uint32 Read(void *addr, uint32 count);
+	size_t Read(void *addr, size_t count);
 	int Eof();
 	void Open(bool async);
 	void Close(bool async);
 	int Seek(ptrdiff_t offset, int origin);
-	int TellActive( void )				{ if( mp_activeFile ){ return mp_activeFile->m_position; }else{ return 0; }}
+	size_t TellActive( void )				{ if( mp_activeFile ){ return mp_activeFile->m_position; }else{ return 0; }}
 	size_t GetFileSize( void )			{ if( mp_activeFile ){ return mp_activeFile->m_filesize; }else{ return 0; }}
 	size_t GetFilePosition( void )		{ if( mp_activeFile ){ return mp_activeFile->m_position; }else{ return 0; }}
 
@@ -159,7 +159,7 @@ public:
 	void LoadPre(const char *pFilename, bool async, bool dont_assert = false, bool useBottomUpHeap=false);
 	void LoadPrePermanently(const char *pFilename, bool async, bool dont_assert = false);
 	void UnloadPre(const char *pFilename, bool dont_assert = false);
-	char *LoadFile(const char *pName, int *p_size, char *p_dest = nullptr);
+	char *LoadFile(const char *pName, size_t *p_size, char *p_dest = nullptr);
 
 	// Async check functions
 	bool IsLoadPreFinished(const char *pFilename);

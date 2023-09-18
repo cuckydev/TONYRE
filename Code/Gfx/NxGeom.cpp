@@ -1020,7 +1020,7 @@ size_t	CGeom::GetNumRenderBasePolys()
 // then we will allocate memory and store the colors
 void CGeom::GetOrigRenderColors(Image::RGBA *p_colors)				// - gets an array of vertex colors
 {
-	int verts = GetNumRenderVerts();
+	size_t verts = GetNumRenderVerts();
 	if (!mp_orig_render_colors)
 	{
 		// GJ:  this check was previously used to make sure the malloc caused no bottomup

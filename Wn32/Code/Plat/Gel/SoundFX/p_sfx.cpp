@@ -148,7 +148,7 @@ namespace Sfx
 	static int getFreeVoice(void)
 	{
 		// Look for a sound that is not playing
-		for (size_t i = 0; i < NUM_VOICES; i++)
+		for (int i = 0; i < NUM_VOICES; i++)
 		{
 			if (!sounds[i].IsPlaying())
 				return i;
@@ -187,7 +187,7 @@ namespace Sfx
 		Pcm::StopMusic();
 		Pcm::StopStreams();
 
-		for (size_t i = 0; i < NUM_VOICES; i++)
+		for (int i = 0; i < NUM_VOICES; i++)
 			StopSoundPlease(i);
 	}
 
@@ -264,7 +264,7 @@ namespace Sfx
 		vol.SetSilent();
 
 		// Just turn the volume down on all playing voices...
-		for (size_t i = 0; i < NUM_VOICES; i++)
+		for (int i = 0; i < NUM_VOICES; i++)
 		{
 			if (VoiceIsOn(i))
 				SetVoiceParameters(i, &vol);

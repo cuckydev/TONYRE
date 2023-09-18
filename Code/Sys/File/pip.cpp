@@ -97,7 +97,7 @@ struct SUnPreedFile
 {
 	uint8 *mpFileData;
 	uint32 mFileNameChecksum;
-	uint32 mFileSize;
+	size_t mFileSize;
 	uint32 mUsage;
 };
 
@@ -220,8 +220,8 @@ void LoadPre(const char *p_preFileName)
 	name_size = (name_size + 15) & ~15;
 
 	char *p_old_file_data=nullptr;
-	uint32 original_file_size = File::CanFileBeLoadedQuickly( p_full_pre_name );
-	uint32 old_pre_buffer_size=0;
+	size_t original_file_size = File::CanFileBeLoadedQuickly( p_full_pre_name );
+	size_t old_pre_buffer_size=0;
 
 	if (original_file_size)
 	{
@@ -271,8 +271,8 @@ void LoadPre(const char *p_preFileName)
 		strcpy(p_old_file_data, p_preFileName);
 
 		// Load the file into memory then close the file.
-		long bytes_read = File::Read(p_old_file_data + name_size, 1, original_file_size, p_file);
-		Dbg_MsgAssert(bytes_read <= (long)original_file_size,("bytes_read>original_file_size ?"));
+		size_t bytes_read = File::Read(p_old_file_data + name_size, 1, original_file_size, p_file);
+		Dbg_MsgAssert(bytes_read <= original_file_size,("bytes_read>original_file_size ?"));
 
 		File::Close(p_file);
 	}
@@ -282,7 +282,7 @@ void LoadPre(const char *p_preFileName)
 	// Note that even if no decompression is required, the new buffer will probably need to
 	// be bigger than the old, because the contained files need to be moved so that they all start
 	// on 16 byte boundaries. This is required by the collision code for example.
-	uint32 new_pre_buffer_size = name_size;
+	size_t new_pre_buffer_size = name_size;
 	new_pre_buffer_size += sizeof(SPreHeader);
 
 	SPreHeader *p_pre_header = sSkipOverPreName(p_old_file_data);
@@ -295,7 +295,7 @@ void LoadPre(const char *p_preFileName)
 		// They should be, because the namesize member should never be bigger than 65535 ...
 		Dbg_MsgAssert(p_contained->mUsage==0, ("The file %s in %s has mUsage=%d ??",p_contained->mpName,p_preFileName,p_contained->mUsage));
 
-		new_pre_buffer_size += (uint32)p_contained->mpName-(uint32)p_contained;
+		new_pre_buffer_size += (uintptr_t)p_contained->mpName-(uintptr_t)p_contained;
 		new_pre_buffer_size += p_contained->mNameSize;
 
 		new_pre_buffer_size = (new_pre_buffer_size + 15) & ~15;
@@ -386,16 +386,16 @@ void LoadPre(const char *p_preFileName)
 		else
 		{
 			// Uncompressed, so just copy the data down.
-			uint32 *p_source_long=(uint32*)p_file_source;
-			uint32 *p_dest_long=(uint32*)p_file_dest;
+			uint32 *p_source_long = (uint32*)p_file_source;
+			uint32 *p_dest_long = (uint32*)p_file_dest;
 			// mDataSize is not necessarily a multiple of 4, but the actual data will be
 			// padded at the end so that it does occupy a whole number of long words.
 			// So the +3 is to ensure that n is rounded up to the next whole number of longs.
-			uint32 n=(p_source_contained->mDataSize+3)/4;
+			uint32 n = (p_source_contained->mDataSize + 3) / 4;
 
 			for (uint32 i=0; i<n; ++i)
 			{
-				*p_dest_long++=*p_source_long++;
+				*p_dest_long++ = *p_source_long++;
 			}
 		}
 
@@ -405,7 +405,7 @@ void LoadPre(const char *p_preFileName)
 	}
 
 	// I don't think I ever need to reference mSize again, but might as well make it correct.
-	p_dest_header->mSize=(uint32)p_dest_contained-(uint32)p_dest_header;
+	p_dest_header->mSize = (uint32)((uintptr_t)p_dest_contained - (uintptr_t)p_dest_header);
 
 	//printf("Wasted space = %d\n",new_pre_buffer_size-((uint32)p_dest_contained-(uint32)p_new_file_data));
 
@@ -556,8 +556,8 @@ void* Load(const char* p_fileName)
 
 		Dbg_MsgAssert(p_contained_file->mCompressedSize==0,("The file '%s' is stored compressed in %s !",p_fileName,sGetPreName(p_contained_file)));
 
-		uint32 p_data=(uint32)p_contained_file->mpName+p_contained_file->mNameSize;
-		p_data=(p_data+15)&~15;
+		uintptr_t p_data=(uintptr_t)p_contained_file->mpName + p_contained_file->mNameSize;
+		p_data = (p_data + 15) & ~15;
 		return (void*)p_data;
 	}
 
@@ -592,7 +592,7 @@ void* Load(const char* p_fileName)
 	Dbg_MsgAssert(p_new_unpreed_file,("Too many unpreed files open at once! Max=%d (MAX_UNPREED_FILES in pip.cpp)",MAX_UNPREED_FILES));
 
 	// allocate memory, and load the file
-	int	file_size;
+	size_t	file_size;
 	uint8 * p_file_data = (uint8*) File::LoadAlloc(p_fileName,&file_size);
 	Dbg_MsgAssert(p_file_data,("Failsed to load %s\n",p_fileName));
 
@@ -667,7 +667,7 @@ void Unload(const char *p_fileName)
 	Unload( Crc::GenerateCRCFromString(p_fileName) );
 }
 
-uint32 GetFileSize(uint32 fileNameCRC)
+size_t GetFileSize(uint32 fileNameCRC)
 {
 	// See if it is one of the unpreed files.
 	for (int i=0; i<MAX_UNPREED_FILES; ++i)
@@ -693,11 +693,11 @@ uint32 GetFileSize(uint32 fileNameCRC)
 	return 0;
 }
 
-uint32 GetFileSize(const char *p_fileName)
+size_t GetFileSize(const char *p_fileName)
 {
 	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
 
-	uint32 file_size = GetFileSize( Crc::GenerateCRCFromString(p_fileName) );
+	size_t file_size = GetFileSize( Crc::GenerateCRCFromString(p_fileName) );
 
 	if ( file_size == 0 )
 	{
@@ -894,12 +894,12 @@ namespace File
 // optionally returns size of file in bytes, in *p_filesize (ignored if p_filesize is nullptr)
 // if file fails to load, *p_filesize will be 0
 // if you pass in p_dest, you must also pass in maxSize, the size of the buffer
-char *LoadAlloc(const char *p_fileName, int *p_filesize, char *p_dest, int maxSize)
+char *LoadAlloc(const char *p_fileName, size_t *p_filesize, char *p_dest, size_t maxSize)
 {
 
 	// Mick 2/19/2003 - Removed code that stripped project specific headers
 	// as this is now handled at the gs_file level
-	int	file_size = 0;
+	size_t file_size = 0;
 
 	// Perhaps the file is in a PRE file,  so try loading it directly, as that will be quickest
 	char *p_file_data = (char *)File::PreMgr::Instance()->LoadFile(p_fileName, &file_size, p_dest);
@@ -958,7 +958,7 @@ char *LoadAlloc(const char *p_fileName, int *p_filesize, char *p_dest, int maxSi
 
 			// Load the file into memory then close the file.
 			#ifdef __NOPT_ASSERT__
-			long bytes_read=File::Read(p_file_data, 1, file_size, p_file);
+			size_t bytes_read=File::Read(p_file_data, 1, file_size, p_file);
 			Dbg_MsgAssert(bytes_read<=file_size,("bytes_read>file_size ?"));
 			#else
 			File::Read(p_file_data, 1, file_size, p_file);

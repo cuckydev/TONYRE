@@ -4062,7 +4062,7 @@ bool CCutsceneData::create_objects( uint32* pData )
 		}
 		
 		Dbg_Assert( mp_objectQuickAnim );
-		for ( int j = 0; j < mp_objectQuickAnim->GetNumBones(); j++ )
+		for (size_t j = 0; j < mp_objectQuickAnim->GetNumBones(); j++)
 		{
 			uint32 obaObjectName = mp_objectQuickAnim->GetBoneName(j);
 			if ( pObjectInfo->m_objectName == obaObjectName )
@@ -4086,7 +4086,7 @@ char* get_cut_name( const char* p_fileName )
 {
 	static char cutsceneName[256];
 
-	for ( int i = strlen(p_fileName); i >= 0; i-- )
+	for ( ptrdiff_t i = strlen(p_fileName); i >= 0; i-- )
 	{
 		if ( p_fileName[i] == '\\' || p_fileName[i] == '/' )
 		{
@@ -4695,7 +4695,7 @@ void CCutsceneData::update_moving_objects()
 	mp_objectQuickAnim->GetInterpolatedHiResFrames( &s_temp_quats[0], &s_temp_vectors[0], m_currentTime );
 
 	// update all the OBA bones that don't have an object associated with it
-	for ( int i = 0; i < mp_objectQuickAnim->GetNumBones(); i++ )
+	for (size_t i = 0; i < mp_objectQuickAnim->GetNumBones(); i++)
 	{
 		uint32 boneName = mp_objectQuickAnim->GetBoneName(i);
 		

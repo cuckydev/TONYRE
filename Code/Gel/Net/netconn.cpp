@@ -632,7 +632,7 @@ void	Conn::SetBandwidthType( int type )
 /*                                                                */
 /******************************************************************/
 
-void	Conn::SetBandwidth( int bytes_per_sec )
+void	Conn::SetBandwidth(size_t bytes_per_sec )
 {
 	m_bandwidth = bytes_per_sec;
 }
@@ -642,7 +642,7 @@ void	Conn::SetBandwidth( int bytes_per_sec )
 /*                                                                */
 /******************************************************************/
 
-int		Conn::GetBandwidth( void )
+size_t		Conn::GetBandwidth( void )
 {
 	return m_bandwidth;
 }

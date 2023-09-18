@@ -733,10 +733,10 @@ void	App::send_network_data( const Tsk::Task< App > &task )
 /*                                                                */
 /******************************************************************/
 
-void	App::crc_and_copy_stream( char* in_stream, char* out_stream, int in_len, int* out_len )
+void	App::crc_and_copy_stream(char* in_stream, char* out_stream, size_t in_len, size_t *out_len)
 {
 	uint32 actual_crc;	
-	int i;
+	size_t i;
 	unsigned char* in, *out;
 	unsigned char key;
 	unsigned short hi_word, lo_word, sum_crc;
@@ -771,15 +771,15 @@ void	App::crc_and_copy_stream( char* in_stream, char* out_stream, int in_len, in
 /*                                                                */
 /******************************************************************/
 
-bool	App::validate_and_copy_stream( char* in_stream, char* out_stream, int in_len )
+bool	App::validate_and_copy_stream( char* in_stream, char* out_stream, size_t in_len )
 {
     uint32 actual_crc;
-	int out_len;
+	size_t out_len;
 	unsigned char key;
 	unsigned short hi_word, lo_word;
 	unsigned short packet_crc, sum_crc;
 	unsigned char* in;
-	int i;
+	size_t i;
 	char packet_data[ Manager::vMAX_PACKET_SIZE ];
 
 	
@@ -2212,16 +2212,16 @@ bool	App::SendMessageTo( unsigned char msg_id, unsigned short msg_len, void* dat
 /*                                                                */
 /******************************************************************/
 
-bool	App::SendTo( int ip, unsigned short port, char *data, int len, int flags )
+bool	App::SendTo( int ip, unsigned short port, char *data, size_t len, int flags )
 {
 	struct sockaddr_in	to_address;
 #ifdef __PLAT_NGC__
     to_address.len = sizeof( sockaddr );
 #else
-	int addr_len = sizeof(to_address);
+	size_t addr_len = sizeof(to_address);
 #endif
 	int	result = 0;
-	int send_len;
+	size_t send_len;
 	
 	
 
@@ -2238,12 +2238,11 @@ bool	App::SendTo( int ip, unsigned short port, char *data, int len, int flags )
 	if( m_flags & mSECURE )
 	{
 		crc_and_copy_stream( data, m_out_packet_buffer, len, &send_len );
-		result = sendto( m_socket, m_out_packet_buffer, send_len, flags, 
-				(struct sockaddr *) &(to_address), addr_len );
+		result = sendto( m_socket, m_out_packet_buffer, (int)send_len, flags, (struct sockaddr *) &(to_address), (int)addr_len );
 	}
 	else
 	{
-		result = sendto( m_socket, data, len, flags, (struct sockaddr *) &(to_address), addr_len );
+		result = sendto( m_socket, data, (int)len, flags, (struct sockaddr *) &(to_address), (int)addr_len );
 	}
 	
 #ifndef __PLAT_NGC__
@@ -2279,10 +2278,10 @@ bool	App::SendTo( int ip, unsigned short port, char *data, int len, int flags )
 /*                                                                */
 /******************************************************************/
 
-bool	App::Send( char *data, int len, int flags )
+bool	App::Send( char *data, size_t len, int flags )
 {
 	int	result = 0;
-	int send_len;
+	size_t send_len;
 		
 	
 
@@ -2299,11 +2298,11 @@ bool	App::Send( char *data, int len, int flags )
 	if( m_flags & mSECURE )
 	{
 		crc_and_copy_stream( data, m_out_packet_buffer, len, &send_len );
-		result = send( m_socket, m_out_packet_buffer, send_len, flags );
+		result = send( m_socket, m_out_packet_buffer, (int)send_len, flags );
 	}
 	else
 	{
-		result = send( m_socket, data, len, flags );
+		result = send( m_socket, data, (int)len, flags );
 	}
 
 	if( result == SOCKET_ERROR )
@@ -2707,9 +2706,9 @@ bool	App::IsConnectionBanned( Conn* conn )
 /*                                                                */
 /******************************************************************/
 
-int		App::BandwidthUsed( void )
+size_t App::BandwidthUsed( void )
 {
-	int total_bandwidth;
+	size_t total_bandwidth;
 	Conn* conn;
 	Lst::Search< Conn > sh;
 
@@ -2736,7 +2735,7 @@ int		App::BandwidthUsed( void )
 bool	App::BandwidthExceeded( Conn* conn )
 {
 	Metrics* metrics;
-	int total_bandwidth, per_user_bandwidth, num_remote_connections;
+	size_t total_bandwidth, per_user_bandwidth, num_remote_connections;
 	Conn* tmp_conn;
 	Lst::Search< Conn > sh;
 

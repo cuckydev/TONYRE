@@ -60,7 +60,7 @@ public:
 
 public:
 	bool Load( const char* p_fileName, bool assertOnFail, bool async_load );
-	bool PostLoad( bool assertOnFail, int file_size );
+	bool PostLoad( bool assertOnFail, size_t file_size );
 	bool LoadFinished() const;
 
 public:

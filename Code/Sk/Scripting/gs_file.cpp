@@ -65,8 +65,8 @@ void LoadAllStartupQBFiles()
 #endif		// __PLAT_NGC__
 
 	// Load the qdir.txt file
-	const char *p_qdir=(const char *)Pip::Load(QDIR_FILE);
-	uint32 file_size=Pip::GetFileSize(QDIR_FILE);
+	const char *p_qdir = (const char *)Pip::Load(QDIR_FILE);
+	size_t file_size = Pip::GetFileSize(QDIR_FILE);
 	
 	UsePermanentStringHeap();
 	
@@ -75,7 +75,7 @@ void LoadAllStartupQBFiles()
 	char p_file_name[MAX_FILENAME_CHARS+1];
 	
 	const char *p_scan=p_qdir;
-	while (p_scan < p_qdir+file_size)
+	while (p_scan < p_qdir + file_size)
 	{
 		int c=0;
 		while (p_scan < p_qdir+file_size && *p_scan!=0x0d && *p_scan!=0x0a)
@@ -174,8 +174,8 @@ void LoadQB(const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplic
 			GeneratePrefixInfo();
 
 			// Do a bit of node array processing.
-			int size=p_sym->mpArray->GetSize();
-			for (int i=0; i<size; ++i)
+			size_t size=p_sym->mpArray->GetSize();
+			for (size_t i = 0; i < size; ++i)
 			{
 				CStruct *p_node=p_sym->mpArray->GetStructure(i);
 				

@@ -160,7 +160,7 @@ public:
 							  Mth::Vector *p_nearest_pos, float *p_dist_squared, int *p_rail_point_index, 
 							  int ignore_index=-1);
 							  
-	int CountPointsInArea(float x0, float z0, float x1, float z1);
+	size_t CountPointsInArea(float x0, float z0, float x1, float z1);
 	void DuplicateAndAddPoint(CEditedRailPoint *p_point);
 	CEditedRail *GenerateDuplicateRails(float x0, float z0, float x1, float z1, CEditedRail *p_head);	
 							  
@@ -272,7 +272,7 @@ public:
 	bool							ThereAreRailPointsOutsideArea(float x0, float z0, float x1, float z1);
 	
 
-	int								CountPointsInArea(float x0, float z0, float x1, float z1);
+	size_t							CountPointsInArea(float x0, float z0, float x1, float z1);
 	bool							AbleToCopyRails(float x0, float z0, float x1, float z1);
 	CEditedRail *					GenerateDuplicateRails(float x0, float z0, float x1, float z1);
 									
@@ -285,8 +285,8 @@ public:
 	void							DeleteDottedLine();
 	void							DrawDottedLine(Mth::Vector& pos);
 
-	int								GetNumFreePoints();
-	int								GetNumFreeRails();
+	size_t							GetNumFreePoints();
+	size_t							GetNumFreeRails();
 	
 	// Used by graffiti games
 	void							ModulateRailColor(uint32 clusterChecksum, int seqIndex);

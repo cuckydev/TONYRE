@@ -446,21 +446,21 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 		// Calculate base addresses for vert and face arrays
 		uint8 *p_base_vert_addr = (uint8 *) (p_coll_sector_data + num_coll_sectors);
 #ifndef __PLAT_NGC__
-		p_base_vert_addr = (uint8 *)(((uint)(p_base_vert_addr+15)) & 0xFFFFFFF0);	// Align to 128 bit boundary
+		p_base_vert_addr = (uint8 *)(((uintptr_t)(p_base_vert_addr+15)) & ~0xF);	// Align to 128 bit boundary
 #ifdef FIXED_POINT_VERTICES
 		uint8 *p_base_intensity_addr = p_base_vert_addr + (p_header->m_total_num_verts_large * Nx::CCollObjTriData::GetVertElemSize() +
 														   p_header->m_total_num_verts_small * Nx::CCollObjTriData::GetVertSmallElemSize());
 		uint8 *p_base_face_addr = p_base_intensity_addr + p_header->m_total_num_verts;
-		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+3)) & 0xFFFFFFFC);	// Align to 32 bit boundary
+		p_base_face_addr = (uint8 *)(((uintptr_t)(p_base_face_addr+3)) & ~0x3);	// Align to 32 bit boundary
 #else
 		uint8 *p_base_intensity_addr = nullptr;
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_verts * Nx::CCollObjTriData::GetVertElemSize());
-		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+15)) & 0xFFFFFFF0);	// Align to 128 bit boundary
+		p_base_face_addr = (uint8 *)(((uintptr_t)(p_base_face_addr+15)) & ~0xF);	// Align to 128 bit boundary
 #endif // FIXED_POINT_VERTICES
 #else
 		uint8 *p_base_intensity_addr = nullptr;
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_faces * Nx::CCollObjTriData::GetVertElemSize());
-		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+3)) & 0xFFFFFFFC);	// Align to 32 bit boundary
+		p_base_face_addr = (uint8 *)(((uintptr_t)(p_base_face_addr+3)) & ~0x3);	// Align to 32 bit boundary
 #endif		// __PLAT_NGC__
 
 		// Calculate addresses for BSP arrays
@@ -1107,11 +1107,11 @@ void	CScene::GetMetrics(Script::CStruct * p_info)
 {
 	p_info->AddString(Crc::ConstCRC("FileName"),GetSceneFilename());
 
-	int total_sectors = 0;
-	int render_sectors = 0;	
-	int render_verts = 0;	
-	int render_polys = 0;	
-	int render_base_polys = 0;	
+	size_t total_sectors = 0;
+	size_t render_sectors = 0;	
+	size_t render_verts = 0;	
+	size_t render_polys = 0;	
+	size_t render_base_polys = 0;	
 	// Iterate over the sectors, counting verious things	
 	Lst::HashTable< Nx::CSector > * p_sector_list = GetSectorList();
 	if (p_sector_list)
@@ -1134,13 +1134,13 @@ void	CScene::GetMetrics(Script::CStruct * p_info)
 		}
 	}
 	
-	p_info->AddInteger(Crc::ConstCRC("Sectors"),total_sectors);
-	p_info->AddInteger(Crc::ConstCRC("ColSectors"),GetNumCollSectors());
-	p_info->AddInteger(Crc::ConstCRC("Verts"),render_verts);
-	p_info->AddInteger(Crc::ConstCRC("Polys"),render_polys);
-	p_info->AddInteger(Crc::ConstCRC("BasePolys"),render_base_polys);
+	p_info->AddInteger(Crc::ConstCRC("Sectors"),(int)total_sectors);
+	p_info->AddInteger(Crc::ConstCRC("ColSectors"), (int)GetNumCollSectors());
+	p_info->AddInteger(Crc::ConstCRC("Verts"),(int)render_verts);
+	p_info->AddInteger(Crc::ConstCRC("Polys"),(int)render_polys);
+	p_info->AddInteger(Crc::ConstCRC("BasePolys"), (int)render_base_polys);
 
-	p_info->AddInteger(Crc::ConstCRC("TextureMemory"),GetTexDict()->GetFileSize());
+	p_info->AddInteger(Crc::ConstCRC("TextureMemory"), (int)GetTexDict()->GetFileSize());
 	
 }
 

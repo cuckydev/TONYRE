@@ -676,7 +676,7 @@ CCustomAnimKey* ReadCustomAnimKey( uint8** pData )
 			// just skip past the size
 			Dbg_Assert( theIntermediateHeader.size - sizeof(SIntermediateCustomAnimKeyHeader) < 512 );
 			*pData += theIntermediateHeader.size;
-			Dbg_Assert(!((uint) *pData & 0x3));
+			// Dbg_Assert(!((uintptr_t)*pData & 0x3));
 
 			return nullptr;
 		}

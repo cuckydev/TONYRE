@@ -299,9 +299,9 @@ public:
 		int mLastMainUsed;
 		bool mIsFragmented;
 
-		int mTotalRailPoints;
-		int mTotalLinkedRailPoints;
-		int mTotalClonedPieces;
+		size_t mTotalRailPoints;
+		size_t mTotalLinkedRailPoints;
+		size_t mTotalClonedPieces;
 	};
 	MemUsageInfo GetResourceUsageInfo(bool printInfo = false);
 	void SetMaxPlayers(int maxPlayers);
@@ -334,8 +334,8 @@ public:
 	void SetGapPiecesVisible(bool visible);
 	void SetRestartPiecesVisible(bool visible);
 
-	void SetLightProps(int num_lights, float amb_const_r, float amb_const_g, float amb_const_b, float falloff_const_r, float falloff_const_g, float falloff_const_b, float cursor_ambience);
-	void SetLight(Mth::Vector &light_pos, int light_num);
+	void SetLightProps(size_t num_lights, float amb_const_r, float amb_const_g, float amb_const_b, float falloff_const_r, float falloff_const_g, float falloff_const_b, float cursor_ambience);
+	void SetLight(Mth::Vector &light_pos, size_t light_num);
 	void CalculateLighting(CClonedPiece *p_piece);
 	void CalculateVertexLighting(const Mth::Vector & vert, Image::RGBA & color);
 	
@@ -416,8 +416,8 @@ private:
 	RailSet m_in_rail_set;
 	RailSet m_out_rail_set;
 	// in world, at editing time
-	int m_total_rail_points = 0;
-	int m_total_rail_linked_points = 0;
+	size_t m_total_rail_points = 0;
+	size_t m_total_rail_linked_points = 0;
 
 	struct TempNodeInfo
 	{
@@ -462,7 +462,7 @@ private:
 	
 	static const int vMAX_LIGHTS = 16;
 	
-	int m_numLights = 0;
+	size_t m_numLights = 0;
 	LightIntensity m_ambientLightIntensity;
 	LightIntensity m_falloffLightIntensity;
 	Mth::Vector m_lightTab[vMAX_LIGHTS] = {};

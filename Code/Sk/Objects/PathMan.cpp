@@ -137,8 +137,8 @@ void CPathMan::AddPathInfoToNodeArray()
 	// The path number assigned to the nodes is just an integer, starting at 0   
 	m_num_paths=0;
 	
-	int array_size=p_node_array->GetSize();
-	for ( uint16 i = 0; i < array_size; ++i )
+	size_t array_size=p_node_array->GetSize();
+	for (size_t i = 0; i < array_size; ++i)
 	{
 		Script::CStruct *p_start_node=p_node_array->GetStructure( i );
 		

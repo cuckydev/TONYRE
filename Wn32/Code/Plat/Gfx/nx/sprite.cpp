@@ -47,7 +47,7 @@ void SDraw2D::Submit(void)
 
 	glUseProgram(SpriteShader()->program);
 
-	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_SHORT, nullptr);
+	glDrawElements(GL_TRIANGLES, (GLsizei)m_indices.size(), GL_UNSIGNED_SHORT, nullptr);
 
 	// Clear buffers
 	m_verts.clear();

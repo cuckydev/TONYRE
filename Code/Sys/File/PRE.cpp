@@ -341,7 +341,7 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 		{
 			mp_activeFile->pData = new char[mp_activeFile->m_filesize];
 			// need to uncompress data
-			DecodeLZSS((unsigned char*)mp_activeFile->pCompressedData, (unsigned char *)mp_activeFile->pData, mp_activeFile->compressedDataSize);
+			DecodeLZSS((unsigned char*)mp_activeFile->pCompressedData, (unsigned char *)mp_activeFile->pData, (int)mp_activeFile->compressedDataSize);
 		}
 	}
 
@@ -359,7 +359,7 @@ PreFile::FileHandle *PreFile::GetContainedFile(const char *pName)
 // returns a pointer to the file in memory
 // or nullptr if the file is not in this pre file.
 // optional parameter p_dest, if set to anything other then nullptr, then load file to this destination
-char *PreFile::LoadContainedFile(const char *pName,int *p_size, char *p_dest)
+char *PreFile::LoadContainedFile(const char *pName, size_t *p_size, char *p_dest)
 {
 
 //	printf ("LoadContainedFile(%s\n",pName);
@@ -381,7 +381,7 @@ char *PreFile::LoadContainedFile(const char *pName,int *p_size, char *p_dest)
 		{
 			// need to uncompress data
 			//DecodeLZSS(mp_activeFile->pCompressedData, mp_activeFile->pData, mp_activeFile->compressedDataSize);	
-			DecodeLZSS((unsigned char*)pFile->pCompressedData, (unsigned char*)p_dest, pFile->compressedDataSize);	
+			DecodeLZSS((unsigned char*)pFile->pCompressedData, (unsigned char*)p_dest, (int)pFile->compressedDataSize);	
 		}
 		else
 		{
@@ -432,14 +432,14 @@ void PreFile::Reset()
 
 
 
-uint32 PreFile::Read(void *addr, uint32 count)
+size_t PreFile::Read(void *addr, size_t count)
 {
 	
 	Dbg_AssertPtr(mp_activeFile);
 
-	int seek_offs = mp_activeFile->m_position;
-	unsigned int limit = mp_activeFile->m_filesize - seek_offs;
-	int copy_number = (count <= limit) ? count : limit;
+	size_t seek_offs = mp_activeFile->m_position;
+	size_t limit = mp_activeFile->m_filesize - seek_offs;
+	size_t copy_number = (count <= limit) ? count : limit;
 	if (mp_activeFile->compressedDataSize)
 	{
 		Dbg_MsgAssert(mp_activeFile->pData,( "file not uncompressed"));
@@ -509,7 +509,7 @@ void PreFile::Close(bool async)
 
 int PreFile::Seek(ptrdiff_t offset, int origin)
 {
-	int32 old_pos = mp_activeFile->m_position;
+	size_t old_pos = mp_activeFile->m_position;
 
 	// SEEK_CUR, SEEK_END, SEEK_SET
 	switch(origin)
@@ -521,7 +521,7 @@ int PreFile::Seek(ptrdiff_t offset, int origin)
 			mp_activeFile->m_position = mp_activeFile->m_filesize - offset;
 			break;
 		case SEEK_SET:
-			mp_activeFile->m_position = offset;
+			mp_activeFile->m_position = (size_t)offset;
 			break;
 		default:
 			return -1;
@@ -716,7 +716,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 	Tmr::Time basetime = Tmr::ElapsedTime(0);
 #endif
 
-	int file_size;
+	size_t file_size;
 	char *pFile = nullptr;
 
 	// Try loading asynchronously
@@ -727,6 +727,9 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 		CAsyncFileHandle *p_fileHandle = CAsyncFileLoader::sOpen( fullname, !async );
 		if (p_fileHandle)
 		{
+			Dbg_Assert(0);
+			return;
+			#if 0
 			Dbg_MsgAssert(strlen(pFilename) < MAX_COMPACT_FILE_NAME, ("Pre file name %s is greater than %d bytes", pFilename, MAX_COMPACT_FILE_NAME - 1));
 
 			// Add to pending list
@@ -744,6 +747,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 			// read the file in
 			p_fileHandle->Read( pFile, 1, file_size );
 			return;
+			#endif
 		}
 	}
 
@@ -779,7 +783,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 			pFile = new char[file_size];
 			File::Read(pFile, 1, file_size, fp);
 
-			int read_file_size = *((int *) pFile);
+			size_t read_file_size = *((uint32 *) pFile);
 			Dbg_MsgAssert(file_size == read_file_size,( "%s has incorrect file size: %d vs. expected %d\n", fullname, file_size, read_file_size));
 			if (Config::CD())
 			{
@@ -790,7 +794,7 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 		}
 
 #	if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
-	printf("load time for file %s size %d is %d ms\n", pFilename, file_size, (int) Tmr::ElapsedTime(basetime));
+	printf("load time for file %s size %zu is %d ms\n", pFilename, file_size, (int) Tmr::ElapsedTime(basetime));
 #endif
 
 	// the PRE file object winds up at the top of the heap, too. This is fine because
@@ -837,18 +841,17 @@ void   	PreMgr::postLoadPre(CAsyncFileHandle *p_file_handle, char *pData, int si
 void	PreMgr::async_callback(CAsyncFileHandle *p_file_handle, EAsyncFunctionType function,
 							   int result, unsigned int arg0, unsigned int arg1)
 {
-	if (function == File::FUNC_READ)
-	{
-		PreMgr *p_mgr = (PreMgr *) arg0;
-
-		p_mgr->postLoadPre(p_file_handle, (char*)arg1, result);
-	}
+	(void)p_file_handle;
+	(void)function;
+	(void)result;
+	(void)arg0;
+	(void)arg1;
 }
 
 // Returns point in string where it will fit in compact space
 char *	PreMgr::getCompactFileName(char *pName)
 {
-	int length = strlen(pName);
+	size_t length = strlen(pName);
 
 	if (length < MAX_COMPACT_FILE_NAME)
 	{
@@ -856,7 +859,7 @@ char *	PreMgr::getCompactFileName(char *pName)
 	}
 	else
 	{
-		int offset = length - (MAX_COMPACT_FILE_NAME - 1);
+		size_t offset = length - (MAX_COMPACT_FILE_NAME - 1);
 
 		return pName + offset;
 		//return (char *) ((int) pName + offset);
@@ -1349,7 +1352,7 @@ bool ScriptWaitAllLoadPre(Script::CStruct *pParams, Script::CScript *pScript)
 // else
 //   decompress
 
-char *PreMgr::LoadFile(const char *pName, int *p_size, char *p_dest)
+char *PreMgr::LoadFile(const char *pName, size_t *p_size, char *p_dest)
 {
 // NOTE: THIS IS JUST CUT AND PASTE FROM Pre::fileExists
 	Dbg_AssertPtr(pName);

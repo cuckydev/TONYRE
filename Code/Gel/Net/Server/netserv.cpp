@@ -148,7 +148,7 @@ void	Server::deinit( void )
 
 void	Server::SendEnqueuedMessages( Conn* conn )
 {
-	int buf_len;
+	size_t buf_len;
 	MsgPacketStamp msg;
 	int num_resends;
 	MsgDesc timestamp_msg_desc;
@@ -281,7 +281,7 @@ void	Server::SendEnqueuedMessages( Conn* conn )
 			if ( SendTo( conn->GetIP(), conn->GetPort(), conn->m_write_buffer, buf_len, 0 ))
 			{
 				m_TotalBytesOut += buf_len;
-				conn->GetOutboundMetrics()->AddPacket( buf_len + vUDP_PACKET_OVERHEAD, m_Timestamp );
+				conn->GetOutboundMetrics()->AddPacket(buf_len + vUDP_PACKET_OVERHEAD, m_Timestamp );
 				conn->SetForceSendThisFrame( false );
 				conn->m_last_send_time = m_Timestamp;
 			}

@@ -1058,7 +1058,7 @@ static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p
 			// Skip p_token over the script tokens, and calculate the size.
 			const uint8 *p_script=p_token;
 			p_token=SkipOverScript(p_token);
-			uint32 size=p_token-p_script;
+			size_t size = p_token-p_script;
 			
 			// This will create a new buffer and copy in the script data.
 			p_dest->AddScript(nameChecksum,p_script,size);
@@ -1260,7 +1260,7 @@ static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, C
 
 // Creates a new script symbol entry, allocates memory for the script data and copies it in, prefixing
 // the data with the contents checksum.
-static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 contentsChecksum, const uint8 *p_data, uint32 size, const char *p_fileName)
+static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 contentsChecksum, const uint8 *p_data, size_t size, const char *p_fileName)
 {
 	Dbg_MsgAssert(p_data,("nullptr p_data ??"));
 	Dbg_MsgAssert(p_fileName,("nullptr p_fileName"));
@@ -1276,7 +1276,7 @@ static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 conten
 	
 	#ifdef NO_SCRIPT_CACHING
 	// Allocate space for the content checksum (4 bytes) plus the script data.
-	uint8 *p_new_script=(uint8*)Mem::Malloc(4+size);
+	uint8 *p_new_script = new uint8[4 + size];
 	
 	// Write in the contents checksum.
 	// p_new_script will be long-word aligned so OK to cast to a uint32*
@@ -1909,8 +1909,8 @@ uint32 CalculateScriptContentsChecksum(uint8 *p_token)
 		if (*p_last_token != ESCRIPTTOKEN_ENDOFLINE &&
 			*p_last_token != ESCRIPTTOKEN_ENDOFLINENUMBER)
 		{
-			int num_bytes=p_token-p_last_token;
-			checksum=Crc::UpdateCRC((const char*)p_last_token,num_bytes,checksum);
+			size_t num_bytes = p_token-p_last_token;
+			checksum = Crc::UpdateCRC((const char*)p_last_token, num_bytes, checksum);
 		}
 	}	
 	
@@ -2263,7 +2263,7 @@ uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_com
 			// Skip p_token over the script tokens, and calculate the size.
 			const uint8 *p_script=p_token;
 			p_token=SkipOverScript(p_token);
-			uint32 size=p_token-p_script;
+			size_t size = p_token - p_script;
 			
 			p_comp->mType=ESYMBOLTYPE_QSCRIPT;
 			
@@ -2274,10 +2274,8 @@ uint8 *FillInComponentUsingQB(uint8 *p_token, CStruct *p_args, CComponent *p_com
 			// Copy the script into the new buffer.
 			const uint8 *p_source=p_script;
 			uint8 *p_dest=p_new_script;
-			for (uint32 i=0; i<size; ++i)
-			{
-				*p_dest++=*p_source++;
-			}	
+			for (size_t i=0; i<size; ++i)
+				*p_dest++ = *p_source++;
 			
 			// Give the new buffer to the component.
 			p_comp->mpScript=p_new_script;
@@ -3222,7 +3220,7 @@ void ParseQB(const char *p_fileName, uint8 *p_qb, EBoolAssertIfDuplicateSymbols 
 				// Calculate the length of the script data in bytes.
 				uint8 *p_script_data=p_token;
 				p_token=SkipOverScript(p_token);
-				uint32 script_data_size=p_token-p_script_data;
+				size_t script_data_size=p_token-p_script_data;
 	
 				
 				// Calculate a checksum of the contents of the new script.

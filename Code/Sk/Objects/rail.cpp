@@ -470,7 +470,7 @@ void	CRailManager::RemoveOverlapping()
 		}
 //		pRailNode = pRailNode->m_pNext;
 	}		 
-	printf ("Done overlapping rail removal, removed %d\n", removed);
+	printf ("Done overlapping rail removal, removed %zu\n", removed);
 }
 
 
@@ -667,7 +667,7 @@ bool CRailManager::CheckForLadderRail ( const Mth::Vector& pos, float max_horizo
 {
     float max_horizontal_snap_distance_sqr = Mth::Sqr(max_horizontal_snap_distance);
     
-    for (int check_node_idx = m_num_nodes; check_node_idx--; )
+    for (size_t check_node_idx = m_num_nodes; check_node_idx--; )
     {
         CRailNode* p_node = &mp_nodes[check_node_idx];
         
@@ -1955,7 +1955,7 @@ private:
 };
 
 BinTable::BinTable ( uint32 numBits )
-	: m_numBits(numBits), mp_table(new BinItem[1 << numBits]), m_size(0)
+	: m_numBits(numBits), mp_table(new BinItem[1ULL << numBits]), m_size(0)
 	{   }
 
 BinTable::~BinTable (   )
@@ -2244,7 +2244,7 @@ inline bool add_rail ( const Mth::Vector& pa, const Mth::Vector& pb, SAutoRailGe
 {
 	// cull out duplicate rails
 	// NOTE: what is causing these? some levels do not have them; perhaps sloppy geometry
-	for (int n = arg.num_rails; n--; )
+	for (size_t n = arg.num_rails; n--; )
 	{
 		// if this is a duplicate, bail
 		if ((very_close(arg.p_rails[n].endpoints[START].p, pa, arp) && very_close(arg.p_rails[n].endpoints[END].p, pb, arp))
@@ -2595,8 +2595,8 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 		Mth::Vector p[3];
 		
 		// loop though the faces of the sector
-		int num_faces = p_coll_obj->GetNumFaces();
-		for (int face = 0; face < num_faces; face++)
+		size_t num_faces = p_coll_obj->GetNumFaces();
+		for (size_t face = 0; face < num_faces; face++)
 		{
 			// get the normal													 
 			Mth::Vector normal = p_coll_obj->GetFaceNormal(face);
@@ -2986,8 +2986,8 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 	{
 		// we need to count the number of nodes required for the new rails
 		// new_num_nodes = (num rails) + (num rails with no end connection)	+ (num old nodes)
-		int new_num_nodes = arg.num_active_rails;
-		for (int r = arg.num_rails; r--; )
+		size_t new_num_nodes = arg.num_active_rails;
+		for (size_t r = arg.num_rails; r--; )
 		{
 			if (!arg.p_rails[r].disabled && arg.p_rails[r].endpoints[END].connection == vNULL_RAIL)
 			{
@@ -3049,7 +3049,7 @@ void CRailManager::AutoGenerateRails ( Script::CStruct* pParams )
 			// traverse the railset, adding nodes as we go
 			size_t starting_rail = s;
 			CRailNode* p_starting_node = &p_new_nodes[next_node];
-			int last_s;
+			size_t last_s;
 			do {
 				CRailNode* pRailNode = &p_new_nodes[next_node];
 				pRailNode->m_node = next_node;

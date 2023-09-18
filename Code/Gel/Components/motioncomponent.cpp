@@ -537,12 +537,12 @@ CBaseComponent::EMemberFunctionResult CMotionComponent::CallMemberFunction( uint
 		// If the object's current node is not linked to anything, no Link parameter will be created.
 		case 0x6866312f: // Obj_GetRandomLink
 		{
-			uint32 num_links = SkateScript::GetNumLinks( m_current_node );
+			size_t num_links = SkateScript::GetNumLinks( m_current_node );
 			if (num_links)
 			{
 				// Note: The +1 is because we're using the convention of numbering the
 				// links from 1 to n rather than 0 to n-1
-				pScript->GetParams()->AddInteger(Crc::ConstCRC("Link"),Mth::Rnd(num_links)+1);
+				pScript->GetParams()->AddInteger(Crc::ConstCRC("Link"),(int)(Mth::Rnd(num_links) + 1));
 			}
 			break;
 		}

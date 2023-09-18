@@ -83,10 +83,7 @@ static Nx::CSector *s_clone_sector(uint32 sector_name)
 }
 
 
-static void s_generate_end_vert_positions(Mth::Vector &pos, Mth::Vector &dir, 
-										  Mth::Vector *p_geom_verts,
-										  int *p_vert_indices,
-										  int numIndices)
+static void s_generate_end_vert_positions(Mth::Vector &pos, Mth::Vector &dir, Mth::Vector *p_geom_verts, size_t *p_vert_indices, size_t numIndices)
 {
 	// Need to copy the origin into a local var cos the source is about to be modified.
 	Mth::Vector origin=p_geom_verts[p_vert_indices[0]];
@@ -114,7 +111,7 @@ static void s_generate_end_vert_positions(Mth::Vector &pos, Mth::Vector &dir,
 	rot[Mth::AT]=w;
 	rot[3][3]=1.0f;
 	
-	for (int i=0; i<numIndices; ++i)
+	for (size_t i=0; i<numIndices; ++i)
 	{
 		Mth::Vector *p_geom_vert=&p_geom_verts[p_vert_indices[i]];
 		Mth::Vector off=*p_geom_vert-origin;
@@ -146,13 +143,13 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 	
 	// TODO: These indices will need to be different on Xbox and GameCube
 
-	int p_end_verts_a[]=
+	size_t p_end_verts_a[]=
 	{
 		1,9,             	// Top
 		3,10,14,19,			// Middle
 		0,13,2,16,			// Bottom
 	};
-	int p_end_verts_b[]=
+	size_t p_end_verts_b[]=
 	{
 		6,11,				// Top
 		7,8,15,18,			// Middle
@@ -160,7 +157,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 	};
 
 	static_assert(sizeof(p_end_verts_a) == sizeof(p_end_verts_b), "End vert array size mismatch!");
-	size_t num_indices = sizeof(p_end_verts_a) / sizeof(int);
+	size_t num_indices = sizeof(p_end_verts_a) / sizeof(size_t);
 
 	// Get the default coords of the sectors vertices. These will be relative to the sectors origin.
 	Nx::CSector *p_source_sector=Nx::CEngine::sGetSector(sourceSectorChecksum);
@@ -196,7 +193,7 @@ static void s_calculate_rail_sector_vertex_coords(Mth::Vector &lastPos, Mth::Vec
 		Nx::CGeom *p_last_geom=p_lastRailSector->GetGeom();
 		Dbg_MsgAssert(p_last_geom,("nullptr p_last_geom ?"));
 		
-		int last_num_render_verts=p_last_geom->GetNumRenderVerts();
+		size_t last_num_render_verts=p_last_geom->GetNumRenderVerts();
 		// SPEEDOPT: If necessary, could use a static buffer for the verts
 		Mth::Vector *p_last_verts = new Mth::Vector[last_num_render_verts];
 		p_last_geom->GetRenderVerts(p_last_verts);
@@ -487,7 +484,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	Nx::CGeom *p_source_geom=p_source_sector->GetGeom();
 	Dbg_MsgAssert(p_source_geom,("nullptr p_source_geom ?"));
 	
-	int num_verts=p_source_geom->GetNumRenderVerts();
+	size_t num_verts=p_source_geom->GetNumRenderVerts();
 	// SPEEDOPT: If necessary, could use a static buffer for the verts
 	Mth::Vector *p_verts = new Mth::Vector[num_verts];
 	p_source_geom->GetRenderVerts(p_verts);
@@ -495,7 +492,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	// Find the y coords of the top and bottom
 	float min_y=1000000.0f;
 	float max_y=-1000000.0f;
-	for (int i=0; i < num_verts; ++i)
+	for (size_t i=0; i < num_verts; ++i)
 	{
 		float y=p_verts[i].GetY();
 		if (y < min_y)
@@ -535,7 +532,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	// The height of the rail section needs to be added too because the rail point (mPos) is at the apex of the
 	// rail section.
 	float shift_down_amount=half_post_height+rail_sector_height;
-	for (int i=0; i < num_verts; ++i)
+	for (size_t i=0; i < num_verts; ++i)
 	{
 		p_verts[i]+=translated_rail_point;
 		p_verts[i][Y]-=shift_down_amount;
@@ -567,7 +564,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	};
 #	endif
 #	endif
-	int num_bottom_vertices=sizeof(p_bottom_vert_indices)/sizeof(int);
+	size_t num_bottom_vertices = sizeof(p_bottom_vert_indices) / sizeof(int);
 	Dbg_MsgAssert(num_bottom_vertices <= num_verts,("Too many bottom vertices!"));
 
 	// The amount that the bottom vertices need to be moved down is the height, minus the
@@ -575,7 +572,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 	// half the height of the post so that the bottom is on the ground.
 	shift_down_amount=mHeightAboveGround-shift_down_amount-half_post_height;
 	
-	for (int i=0; i<num_bottom_vertices; ++i)
+	for (size_t i=0; i<num_bottom_vertices; ++i)
 	{
 		p_verts[p_bottom_vert_indices[i]][Y]-=shift_down_amount;
 	}	
@@ -592,7 +589,7 @@ void CEditedRailPoint::UpdatePostGeometry(Mth::Vector& rotateCentre, Mth::Vector
 		float vx=-uz;
 		float vz=ux;
 
-		for (int i=0; i < num_verts; ++i)
+		for (size_t i=0; i < num_verts; ++i)
 		{
 			float dx=p_verts[i][X]-translated_rail_point[X];
 			float dz=p_verts[i][Z]-translated_rail_point[Z];
@@ -1106,9 +1103,9 @@ bool CEditedRail::FindNearestRailPoint(Mth::Vector &pos,
 	return true;
 }
 
-int CEditedRail::CountPointsInArea(float x0, float z0, float x1, float z1)
+size_t CEditedRail::CountPointsInArea(float x0, float z0, float x1, float z1)
 {
-	int num_points=0;
+	size_t num_points=0;
 
    	CEditedRailPoint *p_point=mpRailPoints;
 	while (p_point)
@@ -1422,7 +1419,7 @@ void CEditedRail::ModulateRailColor(int seqIndex)
 	Script::CArray *p_entry = p_graffiti_col_tab->GetArray(seqIndex);
 	
 	#ifdef	__NOPT_ASSERT__
-	int size = p_entry->GetSize();
+	size_t size = p_entry->GetSize();
 	Dbg_MsgAssert(size >= 3 && size <= 4, ("wrong size %d for color array", size));
 	#endif
 	
@@ -1464,6 +1461,8 @@ void CEditedRail::SetSectorActiveStatus(bool active)
 
 void CEditedRail::GetDebugInfo( Script::CStruct* p_info )
 {
+	(void)p_info;
+	#if 0
 #ifdef	__DEBUG_CODE__
 	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
@@ -1494,6 +1493,7 @@ void CEditedRail::GetDebugInfo( Script::CStruct* p_info )
 		p_info->AddArrayPointer(Crc::ConstCRC("Points"),p_array);
 	}
 #endif				 
+	#endif
 }
 
 bool CEditedRail::ThereAreRailPointsOutsideArea(float x0, float z0, float x1, float z1)
@@ -1883,7 +1883,7 @@ bool CRailEditorComponent::ThereAreRailPointsOutsideArea(float x0, float z0, flo
 // Used when copying a set of rails to the clipboard.
 // Counts how many rail points will need to be created when copying the given area to the clipboard.
 // This allows it to bail out before attempting to copy if there are not enough points left in the pool.
-int CRailEditorComponent::CountPointsInArea(float x0, float z0, float x1, float z1)
+size_t CRailEditorComponent::CountPointsInArea(float x0, float z0, float x1, float z1)
 {
 	if (x0 > x1)
 	{
@@ -1974,7 +1974,7 @@ void CRailEditorComponent::WriteIntoStructure(Script::CStruct *p_info)
 {
 	Dbg_MsgAssert(p_info,("nullptr p_info"));
 	
-	int num_rails=count_rails();
+	size_t num_rails=count_rails();
 	
 	Script::CArray *p_rails=new Script::CArray;
 	p_rails->SetSizeAndType(num_rails,ESYMBOLTYPE_STRUCTURE);
@@ -1988,7 +1988,7 @@ void CRailEditorComponent::WriteIntoStructure(Script::CStruct *p_info)
 		// Note: Don't need to write out the mId member because ReadFromBuffer will create new rails,
 		// which will each get a new id on creation.
 		
-		int num_points=p_rail->CountPoints();
+		size_t num_points=p_rail->CountPoints();
 		Script::CArray *p_points=new Script::CArray;
 		p_points->SetSizeAndType(num_points,ESYMBOLTYPE_STRUCTURE);
 		
@@ -2692,8 +2692,8 @@ CBaseComponent::EMemberFunctionResult CRailEditorComponent::CallMemberFunction( 
 			
 			if (p_rail)
 			{
-				pScript->GetParams()->AddChecksum(Crc::ConstCRC("rail_id"),p_rail->mId);
-				pScript->GetParams()->AddInteger(Crc::ConstCRC("num_points"),p_rail->CountPoints());
+				pScript->GetParams()->AddChecksum(Crc::ConstCRC("rail_id"), p_rail->mId);
+				pScript->GetParams()->AddInteger(Crc::ConstCRC("num_points"), (int)p_rail->CountPoints());
 			}	
 			else
 			{
@@ -2738,12 +2738,12 @@ CBaseComponent::EMemberFunctionResult CRailEditorComponent::CallMemberFunction( 
     return CBaseComponent::MF_TRUE;
 }
 
-int CRailEditorComponent::GetNumFreePoints()
+size_t CRailEditorComponent::GetNumFreePoints()
 {
 	return MAX_EDITED_RAIL_POINTS-CEditedRailPoint::SGetNumUsedItems();
 }
 
-int CRailEditorComponent::GetNumFreeRails()
+size_t CRailEditorComponent::GetNumFreeRails()
 {
 	return MAX_EDITED_RAILS-CEditedRail::SGetNumUsedItems();
 }
@@ -2825,13 +2825,13 @@ void CRailEditorComponent::GetDebugInfo(Script::CStruct *p_info)
 		p_info->AddChecksum(Crc::ConstCRC("CurrentRail"),Crc::ConstCRC("nullptr"));
 	}
 		
-	int num_rails=count_rails();
+	size_t num_rails=count_rails();
 	if (num_rails)
 	{
 		Script::CArray *p_array=new Script::CArray;
 		p_array->SetSizeAndType(num_rails,ESYMBOLTYPE_STRUCTURE);
 		
-		int i=0;
+		size_t i = 0;
 		CEditedRail *p_rail=mp_edited_rails;
 		while (p_rail)
 		{

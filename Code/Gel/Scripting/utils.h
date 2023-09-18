@@ -15,12 +15,12 @@ class CComponent;
 void PrintContents(const CArray *p_array, int indent=0);
 void PrintContents(const CStruct *p_structure, int indent=0);
 
-uint32 WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, EAssertType assert=ASSERT);
-uint32 CalculateBufferSize(CStruct *p_structure, uint32 tempBufferSize=100000);
+size_t WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, size_t bufferSize, EAssertType assert=ASSERT);
+size_t CalculateBufferSize(CStruct *p_structure, size_t tempBufferSize=100000);
 uint8 *ReadFromBuffer(CStruct *p_structure, uint8 *p_buffer);
 
-uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAssertType assert=ASSERT);
-uint32 CalculateBufferSize(CArray *p_array);
+size_t WriteToBuffer(CArray *p_array, uint8 *p_buffer, size_t bufferSize, EAssertType assert=ASSERT);
+size_t CalculateBufferSize(CArray *p_array);
 uint8 *ReadFromBuffer(CArray *p_array, uint8 *p_buffer);
 
 // This is used in eval.cpp, when evaluating foo[3] say.

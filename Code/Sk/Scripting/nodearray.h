@@ -39,8 +39,8 @@ int	GetNearestNodeByPrefix(const char * p_prefix, const Mth::Vector &pos);
 
 CStruct *GetNode(int nodeIndex);
 uint32	GetNodeNameChecksum(int nodeIndex);
-uint32 GetNumLinks(CStruct *p_node);
-uint32 GetNumLinks(int nodeIndex);
+int GetNumLinks(CStruct *p_node);
+int GetNumLinks(int nodeIndex);
 int GetLink(CStruct *p_node, int linkNumber);
 int GetLink(int nodeIndex, int linkNumber);
 bool IsLinkedTo(int node1, int node2);

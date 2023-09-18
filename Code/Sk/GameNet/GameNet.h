@@ -766,7 +766,7 @@ public:
 	
 	void				ClearServerList( bool refocus = true );
 	void				FreeServerList( void );
-	ServerInfo*			GetServerInfo( uint32 id );
+	ServerInfo*			GetServerInfo(size_t id );
 
 	
 

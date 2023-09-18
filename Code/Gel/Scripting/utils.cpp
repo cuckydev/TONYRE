@@ -60,7 +60,7 @@ void PrintContents(const CArray *p_array, int indent)
 {
 #ifdef __NOPT_ASSERT__	
 	Dbg_MsgAssert(p_array,("nullptr p_array"));
-	int size=p_array->GetSize();
+	size_t size=p_array->GetSize();
 	ESymbolType type=p_array->GetType();
 	
 	if (!indent)
@@ -73,7 +73,7 @@ void PrintContents(const CArray *p_array, int indent)
 	indent+=3;
 	
 	int int_column_count=0;
-	for (int i=0; i<size; ++i)
+	for (size_t i=0; i<size; ++i)
 	{
 		if (type!=ESYMBOLTYPE_STRUCTURE && type!=ESYMBOLTYPE_ARRAY)
 		{
@@ -297,16 +297,16 @@ static uint8 *sWriteCompressedName(uint8 *p_buffer, uint8 symbolType, uint32 nam
 {
 	// Check if the checksum is in the small array.
 	CArray *p_table=GetArray(0x35115a20/*WriteToBuffer_CompressionLookupTable_8*/);
-	int size=p_table->GetSize();
+	size_t size=p_table->GetSize();
 	Dbg_MsgAssert(size<256,("Size of WriteToBuffer_CompressionLookupTable_8 too big"));
 	
-	for (uint8 i = 0; i < size; ++i)
+	for (size_t i = 0; i < size; ++i)
 	{
 		if (p_table->GetChecksum(i) == nameChecksum)
 		{
 			// It is in the array! So write out a 1 byte index.
-			*p_buffer++=symbolType | MASK_8_BIT_NAME_LOOKUP;
-			*p_buffer++=i;
+			*p_buffer++ = symbolType | MASK_8_BIT_NAME_LOOKUP;
+			*p_buffer++ = (uint8)i;
 			return p_buffer;
 		}
 	}		
@@ -331,7 +331,7 @@ static uint8 *sWriteCompressedName(uint8 *p_buffer, uint8 symbolType, uint32 nam
 	return Write4Bytes(p_buffer,nameChecksum);
 }
 
-static uint32 sIntegerWriteToBuffer(uint32 name, int val, uint8 *p_buffer, uint32 bufferSize)
+static size_t sIntegerWriteToBuffer(uint32 name, int val, uint8 *p_buffer, size_t bufferSize)
 {
 	uint8 *p_buffer_before=p_buffer;
 		
@@ -396,7 +396,7 @@ static uint32 sIntegerWriteToBuffer(uint32 name, int val, uint8 *p_buffer, uint3
 			break;
 	}
 
-	uint32 bytes_written_to_temp=p_end-p_temp;
+	size_t bytes_written_to_temp = p_end - p_temp;
 	
 	// Check that there is enough space before doing any writing.
 	if (bufferSize < bytes_written_to_temp)
@@ -405,15 +405,15 @@ static uint32 sIntegerWriteToBuffer(uint32 name, int val, uint8 *p_buffer, uint3
 	}
 
 	uint8 *p_source=p_temp;
-	for (uint32 i=0; i<bytes_written_to_temp; ++i)
+	for (size_t i = 0; i < bytes_written_to_temp; ++i)
 	{
-		*p_buffer++=*p_source++;
+		*p_buffer++ = *p_source++;
 	}	
 	
 	return p_buffer-p_buffer_before;		
 }
 
-static uint32 sFloatWriteToBuffer(uint32 name, float val, uint8 *p_buffer, uint32 bufferSize)
+static size_t sFloatWriteToBuffer(uint32 name, float val, uint8 *p_buffer, size_t bufferSize)
 {
 	uint8 *p_buffer_before=p_buffer;
 	
@@ -448,7 +448,7 @@ static uint32 sFloatWriteToBuffer(uint32 name, float val, uint8 *p_buffer, uint3
 	return p_buffer-p_buffer_before;
 }
 
-static uint32 sChecksumWriteToBuffer(uint32 name, uint32 checksum, uint8 *p_buffer, uint32 bufferSize)
+static size_t sChecksumWriteToBuffer(uint32 name, uint32 checksum, uint8 *p_buffer, size_t bufferSize)
 {
 	uint8 *p_buffer_before=p_buffer;
 	
@@ -464,12 +464,12 @@ static uint32 sChecksumWriteToBuffer(uint32 name, uint32 checksum, uint8 *p_buff
 	return p_buffer-p_buffer_before;
 }
 
-static uint32 sStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_buffer, uint32 bufferSize)
+static size_t sStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_buffer, size_t bufferSize)
 {
 	Dbg_MsgAssert(p_string,("nullptr p_string sent to sStringWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 		
-	uint32 Len=strlen(p_string);
+	size_t Len=strlen(p_string);
 	// Check that there is enough space before doing any writing.
 	// The +6 is for the type, the name, and the string terminating 0.
 	if (bufferSize<Len+6)
@@ -479,7 +479,7 @@ static uint32 sStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_b
 	
 	// Write out the component.
 	p_buffer=sWriteCompressedName(p_buffer,ESYMBOLTYPE_STRING,name);
-	for (uint32 i=0; i<Len; ++i)
+	for (size_t i=0; i<Len; ++i)
 	{
 		*p_buffer++=*p_string++;
 	}
@@ -488,12 +488,12 @@ static uint32 sStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_b
 	return p_buffer-p_buffer_before;
 }
 
-static uint32 sLocalStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_buffer, uint32 bufferSize)
+static size_t sLocalStringWriteToBuffer(uint32 name, const char *p_string, uint8 *p_buffer, size_t bufferSize)
 {
 	Dbg_MsgAssert(p_string,("nullptr p_string sent to sLocalStringWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
 	
-	uint32 len=strlen(p_string);
+	size_t len=strlen(p_string);
 	// Check that there is enough space before doing any writing.
 	// The +6 is for the type, the name, and the string terminating 0.
 	if (bufferSize<len+6)
@@ -503,7 +503,7 @@ static uint32 sLocalStringWriteToBuffer(uint32 name, const char *p_string, uint8
 	
 	// Write out the component.
 	p_buffer=sWriteCompressedName(p_buffer,ESYMBOLTYPE_LOCALSTRING,name);
-	for (uint32 i=0; i<len; ++i)
+	for (size_t i=0; i<len; ++i)
 	{
 		*p_buffer++=*p_string++;
 	}
@@ -512,7 +512,7 @@ static uint32 sLocalStringWriteToBuffer(uint32 name, const char *p_string, uint8
 	return p_buffer-p_buffer_before;
 }
 
-static uint32 sPairWriteToBuffer(uint32 name, CPair *p_pair, uint8 *p_buffer, uint32 bufferSize)
+static size_t sPairWriteToBuffer(uint32 name, CPair *p_pair, uint8 *p_buffer, size_t bufferSize)
 {
 	Dbg_MsgAssert(p_pair,("nullptr p_pair sent to sPairWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
@@ -531,7 +531,7 @@ static uint32 sPairWriteToBuffer(uint32 name, CPair *p_pair, uint8 *p_buffer, ui
 	return p_buffer-p_buffer_before;
 }
 
-static uint32 sVectorWriteToBuffer(uint32 name, CVector *p_vector, uint8 *p_buffer, uint32 bufferSize)
+static size_t sVectorWriteToBuffer(uint32 name, CVector *p_vector, uint8 *p_buffer, size_t bufferSize)
 {
 	Dbg_MsgAssert(p_vector,("nullptr p_vector sent to sVectorWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
@@ -551,7 +551,7 @@ static uint32 sVectorWriteToBuffer(uint32 name, CVector *p_vector, uint8 *p_buff
 	return p_buffer-p_buffer_before;
 }
 
-static uint32 sStructureWriteToBuffer(uint32 name, CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
+static size_t sStructureWriteToBuffer(uint32 name, CStruct *p_structure, uint8 *p_buffer, size_t bufferSize, EAssertType assert)
 {
 	Dbg_MsgAssert(p_structure,("nullptr p_structure sent to sStructureWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
@@ -564,11 +564,11 @@ static uint32 sStructureWriteToBuffer(uint32 name, CStruct *p_structure, uint8 *
 		
 	// Write out the type and name
 	p_buffer=sWriteCompressedName(p_buffer,ESYMBOLTYPE_STRUCTURE,name);
-	int name_bytes_written=p_buffer-p_buffer_before;
+	size_t name_bytes_written = p_buffer-p_buffer_before;
 	
 	// That's name_bytes_written bytes written out successfully, but maybe the writing out of the structure will fail ...
 	
-	uint32 structure_bytes_written=WriteToBuffer(p_structure,p_buffer,bufferSize-name_bytes_written,assert);
+	size_t structure_bytes_written = WriteToBuffer(p_structure, p_buffer, bufferSize - name_bytes_written, assert);
 	// If writing out the structure failed, return 0.
 	if (!structure_bytes_written)
 	{
@@ -576,10 +576,10 @@ static uint32 sStructureWriteToBuffer(uint32 name, CStruct *p_structure, uint8 *
 	}
 	
 	// Otherwise return the total bytes written.
-	return name_bytes_written+structure_bytes_written;
+	return name_bytes_written + structure_bytes_written;
 }
 
-static uint32 sArrayWriteToBuffer(uint32 name, CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
+static size_t sArrayWriteToBuffer(uint32 name, CArray *p_array, uint8 *p_buffer, size_t bufferSize, EAssertType assert)
 {
 	Dbg_MsgAssert(p_array,("nullptr p_array sent to sArrayWriteToBuffer"));
 	uint8 *p_buffer_before=p_buffer;
@@ -596,7 +596,7 @@ static uint32 sArrayWriteToBuffer(uint32 name, CArray *p_array, uint8 *p_buffer,
 	
 	// That's name_bytes_written bytes written out successfully, but maybe the writing out of the array will fail ...
 	
-	uint32 array_bytes_written=WriteToBuffer(p_array,p_buffer,bufferSize-name_bytes_written,assert);
+	size_t array_bytes_written=WriteToBuffer(p_array,p_buffer,bufferSize-name_bytes_written,assert);
 	// If writing out the array failed, return 0.
 	if (!array_bytes_written)
 	{
@@ -617,10 +617,10 @@ static uint32 sArrayWriteToBuffer(uint32 name, CArray *p_array, uint8 *p_buffer,
 //
 // If there was not enough space, and assert is NO_ASSERT, it will return a count of 0.
 //
-uint32 WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
+size_t WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, size_t bufferSize, EAssertType assert)
 {
 	Dbg_MsgAssert(p_buffer,("nullptr p_buffer sent to WriteToBuffer"));
-	uint32 bytes_left=bufferSize;
+	size_t bytes_left=bufferSize;
 
 	// Scan through the components adding each to the buffer.	
     CComponent *p_comp=nullptr;
@@ -631,7 +631,7 @@ uint32 WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, E
 		
     while (p_comp)
     {
-		uint32 component_bytes_written=0;
+		size_t component_bytes_written=0;
 		
         switch (p_comp->mType)
         {
@@ -714,13 +714,13 @@ uint32 WriteToBuffer(CStruct *p_structure, uint8 *p_buffer, uint32 bufferSize, E
 }
 
 // Calculates how big a buffer will need to be to hold a structure using WriteToBuffer.
-uint32 CalculateBufferSize(CStruct *p_structure, uint32 tempBufferSize)
+size_t CalculateBufferSize(CStruct *p_structure, size_t tempBufferSize)
 {
 	Dbg_MsgAssert(p_structure,("nullptr p_structure"));
 
 	uint8 *p_temp = new uint8[tempBufferSize];
 	Dbg_MsgAssert(p_temp,("Could not allocate temporary buffer"));
-	uint32 space_required=WriteToBuffer(p_structure,p_temp,tempBufferSize);
+	size_t space_required = WriteToBuffer(p_structure,p_temp,tempBufferSize);
 	delete[] p_temp;
 
 	return space_required;
@@ -878,11 +878,11 @@ uint8 *ReadFromBuffer(CStruct *p_structure, uint8 *p_buffer)
 //
 // If there was not enough space, and assert is false, it will return a count of 0.
 //
-uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAssertType assert)
+size_t WriteToBuffer(CArray *p_array, uint8 *p_buffer, size_t bufferSize, EAssertType assert)
 {
 	Dbg_MsgAssert(p_array,("nullptr p_array"));
 	Dbg_MsgAssert(p_buffer,("nullptr p_buffer sent to WriteToBuffer"));
-	uint32 bytes_left=bufferSize;
+	size_t bytes_left=bufferSize;
 
 	if (bytes_left<3)
 	{
@@ -894,7 +894,7 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 	}
 	
 	ESymbolType type=p_array->GetType();
-	uint32 size=p_array->GetSize();
+	size_t size=p_array->GetSize();
 	
 	*p_buffer++=type;
 
@@ -920,7 +920,7 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			}
 			
 			uint32 *p_data=p_array->GetArrayPointer();
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				p_buffer=Write4Bytes(p_buffer,*p_data++);
 			}
@@ -985,7 +985,7 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			CPair **pp_pairs=(CPair**)p_array->GetArrayPointer();
 			Dbg_MsgAssert(pp_pairs,("nullptr pp_pairs ?"));
 			
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CPair *p_pair=*pp_pairs;
 				Dbg_MsgAssert(p_pair,("nullptr p_pair for element %d when attempting to WriteToBuffer",i));			
@@ -1012,7 +1012,7 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			CVector **pp_vectors=(CVector**)p_array->GetArrayPointer();
 			Dbg_MsgAssert(pp_vectors,("nullptr pp_vectors ?"));
 			
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CVector *p_vector=*pp_vectors;
 				Dbg_MsgAssert(p_vector,("nullptr p_vector for element %d when attempting to WriteToBuffer",i));			
@@ -1032,12 +1032,12 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			CStruct **pp_structures=(CStruct**)p_array->GetArrayPointer();
 			Dbg_MsgAssert(pp_structures,("nullptr pp_structures ?"));
 			
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CStruct *p_structure=*pp_structures++;
 				Dbg_MsgAssert(p_structure,("nullptr p_structure for element %d when attempting to WriteToBuffer",i));			
 				
-				uint32 bytes_written=WriteToBuffer(p_structure,p_buffer,bytes_left,assert);
+				size_t bytes_written=WriteToBuffer(p_structure,p_buffer,bytes_left,assert);
 				if (!bytes_written)
 				{
 					if (assert)
@@ -1060,12 +1060,12 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 			CArray **pp_arrays=(CArray**)p_array->GetArrayPointer();
 			Dbg_MsgAssert(pp_arrays,("nullptr pp_arrays ?"));
 			
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CArray *p_array_element=*pp_arrays++;
 				Dbg_MsgAssert(p_array_element,("nullptr p_array_element for element %d when attempting to WriteToBuffer",i));			
 				
-				uint32 bytes_written=WriteToBuffer(p_array_element,p_buffer,bytes_left,assert);
+				size_t bytes_written=WriteToBuffer(p_array_element,p_buffer,bytes_left,assert);
 				if (!bytes_written)
 				{
 					if (assert)
@@ -1097,13 +1097,13 @@ uint32 WriteToBuffer(CArray *p_array, uint8 *p_buffer, uint32 bufferSize, EAsser
 }
 
 // Calculates the size of buffer required if wanting to do a call to WriteToBuffer on the passed array.
-uint32 CalculateBufferSize(CArray *p_array)
+size_t CalculateBufferSize(CArray *p_array)
 {
 	// Need at least 3 bytes, one for the type, 2 for the size.
-	uint32 space_required=3;
-	uint32 i;
+	size_t space_required = 3;
+	size_t i;
 	
-	uint32 size=p_array->GetSize();
+	size_t size=p_array->GetSize();
 	// Easy to change WriteToBuffer to support 4 byte sizes, but keeping as 2 for the moment for
 	// backwards compatibility.
 	Dbg_MsgAssert(size<0x10000,("Size of array too big, currently only 2 bytes used to store size in WriteToBuffer ..."));
@@ -1122,7 +1122,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			{
 				const char *p_string=p_array->GetString(i);
 				Dbg_MsgAssert(p_string,("nullptr GetString() for element %d when attempting to call CalculateBufferSize",i));			
-				space_required+=strlen(p_string)+1;
+				space_required += strlen(p_string)+1;
 			}
 			break;
 
@@ -1131,7 +1131,7 @@ uint32 CalculateBufferSize(CArray *p_array)
 			{
 				const char *p_string=p_array->GetLocalString(i);
 				Dbg_MsgAssert(p_string,("nullptr GetLocalString() for element %d when attempting to call CalculateBufferSize",i));			
-				space_required+=strlen(p_string)+1;
+				space_required += strlen(p_string) + 1;
 			}
 			break;
 			

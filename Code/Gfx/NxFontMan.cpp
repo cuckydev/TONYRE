@@ -179,9 +179,9 @@ bool ScriptLoadFont(Script::CScriptStructure *pParams, Script::CScript *pScript)
 		{
 			Script::CArray *p_entry = p_script_col_tab->GetArray(i);
 			uint32 rgba = 0;
-			int size = p_entry->GetSize();
+			size_t size = p_entry->GetSize();
 			Dbg_MsgAssert(size >= 3 && size <= 4, ("wrong size %d for color array", size));
-			for (int j = 0; j < size; j++) 
+			for (size_t j = 0; j < size; j++)
 			{
 				rgba |= (p_entry->GetInteger(j) & 255) << (j*8);
 			}

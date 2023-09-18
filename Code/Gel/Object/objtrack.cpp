@@ -349,7 +349,7 @@ void CTracker::remove_aliases(CObject *pObject)
 		//	break;
 		
 		mp_alias_table->IterateStart();
-		uint32 entry_key;
+		size_t entry_key;
 		CObject *p_entry = mp_alias_table->IterateNext(&entry_key);
 		while(p_entry)
 		{
@@ -481,7 +481,7 @@ void CTracker::ValidateReceivers()
 {
 	
 	mp_event_receiver_table->IterateStart();
-	uint32 entry_key;
+	size_t entry_key;
 	CEventReceiverList *p_entry = mp_event_receiver_table->IterateNext(&entry_key);
 	while(p_entry)
 	{
@@ -1079,9 +1079,9 @@ bool ScriptLaunchEvent(Script::CStruct *pParams, Script::CScript *pScript)
 		Script::CArray *pTypesArray;
 		if (pParams->GetArray(Crc::ConstCRC("type"), &pTypesArray))
 		{
-			Dbg_Assert(pTypesArray->GetType() == ESYMBOLTYPE_NAME)
-			unsigned num_events = pTypesArray->GetSize();
-			for (unsigned n = 0; n < num_events; n++)
+			Dbg_Assert(pTypesArray->GetType() == ESYMBOLTYPE_NAME);
+			size_t num_events = pTypesArray->GetSize();
+			for (size_t n = 0; n < num_events; n++)
 			{
 				p_tracker->LogEventScript(pScript->mScriptChecksum);
 				p_tracker->LaunchEvent(pTypesArray->GetChecksum(n), target, source, pData, broadcast);

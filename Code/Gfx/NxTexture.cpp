@@ -24,7 +24,7 @@ namespace	Nx
 static uint32 s_convert_filename_to_checksum( const char* pFileName )
 {
 	// Find base name
-	int idx	= strlen(pFileName);
+	size_t idx	= strlen(pFileName);
 	while ((idx > 0) && pFileName[idx - 1] != '\\' && pFileName[idx - 1] != '/')
 		--idx;
 
@@ -933,7 +933,7 @@ CTexture* CTexDict::get_source_texture( const char* p_src_texture_name )
 		strcpy( auto32_name, p_src_texture_name );
 
 		// Remove the .png, and add the new suffix.
-		int length = strlen( auto32_name );
+		size_t length = strlen( auto32_name );
 		if( length > 4 )
 		{
 			auto32_name[strlen( auto32_name ) - 4] = 0;

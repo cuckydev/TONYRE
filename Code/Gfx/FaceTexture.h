@@ -60,8 +60,8 @@ public:
 public:
 	// for network message handling
 	// (handles raw IMG.PS2 data, face points, overlay information)
-	int					WriteToBuffer(uint8* pBuffer, int bufferSize );
-	uint8*				ReadFromBuffer(uint8* pBuffer, int bufferSize );
+	size_t				WriteToBuffer(uint8* pBuffer, size_t bufferSize );
+	uint8*				ReadFromBuffer(uint8* pBuffer, size_t bufferSize );
 	
 public:
 	// for memory card loading/saving

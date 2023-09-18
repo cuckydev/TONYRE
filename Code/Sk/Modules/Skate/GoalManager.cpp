@@ -234,10 +234,10 @@ bool CGoalManager::AddGoal( uint32 goalId, Script::CStruct* pParams )
 	Script::CArray* p_children;
 	if ( pGoalParams->GetArray( Crc::ConstCRC( "children" ), &p_children, Script::NO_ASSERT ) )
 	{
-		int size = p_children->GetSize();
+		size_t size = p_children->GetSize();
 		Dbg_MsgAssert( size > 0, ( "0 size children array for goal %s", Script::FindChecksumName( goalId ) ) );
 		Dbg_MsgAssert( p_children->GetType() == ESYMBOLTYPE_NAME, ( "children array has wrong type for goal %s", Script::FindChecksumName( goalId ) ) );
-		for ( int i = 0; i < size; i++ )
+		for ( size_t i = 0; i < size; i++ )
 		{
 			FindCircularLinks( goalId, p_children->GetChecksum( i ) );
 			pGoal->AddChild( p_children->GetChecksum( i ) );
@@ -2751,7 +2751,7 @@ bool CGoalManager::ReplaceTrickText( uint32 goalId, const char* p_old_string, ch
 	// build the string arrays
 	Script::CArray* p_key = new Script::CArray();
 	Script::CArray* p_trick = new Script::CArray();
-	int size = p_key_combo->GetSize();
+	size_t size = p_key_combo->GetSize();
 	p_key->SetSizeAndType( size, ESYMBOLTYPE_STRING );
 	p_trick->SetSizeAndType( size, ESYMBOLTYPE_STRING );
 
@@ -3537,18 +3537,18 @@ void CGoalManager::SetGoalChaptersAndStages()
 	Script::CArray* pChapterGoalsArray = Script::GetArray( Crc::ConstCRC( "chapter_goals" ), Script::ASSERT );
 	Dbg_Assert( pChapterGoalsArray->GetType() == ESYMBOLTYPE_ARRAY );
 
-	int chapter_goals_array_size = pChapterGoalsArray->GetSize();
-	for ( int chapter_index = 0; chapter_index < chapter_goals_array_size; chapter_index++ )
+	size_t chapter_goals_array_size = pChapterGoalsArray->GetSize();
+	for (size_t chapter_index = 0; chapter_index < chapter_goals_array_size; chapter_index++ )
 	{
 		Script::CArray* pStageArray = pChapterGoalsArray->GetArray( chapter_index );
 		Dbg_Assert( pStageArray->GetType() == ESYMBOLTYPE_ARRAY );
-		int stage_array_size = pStageArray->GetSize();
-		for ( int stage_index = 0; stage_index < stage_array_size; stage_index++ )
+		size_t stage_array_size = pStageArray->GetSize();
+		for (size_t stage_index = 0; stage_index < stage_array_size; stage_index++)
 		{
 			Script::CArray* pStage = pStageArray->GetArray( stage_index );
 			Dbg_Assert( pStage->GetType() == ESYMBOLTYPE_STRUCTURE );
-			int num_goals = pStage->GetSize();
-			for ( int goal_index = 0; goal_index < num_goals; goal_index++ )
+			size_t num_goals = pStage->GetSize();
+			for (size_t goal_index = 0; goal_index < num_goals; goal_index++)
 			{
 				Script::CStruct* pGoalStruct = pStage->GetStructure( goal_index );
 				uint32 goal_id;
@@ -3557,8 +3557,8 @@ void CGoalManager::SetGoalChaptersAndStages()
 					CGoal* pGoal = GetGoal( goal_id, false );
 					if ( pGoal )
 					{
-						pGoal->SetChapter( chapter_index );
-						pGoal->SetStage( stage_index );
+						pGoal->SetChapter( (int)chapter_index );
+						pGoal->SetStage((int)stage_index );
 					}
 				}
 			}
@@ -3606,7 +3606,7 @@ bool CGoalManager::AdvanceStage( bool force, uint32 just_won_goal_id )
 
 	Script::CArray* pChapterTotals = pChapterNumGoalsToComplete->GetArray( m_currentChapter );
 	int stage_total_target = pChapterTotals->GetInteger( m_currentStage );
-	int num_stages = pChapterTotals->GetSize();
+	size_t num_stages = pChapterTotals->GetSize();
 
 	// resolve just won goal to parent goal, which is what's listed
 	// in the chapter info array
@@ -3624,10 +3624,10 @@ bool CGoalManager::AdvanceStage( bool force, uint32 just_won_goal_id )
 	}
 	
 	// check the required total
-	int num_goals = pCurrentStage->GetSize();
+	size_t num_goals = pCurrentStage->GetSize();
 	int stage_total = 0;
 
-	for ( int goal_index = 0; goal_index < num_goals; goal_index++ )
+	for ( size_t goal_index = 0; goal_index < num_goals; goal_index++ )
 	{
 		Script::CStruct* pGoalStruct = pCurrentStage->GetStructure( goal_index );
 		uint32 goal_id;
@@ -3677,7 +3677,7 @@ bool CGoalManager::AdvanceStage( bool force, uint32 just_won_goal_id )
 	if ( stage_total >= stage_total_target || force )
 	{
 		// we've beaten the stage
-		if ( m_currentStage + 1 == num_stages )
+		if ( m_currentStage + 1 == (int)num_stages )
 		{
 			// we've finished the chapter
 			m_currentChapter++;
@@ -3744,7 +3744,7 @@ void CGoalManager::RunLastStageScript()
 		// figure the stage index
 		Script::CArray* pChapterArray = pChapterScriptsArray->GetArray( last_chapter_index );
 		Dbg_Assert( pChapterArray );
-		last_stage_index = pChapterArray->GetSize() - 1;
+		last_stage_index = (int)(pChapterArray->GetSize() - 1);
 		// [ { script_name=NJ_StageSwitch_0_to_1_1 }, { script_name=NJ_StageSwitch_1_1_to_1_2 }, { script_name=NJ_StageSwitch_1_2_to_2_1 } ]
 	}
 	else
@@ -7101,7 +7101,7 @@ bool ScriptGetCurrentChapterAndStage( Script::CStruct* pParams, Script::CScript*
 	Dbg_Assert( pChapterGoalsArray->GetType() == ESYMBOLTYPE_ARRAY );
 	if ( chapter >= (int)pChapterGoalsArray->GetSize() )
 	{
-		chapter = pChapterGoalsArray->GetSize() - 1;
+		chapter = (int)(pChapterGoalsArray->GetSize() - 1);
 	}
 	pScript->GetParams()->AddInteger( Crc::ConstCRC( "CurrentChapter" ), chapter );
 	pScript->GetParams()->AddInteger( Crc::ConstCRC( "CurrentStage" ), stage );

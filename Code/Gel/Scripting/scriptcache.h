@@ -23,7 +23,7 @@
 // No caching when compiled on PC since it is not needed and would require linking in memory manager stuff.
 // #define NO_SCRIPT_CACHING
 #endif
-//#define NO_SCRIPT_CACHING
+// #define NO_SCRIPT_CACHING
 
 // The total size of the CScriptCacheEntry pool.
 // This is the max number of decompressed scripts that can exist at once.

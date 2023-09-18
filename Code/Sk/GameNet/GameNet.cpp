@@ -1222,7 +1222,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 					new_player_msg.m_Score = 0;
 					strcpy( new_player_msg.m_Name, new_player->m_Name );
 					Dbg_Assert( new_player->mp_SkaterProfile );
-					uint32 data_size = new_player->mp_SkaterProfile->WriteToBuffer(new_player_msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE );
+					size_t data_size = new_player->mp_SkaterProfile->WriteToBuffer(new_player_msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE );
 
 					msg_desc.m_Data = &new_player_msg;
 					msg_desc.m_Length = (unsigned short)(sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size);
@@ -1254,8 +1254,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 					new_player_msg.m_Score = 0;
 					strcpy( new_player_msg.m_Name, player->m_Name );
 					Dbg_Assert( player->mp_SkaterProfile );
-					uint32 data_size = player->mp_SkaterProfile->WriteToBuffer(new_player_msg.m_AppearanceData, 
-																	vMAX_APPEARANCE_DATA_SIZE, narrowband );
+					size_t data_size = player->mp_SkaterProfile->WriteToBuffer(new_player_msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE, narrowband );
 
 					msg_desc.m_Data = &new_player_msg;
 					msg_desc.m_Length = (unsigned short)(sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size);
@@ -1287,8 +1286,7 @@ void	Manager::s_server_add_new_players_code( const Tsk::Task< Manager >& task )
 					new_player_msg.m_Score = man.GetPlayerScore( player->m_Skater->GetID() );
 					strcpy( new_player_msg.m_Name, player->m_Name );
 					Dbg_Assert( player->mp_SkaterProfile );
-					uint32 data_size = player->mp_SkaterProfile->WriteToBuffer(new_player_msg.m_AppearanceData, 
-																		vMAX_APPEARANCE_DATA_SIZE, narrowband );
+					size_t data_size = player->mp_SkaterProfile->WriteToBuffer(new_player_msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE, narrowband );
 
 					msg_desc.m_Data = &new_player_msg;
 					msg_desc.m_Length = (unsigned short)(sizeof( MsgNewPlayer ) - vMAX_APPEARANCE_DATA_SIZE + data_size);
@@ -1426,7 +1424,7 @@ void	Manager::s_render_metrics_code( const Tsk::Task< Manager >& task )
 				metrics_in = conn->GetInboundMetrics();
 				metrics_out = conn->GetOutboundMetrics();
 				
-				sprintf( buff, "(%d) Lag: %d Resends: %d Bps: %d %d", 
+				sprintf( buff, "(%d) Lag: %d Resends: %d Bps: %zu %zu", 
 						 conn_num, 
 						 conn->GetAveLatency(),
 						 conn->GetNumResends(),
@@ -1457,7 +1455,7 @@ void	Manager::s_render_metrics_code( const Tsk::Task< Manager >& task )
 				metrics_in = conn->GetInboundMetrics();
 				metrics_out = conn->GetOutboundMetrics();
 				
-				sprintf( buff, "(%d) Lag: %d Resends: %d Bps: %d %d", 
+				sprintf( buff, "(%d) Lag: %d Resends: %d Bps: %zu %zu", 
 						 conn_num, 
 						 conn->GetAveLatency(),
 						 conn->GetNumResends(),
@@ -2789,7 +2787,7 @@ void	Manager::ReattemptJoinWithPassword( char* password )
 	const char* network_id;
 	MsgJoinInfo msg;
 	Net::MsgDesc msg_desc;
-	int size;
+	size_t size;
 	bool ignore_face_data;
 
 	Dbg_Printf( "************* Trying password : %s\n", password );
@@ -2833,8 +2831,7 @@ void	Manager::ReattemptJoinWithPassword( char* password )
 			ignore_face_data = true;
 		}
 	
-		size = pSkaterProfile->WriteToBuffer(msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE,
-												ignore_face_data );
+		size = pSkaterProfile->WriteToBuffer(msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE, ignore_face_data );
 		Dbg_Assert( size < vMAX_APPEARANCE_DATA_SIZE );
 		Dbg_Printf("\n\n******************* MsgJoinInfo appearance data size = %d %d\n", size, sizeof(MsgJoinInfo) - vMAX_APPEARANCE_DATA_SIZE + size);
 	}
@@ -5996,7 +5993,7 @@ void	Manager::SendChatMessage( char* message )
 {
 	
 	MsgChat msg;
-	int size;
+	size_t size;
 	PlayerInfo* player;
 	Script::CStruct* p_params;
 	char final_msg[256];
@@ -6026,7 +6023,7 @@ void	Manager::SendChatMessage( char* message )
 	}
 
 	size = sizeof( char ) + ( vMAX_PLAYER_NAME_LEN + 1 ) + strlen( message ) + 1;
-
+	
 	msg_desc.m_Data = &msg;
 	msg_desc.m_Length = (unsigned short)size;
 	msg_desc.m_Id = MSG_ID_CHAT;

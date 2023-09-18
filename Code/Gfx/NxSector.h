@@ -127,7 +127,7 @@ public:
 	Mth::Vector				GetScale() const;				// Gets scale
 
 	// Change collision data of a sector
-	int						GetNumCollVertices() const;
+	size_t					GetNumCollVertices() const;
 	void					GetRawCollVertices(Mth::Vector *p_vert_array) const;
 	void					SetRawCollVertices(const Mth::Vector *p_vert_array);
 

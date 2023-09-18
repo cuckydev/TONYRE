@@ -399,7 +399,7 @@ void CQuickAnim::GetInterpolatedHiResFrames( Mth::Quat* pRotations, Mth::Vector*
 /*                                                                */
 /******************************************************************/
 
-int CQuickAnim::GetNumBones()
+size_t CQuickAnim::GetNumBones()
 {
 	Dbg_MsgAssert( mp_frameData, ( "No pointer to frame data" ) );
 

@@ -139,8 +139,8 @@ public:
 	void AddStructurePointer(const char *p_name, CStruct *p_structure);
 
 	// Creates a new script component and copies in the passed script.
-	void AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, uint32 size);
-	void AddScript(const char *p_name, const uint8 *p_scriptTokens, uint32 size);
+	void AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, size_t size);
+	void AddScript(const char *p_name, const uint8 *p_scriptTokens, size_t size);
 	
 	///////////////////////////////////////////////////////////////////////////////////
 	// TODO: Remove all these AddComponent functions at some point.

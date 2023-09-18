@@ -1276,9 +1276,9 @@ bool CScreenElement::resolve_rgba(Script::CStruct *pProps, const uint32 RefName,
 	if (pProps->GetArray(RefName, &p_color))
 	{
 		uint32 rgba = 0;
-		int size = p_color->GetSize();
+		size_t size = p_color->GetSize();
 		Dbg_MsgAssert(size >= 3 && size <= 4, ("wrong size %d for color array", size));
-		for (int i = 0; i < size; i++) 
+		for (size_t i = 0; i < size; i++)
 		{
 			rgba |= (p_color->GetInteger(i) & 255) << (i*8);
 		}

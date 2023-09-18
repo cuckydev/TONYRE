@@ -156,7 +156,7 @@ class CEditGoal
 		MAX_COMBO_SETS=10
 	};	
 	SPreDefinedKeyComboSet mp_combo_sets[MAX_COMBO_SETS];
-	int m_num_combo_sets;
+	size_t m_num_combo_sets;
 	// Used for writing/reading the above array to mem card.
 	void write_combo_sets(Script::CStruct *p_info);
 	void read_combo_sets(Script::CStruct *p_info);
@@ -336,7 +336,7 @@ public:
 	void							ReadFromStructure(Script::CStruct *p_info, EBoolLoadingParkGoals loadingParkGoals=NOT_LOADING_PARK_GOALS);
 	
 	void							WriteIntoStructure(uint32 levelScript, Script::CStruct *p_info);
-	uint32							WriteToBuffer(uint32 levelScript, uint8 *p_buffer, uint32 bufferSize);
+	size_t							WriteToBuffer(uint32 levelScript, uint8 *p_buffer, uint32 bufferSize);
 	uint8 *							ReadFromBuffer(uint32 levelScript, uint8 *p_buffer);
 	
 

@@ -105,9 +105,10 @@ public:
 	unsigned short	m_Attribs;
 
 	bool			Close( void );
-	int				Write( void* data, int len );
-	int				Read( void* data, int len );
-	int				Seek( int offset, FilePointerBase base );
+	size_t			Write( void* data, size_t len );
+	size_t			Read( void* data, size_t len );
+	int				Seek( ptrdiff_t offset, FilePointerBase base );
+	size_t			Tell( void );
 	bool			Flush( void );
 
 	char			m_DisplayFilename[vMAX_DISPLAY_FILENAME_LEN+1];
@@ -168,7 +169,7 @@ public:
 	
 	bool			ChangeDirectory( const char* dir_name );
 	
-	File*			Open( const char* filename, int mode, int size = 0 );	// Size used by NGC for file creation.
+	File*			Open( const char* filename, int mode, size_t size = 0 );	// Size used by NGC for file creation.
 	
 	bool			Delete( const char* filename );
 	bool			Rename( const char* old_name, const char* new_name );

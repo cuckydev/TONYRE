@@ -612,7 +612,7 @@ void Score::Trigger(char *trick_name, int base_score, Flags flags)
 			char *p_trick_text_formatted=m_infoTab[index].trickTextFormatted;
 			Dbg_MsgAssert(p_trick_text_formatted,("nullptr p_trick_text_formatted"));
 			
-			int len=strlen(p_trick_text_formatted);
+			size_t len=strlen(p_trick_text_formatted);
 			if (*p_trick_text_formatted == '.')
 			{
 				// skip items that begin with "..."
@@ -1519,7 +1519,7 @@ void Score::setup_balance_meter_stuff()
 	p_balance_meter_struct->GetArray("arrow_positions", &p_arrow_array);
 	Dbg_Assert(p_arrow_array);
 	m_numArrowPositions = p_arrow_array->GetSize();
-	for (int i = 0; i < m_numArrowPositions; i++)
+	for (size_t i = 0; i < m_numArrowPositions; i++)
 	{
 		m_arrowPosTab[i] = *p_arrow_array->GetPair(i);
 	}
@@ -2117,8 +2117,8 @@ inline uint32 get_trickname_checksum_from_key_combo( uint32 key_combo, int num_t
 		Script::CStruct* pSpecialTricks = pSkaterProfile->GetSpecialTricksStructure();
 		Script::CArray* pSpecialTricksArray;
 		pSpecialTricks->GetArray( NONAME, &pSpecialTricksArray, Script::ASSERT );
-		int numSpecials = pSpecialTricksArray->GetSize();
-		for ( int i = 0; i < numSpecials; i++ )
+		size_t numSpecials = pSpecialTricksArray->GetSize();
+		for (size_t i = 0; i < numSpecials; i++ )
 		{
 			Script::CStruct* pSpecial = pSpecialTricksArray->GetStructure( i );
 			uint32 trickSlot;
@@ -2155,8 +2155,8 @@ inline uint32 get_cat_index_from_key_combo( uint32 key_combo )
 		Script::CStruct* pSpecialTricks = pSkaterProfile->GetSpecialTricksStructure();
 		Script::CArray* pSpecialTricksArray;
 		pSpecialTricks->GetArray( NONAME, &pSpecialTricksArray, Script::ASSERT );
-		int numSpecials = pSpecialTricksArray->GetSize();
-		for ( int i = 0; i < numSpecials; i++ )
+		size_t numSpecials = pSpecialTricksArray->GetSize();
+		for (size_t i = 0; i < numSpecials; i++ )
 		{
 			Script::CStruct* pSpecial = pSpecialTricksArray->GetStructure( i );
 			int is_cat = 0;

@@ -317,7 +317,7 @@ private:
 	Mth::Vector						calculate_body_point_velocity ( const Mth::Vector& pos ) const;
 	float							calculate_body_point_effective_mass ( const Mth::Vector& pos, const Mth::Vector& direction ) const;
 	
-	int								determine_effective_gear ( float wheel_rotvel );
+	size_t							determine_effective_gear ( float wheel_rotvel );
 	void							update_wheel_heights (   );
 	void							update_steering_angles (   );
 	

@@ -341,8 +341,8 @@ int Manager::s_handle_player_info_ack( Net::MsgHandlerContext* context )
 					{
 						MsgInitGraffitiState init_graffiti_state_msg;
 						Net::MsgDesc obs_msg_desc;
-						uint32 msg_size = skate_mod->GetTrickObjectManager()->SetInitGraffitiStateMessage( &init_graffiti_state_msg );
-						Dbg_Printf( "Sending graffiti state message %d\n", msg_size );
+						size_t msg_size = skate_mod->GetTrickObjectManager()->SetInitGraffitiStateMessage( &init_graffiti_state_msg );
+						Dbg_Printf( "Sending graffiti state message %zu\n", msg_size );
 		
 						obs_msg_desc.m_Data = &init_graffiti_state_msg;
 						obs_msg_desc.m_Length = (unsigned short)msg_size;
@@ -1108,7 +1108,7 @@ int Manager::s_handle_join_proceed( Net::MsgHandlerContext* context )
 	Net::Manager * net_man = Net::Manager::Instance();
 	MsgJoinInfo msg;
     Net::MsgDesc msg_desc;
-	int size;
+	size_t size;
 	Script::CScriptStructure* pStructure;
 	Prefs::Preferences* pPreferences;
 	const char* network_id;
@@ -1203,8 +1203,7 @@ int Manager::s_handle_join_proceed( Net::MsgHandlerContext* context )
 			ignore_face_data = true;
 		}
 
-		size = pSkaterProfile->WriteToBuffer(msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE,
-												ignore_face_data );
+		size = pSkaterProfile->WriteToBuffer(msg.m_AppearanceData, vMAX_APPEARANCE_DATA_SIZE, ignore_face_data );
 		Dbg_Assert( size < vMAX_APPEARANCE_DATA_SIZE );
 		Dbg_Printf("\n\n******************* MsgJoinInfo (%d) appearance data size = %d %d Broadband %d\n", MSG_ID_JOIN_REQ,
 				size, sizeof(MsgJoinInfo) - vMAX_APPEARANCE_DATA_SIZE + size, ignore_face_data );

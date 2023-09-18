@@ -54,7 +54,7 @@ namespace Lst
 			HashItem();
 			void Init();
 
-			uint32 m_key = 0;
+			size_t m_key = 0;
 			_V *mp_value = nullptr;
 			HashItem<_V> *mp_next = nullptr;
 	};
@@ -65,30 +65,30 @@ namespace Lst
 		typedef void (*HashCallback)(_V *, void *);
 
 		public:
-			HashTable(uint32 numBits);
+			HashTable(size_t numBits);
 			~HashTable();
 
 			// if any item exists with the same key, replace it
-			bool PutItem(const uint32 &key, _V *item);
+			bool PutItem(const size_t &key, _V *item);
 
 			// delete the item, and remove it from the table
-			void FlushItem(const uint32 &key);
+			void FlushItem(const size_t &key);
 
 			// print all instances of an item (debugging)
-			void PrintItem(const uint32 &key);
+			void PrintItem(const size_t &key);
 
 			// gets a pointer to requested item, returns nullptr if item not in table
-			_V *GetItem(const uint32 &key, bool assert_if_clash = true);
-			_V *GetNextItemWithSameKey(const uint32 &key, _V *p_item);
+			_V *GetItem(const size_t &key, bool assert_if_clash = true);
+			_V *GetNextItemWithSameKey(const size_t &key, _V *p_item);
 
 			void FlushAllItems(void);
 
 			void HandleCallback(HashCallback, void *pData);
 
-			int GetSize() { return m_size; }
+			size_t GetSize() { return m_size; }
 
 			void IterateStart();
-			_V *IterateNext(uint32 *pRetKey = nullptr);
+			_V *IterateNext(size_t *pRetKey = nullptr);
 
 			#ifdef __NOPT_ASSERT__
 			void PrintContents();
@@ -100,11 +100,11 @@ namespace Lst
 			}
 
 		protected:
-			uint32 m_numBits = 0; // resolution of hash table
+			size_t m_numBits = 0; // resolution of hash table
 			HashItem<_V> *mp_hash_table = nullptr;
-			int m_size = 0;	// number of entries in the table
+			size_t m_size = 0;	// number of entries in the table
 
-			int m_iterator_index = 0;
+			ptrdiff_t m_iterator_index = 0;
 			HashItem<_V> *mp_iterator_item = nullptr;
 			bool m_allowDuplicateKeys = false;
 	};
@@ -136,7 +136,7 @@ namespace Lst
 	/******************************************************************/
 
 	template<class _V> //inline
-	HashTable<_V>::HashTable(uint32 numBits)
+	HashTable<_V>::HashTable(size_t numBits)
 	{
 		//Ryan("Creating HashTable");
 
@@ -167,7 +167,7 @@ namespace Lst
 	}
 
 	template<class _V> //inline
-	bool HashTable<_V>::PutItem(const uint32 &key, _V *item)
+	bool HashTable<_V>::PutItem(const size_t &key, _V *item)
 	{
 		Dbg_AssertPtr(item);
 		//Ryan("putting item in Hash table\n");
@@ -188,7 +188,7 @@ namespace Lst
 		// We could just change it to ( pEntry->mp_value || pEntry->m_key ) if nullptr values are desirable
 		Dbg_MsgAssert(item, ("nullptr item added to hash table"));
 
-		HashItem<_V> *pEntry = &mp_hash_table[key & ((1 << m_numBits) - 1)];
+		HashItem<_V> *pEntry = &mp_hash_table[key & ((1ULL << m_numBits) - 1)];
 		if (pEntry->mp_value)
 		{
 			// The main table entry is already occupied, so create a new HashEntry and
@@ -213,12 +213,12 @@ namespace Lst
 
 
 	template<class _V> //inline
-	_V *HashTable<_V>::GetNextItemWithSameKey(const uint32 &key, _V *p_item)
+	_V *HashTable<_V>::GetNextItemWithSameKey(const size_t &key, _V *p_item)
 	{
 		Dbg_AssertPtr(mp_hash_table);
 
 		// Jump to the linked list of all entries with similar checksums.	
-		HashItem<_V> *pEntry = &mp_hash_table[key & ((1 << m_numBits) - 1)];
+		HashItem<_V> *pEntry = &mp_hash_table[key & ((1ULL << m_numBits) - 1)];
 
 		// Look for p_item
 		while (pEntry)
@@ -250,14 +250,14 @@ namespace Lst
 	}
 
 	template<class _V> //inline
-	_V *HashTable<_V>::GetItem(const uint32 &key, bool assert_if_clash)
+	_V *HashTable<_V>::GetItem(const size_t &key, bool assert_if_clash)
 	{
 		(void)assert_if_clash;
 
 		Dbg_AssertPtr(mp_hash_table);
 
 		// Jump to the linked list of all entries with similar checksums.	
-		HashItem<_V> *pEntry = &mp_hash_table[key & ((1 << m_numBits) - 1)];
+		HashItem<_V> *pEntry = &mp_hash_table[key & ((1ULL << m_numBits) - 1)];
 		// Scan through the small list until the matching entry is found.
 
 		// Note: the main table entry might be empty, so we still want to scan
@@ -277,12 +277,12 @@ namespace Lst
 
 
 	template<class _V> //inline
-	void HashTable<_V>::PrintItem(const uint32 &key)
+	void HashTable<_V>::PrintItem(const size_t &key)
 	{
 		Dbg_AssertPtr(mp_hash_table);
 
 		// Jump to the linked list of all entries with similar checksums.	
-		HashItem<_V> *pEntry = &mp_hash_table[key & ((1 << m_numBits) - 1)];
+		HashItem<_V> *pEntry = &mp_hash_table[key & ((1ULL << m_numBits) - 1)];
 		// Scan through the small list until the matching entry is found.
 
 		int n = 0;
@@ -306,7 +306,7 @@ namespace Lst
 
 
 	template<class _V> //inline
-	void HashTable<_V>::FlushItem(const uint32 &key)
+	void HashTable<_V>::FlushItem(const size_t &key)
 	{
 
 		Dbg_AssertPtr(mp_hash_table);
@@ -314,7 +314,7 @@ namespace Lst
 			return;
 
 		// Jump to the linked list of all entries with similar checksums.	
-		HashItem<_V> *pEntry = &mp_hash_table[key & ((1 << m_numBits) - 1)];
+		HashItem<_V> *pEntry = &mp_hash_table[key & ((1ULL << m_numBits) - 1)];
 		HashItem<_V> *pLast = nullptr;
 
 		// Scan through the small list until the matching entry is found.
@@ -360,7 +360,7 @@ namespace Lst
 		// Run through the table and delete any of the extra
 		// HashItem<_V>s.
 		HashItem<_V> *pMainEntry = mp_hash_table;
-		uint32 hashTableSize = (1 << m_numBits);
+		size_t hashTableSize = (1ULL << m_numBits);
 		for (uint32 i = 0; i < hashTableSize; ++i)
 		{
 			HashItem<_V> *pLinkedEntry = pMainEntry->mp_next;
@@ -383,7 +383,7 @@ namespace Lst
 	void HashTable<_V>::HandleCallback(HashCallback hashCallback, void *pData)
 	{
 		HashItem<_V> *pMainEntry = mp_hash_table;
-		uint32 hashTableSize = (1 << m_numBits);
+		size_t hashTableSize = (1ULL << m_numBits);
 		for (uint32 i = 0; i < hashTableSize; ++i)
 		{
 			HashItem<_V> *pLinkedEntry = pMainEntry->mp_next;
@@ -416,9 +416,9 @@ namespace Lst
 
 
 	template<class _V> //inline
-	_V *HashTable<_V>::IterateNext(uint32 *pRetKey)
+	_V *HashTable<_V>::IterateNext(size_t *pRetKey)
 	{
-		uint32 hashTableSize = (1 << m_numBits);
+		size_t hashTableSize = (1ULL << m_numBits);
 
 		// time to go to the next entry, or the first if we're just starting
 
@@ -468,14 +468,14 @@ namespace Lst
 	void HashTable<_V>::PrintContents()
 	{
 		printf("Items in Hash Table:\n");
-		uint32 hashTableSize = (1 << m_numBits);
+		size_t hashTableSize = (1ULL << m_numBits);
 		for (uint32 i = 0; i < hashTableSize; ++i)
 		{
 			HashItem<_V> *pEntry = mp_hash_table + i;
 			while (pEntry)
 			{
 				if (pEntry->mp_value)
-					printf("    0x%x [%d]\n", pEntry->m_key, i);
+					printf("    0x%zu [%d]\n", pEntry->m_key, i);
 				pEntry = pEntry->mp_next;
 			}
 		}

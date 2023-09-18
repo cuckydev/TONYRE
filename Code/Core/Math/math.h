@@ -65,14 +65,14 @@ void InitialRand(int a);
 int Rnd_impl(int n);
 
 template <typename T>
-T Rnd(T n) { return (T)Rnd_impl(n); }
+T Rnd(T n) { return (T)Rnd_impl((int)n); }
 
 // use for non-deterministic things
 // especially for CD-timing reliant stuff that would throw off our random number dealy whopper.
 int Rnd2_impl(int n);
 
 template <typename T>
-T Rnd2(T n) { return (T)Rnd2_impl(n); }
+T Rnd2(T n) { return (T)Rnd2_impl((int)n); }
 
 float PlusOrMinus(float n);
 void InitSinLookupTable();

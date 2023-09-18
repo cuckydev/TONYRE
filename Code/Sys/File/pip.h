@@ -19,13 +19,13 @@ void	UnloadUnusedPres();
 
 void*	Load(const char *p_fileName);
 void	Unload(const char *p_fileName);
-uint32	GetFileSize(const char *p_fileName);
+size_t	GetFileSize(const char *p_fileName);
 
 // GJ:  sometimes it's useful to do this
 // by checksum, so that we don't have to keep 
 // the full filename string hanging around
 void	Unload(uint32 fileNameCRC);
-uint32	GetFileSize(uint32 fileNameCRC);
+size_t	GetFileSize(uint32 fileNameCRC);
 
 const char *GetNextLoadedPre(const char *p_pre_name=nullptr);
 bool PreFileIsInUse(const char *p_pre_name);

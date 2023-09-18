@@ -157,7 +157,7 @@ protected:
 								CMetaPiece();
 	virtual						~CMetaPiece();
 
-	void						initialize_desc_table(int numEntries);
+	void						initialize_desc_table(size_t numEntries);
 	SMetaDescriptor &			get_desc_at_index(int i);
 
 	/*
@@ -194,7 +194,7 @@ protected:
 	// 4
 	SMetaDescriptor *mp_additional_desc_tab;
 	// 2 (4) + 2
-	uint m_total_entries = 0;
+	size_t m_total_entries = 0;
 	// 2 (4) + 2
 	uint m_num_used_entries = 0;
 	// 4
@@ -435,8 +435,8 @@ public:
 		uint32									mNameCrc;
 		const char *							mpName;
 		CPieceEntry 							mEntryTab[MAX_ENTRIES];
-		int										mTotalEntries;
-		int										mSelectedEntry;
+		size_t									mTotalEntries;
+		size_t									mSelectedEntry;
 		char									mVisible;
 		char									mIsClipboardSet;
 	};
@@ -446,8 +446,8 @@ public:
 		MAX_SETS =								40,
 	};
 
-	CPieceSet &					GetPieceSet(int setNumber, int *pMenuSetNumber = nullptr);
-	int							GetTotalNumPieceSets() {return m_total_sets;}
+	CPieceSet &					GetPieceSet(size_t setNumber, int *pMenuSetNumber = nullptr);
+	size_t						GetTotalNumPieceSets() {return m_total_sets;}
 
 	/* ======== Road mask functions ======== */
 	
@@ -613,7 +613,7 @@ protected:
 	/* ======== piece set stuff ======== */
 	
 	CPieceSet					m_palette_set[MAX_SETS];
-	int							m_total_sets;
+	size_t						m_total_sets;
 
 	/* ======== map buffer access stuff ======== */
 	
@@ -720,7 +720,7 @@ protected:
 		NUM_ROAD_PIECES			= 8,
 	};
 	GridDims					m_road_mask_tab[NUM_ROAD_PIECES];
-	uint						m_road_mask_tab_size;
+	size_t						m_road_mask_tab_size;
 
 	void						setup_road_mask();
 

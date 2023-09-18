@@ -438,7 +438,7 @@ Mth::Vector CSector::GetScale() const
 /*                                                                */
 /******************************************************************/
 
-int		CSector::GetNumCollVertices() const
+size_t CSector::GetNumCollVertices() const
 {
 	if (mp_coll_sector && mp_coll_sector->GetGeometry())
 	{

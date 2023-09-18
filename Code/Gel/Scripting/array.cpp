@@ -212,13 +212,13 @@ void CArray::Resize(size_t newSize)
 	// new array should be.
 	Dbg_MsgAssert(p_source,("nullptr array pointer ?"));
 	uint32 *p_dest=p_new_buffer;
-	uint32 i;
+	size_t i;
 	for (i=0; i<m_size; ++i)
 	{
 		*p_dest++=*p_source++;
 	}
 	// Zero the remainder of the new buffer.
-	uint32 remainder=newSize-m_size;
+	size_t remainder=newSize-m_size;
 	for (i=0; i<remainder; ++i)
 	{
 		*p_dest++=0;

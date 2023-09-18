@@ -99,7 +99,7 @@ Preferences::~Preferences()
 /*                                                                */
 /******************************************************************/
 
-uint32 Preferences::WriteToBuffer(uint8 *pBuffer, uint32 BufferSize)
+size_t Preferences::WriteToBuffer(uint8 *pBuffer, size_t BufferSize)
 {
 	return Script::WriteToBuffer(&m_root, pBuffer, BufferSize);
 }

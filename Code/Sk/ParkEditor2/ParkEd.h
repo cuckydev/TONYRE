@@ -274,7 +274,7 @@ class CCursor
 		void 										HighlightIntersectingMetas(bool on);
 		void										SetVisibility(bool visible);
 
-		int											GetSelectedSet(int *pMenuSetNumber) {*pMenuSetNumber = m_menu_set_number; return m_selected_set;}
+		size_t										GetSelectedSet(size_t *pMenuSetNumber) {*pMenuSetNumber = m_menu_set_number; return m_selected_set;}
 		uint32										GetChecksum() {return mp_meta->GetNameChecksum();}
 
 		enum ECursorMode
@@ -300,7 +300,7 @@ class CCursor
 		void										DeleteOldestClipboard();
 	
 		void										PasteCurrentClipboard();
-		int											GetNumClipboards();
+		size_t										GetNumClipboards();
 		int											GetClipboardY() {return m_clipboard_y;}
 		
 		bool										IsSittingOnGap();
@@ -355,9 +355,9 @@ class CCursor
 		CClipboard *								mp_clipboards;
 		// This is the clip that will get placed when in paste mode.
 		CClipboard *								mp_current_clipboard;
-		CClipboard *								get_clipboard(int index);
-		void										set_current_clipboard(int index);
-		void										remove_clipboard(int index);
+		CClipboard *								get_clipboard(size_t index);
+		void										set_current_clipboard(size_t index);
+		void										remove_clipboard(size_t index);
 		// The y that must be added to the y of each clipboard entry such that
 		// they align with the ground as best as possible.
 		int											m_clipboard_y;
@@ -365,7 +365,7 @@ class CCursor
 
 	
 	
-		int											m_selected_set;
+		size_t										m_selected_set;
 		int											m_menu_set_number;
 
 		ECursorMode									m_mode;
@@ -388,7 +388,7 @@ public:
 												~CUpperMenuManager();
 
 	void 										SetSourceMeta(uint32 nameChecksum);
-	void										SetPieceSet(CParkManager::CPieceSet *pSet, int set_number, int menuSetNumber);
+	void										SetPieceSet(CParkManager::CPieceSet *pSet, size_t set_number, size_t menuSetNumber);
 	void										Enable();
 	void										Disable();
 
@@ -396,8 +396,8 @@ protected:
 
 	Spt::SingletonPtr<CParkManager>				m_manager;
 	CParkManager::CPieceSet *					mp_current_set;
-	int											m_current_set_index;
-	int											m_current_entry_in_set;
+	size_t										m_current_set_index;
+	size_t										m_current_entry_in_set;
 };
 
 

@@ -370,7 +370,7 @@ void CScriptDebugger::transmit_cscript_list()
 		p_script=Script::GetNextScript(p_script);
 	}	
 
-	int structure_bytes_written=Script::WriteToBuffer(p_list,(uint8*)gpDebugInfoBuffer,SCRIPT_DEBUGGER_BUFFER_SIZE);
+	size_t structure_bytes_written=Script::WriteToBuffer(p_list,(uint8*)gpDebugInfoBuffer,SCRIPT_DEBUGGER_BUFFER_SIZE);
 	delete p_list;
 	
 	Net::MsgDesc msg;
@@ -421,7 +421,7 @@ void CScriptDebugger::transmit_composite_object_list()
 		p_ob = sh.NextItem();
 	}
 	
-	int structure_bytes_written=Script::WriteToBuffer(p_list,(uint8*)gpDebugInfoBuffer,SCRIPT_DEBUGGER_BUFFER_SIZE);
+	size_t structure_bytes_written=Script::WriteToBuffer(p_list,(uint8*)gpDebugInfoBuffer,SCRIPT_DEBUGGER_BUFFER_SIZE);
 	delete p_list;
 	
 	Net::MsgDesc msg;
@@ -534,7 +534,7 @@ int CScriptDebugger::send_composite_object_info(Obj::CCompositeObject* p_obj)
 		static_assert(SCRIPT_DEBUGGER_BUFFER_SIZE > 4, "Oops");
 		gpDebugInfoBuffer[0]=p_obj->GetID();
 		uint8 *p_buf=(uint8*)(gpDebugInfoBuffer+1);
-		int structure_bytes_written=Script::WriteToBuffer(p_info,p_buf,SCRIPT_DEBUGGER_BUFFER_SIZE-4);
+		size_t structure_bytes_written=Script::WriteToBuffer(p_info,p_buf,SCRIPT_DEBUGGER_BUFFER_SIZE-4);
 		delete p_info;
 		
 		Net::MsgDesc msg;
@@ -628,7 +628,7 @@ void CScriptDebugger::send_script_global_info(uint32 id)
 	Script::CSymbolTableEntry *p_entry=Script::LookUpSymbol(id);
 	if (p_entry)
 	{
-		int message_size=0;		
+		size_t message_size=0;
 		uint8 *p_buf=(uint8*)gpDebugInfoBuffer;
 
 		// Write in the name, type, and source file name.		
@@ -640,7 +640,7 @@ void CScriptDebugger::send_script_global_info(uint32 id)
 		message_size += 8;
 		
 		const char *p_source_filename=Script::FindChecksumName(p_entry->mSourceFileNameChecksum);
-		int len=strlen(p_source_filename)+1;
+		size_t len = strlen(p_source_filename) + 1;
 		Dbg_MsgAssert(SCRIPT_DEBUGGER_BUFFER_SIZE - message_size > len,("SCRIPT_DEBUGGER_BUFFER_SIZE is too small"));
 		
 		strcpy((char*)p_buf,p_source_filename);
@@ -684,7 +684,7 @@ void CScriptDebugger::send_script_global_info(uint32 id)
 				p_struct->AddComponent(p_new);
 		
 				
-				int structure_bytes_written=Script::WriteToBuffer(p_struct,p_buf,SCRIPT_DEBUGGER_BUFFER_SIZE-message_size);
+				size_t structure_bytes_written = Script::WriteToBuffer(p_struct, p_buf, SCRIPT_DEBUGGER_BUFFER_SIZE - message_size);
 				delete p_struct;
 				
 				p_buf+=structure_bytes_written;

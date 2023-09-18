@@ -359,7 +359,7 @@ void CScreenElementManager::pass_event_to_listener(Obj::CEvent *pEvent)
 		Script::CArray *p_event_type_array = Script::GetArray("pad_event_types", Script::ASSERT);
 		m_num_pad_event_types = p_event_type_array->GetSize();
 		Dbg_MsgAssert(m_num_pad_event_types <= MAX_PAD_EVENT_TYPES, ("increase size of MAX_PAD_EVENT_TYPES"));
-		for (int i = 0; i < m_num_pad_event_types; i++)
+		for (size_t i = 0; i < m_num_pad_event_types; i++)
 		{
 			m_pad_event_type_tab[i] = p_event_type_array->GetChecksum(i);
 		}
@@ -937,7 +937,7 @@ void CScreenElementManager::test_focus_node(FocusNode *pNode)
 
 bool CScreenElementManager::is_pad_event(uint32 eventType)
 {
-	for (int i = 0; i < m_num_pad_event_types; i++)
+	for (size_t i = 0; i < m_num_pad_event_types; i++)
 	{
 		if (eventType == m_pad_event_type_tab[i])
 			return true;
@@ -1271,7 +1271,7 @@ bool ScriptGetTextElementLength(Script::CScriptStructure *pParams, Script::CScri
 	CScreenElementPtr p_elem = pManager->GetElement( pParams, Crc::ConstCRC("id"), CScreenElementManager::ASSERT );
 
 	uint32 type = (uint32)p_elem->GetType();
-	int length = 0;
+	size_t length = 0;
 	switch ( type )
 	{
 		case Crc::ConstCRC( "TextElement" ):
@@ -1291,7 +1291,7 @@ bool ScriptGetTextElementLength(Script::CScriptStructure *pParams, Script::CScri
 			return false;
 			break;
 	}
-	pScript->GetParams()->AddInteger( "length", length );
+	pScript->GetParams()->AddInteger( "length", (int)length );
 	return true;
 }
 

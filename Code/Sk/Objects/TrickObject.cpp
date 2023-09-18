@@ -160,7 +160,7 @@ bool CTrickObject::ModulateTrickObjectColor( int seqIndex )
 	Script::CArray *p_entry = p_graffiti_col_tab->GetArray(seqIndex);
 	
 	#ifdef	__NOPT_ASSERT__
-	int size = p_entry->GetSize();
+	size_t size = p_entry->GetSize();
 	Dbg_MsgAssert(size >= 3 && size <= 4, ("wrong size %d for color array", size));
 	#endif
 	
@@ -192,7 +192,7 @@ bool CTrickObject::ClearTrickObjectColor( int seqIndex )
 	Script::CArray *p_entry = p_graffiti_col_tab->GetArray(seqIndex);
 	
 	#ifdef	__NOPT_ASSERT__
-	int size = p_entry->GetSize();
+	size_t size = p_entry->GetSize();
 	Dbg_MsgAssert(size >= 3 && size <= 4, ("wrong size %d for color array", size));
 	#endif
 

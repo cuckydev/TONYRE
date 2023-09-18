@@ -273,7 +273,7 @@ void InsertGoalEditorNodes()
 {
 	Script::CArray *p_node_array=GetArray(Crc::ConstCRC("NodeArray"),Script::ASSERT);
 	
-	uint32 new_node_index=0;
+	size_t new_node_index=0;
 	if (p_node_array->GetSize()==0)
 	{
 		// If it's empty, it'll need its type setting too.
@@ -291,13 +291,13 @@ void InsertGoalEditorNodes()
 		p_new_node=new Script::CStruct;
 		p_new_node->AppendStructure(Script::GetStructure(Crc::ConstCRC("EditedGoal_Pro_Node"),Script::ASSERT));
 		p_new_node->AddChecksum(Crc::ConstCRC("Name"),s_generate_node_name_checksum(g,0));
-		p_new_node->AddInteger(Crc::ConstCRC("NodeIndex"),new_node_index);
+		p_new_node->AddInteger(Crc::ConstCRC("NodeIndex"), (int)new_node_index);
 		p_node_array->SetStructure(new_node_index++,p_new_node);
 		
 		p_new_node=new Script::CStruct;
 		p_new_node->AppendStructure(Script::GetStructure(Crc::ConstCRC("EditedGoal_Restart_Node"),Script::ASSERT));
 		p_new_node->AddChecksum(Crc::ConstCRC("Name"),s_generate_node_name_checksum(g,1));
-		p_new_node->AddInteger(Crc::ConstCRC("NodeIndex"),new_node_index);
+		p_new_node->AddInteger(Crc::ConstCRC("NodeIndex"), (int)new_node_index);
 		p_node_array->SetStructure(new_node_index++,p_new_node);
 		
 		for (int i=0; i<MAX_POSITIONS_PER_GOAL-2; ++i)
@@ -305,8 +305,8 @@ void InsertGoalEditorNodes()
 			p_new_node=new Script::CStruct;
 			p_new_node->AppendStructure(Script::GetStructure(Crc::ConstCRC("EditedGoal_Letter_Node"),Script::ASSERT));
 			
-			p_new_node->AddChecksum(Crc::ConstCRC("Name"),s_generate_node_name_checksum(g,i+2));
-			p_new_node->AddInteger(Crc::ConstCRC("NodeIndex"),new_node_index);
+			p_new_node->AddChecksum(Crc::ConstCRC("Name"), s_generate_node_name_checksum(g,i+2));
+			p_new_node->AddInteger(Crc::ConstCRC("NodeIndex"), (int)new_node_index);
 			
 			p_node_array->SetStructure(new_node_index++,p_new_node);
 		}	
@@ -837,9 +837,9 @@ bool CEditGoal::GotGap(uint8 gap_number)
 
 void CEditGoal::AddKeyComboSet(int setIndex, bool requirePerfect, int spin, int numTaps)
 {
-	int array_index=0;
+	size_t array_index=0;
 	bool found=false;
-	for (int i=0; i<m_num_combo_sets; ++i)
+	for (size_t i=0; i<m_num_combo_sets; ++i)
 	{
 		if (mp_combo_sets[i].mSetIndex==setIndex)
 		{
@@ -865,12 +865,12 @@ void CEditGoal::AddKeyComboSet(int setIndex, bool requirePerfect, int spin, int 
 void CEditGoal::RemoveKeyComboSet(int setIndex)
 {
 	bool found=false;
-	for (int i=0; i<m_num_combo_sets; ++i)
+	for (size_t i=0; i<m_num_combo_sets; ++i)
 	{
 		if (mp_combo_sets[i].mSetIndex==setIndex)
 		{
 			// Move the ones above down. Won't take long, they're only 4 bytes each.
-			for (int j=i; j<m_num_combo_sets-1; ++j)
+			for (size_t j=i; j<m_num_combo_sets-1; ++j)
 			{
 				mp_combo_sets[j]=mp_combo_sets[j+1];
 			}	
@@ -886,7 +886,7 @@ void CEditGoal::RemoveKeyComboSet(int setIndex)
 
 SPreDefinedKeyComboSet *CEditGoal::GetKeyComboSet(int setIndex)
 {
-	for (int i=0; i<m_num_combo_sets; ++i)
+	for (size_t i=0; i<m_num_combo_sets; ++i)
 	{
 		if (mp_combo_sets[i].mSetIndex==setIndex)
 		{
@@ -909,16 +909,16 @@ void CEditGoal::generate_key_combos_array(Script::CStruct *p_info)
 		
 	Script::CArray *p_predefined_key_combos=Script::GetArray(Crc::ConstCRC("cag_skatetris_key_combos"),Script::ASSERT);
 
-	int size=0;
+	size_t size=0;
 	
 	// Calculate the total size of the goal_tetris_key_combos array.
-	for (int i=0; i<m_num_combo_sets; ++i)
+	for (size_t i=0; i<m_num_combo_sets; ++i)
 	{
 		Script::CStruct *p_struct=p_predefined_key_combos->GetStructure(mp_combo_sets[i].mSetIndex);
 		Script::CArray *p_key_combos=nullptr;
 		p_struct->GetArray(Crc::ConstCRC("key_combos"),&p_key_combos);
 		Dbg_MsgAssert(p_key_combos,("Missing key_combos array in element %d of array cag_skatetris_key_combos",i));
-		size+=p_key_combos->GetSize();
+		size += p_key_combos->GetSize();
 	}
 
 	Dbg_MsgAssert(size,("Zero size for goal_tetris_key_combos array!"));
@@ -927,7 +927,7 @@ void CEditGoal::generate_key_combos_array(Script::CStruct *p_info)
 	p_goal_tetris_key_combos->SetSizeAndType(size,ESYMBOLTYPE_STRUCTURE);
 
 	int dest_index=0;
-	for (int i=0; i<m_num_combo_sets; ++i)
+	for (size_t i=0; i<m_num_combo_sets; ++i)
 	{
 		Script::CStruct *p_struct=p_predefined_key_combos->GetStructure(mp_combo_sets[i].mSetIndex);
 		Script::CArray *p_key_combos=nullptr;
@@ -987,7 +987,7 @@ void CEditGoal::write_combo_sets(Script::CStruct *p_info)
 		
 	Script::CArray *p_array=new Script::CArray;
 	p_array->SetSizeAndType(m_num_combo_sets,ESYMBOLTYPE_STRUCTURE);
-	for (int i=0; i<m_num_combo_sets; ++i)
+	for (size_t i=0; i<m_num_combo_sets; ++i)
 	{
 		Script::CStruct *p_struct=new Script::CStruct;
 		
@@ -1015,7 +1015,7 @@ void CEditGoal::read_combo_sets(Script::CStruct *p_info)
 	m_num_combo_sets=p_array->GetSize();
 	Dbg_MsgAssert(m_num_combo_sets<=MAX_COMBO_SETS,("m_num_combo_sets of %d too big",m_num_combo_sets));
 	
-	for (int i=0; i<m_num_combo_sets; ++i)
+	for (size_t i=0; i<m_num_combo_sets; ++i)
 	{
 		Script::CStruct *p_struct=p_array->GetStructure(i);
 		
@@ -1797,7 +1797,7 @@ void CGoalEditorComponent::WriteIntoStructure(uint32 levelScript, Script::CStruc
 
 // Writes out the goals for a particular level into a uint8* buffer.
 // Used when sending goal info across the network for network goal attack games.
-uint32 CGoalEditorComponent::WriteToBuffer(uint32 levelScript, uint8 *p_buffer, uint32 bufferSize)
+size_t CGoalEditorComponent::WriteToBuffer(uint32 levelScript, uint8 *p_buffer, uint32 bufferSize)
 {
 	Dbg_MsgAssert(p_buffer,("nullptr p_buffer"));
 	
@@ -1805,7 +1805,7 @@ uint32 CGoalEditorComponent::WriteToBuffer(uint32 levelScript, uint8 *p_buffer, 
 	// The structure could contain around 6K of stuff.	
 	Script::CStruct *p_struct=new Script::CStruct;
 	WriteIntoStructure( s_convert_level( levelScript ), p_struct);
-	uint32 bytes_written=Script::WriteToBuffer(p_struct, p_buffer, bufferSize);
+	size_t bytes_written=Script::WriteToBuffer(p_struct, p_buffer, bufferSize);
 	delete p_struct;
 	
 	return bytes_written;
@@ -1835,7 +1835,7 @@ uint8 *CGoalEditorComponent::ReadFromBuffer(uint32 levelScript, uint8 *p_buffer)
 	p_struct->GetArray(Crc::ConstCRC("Goals"),&p_goals_array,Script::ASSERT);
 
 	uint32 array_index=0;
-	int num_goals_left_to_load=p_goals_array->GetSize();
+	size_t num_goals_left_to_load=p_goals_array->GetSize();
 	for (int i=0; i<MAX_GOALS_TOTAL; ++i)
 	{
 		if (!num_goals_left_to_load)
@@ -1877,9 +1877,9 @@ void CGoalEditorComponent::ReadFromStructure(Script::CStruct *p_info, EBoolLoadi
 		return;
 	}
 	
-	uint32 array_size=p_goals_array->GetSize();
+	size_t array_size=p_goals_array->GetSize();
 
-	for (uint32 array_index=0; array_index<array_size; ++array_index)
+	for (size_t array_index=0; array_index<array_size; ++array_index)
 	{
 		Script::CStruct *p_struct=p_goals_array->GetStructure(array_index);
 		if ( (loadingParkGoals && s_get_level_checksum(p_struct) == Crc::ConstCRC("Load_Sk5Ed")) ||

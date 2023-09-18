@@ -205,7 +205,7 @@ void CleanUpArray(CArray *p_array)
 	Dbg_MsgAssert(p_array,("nullptr p_array"));
 	
 	ESymbolType type=p_array->GetType();
-	uint32 size=p_array->GetSize();
+	size_t size=p_array->GetSize();
 	uint32 *p_array_data=p_array->GetArrayPointer();
 	if (size)
 	{
@@ -225,7 +225,7 @@ void CleanUpArray(CArray *p_array)
 		case ESYMBOLTYPE_LOCALSTRING:
 		{
 			char **pp_string=(char**)p_array_data;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				if (*pp_string)
 				{
@@ -240,7 +240,7 @@ void CleanUpArray(CArray *p_array)
 		case ESYMBOLTYPE_PAIR:
 		{
 			CPair **pp_pair=(CPair**)p_array_data;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				if (*pp_pair)
 				{
@@ -255,7 +255,7 @@ void CleanUpArray(CArray *p_array)
 		case ESYMBOLTYPE_VECTOR:
 		{
 			CVector **pp_vector=(CVector**)p_array_data;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				if (*pp_vector)
 				{
@@ -270,7 +270,7 @@ void CleanUpArray(CArray *p_array)
 		case ESYMBOLTYPE_STRUCTURE:
 		{
 			CStruct **pp_structure=(CStruct**)p_array_data;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				if (*pp_structure)
 				{
@@ -285,7 +285,7 @@ void CleanUpArray(CArray *p_array)
 		case ESYMBOLTYPE_ARRAY:
 		{
 			CArray **pp_array=(CArray**)p_array_data;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				if (*pp_array)
 				{
@@ -317,12 +317,12 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 	// Make sure that p_dest is cleaned up first.
 	CleanUpArray(p_dest);
 		
-	ESymbolType type=p_source->GetType();
-	uint32 size=p_source->GetSize();
+	ESymbolType type = p_source->GetType();
+	size_t size = p_source->GetSize();
 	
 	p_dest->SetSizeAndType(size,type);
 
-	if (size==0)
+	if (size == 0)
 	{
 		// Finished.
 		return;
@@ -342,7 +342,7 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		{
 			uint32 *p_source_word=p_source_array;
 			uint32 *p_dest_word=p_dest_array;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				*p_dest_word++=*p_source_word++;
 			}	
@@ -354,7 +354,7 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		{
 			char **pp_source_string=(char**)p_source_array;
 			char **pp_dest_string=(char**)p_dest_array;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				char *p_source_string=*pp_source_string;
 				if (p_source_string)
@@ -372,7 +372,7 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		{
 			CPair **pp_source_pair=(CPair**)p_source_array;
 			CPair **pp_dest_pair=(CPair**)p_dest_array;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CPair *p_source_pair=*pp_source_pair;
 				if (p_source_pair)
@@ -392,7 +392,7 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		{
 			CVector **pp_source_vector=(CVector**)p_source_array;
 			CVector **pp_dest_vector=(CVector**)p_dest_array;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CVector *p_source_vector=*pp_source_vector;
 				if (p_source_vector)
@@ -412,7 +412,7 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		{
 			CStruct **pp_source_structure=(CStruct**)p_source_array;
 			CStruct **pp_dest_structure=(CStruct**)p_dest_array;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CStruct *p_source_structure=*pp_source_structure;
 				if (p_source_structure)
@@ -432,7 +432,7 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		{
 			CArray **pp_source_carray=(CArray**)p_source_array;
 			CArray **pp_dest_carray=(CArray**)p_dest_array;
-			for (uint32 i=0; i<size; ++i)
+			for (size_t i=0; i<size; ++i)
 			{
 				CArray *p_source_carray=*pp_source_carray;
 				if (p_source_carray)
@@ -1210,7 +1210,7 @@ void CStruct::AddStructurePointer(const char *p_name, CStruct *p_structure)
 	AddStructurePointer(Crc::GenerateCRCFromString(p_name),p_structure);
 }
 
-void CStruct::AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, uint32 size)
+void CStruct::AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, size_t size)
 {
 	CComponent *p_new=new CComponent;
 	
@@ -1226,7 +1226,7 @@ void CStruct::AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, uint32
 	Dbg_MsgAssert(p_scriptTokens,("nullptr p_scriptTokens"));
 	const uint8 *p_source=p_scriptTokens;
 	uint8 *p_dest=p_new_script;
-	for (uint32 i=0; i<size; ++i)
+	for (size_t i=0; i<size; ++i)
 	{
 		*p_dest++=*p_source++;
 	}	
@@ -1237,7 +1237,7 @@ void CStruct::AddScript(uint32 nameChecksum, const uint8 *p_scriptTokens, uint32
 	AddComponent(p_new);
 }
 
-void CStruct::AddScript(const char *p_name, const uint8 *p_scriptTokens, uint32 size)
+void CStruct::AddScript(const char *p_name, const uint8 *p_scriptTokens, size_t size)
 {
 	AddScript(Crc::GenerateCRCFromString(p_name),p_scriptTokens,size);
 }

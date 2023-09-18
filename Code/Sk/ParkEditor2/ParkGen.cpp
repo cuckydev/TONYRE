@@ -1325,7 +1325,7 @@ void	CParkGenerator::SetRestartPiecesVisible(bool visible)
 
 
 
-void CParkGenerator::SetLightProps(int num_lights, 
+void CParkGenerator::SetLightProps(size_t num_lights, 
 						  float amb_const_r, float amb_const_g, float amb_const_b, 
 						  float falloff_const_r, float falloff_const_g, float falloff_const_b,
 						  float cursor_ambience)
@@ -1347,7 +1347,7 @@ void CParkGenerator::SetLightProps(int num_lights,
 
 
 
-void CParkGenerator::SetLight(Mth::Vector &light_pos, int light_num)
+void CParkGenerator::SetLight(Mth::Vector &light_pos, size_t light_num)
 {
 	
 	Dbg_MsgAssert(light_num < m_numLights, ("out of light slots"));
@@ -1472,7 +1472,7 @@ void CParkGenerator::CalculateVertexLighting(const Mth::Vector & vert, Image::RG
 
 	float i_spot_light = 0.0f;
 	Mth::Vector *pLightTabEntry = m_lightTab;
-	for (int l = 0; l < m_numLights; l++)
+	for (size_t l = 0; l < m_numLights; l++)
 	{
 		float dist_x = vert.GetX() - pLightTabEntry->GetX();
 		//float dist_y = vert.GetY() - pLightTabEntry->GetY();
@@ -1853,8 +1853,8 @@ int CParkGenerator::scan_for_rail_node(Script::CArray *pNodeArray, uint32 cluste
 	if (link < 0)
 		first_node_in_cluster = 0;
 
-	int total_entries = pNodeArray->GetSize();
-	for (int n = first_node_in_cluster; n < total_entries; n++)
+	size_t total_entries = pNodeArray->GetSize();
+	for (size_t n = first_node_in_cluster; n < total_entries; n++)
 	{
 		//Script::CScriptStructure *pStruct = pNodeArray->GetStructure(n);
 	
@@ -1877,7 +1877,7 @@ int CParkGenerator::scan_for_rail_node(Script::CArray *pNodeArray, uint32 cluste
 			{
 				if (found_link == link)
 				{
-					found_node_with_link_index = n;
+					found_node_with_link_index = (int)n;
 					for (int i = 0; i < m_processed_node_tab_entries; i++)
 					{
 						if (m_processed_node_tab[i] == found_node_with_link_index)
@@ -1892,11 +1892,11 @@ int CParkGenerator::scan_for_rail_node(Script::CArray *pNodeArray, uint32 cluste
 			else if (cluster == found_cluster)
 			{
 				if (!first_node_in_cluster)
-					first_node_in_cluster = n;
+					first_node_in_cluster = (int)n;
 				
 				if (found_link == -1)
 				{
-					found_node_without_link_index = n;
+					found_node_without_link_index = (int)n;
 					for (int i = 0; i < m_processed_node_tab_entries; i++)
 					{
 						if (m_processed_node_tab[i] == found_node_without_link_index)
@@ -1909,7 +1909,7 @@ int CParkGenerator::scan_for_rail_node(Script::CArray *pNodeArray, uint32 cluste
 				}
 				else if (found_node_with_link_index == -1) // && found_link >= 0
 				{
-					found_node_with_link_index = n;
+					found_node_with_link_index = (int)n;
 					for (int i = 0; i < m_processed_node_tab_entries; i++)
 					{
 						if (m_processed_node_tab[i] == found_node_with_link_index)

@@ -186,12 +186,12 @@ bool CSkaterCareer::GotAllGaps()
 {
 	//Rulon: Made this function more robust to handle the changing level arrangement.
 	Script::CArray *p_array = Script::GetArray(Crc::ConstCRC("levels_with_gaps"),Script::ASSERT);
-	uint32 array_size = p_array->GetSize();
+	size_t array_size = p_array->GetSize();
 
 	for ( uint32 i = 0; i < vMAX_CAREER_LEVELS; ++i )
 	{
 		// Skip up levels we dont care about
-		uint32 j = 0;
+		size_t j = 0;
 		for ( j = 0; j < array_size; ++j) 
 		{
 			uint32 check = p_array->GetChecksum(j);
@@ -695,12 +695,12 @@ void CSkaterCareer::WriteIntoStructure(Script::CScriptStructure *pIn)
 
 	// Insert the above arrays into a new structure.
 	Script::CScriptStructure *pTemp=new Script::CScriptStructure;
-	pTemp->AddComponent(Script::GenerateCRC("GoalFlags"),ESYMBOLTYPE_ARRAY,(int)pGoalFlags);
-	pTemp->AddComponent(Script::GenerateCRC("LevelFlags"),ESYMBOLTYPE_ARRAY,(int)pLevelFlags);
-	pTemp->AddComponent(Script::GenerateCRC("GlobalFlags"),ESYMBOLTYPE_ARRAY,(int)pGlobalFlags);
+	pTemp->AddComponent(Script::GenerateCRC("GoalFlags"), ESYMBOLTYPE_ARRAY, pGoalFlags);
+	pTemp->AddComponent(Script::GenerateCRC("LevelFlags"), ESYMBOLTYPE_ARRAY, pLevelFlags);
+	pTemp->AddComponent(Script::GenerateCRC("GlobalFlags"), ESYMBOLTYPE_ARRAY, pGlobalFlags);
 	
 #if 1	
-	pTemp->AddComponent(Script::GenerateCRC("GapChecklists"),ESYMBOLTYPE_ARRAY,(int)pGapChecklists);
+	pTemp->AddComponent(Script::GenerateCRC("GapChecklists"), ESYMBOLTYPE_ARRAY, pGapChecklists);
 #endif
 	
 	pTemp->AddArrayPointer( "VisitedLevels", pVisitedLevels );
@@ -715,7 +715,7 @@ void CSkaterCareer::WriteIntoStructure(Script::CScriptStructure *pIn)
 
 	// Thrust the new structure into the passed structure.
 	Dbg_MsgAssert(pIn,("nullptr pIn"));
-	pIn->AddComponent(Script::GenerateCRC("Career"),ESYMBOLTYPE_STRUCTUREPOINTER,(int)pTemp);
+	pIn->AddComponent(Script::GenerateCRC("Career"), ESYMBOLTYPE_STRUCTUREPOINTER, pTemp);
 	
 	// Note: The above arrays and structure are not deleted here, because pointers to them have
 	// been given to the passed structure, so it will delete them when it gets deleted.
@@ -786,8 +786,8 @@ void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 				p_gap_struct->GetArray(Crc::ConstCRC("Gaps"),&p_gaps);
 				Dbg_MsgAssert(p_gaps,("Missing gaps array"));
 				
-				int num_gaps = p_gaps->GetSize();
-				for (int gap = 0; gap<num_gaps; gap++)
+				size_t num_gaps = p_gaps->GetSize();
+				for (size_t gap = 0; gap<num_gaps; gap++)
 				{
 					Script::CStruct *p_struct=p_gaps->GetStructure(gap);
 					
@@ -820,7 +820,7 @@ void CSkaterCareer::ReadFromStructure(Script::CScriptStructure *pIn)
 	if ( pVisitedLevels )
 	{
 #ifdef __NOPT_ASSERT__
-		int size = pVisitedLevels->GetSize();
+		size_t size = pVisitedLevels->GetSize();
 		Dbg_MsgAssert( size <= (int)vMAX_CAREER_LEVELS, ( "wrong array size" ) );
 #endif		// __NOPT_ASSERT__
 		for ( int i = 0; i < (int)vMAX_CAREER_LEVELS; i++ )

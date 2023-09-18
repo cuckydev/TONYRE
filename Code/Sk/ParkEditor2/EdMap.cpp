@@ -307,7 +307,7 @@ void CMetaPiece::BuildElement3dSectorsArray(Script::CArray *pArray)
 /*
 	Creates	new table of SMetaDescriptors. Might copy old one.
 */
-void CMetaPiece::initialize_desc_table(int numEntries)
+void CMetaPiece::initialize_desc_table(size_t numEntries)
 {
 	SMetaDescriptor *p_new_tab = nullptr;
 	if (numEntries > USUAL_NUM_DESCRIPTORS) 
@@ -319,7 +319,7 @@ void CMetaPiece::initialize_desc_table(int numEntries)
 	// there were before.
 	if (p_new_tab && mp_additional_desc_tab && m_total_entries <= (uint) numEntries)
 	{
-		for (uint i = USUAL_NUM_DESCRIPTORS; i < m_total_entries; i++)
+		for (size_t i = USUAL_NUM_DESCRIPTORS; i < m_total_entries; i++)
 			p_new_tab[i-USUAL_NUM_DESCRIPTORS] = mp_additional_desc_tab[i-USUAL_NUM_DESCRIPTORS];
 	}
 	
@@ -1078,10 +1078,10 @@ void CParkManager::Initialize()
 	Dbg_Assert(m_total_sets <= MAX_SETS);
 
 	Script::CArray *p_piece_array = Script::GetArray("Ed_standard_metapieces", Script::ASSERT);
-	int last_piece_index=p_piece_array->GetSize();
+	int last_piece_index=(int)p_piece_array->GetSize();
 	int last_set_index=-1;
 	
-	for (int s = m_total_sets-1; s >=0 ; --s)
+	for (size_t s = m_total_sets; s--; )
 	{
 		Script::CStruct *p_set = p_set_array->GetStructure(s);
 		
@@ -1119,11 +1119,11 @@ void CParkManager::Initialize()
 			}
 			m_palette_set[s].mTotalEntries=last_piece_index-first_index;
 			last_piece_index=first_index;
-			last_set_index=s;
+			last_set_index=(int)s;
 			
 			// Now that we know the number of entries, create the set.
 			int entry=first_index;
-			for (int i=0; i<m_palette_set[s].mTotalEntries; ++i)
+			for (size_t i=0; i<m_palette_set[s].mTotalEntries; ++i)
 			{
 				CAbstractMetaPiece *p_abstract = GetAbstractMetaByIndex(entry);
 				
@@ -1445,7 +1445,7 @@ void CParkManager::AccessDisk(bool save, int fileSlot)
 		
 		Script::CStruct *p_struct=new Script::CStruct;
 		WriteIntoStructure(p_struct);
-		uint32 size=Script::CalculateBufferSize(p_struct);
+		size_t size=Script::CalculateBufferSize(p_struct);
 		uint8 *p_buffer = new uint8[size];
 		Script::WriteToBuffer(p_struct,p_buffer,size);
 		
@@ -1464,7 +1464,7 @@ void CParkManager::AccessDisk(bool save, int fileSlot)
 		void *fp = File::Open(fullname, "rb");
 		Dbg_MsgAssert(fp, ("failed to open file %s for read", fullname));
 		
-		int size=File::GetFileSize(fp);
+		size_t size = File::GetFileSize(fp);
 
 		uint8 *p_buffer = new uint8[size];
 		
@@ -3000,12 +3000,12 @@ CParkManager *CParkManager::sInstance()
 /*
 	The manager keeps track of a piece database that matches the selection set the user sees at the top of the screen.
 */
-CParkManager::CPieceSet &CParkManager::GetPieceSet(int setNumber, int *pMenuSetNumber)
+CParkManager::CPieceSet &CParkManager::GetPieceSet(size_t setNumber, int *pMenuSetNumber)
 {
 	Dbg_Assert(setNumber >= 0 && setNumber < MAX_SETS);
 	
 	int menu_set_number = 0;
-	for (int s = 0; s < setNumber; s++)
+	for (size_t s = 0; s < setNumber; s++)
 	{
 		if (m_palette_set[s].mVisible)
 			menu_set_number++;
@@ -4634,7 +4634,7 @@ void CParkManager::write_compressed_map_buffer()
 	}
 	
 	Script::CArray *p_save_map_array = Script::GetArray("Ed_Save_Map", Script::ASSERT);
-	uint save_map_array_size = p_save_map_array->GetSize();
+	size_t save_map_array_size = p_save_map_array->GetSize();
 	
 	CompressedMapHeader *p_header = (CompressedMapHeader *) mp_compressed_map_buffer;
 	p_header->mVersion = (VERSION);
@@ -4673,7 +4673,7 @@ void CParkManager::write_compressed_map_buffer()
 
 			GridDims meta_area = p_meta->GetArea();
 			
-			uint32 metapiece_index = 0;
+			size_t metapiece_index = 0;
 			uint32 metapiece_name_checksum = p_meta->GetNameChecksum();
 			for (; metapiece_index < save_map_array_size; metapiece_index++)
 			{	
@@ -4702,7 +4702,7 @@ void CParkManager::write_compressed_map_buffer()
 		p_meta_node = p_meta_node->GetNext();
 	}
 
-	int buffer_used_size = (uint32) p_meta_entry - (uint32) p_header;
+	size_t buffer_used_size = (uintptr_t)p_meta_entry - (uintptr_t)p_header;
 	Dbg_MsgAssert(buffer_used_size <= COMPRESSED_MAP_SIZE, ("compressed map buffer (%d) needs to be bigger than (%d)",COMPRESSED_MAP_SIZE,buffer_used_size));
 	p_header->mNumMetas = (uint16)(num_metas_outputted);
 	
@@ -4746,7 +4746,7 @@ void CParkManager::write_compressed_map_buffer()
 		p_out_gap++;
 	}
   
-	buffer_used_size = (uint32) p_out_gap - (uint32) p_header;
+	buffer_used_size = (uintptr_t)p_out_gap - (uintptr_t)p_header;
 	Dbg_MsgAssert(buffer_used_size <= COMPRESSED_MAP_SIZE, ("compressed map buffer (%d) needs to be bigger than (%d)",COMPRESSED_MAP_SIZE,buffer_used_size));
 	p_header->mSizeInBytes = (uint16)buffer_used_size;
 	
@@ -4810,7 +4810,7 @@ void CParkManager::fake_compressed_map_buffer()
 
 	uint8 *p_meta_entry = (uint8 *) p_floor_entry;
 	int num_metas_outputted = 0;
-	int buffer_used_size = (uint32) p_meta_entry - (uint32) p_header;
+	size_t buffer_used_size = (uintptr_t)p_meta_entry - (uintptr_t)p_header;
 	p_header->mNumMetas = (uint16)num_metas_outputted;
 	p_header->mChecksum = Crc::GenerateCRCCaseSensitive((const char *) mp_compressed_map_buffer + 4, buffer_used_size - 4);
 	int num_gaps = 0;
@@ -4818,7 +4818,7 @@ void CParkManager::fake_compressed_map_buffer()
 	
 	// write gaps
 	CompressedGap *p_out_gap = (CompressedGap *) p_meta_entry;
-	buffer_used_size = (uint32) p_out_gap - (uint32) p_header;
+	buffer_used_size = (uintptr_t)p_out_gap - (uintptr_t)p_header;
 	Dbg_MsgAssert(buffer_used_size <= COMPRESSED_MAP_SIZE, ("compressed map buffer (%d) needs to be bigger than (%d)",COMPRESSED_MAP_SIZE,buffer_used_size));
 	p_header->mSizeInBytes = (uint16)buffer_used_size;
 	

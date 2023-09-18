@@ -108,7 +108,7 @@ bool			CMesh::LoadCollision(const char *p_name)
 		uint8 *p_base_intensity_addr = p_base_vert_addr + (p_header->m_total_num_verts_large * Nx::CCollObjTriData::GetVertElemSize() +
 														   p_header->m_total_num_verts_small * Nx::CCollObjTriData::GetVertSmallElemSize());
 		uint8 *p_base_face_addr = p_base_intensity_addr + p_header->m_total_num_verts;
-		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+3)) & 0xFFFFFFFC);	// Align to 32 bit boundary
+		p_base_face_addr = (uint8 *)(((uintptr_t)(p_base_face_addr + 3)) & ~0x3); // Align to 32 bit boundary
 #else
 		uint8 *p_base_intensity_addr = nullptr;
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_verts * Nx::CCollObjTriData::GetVertElemSize());

@@ -48,7 +48,7 @@ void CFaceTexture::LoadFace( const char* pFaceName, bool fullPathIncluded )
 	// As a test, set the freak image
 	// (otherwise, we'd need to go through the face download interface)
 	char extended_filename[512];
-	int file_size;
+	size_t file_size;
 
 	if ( fullPathIncluded )
 	{
@@ -97,9 +97,9 @@ uint8* CFaceTexture::ReadTextureDataFromBuffer(uint8* pBuffer, int bufferSize)
 /*                                                                */
 /******************************************************************/
 
-int CFaceTexture::WriteToBuffer( uint8* pBuffer, int bufferSize )
+size_t CFaceTexture::WriteToBuffer( uint8* pBuffer, size_t bufferSize )
 {
-	int totalSize = 0;
+	size_t totalSize = 0;
 		
 	totalSize += vRAW_TEXTURE_SIZE;
 	Dbg_MsgAssert( bufferSize >= totalSize, ( "Buffer size (%d bytes) must >= %d bytes", bufferSize, totalSize ) );
@@ -124,9 +124,9 @@ int CFaceTexture::WriteToBuffer( uint8* pBuffer, int bufferSize )
 /*                                                                */
 /******************************************************************/
 
-uint8* CFaceTexture::ReadFromBuffer( uint8* pBuffer, int bufferSize )
+uint8* CFaceTexture::ReadFromBuffer( uint8* pBuffer, size_t bufferSize )
 {
-	int totalSize = 0;
+	size_t totalSize = 0;
 	
 	totalSize += vRAW_TEXTURE_SIZE;
 	if ( bufferSize )
@@ -146,7 +146,7 @@ uint8* CFaceTexture::ReadFromBuffer( uint8* pBuffer, int bufferSize )
 	memcpy( &m_points, pBuffer, sizeof(Nx::SFacePoints) );
 	pBuffer += sizeof(Nx::SFacePoints);
 
-	int overlayNameLength = strlen( (char*)pBuffer );
+	size_t overlayNameLength = strlen( (char*)pBuffer );
 	if ( overlayNameLength >= vMAX_OVERLAY_NAME_SIZE )
 	{
 		Dbg_MsgAssert( 0, ( "Unusual length for overlay name" ) );

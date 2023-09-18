@@ -1065,7 +1065,7 @@ CSkeletonData::~CSkeletonData()
 /*                                                                */
 /******************************************************************/
 
-bool CSkeletonData::Load( uint32* p_data32, int data_size, bool assertOnFail )
+bool CSkeletonData::Load( uint32* p_data32, size_t data_size, bool assertOnFail )
 {
 	(void)p_data32;
 	(void)data_size;
@@ -1198,8 +1198,8 @@ void CSkeletonData::InitialiseBoneSkipList( const char* p_fileName )
 		if( p_skeleton_lod_info )
 		{
 			// Now run through each element of the array. Each element is a structure.
-			uint32 array_size = p_skeleton_lod_info->GetSize();
-			for( uint32 lod_level = 0; lod_level < array_size; ++lod_level )
+			size_t array_size = p_skeleton_lod_info->GetSize();
+			for(size_t lod_level = 0; lod_level < array_size; ++lod_level )
 			{
 				Script::CStruct *p_element = p_skeleton_lod_info->GetStructure( lod_level );
 	
@@ -1230,8 +1230,8 @@ void CSkeletonData::InitialiseBoneSkipList( const char* p_fileName )
 				if( p_element->GetArray( "SkipBones", &p_skip_bones_array ))
 				{
 					// There are bones to be skipped for this entry.
-					uint32 size = p_skip_bones_array->GetSize();
-					for( uint32 bone = 0; bone < size; ++bone )
+					size_t size = p_skip_bones_array->GetSize();
+					for(size_t bone = 0; bone < size; ++bone )
 					{
 						// Get the checksum of the bone name.
 						uint32 bone_checksum = p_skip_bones_array->GetChecksum( bone );
@@ -1260,7 +1260,7 @@ bool CSkeletonData::Load(const char* p_fileName, bool assertOnFail)
 {
 	// new load of platform-specific SKE files...
 	bool success = false;
-	int file_size;
+	size_t file_size;
 	uint32* p_fileBuffer = nullptr;
 
 	// open the file as a stream

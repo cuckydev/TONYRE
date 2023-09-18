@@ -148,8 +148,8 @@ void sTexture::Upload()
 	// Set texture data
 	uint8 *datap = Data;
 
-	size_t base_width = BaseWidth;
-	size_t base_height = BaseHeight;
+	GLsizei base_width = BaseWidth;
+	GLsizei base_height = BaseHeight;
 	
 	for (uint8 mip_level = 0; mip_level < Levels; mip_level++)
 	{

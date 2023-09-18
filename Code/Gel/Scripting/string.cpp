@@ -105,7 +105,7 @@ static char *sAddToSpecialStringHeap(const char *p_string)
 	// read single bytes from memory.
 	// Needs to be fast, otherwise it can add a significant delay to the startup time.
 	// This method adds about 0.3 seconds altogether (in THPS3, couple of thousand strings)
-	uint32 len=strlen(p_string);
+	size_t len = strlen(p_string);
 	uint32 checksum=Crc::GenerateCRCCaseSensitive(p_string,len);
 	
 	Dbg_MsgAssert(sp_permanent_string_checksums,("nullptr sp_permanent_string_checksums ??"));
@@ -124,7 +124,9 @@ static char *sAddToSpecialStringHeap(const char *p_string)
 	// Not found, so add to the pile of strings.
 	Dbg_MsgAssert(sp_permanent_string_heap,("nullptr sp_permanent_string_heap ??"));
 	
-	Dbg_MsgAssert(s_permanent_string_heap_size-(sp_permanent_string_heap_top-sp_permanent_string_heap)>=len+1,("Out of special string heap"));
+	Dbg_Assert((sp_permanent_string_heap_top - sp_permanent_string_heap) + (len + 1) <= s_permanent_string_heap_size);
+	// Dbg_MsgAssert(s_permanent_string_heap_size - (sp_permanent_string_heap_top - sp_permanent_string_heap) >= len + 1,("Out of special string heap"));
+
 	p_heap_string=sp_permanent_string_heap_top;
 	strcpy(p_heap_string,p_string);
 	// Update sp_permanent_string_heap_top

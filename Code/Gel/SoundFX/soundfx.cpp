@@ -851,8 +851,8 @@ bool CSfxManager::LoadSound( const char *sfxName,  int flags, float dropoff, flo
 		return false;
 
 	const char	*pNameMinusPath	= sfxName;
-	int			stringLength	= strlen( sfxName );
-	for( int i = 0; i < stringLength; i++ )
+	size_t		stringLength	= strlen( sfxName );
+	for(size_t i = 0; i < stringLength; i++)
 	{
 		if(( sfxName[i] == '\\' ) || ( sfxName[i] == '/' ))
 			pNameMinusPath = &sfxName[i + 1];

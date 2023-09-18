@@ -312,8 +312,8 @@ static void sGenerateRandomSongOrder( void )
 	// Jumble it up.		
 	for (int n = 0; n < 2000; ++n)
 	{
-		size_t a=Mth::Rnd(num_songs);
-		size_t b=Mth::Rnd(num_songs);
+		size_t a = Mth::Rnd(num_songs);
+		size_t b = Mth::Rnd(num_songs);
 		
 		size_t temp=sp_xbox_randomized_songs[a];
 		sp_xbox_randomized_songs[a] = sp_xbox_randomized_songs[b];

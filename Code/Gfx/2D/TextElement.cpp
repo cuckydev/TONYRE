@@ -171,12 +171,12 @@ void CTextElement::SetFont(uint32 font_checksum)
 
 void CTextElement::SetText(const char *pText)
 {
-	int new_length = strlen(pText) + 1;
+	size_t new_length = strlen(pText) + 1;
 	Dbg_MsgAssert(new_length < vMAX_TEXT_LENGTH, ("string too long %d", new_length));
 
 	// if the old string is not big enough, then we need to allocate a new one	
 	// otherwize, overwrite it, as allocations are slow
-	if (!mp_text || (int)(strlen(mp_text)) < new_length-1)		  // note, does not account for actual allocated size, but will work is string are same size
+	if (!mp_text || (strlen(mp_text) + 1) < new_length)		  // note, does not account for actual allocated size, but will work is string are same size
 	{
 		if (mp_text)
 			delete mp_text;	
@@ -234,7 +234,7 @@ void CTextElement::SetText(const char *pText)
 /*                                                                */
 /******************************************************************/
 
-int CTextElement::GetLength()
+size_t CTextElement::GetLength()
 {
 	return strlen( mp_text );
 }
@@ -246,10 +246,10 @@ int CTextElement::GetLength()
 
 bool CTextElement::Concatenate( const char *pText )
 {
-	int old_length = 0;
+	size_t old_length = 0;
 	if ( mp_text )
 		old_length += strlen( mp_text );
-	int length  = old_length + strlen( pText );
+	size_t length  = old_length + strlen( pText );
 	
 	if ( length + 1 >= vMAX_TEXT_LENGTH )
 	{
@@ -286,8 +286,7 @@ bool CTextElement::Backspace()
 	if ( !mp_text )
 		return false;
 	
-	int length = strlen( mp_text );
-
+	size_t length = strlen( mp_text );
 	if ( length == 0 )
 		return false;
 
@@ -686,8 +685,8 @@ void CTextBlockElement::SetProperties(Script::CStruct *pProps)
 	}
 	else if (pProps->GetArray(Crc::ConstCRC("text"), &p_text_array))
 	{
-		int num_entries = p_text_array->GetSize();
-		for (int i = 0; i < num_entries; i++)
+		size_t num_entries = p_text_array->GetSize();
+		for (size_t i = 0; i < num_entries; i++)
 			pp_line_tab[i] = p_text_array->GetString(i);
 
 		SetText(pp_line_tab, num_entries);
@@ -840,7 +839,7 @@ void CTextBlockElement::SetFont(uint32 font_checksum)
 /*                                                                */
 /******************************************************************/
 
-void CTextBlockElement::SetText(const char **ppTextLines, int numLines)
+void CTextBlockElement::SetText(const char **ppTextLines, size_t numLines)
 {
 	Dbg_MsgAssert(m_object_flags & vFORCED_DIMS, ("no dimensions have been set"));
 	Dbg_MsgAssert(numLines < 256, ("large number of lines, probably not good"));
@@ -886,7 +885,7 @@ void CTextBlockElement::SetText(const char **ppTextLines, int numLines)
 		m_num_visible_lines = 0;
 	}
 	
-	for ( int in_line = 0; in_line < numLines; in_line++ )
+	for (size_t in_line = 0; in_line < numLines; in_line++)
 		read_in_text_line( ppTextLines[in_line] );
 		
 	// printf("line %d: %s\n", m_out_line, mpp_parsed_lines[m_out_line]);
@@ -927,7 +926,7 @@ void CTextBlockElement::SetText(const char **ppTextLines, int numLines)
 			m_virtual_out_line = 0;
 			m_out_line = 0;
 			m_current_line_width = 0.0f;
-			for (int i = 0; i < numLines; i++)
+			for (size_t i = 0; i < numLines; i++)
 				read_in_text_line(ppTextLines[i]);
 
 			// printf("changing m_total_out_lines from %i to %i\n", m_total_out_lines, m_num_visible_lines);
@@ -996,10 +995,11 @@ void CTextBlockElement::SetText(const char *pTextLine)
 /*                                                                */
 /******************************************************************/
 
-bool CTextBlockElement::GetText( char* p_text, int size )
+bool CTextBlockElement::GetText( char* p_text, size_t size )
 {
-	strcpy( p_text, "" );
-	int total_length = 0;
+	p_text[0] = '\0';
+
+	size_t total_length = 0;
 	
 	CScreenElementPtr p_child = GetFirstChild();
 	while( p_child )
@@ -1040,10 +1040,10 @@ bool CTextBlockElement::GetText( char* p_text, int size )
 /*                                                                */
 /******************************************************************/
 
-int CTextBlockElement::GetLength()
+size_t CTextBlockElement::GetLength()
 {
 	// printf( "CTextBlockElement::GetLength called on %s\n", Script::FindChecksumName( m_id ) );
-	int total_length = 0;
+	size_t total_length = 0;
 	
 	CScreenElementPtr p_child = GetFirstChild();
 	while( p_child )
@@ -1071,7 +1071,7 @@ int CTextBlockElement::GetLength()
 
 bool CTextBlockElement::Backspace()
 {
-	int length = GetLength();
+	size_t length = GetLength();
 
 	if ( length == 0 )
 		return false;
@@ -1151,7 +1151,7 @@ CTextBlockElement::EParseResult CTextBlockElement::parse_next_word(char *pWordBu
 			}
 		} // end switch
 
-		Dbg_Assert((int) p_out - (int) pWordBuf < MAX_CHARS - 1);
+		Dbg_Assert((p_out - pWordBuf) < MAX_CHARS - 1);
 	}
 
 	*p_out++ = '\0';
@@ -1313,7 +1313,7 @@ void CTextBlockElement::forward_properties_to_children()
 bool CTextBlockElement::Concatenate( const char* pText, bool enforce_max_width, bool last_line )
 {
 #ifdef __NOPT_ASSERT__
-	int length = GetLength();
+	size_t length = GetLength();
 	Dbg_MsgAssert( length < (int)( MAX_EDITABLE_TEXT_BLOCK_LENGTH - strlen( pText ) ), ( "TextBlock too long to concatenate" ) );
 #endif
 	

@@ -48,7 +48,7 @@ public:
 	CSkaterProfile&	operator=( const CSkaterProfile& rhs );
 
 public:
-	uint32						WriteToBuffer(uint8 *pBuffer, uint32 BufferSize, 
+	size_t						WriteToBuffer(uint8 *pBuffer, size_t BufferSize,
 											bool ignoreFaceData = false );
 	uint8*						ReadFromBuffer(uint8 *pBuffer);
 	void 						WriteIntoStructure( Script::CStruct* pStuff );
@@ -106,7 +106,7 @@ protected:
 	
 protected:
 	// net packet compression
-	uint32						write_extra_info_to_buffer(uint8* pBuffer, uint32 BufferSize);
+	size_t						write_extra_info_to_buffer(uint8* pBuffer, size_t BufferSize);
 	uint8*						read_extra_info_from_buffer(uint8* pBuffer);
 
 private:

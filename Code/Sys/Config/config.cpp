@@ -29,8 +29,8 @@ static bool sIsPrefixedWith(const char *p_string, const char *p_prefix)
 {
 	if (!p_string || !p_prefix) return false;
 	
-	int string_len=strlen(p_string);
-	int prefix_len=strlen(p_prefix);
+	size_t string_len=strlen(p_string);
+	size_t prefix_len=strlen(p_prefix);
 	if (prefix_len>string_len)
 	{
 		// Can't be prefixed if shorter than the prefix.
@@ -61,7 +61,7 @@ const char *GetCommandLineParam(const char *p_name, sint argc, char** argv)
 		{
 			// p_name matches the start of argv[i]
 			// Now see if it is followed by an equals.
-			int len=strlen(p_name);
+			size_t len=strlen(p_name);
 			char *p_next_char=argv[i]+len;
 			if (*p_next_char=='=')
 			{

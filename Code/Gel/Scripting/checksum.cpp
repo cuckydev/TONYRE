@@ -202,17 +202,17 @@ void AddChecksumName(uint32 checksum, const char *p_name)
 	//++sNumChecksums;
 	//printf("sNumChecksums=%d\n",sNumChecksums);
 	
-	p_first->mChecksum=checksum;
-	p_first->mpName=sp_end_of_checksum_names;
+	p_first->mChecksum = checksum;
+	p_first->mpName = sp_end_of_checksum_names;
 	
-	int space_left=CHECKSUM_NAME_SPACE-(sp_end_of_checksum_names-sp_checksum_names);
+	size_t space_left = CHECKSUM_NAME_SPACE - (sp_end_of_checksum_names - sp_checksum_names);
 	while (*p_name)
 	{
-		Dbg_MsgAssert(space_left>0,("Need to increase CHECKSUM_NAME_SPACE in checksum.cpp"));
+		Dbg_MsgAssert(space_left > 0, ("Need to increase CHECKSUM_NAME_SPACE in checksum.cpp"));
 		*sp_end_of_checksum_names++=*p_name++;
 		--space_left;
 	}	
-	Dbg_MsgAssert(space_left>0,("Need to increase CHECKSUM_NAME_SPACE in checksum.cpp"));
+	Dbg_MsgAssert(space_left > 0, ("Need to increase CHECKSUM_NAME_SPACE in checksum.cpp"));
 	*sp_end_of_checksum_names++=0;
 }
 

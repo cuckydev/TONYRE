@@ -188,7 +188,7 @@ public:
 	CTexture *  			GetTexture(uint32 checksum) const;
 	CTexture *  			GetTexture(const char *p_texture_name) const;
 	
-	uint32					GetFileSize() {return m_file_size;}
+	size_t					GetFileSize() {return m_file_size;}
 
 	Lst::HashTable<CTexture> *GetTexLookup( void ) { return mp_texture_lookup; }
 
@@ -217,7 +217,7 @@ private:
 	virtual CTexture *			plat_copy_texture(uint32 new_texture_checksum, CTexture *p_texture);
 
 protected:
-	uint32						m_file_size;		// DEBUGGING USE ONLY, NOT GUARENTEED							 
+	size_t						m_file_size;		// DEBUGGING USE ONLY, NOT GUARENTEED							 
 								 
 };
 

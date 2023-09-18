@@ -241,7 +241,7 @@ bool CGoalPed::GetStreamChecksum( uint32* p_streamChecksum, int cam_anim_index, 
 		if ( p_speaker_name )
 		{
 			#ifdef	__NOPT_ASSERT__
-			int speaker_name_length = strlen( p_speaker_name );
+			size_t speaker_name_length = strlen( p_speaker_name );
 			// cam anim and speaker name
 			Dbg_MsgAssert( stream_name_length + 10 + speaker_name_length + 1 < MAX_STREAM_NAME_LENGTH, ( "buffer overflow" ) );
 			#endif

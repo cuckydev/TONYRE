@@ -679,8 +679,8 @@ void GeneratePrefixInfo()
 			if (p_name)
 			{
 				// Add all the possible prefixes to the lookup table.
-				int string_length=strlen(p_name);
-				for (int j=1; j<=string_length; ++j)
+				size_t string_length=strlen(p_name);
+				for (size_t j=1; j<=string_length; ++j)
 				{
 					sAddNewPrefix(Crc::GenerateCRC(p_name,j),i);
 				}		
@@ -822,7 +822,7 @@ uint32	GetNodeNameChecksum(int nodeIndex)
 	return name;
 }
 
-uint32 GetNumLinks(CStruct *p_node)
+int GetNumLinks(CStruct *p_node)
 {
 	Dbg_MsgAssert(p_node,("nullptr p_node"));
 	CArray *p_links=nullptr;
@@ -831,10 +831,10 @@ uint32 GetNumLinks(CStruct *p_node)
 	{
 		return 0;
 	}
-	return p_links->GetSize();
+	return (int)p_links->GetSize();
 }
 
-uint32 GetNumLinks(int nodeIndex)
+int GetNumLinks(int nodeIndex)
 {
 	CArray *p_node_array=GetArray(0xc472ecc5/*NodeArray*/, NO_ASSERT);
 	if (p_node_array)

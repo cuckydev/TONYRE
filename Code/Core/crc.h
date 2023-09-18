@@ -120,9 +120,9 @@ static constexpr uint32 CRCTable[256] = // CRC polynomial 0xedb88320
 **							   Public Prototypes							**
 *****************************************************************************/
 
-uint32 GenerateCRC( const char *stream, int size );
-uint32 GenerateCRCCaseSensitive( const char *stream, int size );
-uint32 UpdateCRC( const char *p_stream, int size, uint32 rc=0xffffffff );
+uint32 GenerateCRC( const char *stream, size_t size );
+uint32 GenerateCRCCaseSensitive( const char *stream, size_t size );
+uint32 UpdateCRC( const char *p_stream, size_t size, uint32 rc=0xffffffff );
 uint32 GenerateCRCFromString( const char *pName );
 uint32 ExtendCRCWithString( uint32 rc, const char *pName );
 uint32 GetCRCTableEntry( int entry );

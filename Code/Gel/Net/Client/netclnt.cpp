@@ -177,7 +177,7 @@ bool Client::ConnectToServer( int ip, unsigned short port )
 
 void	Client::SendEnqueuedMessages( Conn* conn )
 {
-	int buf_len;
+	size_t buf_len;
 	MsgPacketStamp msg;
 	bool buffer_full;
     

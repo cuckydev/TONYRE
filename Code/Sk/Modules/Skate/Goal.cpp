@@ -1765,7 +1765,7 @@ int CGoal::GetRandomIndexFromKeyCombos( Script::CArray* p_keyCombos )
 	Script::CStruct* p_trickMappings = p_SkaterProfile->GetTrickMapping( Crc::ConstCRC("trick_mapping") );
 
 	// figure number of components in mapping
-	uint32 size = p_keyCombos->GetSize();
+	size_t size = p_keyCombos->GetSize();
 
 	// safety first
 	int max_tries = 100;
@@ -1774,7 +1774,7 @@ int CGoal::GetRandomIndexFromKeyCombos( Script::CArray* p_keyCombos )
 	uint32 key_combo;
 	while ( !trick_name_checksum )
 	{        
-		int i = Mth::Rnd( size );
+		size_t i = Mth::Rnd( size );
 		if ( p_keyCombos->GetType() == ESYMBOLTYPE_NAME )
 		{
 			key_combo = p_keyCombos->GetChecksum( i );
@@ -1787,11 +1787,11 @@ int CGoal::GetRandomIndexFromKeyCombos( Script::CArray* p_keyCombos )
 		p_trickMappings->GetChecksum( key_combo, &trick_name_checksum, Script::NO_ASSERT );
 		if ( trick_name_checksum )
 		{
-			return i;
+			return (int)i;
 		}
 		else if ( p_trickMappings->GetInteger( key_combo, &cat_index, Script::NO_ASSERT ) )
 		{
-			return i;
+			return (int)i;
 		}
 		// reset it to 0
 		trick_name_checksum = 0;
@@ -1800,7 +1800,7 @@ int CGoal::GetRandomIndexFromKeyCombos( Script::CArray* p_keyCombos )
 		{
 			// they've probably un-mapped all their keys.  check all the tricks in order
 			// just to be safe
-			for ( uint32 j = 0; j < size; j++ )
+			for (size_t j = 0; j < size; j++ )
 			{
 				if ( p_keyCombos->GetType() == ESYMBOLTYPE_NAME )
 					key_combo = p_keyCombos->GetChecksum( j );
@@ -1809,7 +1809,7 @@ int CGoal::GetRandomIndexFromKeyCombos( Script::CArray* p_keyCombos )
 				p_trickMappings->GetChecksum( key_combo, &trick_name_checksum, Script::NO_ASSERT );
 				if ( trick_name_checksum )
 				{
-					return i;
+					return (int)i;
 				}
 				trick_name_checksum = 0;
 			}
@@ -2945,9 +2945,9 @@ bool fill_trick_and_key_combo_arrays( Script::CArray* p_key_combos, Script::CArr
 
 	// Script::PrintContents( pTricks );
 
-	int size = p_key_combos->GetSize();
+	size_t size = p_key_combos->GetSize();
 	
-	for ( int i = 0; i < size; i++ )
+	for (size_t i = 0; i < size; i++)
 	{
 		uint32 key_combo = p_key_combos->GetChecksum( i );
 		// printf("checking for key combo %s\n", Script::FindChecksumName( key_combo ) );
@@ -3071,8 +3071,8 @@ void find_and_replace_trick_string( const char* p_old, char* p_out, Script::CArr
 			Dbg_MsgAssert( p_trick_string, ( "ReplaceTrickText found a \\t tag but no key combo." ) );
 
 			sprintf( p_out, p_trick_string );
-			int length = strlen( p_trick_string );
-			for ( int i = 0; i < length; i++ )
+			size_t length = strlen( p_trick_string );
+			for (size_t i = 0; i < length; i++)
 				p_out++;
 			
 			// move past the tag
@@ -3101,8 +3101,8 @@ void find_and_replace_trick_string( const char* p_old, char* p_out, Script::CArr
 			Dbg_MsgAssert( p_key_string, ( "ReplaceTrickText found a \\k tag but no key combo." ) );
 
 			sprintf( p_out, p_key_string );
-			int length = strlen( p_key_string );
-			for ( int i = 0; i < length; i++ )
+			size_t length = strlen( p_key_string );
+			for (size_t i = 0; i < length; i++)
 				p_out++;
 			
 			// move past the tag
@@ -3285,8 +3285,8 @@ void CGoal::ColorTrickObjects( int seqIndex, bool clear )
 	if ( !mp_params->GetArray( "kill_clusters", &p_clusters, Script::NO_ASSERT ) )
 		return;
 
-	int numClusters = p_clusters->GetSize();
-	for ( int i = 0; i < numClusters; i++ )
+	size_t numClusters = p_clusters->GetSize();
+	for (size_t i = 0; i < numClusters; i++)
 	{
 		Script::CStruct* p_temp = p_clusters->GetStructure( i );
 		uint32 cluster_id;
@@ -3434,8 +3434,8 @@ void CGoal::UnlockRewardGoals()
 	// check for an array of goals to unlock
 	else if ( mp_params->GetArray( "reward_goal", &p_new_goal_array, Script::NO_ASSERT ) )
 	{
-		int num_goals_to_unlock = p_new_goal_array->GetSize();
-		for ( int i = 0; i < num_goals_to_unlock; i++ )
+		size_t num_goals_to_unlock = p_new_goal_array->GetSize();
+		for ( size_t i = 0; i < num_goals_to_unlock; i++ )
 		{
 			new_goal_checksum = p_new_goal_array->GetChecksum( i );
 			if ( new_goal_checksum )

@@ -44,7 +44,7 @@ namespace File
 
 		while (1)
 		{
-			DWORD decceded = GetModuleFileNameW(nullptr, module_name.data(), module_name.size());
+			DWORD decceded = GetModuleFileNameW(nullptr, module_name.data(), (DWORD)module_name.size());
 			if (decceded < module_name.size())
 			{
 				module_name.resize(decceded);
@@ -189,7 +189,7 @@ namespace File
 
 		if( PreMgr::sPreEnabled())
 		{
-			int retval = PreMgr::pre_get_file_size( (PreFile::FileHandle *) pFP );
+			size_t retval = PreMgr::pre_get_file_size( (PreFile::FileHandle *) pFP );
 			if( PreMgr::sPreExecuteSuccess())
 				return retval;
 		}
@@ -204,7 +204,7 @@ namespace File
 
 		if( PreMgr::sPreEnabled())
 		{
-			int retval = PreMgr::pre_get_file_position((PreFile::FileHandle*)pFP );
+			size_t retval = PreMgr::pre_get_file_position((PreFile::FileHandle*)pFP );
 			if( PreMgr::sPreExecuteSuccess())
 				return retval;
 		}
@@ -217,7 +217,7 @@ namespace File
 	{
 	}
 
-	uint32	CanFileBeLoadedQuickly( const char* filename )
+	size_t	CanFileBeLoadedQuickly( const char* filename )
 	{
 		(void)filename;
 		return 0;
@@ -356,7 +356,7 @@ namespace File
 
 		sFileHandle *h_file = (sFileHandle*)pFP;
 		h_file->file.seekg(offset, (origin == SEEK_CUR) ? std::ios::cur : ((origin == SEEK_SET) ? std::ios::beg : std::ios::end));
-		return (size_t)h_file->file.tellg();
+		return (int)h_file->file.tellg();
 	}
 
 	int Flush( void *pFP )
