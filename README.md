@@ -28,10 +28,3 @@ The `music` and `streams` folders go under `Game/Data`.
 Have something to contribute to the project? Feel free to open a pull request!
 
 Consider joining our [Discord Server](https://discord.gg/TvyX2jxAX8) to discuss the project and get help with development.
-
-## Current major issues
-
-- This will only compile in 32-bit mode
-- Backend unfinished
-- Create-A-Park is unfinished
-- Game depends on hack to clear class memory on construction automatically (see Code/Core/Support/Class.cpp)
