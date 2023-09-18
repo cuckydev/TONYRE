@@ -67,7 +67,7 @@ namespace File
 		while (1)
 		{
 			ssize_t decceded = readlink("proc/self/exe", module_name.data(), module_name.size());
-			if (decceded < module_name.size())
+			if (decceded <= module_name.size())
 			{
 				module_name.resize(decceded);
 				break;
