@@ -759,9 +759,9 @@ namespace Pcm
 	{
 		const UserSoundtrack::Soundtracks &soundtracks = UserSoundtrack::GetSoundtracks();
 
-        if(soundtracks.empty()) {
-            return 0;
-        }
+		if(soundtracks.empty()) {
+			return 0;
+		}
 
 		return soundtracks.at(i).tracks.size();
 	}
