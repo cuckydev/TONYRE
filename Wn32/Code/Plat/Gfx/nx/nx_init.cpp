@@ -48,6 +48,10 @@ void WaitForNextFrame(void)
 
 void InitialiseEngine( void )
 {
+	// Initialize SDL
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0)
+		Dbg_MsgAssert(0, ("Failed to initialize SDL: %s", SDL_GetError()));
+
 	// Request an OpenGL 3.3 context
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -68,11 +72,11 @@ void InitialiseEngine( void )
 	int height = 720;
 
 	EngineGlobals.window = SDL_CreateWindow("Tony Hawk's Underground", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-	Dbg_AssertPtr(EngineGlobals.window);
+	Dbg_MsgAssert(EngineGlobals.window, ("Failed to create window: %s", SDL_GetError()));
 
 	// Create OpenGL context
 	EngineGlobals.context = SDL_GL_CreateContext(EngineGlobals.window);
-	Dbg_AssertPtr(EngineGlobals.context);
+	Dbg_MsgAssert(EngineGlobals.context, ("Failed to create window: %s", SDL_GetError()));
 
 	// Load glad
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
