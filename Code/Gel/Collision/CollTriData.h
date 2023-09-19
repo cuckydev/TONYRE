@@ -119,7 +119,7 @@ private:
 			mLEFT_IS_GREATER = 0x01, // Indicates that the left branch is the greater branch
 		};
 
-		uintptr_t m_left_child_and_flags = 0; // points to left branch, right branch one node over
+		uintptr_t m_left_child_and_flags; // points to left branch, right branch one node over
 	};		
 
 protected:
@@ -135,22 +135,22 @@ protected:
 	// m_split axis must always be in line with the low byte of m_split_point
 	struct SNode
 	{
-		int32				m_split_point = 0;		// the point on the axis (low 2 bits is the axis itself)
-		CCollBSPChildren	m_children = {};		// 32-bit value points to left branch, right branch one node over
+		int32				m_split_point;		// the point on the axis (low 2 bits is the axis itself)
+		CCollBSPChildren	m_children;		// 32-bit value points to left branch, right branch one node over
 	};
 
 	struct SLeaf
 	{
 #ifdef __PLAT_NGC__		// Big endian on NGC
-		uint16				m_num_faces = 0;		// number in faces in face array
-		uint8				m_pad1 = 0;
-		uint8				m_split_axis = 0;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
+		uint16				m_num_faces;		// number in faces in face array
+		uint8				m_pad1;
+		uint8				m_split_axis;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
 #else
-		uint8				m_split_axis = 0;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
-		uint8				m_pad1 = 0;
-		uint16				m_num_faces = 0;		// number in faces in face array
+		uint8				m_split_axis;		// the axis it is split on (0 = X, 1 = Y, 2 = Z, 3 = Leaf)
+		uint8				m_pad1;
+		uint16				m_num_faces;		// number in faces in face array
 #endif // __PLAT_NGC__
-		FaceIndex *			mp_face_idx_array = nullptr;	// leaf
+		FaceIndex *			mp_face_idx_array;	// leaf
 	};
 
 	// Clone functions
@@ -168,7 +168,7 @@ protected:
 	union
 	{
 		SNode m_node;
-		SLeaf m_leaf = {};
+		SLeaf m_leaf;
 	};
 
 	// Friends
