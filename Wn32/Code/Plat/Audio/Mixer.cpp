@@ -41,8 +41,7 @@ namespace Audio
 		s_wanted_spec.callback = AudioCallback;
 
 		// Open audio device
-		s_audio_device = 0;// SDL_OpenAudioDevice(nullptr, 0, &s_wanted_spec, nullptr, SDL_AUDIO_ALLOW_SAMPLES_CHANGE);
-		// Dbg_Assert(s_audio_device > 0);
+		s_audio_device = SDL_OpenAudioDevice(nullptr, 0, &s_wanted_spec, nullptr, SDL_AUDIO_ALLOW_SAMPLES_CHANGE);
 
 		// Start audio
 		if (s_audio_device > 0)
