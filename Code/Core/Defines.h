@@ -188,7 +188,7 @@ typedef	sint64				nID64;
 /****************************************************************************/
 
 // dumb hack..
-#ifdef __PLAT_UNIX__
+#ifdef __PLAT_LUNIX__
 #define _alloca alloc
 #endif
 
