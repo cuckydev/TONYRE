@@ -1345,7 +1345,7 @@ struct SWhatever
 		CArray *mpArray;
 		uint8 *mpScript;
 		uint32 mChecksum;
-		uint32 mUnion; 
+		uintptr_t mUnion; 
 	};
 };
 

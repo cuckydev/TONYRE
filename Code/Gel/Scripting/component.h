@@ -73,7 +73,7 @@ public:
 		CArray *mpArray;
 		uint8 *mpScript;
 		uint32 mChecksum;
-		uint32 mUnion; // For when all the above need to be zeroed 
+		uintptr_t mUnion; // For when all the above need to be zeroed 
 	};
 	
 	CComponent *mpNext;
