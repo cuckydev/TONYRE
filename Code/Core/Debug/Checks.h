@@ -26,7 +26,8 @@
 #ifdef __PLAT_WN32__
 #define Dbg_Break { __debugbreak(); }
 #else
-#define Dbg_Break {}
+#include <csignal>
+#define Dbg_Break { std::raise(SIGTRAP); }
 #endif
 
 /*****************************************************************************

@@ -44,6 +44,7 @@ void InitTree(void)	 /* initialize trees */
 	   for strings that begin with character i.  These are initialized
 	   to NIL.  Note there are 256 trees. */
 
+	for ( i = 0; i < N - F + 1; i++ ) text_buf[i] = ' ';
 	for ( i = N + 1; i <= N + 256; i++ ) rson[i] = NIL;
 	for ( i = 0; i < N; i++ ) dad[i] = NIL;
 }
