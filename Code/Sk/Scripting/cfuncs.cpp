@@ -2521,10 +2521,10 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 		
 		size_t num_swaps = size*10;
 		
-		char *old_last = (char*)_alloca(elem_size);
+		char *old_last = (char*)alloca(elem_size);
 		memcpy(old_last, p_array_data + (size - 1) * elem_size, elem_size);
 		
-		char *p_temp = (char*)_alloca(elem_size);
+		char *p_temp = (char*)alloca(elem_size);
 		for (size_t i = 0; i < num_swaps; ++i)
 		{
 			size_t a = Mth::Rnd(size);
