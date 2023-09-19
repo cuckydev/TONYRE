@@ -132,9 +132,11 @@ static void		s_prefixed_output( Level level, const char* text, va_list args )
 	}
 	
 #ifdef	__NOPT_DEBUG__
-	printf( "[%s] %s - ", 
-		s_typename[level], 
-		&current_sig->GetName());
+    if(current_sig) {
+        printf("[%s] %s - ",
+               s_typename[level],
+               &current_sig->GetName());
+    }
 #endif
 
 	vsprintf( printf_pad, text, args);
