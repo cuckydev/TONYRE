@@ -61,27 +61,7 @@ namespace File
 		module_path.remove_filename();
 		return module_path;
 #elif defined(__PLAT_LINUX__)
-		// Get proc/self/exe name
-		std::basic_string<char> module_name(0x100, '\0');
-
-		while (1)
-		{
-			ssize_t decceded = readlink("/proc/self/exe", module_name.data(), module_name.size());
-			if (decceded <= module_name.size())
-			{
-				module_name.resize(decceded);
-				break;
-			}
-			else
-			{
-				module_name.resize(module_name.size() * 2);
-			}
-		}
-
-		// Remove filename
-		std::filesystem::path module_path(module_name);
-		module_path.remove_filename();
-		return module_path;
+		return std::filesystem::canonical("/proc/self/exe").remove_filename();
 #endif
 	}
 
