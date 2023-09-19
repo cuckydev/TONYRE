@@ -20,6 +20,7 @@ class CVector;
 class CPair;
 class CStruct;
 
+// Script array class
 class CArray : public Mem::CPoolable<CArray>
 {
 	// Pointer to the array data.
@@ -27,7 +28,7 @@ class CArray : public Mem::CPoolable<CArray>
 	{
 		// Generic pointer.
 		// Used when calling Mem::Free.
-		uintptr_t *mp_array_data;
+		char *mp_array_data;
 		
 		int *mp_integers;
 		float *mp_floats;
@@ -119,7 +120,35 @@ public:
 	// Needed by CleanUpArray and CopyArray in struct.cpp so that they can
 	// quickly scan through the array data without having to use the access functions
 	// to get each element.
-	uintptr_t *GetArrayPointer() const;
+	void *GetArrayPointer() const;
+
+	// Get element size
+	static size_t GetElementSize(ESymbolType type)
+	{
+		switch (type)
+		{
+			case ESYMBOLTYPE_INTEGER:
+				return sizeof(int);
+			case ESYMBOLTYPE_FLOAT:
+				return sizeof(float);
+			case ESYMBOLTYPE_NAME:
+				return sizeof(uint32);
+			case ESYMBOLTYPE_STRING:
+			case ESYMBOLTYPE_LOCALSTRING:
+			case ESYMBOLTYPE_PAIR:
+			case ESYMBOLTYPE_VECTOR:
+			case ESYMBOLTYPE_STRUCTURE:
+			case ESYMBOLTYPE_ARRAY:
+				return sizeof(void*);
+
+			case ESYMBOLTYPE_NONE:
+				return 0;
+
+			default:
+				Dbg_MsgAssert(0, ("Bad type of '%s' sent to GetElementSize", GetTypeName((uint8)type)));
+				return 0;
+		}
+	}
 };
 
 } // namespace Script

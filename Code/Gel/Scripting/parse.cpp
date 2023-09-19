@@ -163,7 +163,7 @@ void CheckForPossibleInfiniteLoops(uint32 scriptName, uint8 *p_token, const char
 				
 				if (p_blocking_functions != nullptr)
 				{
-					uintptr_t *p_function_names = p_blocking_functions->GetArrayPointer();
+					uint32 *p_function_names = (uint32*)p_blocking_functions->GetArrayPointer();
 					size_t size = p_blocking_functions->GetSize();
 					
 					for (size_t i = 0; i < size; ++i)
@@ -607,7 +607,7 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 		}    
 		case ESYMBOLTYPE_STRUCTURE:
 		{
-			CStruct **pp_structures = (CStruct**)p_dest->GetArrayPointer();
+			CStruct **pp_structures=(CStruct**)p_dest->GetArrayPointer();
 
 			// For finding out which node in Chad's qn is causing a syntax error
 			//int index=0; // REMOVE!
@@ -637,7 +637,7 @@ static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args)
 						CStruct *p_struct=new CStruct;
 						p_token=sAddComponentsWithinCurlyBraces(p_struct,p_token,p_args);
 						
-						*pp_structures++ = p_struct;
+						*pp_structures++=p_struct;
 						
 						//printf("Created array structure %d\n",index++); // REMOVE!
 						

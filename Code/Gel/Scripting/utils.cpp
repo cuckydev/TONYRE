@@ -919,10 +919,10 @@ size_t WriteToBuffer(CArray *p_array, uint8 *p_buffer, size_t bufferSize, EAsser
 				return 0;
 			}
 			
-			uintptr_t *p_data=p_array->GetArrayPointer();
+			uint32 *p_data = (uint32*)p_array->GetArrayPointer();
 			for (size_t i=0; i<size; ++i)
 			{
-				p_buffer = Write4Bytes(p_buffer, (uint32)*p_data++);
+				p_buffer=Write4Bytes(p_buffer,*p_data++);
 			}
 			
 			bytes_left-=size*4;
@@ -942,7 +942,7 @@ size_t WriteToBuffer(CArray *p_array, uint8 *p_buffer, size_t bufferSize, EAsser
 				{
 					if (bytes_left)
 					{
-						*p_buffer++ = *p_string++;
+						*p_buffer++=*p_string++;
 						--bytes_left;
 					}
 					else

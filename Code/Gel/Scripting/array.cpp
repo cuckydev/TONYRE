@@ -135,28 +135,10 @@ void CArray::Clear()
 // Calls Clear, sets the size and type, allocates the buffer if necessary and initialises it to all zeroes.
 void CArray::SetSizeAndType(size_t size, ESymbolType type)
 {
-	switch (type)
-	{
-		case ESYMBOLTYPE_INTEGER:
-		case ESYMBOLTYPE_FLOAT:
-		case ESYMBOLTYPE_NAME:
-		case ESYMBOLTYPE_STRING:
-		case ESYMBOLTYPE_LOCALSTRING:
-		case ESYMBOLTYPE_PAIR:
-		case ESYMBOLTYPE_VECTOR:
-		case ESYMBOLTYPE_STRUCTURE:
-		case ESYMBOLTYPE_ARRAY:
-			break;
-		
-		case ESYMBOLTYPE_NONE:
-			Dbg_MsgAssert(size==0,("Array type of NONE with non-zero size sent to CArray::SetSizeAndType"));
-			break;
-			
-		default:
-			Dbg_MsgAssert(0,("Bad type of '%s' sent to CArray::SetSizeAndType",GetTypeName((uint8)type)));
-			break;
-	}		
-	
+	if (type == ESYMBOLTYPE_NONE)
+		Dbg_Assert(size == 0);
+	size_t elem_size = GetElementSize(type);
+
 	Clear();
 	m_type=type;
 	m_size=size;
@@ -171,14 +153,8 @@ void CArray::SetSizeAndType(size_t size, ESymbolType type)
 		else
 		{
 			Dbg_MsgAssert(mp_array_data==nullptr,("mp_array_data not nullptr ?"));
-			
-			mp_array_data = new uintptr_t[m_size];
-			
-			uintptr_t *p_long_word=mp_array_data;
-			for (size_t i = 0; i < m_size; ++i)
-			{
-				*p_long_word++ = 0;
-			}	
+
+			mp_array_data = new char[m_size * elem_size] {};
 		}	
 	}
 	else
@@ -192,11 +168,14 @@ void CArray::SetSizeAndType(size_t size, ESymbolType type)
 
 void CArray::Resize(size_t newSize)
 {
+	size_t elem_size = GetElementSize(m_type);
+
 	if (newSize==m_size)
 	{
 		// Nothing to do
 		return;
-	}	
+	}
+
 	Dbg_MsgAssert(newSize>m_size,("Tried to resize CArray to a smaller size, not supported yet ..."));
 	// TODO: Make it able to make the CArray smaller, if a need arises. To do, factor out some of the
 	// code from CleanUpArray so that the leftover bit can be cleaned up.
@@ -204,25 +183,12 @@ void CArray::Resize(size_t newSize)
 	// TODO: Support the above if need be. Need to not allocate a new buffer in that case.
 	
 	// Allocate the new buffer.
-	uintptr_t *p_new_buffer = new uintptr_t[newSize];
-	
-	// Copy the contents of the old buffer into the new.
-	uintptr_t *p_source=GetArrayPointer();
-	// Note: Does not support resizing zero size arrays because it does not know what the type of the 
-	// new array should be.
-	Dbg_MsgAssert(p_source,("nullptr array pointer ?"));
-	uintptr_t *p_dest=p_new_buffer;
-	size_t i;
-	for (i=0; i<m_size; ++i)
-	{
-		*p_dest++=*p_source++;
-	}
-	// Zero the remainder of the new buffer.
-	size_t remainder=newSize-m_size;
-	for (i=0; i<remainder; ++i)
-	{
-		*p_dest++=0;
-	}
+	size_t sizeBytes = m_size * elem_size;
+	size_t newSizeBytes = newSize * elem_size;
+
+	char *p_new_buffer = new char[newSizeBytes];
+	memcpy(p_new_buffer, mp_array_data, sizeBytes);
+	memset(p_new_buffer + sizeBytes, 0, newSizeBytes - sizeBytes);
 	
 	// Only free mp_array_data if the old size was bigger than 1. 
 	// mp_array_data is not allocated for sizes of 1 as a memory optimization.
@@ -236,13 +202,13 @@ void CArray::Resize(size_t newSize)
 	Dbg_MsgAssert(m_size>1,("Expected array size to be > 1 ??")); // Just to be sure
 }
 
-uintptr_t *CArray::GetArrayPointer() const
+void *CArray::GetArrayPointer() const
 {
 	if (m_size==1)
 	{
-		return (uintptr_t*)&m_union;
+		return (void*)&m_union;
 	}
-	return mp_array_data;
+	return (void*)mp_array_data;
 }
 
 void CArray::SetString(size_t index, char *p_string)

@@ -206,7 +206,7 @@ void CleanUpArray(CArray *p_array)
 	
 	ESymbolType type=p_array->GetType();
 	size_t size=p_array->GetSize();
-	uintptr_t *p_array_data=p_array->GetArrayPointer();
+	uint32 *p_array_data= (uint32 *)p_array->GetArrayPointer();
 	if (size)
 	{
 		Dbg_MsgAssert(p_array_data,("nullptr p_array_data ?"));
@@ -327,11 +327,11 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		// Finished.
 		return;
 	}
-		
-	uintptr_t *p_source_array=p_source->GetArrayPointer();
+	
+	void *p_source_array=p_source->GetArrayPointer();
 	Dbg_MsgAssert(p_source_array,("nullptr p_source_array ?"));
 	
-	uintptr_t *p_dest_array=p_dest->GetArrayPointer();
+	void *p_dest_array=p_dest->GetArrayPointer();
 	Dbg_MsgAssert(p_dest_array,("nullptr p_dest_array ?"));
 			
 	switch (type)
@@ -340,8 +340,8 @@ void CopyArray(CArray *p_dest, const CArray *p_source)
 		case ESYMBOLTYPE_FLOAT:
 		case ESYMBOLTYPE_NAME:
 		{
-			uintptr_t *p_source_word=p_source_array;
-			uintptr_t *p_dest_word=p_dest_array;
+			uint32 *p_source_word = (uint32*)p_source_array;
+			uint32 *p_dest_word = (uint32*)p_dest_array;
 			for (size_t i=0; i<size; ++i)
 			{
 				*p_dest_word++=*p_source_word++;

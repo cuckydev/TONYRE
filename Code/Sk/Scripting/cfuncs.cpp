@@ -151,6 +151,8 @@
 
 #include <Com/strcmpi.h>
 
+#include <malloc.h>
+
 bool DumpFunctionTimesTrigger=false;
 
 namespace Script
@@ -2512,34 +2514,38 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 	size_t size = p_array_to_be_permuted->GetSize();
 	if (size)
 	{
-		uintptr_t *p_array_data=p_array_to_be_permuted->GetArrayPointer();
+		char *p_array_data = (char *)p_array_to_be_permuted->GetArrayPointer();
+		size_t elem_size = CArray::GetElementSize(p_array_to_be_permuted->GetType());
+
 		Dbg_MsgAssert(p_array_data,("nullptr p_array_data ?"));
 		
 		size_t num_swaps = size*10;
 		
-		uintptr_t old_last=p_array_data[size-1];
+		char *old_last = (char*)_alloca(elem_size);
+		memcpy(old_last, p_array_data + (size - 1) * elem_size, elem_size);
 		
+		char *p_temp = (char*)_alloca(elem_size);
 		for (size_t i = 0; i < num_swaps; ++i)
 		{
 			size_t a = Mth::Rnd(size);
 			size_t b = Mth::Rnd(size);
 			
-			uint32 temp=p_array_data[a];
-			p_array_data[a]=p_array_data[b];
-			p_array_data[b]=temp;
+			memcpy(p_temp, p_array_data + a * elem_size, elem_size);
+			memcpy(p_array_data + a * elem_size, p_array_data + b * elem_size, elem_size);
+			memcpy(p_array_data + b * elem_size, p_temp, elem_size);
 		}
 		
 		// Ensure that the new first element is not the same as the old last one,
 		// so that when using the function to jumble up a list of soundtracks say,
 		// there will never be two consecutive ones the same.
-		if (pParams->ContainsFlag("MakeNewFirstDifferFromOldLast") && size>1 && p_array_data[0] == old_last)
+		if (pParams->ContainsFlag("MakeNewFirstDifferFromOldLast") && size > 1 && memcmp(p_array_data, old_last, elem_size) == 0)
 		{
 			size_t a = 0;
 			size_t b = 1 + Mth::Rnd(size-1);
-			
-			uintptr_t temp=p_array_data[a];
-			p_array_data[a]=p_array_data[b];
-			p_array_data[b]=temp;
+
+			memcpy(p_temp, p_array_data + a * elem_size, elem_size);
+			memcpy(p_array_data + a * elem_size, p_array_data + b * elem_size, elem_size);
+			memcpy(p_array_data + b * elem_size, p_temp, elem_size);
 		}
 	}
 	
