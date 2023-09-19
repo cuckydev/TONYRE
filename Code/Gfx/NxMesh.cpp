@@ -134,15 +134,16 @@ bool			CMesh::LoadCollision(const char *p_name)
 			{
 				mp_coll_objects[oidx].InitCollObjTriData(nullptr, p_base_vert_addr, p_base_intensity_addr, p_base_face_addr, p_base_node_addr, p_base_face_idx_addr);
 				mp_coll_objects[oidx].InitBSPTree();
+
+				// Add to mesh bbox
+				m_collision_bbox.AddPoint(mp_coll_objects[oidx].GetBBox().GetMin());
+				m_collision_bbox.AddPoint(mp_coll_objects[oidx].GetBBox().GetMax());
 			}
 			else
 			{
 				m_num_coll_objects = 0;
+				break;
 			}
-
-			// Add to mesh bbox
-			m_collision_bbox.AddPoint(mp_coll_objects[oidx].GetBBox().GetMin());
-			m_collision_bbox.AddPoint(mp_coll_objects[oidx].GetBBox().GetMax());
 		}
 
 	} else {

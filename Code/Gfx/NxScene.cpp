@@ -427,16 +427,14 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 	bool	found_point = false;
 
 	uint8 *p_base_addr = (uint8 *) Pip::Load(p_pip_name);
+	size_t p_base_size = Pip::GetFileSize(m_coll_filename);
+	void *p_base_end = p_base_addr + p_base_size;
+
 	if (p_base_addr)
 	{
 		Nx::CCollObjTriData::SReadHeader *p_header = (Nx::CCollObjTriData::SReadHeader *) p_base_addr;
 		p_base_addr += sizeof(Nx::CCollObjTriData::SReadHeader);
 
-#ifndef __PLAT_NGC__
-		Dbg_Message ( "Version # %d header sizeof %d", p_header->m_version, sizeof(Nx::CCollObjTriData));
-		Dbg_Message ( "Number of objects: %d verts: %d faces: %d", p_header->m_num_objects, p_header->m_total_num_verts, p_header->m_total_num_faces_large + p_header->m_total_num_faces_small);
-		Dbg_Message ( "Small verts: %d Large verts: %d", p_header->m_total_num_verts_small, p_header->m_total_num_verts_large);
-#endif		// __PLAT_NGC__
 		Dbg_MsgAssert(p_header->m_version >= 9, ("Collision version must be at least 9."));
 
 		// reserve space for objects
@@ -445,7 +443,6 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 
 		// Calculate base addresses for vert and face arrays
 		uint8 *p_base_vert_addr = (uint8 *) (p_coll_sector_data + num_coll_sectors);
-#ifndef __PLAT_NGC__
 		p_base_vert_addr = (uint8 *)(((uintptr_t)(p_base_vert_addr+15)) & ~0xF);	// Align to 128 bit boundary
 #ifdef FIXED_POINT_VERTICES
 		uint8 *p_base_intensity_addr = p_base_vert_addr + (p_header->m_total_num_verts_large * Nx::CCollObjTriData::GetVertElemSize() +
@@ -457,23 +454,16 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_verts * Nx::CCollObjTriData::GetVertElemSize());
 		p_base_face_addr = (uint8 *)(((uintptr_t)(p_base_face_addr+15)) & ~0xF);	// Align to 128 bit boundary
 #endif // FIXED_POINT_VERTICES
-#else
-		uint8 *p_base_intensity_addr = nullptr;
-		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_faces * Nx::CCollObjTriData::GetVertElemSize());
-		p_base_face_addr = (uint8 *)(((uintptr_t)(p_base_face_addr+3)) & ~0x3);	// Align to 32 bit boundary
-#endif		// __PLAT_NGC__
 
 		// Calculate addresses for BSP arrays
-#ifndef __PLAT_NGC__
 		uint8 *p_node_array_size = p_base_face_addr + (p_header->m_total_num_faces_large * Nx::CCollObjTriData::GetFaceElemSize() +
 													   p_header->m_total_num_faces_small * Nx::CCollObjTriData::GetFaceSmallElemSize());
 		p_node_array_size += ( p_header->m_total_num_faces_large & 1 ) ? 2 : 0;
-#else
-		uint8 *p_node_array_size = p_base_face_addr + ( p_header->m_total_num_faces * Nx::CCollObjTriData::GetFaceElemSize() );
-		p_node_array_size += ( p_header->m_total_num_faces & 1 ) ? 2 : 0;
-#endif		// __PLAT_NGC__
+		Dbg_Assert((p_node_array_size + sizeof(int)) <= p_base_end);
+
+		int node_array_size = *((int *)p_node_array_size);
 		uint8 *p_base_node_addr = p_node_array_size + 4;
-		uint8 *p_base_face_idx_addr = p_base_node_addr + *((int *) p_node_array_size);
+		uint8 *p_base_face_idx_addr = p_base_node_addr + node_array_size;
 
 		// Reserve space for collsion objects
 		p_coll_sectors = new CCollStaticTri[p_header->m_num_objects];
@@ -481,18 +471,26 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 		// Read objects
 		for (int oidx = 0; oidx < p_header->m_num_objects; oidx++)
 		{
-			p_coll_sector_data[oidx].InitCollObjTriData(this, p_base_vert_addr, p_base_intensity_addr, p_base_face_addr,
-														p_base_node_addr, p_base_face_idx_addr);
-			p_coll_sector_data[oidx].InitBSPTree();
-
-			p_coll_sectors[oidx].SetGeometry(&(p_coll_sector_data[oidx]));
-
-			if (p_coll_sector_data[oidx].GetNumFaces() > 0)	 // only add bbox if there are some faces in the object.....
+			if (node_array_size != 0)
 			{
-				// Add to scene bbox
-				bbox.AddPoint(p_coll_sector_data[oidx].GetBBox().GetMin());
-				bbox.AddPoint(p_coll_sector_data[oidx].GetBBox().GetMax());
-				found_point = true;
+				p_coll_sector_data[oidx].InitCollObjTriData(this, p_base_vert_addr, p_base_intensity_addr, p_base_face_addr,
+					p_base_node_addr, p_base_face_idx_addr);
+				p_coll_sector_data[oidx].InitBSPTree();
+
+				p_coll_sectors[oidx].SetGeometry(&(p_coll_sector_data[oidx]));
+
+				if (p_coll_sector_data[oidx].GetNumFaces() > 0)	 // only add bbox if there are some faces in the object.....
+				{
+					// Add to scene bbox
+					bbox.AddPoint(p_coll_sector_data[oidx].GetBBox().GetMin());
+					bbox.AddPoint(p_coll_sector_data[oidx].GetBBox().GetMax());
+					found_point = true;
+				}
+			}
+			else
+			{
+				num_coll_sectors = 0;
+				break;
 			}
 		}
 		if (!found_point)
