@@ -301,7 +301,7 @@ PreFile::PreFile(char *p_file_buffer, bool useBottomUpHeap)
 
 PreFile::~PreFile()
 {
-	delete mp_buffer;
+	delete[] mp_buffer;
 	mp_table->HandleCallback(s_delete_file, nullptr);
 	mp_table->FlushAllItems();
 

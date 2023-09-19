@@ -99,7 +99,7 @@ public:
         bool (*mpCFunction)(CStruct *pParams, CScript *pCScript);
         CArray *mpArray;
         uint32 mChecksum; // Used when Type is ESYMBOLTYPE_NAME
-		uint32 mUnion; // For when all the above need to be zeroed 
+		uintptr_t mUnion; // For when all the above need to be zeroed 
     };
 
     CSymbolTableEntry *mpNext;
