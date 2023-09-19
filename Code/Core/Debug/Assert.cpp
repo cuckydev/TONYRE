@@ -113,20 +113,24 @@ void	screen_assert( bool on )
 void		Assert( const char* file, uint line, const char* reason )
 {
 	// Show an assertion failure dialog box
+	static char assert_buffer1[vASSERT_BUFFER_SIZE];
+	sprintf(assert_buffer1, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
+	
 	#ifdef __PLAT_WN32__
 		// Check if debugger is present
-		static char assert_buffer1[vASSERT_BUFFER_SIZE];
-		sprintf(assert_buffer1, "ASSERTION FAILED:\n\n%s (%d)\n\n%s\n\n", file, line, reason);
 		if (IsDebuggerPresent())
 		{
 			// There will be a breakpoint triggered later on..
-			printf("%s", assert_buffer1);
+			fprintf(stderr, "%s", assert_buffer1);
 		}
 		else
 		{
 			// Show dialog box
 			MessageBox(nullptr, assert_buffer1, "Assertion Failure", MB_OK | MB_ICONERROR);
 		}
+	#else
+		// Output to stderr
+		fprintf(stderr, "%s", assert_buffer1);
 	#endif
 }
 
