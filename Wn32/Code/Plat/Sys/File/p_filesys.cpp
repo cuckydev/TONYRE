@@ -21,6 +21,10 @@
 #include <fstream>
 #include <unordered_map>
 
+// NOTE: The filesystem indexing has a significant impact on startup time
+// We should consider making something to just make all the paths on the host lowercase
+// This will work for now, though
+
 namespace File
 {
 	// Convert a game path to a standard path
@@ -41,18 +45,42 @@ namespace File
 
 	// Index the file system
 	typedef std::unordered_map<std::string, std::filesystem::path> Index;
+
+	static void IndexDirectory(Index &index, const std::filesystem::path &root, const std::filesystem::path &path)
+	{
+		for (auto &entry : std::filesystem::directory_iterator(path))
+		{
+			if (entry.is_regular_file())
+			{
+				std::filesystem::path rel = std::filesystem::relative(entry.path(), root);
+				index[StandardPath(rel.string())] = entry.path();
+			}
+			else if (entry.is_directory())
+			{
+				IndexDirectory(index, root, entry.path());
+			}
+		}
+	}
+
 	static Index IndexFilesystem()
 	{
 		// Index data path
 		Index index;
 
 		std::filesystem::path data_path = DataPath();
-		for (auto &entry : std::filesystem::recursive_directory_iterator(data_path))
+		for (auto &entry : std::filesystem::directory_iterator(data_path))
 		{
 			if (entry.is_regular_file())
 			{
 				std::filesystem::path rel = std::filesystem::relative(entry.path(), data_path);
 				index[StandardPath(rel.string())] = entry.path();
+			}
+			else if (entry.is_directory())
+			{
+				std::string dir_name = StandardPath(entry.path().filename().string());
+				if (dir_name == "music" || dir_name == "streams") // Don't index music or streams, those are indexed elsewhere
+					continue;
+				IndexDirectory(index, data_path, entry.path());
 			}
 		}
 
