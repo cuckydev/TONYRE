@@ -41,22 +41,25 @@ namespace Audio
 		s_wanted_spec.callback = AudioCallback;
 
 		// Open audio device
-		s_audio_device = SDL_OpenAudioDevice(nullptr, 0, &s_wanted_spec, nullptr, SDL_AUDIO_ALLOW_SAMPLES_CHANGE);
-		Dbg_Assert(s_audio_device > 0);
+		s_audio_device = 0;// SDL_OpenAudioDevice(nullptr, 0, &s_wanted_spec, nullptr, SDL_AUDIO_ALLOW_SAMPLES_CHANGE);
+		// Dbg_Assert(s_audio_device > 0);
 
 		// Start audio
-		SDL_PauseAudioDevice(s_audio_device, 0);
+		if (s_audio_device > 0)
+			SDL_PauseAudioDevice(s_audio_device, 0);
 	}
 
 	void Lock()
 	{
 		// Lock audio device
-		SDL_LockAudioDevice(s_audio_device);
+		if (s_audio_device > 0)
+			SDL_LockAudioDevice(s_audio_device);
 	}
 
 	void Unlock()
 	{
 		// Unlock audio device
-		SDL_UnlockAudioDevice(s_audio_device);
+		if (s_audio_device > 0)
+			SDL_UnlockAudioDevice(s_audio_device);
 	}
 }
