@@ -27,7 +27,7 @@ class CArray : public Mem::CPoolable<CArray>
 	{
 		// Generic pointer.
 		// Used when calling Mem::Free.
-		uint32 *mp_array_data;
+		uintptr_t *mp_array_data;
 		
 		int *mp_integers;
 		float *mp_floats;
@@ -57,7 +57,7 @@ class CArray : public Mem::CPoolable<CArray>
 		CStruct *mp_structure;
 		CArray *mp_array;
 		// Used to zero the single element.
-		uint32 m_union;
+		uintptr_t m_union;
 	};
 
 	// The type of the things in the array.
@@ -119,7 +119,7 @@ public:
 	// Needed by CleanUpArray and CopyArray in struct.cpp so that they can
 	// quickly scan through the array data without having to use the access functions
 	// to get each element.
-	uint32 *GetArrayPointer() const;
+	uintptr_t *GetArrayPointer() const;
 };
 
 } // namespace Script

@@ -172,12 +172,12 @@ void CArray::SetSizeAndType(size_t size, ESymbolType type)
 		{
 			Dbg_MsgAssert(mp_array_data==nullptr,("mp_array_data not nullptr ?"));
 			
-			mp_array_data = new uint32[m_size];
+			mp_array_data = new uintptr_t[m_size];
 			
-			uint32 *p_long_word=mp_array_data;
-			for (uint32 i=0; i<m_size; ++i)
+			uintptr_t *p_long_word=mp_array_data;
+			for (size_t i = 0; i < m_size; ++i)
 			{
-				*p_long_word++=0;
+				*p_long_word++ = 0;
 			}	
 		}	
 	}
@@ -204,14 +204,14 @@ void CArray::Resize(size_t newSize)
 	// TODO: Support the above if need be. Need to not allocate a new buffer in that case.
 	
 	// Allocate the new buffer.
-	uint32 *p_new_buffer = new uint32[newSize];
+	uintptr_t *p_new_buffer = new uintptr_t[newSize];
 	
 	// Copy the contents of the old buffer into the new.
-	uint32 *p_source=GetArrayPointer();
+	uintptr_t *p_source=GetArrayPointer();
 	// Note: Does not support resizing zero size arrays because it does not know what the type of the 
 	// new array should be.
 	Dbg_MsgAssert(p_source,("nullptr array pointer ?"));
-	uint32 *p_dest=p_new_buffer;
+	uintptr_t *p_dest=p_new_buffer;
 	size_t i;
 	for (i=0; i<m_size; ++i)
 	{
@@ -236,11 +236,11 @@ void CArray::Resize(size_t newSize)
 	Dbg_MsgAssert(m_size>1,("Expected array size to be > 1 ??")); // Just to be sure
 }
 
-uint32 *CArray::GetArrayPointer() const
+uintptr_t *CArray::GetArrayPointer() const
 {
 	if (m_size==1)
 	{
-		return (uint32*)&m_union;
+		return (uintptr_t*)&m_union;
 	}
 	return mp_array_data;
 }

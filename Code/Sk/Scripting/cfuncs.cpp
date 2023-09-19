@@ -2512,12 +2512,12 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 	size_t size = p_array_to_be_permuted->GetSize();
 	if (size)
 	{
-		uint32 *p_array_data=p_array_to_be_permuted->GetArrayPointer();
+		uintptr_t *p_array_data=p_array_to_be_permuted->GetArrayPointer();
 		Dbg_MsgAssert(p_array_data,("nullptr p_array_data ?"));
 		
 		size_t num_swaps = size*10;
 		
-		uint32 old_last=p_array_data[size-1];
+		uintptr_t old_last=p_array_data[size-1];
 		
 		for (size_t i = 0; i < num_swaps; ++i)
 		{
@@ -2537,7 +2537,7 @@ bool ScriptPermuteArray(Script::CStruct *pParams, Script::CScript *pScript)
 			size_t a = 0;
 			size_t b = 1 + Mth::Rnd(size-1);
 			
-			uint32 temp=p_array_data[a];
+			uintptr_t temp=p_array_data[a];
 			p_array_data[a]=p_array_data[b];
 			p_array_data[b]=temp;
 		}
