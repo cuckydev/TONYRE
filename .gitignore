@@ -9,3 +9,6 @@
 
 # Ignore Game directory
 /Game
+
+# Ignore test files
+/valgrind.log
