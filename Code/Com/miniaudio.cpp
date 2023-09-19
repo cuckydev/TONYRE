@@ -4,6 +4,7 @@
 #define MA_NO_THREADING
 #define MA_NO_GENERATION
 #define MA_NO_RESOURCE_MANAGER
+#define MA_NO_RUNTIME_LINKING
 
 // Disable some warnings for clang
 #if defined(__clang__)
