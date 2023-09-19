@@ -29,6 +29,7 @@
 #include <cstdint>
 #include <cstring>
 #include <cinttypes>
+#include <malloc.h>
 
 /*****************************************************************************
 **								   Defines									**
@@ -183,6 +184,13 @@ typedef	sint64				nID64;
 
 #define	nAddPointer(P,X)		(void*) ( (uint) (P) + (uint) (X) )
 #define	nSubPointer(P,X)		(void*) ( (uint) (P) - (uint) (X) )
+
+/****************************************************************************/
+
+// dumb hack..
+#ifdef __PLAT_UNIX__
+#define _alloca alloc
+#endif
 
 /****************************************************************************/
 
