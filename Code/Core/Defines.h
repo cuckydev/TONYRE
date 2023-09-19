@@ -190,9 +190,9 @@ typedef	sint64				nID64;
 // dumb hack..
 #if defined(__PLAT_LINUX__)
 #include <alloca.h>
-#define _alloca alloc
 #elif defined(__PLAT_WN32__)
 #include <malloc.h>
+#define alloca _alloca
 #endif
 
 /****************************************************************************/
