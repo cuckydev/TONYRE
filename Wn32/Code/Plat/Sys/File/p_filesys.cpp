@@ -19,21 +19,45 @@
 #endif
 
 #include <fstream>
+#include <unordered_map>
 
 namespace File
 {
-	// File handle
-	struct sFileHandle
+	// Convert a game path to a standard path
+	// The game paths are case-insensitive, but the file system may be case-sensitive
+	// The game also often uses backslashes instead of forward slashes, so we'll standardize those too
+	static std::string StandardPath(const std::string &path)
 	{
-		std::ifstream file;
-		size_t filesize = 0;
-
-		sFileHandle(const std::filesystem::path &path) : file(path, std::ios::binary)
+		std::string result = path;
+		for (char &c : result)
 		{
-			if (file.is_open())
-				filesize = (size_t)std::filesystem::file_size(path);
+			if (c >= 'A' && c <= 'Z')
+				c = 'a' + (c - 'A');
+			if (c == '/')
+				c = '\\';
 		}
-	};
+		return result;
+	}
+
+	// Index the file system
+	typedef std::unordered_map<std::string, std::filesystem::path> Index;
+	static Index IndexFilesystem()
+	{
+		// Index data path
+		Index index;
+
+		std::filesystem::path data_path = DataPath();
+		for (auto &entry : std::filesystem::recursive_directory_iterator(data_path))
+		{
+			if (entry.is_regular_file())
+			{
+				std::filesystem::path rel = std::filesystem::relative(entry.path(), data_path);
+				index[StandardPath(rel.string())] = entry.path();
+			}
+		}
+
+		return index;
+	}
 
 	// Return module path
 	static std::filesystem::path GetModulePath()
@@ -84,24 +108,46 @@ namespace File
 		return data_path;
 	}
 
+	// File handle
+	struct sFileHandle
+	{
+		std::ifstream file;
+		size_t filesize = 0;
+
+		sFileHandle(const std::filesystem::path &path) : file(path, std::ios::binary)
+		{
+			if (file.is_open())
+				filesize = (size_t)std::filesystem::file_size(path);
+		}
+	};
+
 	static void *prefopen(const char *filename, const char *mode)
 	{
 		(void)mode;
 
-		// Process file name
-		std::filesystem::path file_path(filename);
+		// Standardize file name
+		std::string name = StandardPath(filename);
 
-		// If name ends with .xbx, remove
-		if (file_path.extension() == ".xbx" || file_path.extension() == ".Xbx")
-			file_path.replace_extension();
+		// Get file extension
+		std::string extension;
+		
+		size_t dot_pos = name.find_last_of('.');
+		if (dot_pos != std::string::npos)
+			extension = name.substr(dot_pos);
 
-		// If name ends with .ps2, remove
-		if (file_path.extension() == ".ps2")
-			file_path.replace_extension();
+		// Remove extension if .xbx or .ps2
+		if (extension == ".xbx" || extension == ".ps2")
+			name = name.substr(0, dot_pos);
+
+		// Find the path in the index
+		static const Index index = IndexFilesystem();
+
+		auto it = index.find(name);
+		if (it == index.end())
+			return nullptr;
 
 		// Open the file
-		std::filesystem::path full_path = DataPath() / file_path;
-		sFileHandle *h_file = new sFileHandle(full_path);
+		sFileHandle *h_file = new sFileHandle(it->second);
 
 		if (!h_file->file.is_open())
 		{
