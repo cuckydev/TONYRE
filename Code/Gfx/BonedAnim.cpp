@@ -1219,7 +1219,7 @@ bool CBonedAnimFrameData::plat_read_stream(uint8* pData, bool delete_buffer)
 		}
 	}		
 
-	m_num_customKeys = (short)pThePlatformHeader->numCustomAnimKeys;
+	m_num_customKeys = pThePlatformHeader->numCustomAnimKeys;
 
 #ifdef __ARAM__
 	if ( delete_buffer )

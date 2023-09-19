@@ -42,8 +42,13 @@
 #endif	// __PLAT_NGPS__
 
 #ifdef __PLAT_WN32__
+
 #include <winsock2.h>
+
+typedef int socklen_t;
+
 #else
+
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
@@ -55,6 +60,7 @@ typedef int SOCKET;
 
 #define closesocket close
 #define ioctlsocket ioctl
+
 #endif
 
 #ifdef __PLAT_XBOX__

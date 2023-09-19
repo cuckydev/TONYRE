@@ -1160,7 +1160,7 @@ void CAnimationComponent::PlayPrimarySequence( uint32 animName, bool propagate, 
 
 	Gfx::CBlendChannel* pPrimaryChannel = get_primary_channel();
 	Dbg_Assert( pPrimaryChannel );
-    pPrimaryChannel->PlayBlendSequence( animName, start_time, end_time, loop_type, blend_period, speed, IsFlipped() );
+	pPrimaryChannel->PlayBlendSequence( animName, start_time, end_time, loop_type, blend_period, speed, IsFlipped() );
 
 	delete_anim_tags();
 	add_anim_tags( animName );
