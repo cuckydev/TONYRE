@@ -2361,7 +2361,7 @@ char *CCollObjTriData::TranslateCollisionData(const char *data, size_t size)
 			else
 			{
 				p_node->m_node.m_split_point = w0;
-				p_node->m_node.m_children.m_left_child_and_flags = (((w1 & ~0x3) / 8) * sizeof(CCollBSPNode)) | (w0 & 0x3);
+				p_node->m_node.m_children.m_left_child_and_flags = (((w1 & ~0x3) / 8) * sizeof(CCollBSPNode)) | (w1 & 0x3);
 			}
 		}
 		p_new_data = (char*)p_node;
