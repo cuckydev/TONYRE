@@ -100,10 +100,8 @@ CScene::~CScene()
 		delete[] mp_coll_sectors;
 	}
 
-	if (mp_coll_sector_data)
-	{
-		Pip::Unload(m_coll_filename);
-	}
+	if (mp_coll_data != nullptr)
+		delete[] mp_coll_data;
 
 	// And the toggle list heads
 	if (mp_orig_sectors)
@@ -141,14 +139,10 @@ bool			CScene::UnloadAddScene()
 	}
 
 	if (mp_add_coll_sectors)
-	{
 		delete[] mp_add_coll_sectors;
-	}
 
-	if (mp_add_coll_sector_data)
-	{
-		Pip::Unload(m_add_coll_filename);
-	}
+	if (mp_add_coll_data)
+		delete[] mp_add_coll_data;
 
 	if (mp_orig_sectors)
 	{
@@ -416,28 +410,31 @@ void			CScene::PostAdd(const char *p_name, Nx::CTexDict * p_tex_dict)
 /*                                                                */
 /******************************************************************/
 
-bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_coll_sectors,
+char *			CScene::read_collision(const char *p_name, int &num_coll_sectors,
 									   CCollStaticTri * &p_coll_sectors, CCollObjTriData * &p_coll_sector_data, Mth::CBBox &bbox, bool is_net)
 {
 	// for now collision is kind of assumed to be platform independent 
-	sprintf(p_pip_name,"levels\\%s\\%s%s.col.%s",p_name,p_name,is_net?"_net":"",CEngine::sGetPlatformExtension());
+	static char s_pip_name[200];
+	sprintf(s_pip_name,"levels\\%s\\%s%s.col.%s",p_name,p_name,is_net?"_net":"",CEngine::sGetPlatformExtension());
 
-	Dbg_Message ( "Loading collision %s....", p_pip_name );
+	Dbg_Message ( "Loading collision %s....", s_pip_name);
 	
 	bool	found_point = false;
 
-	char *p_orig_base_addr = (char *)Pip::Load(m_coll_filename);
+	char *p_orig_base_addr = (char *)Pip::Load(s_pip_name);
 	if (p_orig_base_addr == nullptr)
 	{
 		Dbg_Error("Could not open collision file\n");
-		return false;
+		return nullptr;
 	}
 
-	size_t p_orig_base_size = Pip::GetFileSize(m_coll_filename);
+	size_t p_orig_base_size = Pip::GetFileSize(s_pip_name);
 	void *p_orig_base_end = p_orig_base_addr + p_orig_base_size;
 
-	char *p_base_addr = Nx::CCollObjTriData::TranslateCollisionData(p_orig_base_addr, p_orig_base_size);
-	Pip::Unload(m_coll_filename);
+	char *col_data = Nx::CCollObjTriData::TranslateCollisionData(p_orig_base_addr, p_orig_base_size);
+	char *p_base_addr = col_data;
+
+	Pip::Unload(s_pip_name);
 
 	if (p_base_addr)
 	{
@@ -511,7 +508,7 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 
 	Dbg_Message ( "successfully read collision" );
 
-	return true;
+	return col_data;
 }
 
 /******************************************************************/
@@ -521,7 +518,7 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 
 bool			CScene::LoadCollision(const char *p_name, bool is_net)
 {
-	read_collision(p_name, m_coll_filename, m_num_coll_sectors, mp_coll_sectors, mp_coll_sector_data, m_collision_bbox, is_net);
+	mp_coll_data = read_collision(p_name, m_num_coll_sectors, mp_coll_sectors, mp_coll_sector_data, m_collision_bbox, is_net);
 
 	Dbg_Message("Scene bounding box: min (%f, %f, %f) max (%f, %f, %f)", 
 				m_collision_bbox.GetMin()[X], m_collision_bbox.GetMin()[Y], m_collision_bbox.GetMin()[Z], 
@@ -576,7 +573,7 @@ bool			CScene::AddCollision(const char *p_name)
 		return false;			// collision not needed
 	}
 
-	read_collision(p_name, m_add_coll_filename, m_num_add_coll_sectors, mp_add_coll_sectors, mp_add_coll_sector_data, add_collision_bbox);
+	mp_add_coll_data = read_collision(p_name, m_num_add_coll_sectors, mp_add_coll_sectors, mp_add_coll_sector_data, add_collision_bbox);
 
 	if ((add_collision_bbox.GetMin()[X] < m_collision_bbox.GetMin()[X]) ||
 		(add_collision_bbox.GetMax()[X] > m_collision_bbox.GetMax()[X]) ||

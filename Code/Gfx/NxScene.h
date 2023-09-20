@@ -107,7 +107,7 @@ public:
 
 protected:
 	// read scene collision file
-	bool						read_collision(const char *p_name, char *p_pip_name, int &num_coll_sectors,
+	char *						read_collision(const char *p_name, int &num_coll_sectors,
 											   CCollStaticTri * &p_coll_sectors, CCollObjTriData * &p_coll_sector_data,
 											   Mth::CBBox &bbox, bool is_net=false);
 
@@ -126,15 +126,15 @@ protected:
 	Lst::HashTable< CSector > *	mp_sector_table;							// All the CSector pointers
 	SSec::Manager *				mp_sector_man;								// SuperSector manager
 
-	char						m_coll_filename[128];						// collision filename (kept around for unload)
+	char *						mp_coll_data = nullptr;
 	int							m_num_coll_sectors;							// non-cloned collision
 	CCollStaticTri *			mp_coll_sectors;							// Static collision objects
 	CCollObjTriData *			mp_coll_sector_data;						// Static collision object data
 
 	// For the incremental update code
 	char						m_add_scene_filename[128];
-	CTexDict *					mp_add_tex_dict; 
-	char						m_add_coll_filename[128];
+	CTexDict *					mp_add_tex_dict;
+	char *						mp_add_coll_data = nullptr;
 	int							m_num_add_coll_sectors;
 	CCollStaticTri *			mp_add_coll_sectors;
 	CCollObjTriData *			mp_add_coll_sector_data;

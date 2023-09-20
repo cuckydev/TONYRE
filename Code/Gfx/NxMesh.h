@@ -53,7 +53,7 @@ public:
 protected:
 	Nx::CTexDict*		mp_texDict;
 
-	char						m_coll_filename[128];						// collision filename (kept around for unload)
+	char *						mp_coll_data = nullptr;
 	int							m_num_coll_objects;							// non-cloned collision
 	Nx::CCollObjTriData *		mp_coll_objects;
 	Mth::CBBox					m_collision_bbox;							// Bounding box of whole mesh

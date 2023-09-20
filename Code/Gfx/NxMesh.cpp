@@ -59,10 +59,8 @@ CMesh::CMesh()
 CMesh::~CMesh()
 {
 	// Remove Collision
-	if (mp_coll_objects)
-	{
-		Pip::Unload(m_coll_filename);
-	}
+	if (mp_coll_data)
+		delete[] mp_coll_data;
 }
 
 /******************************************************************/
@@ -73,32 +71,34 @@ CMesh::~CMesh()
 bool			CMesh::LoadCollision(const char *p_name)
 {
 	
-	// for now collision is kind of assumed to be platform independent 
-	strcpy(m_coll_filename, p_name);
-	char *p_ext = strstr(m_coll_filename, ".");
+	// for now collision is kind of assumed to be platform independent
+	static char s_pip_name[200];
+	strcpy(s_pip_name, p_name);
+	char *p_ext = strstr(s_pip_name, ".");
 	if (p_ext)
 	{
 		strcpy(p_ext, ".col.");
 	} else {
-		strcat(m_coll_filename, ".col.");
+		strcat(s_pip_name, ".col.");
 	}
-	strcat(m_coll_filename, CEngine::sGetPlatformExtension());
+	strcat(s_pip_name, CEngine::sGetPlatformExtension());
 
-//	Dbg_Message ( "Loading collision %s....", m_coll_filename );
-	std::cout << "Loading collision " << m_coll_filename << "...." << std::endl;
+//	Dbg_Message ( "Loading collision %s....", s_pip_name );
 
-	char *p_orig_base_addr = (char*)Pip::Load(m_coll_filename);
+	char *p_orig_base_addr = (char*)Pip::Load(s_pip_name);
 	if (p_orig_base_addr == nullptr)
 	{
 		Dbg_Error("Could not open collision file\n");
 		return false;
 	}
 
-	size_t p_orig_base_size = Pip::GetFileSize(m_coll_filename);
+	size_t p_orig_base_size = Pip::GetFileSize(s_pip_name);
 	void *p_orig_base_end = p_orig_base_addr + p_orig_base_size;
 
-	char *p_base_addr = Nx::CCollObjTriData::TranslateCollisionData(p_orig_base_addr, p_orig_base_size);
-	Pip::Unload(m_coll_filename);
+	mp_coll_data = Nx::CCollObjTriData::TranslateCollisionData(p_orig_base_addr, p_orig_base_size);
+	char *p_base_addr = mp_coll_data;
+
+	Pip::Unload(s_pip_name);
 
 	if (p_base_addr != nullptr)
 	{
