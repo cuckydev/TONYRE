@@ -1501,9 +1501,9 @@ void sMesh::Initialize( uint32 num_vertices,
 
 	// Copy in index data, normalising the indices for this vertex buffer
 	// so the lowest index will reference vertex 0 in the buffer built specifically for this mesh
-	for (int ib = 0; ib < num_index_sets; ib++)
+	for (uint32 ib = 0; ib < num_index_sets; ib++)
 	{
-		for (int i = 0; i < p_num_indices[ib]; i++)
+		for (uint32 i = 0; i < p_num_indices[ib]; i++)
 		{
 			uint16 idx = (pp_indices[ib])[i];
 			mp_index_buffer[ib][i] = idx + p_mesh_workspace_array[idx];

@@ -413,7 +413,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		}
 
 		// The material checksum for this mesh.
-		File::Read( &material_checksum,	sizeof( unsigned long ), 1, p_file );
+		File::Read( &material_checksum,	sizeof( uint32 ), 1, p_file );
 
 		// How many levels of LOD indices? Should be at least 1!
 		File::Read( &num_lod_index_levels, sizeof( unsigned int ), 1, p_file );
