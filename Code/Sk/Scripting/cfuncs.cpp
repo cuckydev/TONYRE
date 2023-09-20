@@ -913,7 +913,7 @@ bool ScriptGetArraySize(Script::CStruct *pParams, Script::CScript *pScript)
 		}
 	}
 
-	pScript->GetParams()->AddInteger( "array_size", (int)pArray->GetSize() );
+	pScript->GetParams()->AddInteger( "array_size", (int) pArray->GetSize() );
 
 	return true;
 }
@@ -15435,6 +15435,16 @@ bool ScriptSkaterIsCustom(Script::CStruct *pParams, Script::CScript *pScript)
 	// If this returns false, you can't edit skater scale and tattoos
 	return true;
 }
+
+bool ScriptQuitGame(Script::CStruct *pParams, Script::CScript *pScript) {
+    (void) pParams;
+    (void) pScript;
+
+    _Exit(0);
+
+    return true;
+}
+
 
 /******************************************************************/
 /*                                                                */

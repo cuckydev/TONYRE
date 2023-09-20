@@ -1449,6 +1449,7 @@ SCFunction CFunctionLookupTable[]=
 	{ "MultiPlayerOnly", CFuncs::ScriptMultiPlayerOnly },
 
 	{ "SkaterIsCustom", CFuncs::ScriptSkaterIsCustom },
+    { "QuitGame", CFuncs::ScriptQuitGame },
 };
 
 // A list of all the member function names accessible from scripts.

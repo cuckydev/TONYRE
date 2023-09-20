@@ -571,6 +571,8 @@ bool ScriptIsJoiningInternetGame(Script::CStruct *pParams, Script::CScript *pScr
 bool ScriptMultiPlayerOnly(Script::CStruct *pParams, Script::CScript *pScript);
 bool ScriptSkaterIsCustom(Script::CStruct *pParams, Script::CScript *pScript);
 
+bool ScriptQuitGame(Script::CStruct *pParams, Script::CScript *pScript);
+
 /*****************************************************************************
 **								Inline Functions							**
 *****************************************************************************/
