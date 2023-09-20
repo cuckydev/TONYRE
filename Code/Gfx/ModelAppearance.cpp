@@ -600,7 +600,7 @@ void CModelAppearance::PrintContents( const Script::CStruct* p_structure )
 			Script::PrintContents(p_comp->mpArray,0);
             break;
         default:
-			printf("Component of type '%s', value 0x%08x\n",Script::GetTypeName(p_comp->mType),p_comp->mUnion);
+			printf("Component of type '%s', value 0x%zx\n",Script::GetTypeName(p_comp->mType),p_comp->mUnion);
             //Dbg_MsgAssert(0,("Bad p_comp->Type"));
             break;
         }

@@ -93,7 +93,7 @@ bool			CMesh::LoadCollision(const char *p_name)
 	}
 
 	size_t p_orig_base_size = Pip::GetFileSize(s_pip_name);
-	void *p_orig_base_end = p_orig_base_addr + p_orig_base_size;
+	// void *p_orig_base_end = p_orig_base_addr + p_orig_base_size;
 
 	mp_coll_data = Nx::CCollObjTriData::TranslateCollisionData(p_orig_base_addr, p_orig_base_size);
 	char *p_base_addr = mp_coll_data;
