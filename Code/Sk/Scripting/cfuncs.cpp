@@ -913,7 +913,7 @@ bool ScriptGetArraySize(Script::CStruct *pParams, Script::CScript *pScript)
 		}
 	}
 
-	pScript->GetParams()->AddInteger( "array_size", pArray->GetSize() );
+	pScript->GetParams()->AddInteger( "array_size", (int) pArray->GetSize() );
 
 	return true;
 }
