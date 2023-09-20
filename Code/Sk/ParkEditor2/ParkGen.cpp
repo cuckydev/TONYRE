@@ -1640,7 +1640,7 @@ void CParkGenerator::ReadInRailInfo()
 		// get cluster checksum of LevelGeometry object, will be used to
 		// look up rail nodes
 		uint32 cluster_crc = scan_for_cluster(pNodeArray, index);
-		if (index >= (int)pNodeArray->GetSize())
+		if (index >= pNodeArray->GetSize())
 		{
 			printf ("No more clusters, exiting\n"); 
 			break;

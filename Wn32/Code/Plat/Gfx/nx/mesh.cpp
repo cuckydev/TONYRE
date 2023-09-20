@@ -816,7 +816,7 @@ sMesh *sMesh::Clone( bool instance )
 {
 	// Clone mesh data
 	sMesh *p_clone = new sMesh();
-	memcpy(p_clone, this, sizeof(sMesh));
+	memcpy((void*)p_clone, (void*)this, sizeof(sMesh)); // TODO: BIG HACK !!
 
 	if (instance)
 	{
@@ -1257,7 +1257,7 @@ void sMesh::Initialize( uint32 num_vertices,
 	uintptr_t vertex_size	 = 3 * sizeof(float);
 
 	// Include weights if present
-	uint32 biggest_index_used = 0;
+	// uint32 biggest_index_used = 0;
 	if (p_weights != nullptr)
 	{
 		Dbg_AssertPtr(p_matrix_indices);
@@ -1272,14 +1272,16 @@ void sMesh::Initialize( uint32 num_vertices,
 				uint32 w2 = ((p_weight_read[0] >> 22) & 0x3FF);
 				if (w2 > 0)
 				{
-					biggest_index_used = 2;
+					// biggest_index_used = 2;
 					break;
 				}
 				else
 				{
 					uint32 w1 = ((p_weight_read[0] >> 11) & 0x7FF);
 					if (w1 > 0)
-						biggest_index_used = 1;
+					{
+						;//  biggest_index_used = 1;
+					}
 				}
 			}
 

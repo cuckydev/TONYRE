@@ -20,30 +20,6 @@ uint32						NumMaterials;
 
 static const float pi_over_180 = (float)Mth::PI / 180.0f;
 
-
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-sUVWibbleParams::sUVWibbleParams( void )
-{
-	// Set the matrix correctly.
-	m_UVMatrix[0] = 1.0f;
-}
-
-
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-sUVWibbleParams::~sUVWibbleParams( void )
-{
-}
-
-
-
 /******************************************************************/
 /*                                                                */
 /*                                                                */
@@ -694,6 +670,10 @@ Lst::HashTable< sMaterial >	*LoadMaterialsFromMemory( void **pp_mem, Lst::HashTa
 				// Create uv wibble params structure.
 				pMat->mp_UVWibbleParams[pass] = new sUVWibbleParams;
 				MemoryRead( pMat->mp_UVWibbleParams[pass], sizeof( float ) * 8, 1, p_data );
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[0] = 0.0f;
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[1] = 0.0f;
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[2] = 0.0f;
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[3] = 1.0f;
 			}
 
 			// Read vertex color wibble data.
@@ -1006,6 +986,10 @@ Lst::HashTable< sMaterial >	*LoadMaterials( void *p_FH, Lst::HashTable< Nx::CTex
 				// Create uv wibble params structure.
 				pMat->mp_UVWibbleParams[pass] = new sUVWibbleParams;
 				File::Read( pMat->mp_UVWibbleParams[pass], sizeof( float ) * 8, 1, p_FH );
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[0] = 0.0f;
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[1] = 0.0f;
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[2] = 0.0f;
+				pMat->mp_UVWibbleParams[pass]->m_UVMatrix[3] = 1.0f;
 			}
 
 			// Read vertex color wibble data.

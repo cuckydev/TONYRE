@@ -937,7 +937,7 @@ bool ScriptPreselectRandomPedestrians( Script::CStruct *pParams, Script::CScript
 		while ( !allowed_to_pick )
 		{
 			size_t randomPick = Mth::Rnd( fullPartArraySize );
-			Dbg_Assert( randomPick >= 0 && randomPick < (int)fullPartArraySize );
+			Dbg_Assert( randomPick < fullPartArraySize );
 
 			Script::CStruct* pStruct = pFullPartArray->GetStructure( randomPick );
 			pStruct->GetInteger( Crc::ConstCRC("allowed_to_pick"), &allowed_to_pick, Script::ASSERT );
@@ -6282,11 +6282,10 @@ Script::CStruct* GetPrevUndisqualified( Script::CArray* pPartArray, size_t start
 {
 	Dbg_Assert( pPartArray );
 
-	startIndex--;
-	if ( startIndex < 0 )
-	{
-		startIndex += pPartArray->GetSize();
-	}
+	if (startIndex == 0)
+		startIndex = pPartArray->GetSize() - 1;
+	else
+		startIndex--;
 
 	for (size_t i = pPartArray->GetSize(); i--; )
 	{
@@ -7655,8 +7654,8 @@ bool ScriptGetTextureFromPath( Script::CStruct *pParams, Script::CScript *pScrip
 	size_t length = strlen( p_path );
 
 	// find last '/' in path
-	for (i=(length); i>=0; i--)	 	// Mick: was previously "length+1", which would start at the character AFTER the string
-	{								// which on rare occasions was a '/' char, which caused obscure crashes.
+	for (i=length; i--;)
+	{
 		if ( ( p_path[i] == '/' ) || ( p_path[i] == '\\' ) )
 		{
 			break;

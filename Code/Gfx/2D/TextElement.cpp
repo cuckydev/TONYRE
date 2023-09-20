@@ -1314,7 +1314,7 @@ bool CTextBlockElement::Concatenate( const char* pText, bool enforce_max_width, 
 {
 #ifdef __NOPT_ASSERT__
 	size_t length = GetLength();
-	Dbg_MsgAssert( length < (int)( MAX_EDITABLE_TEXT_BLOCK_LENGTH - strlen( pText ) ), ( "TextBlock too long to concatenate" ) );
+	Dbg_MsgAssert( length < ( MAX_EDITABLE_TEXT_BLOCK_LENGTH - strlen( pText ) ), ( "TextBlock too long to concatenate" ) );
 #endif
 	
 	// setup new, unwrapped string

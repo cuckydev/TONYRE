@@ -366,8 +366,8 @@ bool CXboxTexDict::plat_remove_texture( CTexture *p_texture )
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-#define MemoryRead( dst, size, num, src )	memcpy(( dst ), ( src ), (( num ) * ( size )));	\
-											( src ) += (( num ) * ( size ))
+#define MemoryRead( dst, size, num, src )	{ memcpy(( dst ), ( src ), (( num ) * ( size )));	\
+											( src ) += (( num ) * ( size )) ; }
 
 Lst::HashTable<Nx::CTexture>* LoadTextureFileFromMemory( void **pp_mem, Lst::HashTable<Nx::CTexture> *p_texture_table, bool okay_to_rebuild_texture_table )
 {

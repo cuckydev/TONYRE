@@ -822,8 +822,6 @@ bool ScriptDumpPipPreStatus(Script::CStruct *pParams, Script::CScript *pScript)
 					if (!show_only_open_files || p_contained->mUsage)
 					{
 						printf("Usage:%d  File: %s\n",p_contained->mUsage,p_contained->mpName);
-						// Delay so that printf does not break when there are lots of files.
-						for (volatile int pp=0; pp<100000; ++pp);
 					}
 
 					p_contained=sSkipToNextPreContained(p_contained);

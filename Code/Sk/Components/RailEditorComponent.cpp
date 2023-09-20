@@ -2032,9 +2032,9 @@ void CRailEditorComponent::ReadFromStructure(Script::CStruct *p_info)
 		return;
 	}
 
-	Dbg_MsgAssert((int)p_rails->GetSize() <= GetNumFreeRails(),("Too many rails, got %d, max is %d",p_rails->GetSize(),GetNumFreeRails()));
+	Dbg_MsgAssert(p_rails->GetSize() <= GetNumFreeRails(),("Too many rails, got %d, max is %d",p_rails->GetSize(),GetNumFreeRails()));
 	
-	for (uint32 i=0; i<p_rails->GetSize(); ++i)
+	for (size_t i = 0; i < p_rails->GetSize(); ++i)
 	{
 		Script::CStruct *p_rail_info=p_rails->GetStructure(i);
 		Dbg_MsgAssert(p_rail_info,("Eh? nullptr p_rail_info ?"));
@@ -2043,7 +2043,7 @@ void CRailEditorComponent::ReadFromStructure(Script::CStruct *p_info)
 		
 		Script::CArray *p_points=nullptr;
 		p_rail_info->GetArray(Crc::ConstCRC("Points"),&p_points,Script::ASSERT);
-		for (uint32 p=0; p<p_points->GetSize(); ++p)
+		for (size_t p = 0; p < p_points->GetSize(); ++p)
 		{
 			Dbg_MsgAssert(mp_current_rail,("nullptr mp_current_rail ?"));
 			CEditedRailPoint *p_new_point=mp_current_rail->AddPoint();

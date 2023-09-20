@@ -37,7 +37,9 @@ public:
 							operator T*() const {return mp_object;}
 
 	friend bool 			operator==(const CSmtPtr<T> &lhs, T* pRhs) { return lhs.mp_object == pRhs; }
+	friend bool 			operator==(const CSmtPtr<T> &lhs, const CSmtPtr<T> &rhs) { return lhs.mp_object == rhs.mp_object; }
 	friend bool 			operator!=(const CSmtPtr<T> &lhs, T* pRhs) { return lhs.mp_object != pRhs; }
+	friend bool 			operator!=(const CSmtPtr<T> &lhs, const CSmtPtr<T> &rhs) { return lhs.mp_object != rhs.mp_object; }
 
 	T *						Convert() const {return mp_object;}
 	void					Kill() const;

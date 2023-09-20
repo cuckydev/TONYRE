@@ -23,9 +23,6 @@ namespace Nx
 class CHierarchyObject
 {
 public:
-						CHierarchyObject();
-						~CHierarchyObject();
-
 	void				SetChecksum(uint32 checksum);
 	uint32				GetChecksum() const;
 	void				SetParentChecksum(uint32 checksum);
@@ -53,31 +50,6 @@ protected:
 /*****************************************************************************
 **								Inline Functions							**
 *****************************************************************************/
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-inline CHierarchyObject::CHierarchyObject()
-{
-	m_checksum = 0;
-	m_parent_checksum = 0;
-
-	m_parent_index = -1;
-	m_bone_index = 0;
-
-	m_setup_matrix.Ident();
-}
-
-/******************************************************************/
-/*                                                                */
-/*                                                                */
-/******************************************************************/
-
-inline CHierarchyObject::~CHierarchyObject()
-{
-}
 
 inline void					CHierarchyObject::SetChecksum(uint32 checksum)
 {
