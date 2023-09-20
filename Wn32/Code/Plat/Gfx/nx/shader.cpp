@@ -228,7 +228,14 @@ void main()
 
 		if ((flag & MATFLAG_TEXTURED) != 0u)
 		{
-			texel *= texture(u_texture[i], f_uv[i]);
+			if (i == 0u)
+				texel *= texture(u_texture[0], f_uv[i]);
+			else if (i == 1u)
+				texel *= texture(u_texture[1], f_uv[i]);
+			else if (i == 2u)
+				texel *= texture(u_texture[2], f_uv[i]);
+			else if (i == 3u)
+				texel *= texture(u_texture[3], f_uv[i]);
 		}
 		
 		accum += texel;
