@@ -416,7 +416,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 		File::Read( &material_checksum,	sizeof( uint32 ), 1, p_file );
 
 		// How many levels of LOD indices? Should be at least 1!
-		File::Read( &num_lod_index_levels, sizeof( unsigned int ), 1, p_file );
+		File::Read( &num_lod_index_levels, sizeof(uint32), 1, p_file );
 
 		// Can have up to 8 levels of LOD indices.
 		uint16*	p_indices[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
