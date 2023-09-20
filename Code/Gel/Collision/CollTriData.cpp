@@ -2224,5 +2224,155 @@ void	CCollObjTriData::CheckForHoles()
 }
 #endif
 
+// Translates .col file to 64-bit format
+char *CCollObjTriData::TranslateCollisionData(const char *data, size_t size)
+{
+	// Read the header
+	CCollObjTriData::SReadHeader header = *(CCollObjTriData::SReadHeader*)data;
+
+	const CCollObjTriData::SObjReadHeader *p_coll_sector_data = (CCollObjTriData::SObjReadHeader*)(data + sizeof(CCollObjTriData::SReadHeader));
+	uint32 num_coll_sectors = header.m_num_objects;
+
+	// Calculate base addresses for vert and face arrays
+	const char *p_base_vert_addr = (const char*)(p_coll_sector_data + num_coll_sectors);
+	
+	const char *p_base_intensity_addr = p_base_vert_addr + (header.m_total_num_verts_large * Nx::CCollObjTriData::GetVertElemSize() + header.m_total_num_verts_small * Nx::CCollObjTriData::GetVertSmallElemSize());
+	const char *p_base_face_addr = p_base_intensity_addr + header.m_total_num_verts;
+	p_base_face_addr = (const char*)(((uintptr_t)(p_base_face_addr + 3)) & ~0x3); // Align to 32 bit boundary
+
+	// Calculate addresses for BSP arrays
+	const char *p_node_array_size = p_base_face_addr + (header.m_total_num_faces_large * Nx::CCollObjTriData::GetFaceElemSize() + header.m_total_num_faces_small * Nx::CCollObjTriData::GetFaceSmallElemSize());
+	p_node_array_size += (header.m_total_num_faces_large & 1) ? 2 : 0;
+
+	uint32 node_array_size;
+	if ((p_node_array_size + sizeof(uint32)) <= (data + size))
+		node_array_size = *((uint32*)p_node_array_size);
+	else
+		node_array_size = 0;
+
+	if ((p_node_array_size + sizeof(uint32) + node_array_size) > (data + size))
+		node_array_size = 0;
+
+	const char *p_base_node_addr = p_node_array_size + sizeof(uint32);
+	const char *p_base_face_idx_addr = p_base_node_addr + node_array_size;
+
+	// Allocate memory for the new data
+	size_t node_count;
+	size_t faceidx_count;
+	if (node_array_size != 0)
+	{
+		node_count = node_array_size / 8;
+		faceidx_count = ((data + size) - p_base_face_idx_addr) / sizeof(FaceIndex);
+	}
+	else
+	{
+		node_count = 0;
+		faceidx_count = 0;
+	}
+
+	size_t t_size = sizeof(CCollObjTriData::SReadHeader); // Header
+	t_size += num_coll_sectors * sizeof(CCollObjTriData); // Collision objects
+	t_size += header.m_total_num_verts_large * Nx::CCollObjTriData::GetVertElemSize(); // Large verts
+	t_size += header.m_total_num_verts_small * Nx::CCollObjTriData::GetVertSmallElemSize(); // Small verts
+	t_size += header.m_total_num_verts; // Intensities
+	t_size = (t_size + 3) & ~0x3; // Align to 32 bit boundary
+	t_size += header.m_total_num_faces_large * Nx::CCollObjTriData::GetFaceElemSize(); // Large faces
+	t_size += header.m_total_num_faces_small * Nx::CCollObjTriData::GetFaceSmallElemSize(); // Small faces
+	t_size += (header.m_total_num_faces_large & 1) ? 2 : 0;
+	t_size += sizeof(uint32); // Node array size
+	if (node_array_size != 0)
+	{
+		t_size += node_count * sizeof(CCollBSPNode); // Nodes
+		t_size += faceidx_count * sizeof(FaceIndex); // Face indices
+	}
+
+	char *new_data = new char[t_size];
+	char *e_new_data = new_data + t_size;
+	char *p_new_data = new_data;
+
+	// Write the header
+	*(CCollObjTriData::SReadHeader*)p_new_data = header;
+	p_new_data += sizeof(CCollObjTriData::SReadHeader);
+
+	// Write objects
+	CCollObjTriData *p_obj = (CCollObjTriData*)p_new_data;
+
+	for (uint32 i = 0; i < num_coll_sectors; i++, p_obj++, p_coll_sector_data++)
+	{
+		p_obj->m_checksum = p_coll_sector_data->m_checksum;
+		p_obj->m_Flags = p_coll_sector_data->m_Flags;
+		p_obj->m_num_verts = p_coll_sector_data->m_num_verts;
+		p_obj->m_num_faces = p_coll_sector_data->m_num_faces;
+		p_obj->m_use_face_small = p_coll_sector_data->m_use_face_small;
+		p_obj->m_use_fixed_verts = p_coll_sector_data->m_use_fixed_verts;
+		p_obj->mp_faces = (SFace*)p_coll_sector_data->mp_faces;
+		p_obj->m_bbox = p_coll_sector_data->m_bbox;
+		p_obj->mp_float_vert = (SFloatVert *)p_coll_sector_data->mp_vert;
+		p_obj->mp_bsp_tree = (CCollBSPNode*)((p_coll_sector_data->mp_bsp_tree / 8) * sizeof(CCollBSPNode));
+		p_obj->mp_intensity = (uint8*)p_coll_sector_data->mp_intensity;
+		p_obj->m_pad1 = p_coll_sector_data->m_pad1;
+	}
+
+	p_new_data = (char*)p_obj;
+
+	// Write vertices
+	size_t verts_size = header.m_total_num_verts_large * Nx::CCollObjTriData::GetVertElemSize();
+	verts_size += header.m_total_num_verts_small * Nx::CCollObjTriData::GetVertSmallElemSize();
+
+	memcpy(p_new_data, p_base_vert_addr, verts_size);
+	p_new_data += verts_size;
+
+	// Write intensities
+	memcpy(p_new_data, p_base_intensity_addr, header.m_total_num_verts);
+	p_new_data += header.m_total_num_verts;
+
+	p_new_data = (char*)(((uintptr_t)p_new_data + 3) & ~0x3); // Align to 32 bit boundary
+
+	// Write faces
+	size_t faces_size = header.m_total_num_faces_large * Nx::CCollObjTriData::GetFaceElemSize();
+	faces_size += header.m_total_num_faces_small * Nx::CCollObjTriData::GetFaceSmallElemSize();
+
+	memcpy(p_new_data, p_base_face_addr, faces_size);
+	p_new_data += faces_size;
+
+	p_new_data += (header.m_total_num_faces_large & 1) ? 2 : 0;
+
+	// Write nodes
+	*((uint32*)p_new_data) = sizeof(CCollBSPNode) * node_count;
+	p_new_data += sizeof(uint32);
+
+	if (node_array_size != 0)
+	{
+		// Write nodes
+		CCollBSPNode *p_node = (CCollBSPNode *)p_new_data;
+		const uint32 *node_data = (uint32*)p_base_node_addr;
+		for (size_t i = 0; i < node_count; i++, p_node++, node_data += 2)
+		{
+			uint32 w0 = node_data[0];
+			uint32 w1 = node_data[1];
+
+			if ((w0 & 0x3) == 3) // Is leaf
+			{
+				p_node->m_leaf.m_split_axis = ((w0 & 0x000000FF) >> 0);
+				p_node->m_leaf.m_pad1 = ((w0 & 0x0000FF00) >> 8);
+				p_node->m_leaf.m_num_faces = ((w0 & 0xFFFF0000) >> 16);
+				p_node->m_leaf.mp_face_idx_array = (FaceIndex*)w1;
+			}
+			else
+			{
+				p_node->m_node.m_split_point = w0;
+				p_node->m_node.m_children.m_left_child_and_flags = (((w1 & ~0x3) / 8) * sizeof(CCollBSPNode)) | (w0 & 0x3);
+			}
+		}
+		p_new_data = (char*)p_node;
+		
+		// Write face indices
+		memcpy(p_new_data, p_base_face_idx_addr, faceidx_count * sizeof(FaceIndex));
+		p_new_data += faceidx_count * sizeof(FaceIndex);
+	}
+
+	return new_data;
+}
+
 } // namespace Nx
 

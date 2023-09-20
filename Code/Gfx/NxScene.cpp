@@ -426,9 +426,18 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 	
 	bool	found_point = false;
 
-	uint8 *p_base_addr = (uint8 *) Pip::Load(p_pip_name);
-	size_t p_base_size = Pip::GetFileSize(m_coll_filename);
-	void *p_base_end = p_base_addr + p_base_size;
+	char *p_orig_base_addr = (char *)Pip::Load(m_coll_filename);
+	if (p_orig_base_addr == nullptr)
+	{
+		Dbg_Error("Could not open collision file\n");
+		return false;
+	}
+
+	size_t p_orig_base_size = Pip::GetFileSize(m_coll_filename);
+	void *p_orig_base_end = p_orig_base_addr + p_orig_base_size;
+
+	char *p_base_addr = Nx::CCollObjTriData::TranslateCollisionData(p_orig_base_addr, p_orig_base_size);
+	Pip::Unload(m_coll_filename);
 
 	if (p_base_addr)
 	{
@@ -443,7 +452,7 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 
 		// Calculate base addresses for vert and face arrays
 		uint8 *p_base_vert_addr = (uint8 *) (p_coll_sector_data + num_coll_sectors);
-		p_base_vert_addr = (uint8 *)(((uintptr_t)(p_base_vert_addr+15)) & ~0xF);	// Align to 128 bit boundary
+
 #ifdef FIXED_POINT_VERTICES
 		uint8 *p_base_intensity_addr = p_base_vert_addr + (p_header->m_total_num_verts_large * Nx::CCollObjTriData::GetVertElemSize() +
 														   p_header->m_total_num_verts_small * Nx::CCollObjTriData::GetVertSmallElemSize());
@@ -459,9 +468,8 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 		uint8 *p_node_array_size = p_base_face_addr + (p_header->m_total_num_faces_large * Nx::CCollObjTriData::GetFaceElemSize() +
 													   p_header->m_total_num_faces_small * Nx::CCollObjTriData::GetFaceSmallElemSize());
 		p_node_array_size += ( p_header->m_total_num_faces_large & 1 ) ? 2 : 0;
-		Dbg_Assert((p_node_array_size + sizeof(int)) <= p_base_end);
 
-		int node_array_size = *((int *)p_node_array_size);
+		uint32 node_array_size = *((uint32 *)p_node_array_size);
 		uint8 *p_base_node_addr = p_node_array_size + 4;
 		uint8 *p_base_face_idx_addr = p_base_node_addr + node_array_size;
 
@@ -469,7 +477,7 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 		p_coll_sectors = new CCollStaticTri[p_header->m_num_objects];
 
 		// Read objects
-		for (int oidx = 0; oidx < p_header->m_num_objects; oidx++)
+		for (uint32 oidx = 0; oidx < p_header->m_num_objects; oidx++)
 		{
 			if (node_array_size != 0)
 			{
@@ -499,11 +507,6 @@ bool			CScene::read_collision(const char *p_name, char *p_pip_name, int &num_col
 			bbox.AddPoint(Mth::Vector (-100,-100,-100));
 			bbox.AddPoint(Mth::Vector (100,100,100));
 		}
-	} 
-	else 
-	{
-		Dbg_Error ( "Could not open collision file\n" );
-		return false;
 	}
 
 	Dbg_Message ( "successfully read collision" );

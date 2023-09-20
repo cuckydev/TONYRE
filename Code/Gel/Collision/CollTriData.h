@@ -120,6 +120,8 @@ private:
 		};
 
 		uintptr_t m_left_child_and_flags; // points to left branch, right branch one node over
+
+		friend class CCollObjTriData;
 	};		
 
 protected:
@@ -190,87 +192,100 @@ public:
 	// the collision data with the correct padding.  If the
 	// disk format changes, these structures MUST change, too.
 	//
-   	struct SReadHeader
+	struct SReadHeader
 	{
-		int 	m_version;
-		int 	m_num_objects;
-		int 	m_total_num_verts;
-#ifdef __PLAT_NGC__
-		int 	m_total_num_faces;
-#else
-		int 	m_total_num_faces_large;
-		int 	m_total_num_faces_small;
-		int		m_total_num_verts_large;
-		int		m_total_num_verts_small;
-		int		m_pad3;
-#endif
+		uint32 	m_version;
+		uint32 	m_num_objects;
+		uint32 	m_total_num_verts;
+		uint32 	m_total_num_faces_large;
+		uint32 	m_total_num_faces_small;
+		uint32	m_total_num_verts_large;
+		uint32	m_total_num_verts_small;
+		uint32	m_pad3;
 	};
+	static_assert(sizeof(SReadHeader) == 32, "SReadHeader must be 32 bytes");
+
+	struct SObjReadHeader
+	{
+		uint32 m_checksum; // checksum of sector
+		uint16 m_Flags; // Sector-level flags
+		uint16 m_num_verts;
+		uint16 m_num_faces;
+		uint8 m_use_face_small; // Set to 1 if using SFaceSmall below
+		uint8 m_use_fixed_verts;
+
+		uint32 mp_faces; // array of faces or small faces
+
+		Mth::CBBox m_bbox; // bounding box of sector
+
+		uint32 mp_vert; // array of 32-bit vertices or 16-bit vertices
+
+		uint32 mp_bsp_tree; // head of BSP tree
+		uint32 mp_intensity; // Intensity list
+		uint32 m_pad1; // padding
+	};
+	static_assert(sizeof(SObjReadHeader) == 64, "SObjReadHeader must be 64 bytes");
 
 	//
-						CCollObjTriData();
-						~CCollObjTriData();
+	CCollObjTriData();
+	~CCollObjTriData();
 
-	bool				InitCollObjTriData(CScene * p_scene, void *p_base_vert_addr, void *p_base_intensity_addr, // Init collision sector after read from file
-										   void *p_base_face_addr, void *p_base_node_addr, void *p_base_face_idx_addr);
-	bool				InitBSPTree();					// Generate the BSP Tree
-	bool				DeleteBSPTree();				// Delete the BSP Tree
+	// Init collision sector after read from file
+	bool InitCollObjTriData(CScene * p_scene, void *p_base_vert_addr, void *p_base_intensity_addr, void *p_base_face_addr, void *p_base_node_addr, void *p_base_face_idx_addr);
+	bool InitBSPTree(); // Generate the BSP Tree
+	bool DeleteBSPTree(); // Delete the BSP Tree
 
-	uint32				GetChecksum() const;
-	void				SetChecksum(uint32 checksum);	// For cloning
-	uint16				GetSectorFlags() const;
-	void				SetSectorFlags(uint16 flags);
-	void				ClearSectorFlags(uint16 flags);
-	const Mth::CBBox &	GetBBox() const;
-	size_t				GetNumVerts() const;
-	size_t				GetNumFaces() const;
+	uint32 GetChecksum() const;
+	void SetChecksum(uint32 checksum); // For cloning
+	uint16 GetSectorFlags() const;
+	void SetSectorFlags(uint16 flags);
+	void ClearSectorFlags(uint16 flags);
+	const Mth::CBBox &GetBBox() const;
+	size_t GetNumVerts() const;
+	size_t GetNumFaces() const;
 
 	// Vertex functions
-#ifdef __PLAT_NGC__
-	unsigned char		GetVertexIntensity(size_t face_idx, size_t vert_idx) const;
-	void				SetVertexIntensity(size_t face_idx, size_t vert_idx, unsigned char intensity);
-
-	void				SetVertexPointer( NsVector * p_vertex ) { mp_raw_vert_pos = p_vertex; }
-	NsVector *			GetVertexPointer() { return mp_raw_vert_pos; }
-#else
-	unsigned char		GetVertexIntensity(size_t vert_idx) const;
-	void				SetVertexIntensity(size_t vert_idx, unsigned char intensity);
-#endif		//__PLAT_NGC__ 
+	unsigned char GetVertexIntensity(size_t vert_idx) const;
+	void SetVertexIntensity(size_t vert_idx, unsigned char intensity);
 
 	// Face functions
-	uint16				GetFaceTerrainType(size_t face_idx) const;
-	uint32				GetFaceFlags(size_t face_idx) const;
-	uint16				GetFaceVertIndex(size_t face_idx, size_t vert_num) const;
-	const Mth::Vector 	GetFaceNormal(size_t face_idx) const;
-	Mth::Vector			GetRawVertexPos(size_t vert_idx) const;		// Must copy data for fixed point
-	void				GetRawVertexPos(size_t vert_idx, Mth::Vector & pos) const;
-	void				SetRawVertexPos(size_t vert_idx, const Mth::Vector & pos);
-	void				GetRawVertices(Mth::Vector *p_vert_array) const;
-	void				SetRawVertices(const Mth::Vector *p_vert_array);
+	uint16 GetFaceTerrainType(size_t face_idx) const;
+	uint32 GetFaceFlags(size_t face_idx) const;
+	uint16 GetFaceVertIndex(size_t face_idx, size_t vert_num) const;
+	const Mth::Vector GetFaceNormal(size_t face_idx) const;
+	Mth::Vector GetRawVertexPos(size_t vert_idx) const; // Must copy data for fixed point
+	void GetRawVertexPos(size_t vert_idx, Mth::Vector & pos) const;
+	void SetRawVertexPos(size_t vert_idx, const Mth::Vector & pos);
+	void GetRawVertices(Mth::Vector *p_vert_array) const;
+	void SetRawVertices(const Mth::Vector *p_vert_array);
 
 	// Collision functions
-	FaceIndex *			FindIntersectingFaces(const Mth::CBBox & line_bbox, uint & num_faces);
+	FaceIndex *FindIntersectingFaces(const Mth::CBBox & line_bbox, uint & num_faces);
 
 	// Clone and move functions
-	CCollObjTriData *	Clone(bool instance = false, bool skip_no_verts = false);
-	void				Translate(const Mth::Vector & delta_trans);		// delta since we don't store the original pos
-	void				RotateY(const Mth::Vector & world_origin, Mth::ERot90 rot_y);
-	void				Scale(const Mth::Vector & world_origin, const Mth::Vector & scale);
+	CCollObjTriData *Clone(bool instance = false, bool skip_no_verts = false);
+	void Translate(const Mth::Vector & delta_trans); // delta since we don't store the original pos
+	void RotateY(const Mth::Vector & world_origin, Mth::ERot90 rot_y);
+	void Scale(const Mth::Vector & world_origin, const Mth::Vector & scale);
 
-	void				ProcessOcclusion();
+	void ProcessOcclusion();
 
 	// Debug functions
-	void				DebugRender(uint32 ignore_1, uint32 ignore_0);
-	void				DebugRender2D(uint32 ignore_1, uint32 ignore_0, uint32 visible);
-	void				DebugRender2DBBox(uint32 ignore_1, uint32 ignore_0, uint32 visible);
-	void				DebugRender2DOct(uint32 ignore_1, uint32 ignore_0, uint32 visible);
-	void				DebugRender(const Mth::Matrix & transform, uint32 ignore_1, uint32 ignore_0, bool do_transfrom = true);
-	void				CheckForHoles();
+	void DebugRender(uint32 ignore_1, uint32 ignore_0);
+	void DebugRender2D(uint32 ignore_1, uint32 ignore_0, uint32 visible);
+	void DebugRender2DBBox(uint32 ignore_1, uint32 ignore_0, uint32 visible);
+	void DebugRender2DOct(uint32 ignore_1, uint32 ignore_0, uint32 visible);
+	void DebugRender(const Mth::Matrix & transform, uint32 ignore_1, uint32 ignore_0, bool do_transfrom = true);
+	void CheckForHoles();
 
 	// Element size functions for init
-	static uint			GetVertElemSize();
-	static uint			GetVertSmallElemSize();
-	static uint			GetFaceElemSize();
-	static uint			GetFaceSmallElemSize();
+	static uint GetVertElemSize();
+	static uint GetVertSmallElemSize();
+	static uint GetFaceElemSize();
+	static uint GetFaceSmallElemSize();
+
+	// Translates .col file to 64-bit format
+	static char *TranslateCollisionData(const char *data, size_t size);
 
 protected:
 	//////////////////////////////////////////////////
@@ -285,6 +300,7 @@ protected:
 		uint16			m_flags;				// collision attributes
 		uint16			m_terrain_type;			// terrain type
 	};
+	static_assert(sizeof(SFaceInfo) == 4, "SFaceInfo must be 4 bytes");
 
 	// Everything in SFace and SFaceSmall before the vert indexes MUST be the same.
 	struct SFace
@@ -292,15 +308,15 @@ protected:
 		SFaceInfo		m_info;					// face info
 		FaceIndex		m_vertex_index[3];		// indexes into the corresponding vertex array
 	};
+	static_assert(sizeof(SFace) == 10, "SFace must be 10 bytes");
 
 	struct SFaceSmall
 	{
 		SFaceInfo		m_info;					// face info
 		FaceByteIndex	m_vertex_index[3];		// indexes into the corresponding vertex array
-#ifndef __PLAT_NGC__
 		uint8			m_pad;
-#endif		// __PLAT_NGC__
 	};
+	static_assert(sizeof(SFaceSmall) == 8, "SFaceSmall must be 8 bytes");
 
 	// Use this structure to shove the rgba value into the W value of a Vector
 	struct SOverlay
@@ -312,6 +328,7 @@ protected:
 		uint8			m_intensity;
 		uint8			m_pad[2];
 	};
+	static_assert(sizeof(SOverlay) == 16, "SOverlay must be 16 bytes");
 
 	// This structure is used for 16-bit fixed point vertices
 	struct SFloatVert
@@ -321,6 +338,7 @@ protected:
 //		uint8			m_intensity;
 //		uint8			m_pad[2];
 	};
+	static_assert(sizeof(SFloatVert) == 12, "SFloatVert must be 12 bytes");
 
 	// This structure is used for 16-bit fixed point vertices
 	struct SFixedVert
@@ -329,43 +347,32 @@ protected:
 //		uint8			m_pad;
 //		uint8			m_intensity;
 	};
+	static_assert(sizeof(SFixedVert) == 6, "SFixedVert must be 6 bytes");
 
 	//////////////////////////////////////////////////
 	// Members
-	uint32				m_checksum = 0;			// checksum of sector
-	uint16				m_Flags = 0;			// Sector-level flags
-	uint16				m_num_verts = 0;
-	uint16				m_num_faces = 0;
-	uint8				m_use_face_small = 0;	// Set to 1 if using SFaceSmall below
-	uint8				m_use_fixed_verts = 0;
+	uint32				m_checksum;			// checksum of sector
+	uint16				m_Flags;			// Sector-level flags
+	uint16				m_num_verts;
+	uint16				m_num_faces;
+	uint8				m_use_face_small;	// Set to 1 if using SFaceSmall below
+	uint8				m_use_fixed_verts;
 
 	union {
-		SFace *			mp_faces = nullptr;			// array of faces
+		SFace *			mp_faces;			// array of faces
 		SFaceSmall *	mp_face_small;		// array of small faces
 	};
 
-	Mth::CBBox			m_bbox = {};				// bounding box of sector
+	Mth::CBBox			m_bbox;				// bounding box of sector
 
-#ifdef __PLAT_NGC__
-	NsVector *			mp_raw_vert_pos = nullptr;
-#else
 	union {
-#ifndef FIXED_POINT_VERTICES
-		Mth::Vector *	mp_vert_pos;			// array of 32-bit vertices
-		SOverlay *		mp_vert_rgba_overlay;	// overlay array of vertex colors for 32-bit vertices
-#endif
-		SFloatVert *	mp_float_vert = nullptr;			// array of 32-bit vertices
+		SFloatVert *	mp_float_vert;			// array of 32-bit vertices
 		SFixedVert *	mp_fixed_vert;			// array of 16-bit vertices
 	};
-#endif
 
-	CCollBSPNode *		mp_bsp_tree = nullptr;		// head of BSP tree
-	uint8 *				mp_intensity = nullptr;		// Intensity list
-#ifdef __PLAT_NGC__
-	NsVector *			mp_cloned_vert_pos = nullptr;
-#else
-	uint32				m_pad1 = 0;				// padding
-#endif		// __PLAT_NGC__
+	CCollBSPNode *		mp_bsp_tree;		// head of BSP tree
+	uint8 *				mp_intensity;		// Intensity list
+	uint32				m_pad1;				// padding
 
 	SFaceInfo *			get_face_info(size_t face_idx) const;
 

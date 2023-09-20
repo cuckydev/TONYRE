@@ -85,17 +85,27 @@ bool			CMesh::LoadCollision(const char *p_name)
 	strcat(m_coll_filename, CEngine::sGetPlatformExtension());
 
 //	Dbg_Message ( "Loading collision %s....", m_coll_filename );
+	std::cout << "Loading collision " << m_coll_filename << "...." << std::endl;
 
-	uint8 *p_base_addr = (uint8*)Pip::Load(m_coll_filename);
-	size_t p_base_size = Pip::GetFileSize(m_coll_filename);
-	void *p_base_end = p_base_addr + p_base_size;
+	char *p_orig_base_addr = (char*)Pip::Load(m_coll_filename);
+	if (p_orig_base_addr == nullptr)
+	{
+		Dbg_Error("Could not open collision file\n");
+		return false;
+	}
+
+	size_t p_orig_base_size = Pip::GetFileSize(m_coll_filename);
+	void *p_orig_base_end = p_orig_base_addr + p_orig_base_size;
+
+	char *p_base_addr = Nx::CCollObjTriData::TranslateCollisionData(p_orig_base_addr, p_orig_base_size);
+	Pip::Unload(m_coll_filename);
 
 	if (p_base_addr != nullptr)
 	{
-		Nx::CCollObjTriData::SReadHeader *p_header = (Nx::CCollObjTriData::SReadHeader *) p_base_addr;
+		Nx::CCollObjTriData::SReadHeader *p_header = (Nx::CCollObjTriData::SReadHeader*)p_base_addr;
 		p_base_addr += sizeof(Nx::CCollObjTriData::SReadHeader);
 
-		Dbg_MsgAssert(p_header->m_version >= 9, ("Collision version must be at least 9."));
+		Dbg_MsgAssert(p_header->m_version == 9, ("Collision version must be at least 9."));
 
 		// reserve space for objects
 		m_num_coll_objects = p_header->m_num_objects;
@@ -112,23 +122,20 @@ bool			CMesh::LoadCollision(const char *p_name)
 #else
 		uint8 *p_base_intensity_addr = nullptr;
 		uint8 *p_base_face_addr = p_base_vert_addr + (p_header->m_total_num_verts * Nx::CCollObjTriData::GetVertElemSize());
-		p_base_face_addr = (uint8 *)(((uint)(p_base_face_addr+15)) & 0xFFFFFFF0);	// Align to 128 bit boundary
+		p_base_face_addr = (uint8 *)(((uintptr_t)(p_base_face_addr+15)) & 0xFFFFFFF0);	// Align to 128 bit boundary
 #endif // FIXED_POINT_VERTICES
 
 		// Calculate addresses for BSP arrays
 		uint8 *p_node_array_size = p_base_face_addr + (p_header->m_total_num_faces_large * Nx::CCollObjTriData::GetFaceElemSize() +
 													   p_header->m_total_num_faces_small * Nx::CCollObjTriData::GetFaceSmallElemSize());
 		p_node_array_size += ( p_header->m_total_num_faces_large & 1 ) ? 2 : 0;
-		Dbg_Assert((p_node_array_size + sizeof(int)) <= p_base_end);
 
-		int node_array_size = *((int *)p_node_array_size);
+		uint32 node_array_size = *((uint32 *)p_node_array_size);
 		uint8 *p_base_node_addr = p_node_array_size + 4;
 		uint8 *p_base_face_idx_addr = p_base_node_addr + node_array_size;
 
-		// Dbg_Assert((p_base_node_addr + sizeof(CCollBSPNode)) <= p_base_end);
-
 		// Read objects
-		for (int oidx = 0; oidx < p_header->m_num_objects; oidx++)
+		for (uint32 oidx = 0; oidx < p_header->m_num_objects; oidx++)
 		{
 			if (node_array_size != 0)
 			{
@@ -146,9 +153,6 @@ bool			CMesh::LoadCollision(const char *p_name)
 			}
 		}
 
-	} else {
-		Dbg_Error ( "Could not open collision file\n" );
-		return false;
 	}
 
 //	Dbg_Message ( "successfully loaded collision" );
