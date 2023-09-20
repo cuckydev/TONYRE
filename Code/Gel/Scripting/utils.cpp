@@ -276,7 +276,7 @@ void PrintContents(const CStruct *p_structure, int indent)
 			PrintContents(p_comp->mpArray,indent);
             break;
         default:
-			printf("Component of type '%s', value 0x%08x\n",GetTypeName(p_comp->mType),p_comp->mUnion);
+			printf("Component of type '%s', value 0x%zx\n",GetTypeName(p_comp->mType),p_comp->mUnion);
             //Dbg_MsgAssert(0,("Bad p_comp->Type"));
             break;
         }

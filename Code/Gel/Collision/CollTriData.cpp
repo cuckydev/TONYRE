@@ -2287,7 +2287,7 @@ char *CCollObjTriData::TranslateCollisionData(const char *data, size_t size)
 	}
 
 	char *new_data = new char[t_size];
-	char *e_new_data = new_data + t_size;
+	// char *e_new_data = new_data + t_size;
 	char *p_new_data = new_data;
 
 	// Write the header
@@ -2305,11 +2305,11 @@ char *CCollObjTriData::TranslateCollisionData(const char *data, size_t size)
 		p_obj->m_num_faces = p_coll_sector_data->m_num_faces;
 		p_obj->m_use_face_small = p_coll_sector_data->m_use_face_small;
 		p_obj->m_use_fixed_verts = p_coll_sector_data->m_use_fixed_verts;
-		p_obj->mp_faces = (SFace*)p_coll_sector_data->mp_faces;
+		p_obj->mp_faces = (SFace*)(uintptr_t)p_coll_sector_data->mp_faces;
 		p_obj->m_bbox = p_coll_sector_data->m_bbox;
-		p_obj->mp_float_vert = (SFloatVert *)p_coll_sector_data->mp_vert;
-		p_obj->mp_bsp_tree = (CCollBSPNode*)((p_coll_sector_data->mp_bsp_tree / 8) * sizeof(CCollBSPNode));
-		p_obj->mp_intensity = (uint8*)p_coll_sector_data->mp_intensity;
+		p_obj->mp_float_vert = (SFloatVert*)(uintptr_t)p_coll_sector_data->mp_vert;
+		p_obj->mp_bsp_tree = (CCollBSPNode*)(((uintptr_t)p_coll_sector_data->mp_bsp_tree / 8) * sizeof(CCollBSPNode));
+		p_obj->mp_intensity = (uint8*)(uintptr_t)p_coll_sector_data->mp_intensity;
 		p_obj->m_pad1 = p_coll_sector_data->m_pad1;
 	}
 
@@ -2338,7 +2338,7 @@ char *CCollObjTriData::TranslateCollisionData(const char *data, size_t size)
 	p_new_data += (header.m_total_num_faces_large & 1) ? 2 : 0;
 
 	// Write nodes
-	*((uint32*)p_new_data) = sizeof(CCollBSPNode) * node_count;
+	*((uint32*)p_new_data) = (uint32)(sizeof(CCollBSPNode) * node_count);
 	p_new_data += sizeof(uint32);
 
 	if (node_array_size != 0)
@@ -2356,7 +2356,7 @@ char *CCollObjTriData::TranslateCollisionData(const char *data, size_t size)
 				p_node->m_leaf.m_split_axis = ((w0 & 0x000000FF) >> 0);
 				p_node->m_leaf.m_pad1 = ((w0 & 0x0000FF00) >> 8);
 				p_node->m_leaf.m_num_faces = ((w0 & 0xFFFF0000) >> 16);
-				p_node->m_leaf.mp_face_idx_array = (FaceIndex*)w1;
+				p_node->m_leaf.mp_face_idx_array = (FaceIndex*)(uintptr_t)w1;
 			}
 			else
 			{

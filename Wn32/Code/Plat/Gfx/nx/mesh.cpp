@@ -1217,7 +1217,7 @@ void sMesh::Initialize( uint32 num_vertices,
 	// Calculate indices range
 	uint16 min_index = (pp_indices[0])[0];
 	uint16 max_index = (pp_indices[0])[0];
-	for (int i = 0; i < p_num_indices[0]; i++)
+	for (uint32 i = 0; i < p_num_indices[0]; i++)
 	{
 		if ((pp_indices[0])[i] > max_index)
 			max_index = (pp_indices[0])[i];
@@ -1233,7 +1233,7 @@ void sMesh::Initialize( uint32 num_vertices,
 
 	// Get which vertices are used
 	memset(p_mesh_workspace_array, 1, sizeof(uint16) * (max_index + 1));
-	for (int i = 0; i < p_num_indices[0]; i++)
+	for (uint32 i = 0; i < p_num_indices[0]; i++)
 		p_mesh_workspace_array[(pp_indices[0])[i]] = 0;
 	
 	// Count unused vertices
@@ -1247,7 +1247,7 @@ void sMesh::Initialize( uint32 num_vertices,
 	m_num_vertices = vertices_for_this_mesh;
 
 	// Create the index buffers
-	for( int ib = 0; ib < num_index_sets; ++ib )
+	for(uint32 ib = 0; ib < num_index_sets; ib++)
 	{
 		mp_index_buffer[ib] = new uint16[p_num_indices[ib]];
 		m_num_indices[ib] = (uint16)p_num_indices[ib];
@@ -1517,7 +1517,7 @@ void sMesh::Initialize( uint32 num_vertices,
 	if (num_index_sets > 1)
 	{
 		mp_index_lod_data = new float[num_index_sets];
-		for (int d = 0; d < num_index_sets; ++d)
+		for (uint32 d = 0; d < num_index_sets; d++)
 		{
 			float dist = (15.0f + (d * 10.0f)) * 12.0f;
 			mp_index_lod_data[d] = dist;
