@@ -46,11 +46,11 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	SetChecksum( sector_checksum );
 
 	// Read bone index.
-	int bone_idx;
-	MemoryRead( &bone_idx, sizeof( int ), 1, p_data );
+	uint32 bone_idx;
+	MemoryRead( &bone_idx, sizeof(uint32), 1, p_data );
 
 	// Read sector flags.
-	MemoryRead( &m_flags, sizeof( int ), 1, p_data );
+	MemoryRead( &m_flags, sizeof(uint32), 1, p_data );
 
 	// Read number of meshes.
 	MemoryRead( &p_geom->m_num_mesh, sizeof( uint ), 1, p_data );
@@ -83,12 +83,12 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	}
 
 	// Read num vertices.
-	int num_vertices;
-	MemoryRead( &num_vertices, sizeof( int ), 1, p_data );
+	uint32 num_vertices;
+	MemoryRead( &num_vertices, sizeof(uint32), 1, p_data );
 	
 	// Read vertex data stride.
-	int vertex_data_stride;
-	MemoryRead( &vertex_data_stride, sizeof( int ), 1, p_data );
+	uint32 vertex_data_stride;
+	MemoryRead( &vertex_data_stride, sizeof(uint32), 1, p_data );
 
 	// Grab a buffer for the raw vertex data position stream, and read it.
 	float* p_vertex_positions = new float[num_vertices * 3];
@@ -116,8 +116,8 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 	}
 
 	// Grab a buffer for the raw vertex texture coordinate stream (if present), and read it.
-	int		num_tc_sets			= 0;
-	float*	p_vertex_tex_coords	= nullptr;
+	uint32 num_tc_sets			= 0;
+	float *p_vertex_tex_coords	= nullptr;
 	if( m_flags & 0x01 )
 	{
 		MemoryRead( &num_tc_sets, sizeof( int ), 1, p_data );
@@ -148,8 +148,8 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 
 	for( uint m = 0; m < p_geom->m_num_mesh; ++m )
 	{
-		unsigned long	material_checksum;
-		unsigned int	flags, num_lod_index_levels;
+		uint32 material_checksum;
+		uint32 flags, num_lod_index_levels;
 
 		NxWn32::sMesh*	p_mesh = new NxWn32::sMesh;
 
@@ -173,18 +173,18 @@ bool CXboxSector::LoadFromMemory( void **pp_mem )
 		}
 
 		// The material checksum for this mesh.
-		MemoryRead( &material_checksum,	sizeof( unsigned long ), 1, p_data );
+		MemoryRead( &material_checksum,	sizeof(uint32), 1, p_data );
 
 		// How many levels of LOD indices? Should be at least 1!
-		MemoryRead( &num_lod_index_levels, sizeof( unsigned int ), 1, p_data );
+		MemoryRead( &num_lod_index_levels, sizeof(uint32), 1, p_data );
 
 		// Can have up to 8 levels of LOD indices.
 		uint16*	p_indices[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-		int		num_indices[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+		uint32 num_indices[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		for( unsigned int lod_level = 0; lod_level < num_lod_index_levels; ++lod_level )
 		{
-			MemoryRead( &num_indices[lod_level], sizeof( int ), 1, p_data );
+			MemoryRead( &num_indices[lod_level], sizeof(uint32), 1, p_data );
 		
 			// Again, we want all the temporary buffer allocations to come off of the top down heap.
 			p_indices[lod_level] = new uint16[num_indices[lod_level]];
@@ -283,11 +283,11 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	SetChecksum( sector_checksum );
 
 	// Read bone index.
-	int bone_idx;
-	File::Read( &bone_idx, sizeof( int ), 1, p_file );
+	uint32 bone_idx;
+	File::Read( &bone_idx, sizeof(uint32), 1, p_file );
 
 	// Read sector flags.
-	File::Read( &m_flags, sizeof( int ), 1, p_file );
+	File::Read( &m_flags, sizeof(uint32), 1, p_file );
 
 	// Read number of meshes.
 	File::Read( &p_geom->m_num_mesh, sizeof( uint ), 1, p_file );
@@ -325,11 +325,11 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	}
 
 	// Read num vertices.
-	int num_vertices;
+	uint32 num_vertices;
 	File::Read( &num_vertices, sizeof( int ), 1, p_file );
 	
 	// Read vertex data stride.
-	int vertex_data_stride;
+	uint32 vertex_data_stride;
 	File::Read( &vertex_data_stride, sizeof( int ), 1, p_file );
 
 	// Grab a buffer for the raw vertex data position stream, and read it.
@@ -358,8 +358,8 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	}
 
 	// Grab a buffer for the raw vertex texture coordinate stream (if present), and read it.
-	int		num_tc_sets			= 0;
-	float*	p_vertex_tex_coords	= nullptr;
+	uint32 num_tc_sets			= 0;
+	float *p_vertex_tex_coords	= nullptr;
 	if( m_flags & 0x01 )
 	{
 		File::Read( &num_tc_sets, sizeof( int ), 1, p_file );
@@ -388,8 +388,8 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	// Remove TopDownHeap context.
 	for( uint m = 0; m < p_geom->m_num_mesh; ++m )
 	{
-		unsigned long	material_checksum;
-		unsigned int	flags, num_lod_index_levels;
+		uint32 material_checksum;
+		uint32 flags, num_lod_index_levels;
 
 		NxWn32::sMesh*	p_mesh = new NxWn32::sMesh;
 
@@ -420,11 +420,11 @@ bool CXboxSector::LoadFromFile( void* p_file )
 
 		// Can have up to 8 levels of LOD indices.
 		uint16*	p_indices[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-		int		num_indices[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+		uint32	num_indices[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		for( unsigned int lod_level = 0; lod_level < num_lod_index_levels; ++lod_level )
 		{
-			File::Read( &num_indices[lod_level], sizeof( int ), 1, p_file );
+			File::Read( &num_indices[lod_level], sizeof(uint32), 1, p_file );
 		
 			// Again, we want all the temporary buffer allocations to come off of the top down heap.
 			p_indices[lod_level] = new uint16[num_indices[lod_level]];

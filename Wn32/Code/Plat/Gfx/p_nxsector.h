@@ -37,7 +37,7 @@ class CXboxSector : public CSector
 	virtual void					plat_set_shatter( bool on );
 	virtual CSector					*plat_clone( bool instance, CScene *p_scene = nullptr );
 
-	int								m_flags;
+	uint32							m_flags;
 
 	Mth::Vector						m_pos_offset;
 

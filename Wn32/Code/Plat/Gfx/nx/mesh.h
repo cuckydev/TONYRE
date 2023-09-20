@@ -82,20 +82,20 @@ public:
 	// static IDirect3DVertexBuffer8	*AllocateVertexBuffer( uint32 size );
 
 	// All-purpose mesh instancing code, used for static geometry and animating weighted meshes.
-	void			Initialize( int				num_vertices,
-								float			*p_positions,
-								float			*p_normals,
-								float			*p_tex_coords,
-								int				num_tc_sets,
-								uint32			*p_colors,
-								int				num_index_sets,			// How many sets of indices there are (usually 1 set)
-								int				*p_num_indices,			// Pointer to an array of ints containing number of indices per set
-								uint16			**pp_indices,			// Pointer to an array of pointers to the actual indices
-								unsigned long	material_checksum,
-								void			*p_scene,
-								uint16			*p_matrix_indices	= nullptr,
-								uint32			*p_weights			= nullptr,
-								char			*p_vc_wibble_anims	= nullptr );
+	void			Initialize( uint32 num_vertices,
+								float *p_positions,
+								float *p_normals,
+								float *p_tex_coords,
+								uint32 num_tc_sets,
+								uint32 *p_colors,
+								uint32 num_index_sets, // How many sets of indices there are (usually 1 set)
+								uint32 *p_num_indices, // Pointer to an array of ints containing number of indices per set
+								uint16 **pp_indices, // Pointer to an array of pointers to the actual indices
+								uint32 material_checksum,
+								void *p_scene,
+								uint16 *p_matrix_indices	= nullptr,
+								uint32 *p_weights			= nullptr,
+								char *p_vc_wibble_anims	= nullptr );
 
 	void			Submit( void );
 	void			HandleColorOverride( void );
