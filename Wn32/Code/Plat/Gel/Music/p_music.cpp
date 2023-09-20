@@ -192,22 +192,22 @@ namespace Pcm
 	/*                                                                */
 	/*                                                                */
 	/******************************************************************/
-	static std::unordered_map<uint32, std::string> music_paths;
-	static std::unordered_map<uint32, std::string> stream_paths;
+	static std::unordered_map<uint32, std::filesystem::path> music_paths;
+	static std::unordered_map<uint32, std::filesystem::path> stream_paths;
 
-	static std::unordered_map<uint32, std::string> Index(std::filesystem::path path)
+	static std::unordered_map<uint32, std::filesystem::path> Index(std::filesystem::path path)
 	{
 		if (!std::filesystem::exists(path))
 			return {};
 
-		std::unordered_map<uint32, std::string> paths;
+		std::unordered_map<uint32, std::filesystem::path> paths;
 		for (auto &i : std::filesystem::recursive_directory_iterator(path))
 		{
 			if (i.is_regular_file())
 			{
 				std::string name = i.path().stem().string();
 				uint32 checksum = Crc::GenerateCRCFromString(name.c_str());
-				paths[checksum] = std::filesystem::relative(i.path(), File::DataPath()).string();
+				paths[checksum] = std::filesystem::relative(i.path(), File::DataPath());
 			}
 		}
 		return paths;
@@ -663,14 +663,23 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_PlayMusicTrack( const char *filename )
 	{
-		// Play song
+		// Remove path from filename
+		const char *last_slash = strrchr(filename, '\\');
+		if (last_slash != nullptr)
+			filename = last_slash + 1;
+
+		// Find music path from checksum
+		auto it = music_paths.find(Crc::GenerateCRCFromString(filename));
+		if (it == music_paths.end())
+			return false;
+
 		Audio::Lock();
 		
+		// Play song
 		if (music_stream != nullptr)
 			delete music_stream;
 
-		std::string name = std::string(filename) + ".wav";
-		music_stream = new MusicDecoder(File::DataPath() / name);
+		music_stream = new MusicDecoder(File::DataPath() / it->second);
 		music_stream->Play();
 
 		Audio::Unlock();
@@ -685,9 +694,9 @@ namespace Pcm
 	/******************************************************************/
 	bool PCMAudio_PlaySoundtrackMusicTrack(size_t soundtrack, size_t track )
 	{
-		// Play song
 		Audio::Lock();
 
+		// Play song
 		if (music_stream != nullptr)
 			delete music_stream;
 
@@ -727,12 +736,14 @@ namespace Pcm
 	{
 		(void)fPitch;
 
+		// Find stream path from checksum
 		auto it = stream_paths.find(checksum);
 		if (it == stream_paths.end())
 			return false;
 
 		Audio::Lock();
 
+		// Play stream
 		if (stream_stream[whichStream] != nullptr)
 			delete stream_stream[whichStream];
 
