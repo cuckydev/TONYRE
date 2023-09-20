@@ -2499,10 +2499,18 @@ void CCursor::ChangeSet(int dir)
 	for (size_t count = m_manager->GetTotalNumPieceSets(); count > 0; count--)
 	{
 		m_selected_set += dir;
-		if (m_selected_set < 0)
-			m_selected_set = m_manager->GetTotalNumPieceSets() - 1;
-		if (m_selected_set >= m_manager->GetTotalNumPieceSets())
-			m_selected_set = 0;
+		if (dir < 0)
+		{
+			if (m_selected_set == 0)
+				m_selected_set = m_manager->GetTotalNumPieceSets() - 1;
+			else
+				m_selected_set--;
+		}
+		else
+		{
+			if (++m_selected_set >= m_manager->GetTotalNumPieceSets())
+				m_selected_set = 0;
+		}
 		//printf("set is: %s\n", m_palette_set[m_selected_set].mpName);
 		if (m_manager->GetPieceSet(m_selected_set, &m_menu_set_number).mVisible) break;
 	}

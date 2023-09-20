@@ -3002,7 +3002,7 @@ CParkManager *CParkManager::sInstance()
 */
 CParkManager::CPieceSet &CParkManager::GetPieceSet(size_t setNumber, int *pMenuSetNumber)
 {
-	Dbg_Assert(setNumber >= 0 && setNumber < MAX_SETS);
+	Dbg_Assert(setNumber < MAX_SETS);
 	
 	int menu_set_number = 0;
 	for (size_t s = 0; s < setNumber; s++)

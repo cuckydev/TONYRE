@@ -192,7 +192,9 @@ typedef	sint64				nID64;
 #include <alloca.h>
 #elif defined(__PLAT_WN32__)
 #include <malloc.h>
+#ifndef alloca
 #define alloca _alloca
+#endif
 #endif
 
 /****************************************************************************/

@@ -360,7 +360,7 @@ void UseUserSoundtrack( size_t soundtrack )
 
 #	ifdef USER_SOUNDTRACKS
 
-	Dbg_MsgAssert(soundtrack>=0 && soundtrack<Pcm::GetNumSoundtracks(),("Bad soundtrack"));
+	Dbg_MsgAssert(soundtrack < Pcm::GetNumSoundtracks(), ("Bad soundtrack"));
 
 	s_xbox_play_user_soundtracks=true;
 	s_xbox_user_soundtrack=soundtrack;

@@ -34,15 +34,15 @@ namespace Script
 {
 
 static uint8 *sWriteCompressedName(uint8 *p_buffer, uint8 SymbolType, uint32 NameChecksum);
-static uint32 sIntegerWriteToBuffer(uint32 Name, int val, uint8 *p_buffer, uint32 BufferSize);
-static uint32 sFloatWriteToBuffer(uint32 Name, float val, uint8 *p_buffer, uint32 BufferSize);
-static uint32 sChecksumWriteToBuffer(uint32 Name, uint32 Checksum, uint8 *p_buffer, uint32 BufferSize);
-static uint32 sStringWriteToBuffer(uint32 Name, const char *pString, uint8 *p_buffer, uint32 BufferSize);
-static uint32 sLocalStringWriteToBuffer(uint32 Name, const char *pString, uint8 *p_buffer, uint32 BufferSize);
-static uint32 sPairWriteToBuffer(uint32 Name, CPair *pPair, uint8 *p_buffer, uint32 BufferSize);
-static uint32 sVectorWriteToBuffer(uint32 Name, CVector *pVector, uint8 *p_buffer, uint32 BufferSize);
-static uint32 sStructureWriteToBuffer(uint32 Name, CStruct *pStructure, uint8 *p_buffer, uint32 BufferSize, EAssertType assert);
-static uint32 sArrayWriteToBuffer(uint32 Name, CArray *pArray, uint8 *p_buffer, uint32 BufferSize, EAssertType assert);
+static size_t sIntegerWriteToBuffer(uint32 Name, int val, uint8 *p_buffer, size_t BufferSize);
+static size_t sFloatWriteToBuffer(uint32 Name, float val, uint8 *p_buffer, size_t BufferSize);
+static size_t sChecksumWriteToBuffer(uint32 Name, uint32 Checksum, uint8 *p_buffer, size_t BufferSize);
+static size_t sStringWriteToBuffer(uint32 Name, const char *pString, uint8 *p_buffer, size_t BufferSize);
+static size_t sLocalStringWriteToBuffer(uint32 Name, const char *pString, uint8 *p_buffer, size_t BufferSize);
+static size_t sPairWriteToBuffer(uint32 Name, CPair *pPair, uint8 *p_buffer, size_t BufferSize);
+static size_t sVectorWriteToBuffer(uint32 Name, CVector *pVector, uint8 *p_buffer, size_t BufferSize);
+static size_t sStructureWriteToBuffer(uint32 Name, CStruct *pStructure, uint8 *p_buffer, size_t BufferSize, EAssertType assert);
+static size_t sArrayWriteToBuffer(uint32 Name, CArray *pArray, uint8 *p_buffer, size_t BufferSize, EAssertType assert);
 
 #ifdef __NOPT_ASSERT__
 static void   sDoIndent(int indent);

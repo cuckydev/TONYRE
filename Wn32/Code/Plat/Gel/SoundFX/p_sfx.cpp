@@ -57,8 +57,8 @@ namespace Sfx
 				{
 					Dbg_MsgAssert(0, ("Invalid RIFF header"));
 				}
-				Dbg_MsgAssert(riff_header.header.id == 'FFIR', ("Invalid RIFF header"));
-				Dbg_MsgAssert(riff_header.id == 'EVAW', ("Invalid RIFF header"));
+				Dbg_MsgAssert(riff_header.header.id == 0x46464952, ("Invalid RIFF header")); // "RIFF"
+				Dbg_MsgAssert(riff_header.id == 0x45564157, ("Invalid RIFF header")); // "WAVE"
 
 				// Read headers
 				while (1)
@@ -69,7 +69,7 @@ namespace Sfx
 
 					switch (header.id)
 					{
-						case ' tmf':
+						case 0x20746D66: // "fmt "
 						{
 							// Read format
 							if (header.size < sizeof(Format))
@@ -89,7 +89,7 @@ namespace Sfx
 							}
 							break;
 						}
-						case 'atad':
+						case 0x61746164: // "data"
 						{
 							// Read data
 							size = header.size;
@@ -97,7 +97,7 @@ namespace Sfx
 							File::Read(data.get(), size, 1, fp);
 							break;
 						}
-						case 'lpms':
+						case 0x6C706D73: // "smpl"
 						{
 							// Read loop data
 							if (header.size >= (0x1C + 0x4))

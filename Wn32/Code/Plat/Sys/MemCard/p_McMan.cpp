@@ -54,7 +54,7 @@ namespace Mc
 
 DefineSingletonClass( Manager, "MemCard Manager" );
 
-static char cardFilenameBuffer[MAX_FILENAME_LENGTH];
+// static char cardFilenameBuffer[MAX_FILENAME_LENGTH];
 
 /*****************************************************************************
 **								 Public Data								**

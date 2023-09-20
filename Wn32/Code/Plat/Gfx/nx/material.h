@@ -33,18 +33,15 @@ const uint32 MAX_PASSES = 4;
 
 struct sUVWibbleParams
 {
-	sUVWibbleParams( void );
-	~sUVWibbleParams( void );
-
-	float m_UVel = 0.0f;
-	float m_VVel = 0.0f;
-	float m_UFrequency = 0.0f;
-	float m_VFrequency = 0.0f;
-	float m_UAmplitude = 0.0f;
-	float m_VAmplitude = 0.0f;
-	float m_UPhase = 0.0f;
-	float m_VPhase = 0.0f;
-	float m_UVMatrix[4] = {}; // This value is written to dynamically. The first two values are rotation, the second two are translation.
+	float m_UVel;
+	float m_VVel;
+	float m_UFrequency;
+	float m_VFrequency;
+	float m_UAmplitude;
+	float m_VAmplitude;
+	float m_UPhase;
+	float m_VPhase;
+	float m_UVMatrix[4]; // This value is written to dynamically. The first two values are rotation, the second two are translation.
 };
 
 struct sVCWibbleKeyframe

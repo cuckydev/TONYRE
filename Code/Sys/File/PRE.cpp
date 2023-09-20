@@ -527,7 +527,7 @@ int PreFile::Seek(ptrdiff_t offset, int origin)
 			return -1;
 	}
 
-	if (mp_activeFile->m_position < 0 || mp_activeFile->m_position > mp_activeFile->m_filesize)
+	if (mp_activeFile->m_position > mp_activeFile->m_filesize)
 	{
 		mp_activeFile->m_position = old_pos;
 		return -1;

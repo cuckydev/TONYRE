@@ -43,7 +43,7 @@ static bool   sIsEndOfLine(const uint8 *p_token);
 static uint8 *sInitArrayFromQB(CArray *p_dest, uint8 *p_token, CStruct *p_args=nullptr);
 static uint8 *sAddComponentFromQB(CStruct *p_dest, uint32 nameChecksum, uint8 *p_token, CStruct *p_args=nullptr);
 static uint8 *sAddComponentsWithinCurlyBraces(CStruct *p_dest, uint8 *p_token, CStruct *p_args=nullptr);
-static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 contentsChecksum, const uint8 *p_data, uint32 size, const char *p_fileName);
+static CSymbolTableEntry *sCreateScriptSymbol(uint32 nameChecksum, uint32 contentsChecksum, const uint8 *p_data, size_t size, const char *p_fileName);
 static uint8 *sCreateSymbolOfTheFormNameEqualsValue(uint8 *p_token, const char *p_fileName, EBoolAssertIfDuplicateSymbols assertIfDuplicateSymbols);
 static CStoredRandom *sFindStoredRandom(const uint8 *p_token, EScriptToken type, int numItems);
 static CStoredRandom *sCreateNewStoredRandom();
