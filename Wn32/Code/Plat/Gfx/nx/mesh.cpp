@@ -730,6 +730,139 @@ void sMesh::Submit( void )
 		glUniform4fv(glGetUniformLocation(shader->program, "u_col"), mp_material->m_passes, mp_material->m_color[0]);
 	}
 
+	// Setup blend mode
+	GLenum blend_op;
+	GLenum src_blend;
+	GLenum dst_blend;
+	float fixed_alpha = (mp_material->m_reg_alpha[0] >> 24) / 128.0f;
+
+	switch (mp_material->m_reg_alpha[0] & sMaterial::BLEND_MODE_MASK)
+	{
+		case vBLEND_MODE_DIFFUSE:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_ONE;
+			dst_blend = GL_ZERO;
+			break;
+		}
+		case vBLEND_MODE_ADD:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_SRC_ALPHA;
+			dst_blend = GL_ONE;
+			break;
+		}
+		case vBLEND_MODE_ADD_FIXED:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_CONSTANT_ALPHA;
+			dst_blend = GL_ONE;
+			break;
+		}
+		case vBLEND_MODE_SUBTRACT:
+		{
+			blend_op = GL_FUNC_REVERSE_SUBTRACT;
+			src_blend = GL_SRC_ALPHA;
+			dst_blend = GL_ONE;
+			break;
+		}
+		case vBLEND_MODE_SUB_FIXED:
+		{
+			blend_op = GL_FUNC_REVERSE_SUBTRACT;
+			src_blend = GL_CONSTANT_ALPHA;
+			dst_blend = GL_ONE;
+			break;
+		}
+		case vBLEND_MODE_BLEND:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_SRC_ALPHA;
+			dst_blend = GL_ONE_MINUS_SRC_ALPHA;
+			break;
+		}
+		case vBLEND_MODE_BLEND_FIXED:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_CONSTANT_ALPHA;
+			dst_blend = GL_ONE_MINUS_CONSTANT_ALPHA;
+			break;
+		}
+		case vBLEND_MODE_MODULATE:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_ZERO;
+			dst_blend = GL_SRC_ALPHA;
+			break;
+		}
+		case vBLEND_MODE_MODULATE_FIXED:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_ZERO;
+			dst_blend = GL_CONSTANT_ALPHA;
+			break;
+		}
+		case vBLEND_MODE_BRIGHTEN:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_DST_COLOR;
+			dst_blend = GL_ONE;
+			break;
+		}
+		case vBLEND_MODE_BRIGHTEN_FIXED:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_DST_COLOR;
+			dst_blend = GL_CONSTANT_ALPHA;
+			break;
+		}
+		case vBLEND_MODE_GLOSS_MAP:
+		{
+			// Treat as diffuse for now.
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_ONE;
+			dst_blend = GL_ZERO;
+			break;
+		}
+		case vBLEND_MODE_BLEND_PREVIOUS_MASK:
+		{
+			// Meaningless unless destination alpha is enabled.
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_DST_ALPHA;
+			dst_blend = GL_ONE_MINUS_DST_ALPHA;
+			break;
+		}
+		case vBLEND_MODE_BLEND_INVERSE_PREVIOUS_MASK:
+		{
+			// Meaningless unless destination alpha is enabled.
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_ONE_MINUS_DST_ALPHA;
+			dst_blend = GL_DST_ALPHA;
+			break;
+		}
+		case vBLEND_MODE_ONE_INV_SRC_ALPHA:
+		{
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_ONE;
+			dst_blend = GL_ONE_MINUS_SRC_ALPHA;
+			break;
+		}
+		default:
+		{
+			Dbg_Assert(0);
+			blend_op = GL_FUNC_ADD;
+			src_blend = GL_ONE;
+			dst_blend = GL_ZERO;
+			break;
+		}
+	}
+
+	// Set blend mode
+	glEnable(GL_BLEND);
+	glBlendEquation(blend_op);
+	glBlendFunc(src_blend, dst_blend);
+	glBlendColor(fixed_alpha, fixed_alpha, fixed_alpha, fixed_alpha);
+
+	// Draw mesh
 	glBindVertexArray(mp_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
 
