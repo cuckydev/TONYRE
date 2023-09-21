@@ -109,7 +109,7 @@ namespace TextureDecode
 		source += 4;
 
 		// Promote to RGB
-		uint8_t c[4][4];
+		uint8 c[4][4];
 
 		c[0][0] = ((c0 >> 11) & 0x1F) * 0xFF / 0x1F;
 		c[0][1] = ((c0 >> 5) & 0x3F) * 0xFF / 0x3F;
@@ -185,7 +185,7 @@ namespace TextureDecode
 	static void DXT5_DecodeBlock(const uint8 *source, uint8 *out, size_t pitch)
 	{
 		// Get the base colors and alphas
-		uint8_t a[8];
+		uint8 a[8];
 		a[0] = source[0];
 		a[1] = source[1];
 		unsigned long long ac = ((unsigned long long)source[2] << 0) | ((unsigned long long)source[3] << 8) | ((unsigned long long)source[4] << 16) |
@@ -196,7 +196,7 @@ namespace TextureDecode
 		source += 12;
 
 		// Promote to RGB
-		uint8_t c[4][3];
+		uint8 c[4][3];
 
 		c[0][0] = ((c0 >> 11) & 0x1F) * 0xFF / 0x1F;
 		c[0][1] = ((c0 >> 5) & 0x3F) * 0xFF / 0x3F;
@@ -216,12 +216,18 @@ namespace TextureDecode
 		c[3][2] = ((uint16)c[1][2] * 2 + c[0][2]) / 3;
 
 		// Calculate derived alphas
-		a[2] = ((sint16)a[0] + ((sint16)a[1] - (sint16)a[0]) * 1 / 7);
-		a[3] = ((sint16)a[0] + ((sint16)a[1] - (sint16)a[0]) * 2 / 7);
-		a[4] = ((sint16)a[0] + ((sint16)a[1] - (sint16)a[0]) * 3 / 7);
-		a[5] = ((sint16)a[0] + ((sint16)a[1] - (sint16)a[0]) * 4 / 7);
-		a[6] = ((sint16)a[0] + ((sint16)a[1] - (sint16)a[0]) * 5 / 7);
-		a[7] = ((sint16)a[0] + ((sint16)a[1] - (sint16)a[0]) * 6 / 7);
+		if (a[1] > a[0])
+		{
+			for (int i = 2; i < 6; i++)
+				a[i] = ((6 - i) * (uint16)a[0] + (i - 1) * (uint16)a[1]) / 5;
+			a[6] = 0x00;
+			a[7] = 0xFF;
+		}
+		else
+		{
+			for (int i = 2; i < 8; i++)
+				a[i] = ((8 - i) * (uint16)a[0] + (i - 1) * (uint16)a[1]) / 7;
+		}
 
 		// Write colors
 		for (int y = 0; y < 4; y++)
