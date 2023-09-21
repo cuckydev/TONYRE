@@ -259,13 +259,13 @@ void main()
 	}
 
 	// Accumulate first pass
-	vec4 r0 = vec4(t[0].rgb * u_col[0].rgb, 0.0f) * 4.0f;
+	vec4 r0 = vec4(t[0].rgb * u_col[0].rgb, 0.0f);
 	if ((u_pass_flag[0] & MATFLAG_PASS_IGNORE_VERTEX_ALPHA) != 0u)
 		r0.a = t[0].a;
 	else
 		r0.a = t[0].a * f_col.a * 2.0f;
 
-	r0.rgb *= f_col.rgb;
+	r0.rgb *= f_col.rgb * 4.0f;
 
 	// Accumulate remaining passes
 	vec4 rl = r0;
@@ -275,13 +275,13 @@ void main()
 		vec4 col = u_col[i];
 
 		// Accumulate pass
-		vec4 r = vec4(t[i].rgb * col.rgb, 0.0f) * 4.0f;
+		vec4 r = vec4(t[i].rgb * col.rgb, 0.0f);
 		if ((flag & MATFLAG_PASS_IGNORE_VERTEX_ALPHA) != 0u)
 			r.a = t[i].a;
 		else
 			r.a = t[i].a * f_col.a * 2.0f;
 		
-		r.rgb *= f_col.rgb;
+		r.rgb *= f_col.rgb * 4.0f;
 
 		// Blend pass
 		switch (u_blend[i])

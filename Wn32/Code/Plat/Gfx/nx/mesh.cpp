@@ -663,6 +663,29 @@ void sMesh::Submit( void )
 			// Bind texture
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[i]->GLTexture);
+
+			uint32 uv_addressing = mp_material->m_uv_addressing[i];
+			GLenum uv_space = GL_TEXTURE_WRAP_S;
+			for (int i = 0; i < 2; i++)
+			{
+				switch (uv_addressing & 0xFFFF)
+				{
+					case 0:
+						// Wrap
+						glTexParameteri(GL_TEXTURE_2D, uv_space, GL_REPEAT);
+						break;
+					case 1:
+						// Clamp
+						glTexParameteri(GL_TEXTURE_2D, uv_space, GL_CLAMP_TO_EDGE);
+						break;
+					case 2:
+						// Border
+						glTexParameteri(GL_TEXTURE_2D, uv_space, GL_CLAMP_TO_BORDER);
+						break;
+				}
+				uv_addressing >>= 16;
+				uv_space = GL_TEXTURE_WRAP_T;
+			}
 		}
 
 		if (mp_material->m_flags[i] & MATFLAG_ENVIRONMENT)
