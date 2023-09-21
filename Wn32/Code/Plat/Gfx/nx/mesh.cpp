@@ -1002,7 +1002,7 @@ void sMesh::SetupVAO(void)
 	}
 	if (m_diffuse_offset != nullptr)
 	{
-		glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, m_vertex_stride, (void*)m_diffuse_offset);
+		glVertexAttribPointer(4, GL_BGRA, GL_UNSIGNED_BYTE, GL_TRUE, m_vertex_stride, (void*)m_diffuse_offset);
 		glEnableVertexAttribArray(4);
 	}
 	for (uint32 i = 0; i < MAX_PASSES; i++)
