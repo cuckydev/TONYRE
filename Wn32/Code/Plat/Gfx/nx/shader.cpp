@@ -121,8 +121,6 @@ layout (location = 5) in vec2 i_uv[4];
 out vec2 f_uv[4];
 out vec4 f_col;
 
-uniform vec3 u_col;
-
 uniform mat4 u_m;
 uniform mat4 u_v;
 uniform mat4 u_p;
