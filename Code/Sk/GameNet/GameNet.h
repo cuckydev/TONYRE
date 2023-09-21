@@ -1006,7 +1006,9 @@ private:
 	int						m_net_thread_id;
 
 	char					m_master_servers[vMAX_MASTER_SERVERS][16];
-	
+
+public:
+	static bool 			ScriptFillPlayerListMenu(Script::CStruct *pParams, Script::CScript *pScript);
 #ifdef __PLAT_NGPS__
 	// Gamespy members
 public:

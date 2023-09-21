@@ -7575,7 +7575,6 @@ bool Manager::ScriptCreatePlayerOptions(Script::CScriptStructure *pParams, Scrip
 /*                                                                */
 /*                                                                */
 /******************************************************************/
-#ifdef __PLAT_NGPS__
 bool Manager::ScriptFillPlayerListMenu( Script::CStruct* pParams, Script::CScript* pScript )
 {
 	Manager * gamenet_man = Manager::Instance();
@@ -7585,8 +7584,6 @@ bool Manager::ScriptFillPlayerListMenu( Script::CStruct* pParams, Script::CScrip
 	Script::CArray* p_colors;
 	int i;
 	
-	Mem::Manager::sHandle().PushContext(Mem::Manager::sHandle().FrontEndHeap());
-
 	i = 0;
 	for( player = gamenet_man->FirstPlayerInfo( sh, true ); player; player = gamenet_man->NextPlayerInfo( sh, true ))
 	{
@@ -7599,6 +7596,7 @@ bool Manager::ScriptFillPlayerListMenu( Script::CStruct* pParams, Script::CScrip
 		p_colors = new Script::CArray;
 		p_colors->SetSizeAndType( 4, ESYMBOLTYPE_INTEGER );
 
+		/*
 		if( ( player->m_Profile ) && 
 			( gamenet_man->mpBuddyMan->IsLoggedIn()))
 		{         
@@ -7624,6 +7622,11 @@ bool Manager::ScriptFillPlayerListMenu( Script::CStruct* pParams, Script::CScrip
 			p_colors->SetInteger( 2, 128 );
 			p_colors->SetInteger( 3, 128 );
 		}
+		*/
+		p_colors->SetInteger(0, 128);
+		p_colors->SetInteger(1, 128);
+		p_colors->SetInteger(2, 128);
+		p_colors->SetInteger(3, 128);
 		
 		p_item_params = new Script::CStruct;	
 		p_item_params->AddString( "text", player->m_Name );
@@ -7651,11 +7654,8 @@ bool Manager::ScriptFillPlayerListMenu( Script::CStruct* pParams, Script::CScrip
 		i++;
 	}
 
-	Mem::Manager::sHandle().PopContext();
-	
 	return true;
 }
-#endif
 /******************************************************************/
 /*                                                                */
 /*                                                                */

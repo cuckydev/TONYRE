@@ -1437,18 +1437,22 @@ SCFunction CFunctionLookupTable[]=
 	{"Ngc_Set50hz",						Nx::ScriptNgc_Set50Hz},
 #endif		// __PLAT_NGC__
 
-	// Functions that don't seem to exist but are referenced by scripts
 	{ "IsInternetGameHost", CFuncs::ScriptIsInternetGameHost },
 	{ "IsJoiningInternetGame", CFuncs::ScriptIsJoiningInternetGame },
 
-	{ "TryJoinServerIPSuccess", CFuncs::ScriptSkaterIsCustom },
-	{ "GSDisableNet", CFuncs::ScriptSkaterIsCustom },
+	{ "TryJoinServerIP", CFuncs::ScriptTryJoinServerIP },
+	{ "TryJoinServerIPSuccess", CFuncs::ScriptStubTrue },
 
-	// { "ProfileLoggedIn", CFuncs::ScriptIsJoiningInternetGame },
+	{ "GSDisableNet", CFuncs::ScriptStubTrue },
+
+	{ "ForceServerListRefresh", CFuncs::ScriptStubTrue },
+	{ "ProfileLoggedIn", CFuncs::ScriptStubFalse },
+
+	{ "FillPlayerListMenu",		GameNet::Manager::ScriptFillPlayerListMenu },
 
 	{ "MultiPlayerOnly", CFuncs::ScriptMultiPlayerOnly },
 
-	{ "SkaterIsCustom", CFuncs::ScriptSkaterIsCustom },
+	{ "SkaterIsCustom", CFuncs::ScriptStubTrue },
     { "QuitGame", CFuncs::ScriptQuitGame },
 };
 

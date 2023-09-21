@@ -41,9 +41,24 @@
 #include <Gel/Music/music.h>
 #endif
 
-#ifdef __PLAT_XBOX__
-//#include <xonline.h>
-#include <winsockx.h>
+#ifdef __PLAT_WN32__
+
+// WSAStartup static class
+class WSAStartupStatic
+{
+public:
+	WSAStartupStatic()
+	{
+		WSADATA wsaData;
+		WSAStartup( MAKEWORD( 2, 2 ), &wsaData );
+	}
+	~WSAStartupStatic()
+	{
+		WSACleanup();
+	}
+};
+static WSAStartupStatic s_WSAStartupStatic;
+
 #endif
 
 #include <Gel/mainloop.h>
