@@ -664,8 +664,10 @@ void sMesh::Submit( void )
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, mp_material->mp_tex[i]->GLTexture);
 		}
+
 		if (mp_material->m_flags[i] & MATFLAG_ENVIRONMENT)
 		{
+			// Send environment map matrix
 			static glm::mat4 env_mat = {
 				0.5f, 0.0f, 0.0f, 0.0f,
 				0.0f, -0.5f, 0.0f, 0.0f,
@@ -679,6 +681,10 @@ void sMesh::Submit( void )
 			sprintf(uniform_name, "u_env_mat[%u]", i);
 			glUniformMatrix4fv(glGetUniformLocation(shader->program, uniform_name), 1, GL_FALSE, &env_mat[0][0]);
 		}
+
+		// Send blend mode
+		sprintf(uniform_name, "u_blend[%u]", i);
+		glUniform1ui(glGetUniformLocation(shader->program, uniform_name), mp_material->m_reg_alpha[i] & sMaterial::BLEND_MODE_MASK);
 	}
 
 	// Send MVP matrix
@@ -687,9 +693,19 @@ void sMesh::Submit( void )
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "u_p"), 1, GL_FALSE, &EngineGlobals.projection_matrix[0][0]);
 
 	if (m_flags & MESH_FLAG_MATERIAL_COLOR_OVERRIDE)
-		glUniform3fv(glGetUniformLocation(shader->program, "u_col"), 1, &m_material_color_override[0]);
+	{
+		// Send overridden colors
+		for (uint32 i = 0; i < mp_material->m_passes; i++)
+		{
+			sprintf(uniform_name, "u_col[%u]", i);
+			glUniform4f(glGetUniformLocation(shader->program, uniform_name), m_material_color_override[0], m_material_color_override[1], m_material_color_override[2], mp_material->m_color[i][3]);
+		}
+	}
 	else
-		glUniform3f(glGetUniformLocation(shader->program, "u_col"), 1.0f, 1.0f, 1.0f);
+	{
+		// Send material colors
+		glUniform4fv(glGetUniformLocation(shader->program, "u_col"), mp_material->m_passes, mp_material->m_color[0]);
+	}
 
 	glBindVertexArray(mp_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
