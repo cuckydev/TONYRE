@@ -122,7 +122,7 @@ Device* Manager::create_device( int index, int port, int slot )
 Manager::Manager ( void )
 {
 	// Initialize SDL
-	Dbg_MsgAssert(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0, ("Failed to initialize SDL: %s", SDL_GetError()));
+	Dbg_MsgAssert(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) == 0, ("Failed to initialize SDL: %s", SDL_GetError()));
 
 	m_process_devices_task = new Tsk::Task< DeviceList >(Manager::process_devices, m_devices);
 
@@ -144,6 +144,17 @@ Manager::Manager ( void )
 	{
 		Pcm::Init();
 	}
+
+	// Print SDL all connected game controllers
+	printf("VVV SDL GAME CONTROLLERS VVV\n");
+	for (int i = 0; i < SDL_NumJoysticks(); i++)
+	{
+		if (SDL_IsGameController(i))
+			printf("Found game controller: %s (player index %d)\n", SDL_GameControllerNameForIndex(i), SDL_GameControllerGetPlayerIndex(SDL_GameControllerOpen(i)));
+		else
+			printf("Found joystick: %s\n", SDL_JoystickNameForIndex(i));
+	}
+	printf("VVV SDL GAME CONTROLLERS ^^^\n");
 
 	/*
 	int i, index;
