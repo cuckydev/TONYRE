@@ -852,7 +852,11 @@ void CXboxGeom::plat_get_render_colors( Image::RGBA *p_colors )
 			// Copy over every vertex position in this mesh.
 			for (uint32 v = 0; v < p_mesh->m_num_vertices; ++v)
 			{
-				*p_colors++ = *((Image::RGBA*)p_vbo);
+				*p_colors = *((Image::RGBA*)p_vbo);
+				uint8 temp = p_colors->r;
+				p_colors->r = p_colors->b;
+				p_colors->b = temp;
+				p_colors++;
 
 				p_vbo += p_mesh->m_vertex_stride;
 			}
@@ -940,7 +944,11 @@ void CXboxGeom::plat_set_render_colors( Image::RGBA *p_colors )
 			// Copy over every vertex position in this mesh.
 			for (uint32 v = 0; v < p_mesh->m_num_vertices; ++v)
 			{
-				*((Image::RGBA*)p_vbo) = *p_colors++;
+				Image::RGBA *rgba = (Image::RGBA*)p_vbo;
+				*rgba = *p_colors++;
+				uint8 temp = rgba->r;
+				rgba->r = rgba->b;
+				rgba->b = temp;
 
 				p_vbo += p_mesh->m_vertex_stride;
 			}
