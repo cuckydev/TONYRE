@@ -382,7 +382,6 @@ void CXboxGeom::plat_set_bounding_sphere( const Mth::Vector& boundingSphere )
 /******************************************************************/
 const Mth::Vector CXboxGeom::plat_get_bounding_sphere( void ) const
 {
-	/*
 	if( mp_instance )
 	{
 		NxWn32::sScene *p_scene = mp_instance->GetScene();
@@ -391,7 +390,7 @@ const Mth::Vector CXboxGeom::plat_get_bounding_sphere( void ) const
 			return Mth::Vector( p_scene->m_sphere_center.x, p_scene->m_sphere_center.y,  p_scene->m_sphere_center.z, p_scene->m_sphere_radius );
 		}
 	}
-	*/
+	
 	return Mth::Vector( 0.0f, 0.0f, 0.0f, 10000.0f );
 }
 
