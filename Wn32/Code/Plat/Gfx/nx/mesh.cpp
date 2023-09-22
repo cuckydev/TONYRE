@@ -207,7 +207,10 @@ sMesh::~sMesh( void )
 	{
 		// Delete index buffers
 		for (uint32 ib = 0; ib < MAX_INDEX_BUFFERS; ib++)
-			delete[] mp_index_buffer[ib];
+		{
+			if (mp_index_buffer[ib] != nullptr)
+				delete[] mp_index_buffer[ib];
+		}
 
 		// Delete wibble data
 		if (mp_vc_wibble_data != nullptr)
@@ -449,10 +452,7 @@ void sMesh::GetPosition( Mth::Vector *p_pos )
 /******************************************************************/
 void sMesh::SetYRotation( Mth::ERot90 rot )
 {
-	(void)rot;
-
-	/*
-	if( rot > Mth::ROT_0 )
+	if (rot > Mth::ROT_0)
 	{
 		// Create a transform if one doesn't exist yet.
 		if( mp_transform == nullptr )
@@ -461,73 +461,73 @@ void sMesh::SetYRotation( Mth::ERot90 rot )
 			mp_transform->Ident();
 		}
 
-		for( uint32 vb = 0; vb < m_num_vertex_buffers; ++vb )
+		// Map VBO
+		glBindBuffer(GL_ARRAY_BUFFER, mp_vbo);
+		char *p_vertices = (char *)glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+
+		switch( rot )
 		{
-			BYTE *p_byte;
-			mp_vertex_buffer[vb]->Lock( 0, 0, &p_byte, 0 );
-
-			switch( rot )
+			case Mth::ROT_90:
 			{
-				case Mth::ROT_90:
+				for( uint32 v = 0; v < m_num_vertices; ++v )
 				{
-					for( uint32 v = 0; v < m_num_vertices; ++v )
-					{
-						float x = ((D3DVECTOR*)p_byte )->x - mp_transform->GetPos()[X];
-						float z = ((D3DVECTOR*)p_byte )->z - mp_transform->GetPos()[Z];
-						((D3DVECTOR*)p_byte )->x = z + mp_transform->GetPos()[X];
-						((D3DVECTOR*)p_byte )->z = -x + mp_transform->GetPos()[Z];
-						p_byte += m_vertex_stride;
-					}
-
-					// Adjust the bounding sphere information for this mesh.
-					m_sphere_center.x	-= mp_transform->GetPos()[X];
-					m_sphere_center.z	-= mp_transform->GetPos()[Z];
-					float t				= m_sphere_center.x;
-					m_sphere_center.x	= m_sphere_center.z + mp_transform->GetPos()[X];
-					m_sphere_center.z	= -t + mp_transform->GetPos()[Z];
-					break;
+					float x = ((float *)p_vertices)[0] - mp_transform->GetPos()[X];
+					float z = ((float *)p_vertices)[2] - mp_transform->GetPos()[Z];
+					((float *)p_vertices)[0] = z + mp_transform->GetPos()[X];
+					((float *)p_vertices)[2] = -x + mp_transform->GetPos()[Z];
+					p_vertices += m_vertex_stride;
 				}
-				case Mth::ROT_180:
+
+				// Adjust the bounding sphere information for this mesh.
+				m_sphere_center.x	-= mp_transform->GetPos()[X];
+				m_sphere_center.z	-= mp_transform->GetPos()[Z];
+				float t				= m_sphere_center.x;
+				m_sphere_center.x	= m_sphere_center.z + mp_transform->GetPos()[X];
+				m_sphere_center.z	= -t + mp_transform->GetPos()[Z];
+				break;
+			}
+			case Mth::ROT_180:
+			{
+				for( uint32 v = 0; v < m_num_vertices; ++v )
 				{
-					for( uint32 v = 0; v < m_num_vertices; ++v )
-					{
-						float x = ((D3DVECTOR*)p_byte )->x - mp_transform->GetPos()[X];
-						float z = ((D3DVECTOR*)p_byte )->z - mp_transform->GetPos()[Z];
-						((D3DVECTOR*)p_byte )->x = -x + mp_transform->GetPos()[X];
-						((D3DVECTOR*)p_byte )->z = -z + mp_transform->GetPos()[Z];
-						p_byte += m_vertex_stride;
-					}
-
-					// Adjust the bounding sphere information for this mesh.
-					m_sphere_center.x	-= mp_transform->GetPos()[X];
-					m_sphere_center.z	-= mp_transform->GetPos()[Z];
-					m_sphere_center.x	= -m_sphere_center.x + mp_transform->GetPos()[X];
-					m_sphere_center.z	= -m_sphere_center.z + mp_transform->GetPos()[Z];
-					break;
+					float x = ((float *)p_vertices)[0] - mp_transform->GetPos()[X];
+					float z = ((float *)p_vertices)[2] - mp_transform->GetPos()[Z];
+					((float *)p_vertices)[0] = -x + mp_transform->GetPos()[X];
+					((float *)p_vertices)[2] = -z + mp_transform->GetPos()[Z];
+					p_vertices += m_vertex_stride;
 				}
-				case Mth::ROT_270:
+
+				// Adjust the bounding sphere information for this mesh.
+				m_sphere_center.x	-= mp_transform->GetPos()[X];
+				m_sphere_center.z	-= mp_transform->GetPos()[Z];
+				m_sphere_center.x	= -m_sphere_center.x + mp_transform->GetPos()[X];
+				m_sphere_center.z	= -m_sphere_center.z + mp_transform->GetPos()[Z];
+				break;
+			}
+			case Mth::ROT_270:
+			{
+				for( uint32 v = 0; v < m_num_vertices; ++v )
 				{
-					for( uint32 v = 0; v < m_num_vertices; ++v )
-					{
-						float x = ((D3DVECTOR*)p_byte )->x - mp_transform->GetPos()[X];
-						float z = ((D3DVECTOR*)p_byte )->z - mp_transform->GetPos()[Z];
-						((D3DVECTOR*)p_byte )->x = -z + mp_transform->GetPos()[X];
-						((D3DVECTOR*)p_byte )->z = x + mp_transform->GetPos()[Z];
-						p_byte += m_vertex_stride;
-					}
-
-					// Adjust the bounding sphere information for this mesh.
-					m_sphere_center.x	-= mp_transform->GetPos()[X];
-					m_sphere_center.z	-= mp_transform->GetPos()[Z];
-					float t				= m_sphere_center.x;
-					m_sphere_center.x	= -m_sphere_center.z + mp_transform->GetPos()[X];
-					m_sphere_center.z	= t + mp_transform->GetPos()[Z];
-					break;
+					float x = ((float *)p_vertices)[0] - mp_transform->GetPos()[X];
+					float z = ((float *)p_vertices)[2] - mp_transform->GetPos()[Z];
+					((float *)p_vertices)[0] = -z + mp_transform->GetPos()[X];
+					((float *)p_vertices)[2] = x + mp_transform->GetPos()[Z];
+					p_vertices += m_vertex_stride;
 				}
+
+				// Adjust the bounding sphere information for this mesh.
+				m_sphere_center.x	-= mp_transform->GetPos()[X];
+				m_sphere_center.z	-= mp_transform->GetPos()[Z];
+				float t				= m_sphere_center.x;
+				m_sphere_center.x	= -m_sphere_center.z + mp_transform->GetPos()[X];
+				m_sphere_center.z	= t + mp_transform->GetPos()[Z];
+				break;
 			}
 		}
+
+		// Unmap VBO
+		glUnmapBuffer(GL_ARRAY_BUFFER);
 	}
-	*/
 }
 
 
@@ -1014,6 +1014,10 @@ sMesh *sMesh::Clone( bool instance )
 			{
 				p_clone->mp_index_buffer[ib] = new uint16[p_clone->m_num_indices[ib]];
 				memcpy(p_clone->mp_index_buffer[ib], mp_index_buffer[ib], sizeof(uint16) * p_clone->m_num_indices[ib]);
+			}
+			else
+			{
+				p_clone->mp_index_buffer[ib] = nullptr;
 			}
 		}
 

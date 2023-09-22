@@ -2498,7 +2498,6 @@ void CCursor::ChangeSet(int dir)
 {
 	for (size_t count = m_manager->GetTotalNumPieceSets(); count > 0; count--)
 	{
-		m_selected_set += dir;
 		if (dir < 0)
 		{
 			if (m_selected_set == 0)
