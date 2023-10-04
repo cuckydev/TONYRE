@@ -145,7 +145,6 @@ void main()
 		if ((flag & MATFLAG_ENVIRONMENT) != 0u)
 		{
 			// Pass reflection vector
-			// TODO: This is not correct
 			f_uv[i] = (u_env_mat[i] * vec4(reflect(normalize(vpos.xyz), vnor), 1.0f)).xy;
 		}
 		else
@@ -177,6 +176,10 @@ uniform mat4 u_p;
 
 uniform mat4 u_bone[55];
 
+uniform vec3 u_light_amb;
+uniform vec3 u_light_col[3];
+uniform vec4 u_light_dir[3];
+
 void main()
 {
 	// Get skinned position and normal
@@ -194,11 +197,30 @@ void main()
 	// Transform
 	vec4 pos = (u_p * u_v * u_m) * vec4(skin_pos, 1.0f);
 	vec3 nor = (u_m * vec4(skin_nor, 0.0f)).xyz;
+
+	vec4 wpos = (u_m) * vec4(skin_pos, 1.0f);
+	vec4 vpos = (u_v) * vec4(wpos.xyz, 1.0f);
 	vec3 vnor = (u_v * vec4(nor, 0.0f)).xyz;
 
 	gl_Position = pos;
 
-	// Pass pass information
+	// Calculate lights
+	float light_0 = max(-dot(nor, u_light_dir[0].xyz), u_light_dir[0].w);
+	float light_1 = max(-dot(nor, u_light_dir[1].xyz), u_light_dir[1].w);
+	float light_2 = max(-dot(nor, u_light_dir[2].xyz), u_light_dir[2].w);
+
+	vec3 light_col = u_light_amb;
+	light_col += u_light_col[0] * light_0;
+	light_col += u_light_col[1] * light_1;
+	light_col += u_light_col[2] * light_2;
+
+	// Calculate specular
+	vec3 specular_dir = (u_v * vec4(-1, 0, 0, 0)).xyz;
+	vec3 view_dir = normalize(-vpos.xyz);
+	vec3 reflect_dir = reflect(-specular_dir, vnor);
+	float spec = pow(max(dot(view_dir, reflect_dir), 0.0f), 4.0f);
+
+	// Get UVs
 	for (uint i = 0u; i < u_passes; i++)
 	{
 		uint flag = u_pass_flag[i];
@@ -207,8 +229,7 @@ void main()
 		if ((flag & MATFLAG_ENVIRONMENT) != 0u)
 		{
 			// Pass reflection vector
-			// TODO: This is not correct
-			f_uv[i] = (u_env_mat[i] * vec4(reflect(normalize(pos.xyz), vnor), 1.0f)).xy;
+			f_uv[i] = (u_env_mat[i] * vec4(reflect(normalize(vpos.xyz), vnor), 1.0f)).xy;
 		}
 		else
 		{
@@ -218,7 +239,7 @@ void main()
 	}
 
 	// Pass vertex color
-	f_col = i_col;
+	f_col = i_col; // (i_col + vec4(spec, spec, spec, 0.0f) * 5.0f);
 }
 	)";
 
