@@ -8,7 +8,7 @@
 /CMakeSettings.json
 
 # Ignore Game directory
-/Game
+/Game*
 
 # Ignore test files
 /valgrind.log

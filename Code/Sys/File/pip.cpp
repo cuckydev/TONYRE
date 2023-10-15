@@ -181,6 +181,10 @@ void LoadPre(const char *p_preFileName)
 	Dbg_MsgAssert(strlen(p_preFileName)<400,("Pre name too long: '%s'",p_preFileName));
 	sprintf(p_full_pre_name,"pre\\%s",p_preFileName);
 
+	#ifdef TONYRE_THUG2
+	p_full_pre_name[strlen(p_full_pre_name) - 1] = 'x';
+	#endif
+
 	#ifdef __NOPT_ASSERT__
 	printf("Loading pip pre '%s'\n",p_preFileName);
 	#endif

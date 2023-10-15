@@ -1468,6 +1468,9 @@ void PreProcessScript(uint8 *p_token)
 			case ESCRIPTTOKEN_KEYWORD_IF:
 				++p_token;
 				break;
+			case ESCRIPTTOKEN_FASTIF:
+				p_token += 3;
+				break;
 				
 			case ESCRIPTTOKEN_NAME:
 			{
@@ -1999,6 +2002,9 @@ int GetLineNumber(uint8 *p_token)
 		case ESCRIPTTOKEN_COLON:
 		case ESCRIPTTOKEN_RUNTIME_CFUNCTION:
 		case ESCRIPTTOKEN_RUNTIME_MEMBERFUNCTION:
+		case ESCRIPTTOKEN_FASTIF:
+		case ESCRIPTTOKEN_FASTELSE:
+		case ESCRIPTTOKEN_SHORTJUMP:
 			break;
 		default:
 			Dbg_MsgAssert(0,("p_token does not point to a token in call to GetLineNumber"));

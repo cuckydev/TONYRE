@@ -124,6 +124,11 @@ uint8 *SkipToken(uint8 *p_token)
 			p_token+=2*num_jumps+4*num_jumps;
 			break;
 		}
+		case ESCRIPTTOKEN_FASTIF:
+		case ESCRIPTTOKEN_FASTELSE:
+		case ESCRIPTTOKEN_SHORTJUMP:
+			p_token += 3;
+			break;
 			
         default:
             Dbg_MsgAssert(0,("Unrecognized script token sent to SkipToken()"));

@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.20)
 # TonyRE project
 project(TonyRE LANGUAGES C CXX)
 
+# Options
+option(TONYRE_THUG2 OFF)
+
 # TonyRE common
 add_library(TonyRE.Common INTERFACE)
 
@@ -18,13 +21,18 @@ target_compile_features(TonyRE.Common INTERFACE cxx_std_20)
 include(CheckIPOSupported)
 
 check_ipo_supported(RESULT result)
-if(result)
+if (result)
 	set_target_properties(TonyRE.Common PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
 # Define __NOPT_DEBUG__ if in debug build
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_compile_definitions(TonyRE.Common INTERFACE __NOPT_DEBUG__)
+endif()
+
+# Pass THUG2 flag
+if(TONYRE_THUG2)
+	target_compile_definitions(TonyRE.Common INTERFACE TONYRE_THUG2)
 endif()
 
 # Enable warnings
@@ -44,11 +52,6 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 	target_compile_options(TonyRE.Common INTERFACE /W4) # /WX)
 else()
 	target_compile_options(TonyRE.Common INTERFACE -Wall -Wextra) # -Werror)
-endif()
-
-# Compile using -ggdb3 on linux
-if (UNIX)
-	target_compile_options(TonyRE.Common INTERFACE -ggdb3)
 endif()
 
 # Compile TonyRE code
@@ -157,6 +160,8 @@ add_library(TonyRE.Code STATIC
 	"Code/Gel/AssMan/skeletonasset.h"
 	"Code/Gel/AssMan/skinasset.cpp"
 	"Code/Gel/AssMan/skinasset.h"
+	"Code/Gel/AssMan/texdictasset.cpp"
+	"Code/Gel/AssMan/texdictasset.h"
 
 	"Code/Gel/Collision/BatchTriColl.cpp"
 	"Code/Gel/Collision/BatchTriColl.h"

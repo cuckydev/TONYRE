@@ -1,15 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////
 // skinasset.h - interface between asset manager, and the actual skin
 // provides a common interface to the asset manager
-#ifndef	__GEL_SKINASSET_H__
-#define	__GEL_SKINASSET_H__
 
+#pragma once
 
-
-#ifndef __CORE_DEFINES_H
 #include <Core/Defines.h>
-#endif
-
 #include	<Gel/AssMan/asset.h>
 
 namespace Ass
@@ -54,6 +49,3 @@ private:
 
 
 } // end namespace Ass
-
-#endif			// #ifndef	__GEL_SKINASSET_H__
-

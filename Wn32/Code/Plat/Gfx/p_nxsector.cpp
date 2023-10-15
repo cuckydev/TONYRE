@@ -384,7 +384,7 @@ bool CXboxSector::LoadFromFile( void* p_file )
 	{
 		File::Read( p_vc_wibble_indices, sizeof( char ), num_vertices, p_file );
 	}
-	
+
 	// Remove TopDownHeap context.
 	for( uint m = 0; m < p_geom->m_num_mesh; ++m )
 	{

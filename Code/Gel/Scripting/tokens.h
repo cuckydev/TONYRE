@@ -130,6 +130,11 @@ enum EScriptToken : uint8
 	// so they never appear in a qb file.
 	ESCRIPTTOKEN_RUNTIME_CFUNCTION,	// 67
 	ESCRIPTTOKEN_RUNTIME_MEMBERFUNCTION, // 68
+
+	// THUG2 script tokens
+	ESCRIPTTOKEN_FASTIF = 71,
+	ESCRIPTTOKEN_FASTELSE = 72,
+	ESCRIPTTOKEN_SHORTJUMP = 73,
 	
 	// Warning! Do not exceed 256 entries, since these are stored in bytes.
 };

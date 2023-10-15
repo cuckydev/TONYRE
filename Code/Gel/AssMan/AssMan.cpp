@@ -43,6 +43,7 @@
 #include <Gel/AssMan/skinasset.h>
 #include <Gel/AssMan/refasset.h>
 #include <Gel/AssMan/NodeArrayAsset.h>
+#include <Gel/AssMan/texdictasset.h>
 
 #include <Gel/Scripting/checksum.h>
 #include <Gel/Scripting/script.h>							
@@ -276,13 +277,17 @@ void* CAssMan::LoadAsset(const char *p_assetName, bool async_load, bool use_pip,
 		case ASSET_NODEARRAY:
 			p_asset = new CNodeArrayAsset;
 			break;
+
+		case ASSET_TEXTURES:
+			p_asset = new CTexDictAsset;
+			break;
 			
 		case ASSET_SCENE:
-		case ASSET_TEXTURES:
 		case ASSET_COLLISION:
 		case ASSET_BINARY:
 		default:
-			Dbg_MsgAssert(0,("Asset %s is of unsupported type %d",p_assetName,asset_type));   		
+			Dbg_MsgAssert(0, ("Asset %s is of unsupported type %d", p_assetName, asset_type));
+			return nullptr;
 	}
 
 	p_asset->m_permanent = permanent;

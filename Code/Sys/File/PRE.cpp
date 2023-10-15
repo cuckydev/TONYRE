@@ -712,6 +712,10 @@ void PreMgr::loadPre(const char *pFilename, bool async, bool dont_assert, bool u
 	char fullname[256];
 	sprintf(fullname, "pre\\%s", pFilename);
 
+	#ifdef TONYRE_THUG2
+	fullname[strlen(fullname) - 1] = 'x';
+	#endif
+
 #if !defined( __PLAT_NGC__ ) || ( defined( __PLAT_NGC__ ) && !defined( __NOPT_FINAL__ ) )
 	Tmr::Time basetime = Tmr::ElapsedTime(0);
 #endif

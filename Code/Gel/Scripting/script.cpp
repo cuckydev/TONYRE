@@ -1840,10 +1840,13 @@ bool CScript::execute_command()
 void CScript::execute_if()
 {
 	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
-	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_IF,("Unexpected *mp_pc='%s', expected keyword 'if'",GetTokenName((EScriptToken)*mp_pc)));
+	Dbg_MsgAssert((*mp_pc==ESCRIPTTOKEN_KEYWORD_IF || *mp_pc == ESCRIPTTOKEN_FASTIF),("Unexpected *mp_pc='%s', expected keyword 'if'",GetTokenName((EScriptToken)*mp_pc)));
 
 	// Skip over the if token.	
-	++mp_pc;
+	if (*mp_pc == ESCRIPTTOKEN_FASTIF)
+		mp_pc += 3;
+	else
+		++mp_pc;
 	
 	bool negate=false;
 	if (*mp_pc==ESCRIPTTOKEN_KEYWORD_NOT)
@@ -1881,12 +1884,12 @@ void CScript::execute_if()
 		pIfSkipStopWatch->Start();
 		#endif
 		while (in_nested_if || 
-			   !(*mp_pc==ESCRIPTTOKEN_KEYWORD_ELSE || *mp_pc==ESCRIPTTOKEN_KEYWORD_ENDIF))
+			   !(*mp_pc==ESCRIPTTOKEN_KEYWORD_ELSE || *mp_pc == ESCRIPTTOKEN_FASTELSE || *mp_pc==ESCRIPTTOKEN_KEYWORD_ENDIF))
 		{
 			Dbg_MsgAssert(*mp_pc!=ESCRIPTTOKEN_KEYWORD_ENDSCRIPT,("endif or else keywords not found after if keyword."));
 			
 			// Keep track of nested ifs.
-			if (*mp_pc==ESCRIPTTOKEN_KEYWORD_IF)
+			if (*mp_pc==ESCRIPTTOKEN_KEYWORD_IF || *mp_pc == ESCRIPTTOKEN_FASTIF)
 			{
 				++in_nested_if;
 			}
@@ -1905,7 +1908,7 @@ void CScript::execute_if()
 		}
 		#endif
 		// Skip over the 'else' or 'endif'
-		++mp_pc;
+		mp_pc = SkipToken(mp_pc);
 		
 		#ifdef STOPWATCH_STUFF
 		pIfSkipStopWatch->Stop();
@@ -1946,7 +1949,7 @@ void CScript::execute_if()
 void CScript::execute_else()
 {
 	Dbg_MsgAssert(mp_pc,("nullptr mp_pc"));
-	Dbg_MsgAssert(*mp_pc==ESCRIPTTOKEN_KEYWORD_ELSE,("Unexpected *mp_pc='%s', expected keyword 'else'",GetTokenName((EScriptToken)*mp_pc)));
+	Dbg_MsgAssert((*mp_pc==ESCRIPTTOKEN_KEYWORD_ELSE || *mp_pc == ESCRIPTTOKEN_FASTELSE),("Unexpected *mp_pc='%s', expected keyword 'else'",GetTokenName((EScriptToken)*mp_pc)));
 	// else's are only allowed in the true blocks of if-statements.
 	// Bit 0 of m_if_status indicates the status of the last if.
 	Dbg_MsgAssert(m_if_status&1,("\n%s\nSpurious 'else'",GetScriptInfo()));
@@ -1962,7 +1965,7 @@ void CScript::execute_else()
 		Dbg_MsgAssert(*mp_pc!=ESCRIPTTOKEN_KEYWORD_ENDSCRIPT,("endif keyword not found after else keyword."));
 		
 		// Keep track of nested ifs.
-		if (*mp_pc==ESCRIPTTOKEN_KEYWORD_IF)
+		if (*mp_pc==ESCRIPTTOKEN_KEYWORD_IF || *mp_pc==ESCRIPTTOKEN_FASTIF)
 		{
 			++in_nested_if;
 		}
@@ -2298,6 +2301,7 @@ void CScript::execute_break()
 			
 		#ifdef __NOPT_ASSERT__
 		case ESCRIPTTOKEN_KEYWORD_IF:
+		case ESCRIPTTOKEN_FASTIF:
 			++nested_if_count;
 			break;
 			
@@ -2617,7 +2621,16 @@ EScriptReturnVal CScript::Update()
 		
 		switch (*mp_pc)
 		{
+		case ESCRIPTTOKEN_SHORTJUMP:
+		{
+			mp_pc += 1;
+			int16 offset = Read2Bytes(mp_pc).mInt;
+			mp_pc += 2;
+			mp_pc += offset;
+			break;
+		}
 		case ESCRIPTTOKEN_KEYWORD_IF:
+		case ESCRIPTTOKEN_FASTIF:
 			//++sInstructionCount;
 			// This will execute the function call or expression following the if,
 			// and if the command or expression returns false, it will skip
@@ -2628,6 +2641,7 @@ EScriptReturnVal CScript::Update()
 			break;
 			
 		case ESCRIPTTOKEN_KEYWORD_ELSE:
+		case ESCRIPTTOKEN_FASTELSE:
 			//++sInstructionCount;
 			// The only time an else token should be hit is at the end of executing
 			// the 'true' block following the if.
