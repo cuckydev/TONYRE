@@ -105,7 +105,8 @@ Manager::~Manager ( void )
 
 static double GetDoubleTime(void)
 {
-	const auto current = std::chrono::steady_clock::now().time_since_epoch();
+	static const auto app_start = std::chrono::steady_clock::now().time_since_epoch();
+	const auto current = (std::chrono::steady_clock::now() - app_start).time_since_epoch();
 	double seconds = std::chrono::duration<double>(current).count();
 	return seconds;
 	/*
